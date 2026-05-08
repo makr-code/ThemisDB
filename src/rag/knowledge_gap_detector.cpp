@@ -405,7 +405,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     const std::string& query,
-    std::vector<RetrievedDocument>& initial_documents
+    std::vector<RetrievedDocument>& initial_documents,
+    const std::string& tenant_id
 ) {
     // Phase 2: FLARE-style active retrieval implementation
     
@@ -464,7 +465,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         THEMIS_DEBUG("Reformulated query: {}", reformulated);
         
         // Retrieve additional documents for the reformulated query
-        auto new_documents = performDynamicRetrieval(reformulated);
+        auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
         
         // Deduplicate and merge
         for (auto& new_doc : new_documents) {
@@ -1355,7 +1356,8 @@ std::string KnowledgeGapDetector::reformulateQuery(
 }
 
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
-    const std::string& query
+    const std::string& query,
+    const std::string& tenant_id
 ) {
     THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
 
@@ -1368,19 +1370,21 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
     const size_t k = std::max(impl_->config.min_documents, size_t{1});
 
-    if (impl_->config.tenant_id.empty()) {
+    if (effective_tenant.empty()) {
         THEMIS_WARN("performDynamicRetrieval: no tenant_id configured — retrieval callback "
                     "cannot enforce tenant isolation. Set KnowledgeGapConfig::tenant_id.");
     } else {
-        THEMIS_DEBUG("performDynamicRetrieval: tenant_id={}", impl_->config.tenant_id);
+        THEMIS_DEBUG("performDynamicRetrieval: tenant_id={}", effective_tenant);
     }
 
     // Prepend tenant_id to the query so tenant-aware callbacks can enforce isolation.
     // Callbacks that are not tenant-aware will receive a slightly modified query;
     // callers MUST configure a tenant-aware RetrievalCallback when multi-tenancy is required.
-    const std::string scoped_query = impl_->config.tenant_id.empty()
+    // Prefer explicit tenant_id parameter over the config value.
+    const std::string effective_tenant = tenant_id.empty() ? impl_->config.tenant_id : tenant_id;
+    const std::string scoped_query = effective_tenant.empty()
         ? query
-        : "[tenant:" + impl_->config.tenant_id + "] " + query;
+        : "[tenant:" + effective_tenant + "] " + query;
 
     try {
         return impl_->retrieval_fn(scoped_query, k);

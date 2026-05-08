@@ -27,6 +27,7 @@
 
 #include "storage/wal_storage.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>

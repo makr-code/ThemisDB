@@ -24,6 +24,7 @@
 #include "sharding/signed_request.h"
 #include "sharding/pki_shard_certificate.h"
 #include "utils/openssl_deleter.h"
+#include "utils/logger.h"
 #include <sstream>
 #include <chrono>
 #include <random>

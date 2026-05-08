@@ -26,6 +26,8 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <cstdio>
+#include <cstring>
 #include <ctime>
 
 // OpenSSL headers
@@ -95,14 +97,36 @@ bool ShardCertificateInfo::isValidNow() const {
     }
 
     // Parse the string produced by ASN1_TIME_print(), e.g. "Apr 15 10:30:00 2025 GMT".
-    // strptime %e handles space-padded single-digit days; timegm interprets the
-    // broken-down time as UTC, matching the "GMT" suffix.
+    // Uses sscanf + manual month lookup for portability on MSVC (no strptime/timegm).
     auto parse_asn1_print_time = [](const std::string& s) -> time_t {
         struct tm t{};
-        if (strptime(s.c_str(), "%b %e %H:%M:%S %Y", &t) == nullptr) {
+        char month_str[8]{};
+        int day = 0, hour = 0, min = 0, sec = 0, year = 0;
+        if (std::sscanf(s.c_str(), "%7s %d %d:%d:%d %d",
+                        month_str, &day, &hour, &min, &sec, &year) != 6) {
             return static_cast<time_t>(-1);
         }
+        static const char* months[] = {
+            "Jan","Feb","Mar","Apr","May","Jun",
+            "Jul","Aug","Sep","Oct","Nov","Dec"
+        };
+        int mon = -1;
+        for (int i = 0; i < 12; ++i) {
+            if (std::strncmp(month_str, months[i], 3) == 0) { mon = i; break; }
+        }
+        if (mon < 0) return static_cast<time_t>(-1);
+        t.tm_year  = year - 1900;
+        t.tm_mon   = mon;
+        t.tm_mday  = day;
+        t.tm_hour  = hour;
+        t.tm_min   = min;
+        t.tm_sec   = sec;
+        t.tm_isdst = 0;
+#if defined(_WIN32)
+        return _mkgmtime(&t);
+#else
         return timegm(&t);
+#endif
     };
 
     const time_t t_before = parse_asn1_print_time(not_before);

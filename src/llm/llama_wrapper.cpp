@@ -567,9 +567,31 @@ bool LlamaWrapper::loadModelFromThemisDB(
             }
         }
 
-        // F2-6 fix: write with 0600 permissions (owner read/write only) using open(2)
-        // to prevent world-readable exposure of decrypted model data in /tmp.
+        // F2-6 fix: write with restricted permissions to prevent world-readable
+        // exposure of decrypted model data.
+        // On POSIX: open(2) with 0600 (owner read/write only).
+        // On Windows: std::ofstream (permissions managed via NTFS ACLs).
         {
+#if defined(_WIN32)
+            std::ofstream ofs(temp_model_path, std::ios::binary | std::ios::trunc);
+            if (!ofs) {
+                std::filesystem::remove(temp_model_path);
+                ofs.open(temp_model_path, std::ios::binary | std::ios::trunc);
+            }
+            if (!ofs) {
+                spdlog::error("Failed to create temporary model file: {}",
+                              temp_model_path.string());
+                return false;
+            }
+            ofs.write(reinterpret_cast<const char*>(model_data.data()),
+                      static_cast<std::streamsize>(model_data.size()));
+            if (!ofs) {
+                spdlog::error("Failed to write model data to temp file: {}",
+                              temp_model_path.string());
+                std::filesystem::remove(temp_model_path);
+                return false;
+            }
+#else
             int fd = ::open(temp_model_path.c_str(),
                             O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC,
                             0600);
@@ -600,6 +622,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
                 remaining -= static_cast<size_t>(written);
             }
             ::close(fd);
+#endif
         }
         
         if (!std::filesystem::exists(temp_model_path)) {

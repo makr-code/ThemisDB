@@ -27,6 +27,7 @@
 #include "utils/geometric_distances.h"
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 #include <queue>
 #include <limits>
 

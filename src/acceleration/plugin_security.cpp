@@ -1967,9 +1967,8 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(
               (header[3] == 0xCE || header[3] == 0xCF)) ||
              (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE) ||
              (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
-        // Mach-O format: delegate to the primary extractor which implements
-        // full LC_CODE_SIGNATURE load-command parsing.
-        return extractCodeSignatureData(plugin_path);
+        // Mach-O format (macOS): LC_CODE_SIGNATURE parsing not supported on this platform.
+        return std::nullopt;
     }
     
     // No signature found or format not fully supported
