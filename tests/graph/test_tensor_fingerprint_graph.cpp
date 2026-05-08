@@ -1029,7 +1029,10 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     EXPECT_EQ(mgr_b.getStats().total_tensors, 1u);
     EXPECT_FALSE(mgr_b.getRecord("base_tensor").has_value());
     ASSERT_TRUE(mgr_b.getRecord("added_tensor").has_value());
+    const auto added_record = *mgr_b.getRecord("added_tensor");
     EXPECT_EQ(fp_b->nodeCount(), 1u);
+    EXPECT_EQ(mgr_b.getStats().total_bytes_stored, added_record.compressed_bytes);
+    EXPECT_EQ(mgr_b.getStats().bytes_saved, added_record.saved_bytes);
 
     auto query_tt = makeTT(added_data, {16, 1});
     auto results = fp_b->findSimilar(query_tt, 3);
@@ -1068,6 +1071,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     ASSERT_TRUE(mgr_b.restoreGraph("snap17"));
     EXPECT_EQ(mgr_b.getStats().total_tensors, 1u);
     ASSERT_TRUE(mgr_b.getRecord("mutable_tensor").has_value());
+    const auto mutable_record = *mgr_b.getRecord("mutable_tensor");
+    EXPECT_EQ(mgr_b.getStats().total_bytes_stored, mutable_record.compressed_bytes);
+    EXPECT_EQ(mgr_b.getStats().bytes_saved, mutable_record.saved_bytes);
 
     auto restored = mgr_b.retrieve("mutable_tensor");
     ASSERT_TRUE(restored.has_value());
