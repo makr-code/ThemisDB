@@ -48,8 +48,7 @@
 
 #pragma once
 
-#include "storage/tensor_train_decomposer.h"
-
+#include <array>
 #include <atomic>
 #include <cstddef>
 #include <cstdint>
@@ -61,6 +60,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+#include "storage/tensor_train_decomposer.h"
 
 namespace themis {
 namespace graph {

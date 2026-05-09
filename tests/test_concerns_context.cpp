@@ -2024,7 +2024,7 @@ TEST_F(ConcernsContextTest, DAR_03_ReplaceMetrics_SwapsAdapter) {
 TEST_F(ConcernsContextTest, DAR_04_ReplaceCache_SwapsAdapter) {
     context->replaceCache(std::make_unique<NoOpCache>());
     // NoOp cache put/get must not crash.
-    using Entry = ICache::CacheEntry;
+    using Entry = CacheEntry;
     context->cache().put("key", Entry{"value"});
     auto val = context->cache().get("key");
     (void)val; // NoOp always returns nullopt

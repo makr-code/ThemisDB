@@ -127,9 +127,10 @@ public:
      */
     void setLlmSummaryFn(LlmSummaryFn fn);
 
-private:
     /// Approximate token count: chars / 4 (GPT-style BPE approximation).
     static int countTokens(const std::string& text) noexcept;
+
+private:
 
     /// Extract principle citations (thesis_id references) from argument content.
     static std::vector<std::string> extractPrincipleCitations(
