@@ -706,10 +706,10 @@ TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
 // ============================================================================
 
 TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitCallbackInvokedPerParticipant) {
-    themis::sharding::CrossShardTransactionConfig cfg;
-    cfg.default_protocol = themis::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
+    themisdb::sharding::CrossShardTransactionConfig cfg;
+    cfg.default_protocol = themisdb::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
 
-    auto coordinator = std::make_shared<themis::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
+    auto coordinator = std::make_shared<themisdb::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
     coordinator->initialize();
     coordinator->start();
 
@@ -732,10 +732,10 @@ TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitCallbackInvokedPerParticipant)
 }
 
 TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
-    themis::sharding::CrossShardTransactionConfig cfg;
-    cfg.default_protocol = themis::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
+    themisdb::sharding::CrossShardTransactionConfig cfg;
+    cfg.default_protocol = themisdb::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
 
-    auto coordinator = std::make_shared<themis::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
+    auto coordinator = std::make_shared<themisdb::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
     coordinator->initialize();
     coordinator->start();
 

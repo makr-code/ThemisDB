@@ -484,6 +484,24 @@ TEST_F(HSMProviderTest, StubProviderStillFunctional) {
 // HSM-215: getCertificate() fail-closed hardening
 // ============================================================================
 
+namespace {
+bool setEnvVar(const std::string& name, const std::string& value) {
+#ifdef _WIN32
+    return _putenv_s(name.c_str(), value.c_str()) == 0;
+#else
+    return ::setenv(name.c_str(), value.c_str(), 1) == 0;
+#endif
+}
+
+bool unsetEnvVar(const std::string& name) {
+#ifdef _WIN32
+    return _putenv_s(name.c_str(), "") == 0;
+#else
+    return ::unsetenv(name.c_str()) == 0;
+#endif
+}
+} // namespace
+
 struct HsmProviderEnvGuard {
     std::string name;
     std::string previous;
@@ -494,12 +512,15 @@ struct HsmProviderEnvGuard {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
         if (had_previous) previous = existing;
-        ::setenv(name.c_str(), value.c_str(), 1);
+        (void)setEnvVar(name, value);
     }
 
     ~HsmProviderEnvGuard() {
-        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
-        else ::unsetenv(name.c_str());
+        if (had_previous) {
+            (void)setEnvVar(name, previous);
+        } else {
+            (void)unsetEnvVar(name);
+        }
     }
 };
 
@@ -512,12 +533,15 @@ struct HsmProviderEnvUnsetGuard {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
         if (had_previous) previous = existing;
-        ::unsetenv(name.c_str());
+        (void)unsetEnvVar(name);
     }
 
     ~HsmProviderEnvUnsetGuard() {
-        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
-        else ::unsetenv(name.c_str());
+        if (had_previous) {
+            (void)setEnvVar(name, previous);
+        } else {
+            (void)unsetEnvVar(name);
+        }
     }
 };
 

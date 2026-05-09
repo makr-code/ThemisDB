@@ -61,7 +61,7 @@ TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
     FieldEncryption enc(provider);
 
     // Encrypt produces blob at current version (1).
-    auto blob = enc.encryptString("secret", "re_enc_key");
+    auto blob = enc.encrypt("secret", "re_enc_key");
     EXPECT_FALSE(enc.needsReEncryption(blob, "re_enc_key"));
 }
 
@@ -73,7 +73,7 @@ TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
     FieldEncryption enc(provider);
 
     // Encrypt at version 1.
-    auto blob = enc.encryptString("secret", "rotate_key");
+    auto blob = enc.encrypt("secret", "rotate_key");
     ASSERT_EQ(blob.key_version, static_cast<uint32_t>(1));
 
     // Rotate to version 2.
