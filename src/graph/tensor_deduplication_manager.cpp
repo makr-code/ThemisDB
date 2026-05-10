@@ -12,6 +12,8 @@
  */
 
 #include "graph/tensor_deduplication_manager.h"
+#include "index/graph_index.h"
+#include "storage/base_entity.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tt_quantizer.h"
 #include "utils/logger.h"
@@ -1406,20 +1408,13 @@ bool TensorDeduplicationManager::hasJournalEntryHooks() const noexcept {
 } // namespace graph
 } // namespace themis
 
-// ============================================================================
-// wireGraphIndexJournalHooks — non-member implementation
-// ============================================================================
-
-#include "index/graph_index.h"
-#include "storage/rocksdb_wrapper.h"
-#include "storage/base_entity.h"
-
 namespace themis {
 namespace graph {
 
 namespace {
-// Prefix used for all RocksDB payload keys managed by this wiring helper.
-constexpr std::string_view kGiJournalKeyPrefix = "__tfgjournal_gi__:";
+constexpr std::string_view kJournalEdgePrefix = "__tfgjournal__:";
+constexpr std::string_view kJournalPayloadField = "__tfgjournal_payload_hex";
+constexpr std::string_view kJournalType = "__tfgjournal__";
 
 // Virtual source node in the graph from which all journal edges originate.
 // Constructed as "__tfgj_anchor__:<snapshot_key>".
@@ -1427,47 +1422,69 @@ inline std::string makeAnchorId(std::string_view snapshot_key) {
     return std::string("__tfgj_anchor__:") + std::string(snapshot_key);
 }
 
-// RocksDB key for a journal entry payload.
-inline std::string makePayloadKey(std::string_view snapshot_key,
-                                   std::string_view tensor_id) {
-    return std::string(kGiJournalKeyPrefix) +
-           std::string(snapshot_key) + ":" +
-           std::string(tensor_id);
-}
-
 // Graph edge primary key (also used as edgeId in GraphIndexManager).
 inline std::string makeEdgeId(std::string_view snapshot_key,
                                std::string_view tensor_id) {
-    // Reuse the same string as the payload key for 1:1 correspondence.
-    return makePayloadKey(snapshot_key, tensor_id);
+    return std::string(kJournalEdgePrefix) + std::string(snapshot_key) + ":" +
+           std::string(tensor_id);
+}
+
+inline std::string toHex(const std::vector<uint8_t>& data) {
+    static constexpr char kHex[] = "0123456789abcdef";
+    std::string out;
+    out.resize(data.size() * 2U);
+    for (std::size_t i = 0; i < data.size(); ++i) {
+        const uint8_t byte = data[i];
+        out[(i * 2U)] = kHex[(byte >> 4U) & 0x0FU];
+        out[(i * 2U) + 1U] = kHex[byte & 0x0FU];
+    }
+    return out;
+}
+
+inline uint8_t hexNibble(char c) {
+    if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
+    if (c >= 'a' && c <= 'f') return static_cast<uint8_t>(10 + (c - 'a'));
+    if (c >= 'A' && c <= 'F') return static_cast<uint8_t>(10 + (c - 'A'));
+    return 0xFFU;
+}
+
+inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
+    if ((hex.size() % 2U) != 0U) return std::nullopt;
+    std::vector<uint8_t> out;
+    out.reserve(hex.size() / 2U);
+    for (std::size_t i = 0; i < hex.size(); i += 2U) {
+        const uint8_t hi = hexNibble(hex[i]);
+        const uint8_t lo = hexNibble(hex[i + 1U]);
+        if (hi == 0xFFU || lo == 0xFFU) return std::nullopt;
+        out.push_back(static_cast<uint8_t>((hi << 4U) | lo));
+    }
+    return out;
 }
 } // anonymous namespace
 
 void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
                                  GraphIndexManager&           graph_idx,
-                                 RocksDBWrapper&              db,
                                  const std::string&           snapshot_key) {
+    const auto default_snapshot_key = snapshot_key;
+
     // ── persist_fn: store one journal entry ──────────────────────────────
     TensorDeduplicationManager::JournalEntryPersistFn persist_fn =
-        [&graph_idx, &db, snapshot_key](
+        [&graph_idx, default_snapshot_key](
             std::string_view snap,
             std::string_view tensor_id,
             const std::vector<uint8_t>& payload) -> bool {
-        const auto edge_id  = makeEdgeId(snap, tensor_id);
-        const auto pay_key  = edge_id; // same string
-        const auto anchor   = makeAnchorId(snap);
-
-        // Store raw payload in RocksDB.
-        if (!db.put(pay_key, payload)) {
-            return false;
-        }
+        const auto effective_snap = snap.empty() ? std::string_view(default_snapshot_key) : snap;
+        const auto edge_id = makeEdgeId(effective_snap, tensor_id);
+        const auto anchor = makeAnchorId(effective_snap);
 
         // Represent the journal entry as a directed edge anchor → tensor_id
         // in GraphIndexManager (enables outAdjacency-based enumeration).
         BaseEntity edge(edge_id);
         edge.setField("_from",  BaseEntity::Value{anchor});
         edge.setField("_to",    BaseEntity::Value{std::string(tensor_id)});
-        edge.setField("_graph", BaseEntity::Value{std::string(snap)});
+        edge.setField("_graph", BaseEntity::Value{std::string(effective_snap)});
+        edge.setField("_type", BaseEntity::Value{std::string(kJournalType)});
+        edge.setField(std::string(kJournalPayloadField), BaseEntity::Value{toHex(payload)});
         // Idempotent: deleteEdge before addEdge in case an entry already exists.
         (void)graph_idx.deleteEdge(edge_id);
         const auto status = graph_idx.addEdge(edge);
@@ -1476,42 +1493,45 @@ void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
 
     // ── delete_fn: remove one journal entry ──────────────────────────────
     TensorDeduplicationManager::JournalEntryDeleteFn delete_fn =
-        [&graph_idx, &db](
+        [&graph_idx, default_snapshot_key](
             std::string_view snap,
             std::string_view tensor_id) -> bool {
-        const auto edge_id = makeEdgeId(snap, tensor_id);
+        const auto effective_snap = snap.empty() ? std::string_view(default_snapshot_key) : snap;
+        const auto edge_id = makeEdgeId(effective_snap, tensor_id);
         const auto gstatus = graph_idx.deleteEdge(edge_id);
-        const bool db_ok   = db.del(edge_id);
-        return gstatus.ok && db_ok;
+        return gstatus.ok;
     };
 
     // ── enumerate_fn: iterate all journal entries for a snapshot ─────────
     TensorDeduplicationManager::JournalEntryEnumerateFn enumerate_fn =
-        [&graph_idx, &db](
+        [&graph_idx, default_snapshot_key](
             std::string_view snap,
             std::function<void(std::string_view, const std::vector<uint8_t>&)> cb) {
-        const auto anchor = makeAnchorId(snap);
+        if (!cb) return;
+        const auto effective_snap = snap.empty() ? std::string_view(default_snapshot_key) : snap;
+        const auto anchor = makeAnchorId(effective_snap);
         auto [status, adj] = graph_idx.outAdjacency(anchor);
         if (!status.ok) return;
         for (const auto& info : adj) {
-            // Each adjacency entry's edgeId IS the payload key.
-            const auto payload = db.get(info.edgeId);
+            const auto payload_hex =
+                graph_idx.getEdgeField(info.edgeId, kJournalPayloadField);
+            if (!payload_hex.has_value()) continue;
+            const auto payload = fromHex(*payload_hex);
             if (!payload.has_value()) continue;
-            // targetPk is the tensor_id stored in the _to field.
             cb(info.targetPk, *payload);
         }
     };
 
     // ── clear_fn: delete all journal entries for a snapshot ──────────────
     TensorDeduplicationManager::JournalEntryClearFn clear_fn =
-        [&graph_idx, &db](std::string_view snap) -> bool {
-        const auto anchor = makeAnchorId(snap);
+        [&graph_idx, default_snapshot_key](std::string_view snap) -> bool {
+        const auto effective_snap = snap.empty() ? std::string_view(default_snapshot_key) : snap;
+        const auto anchor = makeAnchorId(effective_snap);
         auto [status, adj] = graph_idx.outAdjacency(anchor);
         bool all_ok = status.ok;
         for (const auto& info : adj) {
             const auto gs = graph_idx.deleteEdge(info.edgeId);
-            const bool ds = db.del(info.edgeId);
-            all_ok = all_ok && gs.ok && ds;
+            all_ok = all_ok && gs.ok;
         }
         return all_ok;
     };

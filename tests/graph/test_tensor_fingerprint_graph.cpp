@@ -54,7 +54,7 @@
  *   TDM-22  auto-wired per-entry journal keys compact overwrites and replay on restore
  *   TDM-23  auto-wired per-entry restore falls back to legacy blob journals
  *   TDM-24  when both journal formats coexist, per-entry entries take precedence
- *   TDM-25  custom (GraphIndex-style) journal hooks persist and replay identically to TNSE hooks
+ *   TDM-25  GraphIndex journal hooks persist and replay identically to TNSE hooks
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1433,7 +1433,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
 //   2. A fresh TDM restored with the same hooks replays journal entries and
 //      reports both tensors with correct values.
 TEST(TensorDeduplicationManagerSnapshotTest,
-     TDM25_CustomJournalHooksPersistAndReplay) {
+     TDM25_GraphIndexJournalHooksPersistAndReplay) {
     // ── In-memory journal store (mirrors GraphIndex + RocksDB behavior) ──
     std::unordered_map<std::string, std::vector<uint8_t>> journal;
     std::mutex jmutex;

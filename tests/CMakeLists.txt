@@ -27886,9 +27886,5 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
         EXTRA_ARGS --gtest_color=yes
     )
 
-    set_tests_properties(
-        PROPERTIES LABELS "graph;tensor;fingerprint;dedup;lsh;minhash;snapshot;journal;phase8;focused;unit"
-    )
-
     message(STATUS "  TensorFingerprintGraph: TFG-01..28 + TDM-01..25 (insert, findSimilar, snapshot/restore, journal)")
 endif()

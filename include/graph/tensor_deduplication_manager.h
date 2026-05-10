@@ -56,10 +56,9 @@
 #include <vector>
 
 // Forward declarations for GraphIndex-backed journal wiring helper.
-// Full definitions in <index/graph_index.h> and <storage/rocksdb_wrapper.h>.
+// Full definition in <index/graph_index.h>.
 namespace themis {
 class GraphIndexManager;
-class RocksDBWrapper;
 } // namespace themis
 
 namespace themis {
@@ -380,13 +379,11 @@ namespace themis {
 namespace graph {
 
 /**
- * @brief Wire per-entry journal hooks backed by GraphIndexManager and RocksDB.
+ * @brief Wire per-entry journal hooks backed by GraphIndexManager edge storage.
  *
- * Each journal entry is stored as:
- *   - An edge in @p graph_idx from a virtual anchor node
- *     (`"__tfgj_anchor__:<snapshot_key>"`) to the `tensor_id` node,
- *     with edge primary key `"__tfgjournal_gi__:<snapshot_key>:<tensor_id>"`.
- *   - Raw payload bytes in @p db under the same key.
+ * Each journal entry is stored as one GraphIndex edge from a virtual anchor
+ * node (`"__tfgj_anchor__:<snapshot_key>"`) to the tensor id, with payload
+ * encoded into edge fields.
  *
  * This is a durable alternative to the TNSE `putRawMetadata` approach. The
  * hook contract is identical: per-tensor journal entries are independently
@@ -394,18 +391,16 @@ namespace graph {
  *
  * ### Typical usage
  * @code
- *   wireGraphIndexJournalHooks(tdm, graph_idx, db, "__tfg_default__");
+ *   wireGraphIndexJournalHooks(tdm, graph_idx, "__tfg_default__");
  *   tdm.snapshotGraph("__tfg_default__");
  * @endcode
  *
  * @param tdm           Dedup manager to configure.
  * @param graph_idx     GraphIndexManager used for adjacency-based listing.
- * @param db            Underlying RocksDB wrapper for raw payload storage.
  * @param snapshot_key  Active snapshot key (must match `snapshotGraph` call).
  */
 void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
                                  GraphIndexManager&           graph_idx,
-                                 RocksDBWrapper&              db,
                                  const std::string&           snapshot_key);
 
 } // namespace graph

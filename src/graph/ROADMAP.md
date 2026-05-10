@@ -319,12 +319,12 @@
     takes precedence when both journal formats coexist for the same snapshot
     (tests TDM-22/TDM-24).
   - **Progress 2026-05-10 (GraphIndex-backed journal wiring)**: Added free function
-    `wireGraphIndexJournalHooks(TensorDeduplicationManager&, GraphIndexManager&, RocksDBWrapper&,
+    `wireGraphIndexJournalHooks(TensorDeduplicationManager&, GraphIndexManager&,
     const std::string&)` in `include/graph/tensor_deduplication_manager.h` /
-    `src/graph/tensor_deduplication_manager.cpp`. Stores per-entry payloads in RocksDB under
-    `__tfgjournal_gi__:<snap>:<tensor_id>` and tracks adjacency via GraphIndexManager edges
-    (anchor node `__tfgj_anchor__:<snap>`). Behavioral contract verified by test TDM-25
-    using an in-memory hook simulation.
+    `src/graph/tensor_deduplication_manager.cpp`. Persists per-entry payloads via
+    GraphIndex edge fields and enumerates through `outAdjacency()` anchored at
+    `__tfgj_anchor__:<snap>`. Behavioral contract verified by test TDM-25
+    (`TDM25_GraphIndexJournalHooksPersistAndReplay`) using an in-memory hook simulation.
   - Remaining: end-to-end integration test with real RocksDB + GraphIndexManager.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

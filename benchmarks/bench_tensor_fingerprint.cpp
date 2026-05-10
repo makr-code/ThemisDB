@@ -93,10 +93,13 @@ public:
 
         // Pre-compute tensors to isolate insert latency from decomposition.
         const auto mode_n = static_cast<std::size_t>(state.range(0));
+        const std::vector<std::size_t> shape(mode_n, 2U);
+        std::size_t total_elems = 1U;
+        for (std::size_t i = 0; i < mode_n; ++i) total_elems *= 2U;
         trains_.reserve(kBatchSize);
         for (std::size_t i = 0; i < kBatchSize; ++i) {
-            auto data = makeRandVec(mode_n, static_cast<unsigned>(i));
-            trains_.push_back(makeBenchTrain(data, {mode_n, 1}));
+            auto data = makeRandVec(total_elems, static_cast<unsigned>(i));
+            trains_.push_back(makeBenchTrain(data, shape));
         }
         counter_ = 0;
     }
@@ -126,12 +129,12 @@ BENCHMARK_DEFINE_F(FingerprintInsertFixture, BM_FingerprintInsert)(
         benchmark::Counter::kIsRate);
 }
 
-// Range: mode sizes 8, 16, 32, 64 — small to medium tensors
+// Range: mode counts {1,2,4,8}
 BENCHMARK_REGISTER_F(FingerprintInsertFixture, BM_FingerprintInsert)
+    ->Arg(1)
+    ->Arg(2)
+    ->Arg(4)
     ->Arg(8)
-    ->Arg(16)
-    ->Arg(32)
-    ->Arg(64)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(200);
 
@@ -177,7 +180,7 @@ protected:
     TTTrain                                  query_;
 };
 
-BENCHMARK_DEFINE_F(FindSimilarFixture, BM_FindSimilar)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(FindSimilarFixture, BM_FindSimilar_100K)(benchmark::State& state) {
     std::size_t queries = 0;
     for (auto _ : state) {
         auto results = graph_->findSimilar(query_, 50);
@@ -191,10 +194,7 @@ BENCHMARK_DEFINE_F(FindSimilarFixture, BM_FindSimilar)(benchmark::State& state) 
         static_cast<double>(state.range(0)));
 }
 
-// Scaled node counts: 1K, 10K, 100K
-BENCHMARK_REGISTER_F(FindSimilarFixture, BM_FindSimilar)
-    ->Arg(1000)
-    ->Arg(10000)
+BENCHMARK_REGISTER_F(FindSimilarFixture, BM_FindSimilar_100K)
     ->Arg(100000)
     ->Unit(benchmark::kMillisecond);
 

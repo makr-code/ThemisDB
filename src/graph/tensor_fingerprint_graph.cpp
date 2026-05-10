@@ -19,6 +19,7 @@
 #include <cmath>
 #include <cstring>
 #include <functional>
+#include <limits>
 #include <stdexcept>
 #include <utility>
 
@@ -139,19 +140,33 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(
         return fp;
     }
 
-    for (std::size_t h = 0; h < cfg_.num_hash_funcs; ++h) {
-        // Derive hash parameters from index
-        uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
-        uint64_t b = fnv1a64(&a, sizeof(a));
-        uint64_t min_hash = UINT64_MAX;
-        for (uint64_t elem : elements) {
+    const std::size_t hash_count =
+        std::min<std::size_t>(cfg_.num_hash_funcs, fp.minhash.size());
+    std::vector<uint64_t> a_params(hash_count);
+    std::vector<uint64_t> b_params(hash_count);
+    std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
+
+    for (std::size_t h = 0; h < hash_count; ++h) {
+        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
+        a_params[h] = a;
+        b_params[h] = fnv1a64(&a, sizeof(a));
+    }
+
+    // Stream elements once over all hash functions.
+    for (const uint64_t elem : elements) {
+        for (std::size_t h = 0; h < hash_count; ++h) {
+            const uint64_t a = a_params[h];
+            const uint64_t b = b_params[h];
             uint64_t hv = (a * elem + b) ^ (a >> 17);
             hv ^= hv >> 33;
             hv *= 0xff51afd7ed558ccdULL;
             hv ^= hv >> 33;
-            if (hv < min_hash) min_hash = hv;
+            if (hv < min_hash[h]) min_hash[h] = hv;
         }
-        fp.minhash[h] = min_hash;
+    }
+
+    for (std::size_t h = 0; h < hash_count; ++h) {
+        fp.minhash[h] = min_hash[h];
     }
 
     return fp;
