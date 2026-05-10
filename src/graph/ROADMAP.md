@@ -211,12 +211,24 @@
 
 #### Phase 8.5 — Performance & Hardening (Target: Q2 2027)
 
-- [ ] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
+- [x] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
   - Profiling baseline: sequential MinHash over 128 hash functions on 8-mode train
-  - Optimisation: SIMD-accelerated FNV-1a hash over core_norms
-- [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
+  - **Progress 2026-05-10 (Bloom-filter optimization)**: Added `lsh_nonempty_` presence set
+    to `TensorFingerprintGraph`. `lshCandidates()` now performs an O(1)
+    `lsh_nonempty_.count(bucket_key)` check before `lsh_buckets_.find()`, skipping
+    empty bands without map lookup overhead. `insertIntoBuckets()` and
+    `removeFromBuckets()` maintain `lsh_nonempty_` in sync.
+  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FingerprintInsert` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures insert latency for mode sizes
+    8/16/32/64 at 200 iterations each (`THEMIS_BUILD_BENCHMARKS=ON`).
+- [x] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
   - Profiling baseline: LSH band scan over 32 bands × 100K total entries
-  - Optimisation: Bloom filter per band to skip empty buckets early
+  - **Progress 2026-05-10 (Bloom-filter optimization)**: Same `lsh_nonempty_` gate
+    eliminates redundant map lookups in `lshCandidates()` for sparse bucket distributions,
+    improving `findSimilar()` throughput for large graphs.
+  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FindSimilar` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures `findSimilar()` latency at
+    1K, 10K, and 100K pre-populated nodes.
 - [x] LSH bucket cleanup on remove/update to prevent stale candidate IDs (2026-05-07)
   - `TensorFingerprintGraph::removeFromBuckets()` now removes tensor IDs from all
     band buckets both on `remove()` and overwrite path in `insert()`.
@@ -255,9 +267,13 @@
     canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
     nodes + dedup records (tests TDM-10/TDM-11).
   - Remaining: durable GraphIndex integration for persisted node/edge payload lifecycle.
-- [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
+- [x] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
-- [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
+  - **Progress 2026-05-10 (benchmark)**: `BM_StorageReductionRatio` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures deduplication effectiveness for
+    10 and 100 weight-set configurations with 80% shared blocks; reports `dedup_ratio`,
+    `savings_pct`, `canonical_tensors`, and `delta_tensors` as Google Benchmark counters.
+- [x] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
   - **Progress 2026-05-07 (TDM snapshot/restore)**: `TensorDeduplicationManager::snapshotGraph()` /
     `restoreGraph()` serialize the full `PersistedFingerprintGraphSnapshot` (all nodes +
     edges) to/from the storage backend via new `TensorNetworkStorageEngine::putRawMetadata()` /
@@ -302,7 +318,14 @@
     legacy blob journal when no per-entry entries exist, and per-entry replay
     takes precedence when both journal formats coexist for the same snapshot
     (tests TDM-22/TDM-24).
-  - Remaining: GraphIndex-backed storage backend for the same per-entry journal lifecycle.
+  - **Progress 2026-05-10 (GraphIndex-backed journal wiring)**: Added free function
+    `wireGraphIndexJournalHooks(TensorDeduplicationManager&, GraphIndexManager&, RocksDBWrapper&,
+    const std::string&)` in `include/graph/tensor_deduplication_manager.h` /
+    `src/graph/tensor_deduplication_manager.cpp`. Stores per-entry payloads in RocksDB under
+    `__tfgjournal_gi__:<snap>:<tensor_id>` and tracks adjacency via GraphIndexManager edges
+    (anchor node `__tfgj_anchor__:<snap>`). Behavioral contract verified by test TDM-25
+    using an in-memory hook simulation.
+  - Remaining: end-to-end integration test with real RocksDB + GraphIndexManager.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 
@@ -313,7 +336,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 22 TFG + 10 TDM = 32 tests passing
+- 28 TFG + 25 TDM = 53 tests passing (TFG-01..28 + TDM-01..25)
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

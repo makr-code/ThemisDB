@@ -180,6 +180,7 @@ void TensorFingerprintGraph::insertIntoBuckets(const std::string& id,
         // Combine band index into bucket key to avoid false cross-band collisions
         uint64_t bucket_key = bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
         lsh_buckets_[bucket_key].insert(id);
+        lsh_nonempty_.insert(bucket_key); // keep presence set in sync
     }
 }
 
@@ -197,6 +198,7 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string& id,
         it->second.erase(id);
         if (it->second.empty()) {
             lsh_buckets_.erase(it);
+            lsh_nonempty_.erase(bucket_key); // keep presence set in sync
         }
     }
 }
@@ -208,6 +210,8 @@ TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
         std::size_t start = band * rows_per_band_;
         uint64_t bh = bandHash(fp, start, rows_per_band_, band);
         uint64_t bucket_key = bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
+        // O(1) presence check avoids lsh_buckets_.find() for empty bands.
+        if (!lsh_nonempty_.count(bucket_key)) continue;
         auto it = lsh_buckets_.find(bucket_key);
         if (it != lsh_buckets_.end()) {
             for (const auto& id : it->second)

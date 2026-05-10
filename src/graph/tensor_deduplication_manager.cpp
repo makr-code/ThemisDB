@@ -1405,3 +1405,122 @@ bool TensorDeduplicationManager::hasJournalEntryHooks() const noexcept {
 
 } // namespace graph
 } // namespace themis
+
+// ============================================================================
+// wireGraphIndexJournalHooks — non-member implementation
+// ============================================================================
+
+#include "index/graph_index.h"
+#include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
+
+namespace themis {
+namespace graph {
+
+namespace {
+// Prefix used for all RocksDB payload keys managed by this wiring helper.
+constexpr std::string_view kGiJournalKeyPrefix = "__tfgjournal_gi__:";
+
+// Virtual source node in the graph from which all journal edges originate.
+// Constructed as "__tfgj_anchor__:<snapshot_key>".
+inline std::string makeAnchorId(std::string_view snapshot_key) {
+    return std::string("__tfgj_anchor__:") + std::string(snapshot_key);
+}
+
+// RocksDB key for a journal entry payload.
+inline std::string makePayloadKey(std::string_view snapshot_key,
+                                   std::string_view tensor_id) {
+    return std::string(kGiJournalKeyPrefix) +
+           std::string(snapshot_key) + ":" +
+           std::string(tensor_id);
+}
+
+// Graph edge primary key (also used as edgeId in GraphIndexManager).
+inline std::string makeEdgeId(std::string_view snapshot_key,
+                               std::string_view tensor_id) {
+    // Reuse the same string as the payload key for 1:1 correspondence.
+    return makePayloadKey(snapshot_key, tensor_id);
+}
+} // anonymous namespace
+
+void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
+                                 GraphIndexManager&           graph_idx,
+                                 RocksDBWrapper&              db,
+                                 const std::string&           snapshot_key) {
+    // ── persist_fn: store one journal entry ──────────────────────────────
+    TensorDeduplicationManager::JournalEntryPersistFn persist_fn =
+        [&graph_idx, &db, snapshot_key](
+            std::string_view snap,
+            std::string_view tensor_id,
+            const std::vector<uint8_t>& payload) -> bool {
+        const auto edge_id  = makeEdgeId(snap, tensor_id);
+        const auto pay_key  = edge_id; // same string
+        const auto anchor   = makeAnchorId(snap);
+
+        // Store raw payload in RocksDB.
+        if (!db.put(pay_key, payload)) {
+            return false;
+        }
+
+        // Represent the journal entry as a directed edge anchor → tensor_id
+        // in GraphIndexManager (enables outAdjacency-based enumeration).
+        BaseEntity edge(edge_id);
+        edge.setField("_from",  BaseEntity::Value{anchor});
+        edge.setField("_to",    BaseEntity::Value{std::string(tensor_id)});
+        edge.setField("_graph", BaseEntity::Value{std::string(snap)});
+        // Idempotent: deleteEdge before addEdge in case an entry already exists.
+        (void)graph_idx.deleteEdge(edge_id);
+        const auto status = graph_idx.addEdge(edge);
+        return status.ok;
+    };
+
+    // ── delete_fn: remove one journal entry ──────────────────────────────
+    TensorDeduplicationManager::JournalEntryDeleteFn delete_fn =
+        [&graph_idx, &db](
+            std::string_view snap,
+            std::string_view tensor_id) -> bool {
+        const auto edge_id = makeEdgeId(snap, tensor_id);
+        const auto gstatus = graph_idx.deleteEdge(edge_id);
+        const bool db_ok   = db.del(edge_id);
+        return gstatus.ok && db_ok;
+    };
+
+    // ── enumerate_fn: iterate all journal entries for a snapshot ─────────
+    TensorDeduplicationManager::JournalEntryEnumerateFn enumerate_fn =
+        [&graph_idx, &db](
+            std::string_view snap,
+            std::function<void(std::string_view, const std::vector<uint8_t>&)> cb) {
+        const auto anchor = makeAnchorId(snap);
+        auto [status, adj] = graph_idx.outAdjacency(anchor);
+        if (!status.ok) return;
+        for (const auto& info : adj) {
+            // Each adjacency entry's edgeId IS the payload key.
+            const auto payload = db.get(info.edgeId);
+            if (!payload.has_value()) continue;
+            // targetPk is the tensor_id stored in the _to field.
+            cb(info.targetPk, *payload);
+        }
+    };
+
+    // ── clear_fn: delete all journal entries for a snapshot ──────────────
+    TensorDeduplicationManager::JournalEntryClearFn clear_fn =
+        [&graph_idx, &db](std::string_view snap) -> bool {
+        const auto anchor = makeAnchorId(snap);
+        auto [status, adj] = graph_idx.outAdjacency(anchor);
+        bool all_ok = status.ok;
+        for (const auto& info : adj) {
+            const auto gs = graph_idx.deleteEdge(info.edgeId);
+            const bool ds = db.del(info.edgeId);
+            all_ok = all_ok && gs.ok && ds;
+        }
+        return all_ok;
+    };
+
+    tdm.setJournalEntryHooks(std::move(persist_fn),
+                              std::move(delete_fn),
+                              std::move(enumerate_fn),
+                              std::move(clear_fn));
+}
+
+} // namespace graph
+} // namespace themis

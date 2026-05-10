@@ -55,6 +55,13 @@
 #include <unordered_map>
 #include <vector>
 
+// Forward declarations for GraphIndex-backed journal wiring helper.
+// Full definitions in <index/graph_index.h> and <storage/rocksdb_wrapper.h>.
+namespace themis {
+class GraphIndexManager;
+class RocksDBWrapper;
+} // namespace themis
+
 namespace themis {
 namespace graph {
 
@@ -361,6 +368,45 @@ private:
                                    std::size_t total_bytes_stored,
                                    std::size_t bytes_saved) const;
 };
+
+} // namespace graph
+} // namespace themis
+
+// ============================================================================
+// wireGraphIndexJournalHooks — non-member wiring helper
+// ============================================================================
+
+namespace themis {
+namespace graph {
+
+/**
+ * @brief Wire per-entry journal hooks backed by GraphIndexManager and RocksDB.
+ *
+ * Each journal entry is stored as:
+ *   - An edge in @p graph_idx from a virtual anchor node
+ *     (`"__tfgj_anchor__:<snapshot_key>"`) to the `tensor_id` node,
+ *     with edge primary key `"__tfgjournal_gi__:<snapshot_key>:<tensor_id>"`.
+ *   - Raw payload bytes in @p db under the same key.
+ *
+ * This is a durable alternative to the TNSE `putRawMetadata` approach. The
+ * hook contract is identical: per-tensor journal entries are independently
+ * stored and deleted without reading or rewriting the entire monolithic blob.
+ *
+ * ### Typical usage
+ * @code
+ *   wireGraphIndexJournalHooks(tdm, graph_idx, db, "__tfg_default__");
+ *   tdm.snapshotGraph("__tfg_default__");
+ * @endcode
+ *
+ * @param tdm           Dedup manager to configure.
+ * @param graph_idx     GraphIndexManager used for adjacency-based listing.
+ * @param db            Underlying RocksDB wrapper for raw payload storage.
+ * @param snapshot_key  Active snapshot key (must match `snapshotGraph` call).
+ */
+void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
+                                 GraphIndexManager&           graph_idx,
+                                 RocksDBWrapper&              db,
+                                 const std::string&           snapshot_key);
 
 } // namespace graph
 } // namespace themis

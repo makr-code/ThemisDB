@@ -1206,6 +1206,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
 endif()
 
 # ============================================================================
+# Tensor Fingerprint Graph Benchmarks (Phase 8.5 acceptance criteria)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_fingerprint.cpp")
+    message(STATUS "Adding Tensor Fingerprint Graph benchmarks (Phase 8.5)")
+
+    add_executable(bench_tensor_fingerprint
+        bench_tensor_fingerprint.cpp
+    )
+
+    target_link_libraries(bench_tensor_fingerprint PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_tensor_fingerprint PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_tensor_fingerprint)
+
+    install(TARGETS bench_tensor_fingerprint
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Tensor Fingerprint: insert ≤10ms, findSimilar ≤50ms/100K nodes, ≥40% storage reduction")
+endif()
+
+# ============================================================================
 # Real Performance Benchmarks (Issue: Implement Real Google Benchmark Tests)
 # ============================================================================
 

@@ -361,6 +361,10 @@ private:
     // LSH buckets: band_idx:bucket_hash → set of tensor_ids
     std::unordered_map<uint64_t, std::unordered_set<std::string>> lsh_buckets_;
 
+    // Non-empty bucket presence set: O(1) empty-band skip in lshCandidates().
+    // Mirrors the key set of lsh_buckets_ (populated on insert, cleared on erase).
+    std::unordered_set<uint64_t> lsh_nonempty_;
+
     mutable std::mutex mutex_;
     std::atomic<std::size_t> edge_count_{0};
     TrainLoadFn train_load_fn_;

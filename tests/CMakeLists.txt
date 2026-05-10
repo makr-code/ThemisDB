@@ -27850,3 +27850,45 @@ _tensor_focused_test(test_tensor_router)
 
 # Phase 7: Unified Tensor Representation (UTR) — multi-modal converters
 _tensor_focused_test(test_tensor_utr)
+
+# =========================================================================
+# Phase 8: TensorFingerprintGraph + TensorDeduplicationManager (TFG/TDM tests)
+# TFG-01..TFG-28  +  TDM-01..TDM-25
+# =========================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" AND
+   NOT TARGET test_tensor_fingerprint_graph_focused)
+    message(STATUS "Adding TensorFingerprintGraph focused tests (TFG-01..TFG-28, TDM-01..TDM-25)")
+
+    add_executable(test_tensor_fingerprint_graph_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp
+    )
+
+    target_include_directories(test_tensor_fingerprint_graph_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_tensor_fingerprint_graph_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tensor_fingerprint_graph_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_tensor_fingerprint_graph_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_fingerprint_graph_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    set_tests_properties(
+        PROPERTIES LABELS "graph;tensor;fingerprint;dedup;lsh;minhash;snapshot;journal;phase8;focused;unit"
+    )
+
+    message(STATUS "  TensorFingerprintGraph: TFG-01..28 + TDM-01..25 (insert, findSimilar, snapshot/restore, journal)")
+endif()
