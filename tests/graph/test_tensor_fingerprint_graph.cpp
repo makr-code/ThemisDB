@@ -1438,12 +1438,12 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     const auto cleanupDbDir = [](const fs::path& path) {
         std::error_code ec;
         fs::remove_all(path, ec);
-        ASSERT_FALSE(ec) << "Failed to remove temp DB dir: " << path;
+        ASSERT_TRUE(!ec) << "Unexpected error removing temp DB dir: " << path;
     };
-    const auto unique = std::to_string(
+    const auto unique_suffix = std::to_string(
         std::chrono::steady_clock::now().time_since_epoch().count());
     const fs::path db_dir =
-        fs::temp_directory_path() / ("themis_tdm25_graph_journal_" + unique);
+        fs::temp_directory_path() / ("themis_tdm25_graph_journal_" + unique_suffix);
     cleanupDbDir(db_dir);
 
     themis::RocksDBWrapper::Config db_cfg;
