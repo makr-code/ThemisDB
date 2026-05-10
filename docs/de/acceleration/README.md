@@ -5,9 +5,9 @@
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/acceleration/ -->
 
-**Stand:** 6. April 2026  
-**Version:** 1.1  
-**Kategorie:** GPU / Hardware-Beschleunigung  
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** GPU / Hardware-Beschleunigung
 **Validated:** 2026-05-10 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
@@ -200,3 +200,12 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 
 - [Backend-Typen und Konfiguration](backends.md) — Detaillierte Beschreibung der unterstützten Backends
 - [Fehlende Implementierungen](MISSING_IMPLEMENTATIONS.md) — Reality-Check-Report: offene Implementierungslücken mit Code-Evidence und Issue-Vorschlägen
+
+## Installation
+
+Das Modul wird mit ThemisDB gebaut. Für Linux ist der dokumentierte Preset:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```

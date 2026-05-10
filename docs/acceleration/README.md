@@ -23,6 +23,25 @@ und `include/acceleration/`.
 - [`metrics.md`](metrics.md) — Performance- und Beobachtbarkeitsmetriken
 - [`production_readiness.md`](production_readiness.md) — Abnahme-/Produktionsreifeaspekte
 
+## Installation
+
+Das Acceleration-Modul wird als Teil von ThemisDB gebaut. Für Linux ist der
+aktuelle Configure-/Build-Preset:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+## Usage
+
+- Nutze `src/acceleration/README.md` für Implementierungsdetails, Laufzeitverhalten
+  und Grenzen.
+- Nutze `include/acceleration/README.md` für Public-API-Header, Entry-Points und
+  Konfigurationsflächen.
+- Nutze `troubleshooting.md` und `error_codes.md` für operative Diagnose und
+  Fehleranalyse.
+
 ## Hinweise
 
 - Änderungen an API-Verträgen oder Laufzeitverhalten sollten immer zusammen mit
