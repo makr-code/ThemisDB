@@ -169,7 +169,7 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 
-### Phase 8: Cross-Tensor Redundancy Mapping (Status: Done [x])
+### Phase 8: Cross-Tensor Redundancy Mapping (Status: Done [x], completed 2026-05-10)
 
 **Wissenschaftliche Basis:** Yadav et al. 2023 (TIES-Merging, NeurIPS); Stoudenmire & Schwab 2016 (TN for ML); Rajaraman & Ullman 2011 (LSH)
 
