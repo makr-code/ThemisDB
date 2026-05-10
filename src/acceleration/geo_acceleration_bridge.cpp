@@ -17,8 +17,19 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// Acceleration module — Geo Acceleration Bridge
+// ================================================
 // Bridges the acceleration IGeoBackend interface to the geo module's
 // ISpatialComputeBackend (GpuBatchBackend).
+//
+// Dispatch chain position
+// -----------------------
+//   BackendRegistry::getSelectedGeoBackend()
+//       └─► GeoAccelerationBridge (self-registered at static-init time)
+//               ├─► GeoKernelFallbackDispatcher::dispatch()  — via populateGeoDispatch()
+//               │       ├─ GPU: launchGeoDistanceKernel() (cuda/geo_kernels.cu) [CUDA only]
+//               │       └─ CPU: Haversine implementation (batchDistances fallback)
+//               └─► GpuBatchBackend::batchIntersects()  — point-in-polygon via ray-casting
 //
 // The bridge is registered in BackendRegistry so that callers using the
 // acceleration framework's capability-driven backend selection automatically
@@ -46,6 +57,15 @@
 //    available as soon as the geo module (themis_geo) is loaded.  This avoids
 //    a circular dependency between themis_base (BackendRegistry) and
 //    themis_geo (GpuBatchBackend).
+//
+// Related files
+// -------------
+//   include/acceleration/geo_acceleration_bridge.h   — GeoAccelerationBridge declaration
+//   src/acceleration/cuda/geo_kernels.cu              — GPU Haversine + point-in-polygon kernels
+//   include/acceleration/kernel_invocation.h          — GeoKernelDispatch interface (frozen v1.x)
+//   include/acceleration/kernel_fallback_dispatcher.h — GeoKernelFallbackDispatcher
+//   src/acceleration/backend_registry.cpp             — registry that selects this bridge
+//   src/acceleration/ARCHITECTURE.md                  — Integration Points (Section 5)
 
 #include "acceleration/geo_acceleration_bridge.h"
 #include "acceleration/cpu_backend.h"

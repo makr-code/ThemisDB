@@ -2,9 +2,9 @@
 
 # ThemisDB Analytics Module - Header Files
 
-**Version:** 1.7.0
+**Version:** 1.9.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-05-10
 **Module Path:** `include/analytics/`
 
 ---
@@ -29,6 +29,19 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 ## About This Directory
 
 This directory (`include/analytics/`) contains **header files only**. For implementation details, see [`src/analytics/README.md`](../../src/analytics/README.md).
+
+## Public API Entry Points
+
+The most important public headers for analytics integrations are:
+
+| Header | Purpose |
+| --- | --- |
+| `olap.h` | OLAP query model and `OLAPEngine` execution API |
+| `cep_engine.h` | CEP runtime (`CEPEngine`) and EPL rule processing |
+| `forecasting.h` | Time-series model training/evaluation/prediction APIs |
+| `process_mining.h` | Event-log extraction, discovery, and conformance checking |
+| `analytics_export.h` + `arrow_export.h` | Export APIs (JSON/CSV always, Arrow formats optional) |
+| `streaming_window.h` + `streaming_join.h` | Streaming windows and stream-stream joins |
 
 ## Header Files
 
@@ -849,6 +862,12 @@ set(THEMIS_ENABLE_GPU ON)
 - OpenSSL (for LLM API calls)
 - CUDA (for GPU acceleration)
 
+## Troubleshooting
+
+- Arrow export formats (IPC/Parquet/Feather) require Arrow support at build time; otherwise exporters return `NOT_SUPPORTED`.
+- LLM-backed analysis requires provider credentials (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, etc.).
+- For module-level troubleshooting playbooks, see [`../../docs/troubleshooting/analytics_troubleshooting.md`](../../docs/troubleshooting/analytics_troubleshooting.md).
+
 ## Testing
 
 Run analytics tests:
@@ -873,7 +892,8 @@ Specific test suites:
 ## See Also
 
 - **Implementation**: [`src/analytics/README.md`](../../src/analytics/README.md)
-- **Future Plans**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Roadmap**: [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md)
+- **Future Plans**: [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
 - **Query Integration**: [`../query/README.md`](../query/README.md)
 - **Index Integration**: [`../index/README.md`](../index/README.md)
 - **Observability**: [`../observability/README.md`](../observability/README.md)
@@ -899,7 +919,7 @@ Part of ThemisDB. See LICENSE file in the root directory.
 - **Implementation Documentation**: [`../../src/analytics/README.md`](../../src/analytics/README.md)
 - **Architecture**: [`../../src/analytics/ARCHITECTURE.md`](../../src/analytics/ARCHITECTURE.md)
 - **Roadmap**: [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md)
-- **Future Enhancements (API)**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Future Enhancements**: [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
 - **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)
 - **OLAP Guide**: [`../../docs/de/analytics/olap_guide.md`](../../docs/de/analytics/olap_guide.md)
 - **Forecasting Guide**: [`../../docs/de/analytics/forecasting_guide.md`](../../docs/de/analytics/forecasting_guide.md)

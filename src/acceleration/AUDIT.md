@@ -1,11 +1,11 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Acceleration Module
 
-**Last Audit:** 2026-04-19
+**Last Audit:** 2026-05-10
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -14,7 +14,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 26 (`.cpp` in `src/acceleration/`) |
+| Source Files | 26 (`.cpp` in `src/acceleration/`); + 8 kernel files in `cuda/` and `hip/` subdirectories |
 | Test Coverage | ✅ > 80% (confirmed by maintainer, Issue #1398) |
 | Open TODOs | 23 files contain TODOs (primarily hardware-conditional stubs) |
 | Open Stubs | 1 (`CUDAGraphBackend` GPU graph traversal — CPU fallback active) |

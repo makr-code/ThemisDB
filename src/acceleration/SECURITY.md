@@ -1,11 +1,11 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-05-10 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · include/acceleration/README.md -->
 
 # Security — Acceleration Module
 
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
+> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../SECURITY.md).
 
 ## Security Scope
 

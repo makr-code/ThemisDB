@@ -25,6 +25,8 @@
 | AN-8 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_OLAP_GroupBy_TwoDim` |
 | AN-9 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_OLAP_ComplexQuery` |
 | AN-10 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_ARM_DotProduct_NEON` |
+| AN-11 | `HashJoin::probe()` P95 ≤ 5 ms für 100k-Row-Batches bei max_build_rows ≤ 1M; kein Regression > 10 % ggü. Baseline | `BM_HashJoin_Probe` (planned: `benchmarks/bench_streaming_join.cpp`) |
+| AN-12 | `IntervalJoin` LRU-Eviction-Overhead < 1 ms/1k evicted rows; P95 Gesamtlatenz ≤ 10 ms für 50k-Row-Batches | `BM_IntervalJoin_Probe` (planned: `benchmarks/bench_streaming_join.cpp`) |
 
 ## Validierung
 - Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.

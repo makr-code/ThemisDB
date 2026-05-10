@@ -22,6 +22,39 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+/*
+ * Acceleration module — Backend Registry (Central Dispatch Coordinator)
+ * ======================================================================
+ * BackendRegistry is the process-wide singleton that wires together all
+ * acceleration backends.  It is the only component that knows about every
+ * available backend and selects the best one per operation category at
+ * startup.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   Callers (AQL executor, vector index, geo module)
+ *       └─► BackendRegistry::getSelected{Vector,Graph,Geo}Backend()
+ *               └─► concrete backend (CUDA / HIP / Vulkan / OpenCL / CPU)
+ *                       └─► ANNKernelFallbackDispatcher / GeoKernelFallbackDispatcher
+ *                               └─► retry + CPU fallback
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   initializeRuntime(vectorReqs, graphReqs, geoReqs)  — call once at startup
+ *   getSelectedVectorBackend()                          — returns best IVectorBackend*
+ *   getSelectedGraphBackend()                           — returns best IGraphBackend*
+ *   getSelectedGeoBackend()                             — returns best IGeoBackend*
+ *   registerBackend(backend)                            — register additional backends
+ *   defaultVector/Graph/GeoRequirements()               — factory helpers for CapabilityRequirements
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/compute_backend.h     — IComputeBackend interface + RegisteredBackend
+ *   src/acceleration/device_manager.cpp        — device enumeration called during autoDetect()
+ *   src/acceleration/plugin_loader.cpp         — plugin loading extends the registry
+ *   include/acceleration/kernel_fallback_dispatcher.h — downstream retry/fallback dispatchers
+ *   src/acceleration/ARCHITECTURE.md           — component diagram and startup flow
+ */
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"

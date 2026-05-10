@@ -22,7 +22,28 @@
 
 /**
  * @file streaming_join.cpp
- * @brief Implementations of HashJoin and IntervalJoin.
+ * @module Streaming
+ * @brief Stream-stream join operators: HashJoin and IntervalJoin.
+ *
+ * Data flow:
+ *   build(ArrowRecordBatch) → internal hash table / probe-side ring buffer
+ *   probe(ArrowRecordBatch) → joined ArrowRecordBatch (inner or left-outer)
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: empty join-key column or schema mismatch
+ *     between build and probe batches (thrown in build()/probe()).
+ *   - Late-arriving rows whose event-time falls outside the IntervalJoin
+ *     window are silently dropped (no error; debug-log emitted).
+ *   - `HashJoin`: probe rows with no build-side match → absent from output
+ *     (inner join) or present with null right-side columns (left-outer).
+ *
+ * Thread safety: build() and probe() must not be called concurrently on the
+ * same instance; each join session owns its state exclusively.
+ *
+ * Cross-links:
+ *   include/analytics/streaming_join.h — public API
+ *   src/analytics/streaming_window.cpp — upstream window operators
+ *   tests/analytics/test_streaming_join.cpp — SJ-01…SJ-15 coverage
  */
 
 #include "analytics/streaming_join.h"

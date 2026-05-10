@@ -11,12 +11,12 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 
 ## Design Constraints
 
-- `[ ]` Hardware portability: all enhancements must preserve `BackendRegistry`'s fallback to `CPUVectorBackend`/`CPUGraphBackend`/`CPUGeoBackend`/`CPUMatrixBackend` when no GPU is present; verified by CI runs with `THEMIS_ENABLE_CUDA=OFF THEMIS_ENABLE_VULKAN=OFF`.
-- `[ ]` Plugin ABI stability: `plugin_loader.cpp` and `plugin_security.cpp` define a versioned plugin contract; GPU backend plugins must not alter that ABI before v2.0.
-- `[ ]` Memory budget: GPU device memory is finite and shared; all backends must honour the per-operation memory cap exposed via `BackendCapabilities::maxMemoryBytes` and the `VLLMResourceManager::Config::max_gpu_vram_mb` limit.
-- `[ ]` CUDA/Vulkan/HIP/DirectX SDK optionality: the build must succeed without any GPU SDK installed (`#ifdef THEMIS_ENABLE_CUDA` / `THEMIS_ENABLE_VULKAN` / `THEMIS_ENABLE_HIP` / `THEMIS_ENABLE_DIRECTX` guards must remain in all GPU paths).
-- `[ ]` `IComputeBackend` interface must never throw; all errors are returned via `ErrorContext` or empty-result sentinel values; the interface contract is documented in `compute_backend.h`.
-- `[ ]` `BackendRegistry` is a process-wide singleton; all public methods must be safe to call from multiple threads after `initializeRuntime()` returns.
+- `[x]` Hardware portability: all enhancements must preserve `BackendRegistry`'s fallback to `CPUVectorBackend`/`CPUGraphBackend`/`CPUGeoBackend`/`CPUMatrixBackend` when no GPU is present; verified by CI runs with `THEMIS_ENABLE_CUDA=OFF THEMIS_ENABLE_VULKAN=OFF`.
+- `[x]` Plugin ABI stability: `plugin_loader.cpp` and `plugin_security.cpp` define a versioned plugin contract; GPU backend plugins must not alter that ABI before v2.0.
+- `[x]` Memory budget: GPU device memory is finite and shared; all backends must honour the per-operation memory cap exposed via `BackendCapabilities::maxMemoryBytes` and the `VLLMResourceManager::Config::max_gpu_vram_mb` limit.
+- `[x]` CUDA/Vulkan/HIP/DirectX SDK optionality: the build must succeed without any GPU SDK installed (`#ifdef THEMIS_ENABLE_CUDA` / `THEMIS_ENABLE_VULKAN` / `THEMIS_ENABLE_HIP` / `THEMIS_ENABLE_DIRECTX` guards must remain in all GPU paths).
+- `[x]` `IComputeBackend` interface must never throw; all errors are returned via `ErrorContext` or empty-result sentinel values; the interface contract is documented in `compute_backend.h`.
+- `[x]` `BackendRegistry` is a process-wide singleton; all public methods must be safe to call from multiple threads after `initializeRuntime()` returns.
 
 ## Required Interfaces
 
@@ -27,7 +27,7 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 | `PluginLoader::loadPlugin()` | Dynamic GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`) | Plugin security sandbox enforced by `plugin_security.cpp` |
 | `VLLMResourceManager::canUseGPU()` | Acceleration paths sharing GPU with vLLM inference | Must not block indefinitely; lease timeout required |
 | `NCCLVectorBackend::mergeTopK()` | `multi_gpu_backend.cpp` distributed ANN search | Distributed path unimplemented; see Planned Features |
-| `IAsyncComputeDispatch` | Future async search pipeline | Defined in `include/acceleration/FUTURE_ENHANCEMENTS.md`; not yet implemented in src |
+| `IAsyncComputeDispatch` | Future async search pipeline | Defined in `FUTURE_ENHANCEMENTS.md`; not yet implemented in src |
 
 ## Planned Features
 
@@ -497,15 +497,15 @@ All planned features in this document are grounded in the following peer-reviewe
 - [`src/graph/`](../graph/README.md) — Graph analytics engine; GPU-accelerated traversal delegates to backends registered here.
 - [`src/index/`](../index/README.md) — Vector index layer; calls `IVectorBackend::batchKnnSearch()` for GPU ANN search.
 - [`src/performance/`](../performance/README.md) — Benchmarking infrastructure validating the ≥ 10× GPU speedup targets.
-- [`include/acceleration/FUTURE_ENHANCEMENTS.md`](../../include/acceleration/FUTURE_ENHANCEMENTS.md) — Complementary enhancements to the public header interfaces.
+- [`include/acceleration/README.md`](../../include/acceleration/README.md) — Public header entry points, runtime configuration, and usage snippets.
 
 ---
 
 ## NCCL/RCCL Activation (Target: v1.5.0)
 
 **Stubs:**
-- `src/acceleration/nccl_vector_backend.cpp` — `!THEMIS_ENABLE_NCCL`: all collective ops return false  
-- `src/acceleration/rccl_vector_backend.cpp` — `!THEMIS_ENABLE_RCCL`: all collective ops return false  
+- `src/acceleration/nccl_vector_backend.cpp` — `!THEMIS_ENABLE_NCCL`: all collective ops return false
+- `src/acceleration/rccl_vector_backend.cpp` — `!THEMIS_ENABLE_RCCL`: all collective ops return false
 **Risk:** Multi-GPU distributed ANN search (`mergeTopK`) and gradient allReduce unavailable; any multi-GPU training workload routes to CPU.
 
 ### Scope
@@ -524,7 +524,7 @@ All planned features in this document are grounded in the following peer-reviewe
 
 ## OpenCL Backend Activation (Target: v1.5.0)
 
-**Stub:** `src/acceleration/opencl_backend.cpp` — `!THEMIS_ENABLE_OPENCL`: `computeDistances`/`batchKnnSearch` return empty  
+**Stub:** `src/acceleration/opencl_backend.cpp` — `!THEMIS_ENABLE_OPENCL`: `computeDistances`/`batchKnnSearch` return empty
 **Risk:** Universal GPU support (AMD, Intel, Qualcomm, ARM Mali) via OpenCL 1.2+ unavailable; all queries fall through to CPU.
 
 ### Scope
@@ -542,7 +542,7 @@ All planned features in this document are grounded in the following peer-reviewe
 
 ## OneAPI Backend Activation (Target: v1.5.0)
 
-**Stub:** `src/acceleration/oneapi_backend.cpp` — `!THEMIS_ENABLE_ONEAPI`: stub class compiled; `isAvailable()` false  
+**Stub:** `src/acceleration/oneapi_backend.cpp` — `!THEMIS_ENABLE_ONEAPI`: stub class compiled; `isAvailable()` false
 **Risk:** Intel Arc / Xe / XPU (SYCL/DPC++) GPU acceleration unavailable.
 
 ### Scope
@@ -560,7 +560,7 @@ All planned features in this document are grounded in the following peer-reviewe
 
 ## Apple ANE Core ML Activation (Target: v1.9.0 — stub completion)
 
-**Stub:** `src/acceleration/ai_hardware_dispatcher.cpp` — `dispatchAppleANE()` inside `#ifdef THEMIS_HAS_NPU_APPLE`: always returns `success = false`; Core ML session not created  
+**Stub:** `src/acceleration/ai_hardware_dispatcher.cpp` — `dispatchAppleANE()` inside `#ifdef THEMIS_HAS_NPU_APPLE`: always returns `success = false`; Core ML session not created
 **Risk:** Apple Neural Engine inference unavailable; ANE workloads route to CPU/GPU fallback; ANE power efficiency and throughput benefits lost.
 
 ### Scope
@@ -581,7 +581,7 @@ All planned features in this document are grounded in the following peer-reviewe
 
 ## Plugin Security Mach-O Signature Extraction (Target: future milestone — stub removal)
 
-**Stub:** `src/acceleration/plugin_security.cpp` Mach-O path in `extractEmbeddedSignature()` — Mach-O magic detected but LC_CODE_SIGNATURE load commands not parsed; returns `std::nullopt`.  
+**Stub:** `src/acceleration/plugin_security.cpp` Mach-O path in `extractEmbeddedSignature()` — Mach-O magic detected but LC_CODE_SIGNATURE load commands not parsed; returns `std::nullopt`.
 **Risk:** macOS plugin code signatures are never extracted; Apple code-signing verification is skipped for all macOS dylib/bundle plugins.
 
 ### Scope
