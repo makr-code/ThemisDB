@@ -3,7 +3,7 @@
 ################################################################################
 # ThemisDB: Batch Milestone Application Script
 # Purpose: Assign milestones to all GitHub issues
-# Usage: bash issues-dep1.sh
+# Usage: bash scripts/root/issues-dep1.sh
 # Requirements: GitHub CLI (gh) installed and authenticated
 # Status: Using REAL issue numbers from makr-code/ThemisDB
 ################################################################################
