@@ -13,6 +13,22 @@
 using namespace themis::security;
 
 namespace {
+void unsetEnvVar(const std::string& name) {
+#ifdef _WIN32
+    _putenv_s(name.c_str(), "");
+#else
+    ::unsetenv(name.c_str());
+#endif
+}
+
+void setEnvVar(const std::string& name, const std::string& value) {
+#ifdef _WIN32
+    _putenv_s(name.c_str(), value.c_str());
+#else
+    ::setenv(name.c_str(), value.c_str(), 1);
+#endif
+}
+
 struct EnvUnsetGuard {
     std::string name;
     std::string previous;
@@ -22,12 +38,12 @@ struct EnvUnsetGuard {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
         if (had_previous) previous = existing;
-        ::unsetenv(name.c_str());
+        unsetEnvVar(name);
     }
 
     ~EnvUnsetGuard() {
-        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
-        else ::unsetenv(name.c_str());
+        if (had_previous) setEnvVar(name, previous);
+        else unsetEnvVar(name);
     }
 };
 } // namespace

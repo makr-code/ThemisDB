@@ -18,6 +18,8 @@
 #include <gtest/gtest.h>
 #include "server/mcp_server.h"
 
+#ifdef THEMIS_ENABLE_MCP
+
 // ─── MCP-SRF-01: Setter stores fn without invoking it ────────────────────────
 
 TEST(McpStdioReadFnBridgeTest, SetterStoresFnWithoutInvokingIt) {
@@ -61,3 +63,11 @@ TEST(McpStdioReadFnBridgeTest, ClearingWithNullptrDoesNotCrash) {
     // Clear when already null
     EXPECT_NO_THROW(themis::server::StdioTransport::setStdioReadFn(nullptr));
 }
+
+#else
+
+TEST(McpStdioReadFnBridgeTest, McpDisabledBuildSkipsBridgeChecks) {
+    GTEST_SKIP() << "THEMIS_ENABLE_MCP is disabled for this build";
+}
+
+#endif

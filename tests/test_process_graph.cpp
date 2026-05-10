@@ -1145,10 +1145,8 @@ TEST_F(ProcessGraphTest, VisitTimestampsPersistedAfterTokenCompletion) {
 
 TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_queryTasksByFormData) {
     // Register a minimal process
-    themis::ProcessDefinition pd;
-    pd.process_id = "aql-inject-test";
-    pd.name = "AQL Inject Test";
-    pgm_->registerProcess(pd);
+    auto reg = pgm_->registerProcess("aql-inject-test", "AQL Inject Test");
+    ASSERT_TRUE(reg.ok) << reg.message;
 
     nlohmann::json filter;
     filter["status"] = "pending";
@@ -1183,9 +1181,8 @@ TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_queryTasksByFormData) {
 }
 
 TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_aggregateByField) {
-    themis::ProcessDefinition pd;
-    pd.process_id = "aql-agg-test";
-    pgm_->registerProcess(pd);
+    auto reg = pgm_->registerProcess("aql-agg-test", "AQL Agg Test");
+    ASSERT_TRUE(reg.ok) << reg.message;
 
     bool executor_called = false;
     pgm_->setAqlQueryExecutor(

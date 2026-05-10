@@ -14,21 +14,42 @@
 
 #include <gtest/gtest.h>
 #include "server/wal_grpc_service.h"
+#include <cstdlib>
 #include <cstdint>
 #include <stdexcept>
 
 using themis::server::WalGrpcService;
+
+namespace {
+
+void setEnvVar(const char* name, const char* value) {
+#ifdef _WIN32
+    _putenv_s(name, value);
+#else
+    setenv(name, value, 1);
+#endif
+}
+
+void unsetEnvVar(const char* name) {
+#ifdef _WIN32
+    _putenv_s(name, "");
+#else
+    unsetenv(name);
+#endif
+}
+
+} // namespace
 
 // Allow the non-proto constructor to succeed in these tests.
 class WalGrpcServiceBridgeTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Ensure the production-mode guard does not trip in the test environment.
-        setenv("THEMIS_ALLOW_WAL_GRPC_STUB", "1", 1);
+        setEnvVar("THEMIS_ALLOW_WAL_GRPC_STUB", "1");
     }
     void TearDown() override {
         WalGrpcService::setServiceFn({});   // always clean global state
-        unsetenv("THEMIS_ALLOW_WAL_GRPC_STUB");
+        unsetEnvVar("THEMIS_ALLOW_WAL_GRPC_STUB");
     }
 
     static WalGrpcService makeService() {

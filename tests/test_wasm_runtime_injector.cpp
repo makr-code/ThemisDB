@@ -179,9 +179,10 @@ TEST_F(InjectorFixture, ClearAllRemovesAllRuntimes) {
 
 TEST_F(InjectorFixture, WasmPluginLoaderBridgeIsUsed) {
     using themis::plugins::IThemisPlugin;
+    using themis::plugins::IStatefulPlugin;
     using themis::plugins::WasmPluginRuntime;
 
-    class DummyPlugin final : public IThemisPlugin {
+    class DummyPlugin final : public IThemisPlugin, public IStatefulPlugin {
     public:
         const char* getName() const override { return "dummy"; }
         const char* getVersion() const override { return "1.0"; }

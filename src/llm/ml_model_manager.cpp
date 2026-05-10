@@ -421,7 +421,22 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     
     auto infer_start = std::chrono::steady_clock::now();
 
-    if (config_.inference_engine) {
+    InferenceDispatchFn dispatch_fn;
+    {
+        std::lock_guard<std::mutex> lock(dispatch_fn_mutex_);
+        dispatch_fn = inference_dispatch_fn_;
+    }
+
+    if (dispatch_fn) {
+        try {
+            response.output_data = dispatch_fn(request, *instance);
+            response.success = true;
+        } catch (const std::exception& ex) {
+            response.success = false;
+            response.error_message = std::string("Inference dispatch error: ") + ex.what();
+        }
+    } else if (config_.inference_engine) {
+
         // Route via the configured InferenceEngineEnhanced.
         InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
         eng_req.base_request.model_id   = request.model_id;
@@ -483,6 +498,11 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     total_requests_++;
     
     return Ok(response);
+}
+
+void MLModelManager::setInferenceDispatchFn(InferenceDispatchFn fn) {
+    std::lock_guard<std::mutex> lock(dispatch_fn_mutex_);
+    inference_dispatch_fn_ = std::move(fn);
 }
 
 std::string MLModelManager::inferAsync(

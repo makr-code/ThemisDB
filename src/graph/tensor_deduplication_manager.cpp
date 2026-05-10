@@ -670,6 +670,15 @@ static bool deserializeGraphSnapshot(
     if (!readLE(data, size, pos, node_count)) return false;
 
     snapshot.nodes.clear();
+    // Sanity-bound: reject unreasonably large node counts before allocating.
+    // This prevents std::length_error ("vector too long") from escaping when
+    // a corrupted or adversarial payload encodes a huge node_count value.
+    constexpr uint64_t kMaxGraphNodes = 50'000'000ULL;
+    if (node_count > kMaxGraphNodes) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: node_count {} exceeds sanity limit {}; rejecting payload",
+                    node_count, kMaxGraphNodes);
+        return false;
+    }
     snapshot.nodes.reserve(static_cast<std::size_t>(node_count));
 
     for (uint64_t i = 0; i < node_count; ++i) {
@@ -681,6 +690,13 @@ static bool deserializeGraphSnapshot(
 
         uint32_t core_norms_len = 0;
         if (!readLE(data, size, pos, core_norms_len)) return false;
+        // Sanity-bound: reject payloads with unreasonably many core norms.
+        constexpr uint32_t kMaxCoreNorms = 500'000U;
+        if (core_norms_len > kMaxCoreNorms) {
+            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: core_norms_len {} exceeds sanity limit {}; rejecting payload",
+                        core_norms_len, kMaxCoreNorms);
+            return false;
+        }
         n.fingerprint.core_norms.resize(core_norms_len);
         for (auto& f : n.fingerprint.core_norms)
             if (!readLE(data, size, pos, f)) return false;
@@ -704,6 +720,13 @@ static bool deserializeGraphSnapshot(
     if (!readLE(data, size, pos, edge_count)) return false;
 
     snapshot.edges.clear();
+    // Sanity-bound: reject unreasonably large edge counts.
+    constexpr uint64_t kMaxGraphEdges = 200'000'000ULL;
+    if (edge_count > kMaxGraphEdges) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: edge_count {} exceeds sanity limit {}; rejecting payload",
+                    edge_count, kMaxGraphEdges);
+        return false;
+    }
     snapshot.edges.reserve(static_cast<std::size_t>(edge_count));
 
     for (uint64_t i = 0; i < edge_count; ++i) {
@@ -1038,7 +1061,8 @@ static bool deserializeDedupSnapshot(
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read graph payload length");
         return false;
     }
-    if (pos + graph_bytes_size > size) {
+    // Guard against unsigned overflow and oversized payload claims.
+    if (graph_bytes_size > static_cast<uint64_t>(size - pos)) {
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: graph payload length {} exceeds buffer size {}",
                     graph_bytes_size,
                     size - pos);
@@ -1060,6 +1084,13 @@ static bool deserializeDedupSnapshot(
         return false;
     }
     records.clear();
+    // Sanity-bound: reject unreasonably large record counts.
+    constexpr uint64_t kMaxDedupRecords = 50'000'000ULL;
+    if (record_count > kMaxDedupRecords) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: record_count {} exceeds sanity limit {}; rejecting payload",
+                    record_count, kMaxDedupRecords);
+        return false;
+    }
     records.reserve(static_cast<std::size_t>(record_count));
     for (uint64_t i = 0; i < record_count; ++i) {
         themis::graph::StoredTensorRecord record;
@@ -1127,52 +1158,64 @@ bool TensorDeduplicationManager::snapshotGraph(const std::string& snapshot_key) 
 }
 
 bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
-    auto bytes_opt = storage_->getRawMetadata(snapshot_key);
-    if (!bytes_opt) return false;
+    try {
+        auto bytes_opt = storage_->getRawMetadata(snapshot_key);
+        if (!bytes_opt) return false;
 
-    PersistedFingerprintGraphSnapshot snapshot;
-    std::vector<StoredTensorRecord> records;
-    std::size_t total_bytes_stored = 0;
-    std::size_t bytes_saved = 0;
+        PersistedFingerprintGraphSnapshot snapshot;
+        std::vector<StoredTensorRecord> records;
+        std::size_t total_bytes_stored = 0;
+        std::size_t bytes_saved = 0;
 
-    if (!deserializeDedupSnapshot(*bytes_opt,
-                                  snapshot,
-                                  records,
-                                  total_bytes_stored,
-                                  bytes_saved)) {
-        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: dedup payload parse failed, trying legacy graph-only payload");
-        if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) {
-            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: both dedup and legacy graph payload parsing failed");
+        if (!deserializeDedupSnapshot(*bytes_opt,
+                                      snapshot,
+                                      records,
+                                      total_bytes_stored,
+                                      bytes_saved)) {
+            THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: dedup payload parse failed, trying legacy graph-only payload");
+            if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) {
+                THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: both dedup and legacy graph payload parsing failed");
+                return false;
+            }
+            THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: legacy graph-only payload restored");
+        }
+
+        fp_graph_->importPersistedGraph(snapshot);
+
+        std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+        records_.clear();
+        key_to_tensor_id_.clear();
+        tensor_id_to_key_.clear();
+        for (const auto& record : records) {
+            records_[record.tensor_id] = record;
+            if (!record.is_canonical) {
+                continue;
+            }
+
+            const auto key =
+                makeKey(record.tenant, record.collection, record.field);
+            const auto key_index = makeKeyIndex(key);
+            key_to_tensor_id_[key_index] = record.tensor_id;
+            tensor_id_to_key_[record.tensor_id] = key_index;
+        }
+        total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
+        bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
+        wlk.unlock(); // Release before replayMutationJournal, which re-acquires per entry.
+        if (!replayMutationJournal(snapshot_key)) {
             return false;
         }
-        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: legacy graph-only payload restored");
-    }
-
-    fp_graph_->importPersistedGraph(snapshot);
-
-    std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
-    records_.clear();
-    key_to_tensor_id_.clear();
-    tensor_id_to_key_.clear();
-    for (const auto& record : records) {
-        records_[record.tensor_id] = record;
-        if (!record.is_canonical) {
-            continue;
-        }
-
-        const auto key =
-            makeKey(record.tenant, record.collection, record.field);
-        const auto key_index = makeKeyIndex(key);
-        key_to_tensor_id_[key_index] = record.tensor_id;
-        tensor_id_to_key_[record.tensor_id] = key_index;
-    }
-    total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
-    bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
-    if (!replayMutationJournal(snapshot_key)) {
+        activateSnapshotKey(snapshot_key);
+        return true;
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: exception while restoring '{}': {}",
+                    snapshot_key,
+                    ex.what());
+        return false;
+    } catch (...) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: unknown exception while restoring '{}'",
+                    snapshot_key);
         return false;
     }
-    activateSnapshotKey(snapshot_key);
-    return true;
 }
 
 bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapshot_key) {

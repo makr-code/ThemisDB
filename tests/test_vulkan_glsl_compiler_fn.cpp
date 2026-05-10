@@ -16,11 +16,8 @@
  */
 
 #include <gtest/gtest.h>
-
-#ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
 using namespace themis::acceleration;
-#endif
 
 // ────────────────────────────────────────────────────────────────────────────
 // VK-GC-01 — no fn set, set nullptr explicitly (idempotent clear)

@@ -489,7 +489,7 @@ TEST(TensorMmapBridge, TIM22_CoreDataMatchesOriginalTTCoreValues) {
     addVecGetRaw(idx, 7, 8, 2.5f);
 
     // Retrieve the raw TTTrain for comparison.
-    const storage::TTTrain* train = idx->get(7);
+    const TTTrain* train = idx->get(7);
     ASSERT_NE(train, nullptr);
 
     auto bridge = mgr->mapCores("t", "c", "f", 7);
@@ -518,7 +518,7 @@ TEST(TensorMmapBridge, TIM23_TotalBytesMatchesSumOfCoreSizes) {
     auto* idx = mgr->createIndex("t", "c", "f");
     addVecGetRaw(idx, 3, 16, 0.5f);
 
-    const storage::TTTrain* train = idx->get(3);
+    const TTTrain* train = idx->get(3);
     ASSERT_NE(train, nullptr);
 
     size_t expected = 0;

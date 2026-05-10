@@ -55,6 +55,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -361,7 +362,7 @@ private:
     // LSH buckets: band_idx:bucket_hash → set of tensor_ids
     std::unordered_map<uint64_t, std::unordered_set<std::string>> lsh_buckets_;
 
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;  ///< shared for reads, exclusive for writes
     std::atomic<std::size_t> edge_count_{0};
     TrainLoadFn train_load_fn_;
 
@@ -370,7 +371,7 @@ private:
     // ─── Persistence hooks ────────────────────────────────────────────────
     NodePersistHookFn  node_persist_hook_;
     NodeRemoveHookFn   node_remove_hook_;
-    mutable std::mutex hook_mutex_;  ///< guards node_persist_hook_ / node_remove_hook_
+    mutable std::mutex hook_mutex_;   ///< guards node_persist_hook_ / node_remove_hook_
     std::atomic<bool>  has_node_persist_hook_{false};
     std::atomic<bool>  has_node_remove_hook_{false};
 
@@ -398,11 +399,11 @@ private:
     resolveTrainForNode(const std::string& tensor_id,
                         const NodeEntry& node) const;
 
-    /// Build persisted node payload — caller MUST hold mutex_.
+    /// Build persisted node payload — caller MUST hold mutex_ (at least shared).
     PersistedFingerprintNode
     buildPersistedNodeLocked(const std::string& tensor_id) const;
 
-    /// Build persisted outgoing edges for a node — caller MUST hold mutex_.
+    /// Build persisted outgoing edges for a node — caller MUST hold mutex_ (at least shared).
     std::vector<PersistedFingerprintEdge>
     buildPersistedEdgesForLocked(const std::string& tensor_id) const;
 };

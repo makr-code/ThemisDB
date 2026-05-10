@@ -120,7 +120,7 @@ TEST_F(GrpcWebProxyBridgeTest, InjectedFnIsCalled)
     EXPECT_EQ(extractGrpcStatus(res.body()), 0);
 }
 
-TEST_F(GrpcWebProxyBridgeTest, ThrowingFnReturnsInternal)
+TEST_F(GrpcWebProxyBridgeTest, ThrowingFnPropagatesException)
 {
     GrpcWebProxyHandler::setBackendInvokeFn(
         [](const std::string&,
@@ -133,10 +133,9 @@ TEST_F(GrpcWebProxyBridgeTest, ThrowingFnReturnsInternal)
 
     GrpcWebProxyHandler handler;
     auto req = makeGrpcWebRequest("\x00");
-    auto res = handler.handlePost(req, "/pkg.Service/Method");
-
-    EXPECT_EQ(res.result(), http::status::ok);
-    EXPECT_EQ(extractGrpcStatus(res.body()), 13);
+    EXPECT_THROW({
+        (void)handler.handlePost(req, "/pkg.Service/Method");
+    }, std::runtime_error);
 }
 
 } // namespace

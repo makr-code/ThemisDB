@@ -2041,7 +2041,7 @@ protected:
         cfg.aging_threshold      = 3;          // Boost after 3 skips
         cfg.enable_audit_logging = false;
         cfg.enable_anomaly_detection = false;
-        scheduler_ = std::make_unique<TaskScheduler>(cfg);
+        scheduler_ = std::make_unique<TaskScheduler>(nullptr, cfg);
         scheduler_->registerFunction("noop", [](const nlohmann::json&) -> nlohmann::json {
             return {};
         });

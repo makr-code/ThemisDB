@@ -11,8 +11,12 @@
 #include <gtest/gtest.h>
 #include "acceleration/rccl_vector_backend.h"
 
+#include <stdexcept>
+
 using themis::acceleration::RCCLVectorBackend;
 using ReductionOp = RCCLVectorBackend::ReductionOp;
+
+#ifndef THEMIS_ENABLE_RCCL
 
 // ── Fixture ───────────────────────────────────────────────────────────────────
 
@@ -45,35 +49,6 @@ TEST_F(RCCLBridgeTest, InjectedFnIsCalled) {
             EXPECT_EQ(stream, nullptr);
             for (size_t i = 0; i < count; ++i) {
                 recv[i] = send[i] * 2.f;
-#include <gtest/gtest.h>
-
-#include "acceleration/rccl_vector_backend.h"
-
-using namespace themis::acceleration;
-
-TEST(RCCLAllReduceBridgeTest, InjectedAllReduceFunctionIsUsed)
-{
-    RCCLVectorBackend::setAllReduceFn(nullptr);
-
-    RCCLVectorBackend backend;
-    float send[3] = {1.0f, 2.0f, 3.0f};
-    float recv[3] = {0.0f, 0.0f, 0.0f};
-
-#ifdef THEMIS_ENABLE_RCCL
-    GTEST_SKIP() << "RCCL enabled build uses native allReduce path";
-#else
-    EXPECT_FALSE(backend.allReduce(send, recv, 3, RCCLVectorBackend::ReductionOp::SUM, nullptr));
-
-    bool called = false;
-    RCCLVectorBackend::setAllReduceFn(
-        [&](const float* sendBuf,
-            float* recvBuf,
-            size_t count,
-            RCCLVectorBackend::ReductionOp,
-            hipStream_t) {
-            called = true;
-            for (size_t i = 0; i < count; ++i) {
-                recvBuf[i] = sendBuf[i];
             }
             return true;
         });
@@ -101,12 +76,12 @@ TEST_F(RCCLBridgeTest, ThrowingFnIsFailClosed) {
     EXPECT_NO_THROW({
         EXPECT_FALSE(backend.allReduce(send, recv, 4, ReductionOp::SUM, nullptr));
     });
-    EXPECT_TRUE(backend.allReduce(send, recv, 3, RCCLVectorBackend::ReductionOp::SUM, nullptr));
-    EXPECT_TRUE(called);
-    EXPECT_FLOAT_EQ(recv[0], 1.0f);
-    EXPECT_FLOAT_EQ(recv[1], 2.0f);
-    EXPECT_FLOAT_EQ(recv[2], 3.0f);
-#endif
-
-    RCCLVectorBackend::setAllReduceFn(nullptr);
 }
+
+#else
+
+TEST(RCCLBridgeTest, RcclEnabledBuildSkipsStubBridgeChecks) {
+    GTEST_SKIP() << "THEMIS_ENABLE_RCCL is enabled; stub bridge API is unavailable";
+}
+
+#endif

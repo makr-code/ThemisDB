@@ -52,6 +52,14 @@
 #include <string>
 #include <numeric>
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
+
+#include "../test_performance_helpers.h"
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 using namespace themis::llm;
 using Clock = std::chrono::steady_clock;
@@ -118,8 +126,8 @@ protected:
     }
 
     /// Helper: submit N requests, record per-call durations (µs).
-    std::vector<long> submitN(size_t n, size_t prompt_len = 20) {
-        std::vector<long> durations_us;
+    std::vector<long long> submitN(size_t n, size_t prompt_len = 20) {
+        std::vector<long long> durations_us;
         durations_us.reserve(n);
         std::vector<std::string> ids;
         ids.reserve(n);
@@ -141,7 +149,7 @@ protected:
         return durations_us;
     }
 
-    static long percentile(std::vector<long> v, int pct) {
+    static long long percentile(std::vector<long long> v, int pct) {
         if (v.empty()) return 0;
         std::sort(v.begin(), v.end());
         size_t idx = static_cast<size_t>(
@@ -161,20 +169,24 @@ protected:
 
 TEST_F(SchedulerBenchmark, SubmitThroughput_1000Requests) {
     constexpr size_t N = 1000;
-    auto durations = submitN(N);
+    const int warmup_iters = themis::test::BenchmarkPolicy::warmupIterations();
+    const int runs = themis::test::BenchmarkPolicy::independentRuns();
 
-    long p50 = percentile(durations, 50);
-    long p99 = percentile(durations, 99);
-    long mean_us = 0;
-    for (auto d : durations) mean_us += d;
-    mean_us /= static_cast<long>(durations.size());
+    submitN(static_cast<size_t>(warmup_iters));
 
-    // Print for CI visibility
-    printf("[Bench] submitRequest 1000x: mean=%ldµs  p50=%ldµs  p99=%ldµs\n",
-           mean_us, p50, p99);
+    std::vector<long long> run_p99;
+    run_p99.reserve(static_cast<size_t>(runs));
+    for (int run = 0; run < runs; ++run) {
+        auto durations = submitN(N);
+        run_p99.push_back(percentile(durations, 99));
+    }
 
-    // SLA gate: p99 < 100 µs in a no-GPU unit-test environment
-    EXPECT_LT(p99, 100L) << "submitRequest p99 exceeded 100µs SLA";
+    const auto p95_of_p99 = percentile(run_p99, 95);
+    printf("[Bench] submitRequest 1000x: runs=%d warmup=%d p95(p99)=%lldus\n",
+           runs, warmup_iters, p95_of_p99);
+
+    // SLA gate: p95 over run-level p99 must stay below 100 us.
+    EXPECT_LT(p95_of_p99, 100LL) << "submitRequest p95(p99) exceeded 100us SLA";
 }
 
 // ---------------------------------------------------------------------------
@@ -183,29 +195,39 @@ TEST_F(SchedulerBenchmark, SubmitThroughput_1000Requests) {
 
 TEST_F(SchedulerBenchmark, ScheduleBatch_LatencyWith64WaitingRequests) {
     constexpr size_t N = 64;
-    std::vector<std::string> ids;
-    ids.reserve(N);
+    const int runs = themis::test::BenchmarkPolicy::independentRuns();
+    std::vector<long long> latencies_us;
+    latencies_us.reserve(static_cast<size_t>(runs));
 
-    for (size_t i = 0; i < N; ++i) {
-        auto id = scheduler->submitRequest(makeRequest(16, 8));
-        if (!id.empty()) ids.push_back(std::move(id));
+    for (int run = 0; run < runs; ++run) {
+        std::vector<std::string> ids;
+        ids.reserve(N);
+
+        for (size_t i = 0; i < N; ++i) {
+            auto id = scheduler->submitRequest(makeRequest(16, 8));
+            if (!id.empty()) ids.push_back(std::move(id));
+        }
+
+        auto t0    = Clock::now();
+        auto batch = scheduler->scheduleNextBatch();
+        (void)batch;
+        auto t1    = Clock::now();
+
+        const auto elapsed_us = std::chrono::duration_cast<Micros>(t1 - t0).count();
+        latencies_us.push_back(elapsed_us);
+
+        for (const auto& id : ids) {
+            scheduler->cancelRequest(id);
+        }
     }
 
-    auto t0    = Clock::now();
-    auto batch = scheduler->scheduleNextBatch();
-    auto t1    = Clock::now();
+    const auto p95_us = percentile(latencies_us, 95);
+    printf("[Bench] scheduleNextBatch(%zu waiting): runs=%d p95=%lldus\n",
+           N, runs, p95_us);
 
-    long elapsed_us = std::chrono::duration_cast<Micros>(t1 - t0).count();
-    printf("[Bench] scheduleNextBatch(%zu waiting): %ldµs\n",
-           ids.size(), elapsed_us);
-
-    // SLA gate: < 5 ms = 5 000 µs
-    EXPECT_LT(elapsed_us, 5000L)
-        << "scheduleNextBatch exceeded 5ms SLA with " << ids.size() << " waiting requests";
-
-    for (const auto& id : ids) {
-        scheduler->cancelRequest(id);
-    }
+    // SLA gate: < 5 ms = 5 000 us
+    EXPECT_LT(p95_us, 5000LL)
+        << "scheduleNextBatch exceeded 5ms SLA under repeated runs";
 }
 
 // ---------------------------------------------------------------------------
@@ -241,7 +263,7 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
 
     // Measure rejection latency over 1 000 overflow attempts
     constexpr size_t REJECT_ITERS = 1000;
-    std::vector<long> durations_us;
+    std::vector<long long> durations_us;
     durations_us.reserve(REJECT_ITERS);
 
     {
@@ -257,11 +279,11 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
         }
     }
 
-    long p99 = percentile(durations_us, 99);
-    printf("[Bench] rejection p99: %ldµs\n", p99);
+    const auto p99 = percentile(durations_us, 99);
+    printf("[Bench] rejection p99: %lldus\n", p99);
 
     // SLA gate: rejection must be < 50 µs p99
-    EXPECT_LT(p99, 50L) << "Rejection p99 exceeded 50µs SLA";
+    EXPECT_LT(p99, 50LL) << "Rejection p99 exceeded 50us SLA";
 
     for (const auto& id : ids) sched->cancelRequest(id);
     sched->stop();
@@ -279,7 +301,7 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
     scheduler->setQuotaManager(&quota);
 
     constexpr size_t N = 500;
-    std::vector<long> durations_us;
+    std::vector<long long> durations_us;
     durations_us.reserve(N);
 
     {
@@ -297,16 +319,16 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
         }
     }
 
-    long p99 = percentile(durations_us, 99);
-    long mean_us = 0;
+    const auto p99 = percentile(durations_us, 99);
+    long long mean_us = 0;
     for (auto d : durations_us) mean_us += d;
-    mean_us /= static_cast<long>(durations_us.size());
+    mean_us /= static_cast<long long>(durations_us.size());
 
-    printf("[Bench] quota rejection %zux: mean=%ldµs  p99=%ldµs\n",
+    printf("[Bench] quota rejection %zux: mean=%lldus  p99=%lldus\n",
            N, mean_us, p99);
 
     // SLA gate: quota check + rejection < 200 µs p99
-    EXPECT_LT(p99, 200L) << "Quota rejection p99 exceeded 200µs SLA";
+    EXPECT_LT(p99, 200LL) << "Quota rejection p99 exceeded 200us SLA";
 
     scheduler->setQuotaManager(nullptr);
 }
@@ -331,14 +353,14 @@ TEST_F(SchedulerBenchmark, GetStats_CallCostUnderLoad) {
     }
     auto t1 = Clock::now();
 
-    long total_us    = std::chrono::duration_cast<Micros>(t1 - t0).count();
-    long per_call_ns = (total_us * 1000L) / static_cast<long>(N_CALLS);
+        long long total_us = std::chrono::duration_cast<Micros>(t1 - t0).count();
+        long long per_call_ns = (total_us * 1000LL) / static_cast<long long>(N_CALLS);
 
-    printf("[Bench] getStats() per-call: %ldns (%ld calls)\n",
-           per_call_ns, static_cast<long>(N_CALLS));
+        printf("[Bench] getStats() per-call: %lldns (%lld calls)\n",
+            per_call_ns, static_cast<long long>(N_CALLS));
 
     // SLA gate: getStats() should be < 10 µs per call even under mutex
-    EXPECT_LT(per_call_ns, 10000L) << "getStats() per-call cost > 10µs";
+        EXPECT_LT(per_call_ns, 10000LL) << "getStats() per-call cost > 10us";
 
     for (const auto& id : ids) scheduler->cancelRequest(id);
 }

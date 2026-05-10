@@ -1297,6 +1297,7 @@ if(THEMIS_BUILD_MODULAR)
             THEMIS_GEO_EXPORTS
             THEMIS_CONTENT_EXPORTS
             THEMIS_NETWORK_EXPORTS
+            THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
         )
 
         set(_themis_test_extra_sources
@@ -1342,6 +1343,34 @@ if(THEMIS_BUILD_MODULAR)
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
             $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
+
+            # Modular link-gap sources required by aggregate bridge/regression tests.
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_deduplication_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/prior_round_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/cross_school_tension_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/convergence_marker_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/llm_cascade_router.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/synthesis_matrix_builder.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/tournament_mode_selector.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/position_abstract_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_memory_store.cpp
+            ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/key_derivation_service.cpp
+            ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
+            ${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/stable_diffusion/sd_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/stable_diffusion/sd_plugin_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/stable_diffusion/sd_config.cpp
+            ${THEMIS_ROOT_DIR}/src/stable_diffusion/sd_prompt_sanitizer.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/audio_chunk_reader.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/whisper_config.cpp
+            ${THEMIS_ROOT_DIR}/src/acceleration/opencl_backend.cpp
+            ${THEMIS_ROOT_DIR}/src/acceleration/oneapi_backend.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/ml_model_manager.cpp
         )
 
         # test_hsm_provider_stub.cpp defines g_hsm_provider.  Only add it when
@@ -4261,6 +4290,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_handler.cpp")
     message(STATUS "  gRPC-Web Proxy Handler: frame decode/encode, CORS, status, request validation")
 else()
     message(STATUS "gRPC-Web Proxy Handler tests not found")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_bridge.cpp")
+    message(STATUS "Adding gRPC-Web Proxy Bridge tests")
+
+    add_executable(test_grpc_web_proxy_bridge
+        test_grpc_web_proxy_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+    )
+
+    target_include_directories(test_grpc_web_proxy_bridge PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_grpc_web_proxy_bridge PRIVATE
+        ${TEST_LIBS}
+        themis_base
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_web_proxy_bridge PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GrpcWebProxyBridgeTests
+             COMMAND test_grpc_web_proxy_bridge)
+
+    set_tests_properties(GrpcWebProxyBridgeTests PROPERTIES
+        LABELS "server;grpc;grpc-web;proxy;bridge;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC-Web Proxy Bridge: injectable backend invoke callback")
 endif()
 
 # ============================================================================
@@ -27262,6 +27326,33 @@ target_link_libraries(test_numa_memory_manager
 gtest_discover_tests(test_numa_memory_manager
     DISCOVERY_MODE PRE_TEST
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# RAG Time-To-First-Token (TTFT) benchmark tests
+# Validates TTFT SLO (p99 ≤ 200 ms) for classical-RAG and streaming paths.
+# llm_optimization_strategy.yaml §8: target_ttft_ms = 200.
+add_executable(test_rag_ttft_benchmark
+    ${THEMIS_ROOT_DIR}/tests/performance/test_rag_ttft_benchmark.cpp
+)
+target_include_directories(test_rag_ttft_benchmark
+    PRIVATE
+        ${THEMIS_ROOT_DIR}/tests
+        ${THEMIS_ROOT_DIR}/include
+)
+target_link_libraries(test_rag_ttft_benchmark
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+target_compile_features(test_rag_ttft_benchmark PRIVATE cxx_std_17)
+if(THEMIS_ENABLE_LLM)
+    target_compile_definitions(test_rag_ttft_benchmark PRIVATE THEMIS_ENABLE_LLM)
+endif()
+gtest_discover_tests(test_rag_ttft_benchmark
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rag_ttft_benchmark>
     EXTRA_ARGS --gtest_color=yes
 )
 

@@ -495,7 +495,7 @@ TEST_F(PredictiveDetectorTest, PFD01_HeuristicFallbackWithNoInjectedPredictFn) {
     m.shard_id        = "shard_001";
     m.timestamp       = std::chrono::system_clock::now();
     m.avg_latency_ms  = 20.0;
-    m.error_rate      = 0.1f;
+    m.read_errors     = 1;
     detector.recordMetrics(m);
 
     auto pred = detector.predictShard("shard_001");

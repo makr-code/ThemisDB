@@ -8,7 +8,7 @@
  *   TTS-SFN-02  Fn set             → delegates to fn; non-zero PCM in output.
  *   TTS-SFN-03  Fn cleared (null)  → reverts to silence stub.
  *
- * Note: synthesizeSpeech() wraps PCM bytes in a 44-byte WAV header via
+ * Note: synthesize() wraps PCM bytes in a 44-byte WAV header via
  * convertToFormat("wav").  Checks are performed on the PCM payload starting
  * at byte offset 44 of audio_data.
  */
@@ -48,7 +48,7 @@ TEST(TTSSynthFnTest, NoInjectionReturnsSilence) {
     proc.initialize({});
 
     TTSOptions opts;
-    auto result = proc.synthesizeSpeech("hello world", opts);
+    auto result = proc.synthesize("hello world", opts);
 
     EXPECT_TRUE(result.success);
     // The WAV header (44 bytes) is followed by silence (zeros).
@@ -76,7 +76,7 @@ TEST(TTSSynthFnTest, InjectedFnProducesNonZeroPcm) {
     });
 
     TTSOptions opts;
-    auto result = proc.synthesizeSpeech("hello world", opts);
+    auto result = proc.synthesize("hello world", opts);
 
     EXPECT_TRUE(result.success);
     ASSERT_GT(result.audio_data.size(), 44u);
@@ -103,7 +103,7 @@ TEST(TTSSynthFnTest, ClearFnRevertsToSilenceStub) {
 
     {
         TTSOptions opts;
-        auto r = proc.synthesizeSpeech("test", opts);
+        auto r = proc.synthesize("test", opts);
         EXPECT_TRUE(r.success);
         EXPECT_TRUE(hasNonZero(r.audio_data));
     }
@@ -112,7 +112,7 @@ TEST(TTSSynthFnTest, ClearFnRevertsToSilenceStub) {
     proc.setSynthFn(nullptr);
 
     TTSOptions opts;
-    auto result = proc.synthesizeSpeech("test", opts);
+    auto result = proc.synthesize("test", opts);
     EXPECT_TRUE(result.success);
     ASSERT_GT(result.audio_data.size(), 44u);
     EXPECT_TRUE(allSilence(result.audio_data))

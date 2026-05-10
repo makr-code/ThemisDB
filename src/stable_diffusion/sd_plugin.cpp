@@ -389,6 +389,7 @@ nlohmann::json SDPlugin::getStatistics() const {
 
 // ── dynamic-loading entry points ──────────────────────────────────────────────
 
+#ifndef THEMIS_TEST_BUILD
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::imggen::IImageGenerationBackend* themis_imggen_create() {
     return new themis::imggen::SDPlugin();
@@ -398,3 +399,4 @@ extern "C" THEMIS_PLUGIN_EXPORT
 void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
     delete p;
 }
+#endif
