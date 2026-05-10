@@ -180,6 +180,8 @@ protected:
     TTTrain                                  query_;
 };
 
+// This benchmark is intentionally fixed to 100K nodes to match the
+// Phase-8.5 acceptance criterion.
 BENCHMARK_DEFINE_F(FindSimilarFixture, BM_FindSimilar_100K)(benchmark::State& state) {
     std::size_t queries = 0;
     for (auto _ : state) {
