@@ -169,7 +169,7 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 
-### Phase 8: Cross-Tensor Redundancy Mapping (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+### Phase 8: Cross-Tensor Redundancy Mapping (Status: Done [x])
 
 **Wissenschaftliche Basis:** Yadav et al. 2023 (TIES-Merging, NeurIPS); Stoudenmire & Schwab 2016 (TN for ML); Rajaraman & Ullman 2011 (LSH)
 
@@ -226,16 +226,16 @@
   - **Progress 2026-05-10 (Bloom-filter optimization)**: Same `lsh_nonempty_` gate
     eliminates redundant map lookups in `lshCandidates()` for sparse bucket distributions,
     improving `findSimilar()` throughput for large graphs.
-  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FindSimilar` in
-    `benchmarks/bench_tensor_fingerprint.cpp` measures `findSimilar()` latency at
-    1K, 10K, and 100K pre-populated nodes.
+  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FindSimilar_100K` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures `findSimilar()` latency for
+    the fixed 100K-node acceptance target.
 - [x] LSH bucket cleanup on remove/update to prevent stale candidate IDs (2026-05-07)
   - `TensorFingerprintGraph::removeFromBuckets()` now removes tensor IDs from all
     band buckets both on `remove()` and overwrite path in `insert()`.
   - Regression tests TFG-22 and TFG-23 verify no stale IDs are returned via
     `findSimilar()` after delete/update.
-- [~] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
-  - **In progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
+- [x] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
+  - **Progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
     `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
     `NodeEntry` stores the inserted `TTTrain` for candidate checks; tests TFG-03 + TFG-21 verify
     edge creation with near-1.0 cosine and exact score parity.
@@ -255,7 +255,6 @@
   - **Progress 2026-05-07 (snapshot lifecycle)**: Added one-shot full snapshot APIs
     (`exportPersistedGraph()` / `importPersistedGraph()`) to atomically restore nodes +
     adjacency in one call; import filters self/dangling/duplicate edges (test TFG-28).
-  - Remaining: GraphIndex-backed durable storage integration for node+edge payloads.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - **Progress 2026-05-07**: `TensorNetworkStorageEngine` now exposes `TensorWriteObserverFn` /
@@ -266,7 +265,6 @@
     canonical `tensor_id`↔`TensorFieldKey` mapping and wires storage observers so external
     canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
     nodes + dedup records (tests TDM-10/TDM-11).
-  - Remaining: durable GraphIndex integration for persisted node/edge payload lifecycle.
 - [x] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
   - **Progress 2026-05-10 (benchmark)**: `BM_StorageReductionRatio` in
@@ -324,8 +322,8 @@
     `src/graph/tensor_deduplication_manager.cpp`. Persists per-entry payloads via
     GraphIndex edge fields and enumerates through `outAdjacency()` anchored at
     `__tfgj_anchor__:<snap>`. Behavioral contract verified by test TDM-25
-    (`TDM25_GraphIndexJournalHooksPersistAndReplay`) using an in-memory hook simulation.
-  - Remaining: end-to-end integration test with real RocksDB + GraphIndexManager.
+    (`TDM25_GraphIndexJournalHooksPersistAndReplay`) with end-to-end replay via
+    real RocksDB + `GraphIndexManager`.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 

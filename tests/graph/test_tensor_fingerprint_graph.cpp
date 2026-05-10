@@ -54,7 +54,7 @@
  *   TDM-22  auto-wired per-entry journal keys compact overwrites and replay on restore
  *   TDM-23  auto-wired per-entry restore falls back to legacy blob journals
  *   TDM-24  when both journal formats coexist, per-entry entries take precedence
- *   TDM-25  GraphIndex journal hooks persist and replay identically to TNSE hooks
+ *   TDM-25  GraphIndex journal hooks persist and replay via real RocksDB + GraphIndexManager
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -63,12 +63,16 @@
 
 #include "graph/tensor_fingerprint_graph.h"
 #include "graph/tensor_deduplication_manager.h"
+#include "index/graph_index.h"
+#include "storage/rocksdb_wrapper.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tensor_network_storage_engine.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <limits>
 #include <mutex>
@@ -1423,98 +1427,82 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     EXPECT_FALSE(restored_mgr->getRecord("conflict_tensor").has_value());
 }
 
-// TDM-25: Custom (GraphIndex-style) in-memory journal hooks persist and replay
-// identically to the built-in TNSE per-entry approach.
-//
-// We simulate the wireGraphIndexJournalHooks() behavioral contract with a plain
-// std::unordered_map so no RocksDB dependency is required in the unit test.
+// TDM-25: End-to-end GraphIndex journal replay with real RocksDB + GraphIndexManager.
 // The test verifies that:
-//   1. Post-snapshot inserts are routed to the custom hook store.
-//   2. A fresh TDM restored with the same hooks replays journal entries and
-//      reports both tensors with correct values.
+//   1. Post-snapshot inserts are written as GraphIndex journal edges.
+//   2. A fresh GraphIndexManager instance rebuilt from the same RocksDB path
+//      can enumerate and replay those journal entries during restore.
 TEST(TensorDeduplicationManagerSnapshotTest,
      TDM25_GraphIndexJournalHooksPersistAndReplay) {
-    // ── In-memory journal store (mirrors GraphIndex + RocksDB behavior) ──
-    std::unordered_map<std::string, std::vector<uint8_t>> journal;
-    std::mutex jmutex;
+    namespace fs = std::filesystem;
+    struct ScopedDbDir {
+        fs::path path;
+        explicit ScopedDbDir(fs::path p) : path(std::move(p)) {
+            std::error_code ec;
+            fs::remove_all(path, ec);
+        }
+        ~ScopedDbDir() {
+            std::error_code ec;
+            fs::remove_all(path, ec);
+        }
+    };
+
+    const auto unique = std::to_string(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+    ScopedDbDir db_dir(fs::temp_directory_path() /
+                       ("themis_tdm25_graph_journal_" + unique));
+    themis::RocksDBWrapper::Config db_cfg;
+    db_cfg.db_path = db_dir.path.string();
+    db_cfg.create_if_missing = true;
+
     constexpr auto kSnap = "snap25";
-    const std::string kPrefix = std::string(kSnap) + ":";
-
-    const auto persist_fn = [&](std::string_view snap, std::string_view tid,
-                                  const std::vector<uint8_t>& payload) -> bool {
-        std::lock_guard<std::mutex> lk(jmutex);
-        journal[std::string(snap) + ":" + std::string(tid)] = payload;
-        return true;
-    };
-    const auto delete_fn = [&](std::string_view snap, std::string_view tid) -> bool {
-        std::lock_guard<std::mutex> lk(jmutex);
-        journal.erase(std::string(snap) + ":" + std::string(tid));
-        return true;
-    };
-    const auto enumerate_fn = [&](
-        std::string_view snap,
-        std::function<void(std::string_view, const std::vector<uint8_t>&)> cb) {
-        std::lock_guard<std::mutex> lk(jmutex);
-        const auto pfx = std::string(snap) + ":";
-        for (const auto& [key, payload] : journal) {
-            if (key.size() > pfx.size() &&
-                key.compare(0, pfx.size(), pfx) == 0) {
-                cb(std::string_view(key).substr(pfx.size()), payload);
-            }
-        }
-    };
-    const auto clear_fn = [&](std::string_view snap) -> bool {
-        std::lock_guard<std::mutex> lk(jmutex);
-        const auto pfx = std::string(snap) + ":";
-        for (auto it = journal.begin(); it != journal.end(); ) {
-            if (it->first.compare(0, pfx.size(), pfx) == 0)
-                it = journal.erase(it);
-            else
-                ++it;
-        }
-        return true;
-    };
-
     auto engine = makeEngine();
 
     // ── Phase 1: populate, snapshot, and post-snapshot insert ────────────
     {
+        themis::RocksDBWrapper db(db_cfg);
+        themis::GraphIndexManager graph_idx(db);
+
         auto mgr = makeDedup(engine);
-        mgr->setJournalEntryHooks(persist_fn, delete_fn, enumerate_fn, clear_fn);
+        wireGraphIndexJournalHooks(*mgr, graph_idx, kSnap);
 
         mgr->store("tdm25_a", std::vector<float>(8, 1.0f), {8, 1}, "t", "c", "f25a");
         ASSERT_TRUE(mgr->snapshotGraph(kSnap));
 
-        // Post-snapshot insert: must go to custom journal hooks.
+        // Post-snapshot insert: must go to GraphIndex journal hooks.
         mgr->store("tdm25_b", std::vector<float>(8, 2.5f), {8, 1}, "t", "c", "f25b");
+
+        auto [adj_status, adj] = graph_idx.outAdjacency("__tfgj_anchor__:snap25");
+        ASSERT_TRUE(adj_status.ok);
+        ASSERT_EQ(adj.size(), 1u);
+        EXPECT_EQ(adj.front().targetPk, "tdm25_b");
     }
 
-    // The custom journal must hold exactly one entry for tdm25_b.
+    // ── Phase 2: reopen GraphIndexManager from same RocksDB and restore ───
     {
-        std::lock_guard<std::mutex> lk(jmutex);
-        ASSERT_EQ(journal.count(kPrefix + "tdm25_b"), 1u) <<
-            "Custom journal must have one entry for tdm25_b after post-snapshot insert";
+        themis::RocksDBWrapper db(db_cfg);
+        themis::GraphIndexManager graph_idx(db);
+        ASSERT_TRUE(graph_idx.rebuildTopology().ok);
+
+        auto mgr2 = makeDedup(engine);
+        wireGraphIndexJournalHooks(*mgr2, graph_idx, kSnap);
+        ASSERT_TRUE(mgr2->restoreGraph(kSnap));
+
+        EXPECT_TRUE(mgr2->getRecord("tdm25_a").has_value())
+            << "Snapshot-time tensor tdm25_a must be present after restore";
+        EXPECT_TRUE(mgr2->getRecord("tdm25_b").has_value())
+            << "Post-snapshot tensor tdm25_b must be replayed via GraphIndex journal";
+
+        // Retrieved data should approximate the stored values.
+        const auto retrieved = mgr2->retrieve("tdm25_b");
+        ASSERT_TRUE(retrieved.has_value());
+        ASSERT_EQ(retrieved->size(), 8u);
+        for (float v : *retrieved) {
+            EXPECT_NEAR(v, 2.5f, 0.5f) << "Reconstructed value should approximate 2.5";
+        }
+
+        const auto stats = mgr2->getStats();
+        EXPECT_EQ(stats.total_tensors, 2u)
+            << "Both tensors must be accounted for after restore";
     }
-
-    // ── Phase 2: restore into fresh manager with the same custom hooks ───
-    auto mgr2 = makeDedup(engine);
-    mgr2->setJournalEntryHooks(persist_fn, delete_fn, enumerate_fn, clear_fn);
-    ASSERT_TRUE(mgr2->restoreGraph(kSnap));
-
-    EXPECT_TRUE(mgr2->getRecord("tdm25_a").has_value())
-        << "Snapshot-time tensor tdm25_a must be present after restore";
-    EXPECT_TRUE(mgr2->getRecord("tdm25_b").has_value())
-        << "Post-snapshot tensor tdm25_b must be replayed via custom journal";
-
-    // Retrieved data should approximate the stored values.
-    const auto retrieved = mgr2->retrieve("tdm25_b");
-    ASSERT_TRUE(retrieved.has_value());
-    ASSERT_EQ(retrieved->size(), 8u);
-    for (float v : *retrieved) {
-        EXPECT_NEAR(v, 2.5f, 0.5f) << "Reconstructed value should approximate 2.5";
-    }
-
-    const auto stats = mgr2->getStats();
-    EXPECT_EQ(stats.total_tensors, 2u)
-        << "Both tensors must be accounted for after restore";
 }
