@@ -62,7 +62,7 @@ static TTTrain makeBenchTrain(const std::vector<float>& data,
     TensorTrainConfig cfg;
     cfg.eps      = eps;
     cfg.max_rank = 8;
-    auto [t, unused] = dec.decompose(data, shape, cfg);
+    [[maybe_unused]] auto [t, error] = dec.decompose(data, shape, cfg);
     return std::move(t);
 }
 
