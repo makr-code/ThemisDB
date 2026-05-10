@@ -440,6 +440,7 @@ Alle 44 ThemisDB-Module mit vollständiger Dokumentation direkt in den Source-Ve
 **Module nach Kategorie:**
 
 - **acceleration** 🟢 - GPU/CPU Backends (CUDA, Vulkan)
+- **ai** 🟢 - AI-gestützte Plugin-Generierung (`AIPluginGenerator`)
 - **analytics** 🟢 - OLAP, CEP, Process Mining (57K LOC)
 - **api** 🟢 - GraphQL, Geo Hooks, HTTP API
 - **aql** 🟢 - AQL-Sprachengine, Multi-Paradigma-Abfragen
