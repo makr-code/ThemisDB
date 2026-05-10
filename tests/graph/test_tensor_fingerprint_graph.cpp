@@ -1435,27 +1435,23 @@ TEST(TensorDeduplicationManagerSnapshotTest,
 TEST(TensorDeduplicationManagerSnapshotTest,
      TDM25_GraphIndexJournalHooksPersistAndReplay) {
     namespace fs = std::filesystem;
-    struct ScopedDbDir {
-        fs::path path;
-        explicit ScopedDbDir(fs::path p) : path(std::move(p)) {
-            std::error_code ec;
-            fs::remove_all(path, ec);
-        }
-        ~ScopedDbDir() {
-            std::error_code ec;
-            fs::remove_all(path, ec);
-        }
+    const auto removeDbDir = [](const fs::path& path) {
+        std::error_code ec;
+        fs::remove_all(path, ec);
+        return !ec;
     };
-
     const auto unique = std::to_string(
         std::chrono::steady_clock::now().time_since_epoch().count());
-    ScopedDbDir db_dir(fs::temp_directory_path() /
-                       ("themis_tdm25_graph_journal_" + unique));
+    const fs::path db_dir =
+        fs::temp_directory_path() / ("themis_tdm25_graph_journal_" + unique);
+    ASSERT_TRUE(removeDbDir(db_dir));
+
     themis::RocksDBWrapper::Config db_cfg;
-    db_cfg.db_path = db_dir.path.string();
+    db_cfg.db_path = db_dir.string();
     db_cfg.create_if_missing = true;
 
     constexpr auto kSnap = "snap25";
+    const std::string kAnchor = "__tfgj_anchor__:" + std::string(kSnap);
     auto engine = makeEngine();
 
     // ── Phase 1: populate, snapshot, and post-snapshot insert ────────────
@@ -1472,7 +1468,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         // Post-snapshot insert: must go to GraphIndex journal hooks.
         mgr->store("tdm25_b", std::vector<float>(8, 2.5f), {8, 1}, "t", "c", "f25b");
 
-        auto [adj_status, adj] = graph_idx.outAdjacency("__tfgj_anchor__:snap25");
+        auto [adj_status, adj] = graph_idx.outAdjacency(kAnchor);
         ASSERT_TRUE(adj_status.ok);
         ASSERT_EQ(adj.size(), 1u);
         EXPECT_EQ(adj.front().targetPk, "tdm25_b");
@@ -1505,4 +1501,6 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         EXPECT_EQ(stats.total_tensors, 2u)
             << "Both tensors must be accounted for after restore";
     }
+
+    ASSERT_TRUE(removeDbDir(db_dir));
 }
