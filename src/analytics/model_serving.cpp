@@ -24,7 +24,29 @@
 /**
  * Model Serving and Online Inference Pipeline – Implementation
  *
- * Internal layout:
+ * @module Serving
+ *
+ * Data flow:
+ *   ModelServingEngine::registerModel(name, version, model, info)
+ *     → stored in entry map keyed by "name:version" (exclusive lock)
+ *   ModelServingEngine::predict(name, version, point)
+ *     → shared lock lookup → AutoMLModel::predict(point)
+ *     → InferenceResult{class_label, probabilities} + latency update
+ *   ModelServingEngine::predictBatch(name, version, points)
+ *     → per-point predict() loop; no batch-optimized path currently
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: unknown model name/version in predict* or
+ *     unregister calls.
+ *   - `std::runtime_error`: inference failure inside AutoMLModel::predict()
+ *     propagates to caller; health metrics record the failure.
+ *   - `std::invalid_argument`: duplicate registration (same name+version)
+ *     when called via loadModel() with existing key.
+ *
+ * Cross-links:
+ *   include/analytics/model_serving.h — ModelServingEngine public API
+ *   src/analytics/ml_serving.cpp — external ONNX/TF Serving backend
+ *   tests/analytics/test_model_serving.cpp — registry, inference, health metrics
  *   - Each registered model is stored in an Entry that bundles the
  *     AutoMLModel, its ModelInfo, and a mutable ModelHealthMetrics.
  *   - Entries are keyed by "name:version" in a std::unordered_map.

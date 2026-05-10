@@ -2,8 +2,8 @@
 
 # Analytics Module — Architecture Guide
 
-**Version:** 1.0
-**Last Updated:** 2026-04-06
+**Version:** 1.1
+**Last Updated:** 2026-05-10
 **Module Path:** `src/analytics/`
 
 ---
@@ -112,6 +112,22 @@ Analytics Dispatcher
     ├─ NLP path:
     │    nlp_text_analyzer.cpp → sentiment / entity / modality
     │    (delegates heavy NLP to llm module via plugin interface)
+    │
+    ├─ Streaming path:
+    │    streaming_window.cpp → TumblingWindow / SlidingWindow / SessionWindow / HoppingWindow
+    │                         → WindowResult emitted on watermark advance or idle timeout
+    │    streaming_join.cpp   → HashJoin (composite key, inner/left-outer)
+    │                         → IntervalJoin (time-window with LRU probe pruning)
+    │
+    ├─ Forecasting path:
+    │    forecasting.cpp → fit(TimeSeries) → ForecastModel state (LR/ETS/HW/ARIMA/ENSEMBLE)
+    │                    → predict(steps) / predictBatch / update(point) [O(1) incremental]
+    │                    → ForecastResult{value, lower_ci, upper_ci, accuracy_metrics}
+    │
+    ├─ ML Serving path:
+    │    model_serving.cpp → named+versioned ModelServingEngine registry
+    │    ml_serving.cpp    → ONNX Runtime (local) / TensorFlow Serving REST via MLServingClient
+    │                      → InferenceResult{class_probabilities, latency_ms}
     │
     └─ Diff path:
          diff_engine.cpp → change set with additions/deletions/modifications

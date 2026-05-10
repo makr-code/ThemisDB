@@ -1,11 +1,11 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Analytics Module
 
-**Last Audit:** 2026-04-19
+**Last Audit:** 2026-05-10
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -14,7 +14,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 21 (`.cpp` in `src/analytics/`) |
+| Source Files | 24 (`.cpp` in `src/analytics/`) |
 | Test Coverage | ✅ Production-ready (all Phase 1–5 items complete) |
 | Open TODOs | 20 files contain TODOs (mainly future-phase stubs and LLM backend extension points) |
 | Open Stubs | 0 (all core features production-ready) |
@@ -52,6 +52,9 @@
 | `process_pattern_matcher.cpp` | Pattern matching over process event logs |
 | `streaming_join.cpp` | Stream-stream and stream-table join operations |
 | `streaming_window.cpp` | Tumbling, sliding, session, hopping windows with watermarks |
+| `expert_system_engine.cpp` | Rule-based expert system engine |
+| `knowledge_base.cpp` | In-memory knowledge base for expert system rules |
+| `lora_pattern_classifier.cpp` | LoRA-based pattern classification for analytics |
 
 ## Test Coverage
 

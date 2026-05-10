@@ -30,6 +30,37 @@
 #include <string_view>
 #include <spdlog/spdlog.h>
 
+/**
+ * @file analytics_export.cpp
+ * @module Export
+ * @brief Analytics result export pipeline — JSON, CSV, Arrow IPC, Parquet, Feather.
+ *
+ * Data flow:
+ *   ExporterFactory::createExporter(ExportFormat) → concrete IFormatExporter
+ *   IFormatExporter::exportToFile(ArrowRecordBatch, path) → file on disk
+ *   IFormatExporter::exportToString(ArrowRecordBatch)     → serialised string
+ *
+ * Format availability:
+ *   JSON / CSV  — always available (no external deps)
+ *   Arrow IPC   — requires THEMIS_HAS_ARROW at build time
+ *   Parquet     — requires THEMIS_HAS_ARROW + Parquet writer
+ *   Feather     — requires THEMIS_HAS_ARROW (Arrow IPC file format)
+ *
+ * Error paths:
+ *   - `ExportStatus::NOT_SUPPORTED`: requested format unavailable without Arrow;
+ *     returned from exportToFile()/exportToString() (no exception).
+ *   - `ExportStatus::IO_ERROR`: file open or write failure; spdlog::error logged.
+ *   - `ExportStatus::CONVERSION_ERROR`: Arrow RecordBatch serialisation failed;
+ *     original Arrow status message captured in ExportResult::error_message.
+ *   - exportToString() on Parquet/Feather: throws `std::runtime_error` (format
+ *     requires seekable output; string-backed streams are not seekable).
+ *
+ * Cross-links:
+ *   include/analytics/analytics_export.h — IFormatExporter, ExporterFactory
+ *   include/analytics/arrow_export.h     — ArrowRecordBatch definition
+ *   src/analytics/arrow_export.cpp       — Arrow RecordBatch conversion helpers
+ */
+
 // Apache Arrow integration (optional)
 // Enable with: cmake -DTHEMIS_HAS_ARROW=ON and install Apache Arrow via vcpkg
 #ifdef THEMIS_HAS_ARROW
