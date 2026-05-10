@@ -48,6 +48,7 @@
  *   src/acceleration/backend_registry.cpp      — consumes DeviceManager during initializeRuntime()
  *   src/acceleration/ARCHITECTURE.md           — startup flow (Section 4.1)
  */
+#include "acceleration/device_manager.h"
 #include "themis/gpu/device_discovery.h"
 
 #include <iostream>

@@ -55,6 +55,15 @@
  *   include/acceleration/kernel_fallback_dispatcher.h — downstream retry/fallback dispatchers
  *   src/acceleration/ARCHITECTURE.md           — component diagram and startup flow
  */
+#include "acceleration/compute_backend.h"
+#include "acceleration/plugin_loader.h"
+#include "acceleration/cpu_backend.h"
+#include "acceleration/multi_gpu_backend.h"
+#include "acceleration/device_manager.h"
+#include "utils/logger.h"
+#ifdef THEMIS_ENABLE_VULKAN
+#include "acceleration/graphics_backends.h"
+#endif
 #if defined(THEMIS_ENABLE_OPENGL) && !defined(THEMIS_ENABLE_VULKAN)
 // graphics_backends.h declares both VulkanVectorBackend and OpenGLVectorBackend.
 // Include it here when Vulkan is disabled so OpenGLVectorBackend is reachable.

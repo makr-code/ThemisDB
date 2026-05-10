@@ -44,6 +44,10 @@
  *   src/acceleration/backend_registry.cpp      — selects and caches the concrete backend
  *   src/acceleration/ARCHITECTURE.md           — error handling strategy (Section 10)
  */
+#include "acceleration/compute_backend.h"
+#include <cmath>
+
+namespace themis {
 namespace acceleration {
 
 // Default implementation of batchKnnSearchSafe for IVectorBackend.

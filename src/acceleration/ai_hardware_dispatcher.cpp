@@ -70,6 +70,17 @@
  *   src/acceleration/ROADMAP.md                    — "AI Hardware Support (v1.1.0)" section
  */
 
+#include "acceleration/ai_hardware_dispatcher.h"
+#include "acceleration/compute_backend.h"
+#include "utils/logger.h"
+
+#include <algorithm>
+#include <cerrno>
+#include <chrono>
+#include <cstring>
+#include <filesystem>
+#include <sys/stat.h>
+
 // ── Platform-gated includes ───────────────────────────────────────────────────
 
 #if defined(THEMIS_HAS_NPU_APPLE)
