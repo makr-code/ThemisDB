@@ -17,18 +17,45 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "acceleration/plugin_loader.h"
-#include "acceleration/plugin_security.h"
-#include <algorithm>
-#include <filesystem>
-#include <iostream>
-
-#ifdef _WIN32
-    #include <windows.h>
-#else
-    #include <dlfcn.h>
-    #include <sys/stat.h>
-#endif
+/*
+ * Acceleration module — Dynamic Backend Plugin Loader
+ * ====================================================
+ * Loads external GPU backend shared libraries (.so / .dll) into the
+ * acceleration registry after verifying their digital signatures and
+ * enforcing file-permission security checks.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   BackendRegistry::initializeRuntime()
+ *       └─► PluginLoader::loadPluginsFromDirectory()   ← this file
+ *               ├─► PluginSecurityVerifier::validatePluginPath()   (path traversal guard)
+ *               ├─► PluginSecurityVerifier::checkFilePermissions() (group/world-writable reject)
+ *               ├─► PluginSecurityVerifier::verifySignature()      (GPG / macOS codesign / PE cert)
+ *               └─► dlopen(RTLD_NOW | RTLD_LOCAL)                  (fail-fast symbol binding)
+ *                       └─► plugin exports create_backend() → IComputeBackend*
+ *                               └─► BackendRegistry::registerBackend()
+ *
+ * Security boundaries
+ * --------------------
+ *   - File must exist, not be group/world-writable, be under 128 MB, and pass
+ *     digital signature verification before any dynamic linking occurs.
+ *   - RTLD_NOW detects unresolved symbols at load time (not at first call).
+ *   - TLS public-key pinning for remote plugin registries via RegistryConfig::pinned_public_key.
+ *   - All security events are logged to PluginSecurityAuditor::instance().
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   PluginLoader::loadPlugin(path)              — load and register a single plugin
+ *   PluginLoader::loadPluginsFromDirectory(dir) — scan directory and load all valid plugins
+ *   PluginLoader::unloadAllPlugins()            — release all loaded plugin handles
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/plugin_loader.h    — PluginLoader interface declaration
+ *   src/acceleration/plugin_security.cpp    — signature verification and audit logging
+ *   src/acceleration/backend_registry.cpp   — consumes loadPluginsFromDirectory() at startup
+ *   src/acceleration/SECURITY.md            — threat model and security controls
+ */
 
 namespace themis {
 namespace acceleration {

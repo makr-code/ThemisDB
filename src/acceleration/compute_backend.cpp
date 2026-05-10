@@ -17,10 +17,33 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "acceleration/compute_backend.h"
-#include <cmath>
-
-namespace themis {
+/*
+ * Acceleration module — Base Compute Backend + Safe Batch Dispatch
+ * ================================================================
+ * This translation unit provides the concrete default implementations
+ * for the IVectorBackend abstract interface declared in compute_backend.h.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   BackendRegistry::getSelectedVectorBackend()
+ *       └─► IVectorBackend::batchKnnSearchSafe()   ← implemented here
+ *               ├─ validates each query for NaN / Inf (per-element scan)
+ *               ├─ marks invalid queries with AccelerationErrorCode::InputRangeViolation
+ *               └─► IVectorBackend::batchKnnSearch()  (concrete backend impl)
+ *                       └─► GPU kernel or CPU SIMD path
+ *
+ * Key interfaces implemented
+ * ---------------------------
+ *   IVectorBackend::batchKnnSearchSafe()  — NaN/Inf guard; delegates valid queries to batchKnnSearch()
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/compute_backend.h     — full interface declaration + PartialBatchResult
+ *   include/acceleration/batch_validator.h     — shape/dtype/range validators used by concrete backends
+ *   include/acceleration/error_codes.h         — AccelerationErrorCode taxonomy
+ *   src/acceleration/backend_registry.cpp      — selects and caches the concrete backend
+ *   src/acceleration/ARCHITECTURE.md           — error handling strategy (Section 10)
+ */
 namespace acceleration {
 
 // Default implementation of batchKnnSearchSafe for IVectorBackend.

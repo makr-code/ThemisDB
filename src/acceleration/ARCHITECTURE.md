@@ -1,11 +1,11 @@
 > **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
 
 # Acceleration Module — Architecture Guide
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-05-10
 **Status:** current
 **Module Path:** `src/acceleration/`
 

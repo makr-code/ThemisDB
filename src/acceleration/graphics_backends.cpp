@@ -24,23 +24,58 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "acceleration/graphics_backends.h"
-#include "utils/geometric_distances.h"
-#include "acceleration/error_codes.h"
-#include "acceleration/error_context.h"
-#include "acceleration/shader_integrity.h"
-#include <functional>
-#include <iostream>
-#include <fstream>
-#include <mutex>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include <memory>
-#include <queue>
-#include <stdexcept>
-#include <cstring>
-#include <chrono>
+/*
+ * Acceleration module — Vulkan and OpenGL Compute Backends
+ * =========================================================
+ * This is the largest translation unit in the acceleration module (~4 000 lines).
+ * It implements the Vulkan and OpenGL compute pipelines that provide cross-platform
+ * GPU acceleration for vector similarity search, geospatial operations, and graph
+ * analytics.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   BackendRegistry::initializeRuntime()
+ *       └─► VulkanVectorBackend::initialize()   ← this file
+ *               └─► ShaderIntegrityVerifier::verifyShader()   (shader_integrity.cpp)
+ *               └─► VkComputePipeline creation from SPIR-V binaries in vulkan/shaders/
+ *
+ *   ANNKernelFallbackDispatcher::dispatch()
+ *       └─► VulkanVectorBackend::batchKnnSearch()   ← this file
+ *               └─► VkCommandBuffer → compute queue → vkQueueSubmit
+ *
+ * Shaders compiled and used
+ * --------------------------
+ *   SPIR-V (Vulkan, via #ifdef THEMIS_ENABLE_VULKAN):
+ *     vulkan/shaders/l2_distance.comp           — L2 distance kernel
+ *     vulkan/shaders/cosine_distance.comp       — cosine similarity kernel
+ *     vulkan/shaders/inner_product_distance.comp — inner product kernel
+ *     vulkan/shaders/batch_search.comp          — batched ANN search
+ *     vulkan/shaders/topk_selection.comp        — top-K selection
+ *     vulkan/shaders/haversine_distance.comp    — geospatial Haversine
+ *     vulkan/shaders/point_in_polygon.comp      — ray-casting PiP
+ *
+ *   GLSL 4.30 (OpenGL, via #ifdef THEMIS_ENABLE_OPENGL):
+ *     compiled from inline GLSL source strings; EGL headless context
+ *     created via dynamic loading (no compile-time GL headers required)
+ *
+ * Key classes implemented
+ * ------------------------
+ *   VulkanVectorBackend   — IVectorBackend for NVIDIA / AMD / Mali / Apple M
+ *   VulkanGeoBackend      — IGeoBackend Vulkan path
+ *   VulkanGraphBackend    — IGraphBackend Vulkan path
+ *   OpenGLVectorBackend   — IVectorBackend OpenGL 4.3 compute shader path
+ *   OpenGLGeoBackend      — IGeoBackend OpenGL path
+ *   OpenGLGraphBackend    — IGraphBackend OpenGL path
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/graphics_backends.h        — all class declarations
+ *   src/acceleration/shader_integrity.cpp           — SPIR-V/GLSL hash verification
+ *   src/acceleration/vulkan_backend_full.cpp        — additional Vulkan-specific helpers
+ *   src/acceleration/backend_registry.cpp           — registers Vulkan/OpenGL backends
+ *   include/acceleration/kernel_fallback_dispatcher.h — retry/fallback over GPU kernels
+ *   src/acceleration/ARCHITECTURE.md               — component diagram (Section 3)
+ */
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>

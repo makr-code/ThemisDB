@@ -23,16 +23,52 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "acceleration/ai_hardware_dispatcher.h"
-#include "acceleration/compute_backend.h"
-#include "utils/logger.h"
-
-#include <algorithm>
-#include <cerrno>
-#include <chrono>
-#include <cstring>
-#include <filesystem>
-#include <sys/stat.h>
+/*
+ * Acceleration module — AI Hardware Dispatcher
+ * ==============================================
+ * Routes AI inference workloads to the best available AI accelerator using a
+ * deterministic priority chain.  This dispatcher is independent of BackendRegistry
+ * and specialises in AI inference rather than general ANN / geospatial / graph
+ * compute.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   AiHardwareDispatcher::dispatch(task, model, input)
+ *       └─► priority chain (first available wins):
+ *               NPU_APPLE  → dispatchAppleANE()          [CoreML, macOS/iOS]
+ *               NPU_INTEL  → dispatchIntelNPU()           [OpenVINO ov::Core]
+ *               NPU_QUALCOMM → dispatchQualcommQNN()      [graceful not-implemented]
+ *               NPU_ARM    → dispatchArmEthos()           [graceful not-implemented]
+ *               NNAPI      → dispatchNNAPI()              [graceful not-implemented]
+ *               ONNX_RUNTIME → dispatchOnnxRuntime()     [CreateEnv/CreateSession/Run]
+ *               GPU        → delegates to BackendRegistry (ANN/matmul path)
+ *               CPU        → CPU fallback
+ *
+ * This is the ONLY file that coordinates the NPU priority chain.
+ * BackendRegistry handles GPU/CPU selection for ANN, geo, and graph workloads.
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   AiHardwareDispatcher::instance()   — singleton access
+ *   AiHardwareDispatcher::initialize() — probe NPU/GPU/CPU; logs detected capabilities
+ *   AiHardwareDispatcher::dispatch()   — route inference task through priority chain
+ *   AiHardwareDispatcher::logCapabilities() — log detected CPU/GPU/NPU at startup (AH-31)
+ *
+ * Build-time feature flags
+ * -------------------------
+ *   THEMIS_HAS_NPU_APPLE    — enable CoreML / Apple ANE path
+ *   THEMIS_HAS_NPU_INTEL    — enable OpenVINO path
+ *   THEMIS_HAS_NPU_QUALCOMM — enable QNN path
+ *   THEMIS_HAS_NPU_ARM      — enable ARM Ethos path
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/ai_hardware_dispatcher.h   — AiHardwareDispatcher declaration
+ *   src/acceleration/backend_registry.cpp           — GPU/CPU path consumed by dispatch()→GPU
+ *   include/acceleration/compute_backend.h          — BackendType, PrecisionMode, DeviceCapabilityInfo
+ *   tests/acceleration/test_ai_hardware_dispatcher.cpp — 30 focused tests (AH-1…AH-30)
+ *   src/acceleration/ROADMAP.md                    — "AI Hardware Support (v1.1.0)" section
+ */
 
 // ── Platform-gated includes ───────────────────────────────────────────────────
 

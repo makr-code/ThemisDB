@@ -10,6 +10,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+- `src/acceleration/README.md`: Added **Public API Entry Points** table, **Configuration Surface** section (build flags + runtime knobs: `CapabilityRequirements`, `RetryPolicy`, `VLLMResourceManager::Config`), **Error Cases & Limits** section, usage snippet, and troubleshooting quick links; fixed build preset (`linux-ninja-release` → `linux-release`).
+- `include/acceleration/README.md`: Added **Primary Entry Points** table, **Runtime Configuration Options**, **Runtime Behavior / Error Cases / Limits**, **Usage Snippets**, and **Troubleshooting** cross-links; fixed build preset.
+- `docs/acceleration/README.md`: Replaced auto-generated stub with a structured docs index: primary module docs, deep-dive pages, Installation and Usage guidance.
+- `docs/de/acceleration/README.md`: Updated OpenCL status (`🔜 Geplant` → `✅ Implementiert`); replaced hardcoded file count with reference to `MODULE_FUNCTION_USAGE_MAP.md`; added Installation section; updated validated timestamp.
+- `src/acceleration/PERFORMANCE_EXPECTATIONS.md`: Replaced incorrect LLM benchmark references (L-1…L-8) with acceleration-specific targets (ACC-1…ACC-10) sourced from `FUTURE_ENHANCEMENTS.md` and `ARCHITECTURE.md`.
+- `src/acceleration/FUTURE_ENHANCEMENTS.md`: Design Constraints updated from `[ ]` to `[x]` (all constraints are enforced in production code); Required Interfaces self-reference corrected.
+- Added cross-reference doc-comment blocks to `backend_registry.cpp`, `compute_backend.cpp`, `device_manager.cpp`, `plugin_loader.cpp`, `shader_integrity.cpp`, `graphics_backends.cpp`, `ai_hardware_dispatcher.cpp` to make backend/shader/hardware-dispatch relationships explicit.
+
 ## [1.7.0] — 2026-03-12
 ### Added
 - `OpenGLVectorBackend` with GLSL L2 and cosine distance compute shaders; headless EGL context via dynamic loading (no compile-time GL headers required); CPU fallback when EGL/GL 4.3+ is unavailable
