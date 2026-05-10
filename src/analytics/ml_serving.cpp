@@ -24,7 +24,26 @@
 /**
  * ML Serving Integration – Implementation
  *
- * Conditionally compiled sections:
+ * @module Serving
+ *
+ * Data flow:
+ *   MLServingClient::infer(model_name, input_tensor)
+ *     ONNX path:    → OrtSession::Run() → output tensor → InferenceResult
+ *     TF Serving:   → HTTP POST /v1/models/<name>:predict (libcurl) → JSON parse → InferenceResult
+ *     Unavailable:  → returns MLServingStatus::UNAVAILABLE immediately
+ *
+ * Error paths:
+ *   - `MLServingStatus::UNAVAILABLE`: backend not compiled in or connection failed.
+ *   - `MLServingStatus::INFERENCE_ERROR`: session run failed (ONNX exception) or
+ *     TF Serving returned HTTP 4xx/5xx; error message captured in result.
+ *   - `MLServingStatus::INVALID_INPUT`: input tensor shape mismatch detected by
+ *     ONNX Runtime type-check before run.
+ *   - No fallback to alternative backend on error; callers must handle UNAVAILABLE.
+ *
+ * Cross-links:
+ *   include/analytics/ml_serving.h — MLServingClient public API
+ *   src/analytics/model_serving.cpp — in-process model registry (alternative)
+ *   tests/analytics/ — integration tests require live ONNX/TF Serving endpoints
  *
  *   THEMIS_HAS_ONNX         → ONNX Runtime C++ API integration
  *   THEMIS_HAS_TF_SERVING   → TensorFlow Serving REST API via libcurl

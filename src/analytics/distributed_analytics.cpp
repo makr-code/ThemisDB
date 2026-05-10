@@ -24,10 +24,34 @@
 /**
  * ThemisDB Distributed Analytics Sharding - Implementation
  *
- * Scatter-gather coordinator for distributed OLAP queries.
+ * @module OLAP
  *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * Scatter-gather coordinator for distributed OLAP queries across shards.
+ *
+ * Data flow:
+ *   executeDistributed(OLAPQuery, tenant_id)
+ *     → fan-out via std::async to each healthy shard endpoint
+ *     → per-shard OLAPResult (partial aggregates)
+ *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
+ *     → returns merged OLAPResult; partial results returned when < 20% shards fail
+ *
+ * Error paths:
+ *   - Shard unreachable (network timeout): skipped with spdlog::warn; counted
+ *     as failed shard; total failure if > 20% shards unreachable → throws
+ *     `std::runtime_error("Too many shard failures")`.
+ *   - Tenant isolation violation: PERMISSION_DENIED status returned; never
+ *     masked as a partial result.
+ *   - Empty SourceRegistry: returns OLAPResult with zero rows (no error).
+ *
+ * Thread safety: `DistributedAnalyticsSharding` is thread-safe; concurrent
+ * `executeDistributed()` calls use independent futures with no shared mutable
+ * state between calls. The source registry is protected by `mutex_`; network
+ * I/O runs outside the lock.
+ *
+ * Cross-links:
+ *   include/analytics/distributed_analytics.h — public API
+ *   src/analytics/olap.cpp — per-shard execution target
+ *   tests/analytics/test_distributed_analytics.cpp — FED-01…FED-08
  */
 
 #include "analytics/distributed_analytics.h"

@@ -24,8 +24,32 @@
 /**
  * Streaming Aggregation Windows - Implementation
  *
+ * @module Streaming
+ *
  * Full implementation of all window types declared in
  * include/analytics/streaming_window.h.
+ *
+ * Data flow:
+ *   Window::ingest(Event) → advances watermark; assigns event to window(s)
+ *   Window::flush()       → emits WindowResult for all windows whose close
+ *                          condition is met (end < watermark - max_out_of_orderness)
+ *   idle timeout loop     → advances watermark to now when no events arrive for
+ *                          idle_timeout; closes and emits expired windows
+ *
+ * Error paths:
+ *   - Late events (event_time < current_watermark): silently accepted into
+ *     open windows; sets WindowResult::is_late_firing = true on emit.
+ *   - Events with negative timestamps: treated as out-of-order; handled by
+ *     watermark tolerance (max_out_of_orderness).
+ *   - Concurrent ingest + flush: protected by per-window mutex; flush() and
+ *     ingest() are serialised.
+ *   - Session gap overflow (gap > max_session_gap): session is closed and
+ *     a new one opened; no error thrown.
+ *
+ * Cross-links:
+ *   include/analytics/streaming_window.h — IStreamingWindow, WindowResult
+ *   src/analytics/streaming_join.cpp     — downstream consumer of window output
+ *   tests/analytics/test_streaming_window.cpp — coverage
  *
  * Design notes:
  *  - Event-time semantics with configurable watermarking

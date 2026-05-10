@@ -1,6 +1,6 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — Analytics Module
@@ -18,6 +18,7 @@ The Analytics module processes query result data for OLAP aggregations, CEP patt
 | Cross-tenant data leakage in OLAP queries | All query operations are scoped to a `tenant_id`; `DistributedOLAPEngine` enforces per-tenant data isolation at `SourceRegistry` boundary |
 | CEP rule injection via malformed EPL | EPL parser uses a structured grammar with explicit token validation; untrusted rule strings are rejected before NFA compilation |
 | Denial of service via large event streams | CEP engine enforces queue depth limit, configurable drop policy, and backpressure signal; Prometheus metrics expose saturation |
+| Unbounded streaming join state | `HashJoin::max_build_rows` hard cap prevents unbounded in-memory build-side growth; `IntervalJoin` LRU evicts expired probe-side rows |
 | Model poisoning via ONNX/TF Serving endpoint | `MLServingClient` uses TLS connections to ONNX Runtime and TensorFlow Serving; no model files are loaded from user-controlled paths |
 | Memory exhaustion via unbounded aggregation | Per-window size limits enforced in `TumblingWindow`, `SlidingWindow`, `SessionWindow`; watermark-based eviction removes stale state |
 | Exfiltration via Arrow Flight RPC | Arrow Flight server is bound to configured listen address; authentication delegated to the auth module |
