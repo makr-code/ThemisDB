@@ -37,16 +37,16 @@ to internals in `src/ai/`.
 
 | Option | Default | Description |
 |---|---|---|
-| `llm_endpoint` | `http://localhost:8080` | Ziel-Endpunkt für zukünftige LLM-Anbindung |
-| `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Verzeichnis für zukünftige Sandbox-/Build-Schritte |
-| `output_dir` | `./generated_plugins` | Ausgabeziel für generierte Artefakte |
+| `llm_endpoint` | `http://localhost:8080` | Target endpoint for future LLM integration |
+| `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Directory for future sandbox/build execution steps |
+| `output_dir` | `./generated_plugins` | Output destination for generated artifacts |
 
 ## Runtime Contract and Error Behavior
 
-- Alle Aufrufe verwenden `Result<T>` statt Exceptions im API-Vertrag
-- `validatePrompt` prüft Mindestanforderungen des Inputs (leer/zu lang)
-- `generatePlugin` validiert zuerst und gibt aktuell für valide Inputs einen strukturierten Phase-1-Fehler zurück
-- `GeneratedPlugin` ist für den zukünftigen Live-Generierungspfad vorgesehen
+- All calls use `Result<T>` instead of exceptions in the public API contract
+- `validatePrompt` checks minimum input constraints (empty / too long)
+- `generatePlugin` validates first and currently returns a structured Phase-1 error for valid prompts
+- `GeneratedPlugin` is reserved for the future live generation path
 
 ## Usage Snippet
 
