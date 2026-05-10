@@ -33,7 +33,7 @@ error handling around generation requests.
 |---|---|
 | `ai_plugin_generator.cpp` | Implements `AIPluginGenerator::validatePrompt` and `AIPluginGenerator::generatePlugin` |
 
-## Laufzeitverhalten
+## Runtime Behavior
 
 ### `validatePrompt(...)`
 - Rejects empty descriptions
@@ -45,7 +45,7 @@ error handling around generation requests.
 - Returns validation errors unchanged
 - In Phase 1 always returns a structured "LLM endpoint not yet wired" error for valid prompts
 
-## Fehlerfälle und Grenzen
+## Error Cases and Limits
 
 - Empty `description` → validation error
 - Description length `> 8192` → validation error

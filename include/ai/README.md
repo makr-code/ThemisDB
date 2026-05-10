@@ -33,15 +33,15 @@ to internals in `src/ai/`.
   - `Result<void> validatePrompt(const PluginGenerationPrompt&)`
   - `Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt&)`
 
-## Konfigurationsoptionen (`AIPluginGenerator::Config`)
+## Configuration Options (`AIPluginGenerator::Config`)
 
-| Option | Default | Bedeutung |
+| Option | Default | Description |
 |---|---|---|
 | `llm_endpoint` | `http://localhost:8080` | Ziel-Endpunkt für zukünftige LLM-Anbindung |
 | `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Verzeichnis für zukünftige Sandbox-/Build-Schritte |
 | `output_dir` | `./generated_plugins` | Ausgabeziel für generierte Artefakte |
 
-## Laufzeitvertrag und Fehlerverhalten
+## Runtime Contract and Error Behavior
 
 - Alle Aufrufe verwenden `Result<T>` statt Exceptions im API-Vertrag
 - `validatePrompt` prüft Mindestanforderungen des Inputs (leer/zu lang)
