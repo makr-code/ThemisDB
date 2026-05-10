@@ -8,7 +8,7 @@
 **Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** GPU / Hardware-Beschleunigung  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
+**Validated:** 2026-05-10 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -68,7 +68,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 - `raii/` — Header-only RAII-Wrapper für GPU-Ressourcen (`CudaStream`, `CudaDeviceMemory`, OpenCL- und Vulkan-Ressourcen); siehe [`include/acceleration/raii/README.md`](../../../include/acceleration/raii/README.md)
 - `metrics/` — Backend-Metriken (`BackendMetrics`, `MetricsCollector`, `Counter`, `Gauge`, `Histogram`, `Timer`)
 
-**Gesamt:** ~40 Implementierungsdateien, ~27 Header-Dateien
+**Gesamt:** Aktueller Bestand und Referenzen werden in [`src/MODULE_FUNCTION_USAGE_MAP.md`](../../../src/MODULE_FUNCTION_USAGE_MAP.md) gepflegt (inkl. Header-/Implementierungsübersicht).
 
 ---
 
@@ -79,7 +79,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 | CUDA | NVIDIA GPU (sm_70+) | `THEMIS_ENABLE_CUDA` | 🚧 Release-Candidate |
 | HIP/ROCm | AMD GPU | `THEMIS_ENABLE_HIP` | ✅ Implementiert |
 | Vulkan | Plattformübergreifend (Mali, Apple M, AMD) | `THEMIS_ENABLE_VULKAN` | 🚧 In Bearbeitung |
-| OpenCL | Breite Hardware-Unterstützung | — | 🔜 Geplant |
+| OpenCL | Breite Hardware-Unterstützung | — | ✅ Implementiert |
 | Metal | Apple macOS/iOS | — | 🧪 Experimentell |
 | DirectX | Windows | — | 🧪 Experimentell |
 | FAISS GPU | NVIDIA (über FAISS) | `THEMIS_ENABLE_CUDA` | ✅ Implementiert |

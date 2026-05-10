@@ -1,15 +1,29 @@
-# acceleration
+# Acceleration Docs Overview
 
-Pfad: `docs/acceleration`
+Pfad: `docs/acceleration/`
 
 ## Zweck
-Dieser Ordner enthält 0 Unterordner und 10 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
 
-## Dateien nach Kategorien
-- **Dokumentation**: `capability_negotiation.md`, `error_codes.md`, `metrics.md`, `phase2_2b_complete.md`, `PHASE2_COMPLETE.md`, `phase2_progress.md`, `phase2_session2.md`, `phase2_session3.md`, `production_readiness.md`, `troubleshooting.md`
+Diese Seite ist der Einstieg für die technische Modul-Dokumentation rund um das
+Acceleration-Modul. Sie ergänzt die Quellcode-Readmes in `src/acceleration/`
+und `include/acceleration/`.
+
+## Primäre Modul-Dokumentation
+
+- [`../../src/acceleration/README.md`](../../src/acceleration/README.md) — Modulüberblick, Laufzeitverhalten, Grenzen, Build-Flags
+- [`../../include/acceleration/README.md`](../../include/acceleration/README.md) — Public API Header, Entry-Points, Konfigurationsoptionen
+- [`../../src/acceleration/ROADMAP.md`](../../src/acceleration/ROADMAP.md) — Umsetzungstand, Phasen, Known Issues, Production Readiness
+- [`../../src/acceleration/FUTURE_ENHANCEMENTS.md`](../../src/acceleration/FUTURE_ENHANCEMENTS.md) — Scope, Constraints, Interfaces, Performanceziele
+
+## Vertiefende Themen
+
+- [`capability_negotiation.md`](capability_negotiation.md) — Capability-Scoring, Backend-Auswahl und Fallback-Kette
+- [`troubleshooting.md`](troubleshooting.md) — Betriebliches Troubleshooting
+- [`error_codes.md`](error_codes.md) — Fehlercode-Taxonomie und Diagnosehilfe
+- [`metrics.md`](metrics.md) — Performance- und Beobachtbarkeitsmetriken
+- [`production_readiness.md`](production_readiness.md) — Abnahme-/Produktionsreifeaspekte
 
 ## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+- Änderungen an API-Verträgen oder Laufzeitverhalten sollten immer zusammen mit
+  den Modul-Readmes und den verlinkten Roadmap/Future-Dokumenten aktualisiert werden.

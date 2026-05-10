@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Acceleration Module — Public Headers
 
@@ -76,6 +76,67 @@ All GPU-specific headers are guarded by compile-time feature flags:
 - `THEMIS_ENABLE_HIP` — exposes HIP/ROCm backend API
 
 Builds without any GPU SDK must still compile successfully; only CPU fallback symbols are required.
+
+## Primary Entry Points
+
+| Entry point | Purpose |
+|---|---|
+| `BackendRegistry::initializeRuntime(...)` | Runtime auto-detection and capability-driven backend selection. |
+| `BackendRegistry::getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` | Access selected runtime backends after initialization. |
+| `BackendRegistry::deviceInfo()` | Read immutable device snapshot captured at runtime initialization. |
+| `DeviceManager::probeDevices()` / `refresh()` / `getBestDevice()` | Device discovery and cache-aware capability probing. |
+| `ANNKernelFallbackDispatcher` / `GeoKernelFallbackDispatcher` | Retry + fallback dispatch over frozen kernel invocation tables. |
+| `PluginLoader::loadPlugin()` / `loadPluginsFromDirectory()` | Dynamic backend-plugin loading surface. |
+| `error_codes.h` + `error_context.h` | Structured error codes and contextualized failure metadata. |
+
+## Runtime Configuration Options
+
+- `BackendRegistry::CapabilityRequirements`: configure required backend capabilities (precision/metrics/features) per operation category.
+- `RetryPolicy` (`kernel_fallback_dispatcher.h`): configure retry attempt count and exponential backoff behavior for transient device errors.
+- `VLLMResourceManager::Config`: configure GPU lease and utilization thresholds when sharing GPU resources with inference workloads.
+
+## Runtime Behavior, Error Cases, and Limits
+
+- `initializeRuntime()` should be called once during startup; selected backend pointers remain queryable afterwards.
+- If no compatible backend is found for requested requirements, selected-backend accessors can return `nullptr`.
+- Fallback dispatchers treat `DeviceLost`, `OperationTimeout`, and `SynchronizationFailed` as transient and apply retry before CPU fallback.
+- Validation failures surface through `AccelerationErrorCode` values (`InvalidInputShape`, `InvalidInputDtype`, `InputRangeViolation`, etc.).
+- Builds without CUDA/HIP/Vulkan SDKs remain supported; CPU backends are the required baseline.
+
+## Usage Snippets
+
+```cpp
+using namespace themis::acceleration;
+
+auto& registry = BackendRegistry::instance();
+registry.initializeRuntime();
+
+IVectorBackend* vectorBackend = registry.getSelectedVectorBackend();
+if (!vectorBackend) {
+    // No compatible runtime backend selected; caller decides fallback/error path.
+}
+```
+
+```cpp
+using namespace themis::acceleration;
+
+CPUVectorBackend cpu;
+cpu.initialize();
+
+ANNKernelFallbackDispatcher dispatcher(
+    /*primary*/ someGpuDispatch,
+    /*fallback*/ cpu.populateANNDispatch(),
+    RetryPolicy{.maxAttempts = 3, .initialDelayMs = 1, .maxDelayMs = 100, .backoffMultiplier = 2.0f});
+```
+
+## Troubleshooting
+
+- Verify build flags and SDK availability first (`THEMIS_ENABLE_CUDA`, `THEMIS_ENABLE_VULKAN`, `THEMIS_ENABLE_HIP`).
+- Inspect backend health (`IComputeBackend::getHealthStatus()`) and `ErrorContext` for failure details.
+- For operational runbooks and fallback diagnostics, use:
+  - [`../../docs/acceleration/troubleshooting.md`](../../docs/acceleration/troubleshooting.md)
+  - [`../../docs/acceleration/capability_negotiation.md`](../../docs/acceleration/capability_negotiation.md)
+  - [`../../docs/acceleration/error_codes.md`](../../docs/acceleration/error_codes.md)
 
 ## See Also
 
