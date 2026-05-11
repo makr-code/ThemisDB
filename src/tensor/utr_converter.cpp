@@ -11,6 +11,7 @@
 #include "tensor/hyper_index_builder.h"
 
 #include <algorithm>
+#include <bit>
 #include <cctype>
 #include <cmath>
 #include <cstdint>
@@ -21,6 +22,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -30,6 +32,34 @@ namespace {
 
 constexpr std::size_t kMinPatchExtent = 1;
 constexpr std::size_t kMaxPatchExtent = 4;
+
+[[nodiscard]] std::size_t nextPowerOfTwo(std::size_t v) {
+    return v <= 1 ? 1 : std::bit_ceil(v);
+}
+
+void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx, std::size_t ry) {
+    if (ry == 0) {
+        if (rx == 1) {
+            x = n - 1 - x;
+            y = n - 1 - y;
+        }
+        std::swap(x, y);
+    }
+}
+
+[[nodiscard]] std::pair<std::size_t, std::size_t> hilbertIndexToXY(std::size_t n, std::size_t d) {
+    std::size_t x = 0;
+    std::size_t y = 0;
+    for (std::size_t s = 1, t = d; s < n; s <<= 1) {
+        const std::size_t rx = (t >> 1U) & 1U;
+        const std::size_t ry = (t ^ rx) & 1U;
+        hilbertRotate(s, x, y, rx, ry);
+        x += s * rx;
+        y += s * ry;
+        t >>= 2U;
+    }
+    return {x, y};
+}
 
 // ============================================================================
 // Shared helpers
@@ -173,17 +203,6 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
             ") != rows*cols (" + std::to_string(expected) + ")");
     }
 
-    // STUB/SIMULATION NOTE (STUB #256):
-    // Purpose: Encode geospatial raster field as TT-train for TensorIndexManager.
-    // Activation: Always.
-    // Production Delta: Uses plain row-major mode ordering (rows × cols).
-    //   Spatial locality is preserved in the row-major sense but curvature-aware
-    //   or Hilbert-curve-ordered modes (which would improve locality even further)
-    //   are not applied.  Coordinate precision is maintained because no lossy
-    //   coordinate encoding is applied; only the scalar field is TT-decomposed.
-    // Removal Plan: Q3 2028 — add topology-preserving mode reordering
-    //   (e.g. Hilbert curve) before TT decomposition.
-
     // Normalise values to [0, 1] to improve TT-rank stability.
     float vmin = std::numeric_limits<float>::max();
     float vmax = std::numeric_limits<float>::lowest();
@@ -203,7 +222,16 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
     tt_cfg.eps      = cfg.eps;
     tt_cfg.max_rank = cfg.max_rank;
 
-    auto decomposed = decomposer.decompose(normalised, {grid.rows, grid.cols}, tt_cfg);
+    const std::size_t hilbert_side = nextPowerOfTwo(std::max(grid.rows, grid.cols));
+    std::vector<float> hilbert_ordered(hilbert_side * hilbert_side, 0.0f);
+    for (std::size_t d = 0; d < hilbert_ordered.size(); ++d) {
+        const auto [x, y] = hilbertIndexToXY(hilbert_side, d);
+        if (y < grid.rows && x < grid.cols) {
+            hilbert_ordered[d] = normalised[y * grid.cols + x];
+        }
+    }
+
+    auto decomposed = decomposer.decompose(hilbert_ordered, {hilbert_side, hilbert_side}, tt_cfg);
     auto tt_train   = std::move(decomposed.first);
 
     // Persist normalisation range in achieved_eps field for now; a proper metadata

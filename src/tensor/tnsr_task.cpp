@@ -21,6 +21,13 @@
 namespace themis {
 namespace tensor {
 
+namespace {
+
+std::mutex g_reroute_serialize_fn_mu;
+TNSRTask::RerouteSerializeFn g_reroute_serialize_fn;
+
+} // namespace
+
 // ============================================================================
 // TNSRTask — construction
 // ============================================================================
@@ -34,6 +41,26 @@ TNSRTask::TNSRTask(
     if (!engine_) {
         throw std::invalid_argument("TNSRTask: engine must not be null");
     }
+}
+
+void TNSRTask::setRerouteSerializeFn(RerouteSerializeFn fn) {
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
+    g_reroute_serialize_fn = std::move(fn);
+}
+
+void TNSRTask::clearRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
+    g_reroute_serialize_fn = nullptr;
+}
+
+bool TNSRTask::hasRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
+    return static_cast<bool>(g_reroute_serialize_fn);
+}
+
+TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
+    return g_reroute_serialize_fn;
 }
 
 // ============================================================================
@@ -99,17 +126,9 @@ TNSRReport TNSRTask::run(
         if (trivial_topology) {
             ++report.topology_search_skipped_keys;
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Demonstrate topology analysis (HissStructuralSearchEngine)
-            //          integration; count rerouteEdge calls in the report.
-            // Activation: Non-trivial TT trains only.
-            // Production Delta: The TensorNetworkGraph is rebuilt for the
-            //   recompressed train and rerouteEdge changes are counted, but the
-            //   mutated topology is NOT re-serialised to storage.  Bond-dimension
-            //   reduction (recompress) IS durable.  Topology changes are advisory
-            //   in this release.
-            // Removal Plan: Q3 2028 — map rerouteEdge suggestions to a topology-
-            //   aware contraction and re-serialisation path.
+            // Topology analysis path:
+            // rerouteEdge suggestions are applied to the in-memory graph and can
+            // be projected into a persisted train via setRerouteSerializeFn().
             TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
             std::size_t topo_changes_this_key = 0;
             for (const auto& edge : tng.edges()) {
@@ -123,6 +142,18 @@ TNSRReport TNSRTask::run(
                     continue;
                 }
                 ++topo_changes_this_key;
+            }
+            const auto reroute_serialize_fn = getRerouteSerializeFn();
+            if (reroute_serialize_fn && topo_changes_this_key > 0) {
+                try {
+                    if (!reroute_serialize_fn(field_key, tng, recompressed)) {
+                        ++report.error_count;
+                        continue;
+                    }
+                } catch (const std::exception&) {
+                    ++report.error_count;
+                    continue;
+                }
             }
             report.topology_changes += topo_changes_this_key;
         }

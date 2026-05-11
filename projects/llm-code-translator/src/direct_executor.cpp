@@ -26,9 +26,55 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
+#include <unordered_map>
 
 namespace themis {
 namespace llm_translator {
+
+namespace {
+
+[[nodiscard]] bool isScalarKey(const nlohmann::json& key) {
+    return key.is_string() || key.is_number_integer() || key.is_number_unsigned();
+}
+
+[[nodiscard]] bool recordMatchesKey(const nlohmann::json& record, const nlohmann::json& key) {
+    if (!record.is_object()) {
+        return false;
+    }
+    if (record.contains("id") && record["id"] == key) {
+        return true;
+    }
+    if (key.is_object()) {
+        bool all_match = true;
+        for (const auto& [k, v] : key.items()) {
+            if (!record.contains(k) || record[k] != v) {
+                all_match = false;
+                break;
+            }
+        }
+        if (all_match) {
+            return true;
+        }
+    }
+    return false;
+}
+
+[[nodiscard]] nlohmann::json makeJsonArrayFromRows(const std::vector<nlohmann::json>& rows) {
+    nlohmann::json out = nlohmann::json::array();
+    for (const auto& row : rows) {
+        out.push_back(row);
+    }
+    return out;
+}
+
+[[nodiscard]] bool lessOrEqualJson(const nlohmann::json& lhs, const nlohmann::json& rhs) {
+    if (lhs.type() != rhs.type()) {
+        return lhs.dump() <= rhs.dump();
+    }
+    return lhs <= rhs;
+}
+
+} // namespace
 
 // DirectExecutor implementation
 class DirectExecutor::Impl {
@@ -553,7 +599,7 @@ void DirectExecutor::resetStats() {
 // STUB/SIMULATION NOTE:
 // Purpose: Provide deterministic in-process data for translator execution during tests and demos.
 // Activation: Active when DirectExecutor is wired with MockDatabase instead of a real backend adapter.
-// Production Delta: Operations are non-persistent and return simplified/mock result sets.
+// Production Delta: Operations are process-local (in-memory) but CRUD/query behavior is functional.
 // Removal Plan: Keep for tests; production code paths should use concrete database adapters.
 // MockDatabase implementation
 MockDatabase::MockDatabase() {
@@ -562,65 +608,265 @@ MockDatabase::MockDatabase() {
 
 void MockDatabase::loadSampleData() {
     // Sample sensor data
-    data_["sensor_readings"] = nlohmann::json::array({
+    data_["sensor_readings"] = {
         {{"sensor_id", "S001"}, {"temperature", 67.3}, {"timestamp", "2024-12-14T10:00:00Z"}},
         {{"sensor_id", "S002"}, {"temperature", 45.2}, {"timestamp", "2024-12-14T10:00:00Z"}},
         {{"sensor_id", "S042"}, {"temperature", 52.1}, {"timestamp", "2024-12-14T10:00:00Z"}},
         {{"sensor_id", "S001"}, {"temperature", 65.8}, {"timestamp", "2024-12-14T11:00:00Z"}},
         {{"sensor_id", "S042"}, {"temperature", 54.7}, {"timestamp", "2024-12-14T11:00:00Z"}}
-    });
+    };
 }
 
 nlohmann::json MockDatabase::scan(const std::string& datasource) {
-    if (data_.find(datasource) != data_.end()) {
-        return data_[datasource];
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return nlohmann::json::array();
     }
-    return nlohmann::json::array();
+    return makeJsonArrayFromRows(it->second);
 }
 
 nlohmann::json MockDatabase::get(const std::string& datasource, const nlohmann::json& key) {
+    if (!isScalarKey(key) && !key.is_object()) {
+        return nlohmann::json();
+    }
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return nlohmann::json();
+    }
+    for (const auto& row : it->second) {
+        if (recordMatchesKey(row, key)) {
+            return row;
+        }
+    }
     return nlohmann::json();
 }
 
 bool MockDatabase::put(const std::string& datasource, const nlohmann::json& key, const nlohmann::json& value) {
+    if (datasource.empty() || !value.is_object()) {
+        return false;
+    }
+    if (!isScalarKey(key) && !key.is_object()) {
+        return false;
+    }
+    auto record = value;
+    if (!record.contains("id") && isScalarKey(key)) {
+        record["id"] = key;
+    }
+    auto& rows = data_[datasource];
+    for (auto& row : rows) {
+        if (recordMatchesKey(row, key)) {
+            row = std::move(record);
+            return true;
+        }
+    }
+    rows.push_back(std::move(record));
     return true;
 }
 
 bool MockDatabase::del(const std::string& datasource, const nlohmann::json& key) {
+    if (!isScalarKey(key) && !key.is_object()) {
+        return false;
+    }
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return false;
+    }
+    auto& rows = it->second;
+    const auto erase_it = std::find_if(rows.begin(), rows.end(),
+                                       [&](const nlohmann::json& row) {
+                                           return recordMatchesKey(row, key);
+                                       });
+    if (erase_it == rows.end()) {
+        return false;
+    }
+    rows.erase(erase_it);
     return true;
 }
 
 std::vector<nlohmann::json> MockDatabase::multiGet(const std::string& datasource, 
-                                                     const std::vector<nlohmann::json>& keys) {
-    return std::vector<nlohmann::json>();
+                                                      const std::vector<nlohmann::json>& keys) {
+    std::vector<nlohmann::json> out;
+    out.reserve(keys.size());
+    for (const auto& key : keys) {
+        auto row = get(datasource, key);
+        if (!row.is_null() && !row.empty()) {
+            out.push_back(std::move(row));
+        }
+    }
+    return out;
 }
 
 nlohmann::json MockDatabase::indexScan(const std::string& datasource, 
                                         const std::string& index_name,
                                         const nlohmann::json& start_key,
                                         const nlohmann::json& end_key) {
-    return nlohmann::json::array();
+    nlohmann::json out = nlohmann::json::array();
+    if (index_name.empty()) {
+        return scan(datasource);
+    }
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return out;
+    }
+    for (const auto& row : it->second) {
+        if (!row.is_object() || !row.contains(index_name)) {
+            continue;
+        }
+        const auto& val = row[index_name];
+        const bool ge_start = start_key.is_null() || lessOrEqualJson(start_key, val);
+        const bool le_end = end_key.is_null() || lessOrEqualJson(val, end_key);
+        if (ge_start && le_end) {
+            out.push_back(row);
+        }
+    }
+    return out;
 }
 
 nlohmann::json MockDatabase::graphTraverse(const std::string& datasource,
                                            const nlohmann::json& start_node,
                                            const std::string& traversal_type,
                                            int max_depth) {
-    return nlohmann::json::array();
+    (void)traversal_type;
+    nlohmann::json out = nlohmann::json::array();
+    if (max_depth <= 0) {
+        return out;
+    }
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return out;
+    }
+    for (const auto& row : it->second) {
+        if (!row.is_object()) {
+            continue;
+        }
+        if (start_node.is_null() || (row.contains("source") && row["source"] == start_node) ||
+            (row.contains("from") && row["from"] == start_node) ||
+            (row.contains("sensor_id") && row["sensor_id"] == start_node)) {
+            out.push_back(row);
+        }
+    }
+    return out;
 }
 
 nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
                                           const std::vector<float>& query_vector,
                                           int top_k,
                                           const std::string& distance_metric) {
-    return nlohmann::json::array();
+    nlohmann::json out = nlohmann::json::array();
+    if (top_k <= 0) {
+        return out;
+    }
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return out;
+    }
+    struct ScoredRow {
+        double score = 0.0;
+        nlohmann::json row;
+    };
+    std::vector<ScoredRow> scored;
+    for (const auto& row : it->second) {
+        if (!row.is_object() || !row.contains("embedding") || !row["embedding"].is_array()) {
+            continue;
+        }
+        const auto embedding = row["embedding"].get<std::vector<float>>();
+        if (embedding.empty()) {
+            continue;
+        }
+        const auto count = std::min(embedding.size(), query_vector.size());
+        if (count == 0) {
+            continue;
+        }
+        double score = 0.0;
+        if (distance_metric == "l2") {
+            for (std::size_t i = 0; i < count; ++i) {
+                const auto d = static_cast<double>(embedding[i] - query_vector[i]);
+                score += d * d;
+            }
+            score = std::sqrt(score);
+        } else {
+            double dot = 0.0;
+            double qn = 0.0;
+            double en = 0.0;
+            for (std::size_t i = 0; i < count; ++i) {
+                dot += static_cast<double>(embedding[i]) * query_vector[i];
+                qn += static_cast<double>(query_vector[i]) * query_vector[i];
+                en += static_cast<double>(embedding[i]) * embedding[i];
+            }
+            score = (qn > 0.0 && en > 0.0) ? dot / (std::sqrt(qn) * std::sqrt(en)) : 0.0;
+        }
+        scored.push_back({score, row});
+    }
+    if (distance_metric == "l2") {
+        std::sort(scored.begin(), scored.end(),
+                  [](const ScoredRow& a, const ScoredRow& b) { return a.score < b.score; });
+    } else {
+        std::sort(scored.begin(), scored.end(),
+                  [](const ScoredRow& a, const ScoredRow& b) { return a.score > b.score; });
+    }
+    const auto take = std::min<std::size_t>(static_cast<std::size_t>(top_k), scored.size());
+    for (std::size_t i = 0; i < take; ++i) {
+        auto row = scored[i].row;
+        row["score"] = scored[i].score;
+        out.push_back(std::move(row));
+    }
+    return out;
 }
 
 nlohmann::json MockDatabase::timeSeriesQuery(const std::string& datasource,
                                              const std::string& start_time,
                                              const std::string& end_time,
                                              const std::string& aggregation) {
-    return nlohmann::json::array();
+    nlohmann::json filtered = nlohmann::json::array();
+    const auto it = data_.find(datasource);
+    if (it == data_.end()) {
+        return filtered;
+    }
+    for (const auto& row : it->second) {
+        if (!row.is_object() || !row.contains("timestamp")) {
+            continue;
+        }
+        const auto ts = row["timestamp"].get<std::string>();
+        if ((!start_time.empty() && ts < start_time) || (!end_time.empty() && ts > end_time)) {
+            continue;
+        }
+        filtered.push_back(row);
+    }
+    if (aggregation == "none" || aggregation.empty()) {
+        return filtered;
+    }
+    double sum = 0.0;
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+    std::size_t count = 0;
+    for (const auto& row : filtered) {
+        if (!row.contains("temperature") || !row["temperature"].is_number()) {
+            continue;
+        }
+        const auto v = row["temperature"].get<double>();
+        sum += v;
+        min_val = std::min(min_val, v);
+        max_val = std::max(max_val, v);
+        ++count;
+    }
+    nlohmann::json aggregated = nlohmann::json::object();
+    aggregated["count"] = count;
+    if (count == 0) {
+        aggregated["value"] = 0.0;
+        return nlohmann::json::array({aggregated});
+    }
+    if (aggregation == "avg") {
+        aggregated["value"] = sum / static_cast<double>(count);
+    } else if (aggregation == "sum") {
+        aggregated["value"] = sum;
+    } else if (aggregation == "min") {
+        aggregated["value"] = min_val;
+    } else if (aggregation == "max") {
+        aggregated["value"] = max_val;
+    } else {
+        return filtered;
+    }
+    return nlohmann::json::array({aggregated});
 }
 
 } // namespace llm_translator

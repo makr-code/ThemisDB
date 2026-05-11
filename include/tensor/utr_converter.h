@@ -28,11 +28,9 @@
  *
  * ## Current implementation status
  *
- * - STUB #256: `fromGeospatial()` — raster grid encoded as TT via row-major
- *   unfolding + TT-SVD.  Neighborhood preservation is structural (locality of
- *   grid coordinates in row-major order) rather than curvature-aware.
- *   Full topology-preserving encoding (geomorphic TT mode ordering) deferred to
- *   Q3 2028.
+ * - `fromGeospatial()` encodes raster values in Hilbert-curve traversal order
+ *   (with power-of-two square padding) before TT-SVD, improving locality
+ *   retention for non-axis-aligned neighbors.
  *
  * - `fromDocument()` now uses normalized token features plus hashed character
  *   trigram features for each segment before HT decomposition.  A learned
@@ -116,16 +114,13 @@ public:
      * @brief Encode a geospatial raster grid as a TT-train.
      *
      * The grid is treated as a 2-D tensor T ∈ ℝ^{rows × cols} and decomposed
-     * via TT-SVD.  Spatial locality is preserved by row-major mode ordering
-     * (adjacent cells map to adjacent index tuples).
+     * via TT-SVD after Hilbert-curve reordering on a power-of-two square grid.
      *
      * @param grid   Input raster grid (rows × cols scalar values).
      * @param cfg    UTR configuration (eps, max_rank).
      * @return TT-train encoding the geospatial field.
      *
      * @throws std::invalid_argument if grid is empty or cell_size_deg ≤ 0.
-     *
-     * @note STUB #256 — topology-preserving mode ordering deferred to Q3 2028.
      */
     [[nodiscard]] static storage::TTTrain
     fromGeospatial(const RasterGrid& grid, const UTRConfig& cfg = {});

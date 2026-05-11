@@ -29,7 +29,8 @@
  *      to tighten bond dimensions.
  *   4. Rebuild a `TensorNetworkGraph` with `HissStructuralSearchEngine::search()`
  *      and apply up to `max_topology_changes_per_run` `rerouteEdge()` calls.
- *      (STUB #252 — actual topology-guided re-serialisation deferred Q3 2028.)
+ *      Optional callback hook `setRerouteSerializeFn()` can project the
+ *      mutated graph back into a writable `TTTrain` before persistence.
  *   5. If the recompressed train is smaller and accuracy loss < epsilon,
  *      write it back only when savings ≥ `min_bytes_saved_to_commit`.
  *
@@ -60,7 +61,9 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -163,19 +166,6 @@ struct TNSRReport {
 /**
  * @brief Background task that performs TensorNetworkStructuralRounding.
  *
- * ### STUB/SIMULATION NOTE:
- * Purpose: Phase-6 TNSR skeleton — rank reduction (recompress) is
- *          production-quality; topology mutation via rerouteEdge is a
- *          demonstration path that rebuilds the in-memory TensorNetworkGraph
- *          but does NOT yet re-serialise the mutated topology back to
- *          storage.  The on-disk TT representation is unchanged by topology
- *          mutation in this release.
- * Activation: Always when run() is called.
- * Production Delta: Topology changes are counted but not persisted; only
- *                   bond-dimension reductions (rank_delta > 0) are durable.
- * Removal Plan: Q3 2028 — implement topology-guided TT re-serialisation
- *               that maps rerouteEdge suggestions to re-contraction + storage.
- *
  * ### Thread safety
  * `run()` takes exclusive ownership of the engine for the duration of the
  * run (holds the engine's internal write lock during each `put()`).  Do not
@@ -183,6 +173,11 @@ struct TNSRReport {
  */
 class TNSRTask {
 public:
+    using RerouteSerializeFn = std::function<bool(
+        const storage::TensorFieldKey&,
+        const TensorNetworkGraph&,
+        storage::TTTrain&)>;
+
     /**
      * @brief Construct with an engine and optional decomposer.
      *
@@ -238,7 +233,12 @@ public:
         return cancel_requested_.load(std::memory_order_acquire);
     }
 
+    static void setRerouteSerializeFn(RerouteSerializeFn fn);
+    static void clearRerouteSerializeFn();
+    [[nodiscard]] static bool hasRerouteSerializeFn();
+
 private:
+    [[nodiscard]] static RerouteSerializeFn getRerouteSerializeFn();
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine_;
     storage::TensorTrainDecomposer                       decomposer_;
     HissStructuralSearchEngine                           hiss_engine_;

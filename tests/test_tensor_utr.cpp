@@ -149,19 +149,48 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
     const auto recon = train.reconstruct();
     ASSERT_EQ(recon.size(), g.values.size());
 
-    // Compute normalised RMSE against normalised input
+    // Compare normalised value distributions (Hilbert ordering may permute index order).
     float vmin = g.values[0], vmax = g.values[0];
     for (const auto v : g.values) { vmin = std::min(vmin, v); vmax = std::max(vmax, v); }
     const float range = (vmax > vmin) ? (vmax - vmin) : 1.0f;
 
+    std::vector<float> expected(recon.size(), 0.0f);
+    for (std::size_t i = 0; i < g.values.size(); ++i) {
+        expected[i] = (g.values[i] - vmin) / range;
+    }
+
+    auto sorted_recon = recon;
+    auto sorted_expected = expected;
+    std::sort(sorted_recon.begin(), sorted_recon.end());
+    std::sort(sorted_expected.begin(), sorted_expected.end());
+
     double ss_res = 0.0, ss_tot = 0.0;
-    for (std::size_t i = 0; i < recon.size(); ++i) {
-        const double normed = (g.values[i] - vmin) / range;
-        ss_res += (recon[i] - normed) * (recon[i] - normed);
-        ss_tot += normed * normed;
+    for (std::size_t i = 0; i < sorted_recon.size(); ++i) {
+        const double delta = sorted_recon[i] - sorted_expected[i];
+        ss_res += delta * delta;
+        ss_tot += static_cast<double>(sorted_expected[i]) * sorted_expected[i];
     }
     const double rmse = (ss_tot > 0.0) ? std::sqrt(ss_res / ss_tot) : 0.0;
     EXPECT_LT(rmse, 0.05);
+}
+
+TEST(UTRConverter, FromGeospatialPadsToHilbertPowerOfTwoGrid) {
+    themis::tensor::RasterGrid g;
+    g.rows = 3;
+    g.cols = 5;
+    g.cell_size_deg = 0.01;
+    g.values.resize(g.rows * g.cols);
+    for (std::size_t i = 0; i < g.values.size(); ++i) {
+        g.values[i] = static_cast<float>(i);
+    }
+
+    themis::tensor::UTRConfig cfg;
+    cfg.eps = 1e-4;
+    cfg.max_rank = 8;
+    const auto train = themis::tensor::UTRConverter::fromGeospatial(g, cfg);
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{8u, 8u}));
+    const auto recon = train.reconstruct();
+    ASSERT_EQ(recon.size(), 64u);
 }
 
 // ============================================================================

@@ -151,13 +151,9 @@ struct TensorRouteHint {
      * an optimised TN topology is known — reducing structure-search cost
      * at query time.
      *
-     * STUB/SIMULATION NOTE (STUB #253):
-     * Purpose: Phase-6 template-aware routing.
-     * Activation: When domain_tag is non-empty AND setTemplateCatalog() used.
-     * Production Delta: Template presence promotes to LIFT but doesn't yet
-     *   carry the concrete TN topology into the stored index.
-     * Removal Plan: Q3 2028 — wire template graph into index construction
-     *   so the stored TT-cores follow the template topology.
+     * When `setTemplateTopologyApplyFn()` is configured and returns true for a
+     * catalog hit, the router may promote to LIFT using template-informed
+     * topology wiring.
      */
     std::string   domain_tag;
 };
@@ -225,6 +221,9 @@ struct TensorRoutingPolicy {
  */
 class TensorRouter {
 public:
+    using TemplateTopologyApplyFn = std::function<bool(
+        const std::string&,
+        const tensor::TensorNetworkGraph&)>;
     // -----------------------------------------------------------------------
     // Index-time routing (no data available — heuristic only)
     // -----------------------------------------------------------------------
@@ -341,14 +340,11 @@ public:
      *
      * Passing nullptr disables template-catalog lookups (default).
      *
-     * STUB/SIMULATION NOTE (STUB #253):
-     * Purpose: Enable domain-aware routing via TemplateCatalog.
-     * Activation: When setTemplateCatalog(non-null) AND hint.domain_tag set.
-     * Production Delta: Template presence promotes to LIFT; actual TN
-     *   topology is not yet embedded into the stored index structure.
-     * Removal Plan: Q3 2028 — carry template graph into index construction.
      */
     void setTemplateCatalog(std::shared_ptr<tensor::TemplateCatalog> catalog);
+    void setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn);
+    void clearTemplateTopologyApplyFn();
+    [[nodiscard]] bool hasTemplateTopologyApplyFn() const;
 
     /**
      * @brief Return the currently wired TemplateCatalog (may be nullptr).

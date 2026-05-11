@@ -24,6 +24,7 @@
 #pragma once
 
 #include "execution_plan.h"
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -132,7 +133,7 @@ public:
 // STUB/SIMULATION NOTE:
 // Purpose: Provide deterministic in-memory database behavior for translator development and tests.
 // Activation: Used when callers instantiate MockDatabase instead of a production database adapter.
-// Production Delta: Data is process-local and non-persistent; no real storage engine or network calls.
+// Production Delta: Data is process-local and in-memory only; no external storage engine or network calls.
 // Removal Plan: Keep for tests; do not use in production execution paths once full adapters are wired.
 class MockDatabase : public DatabaseInterface {
 public:

@@ -307,21 +307,20 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - `TNSRReport { bytes_saved, rank_delta, topology_changes }` written to metrics
   - AC: storage decrease ≥ 15% over 24h on a live index with ongoing inserts, without
     measurable accuracy regression (cosine sim δ < 0.001 vs. pre-TNSR)
-  - **2026-05-07 in progress**: `TNSRTask` header + impl added in
-    `include/tensor/tnsr_task.h` + `src/tensor/tnsr_task.cpp`; bond-dimension
-    reduction (recompress) is durable; topology mutation via `rerouteEdge` is
-    counted but not yet persisted (STUB #252); tests TNSR-01..TNSR-08 added to
-    `tests/test_tensor_hiss_structural_search.cpp`
+  - **2026-05-11 update**: topology mutation path now supports re-serialization
+    bridge callback (`TNSRTask::setRerouteSerializeFn`) so non-trivial
+    `rerouteEdge` mutations can be projected into persisted TT state; tests
+    TNSR-01..TNSR-10 in `tests/test_tensor_hiss_structural_search.cpp`
 
 - [~] **Domain template graphs** — reuse structure across similar datasets (Target: Q3 2028)
   - Paper §Hiss: optimized structure for one instance maintains ≤10% perf on similar data
   - `TemplateCatalog::register(domain_tag, tn_graph_template)`
   - Automatic template selection by `TensorRouter` based on `domain_tag` metadata
   - AC: first-time search on new dataset using template within 10% of Hiss-optimized recall
-  - **2026-05-07 in progress**: `TensorRouteHint::domain_tag` field added;
-    `TensorRouter::setTemplateCatalog()` / `templateCatalog()` wired; catalog hit
-    promotes routing to LIFT (STUB #253 — topology not yet embedded in stored index);
-    tests TR-07..TR-10 added to `tests/test_tensor_router.cpp`
+  - **2026-05-11 update**: `TensorRouter` now requires successful topology apply
+    callback (`setTemplateTopologyApplyFn`) for domain-template promotion to
+    LIFT; catalog hits without applied topology fall back to heuristic routing;
+    tests TR-07..TR-11 in `tests/test_tensor_router.cpp`
 
 ### Phase 7: Unified Tensor Representation (UTR) — Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
@@ -335,16 +334,16 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - **2026-05-07 in progress**: `UTRConverter` + `HyperIndexBuilder` / `HyperIndexTensor` implemented
     in `include/tensor/utr_converter.h` / `src/tensor/utr_converter.cpp` and
     `include/tensor/hyper_index_builder.h` / `src/tensor/hyper_index_builder.cpp`;
-    tests UTR-01..UTR-16 in `tests/test_tensor_utr.cpp`.
-    STUBs: #255 (uniform bucketing, no FK graph), #256 (row-major geo encoding),
-    #257 (hash-projection doc embedding), #258 (raw pixel TT).
+    tests UTR-01..UTR-17 in `tests/test_tensor_utr.cpp`.
+    STUBs: #255 (uniform bucketing, no FK graph), #257 (hash-projection doc embedding),
+    #258 (raw pixel TT).
 
 - [~] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
   - Paper §Geospatial: n-dimensional grids factorized; spatial reasoning by core contraction
   - `GeoTTIndex::spatialContraction(flood_risk_tt, population_tt) → correlation_score`
   - AC: spatial correlation result within 0.1% of raster-based baseline
-  - **2026-05-07 in progress**: `fromGeospatial()` encodes raster grids as 2-D TTTrain;
-    row-major locality used (STUB #256); Hilbert-curve reordering deferred Q3 2028.
+  - **2026-05-11 update**: `fromGeospatial()` now performs Hilbert-curve
+    reordering on a power-of-two padded square grid before TT decomposition.
 
 - [~] **Relational Hyper-Index with latent join discovery** (Target: Q4 2028)
   - Paper §Relational: Hyper-Index tensor extracts cross-table relationships invisible to
@@ -454,11 +453,11 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 - [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
 - [~] Targeted index reshaping to expose QTT latent structures (residual-factor path implemented; strict pure-binary QTT deferred, STUB #254)
-- [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task (STUB #252)
+- [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task
   - **2026-05-07 update**: trivial-train fast-path skips HISS topology-search when
     `cores.size() < 3` or `maxRank() < 2`; `TNSRReport::topology_search_skipped_keys`
     tracks skipped keys.
-- [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter` (STUB #253)
+- [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter`
 
 ### Phase 7: UTR Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
@@ -499,13 +498,14 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   factor for non-power-of-two physical dimensions; strict padded pure-binary
   QTT with reversible index mapping remains deferred (STUB_INVENTORY #254)
 - Hiss/TNSR adaptive rounding partially integrated (Phase 6): bond-dimension
-  reduction is durable (TNSR-01..TNSR-08 pass); topology mutation via
-  rerouteEdge counted but not persisted (STUB #252)
-- Domain template graph routing wired to TensorRouter (STUB #253): promotes
-  routing to LIFT on catalog hit; actual TN topology not yet embedded in stored index
-- Phase 7 UTR encoders use simplified approaches (STUBs #255–#258): geospatial row-major
-  mode order (#256), document hash-projection embedding (#257), raw pixel TT decomposition
-  (#258), relational Hyper-Index with uniform bucketing and no FK-graph weighting (#255)
+  reduction is durable (TNSR-01..TNSR-10 pass); topology mutation can now be
+  projected into persisted TT state via `TNSRTask::setRerouteSerializeFn()`
+- Domain template graph routing in TensorRouter is now apply-gated: catalog
+  hits promote to LIFT only when `TemplateTopologyApplyFn` reports successful
+  topology wiring
+- Phase 7 UTR encoders still include simplified paths (STUBs #255, #257, #258):
+  document hash-projection embedding (#257), raw pixel TT decomposition (#258),
+  relational Hyper-Index without FK-graph weighting (#255)
 
 ## Breaking Changes
 

@@ -32,6 +32,7 @@
 #include "storage/tensor_network_storage_engine.h"
 
 #include <gtest/gtest.h>
+#include <atomic>
 #include <numeric>
 #include <stdexcept>
 
@@ -424,4 +425,31 @@ TEST(TNSRTask, TrivialTrainSkipsTopologySearch) {
     EXPECT_EQ(report.error_count, 0u);
     EXPECT_EQ(report.topology_search_skipped_keys, 1u);
     EXPECT_EQ(report.topology_changes, 0u);
+}
+
+TEST(TNSRTask, RerouteSerializeCallbackRunsForNonTrivialTopology) {
+    std::shared_ptr<themis::storage::InMemoryTensorBackend> be;
+    themis::storage::TensorFieldKey key;
+    auto engine = makeTinyEngine(be, key);
+
+    std::atomic<std::size_t> callback_calls{0};
+    themis::tensor::TNSRTask::setRerouteSerializeFn(
+        [&callback_calls](const themis::storage::TensorFieldKey& field_key,
+                          const themis::tensor::TensorNetworkGraph& graph,
+                          themis::storage::TTTrain& train) {
+            if (!field_key.field_name.empty() && graph.nodeCount() > 0 && !train.mode_sizes.empty()) {
+                ++callback_calls;
+            }
+            return true;
+        });
+
+    themis::tensor::TNSRTask task(engine);
+    themis::tensor::TNSRConfig cfg;
+    cfg.epsilon = 0.05;
+    cfg.min_bytes_saved_to_commit = 0;
+    cfg.max_topology_changes_per_run = 8;
+    (void)task.run({key}, cfg);
+
+    EXPECT_GE(callback_calls.load(), 1u);
+    themis::tensor::TNSRTask::clearRerouteSerializeFn();
 }

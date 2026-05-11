@@ -89,6 +89,7 @@ struct TensorRouter::Impl {
     TensorRoutingPolicy                           policy;
     TensorTrainDecomposer                         decomposer;
     std::shared_ptr<tensor::TemplateCatalog>      template_catalog;
+    TemplateTopologyApplyFn                       template_topology_apply_fn;
 
     mutable std::mutex   stats_mu;
     mutable RouterStats  stats_ {};
@@ -225,12 +226,18 @@ struct TensorRouter::Impl {
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
 
-        // Domain template catalog promotion (STUB #253):
-        // A matching template means an optimised TN structure is known → LIFT.
+        // Domain template catalog promotion:
+        // A matching template applies only when the topology callback confirms
+        // that the template graph has been consumed by downstream index wiring.
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
-                return TensorRouteDecision::LIFT;
+                if (template_topology_apply_fn) {
+                    const bool applied = template_topology_apply_fn(hint.domain_tag, *tmpl);
+                    if (applied) {
+                        return TensorRouteDecision::LIFT;
+                    }
+                }
             }
         }
 
@@ -385,6 +392,18 @@ void TensorRouter::setTemplateCatalog(
     std::shared_ptr<tensor::TemplateCatalog> catalog)
 {
     impl_->template_catalog = std::move(catalog);
+}
+
+void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
+    impl_->template_topology_apply_fn = std::move(fn);
+}
+
+void TensorRouter::clearTemplateTopologyApplyFn() {
+    impl_->template_topology_apply_fn = nullptr;
+}
+
+bool TensorRouter::hasTemplateTopologyApplyFn() const {
+    return static_cast<bool>(impl_->template_topology_apply_fn);
 }
 
 std::shared_ptr<tensor::TemplateCatalog>
