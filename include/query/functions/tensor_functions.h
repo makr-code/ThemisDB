@@ -25,10 +25,9 @@
  * | TENSOR_COMPRESS    | (field, eps: Float, rank: Int) → TT-field     | On-the-fly TT re-compression             |
  * | TENSOR_INFO        | (field) → Document                            | Metadata: rank, eps, compression_ratio   |
  *
- * All functions operate on tensors previously stored via
- * `TensorNetworkStorageEngine`.  Field arguments are passed as document
- * field paths (strings), and the engine is resolved via the global singleton
- * registered during server startup.
+ * Tensor arguments can be supplied either directly as objects
+ * `{data:[...], shape:[...], eps?:...}` or as field-path strings resolved
+ * against `FunctionContext` (current document / variables).
  *
  * ### Registration
  * Call `registerTensorFunctions(registry)` from `function_registry.cpp`.

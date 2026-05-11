@@ -15,13 +15,9 @@
  * @file tensor_functions.cpp
  * @brief AQL built-in TENSOR_* function implementations.
  *
- * STUB/SIMULATION NOTE:
- * Purpose: The AQL functions accept tensor data as JSON objects with "data" and
- *          "shape" fields. In production, field references will be resolved from
- *          TensorNetworkStorageEngine via the query context.
- * Activation: Always active (no build flag required).
- * Production Delta: Full storage engine field resolution planned for Phase 2 (Q4 2026).
- * Removal Plan: Integrate TensorNetworkStorageEngine context injection Q4 2026.
+ * Tensor arguments can be passed as:
+ *   1) inline objects {data:[...], shape:[...], eps?:...}
+ *   2) string field paths resolved via FunctionContext (current document/variables)
  */
 
 #include "query/functions/tensor_functions.h"
@@ -30,6 +26,7 @@
 #include "storage/tensor_train_decomposer.h"
 
 #include <cmath>
+#include <cctype>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -54,15 +51,120 @@ static std::vector<float> jsonToFloats(const json& arr) {
     return out;
 }
 
-static TTTrain buildTrain(const json& arg) {
-    auto data_arr  = arg.at("data");
-    auto shape_arr = arg.at("shape");
+static bool isUnsignedIntegerToken(const std::string& token) {
+    if (token.empty()) return false;
+    return std::all_of(token.begin(), token.end(), [](unsigned char c) {
+        return std::isdigit(c) != 0;
+    });
+}
+
+static const json* resolvePathSegments(const json& root,
+                                       const std::string& path) {
+    const json* current = &root;
+    std::size_t pos = 0;
+    while (pos < path.size()) {
+        const auto next = path.find('.', pos);
+        const auto token = (next == std::string::npos)
+            ? path.substr(pos)
+            : path.substr(pos, next - pos);
+        if (token.empty()) return nullptr;
+
+        if (current->is_object()) {
+            auto it = current->find(token);
+            if (it == current->end()) return nullptr;
+            current = &(*it);
+        } else if (current->is_array() && isUnsignedIntegerToken(token)) {
+            const auto idx = static_cast<std::size_t>(std::stoull(token));
+            if (idx >= current->size()) return nullptr;
+            current = &(*current)[idx];
+        } else {
+            return nullptr;
+        }
+
+        if (next == std::string::npos) break;
+        pos = next + 1;
+    }
+
+    return current;
+}
+
+static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
+    if (arg.is_object()) {
+        if (!arg.contains("data") || !arg.contains("shape")) {
+            throw std::invalid_argument(
+                "Tensor argument object must contain 'data' and 'shape'");
+        }
+        return arg;
+    }
+
+    if (!arg.is_string()) {
+        throw std::invalid_argument(
+            "Tensor argument must be an object {data,shape} or a string field path");
+    }
+
+    std::string path = arg.get<std::string>();
+    if (path.empty()) {
+        throw std::invalid_argument("Tensor field path cannot be empty");
+    }
+    if (!path.empty() && path.front() == '$') {
+        path.erase(path.begin());
+    }
+
+    // 1) Variable lookup: "var" or "var.sub.path"
+    const auto dot = path.find('.');
+    const auto var_name = (dot == std::string::npos) ? path : path.substr(0, dot);
+    auto variable = ctx.getVariable(var_name);
+    if (!variable.is_null()) {
+        const json* resolved = nullptr;
+        if (dot == std::string::npos) {
+            resolved = &variable;
+        } else {
+            resolved = resolvePathSegments(variable, path.substr(dot + 1));
+        }
+        if (resolved && resolved->is_object() &&
+            resolved->contains("data") && resolved->contains("shape")) {
+            return *resolved;
+        }
+    }
+
+    // 2) Current-document lookup (supports dot-path and JSON pointer syntax)
+    const auto& doc = ctx.currentDocument();
+    if (!doc.is_null()) {
+        if (!path.empty() && path.front() == '/') {
+            try {
+                const auto* ptr = &doc.at(nlohmann::json::json_pointer(path));
+                if (ptr->is_object() &&
+                    ptr->contains("data") && ptr->contains("shape")) {
+                    return *ptr;
+                }
+            } catch (...) {
+                // Keep error reporting unified below.
+            }
+        } else {
+            if (const auto* resolved = resolvePathSegments(doc, path)) {
+                if (resolved->is_object() &&
+                    resolved->contains("data") && resolved->contains("shape")) {
+                    return *resolved;
+                }
+            }
+        }
+    }
+
+    throw std::invalid_argument(
+        "Tensor field path '" + path +
+        "' could not be resolved to an object with 'data' and 'shape'");
+}
+
+static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
+    const auto tensor_arg = resolveTensorArg(arg, ctx);
+    auto data_arr  = tensor_arg.at("data");
+    auto shape_arr = tensor_arg.at("shape");
 
     std::vector<float> data = jsonToFloats(data_arr);
     std::vector<std::size_t> shape;
     for (const auto& s : shape_arr) shape.push_back(s.get<std::size_t>());
 
-    double eps = arg.value("eps", 0.01);
+    double eps = tensor_arg.value("eps", 0.01);
 
     TensorTrainConfig cfg;
     cfg.eps      = eps;
@@ -88,8 +190,8 @@ public:
                            "Returns float ∈ [-1, 1]. "
                            "Ref: Holtz et al. (2012) SIAM J. Sci. Comput.",
             .arguments = {
-                ArgSpec{"a", ArgType::OBJECT, true,  nullptr, "First tensor {data, shape}"},
-                ArgSpec{"b", ArgType::OBJECT, true,  nullptr, "Second tensor {data, shape}"}
+                ArgSpec{"a", ArgType::ANY, true,  nullptr, "First tensor {data, shape} or field path"},
+                ArgSpec{"b", ArgType::ANY, true,  nullptr, "Second tensor {data, shape} or field path"}
             },
             .return_type     = ArgType::NUMBER,
             .is_deterministic = true,
@@ -105,11 +207,11 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.size() < 2)
             throw std::invalid_argument("TENSOR_SIMILARITY: requires 2 arguments");
-        TTTrain a = buildTrain(args[0]);
-        TTTrain b = buildTrain(args[1]);
+        TTTrain a = buildTrain(args[0], ctx);
+        TTTrain b = buildTrain(args[1], ctx);
         return json(TensorContractionEngine::cosineSimilarity(a, b));
     }
 };
@@ -127,7 +229,7 @@ public:
             .description = "Frobenius norm of a tensor in TT-compressed domain. "
                            "Argument: {data:[...], shape:[...]}. Returns float ≥ 0.",
             .arguments = {
-                ArgSpec{"a", ArgType::OBJECT, true, nullptr, "Tensor {data, shape}"}
+                ArgSpec{"a", ArgType::ANY, true, nullptr, "Tensor {data, shape} or field path"}
             },
             .return_type     = ArgType::NUMBER,
             .is_deterministic = true,
@@ -140,10 +242,10 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.empty())
             throw std::invalid_argument("TENSOR_NORM: requires 1 argument");
-        TTTrain a = buildTrain(args[0]);
+        TTTrain a = buildTrain(args[0], ctx);
         return json(TensorContractionEngine::frobeniusNorm(a));
     }
 };
@@ -162,7 +264,7 @@ public:
                            "Arguments: (tensor, dim:int, idx:int). "
                            "Returns {data, shape, compression_ratio, max_rank}.",
             .arguments = {
-                ArgSpec{"a",   ArgType::OBJECT,  true, nullptr, "Tensor"},
+                ArgSpec{"a",   ArgType::ANY,     true, nullptr, "Tensor {data, shape} or field path"},
                 ArgSpec{"dim", ArgType::INTEGER, true, nullptr, "Mode dimension (0-indexed)"},
                 ArgSpec{"idx", ArgType::INTEGER, true, nullptr, "Index to fix"}
             },
@@ -173,10 +275,10 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.size() < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
-        TTTrain a   = buildTrain(args[0]);
+        TTTrain a   = buildTrain(args[0], ctx);
         auto dim    = static_cast<std::size_t>(args[1].get<int>());
         auto idx    = static_cast<std::size_t>(args[2].get<int>());
         TTTrain sl  = TensorContractionEngine::slice(a, dim, idx);
@@ -204,7 +306,7 @@ public:
                            "Arguments: (tensor, eps:float=0.01, max_rank:int=0). "
                            "Returns {data, shape, compression_ratio, max_rank, achieved_eps}.",
             .arguments = {
-                ArgSpec{"a",        ArgType::OBJECT,  true,  nullptr, "Tensor"},
+                ArgSpec{"a",        ArgType::ANY,     true,  nullptr, "Tensor {data, shape} or field path"},
                 ArgSpec{"eps",      ArgType::NUMBER,  false, json(0.01), "Error tolerance"},
                 ArgSpec{"max_rank", ArgType::INTEGER, false, json(0), "Max TT-rank (0=unlimited)"}
             },
@@ -215,10 +317,10 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.empty())
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
-        TTTrain a   = buildTrain(args[0]);
+        TTTrain a   = buildTrain(args[0], ctx);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
         auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
@@ -248,7 +350,7 @@ public:
                            "Returns {order, shape, max_rank, total_params, "
                            "compression_ratio, achieved_eps, original_norm}.",
             .arguments = {
-                ArgSpec{"a", ArgType::OBJECT, true, nullptr, "Tensor"}
+                ArgSpec{"a", ArgType::ANY, true, nullptr, "Tensor {data, shape} or field path"}
             },
             .return_type     = ArgType::OBJECT,
             .is_deterministic = true,
@@ -257,10 +359,10 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.empty())
             throw std::invalid_argument("TENSOR_INFO: requires 1 argument");
-        TTTrain a = buildTrain(args[0]);
+        TTTrain a = buildTrain(args[0], ctx);
         return json{
             {"order",             a.order()},
             {"shape",             a.mode_sizes},
@@ -290,8 +392,8 @@ public:
                 "Full contraction (all modes) returns a scalar wrapped in a 1-element train. "
                 "Ref: Oseledets (2011), paper §AQL operators.",
             .arguments = {
-                ArgSpec{"a",       ArgType::OBJECT, true,  nullptr, "Tensor {data, shape}"},
-                ArgSpec{"b",       ArgType::OBJECT, true,  nullptr, "Tensor {data, shape}"},
+                ArgSpec{"a",       ArgType::ANY, true,  nullptr, "Tensor {data, shape} or field path"},
+                ArgSpec{"b",       ArgType::ANY, true,  nullptr, "Tensor {data, shape} or field path"},
                 ArgSpec{"modes_a", ArgType::ARRAY,  true,  nullptr, "Modes of a to contract"},
                 ArgSpec{"modes_b", ArgType::ARRAY,  true,  nullptr, "Modes of b to contract"}
             },
@@ -308,13 +410,13 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.size() < 4)
             throw std::invalid_argument(
                 "TENSOR_CONTRACT: requires 4 arguments (a, b, modes_a, modes_b)");
 
-        TTTrain a = buildTrain(args[0]);
-        TTTrain b = buildTrain(args[1]);
+        TTTrain a = buildTrain(args[0], ctx);
+        TTTrain b = buildTrain(args[1], ctx);
 
         std::vector<std::size_t> modes_a, modes_b;
         for (const auto& v : args[2]) modes_a.push_back(v.get<std::size_t>());
@@ -355,7 +457,7 @@ public:
                 "Operates entirely in the compressed domain (O(d*n*r^2)). "
                 "Ref: tensor marginalization, paper §AQL operators.",
             .arguments = {
-                ArgSpec{"t",    ArgType::OBJECT,  true, nullptr, "Tensor {data, shape}"},
+                ArgSpec{"t",    ArgType::ANY,     true, nullptr, "Tensor {data, shape} or field path"},
                 ArgSpec{"mode", ArgType::INTEGER, true, nullptr, "Mode to marginalize (0-indexed)"}
             },
             .return_type      = ArgType::OBJECT,
@@ -368,12 +470,12 @@ public:
     }
 
     json execute(const std::vector<json>& args,
-                 const FunctionContext& /*ctx*/) const override {
+                 const FunctionContext& ctx) const override {
         if (args.size() < 2)
             throw std::invalid_argument(
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
-        TTTrain t    = buildTrain(args[0]);
+        TTTrain t    = buildTrain(args[0], ctx);
         auto    mode = static_cast<std::size_t>(args[1].get<int>());
 
         TTTrain result = TensorContractionEngine::project(t, mode);
@@ -475,4 +577,3 @@ void registerTensorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
