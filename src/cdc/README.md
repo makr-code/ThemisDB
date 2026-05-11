@@ -70,9 +70,15 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 
 For CDC documentation, see:
 - [Architecture Guide](ARCHITECTURE.md) — component diagram, data flow, threading model
+- [Audit Report](AUDIT.md) — current audit findings and open risks
+- [Changelog](CHANGELOG.md) — release history and behavior changes
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md) — planned features and design constraints
+- [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) — benchmark targets
 - [Roadmap](ROADMAP.md) — feature status and planned work
+- [Security Notes](SECURITY.md) — threat model and controls
+- [Public API Headers](../../include/cdc/README.md) — header reference
 - [CDC Operations Runbook](../../docs/CDC_OPERATIONS_RUNBOOK.md) — production operations
-- [CDC Implementation Summary](../../docs/CDC_IMPLEMENTATION_SUMMARY.md) — implementation history
+- [CDC Implementation Summary](../../docs/implementation-history/summaries/CDC_IMPLEMENTATION_SUMMARY.md) — implementation history
 - [Change Data Capture (DE)](../../docs/de/features/features_change_data_capture.md) — end-user guide (German)
 
 ## Scientific References
@@ -88,8 +94,30 @@ For CDC documentation, see:
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+Kafka support requires librdkafka and `-DTHEMIS_ENABLE_KAFKA=1`.
 
 ## Usage
 
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/cdc/README.md`](../../include/cdc/README.md) for the public API.
+
+## Troubleshooting
+
+### SSE stream delivers no events
+- Confirm the change feed is registered for the target collection via `cdc_admin.cpp` (`CDCAdmin::listSubscriptions()`).
+- Check that the storage commit hook invokes the changefeed post-commit path.
+- Review `cdc.buffer.max_events_per_tenant` and `cdc.buffer.high_watermark_pct` — a full buffer silently drops oldest events and inserts a gap marker.
+
+### Consumer receives duplicate events
+- CDC guarantees at-least-once delivery. Consumers **must** be idempotent.
+- Use `consumer_id` + `ack_timeout_ms` on `GET /changefeed/stream` and acknowledge events via `POST /changefeed/stream/ack`.
+- Dead-letter queue (`DeadLetterQueue`) stores events that exhausted delivery retries; drain via admin endpoint.
+
+### Kafka CDC producer does nothing
+- Ensure `THEMIS_ENABLE_KAFKA=1` CMake flag is set; without it the stub implementation returns `false` on every call.
+- Verify `THEMIS_KAFKA_BOOTSTRAP_SERVERS` env var or config YAML broker address.
+- Check `delivery_report_cb` logs for broker-side rejection or authentication errors.
+
+### GDPR redaction not applied
+- Verify the schema annotation (`encryption` or `pii`) is set on the affected fields.
+- Redaction is applied before transport serialization; check `CDCAdmin::redactByKeyPrefix()` and the `cdc_redactions` column family audit log.
