@@ -37,7 +37,6 @@
   "C_Cpp.clang_format_fallbackStyle": "LLVM",
   "C_Cpp.enableCppCodeEditingTools": true,
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "github.copilot.chat.localeOverride": "de",
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true
