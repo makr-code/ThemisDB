@@ -10,9 +10,11 @@ This directory contains modular Copilot instructions and development tooling for
 ├── copilot/                         # Modular instruction files
 │   ├── BRANCHING_GUIDE.md
 │   ├── BUILD_GUIDE.md
+│   ├── BUILD_PERF_AGENT.md
 │   ├── CODE_STANDARDS.md
 │   ├── CUDA_OPTIMIZATION.md
 │   ├── CROSS_COMPILATION_CONTEXT.md
+│   ├── MODERNIZE_AGENT.md
 │   ├── MVCC_CONCURRENCY.md
 │   ├── PERFORMANCE_PROFILING.md
 │   ├── TESTING_GUIDE.md
@@ -33,6 +35,14 @@ The modular AI-Guardrails architecture provides:
 3. **Discoverability**: Logical organization by topic.
 4. **Validation**: Automated checks for broken references and structure drift.
 
+## Installation
+
+No installation is required beyond cloning the repository. To apply the recommended developer setup locally:
+
+```bash
+cp -r .vscode.example .vscode
+```
+
 ## Quick Start
 
 ### For Contributors
@@ -51,6 +61,12 @@ The modular AI-Guardrails architecture provides:
 
 2. Update the affected module file, for example `copilot/BUILD_GUIDE.md`.
 3. Keep the main file compact and focused.
+
+## Usage
+
+- Read `../copilot-instructions.md` first.
+- Use the module docs in this directory for task-specific guidance.
+- Re-run `.github/scripts/validate_copilot_refs.py` after editing these docs.
 
 ## Module Overview
 
@@ -137,6 +153,18 @@ The modular AI-Guardrails architecture provides:
 - Acceptance-criteria-first prompt structure.
 - Checkpoint strategy for long-running autonomous tasks.
 - Canonical prompt patterns for concurrency/networking/rate-limiting tasks.
+
+### MODERNIZE_AGENT.md
+
+- Assessment-plan-execution structure for C++ modernization tasks.
+- Trigger scenarios for legacy toolchains and C++11/14 migration.
+- Validation and staging requirements for safe modernization.
+
+### BUILD_PERF_AGENT.md
+
+- ETL trace-based build bottleneck analysis.
+- Build-time hotspot categories (headers, templates, function generation).
+- Existing CMake-target integration and measurement-first workflow.
 
 ## Validation
 

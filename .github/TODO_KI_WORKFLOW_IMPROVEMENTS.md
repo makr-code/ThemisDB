@@ -138,7 +138,7 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 - [x] `labeler.yml` Eintrag für automatische Vergabe erweitern:
   - Option A: PR-Body enthält `<!-- ai-generated -->` Marker
   - Option B: Änderungen in `ai_working/` → automatisch `ai-generated`
-- [ ] `CODEOWNERS` prüfen: KI-generierte PRs sollten Review durch Maintainer
+- [x] `CODEOWNERS` prüfen: KI-generierte PRs sollten Review durch Maintainer
   erfordern (kein Auto-Merge ohne Human-Approval)
 
 ### 5.2 `pull_request_template.md` — AI-Review-Checkliste ergänzen
@@ -153,26 +153,26 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 ### 5.3 Copilot Code Review im PR-Prozess aktivieren
 - [ ] GitHub Copilot PR-Summary automatisch für PRs mit `ai-generated`-Label
   aktivieren (GitHub-Settings → Copilot → Code Review)
-- [ ] Dokumentieren in `.github/WORKFLOW_GUIDELINES.md` unter "PR Governance"
+- [x] Dokumentieren in `.github/WORKFLOW_GUIDELINES.md` unter "PR Governance"
 
 ---
 
 ## Phase 6 — Agent-Konfiguration dokumentieren (Geringer Aufwand)
 
 ### 6.1 @Modernize Agent-Konfiguration
-- [ ] `.github/copilot/MODERNIZE_AGENT.md` anlegen
-- [ ] Beschreibt: Assessment-Phase (assessment.md), Plan-Phase (plan.md),
+- [x] `.github/copilot/MODERNIZE_AGENT.md` anlegen
+- [x] Beschreibt: Assessment-Phase (assessment.md), Plan-Phase (plan.md),
   Autonomous-Execution-Phase + Build-Verifikation
-- [ ] Listet Trigger-Szenarien: veraltete MSVC-Build-Tools, C++11/14-Konstrukte
+- [x] Listet Trigger-Szenarien: veraltete MSVC-Build-Tools, C++11/14-Konstrukte
   die nach C++20/23 modernisiert werden sollen
-- [ ] Verlinkt auf `ai_working/` als Staging-Bereich
+- [x] Verlinkt auf `ai_working/` als Staging-Bereich
 
 ### 6.2 @BuildPerfCpp Agent-Konfiguration
-- [ ] `.github/copilot/BUILD_PERF_AGENT.md` anlegen
-- [ ] Beschreibt: ETL-Trace-basierte Build-Insight-Analyse
-- [ ] Ziele: teure Header-Inklusionen, langsame Template-Instanziierungen,
+- [x] `.github/copilot/BUILD_PERF_AGENT.md` anlegen
+- [x] Beschreibt: ETL-Trace-basierte Build-Insight-Analyse
+- [x] Ziele: teure Header-Inklusionen, langsame Template-Instanziierungen,
   ineffiziente Funktionsgenerierung identifizieren
-- [ ] Integration mit bestehenden CMake-Targets dokumentieren
+- [x] Integration mit bestehenden CMake-Targets dokumentieren
 
 ---
 
