@@ -455,7 +455,7 @@ target_include_directories(my_target PRIVATE include/core)
 - Template methods in headers for zero-cost abstractions
 
 ### Adapter Overhead
-See [src/core/README.md](../../src/core/README.md) for detailed performance metrics.
+See [src/core/README.md](../../src/core/README.md) for adapter performance details and implementation context.
 
 **Summary:**
 - No-op adapters: <1ns per call

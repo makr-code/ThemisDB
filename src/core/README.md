@@ -186,14 +186,14 @@ Provides secure initialization routines for cryptographic components and key man
 - Runtime adapter replacement is supported through `replaceLogger`, `replaceTracer`, `replaceMetrics`, `replaceCache`, `replaceSecrets`, `replaceFeatureFlags`, and `replaceAuditLog`.
 
 ### Error Cases
-- Invalid configuration throws `std::runtime_error` with formatted validation errors (for example invalid adapter names or broken tracing endpoint settings).
+- Invalid configuration throws `std::runtime_error` with formatted validation errors (e.g., invalid adapter names or broken tracing endpoint settings).
 - Passing `nullptr` to runtime `replace*` methods throws `std::invalid_argument`.
 - Enabling `cacheAdapter="redis"` without a usable Redis URL falls back to in-memory cache behavior.
 
 ### Limits
 - `maxMetricCardinality` defaults to `1000` label combinations per metric name to guard against memory blow-ups.
 - In-memory cache size is bounded by `cacheMaxSize`; TTL defaults to disabled (`cacheDefaultTTL = 0`).
-- The context is process-local; cross-process coordination (for example distributed cache invalidation) requires external systems.
+- The context is process-local; cross-process coordination (e.g., distributed cache invalidation) requires external systems.
 
 ## Integration Points
 
