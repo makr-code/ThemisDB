@@ -208,6 +208,7 @@ TEST(LegalDomainTests, GS01_GraphStoreSinkAdapterPersistsNodesAndEdges) {
     db->close();
     std::error_code ec;
     fs::remove_all(db_path, ec);
+    EXPECT_FALSE(ec) << ec.message();
 }
 
 TEST(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors) {
@@ -234,6 +235,7 @@ TEST(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors) {
     db->close();
     std::error_code ec;
     fs::remove_all(db_path, ec);
+    EXPECT_FALSE(ec) << ec.message();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

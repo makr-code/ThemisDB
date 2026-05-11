@@ -108,7 +108,11 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
     {
         std::lock_guard<std::mutex> lock(g_debug_log_mutex);
         if (g_debug_log_fn) {
-            g_debug_log_fn(message);
+            try {
+                g_debug_log_fn(message);
+            } catch (...) {
+                // Fail-closed: callback diagnostics must not break quantization.
+            }
         }
     }
     spdlog::debug("{}", message);

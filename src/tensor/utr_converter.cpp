@@ -39,6 +39,11 @@ static float clampf(float v, float lo, float hi) noexcept {
     return v < lo ? lo : (v > hi ? hi : v);
 }
 
+static std::size_t clampPatchExtent(std::size_t extent) noexcept {
+    return std::max<std::size_t>(kMinPatchExtent,
+                                 std::min<std::size_t>(kMaxPatchExtent, extent));
+}
+
 // ============================================================================
 // Document segmentation helpers (STUB #257)
 // ============================================================================
@@ -249,8 +254,8 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // - compute mean + standard deviation per channel
     // - TT-decompose the resulting patch-feature tensor
 
-    const auto patch_h = std::max<std::size_t>(kMinPatchExtent, std::min<std::size_t>(kMaxPatchExtent, h));
-    const auto patch_w = std::max<std::size_t>(kMinPatchExtent, std::min<std::size_t>(kMaxPatchExtent, w));
+    const auto patch_h = clampPatchExtent(h);
+    const auto patch_w = clampPatchExtent(w);
     const auto patch_rows = (h + patch_h - 1U) / patch_h;
     const auto patch_cols = (w + patch_w - 1U) / patch_w;
     const auto patch_feature_dim = c * 2U; // mean + stddev per channel

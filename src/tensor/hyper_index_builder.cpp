@@ -149,8 +149,11 @@ std::vector<std::vector<double>> buildNumericThresholds(
         auto& out = thresholds[numeric_index];
         out.reserve(bucket_count - 1U);
         for (std::size_t bucket = 1; bucket < bucket_count; ++bucket) {
+            const auto quantile_index = static_cast<std::size_t>(
+                (static_cast<double>(bucket) / static_cast<double>(bucket_count)) *
+                static_cast<double>(values.size()));
             const auto idx = std::min<std::size_t>(
-                (bucket * values.size()) / bucket_count,
+                quantile_index,
                 values.size() - 1U);
             out.push_back(values[idx]);
         }
