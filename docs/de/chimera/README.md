@@ -45,6 +45,59 @@ Streaming und Prepared Statements sind implementiert und durch dedizierte Tests 
 3. **Research-/Entscheidungshinweise verankert**
    - Build-Flag-abhängige Grenzen (`THEMISDB_ENGINE_AVAILABLE`) und Capability-Mismatch wurden als zentrale Constraints in Roadmap/Future und im Missing-Report verankert.
 
+## Installation
+
+Die Chimera-Modul-Header werden automatisch eingebunden, wenn gegen das CMake-Target `themis_chimera` gelinkt wird.
+Keine separate Installation notwendig — Standard-ThemisDB-Build genügt:
+
+```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+```
+
+Details zu den Headern: [`include/chimera/README.md`](../../../include/chimera/README.md).
+
+## Usage / Verwendung
+
+### Simulationsmodus (Unit-Tests / CI)
+
+```cpp
+#include "chimera/themisdb_adapter.hpp"
+
+chimera::ThemisDBAdapter adapter;           // kein Live-Server erforderlich
+adapter.connect("themisdb://localhost/test");
+
+// Relational
+adapter.insert_row("users", {{"id", "u1"}, {"name", "Alice"}});
+auto rows = adapter.execute_query("SELECT * FROM users");
+
+// Streaming-Resultmenge
+auto stream = adapter.execute_query_stream("SELECT * FROM large_table");
+while (stream->has_more()) {
+    auto batch = stream->next_batch(256);
+    // Batch verarbeiten …
+}
+
+// Prepared Statement
+auto stmt = adapter.prepare("SELECT * FROM orders WHERE id = @id");
+stmt->bind("id", chimera::Scalar{"o123"});
+auto result = stmt->execute();
+```
+
+### Engine-Modus (Produktion)
+
+```cpp
+themis::QueryEngine        engine;
+themis::VectorIndexManager vim;
+themis::GraphIndexManager  gim;
+
+chimera::ThemisDBAdapter adapter(&engine, &vim, &gim);
+adapter.connect("themisdb://prod-host:7070/mydb");
+// Alle Operationen werden an das echte ThemisDB-Backend weitergeleitet.
+```
+
+Vollständige API-Referenz und weitere Beispiele: [`include/chimera/README.md`](../../../include/chimera/README.md).
+
 ## Offene Punkte / Risiken
 
 - Include-Dokumentation (`include/chimera/README.md`) wurde ergänzt — API-Referenz für beide Header-Dateien ist nun vorhanden.
