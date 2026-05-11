@@ -441,19 +441,19 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         return;
     }
 
-    struct RuleLoRAConfig {
+    struct RuleLoraConfig {
         double min_lora_score = 0.0;
         std::string adapter_id;
     };
 
-    std::unordered_map<std::string, RuleLoRAConfig> rule_cfg_by_id;
+    std::unordered_map<std::string, RuleLoraConfig> rule_cfg_by_id;
     {
         std::shared_lock lock(rules_mutex_);
         rule_cfg_by_id.reserve(rules_.size());
         for (const auto& rule : rules_) {
             rule_cfg_by_id.emplace(
                 rule.id,
-                RuleLoRAConfig{rule.min_lora_score, rule.lora_adapter});
+                RuleLoraConfig{rule.min_lora_score, rule.lora_adapter});
         }
     }
 
