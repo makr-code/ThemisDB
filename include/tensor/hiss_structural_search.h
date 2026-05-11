@@ -85,7 +85,9 @@ public:
 struct QTTrain {
     std::vector<std::size_t> bit_depths;
     std::vector<std::size_t> grid_sizes;
+    std::vector<std::size_t> padded_grid_sizes;
     std::vector<std::size_t> quantics_mode_sizes;
+    std::size_t original_element_count = 0;
     storage::TTTrain         tt_train;
 
     [[nodiscard]] storage::TTTrain toTTTrain() const { return tt_train; }

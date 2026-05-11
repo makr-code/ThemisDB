@@ -48,6 +48,9 @@ namespace llm {
  */
 class EmbeddedLLM {
 public:
+    using GenerateFullFn = std::function<InferenceResponse(const InferenceRequest&)>;
+    using EmbedFn = std::function<std::vector<float>(const std::string&)>;
+
     /**
      * @brief Configuration for embedded LLM
      */
@@ -195,6 +198,22 @@ public:
      * @brief Get performance statistics
      */
     json getStats() const;
+
+    /**
+     * @brief Inject a generation backend override.
+     *
+     * When set, generation methods delegate to this callback before using the
+     * built-in wrapper/stub path.
+     */
+    void setGenerateFullFn(GenerateFullFn fn);
+
+    /**
+     * @brief Inject an embedding backend override.
+     *
+     * When set, embedding methods delegate to this callback before using the
+     * built-in wrapper/stub path.
+     */
+    void setEmbedFn(EmbedFn fn);
     
     /**
      * @brief Clear response cache
@@ -223,6 +242,10 @@ private:
     std::unique_ptr<LlamaWrapper> wrapper_;
     Config config_;
     std::unique_ptr<EthicalGuidelinesManager> ethical_guidelines_;
+
+    mutable std::mutex callback_mutex_;
+    GenerateFullFn generate_full_fn_;
+    EmbedFn embed_fn_;
 
     // Embedding cache: text → embedding vector (thread-safe via cache_mutex_)
     mutable std::mutex cache_mutex_;

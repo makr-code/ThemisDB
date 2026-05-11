@@ -2249,7 +2249,6 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/utils/capability_auto_generator.cpp
     ../src/utils/self_awareness.cpp
-    ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/capability_matcher.cpp
     ../src/sharding/adaptive_shard_router.cpp
@@ -3131,7 +3130,6 @@ if(MSVC)
         ../src/governance/review_scheduler.cpp
         ../src/governance/policy_review.cpp
         ../src/security/pii_redaction_policy.cpp
-        ../src/stubs.cpp
         ../src/analytics/columnar_execution.cpp
         ../src/analytics/streaming_window.cpp
         ../src/analytics/cep_engine.cpp

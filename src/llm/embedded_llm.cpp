@@ -71,6 +71,16 @@ EmbeddedLLM::~EmbeddedLLM() {
     }
 }
 
+void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    generate_full_fn_ = std::move(fn);
+}
+
+void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    embed_fn_ = std::move(fn);
+}
+
 // ═══════════════════════════════════════════════════════════
 // Simple text generation
 // ═══════════════════════════════════════════════════════════
@@ -145,6 +155,15 @@ std::string EmbeddedLLM::chatSimple(
 
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (embed_fn_) {
+            auto result = embed_fn_(text);
+            if (!result.empty()) {
+                return result;
+            }
+        }
+    }
+    {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = embedding_cache_.find(text);
         if (it != embedding_cache_.end()) {
@@ -218,6 +237,12 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_) {
+            return generate_full_fn_(request);
+        }
+    }
     return wrapper_->generate(request);
 }
 
@@ -226,6 +251,12 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
 // ═══════════════════════════════════════════════════════════
 
 bool EmbeddedLLM::isReady() const {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_ || embed_fn_) {
+            return true;
+        }
+    }
     return wrapper_ && wrapper_->isModelLoaded();
 }
 

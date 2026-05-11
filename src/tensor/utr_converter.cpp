@@ -11,6 +11,7 @@
 #include "tensor/hyper_index_builder.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstdint>
 #include <functional>
@@ -105,20 +106,40 @@ static uint64_t fnv1a(const std::string& s) noexcept {
 /// Produce a deterministic `embed_dim`-dimensional embedding from a text segment.
 static std::vector<float> hashEmbed(const std::string& segment, std::size_t embed_dim) {
     std::vector<float> vec(embed_dim, 0.0f);
-    // Split to word-level tokens, hash each, scatter into the embedding.
+    auto normalizeToken = [](std::string token) {
+        token.erase(std::remove_if(token.begin(), token.end(),
+                                   [](unsigned char c) { return !std::isalnum(c); }),
+                    token.end());
+        std::transform(token.begin(), token.end(), token.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return token;
+    };
+
+    auto scatter = [&](const std::string& feature, float weight) {
+        const uint64_t h = fnv1a(feature);
+        for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
+            const auto shift = (lane % 4) * 16U;
+            const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
+            const auto dim   = static_cast<std::size_t>((bits + lane * 131U) % embed_dim);
+            const auto sign  = ((h >> (shift + 7U)) & 1ULL) ? 1.0f : -1.0f;
+            vec[dim] += sign * weight;
+        }
+    };
+
+    // Split to word-level tokens, hash each token and local character n-grams.
     std::istringstream iss(segment);
     std::string token;
     int count = 0;
     while (iss >> token) {
-        const uint64_t h = fnv1a(token);
-        // Use multiple 16-bit lanes of the hash value to scatter contributions.
-        for (std::size_t lane = 0; lane < 4 && lane < embed_dim; ++lane) {
-            const auto shift = lane * 16U;
-            const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
-            const auto dim   = static_cast<std::size_t>(bits) % embed_dim;
-            // Signed contribution (+1 / -1) from the high bit of the next lane
-            const auto sign  = ((h >> (shift + 8U)) & 1ULL) ? 1.0f : -1.0f;
-            vec[dim] += sign;
+        token = normalizeToken(std::move(token));
+        if (token.empty()) {
+            continue;
+        }
+        scatter(token, 1.0f);
+        if (token.size() >= 3) {
+            for (std::size_t i = 0; i + 3 <= token.size(); ++i) {
+                scatter(token.substr(i, 3), 0.35f);
+            }
         }
         ++count;
     }
@@ -239,10 +260,43 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // Removal Plan: Q4 2028 — add patch-based structural embedding (non-overlapping
     //   patches → learned linear projection → TT decompose in patch space).
 
-    // Normalise to [0, 1]
-    std::vector<float> normed(pixels.size());
-    for (std::size_t i = 0; i < pixels.size(); ++i) {
-        normed[i] = clampf(pixels[i], 0.0f, 255.0f) / 255.0f;
+    const auto patch_h = std::max<std::size_t>(1, std::min<std::size_t>(4, h));
+    const auto patch_w = std::max<std::size_t>(1, std::min<std::size_t>(4, w));
+    const auto patch_rows = (h + patch_h - 1U) / patch_h;
+    const auto patch_cols = (w + patch_w - 1U) / patch_w;
+    const auto patch_feature_dim = c * 2U; // mean + stddev per channel
+
+    std::vector<float> patch_features;
+    patch_features.reserve(patch_rows * patch_cols * patch_feature_dim);
+    for (std::size_t patch_row = 0; patch_row < patch_rows; ++patch_row) {
+        for (std::size_t patch_col = 0; patch_col < patch_cols; ++patch_col) {
+            std::vector<double> sum(c, 0.0);
+            std::vector<double> sum_sq(c, 0.0);
+            std::size_t sample_count = 0;
+            const auto row_begin = patch_row * patch_h;
+            const auto row_end = std::min(h, row_begin + patch_h);
+            const auto col_begin = patch_col * patch_w;
+            const auto col_end = std::min(w, col_begin + patch_w);
+            for (std::size_t row = row_begin; row < row_end; ++row) {
+                for (std::size_t col = col_begin; col < col_end; ++col) {
+                    for (std::size_t channel = 0; channel < c; ++channel) {
+                        const auto idx = ((row * w) + col) * c + channel;
+                        const auto value = clampf(pixels[idx], 0.0f, 255.0f) / 255.0f;
+                        sum[channel] += value;
+                        sum_sq[channel] += static_cast<double>(value) * value;
+                    }
+                    ++sample_count;
+                }
+            }
+            for (std::size_t channel = 0; channel < c; ++channel) {
+                const auto mean = sample_count > 0 ? sum[channel] / static_cast<double>(sample_count) : 0.0;
+                const auto variance = sample_count > 0
+                    ? std::max(0.0, (sum_sq[channel] / static_cast<double>(sample_count)) - (mean * mean))
+                    : 0.0;
+                patch_features.push_back(static_cast<float>(mean));
+                patch_features.push_back(static_cast<float>(std::sqrt(variance)));
+            }
+        }
     }
 
     storage::TensorTrainDecomposer decomposer;
@@ -250,14 +304,9 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     tt_cfg.eps      = cfg.eps;
     tt_cfg.max_rank = cfg.max_rank;
 
-    std::vector<std::size_t> shape;
-    if (c == 1) {
-        shape = {h, w};
-    } else {
-        shape = {h, w, c};
-    }
+    const std::vector<std::size_t> shape = {patch_rows, patch_cols, patch_feature_dim};
 
-    auto decomposed = decomposer.decompose(normed, shape, tt_cfg);
+    auto decomposed = decomposer.decompose(patch_features, shape, tt_cfg);
     return std::move(decomposed.first);
 }
 

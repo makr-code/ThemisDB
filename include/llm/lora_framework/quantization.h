@@ -22,6 +22,7 @@
 #include <vector>
 #include <cstdint>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <stdexcept>
 
@@ -145,6 +146,16 @@ private:
  * @brief Quantization operations
  */
 namespace quantization {
+
+    using DebugLogFn = std::function<void(const std::string&)>;
+
+    /**
+     * @brief Inject an alternative debug sink for quantization traces.
+     *
+     * This is primarily used by `THEMIS_NO_SPDLOG` builds so debug-level
+     * quantization diagnostics remain observable without linking spdlog.
+     */
+    void setDebugLogFn(DebugLogFn fn);
 
     /**
      * @brief Quantize a tensor to NF4 format

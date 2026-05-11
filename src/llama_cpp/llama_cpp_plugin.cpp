@@ -209,6 +209,50 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     }
 #endif
 
+    GenerateFn generate_fn;
+    std::string bridged_model_id;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        generate_fn = generate_fn_;
+        bridged_model_id = model_id_;
+    }
+    if (generate_fn) {
+        try {
+            auto bridged = generate_fn(request);
+            if (!bridged.model_id.empty()) {
+                bridged.model_used = bridged.model_id;
+            } else if (bridged.model_used.empty()) {
+                bridged.model_id = bridged_model_id;
+                bridged.model_used = bridged_model_id;
+            }
+            if (bridged.trace_id.empty()) {
+                bridged.trace_id = request.trace_id;
+            }
+            if (bridged.span_id.empty()) {
+                bridged.span_id = request.span_id;
+            }
+            if (request.stream_callback && !bridged.text.empty()) {
+                try { request.stream_callback(bridged.text); } catch (...) { ++error_count_; }
+            }
+            ++inference_count_;
+            return bridged;
+        } catch (const std::exception& e) {
+            ++error_count_;
+            response.success = false;
+            response.error_message = std::string("LlamaCppPlugin generate bridge failed: ") + e.what();
+            response.trace_id = request.trace_id;
+            response.span_id = request.span_id;
+            return response;
+        } catch (...) {
+            ++error_count_;
+            response.success = false;
+            response.error_message = "LlamaCppPlugin generate bridge failed";
+            response.trace_id = request.trace_id;
+            response.span_id = request.span_id;
+            return response;
+        }
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Signal clearly that no model is loaded when llama.cpp is not
     //          compiled in (THEMIS_ENABLE_LLAMA_CPP not set) or loadModel()
@@ -348,6 +392,11 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
 void LlamaCppPlugin::setEmbedFn(EmbedFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     embed_fn_ = std::move(fn);
+}
+
+void LlamaCppPlugin::setGenerateFn(GenerateFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    generate_fn_ = std::move(fn);
 }
 
 // ── capabilities / stats ──────────────────────────────────────────────────────
