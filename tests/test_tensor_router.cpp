@@ -125,7 +125,9 @@ TEST(TensorRouterRoute, DomainTagTemplateCatalogPromotesLift) {
     catalog->registerTemplate("finance", g);
     router.setTemplateCatalog(catalog);
     router.setTemplateTopologyApplyFn(
-        [&apply_calls](const std::string& domain, const themis::tensor::TensorNetworkGraph& topology) {
+        [&apply_calls](const std::string&                    domain,
+                       const themis::tensor::TensorNetworkGraph& topology,
+                       const themis::storage::TensorRouteHint&) {
             if (!domain.empty() && topology.nodeCount() > 0) {
                 ++apply_calls;
                 return true;
@@ -213,7 +215,9 @@ TEST(TensorRouterRoute, TemplateCatalogAccessor) {
     EXPECT_EQ(router.templateCatalog().get(), catalog.get());
     std::atomic<int> calls{0};
     router.setTemplateTopologyApplyFn(
-        [&calls](const std::string&, const themis::tensor::TensorNetworkGraph&) {
+        [&calls](const std::string&,
+                 const themis::tensor::TensorNetworkGraph&,
+                 const themis::storage::TensorRouteHint&) {
             ++calls;
             return true;
         });

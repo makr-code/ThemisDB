@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Core Module
 
@@ -10,11 +10,13 @@ The Core module provides the foundational cross-cutting concerns infrastructure 
 
 | Interface / File | Role |
 |-----------------|------|
-| `concerns_context.h` / `concerns_context.cpp` | Central DI hub for all cross-cutting concerns |
-| `i_logger.h` / `spdlog_adapter.cpp` | Logger interface and spdlog production adapter |
-| `i_tracer.h` | Distributed tracing interface |
-| `i_metrics.h` | Metrics collection interface |
-| `i_cache.h` | Cache abstraction interface |
+| `include/core/concerns/concerns_context.h` / `src/core/concerns/concerns_context.cpp` | Central DI hub and adapter lifecycle (create + runtime replacement) |
+| `include/core/concerns/i_logger.h` / `include/core/concerns/spdlog_logger_adapter.h` | Logging contract and production logger adapter |
+| `include/core/concerns/i_tracer.h` / `include/core/concerns/{otel,jaeger,zipkin}_tracer_adapter.h` | Distributed tracing contract and backends |
+| `include/core/concerns/i_metrics.h` / `include/core/concerns/prometheus_metrics_adapter.h` | Metrics contract and Prometheus adapter |
+| `include/core/concerns/i_cache.h` / `src/core/concerns/redis_cache.cpp` | Cache contract with in-memory + Redis-backed implementations |
+| `include/core/config_validator.h` | Validation for log/tracing/cache/adapter configuration |
+| `include/core/production_mode.h` | Production-mode detection and fail-closed behavior |
 
 ## Scope
 
@@ -43,10 +45,11 @@ Central hub for managing cross-cutting concerns using the Service Locator + Depe
 auto context = ConcernsContext::create(config);
 
 // Access concerns
-context->logger()->info("Database started");
-context->tracer()->startSpan("query_execution");
-context->metrics()->incrementCounter("requests_total");
-context->cache()->set("key", value);
+context->logger().info("Database started");
+auto span = context->tracer().startSpan("query_execution");
+context->metrics().incrementCounter("requests_total");
+context->cache().set("key", "value");
+span->end();
 ```
 
 **Features:**
@@ -174,6 +177,24 @@ Provides secure initialization routines for cryptographic components and key man
 4. Subsystems access concerns via context
 ```
 
+## Runtime Behavior, Error Cases, and Limits
+
+### Runtime Behavior
+- `ConcernsContext::create(config)` validates logging, tracing, cache, and adapter names before creating adapters.
+- Empty `tracerAdapter` / `metricsAdapter` values are auto-resolved from `tracingEnabled` / `metricsEnabled`.
+- In production mode (`THEMIS_PRODUCTION_MODE=1` or `THEMIS_ENVIRONMENT=production`), no-op tracing/metrics and `createNoOp()` are rejected.
+- Runtime adapter replacement is supported through `replaceLogger`, `replaceTracer`, `replaceMetrics`, `replaceCache`, `replaceSecrets`, `replaceFeatureFlags`, and `replaceAuditLog`.
+
+### Error Cases
+- Invalid configuration throws `std::runtime_error` with formatted validation errors (e.g., invalid adapter names or broken tracing endpoint settings).
+- Passing `nullptr` to runtime `replace*` methods throws `std::invalid_argument`.
+- Enabling `cacheAdapter="redis"` without a usable Redis URL falls back to in-memory cache behavior.
+
+### Limits
+- `maxMetricCardinality` defaults to `1000` label combinations per metric name to guard against memory blow-ups.
+- In-memory cache size is bounded by `cacheMaxSize`; TTL defaults to disabled (`cacheDefaultTTL = 0`).
+- The context is process-local; cross-process coordination (e.g., distributed cache invalidation) requires external systems.
+
 ## Integration Points
 
 ### Storage Module Integration
@@ -226,22 +247,22 @@ auto context = ConcernsContext::create(config);
 
 // Use throughout application
 void processRequest(Request req, std::shared_ptr<ConcernsContext> ctx) {
-    ctx->logger()->info("Processing request {}", req.id);
+    ctx->logger().info("Processing request {}", req.id);
 
-    auto span = ctx->tracer()->startSpan("process_request");
+    auto span = ctx->tracer().startSpan("process_request");
     span->setAttribute("request_id", req.id);
 
-    ctx->metrics()->incrementCounter("requests_total");
+    ctx->metrics().incrementCounter("requests_total");
 
     // Check cache
-    if (auto cached = ctx->cache()->get(req.cache_key())) {
-        ctx->metrics()->incrementCounter("cache_hits");
+    if (auto cached = ctx->cache().get(req.cache_key())) {
+        ctx->metrics().incrementCounter("cache_hits");
         return *cached;
     }
 
     // Process and cache result
     auto result = doWork(req);
-    ctx->cache()->set(req.cache_key(), result);
+    ctx->cache().set(req.cache_key(), result);
 
     span->end();
 }
@@ -280,9 +301,9 @@ export THEMIS_PRODUCTION_MODE=1
 export THEMIS_ENVIRONMENT=production
 
 # Production mode enforces:
-# - No default (no-op) encryption allowed
-# - No default (insecure) key providers
-# - Warnings for default implementations
+# - createNoOp() is rejected (fail-closed)
+# - Tracing must be enabled (otel/jaeger/zipkin)
+# - Metrics must be enabled (prometheus)
 ```
 
 ## Dependencies
@@ -336,9 +357,9 @@ export THEMIS_ENVIRONMENT=production
    - ConcernsContext is not shared across processes
    - Distributed caching requires external system (Redis)
 
-2. **Configuration at Startup**
-   - Cannot change adapters after ConcernsContext creation
-   - Requires restart to switch logging/tracing backends
+2. **Runtime Reconfiguration Boundaries**
+   - Adapter replacement is supported, but callers should still treat swaps as operational events
+   - Reconfiguration APIs reject `nullptr` and are not intended for high-frequency churn
 
 3. **Cache Consistency**
    - In-memory cache is local to each node
@@ -374,8 +395,12 @@ export THEMIS_ENVIRONMENT=production
 
 - [Cache Strategies Guide](../../include/core/concerns/CACHE_STRATEGIES_README.md)
 - [Architecture Overview](../../ARCHITECTURE.md)
-- [Dependency Injection Patterns](../../docs/patterns/dependency-injection.md)
-- [Observability Configuration](../../docs/configuration/observability.md)
+- [Dependency Injection / Concerns Migration Guide](../../docs/architecture/MIGRATION_GUIDE_CONCERNS.md)
+- [Observability Docs](../../docs/observability/README.md)
+- [Core Header API](../../include/core/README.md)
+- [Roadmap](./ROADMAP.md)
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Production Requirements](./PRODUCTION_REQUIREMENTS.md)
 
 ## Contributing
 
