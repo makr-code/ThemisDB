@@ -2,7 +2,7 @@
 
 # Cache Module
 <!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/src/cache/README.md -->
+<!-- Links: ARCHITECTURE.md · AUDIT.md · CHANGELOG.md · PERFORMANCE_EXPECTATIONS.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · SECURITY.md · docs/de/src/cache/README.md -->
 
 Caching implementations for ThemisDB.
 
@@ -38,6 +38,19 @@ Implements multi-level adaptive query result caching for ThemisDB with semantic-
 - `cache_replication_coordinator.cpp` — in-process cache replication coordination
 - `distributed_cache_coordinator.cpp` — distributed cache coordination (node-local bus)
 - `redis_cache_coordinator.cpp` — Redis pub/sub backed distributed cache coordinator
+
+## Public API & Entry Points
+
+Primary public headers in `include/cache/`:
+
+- `adaptive_query_cache.h` — main L1/L2/L3 API (`get`, `put`, `invalidate`, tenant-aware overloads)
+- `semantic_cache.h` / `embedding_cache.h` — semantic and embedding cache APIs
+- `cache_interfaces.h` — stable cache abstractions (`ICache`, admin/warmup/purge interfaces)
+- `cache_metrics.h` — cache counters and exported metric fields
+- `cache_replication.h`, `redis_cache_coordinator.h`, `grpc_remote_cache_peer.h` — distributed invalidation/replication integration
+- `request_coalescer.h` — singleflight-style duplicate suppression for cache fills
+
+For the full header index, see [`../../include/cache/README.md`](../../include/cache/README.md).
 
 ## Current Delivery Status
 
@@ -358,10 +371,32 @@ Phase 1, 2 & 3 improvements include comprehensive test coverage:
 ./build/tests/test_semantic_cache
 ```
 
+## Runtime Behavior, Failure Modes & Limits
+
+- `Config::validate()` enforces startup-time constraints and throws `std::invalid_argument` for invalid values.
+- L3 RocksDB access is guarded by a circuit breaker; when OPEN, cache access degrades to L1/L2.
+- Tenant mode namespaces keys and enforces `per_tenant_max_bytes`; quota violations are rejected.
+- Size limits (`l1_max_entry_size`, `l2_max_entry_size`, `max_total_entry_size`) reject oversized payloads early.
+- `invalidate(pattern)` can return without deletes for invalid/unsupported patterns; use exact prefixes where possible.
+
+## Troubleshooting
+
+- **Low hit rate:** Check `getStatsByTier()` and confirm tenant IDs are consistent between `put()` and `get()`.
+- **Frequent L3 misses/errors:** Inspect `getHealthStatus()` for circuit-breaker state and RocksDB connectivity.
+- **Rate-limited writes:** Review `enable_rate_limiting`, `max_requests_per_second`, and burst settings.
+- **Tenant quota rejections:** Increase `per_tenant_max_bytes` or reduce warmup/snapshot batch size.
+
 ## Documentation
 
 For detailed caching documentation, see:
-- [Production Readiness Roadmap](../../docs/cache_roadmap.md)
+- [Module Architecture](./ARCHITECTURE.md)
+- [Security Notes](./SECURITY.md)
+- [Audit Report](./AUDIT.md)
+- [Performance Expectations](./PERFORMANCE_EXPECTATIONS.md)
+- [Roadmap](./ROADMAP.md)
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Changelog](./CHANGELOG.md)
+- [Production Readiness Roadmap (Legacy)](../../docs/de/roadmap/cache_roadmap.md)
 - [Semantic Cache Implementation](../../docs/de/src/cache/semantic_cache.cpp.md)
 - [Semantic Cache Feature Documentation](../../docs/de/features/features_semantic_cache.md)
 - [Cache Invalidation Strategy](../../docs/de/architecture/architecture_cache_invalidation.md)

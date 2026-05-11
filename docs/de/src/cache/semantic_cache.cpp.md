@@ -187,4 +187,4 @@ config.default_ttl_seconds           = 3600;  // Standard-TTL (1 Stunde)
 
 - [Semantic Cache Feature Documentation](../../features/features_semantic_cache.md) — Nutzerdokumentation
 - [Cache Module README](../../../../src/cache/README.md) — Modulübersicht
-- [Cache Invalidation Architecture](../architecture/architecture_cache_invalidation.md) — Invalidierungsmuster
+- [Cache Invalidation Architecture](../../architecture/architecture_cache_invalidation.md) — Invalidierungsmuster
