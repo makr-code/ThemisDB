@@ -50,7 +50,7 @@
 #  include <intrin.h>  // _BitScanForward, __cpuid
 #endif
 
-// cpuid.h provides the __cpuid_count() macro for GCC/Clang (x86/x86_64).
+// cpuid.h provides __get_cpuid_count() for GCC/Clang (x86/x86_64).
 // It handles PIC-safe EBX save/restore internally.
 #if (defined(__GNUC__) || defined(__clang__)) && \
     (defined(__x86_64__) || defined(_M_X64) || \
@@ -99,8 +99,9 @@ SIMDLevel detectSIMDLevel() noexcept {
             }
         }
 #elif defined(_MSC_VER)
+        // __cpuidex is required to pass the sub-leaf (ECX=0) for leaf 7.
         int cpuInfo[4] = {};
-        __cpuid(cpuInfo, 7);
+        __cpuidex(cpuInfo, 7, 0);
         if (static_cast<unsigned int>(cpuInfo[1]) & (1u << 5)) {
             level = SIMDLevel::AVX2;
         }
