@@ -50,6 +50,7 @@
 
 #include "rag/tensor_rag_pipeline.h"
 
+#include <cstdio>
 #include <mutex>
 
 namespace themis {
@@ -126,6 +127,13 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
                         decision.flare_query_embedding = efn(decision.flare_query);
                     } catch (...) {
                         // Fail-closed: embedding fn threw; leave embedding empty.
+                        // Distinct from "no fn wired" — the backend is registered but
+                        // failed at runtime. Operators should diagnose the root cause.
+                        std::fprintf(stderr,
+                            "[ThemisDB][WARN] TensorRAGPipeline::step: EmbeddingQueryFn "
+                            "threw for FLARE query (len=%zu); embedding left empty "
+                            "(fail-closed).\n",
+                            decision.flare_query.size());
                         decision.flare_query_embedding.clear();
                     }
                 }

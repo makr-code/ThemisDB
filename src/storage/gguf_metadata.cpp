@@ -33,6 +33,7 @@
 #include "storage/gguf_metadata.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 #include <iomanip>
 #include <mutex>
@@ -224,6 +225,10 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
                 // Activation: injected fn throws an exception.
                 // Production Delta: XOR stub is NOT cryptographically secure.
                 // Removal Plan: Q2 2027 — injected fn should not throw.
+                std::fprintf(stderr,
+                    "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn threw; "
+                    "falling back to insecure XOR stub. Provenance record is NOT "
+                    "cryptographically protected.\n");
                 record.hmac_signature = stubSign(record.canonicalBytes(), hmac_key);
             }
             return;
@@ -248,6 +253,10 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
                 const std::string expected = fn(record.canonicalBytes(), hmac_key);
                 return record.hmac_signature == expected;
             } catch (...) {
+                std::fprintf(stderr,
+                    "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn threw; "
+                    "returning false (fail-closed). Operator should diagnose why the "
+                    "HMAC function is failing.\n");
                 return false;  // fail-closed on exception
             }
         }

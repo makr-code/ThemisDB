@@ -52,6 +52,7 @@
 #include "rag/flare_retrieval.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <mutex>
 #include <numeric>
 #include <sstream>
@@ -225,6 +226,11 @@ std::vector<float> FlareRetrieval::buildQueryEmbedding() const {
         return fn_copy(buildQuery());
     } catch (...) {
         // Fail-closed: embedding fn threw; return empty rather than propagating.
+        // This is distinct from the "no fn wired" path above — the backend is
+        // registered but failed at runtime. Operators should diagnose the root cause.
+        std::fprintf(stderr,
+            "[ThemisDB][WARN] FlareRetrieval::buildQueryEmbedding: EmbeddingQueryFn "
+            "threw; returning empty embedding (fail-closed).\n");
         return {};
     }
 }
