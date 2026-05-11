@@ -1,220 +1,121 @@
-# LLM Processing Optimization: Inference Patterns from llama.cpp
+# LLM Processing Optimization Patterns for ThemisDB: Codebase Review and Integration Guidance
 
-**Status**: Draft  
-**Version**: 0.1  
-**Last Updated**: 2026-04-19  
-
----
-
-## I. Executive Summary
-
-Analysis of `llama.cpp/examples` demonstrates several high-impact optimization patterns for batch processing, speculative decoding, and context management in LLM inference. This draft documents architectural lessons applicable to ThemisDB's RAG pipeline and production inference serving.
-
-## II. Core Optimization Patterns from llama.cpp
-
-### A. Batched Decoding (Continuous Batching)
-
-**Pattern**: Multiple requests processed in a single forward pass with dynamic batching.
-
-**Key insights**:
-- KV-cache slot allocation per request (not per token)
-- Scheduler manages slot availability and request lifecycle
-- Reduces head-of-line blocking compared to static batch scheduling
-- Trade-off: Increased scheduler complexity
-
-**Applicability to ThemisDB RAG**:
-- Batch multiple document retrievals + LLM calls together
-- Pool KV-cache slots for concurrent queries
-- Reduces individual query latency under load
-
-### B. Lookahead Decoding
-
-**Pattern**: Generate multiple draft tokens speculatively; verify in parallel.
-
-**Key parameters**:
-- `n_lookahead`: Number of draft tokens (default 5–16)
-- `n_verify`: Verification budget (typically 8–16)
-- Reduces effective latency by amortizing model invocation cost
-
-**Applicability**:
-- Multi-turn RAG conversations (predict next retrieval query before current evaluation finishes)
-- Prefetch document candidates speculatively
-
-### C. Speculative Decoding
-
-**Pattern**: Small draft model generates candidate tokens; large verifier accepts/rejects in batch.
-
-**Typical setup**:
-- Draft model: 7B parameters (fast, ~10ms/token)
-- Verifier: 70B parameters (slow, ~50ms/token)
-- Verification batch: ~8–16 tokens per pass
-- Speedup observed: 2–3x for text generation
-
-**Key implementation details**:
-- Candidate pool management (rejected tokens rolled back)
-- KV-cache sharing between draft and verifier
-- Rejection sampling for non-greedy decoding
-
-**Applicability**:
-- Tiered RAG ranking: fast BM25 "draft", then neural verifier
-- Query rewriting: lightweight grammar-based draft → heavy semantic model
-
-### D. Parallel Processing (Multi-Sequence)
-
-**Pattern**: Process multiple independent sequences concurrently on same GPU/CPU.
-
-**Scheduling approach**:
-- Round-robin or priority-based slot assignment
-- Context switching between sequences
-- Amortizes fixed compute cost
-
-**Applicability**:
-- Batch document fetches for multi-query RAG
-- Concurrent embedding inference for hybrid search
-
-### E. KV-Cache Management
-
-**Core challenge**: KV-cache grows with sequence length and batch size.
-
-**Strategies**:
-- Sliding window (keep only recent tokens)
-- Flash-Attention (recompute instead of cache)
-- Quantized KV-cache (int8 or fp16)
-- KV-cache pooling / layer-wise pruning
-
-**Trade-off table**:
-| Strategy | Memory Saving | Latency Impact | Applicability |
-|----------|---------------|----------------|---------------|
-| Sliding window | 30–50% | +5–10% (recompute cost) | Long-context docs |
-| Quantization | 50–75% | Neg. to +2% | Always-on (hardware dependent) |
-| Pooling | 10–20% | Neg. | Middle layers only |
-
-### F. Lookup Tables (Pre-cached Embeddings)
-
-**Pattern**: Pre-compute and cache embeddings for frequent queries/documents.
-
-**Lookup optimization**:
-- Store in efficient format (HNSW index, quantized vectors)
-- Prefix-based cache invalidation
-- Version tracking for stale data handling
-
-**Applicability to RAG**:
-- Cache embeddings for domain reference corpus
-- Cache/memoize frequent query rewritings
-
-### G. Save/Load State
-
-**Pattern**: Checkpoint KV-cache state for quick session resumption.
-
-**Implementation details**:
-- Serialize context layer-by-layer
-- Memory-map for fast load
-- Checksum for integrity
-
-**Applicability**:
-- Resume interrupted RAG sessions
-- Preserve state across model updates (backward compatibility layer)
+**Status**: In Review
+**Version**: 0.2
+**Last Updated**: 2026-05-11
 
 ---
 
-## III. Integration Strategy for ThemisDB RAG
+## Abstract
 
-### Phase 1: Profiling (Pending)
-- [ ] Measure current RAG pipeline latency breakdown:
-  - Document retrieval time
-  - LLM inference time (unbatched vs. batched)
-  - RAGJudge evaluation time
-- [ ] Identify bottleneck (typically LLM or Judge)
+This document reviews LLM inference optimization patterns (continuous batching, speculative decoding, KV-cache management, and embedding/prefix caching) and verifies which claims are currently supported by the ThemisDB repository. The review is grounded in code and benchmark artifacts, with explicit claim boundaries. The main finding is that ThemisDB already exposes relevant integration surfaces (AQL LLM commands, RAG execution paths, LLM statistics/circuit-breaker telemetry, and benchmark harnesses), but end-to-end mixed-load validation of serving optimizations remains partially pending. We therefore separate (1) supported implementation-level claims from (2) deferred performance claims that require dedicated experiments. This structure is intended to make the article review-ready and consistent with the current repository state.
 
-### Phase 2: Selective Optimization (Pending)
-- [ ] If LLM bottleneck: implement batched decoding for multiple concurrent RAG queries
-- [ ] If Judge bottleneck: implement speculative decoding (lightweight pre-score → neural Judge)
-- [ ] Measure speedup vs. baseline
+## Introduction
 
-### Phase 3: Advanced Patterns (Pending)
-- [ ] KV-cache quantization (if memory-bound)
-- [ ] Lookahead for multi-turn queries
-- [ ] Lookup tables for document embeddings
+LLM-serving optimization patterns are often reported in serving-only environments. In ThemisDB, the LLM path is integrated into a **multi-model database** stack and interacts with AQL execution, retrieval, and transactional infrastructure. That integration context changes what can be claimed safely.
 
-### Phase 4: Production Rollout (Pending)
-- [ ] Adaptive scheduling (CPU vs GPU, small vs large batches)
-- [ ] Graceful degradation (fall back to unbatched if OOM)
-- [ ] Telemetry (latency, throughput, cache hit rates)
+### Problem
 
----
+Earlier versions of this document mixed concrete implementation observations with unverified performance forecasts (for example, unconditional 2-4x speedup claims). This revision removes unsupported claims and ties every central statement to repository artifacts.
 
-## IV. Quick-Win Recommendations
+### Scope
 
-### 1. Implement Request Batching (Highest Impact)
-- Collect multiple concurrent RAG queries
-- Batch through single LLM invocation
-- Expected speedup: **2–4x** under load
+This review focuses on:
 
-**Effort**: Medium (1–2 weeks, scheduler + batch assembly)
-**Risk**: Low (isolated change, can be feature-gated)
+- AQL-facing LLM operations (`LLM RAG`, `LLM EMBED`, `LLM MODEL`, `LLM LORA`, `LLM STATS`)
+- LLM/RAG runtime integration points and observability
+- Benchmark artifacts relevant to optimization patterns
+- Terminology alignment (AQL, multi-model, consistency model, component names)
 
-### 2. Cache Document Embeddings (Low Effort, High Value)
-- Pre-compute embeddings for reference corpus on startup
-- Store in HNSW + quantized format
-- Expected latency reduction: **30–50%** for repeated queries
+## Methodology
 
-**Effort**: Low (1 week, standard caching pattern)
-**Risk**: Very Low
+We used a repository-grounded verification method with three steps:
 
-### 3. Implement Quantized KV-Cache (Medium Impact)
-- Use fp16 or int8 for KV-cache storage
-- Minimal code change (convert dtype at cache write)
-- Expected memory saving: **50–75%**
+1. **Artifact inspection**: verify LLM/RAG capability claims against concrete files in `src/`, `include/`, `benchmarks/`, and top-level architecture/performance documents.
+2. **Claim classification**:
+   - **Supported claim**: directly backed by implementation or measured artifact.
+   - **Deferred claim**: plausible but not yet validated by dedicated mixed-load experiment data.
+3. **Terminology normalization**: enforce consistent use of ThemisDB terms:
+   - **AQL** (Advanced Query Language)
+   - **Multi-model database**
+   - **Consistency model**: strong consistency via Raft and eventual consistency via Gossip (deployment-selectable), plus MVCC/OCC/2PC/SAGA references in system documentation.
 
-**Effort**: Low-Medium (1–2 weeks, hardware-dependent testing)
-**Risk**: Low (well-tested approach in llama.cpp)
+### Evidence anchors used in this review
 
-### 4. Speculative Decoding for Query Rewriting (Niche but Powerful)
-- If multi-turn RAG used: lightweight grammar-based query draft → heavy semantic rewriter
-- Expected speedup for rewrite phase: **2–3x**
+| ID | Artifact | What it supports |
+|---|---|---|
+| E1 | `src/aql/llm_aql_handler.cpp` | Concrete AQL LLM command execution paths (`RAG`, `EMBED`, model/LoRA lifecycle, stats, cache stats) and error handling |
+| E2 | `src/aql/ARCHITECTURE.md` | `LlmAqlHandler` role, AQL LLM command surface, integration/threading model |
+| E3 | `ARCHITECTURE.md` | System-level capability declarations including async inference, continuous batching, paged KV-cache, RAG evaluation components |
+| E4 | `include/llm/LLAMACPP_EXAMPLES_INFERENCE_INSIGHTS.md` | Canonical internal mapping from llama.cpp example patterns to ThemisDB component design |
+| E5 | `benchmarks/bench_v1_3_0_features.cpp` | Existing benchmark functions for embedding cache, hybrid search, and combined LLM-RAG API-surface path |
+| E6 | `PERFORMANCE_EXPECTATIONS.md` | Current measured baseline context, SLO framing, and explicit statement that parts of AI/ML measurement wave are pending |
 
-**Effort**: High (3–4 weeks, custom draft model needed)
-**Risk**: Medium (new code path, needs careful validation)
+## Evaluation / Experiments
 
----
+### A. What is currently supported by repository evidence
 
-## V. Performance Expectations
+1. **AQL LLM command surface is implemented and observable** (E1, E2).
+   The code includes execution paths and explicit failures for `LLM RAG`, `LLM EMBED`, `LLM MODEL`, `LLM LORA`, `LLM STATS`, plus circuit-breaker and cache statistics output.
 
-After applying quick-wins (1–3):
+2. **Optimization patterns are documented as integration targets** (E3, E4).
+   The architecture and internal insight documents describe continuous batching, paged KV-cache, and speculation-related mappings.
 
-| Metric | Baseline | After Optimization | Improvement |
-|--------|----------|-------------------|------------|
-| Single query latency | 500ms | 350ms | 30% |
-| Throughput (100 concurrent queries) | 200 q/s | 600 q/s | 3x |
-| Memory (unbatched) | 16GB | 8GB | 50% |
-| P99 latency (100 concurrent) | 2s | 800ms | 2.5x |
+3. **Relevant benchmark harnesses exist** (E5).
+   Benchmarks such as `BM_EmbeddingCache_Query_Hit`, `BM_HybridSearch_RRF`, and `BM_Combined_LLM_RAG_Pipeline` are present.
 
----
+4. **Important caveat for benchmark interpretation** (E5, E6).
+   `BM_Combined_LLM_RAG_Pipeline` explicitly benchmarks API-surface simulation (including null manager pointers in setup), so it must not be interpreted as production E2E serving proof without additional runs.
 
-## VI. Risk Mitigation
+### B. Current quantitative context (verified)
 
-- **Cache coherence**: Implement TTL and versioning for pre-cached embeddings
-- **Memory fragmentation**: Use memory pool allocators in batch scheduler
-- **Verification latency**: Fall back to single-token decoding if batch verification times out
-- **Hardware variance**: Profile on target hardware; use conservative parameters
+From `PERFORMANCE_EXPECTATIONS.md` (E6), ThemisDB reports strong core-system baselines (for example Graph and time-series SLO hits and query P99 target achievement), while also documenting pending measurement work for parts of distributed/AI-ML modules. This supports a conservative conclusion:
 
----
+- The optimization direction is technically plausible and partially scaffolded.
+- Final superiority claims for mixed-load LLM serving are **not yet fully closed**.
 
-## VII. Related Work & References
+### C. Experiment plan required to close deferred claims
 
-- Llama.cpp continuous batching: https://github.com/ggerganov/llama.cpp/tree/master/examples/batched
-- Speculative decoding paper (Leviathan et al., 2023): "Fast Inference from Transformers via Speculative Decoding"
-- FlashAttention (Dao et al., 2022): "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+To validate optimization impact rigorously, run a focused matrix:
 
----
+- **Workloads**: serving-only, retrieval+inference, mixed transactional + retrieval + inference
+- **Policies**: baseline, batching-only, batching+KV policy, batching+KV+speculation
+- **Metrics**: TTFT, p50/p95/p99 latency, req/s, tokens/s, fallback rate, cache hit rate
+- **Acceptance**: improvement must hold under mixed load, not only in isolated runs
 
-## VIII. Next Steps
+## Terminology and Consistency Alignment
 
-1. Profile current ThemisDB RAG pipeline to identify bottleneck (1 week)
-2. Implement selected optimization (batching or caching, 1–2 weeks)
-3. Benchmark improvement on production workload (1 week)
-4. Consider Phase 3 advanced patterns if speedup insufficient (ongoing)
+This revision standardizes terminology as follows:
 
----
+- Use **AQL** consistently for language/runtime command references.
+- Use **multi-model database** for system positioning.
+- Use **consistency model** with explicit distinction: Raft (strong) vs Gossip (eventual), and transaction/concurrency terms MVCC, OCC, 2PC, SAGA where documented.
+- Use component names as they appear in repository artifacts (`LlmAqlHandler`, `RagJudge`, `CoherenceEvaluator`, `InferenceEngineEnhanced`, etc.).
 
-*This draft is based on detailed analysis of llama.cpp/examples optimization patterns. Implementation details are concrete and tested; only integration into ThemisDB is pending.*
+## Limitations / Known Issues
+
+1. Some optimization descriptions are currently architecture/design level rather than fully benchmark-validated production claims.
+2. AI/ML measurement coverage is explicitly staged in project performance reporting; not every optimization has closed empirical deltas yet.
+3. Existing benchmark files include both production-near and synthetic/API-surface scenarios; interpretation must distinguish these classes.
+4. Hardware-sensitive optimizations (e.g., KV strategies, speculation policy) require environment-specific validation before broad generalization.
+
+## Conclusion
+
+ThemisDB already contains meaningful implementation and architectural groundwork for LLM processing optimizations, especially in AQL-integrated LLM/RAG flows and instrumentation. However, only a subset of performance claims can currently be stated as measured outcomes. The correct review-ready position is:
+
+- keep supported implementation claims,
+- keep measured baseline claims,
+- defer mixed-load optimization superiority claims until dedicated experiments are completed and reported.
+
+## References
+
+1. ThemisDB repository. https://github.com/makr-code/ThemisDB
+2. `src/aql/llm_aql_handler.cpp` (AQL LLM execution and telemetry paths). https://github.com/makr-code/ThemisDB/blob/main/src/aql/llm_aql_handler.cpp
+3. `ARCHITECTURE.md` (system architecture and capability declarations). https://github.com/makr-code/ThemisDB/blob/main/ARCHITECTURE.md
+4. `PERFORMANCE_EXPECTATIONS.md` (benchmark/SLO report and measurement status). https://github.com/makr-code/ThemisDB/blob/main/PERFORMANCE_EXPECTATIONS.md
+5. `benchmarks/bench_v1_3_0_features.cpp` (LLM/RAG-related benchmark functions). https://github.com/makr-code/ThemisDB/blob/main/benchmarks/bench_v1_3_0_features.cpp
+6. `include/llm/LLAMACPP_EXAMPLES_INFERENCE_INSIGHTS.md` (internal mapping of llama.cpp optimization patterns). https://github.com/makr-code/ThemisDB/blob/main/include/llm/LLAMACPP_EXAMPLES_INFERENCE_INSIGHTS.md
+7. Y. Leviathan, M. Kalman, and Y. Matias. *Fast Inference from Transformers via Speculative Decoding*. ICML 2023. https://proceedings.mlr.press/v202/leviathan23a.html
+8. W. Kwon et al. *Efficient Memory Management for Large Language Model Serving with PagedAttention*. SOSP 2023. https://arxiv.org/abs/2309.06180
+9. T. Dao et al. *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*. NeurIPS 2022. https://arxiv.org/abs/2205.14135
+10. Z. Fu et al. *Break the Sequential Dependency of LLM Inference Using Lookahead Decoding*. arXiv 2023. https://arxiv.org/abs/2312.11462
