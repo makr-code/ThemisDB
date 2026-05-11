@@ -67,8 +67,9 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
 loadGradientFixture(const std::string& fixture_path) {
     std::ifstream input(fixture_path);
     if (!input.is_open()) {
+        const int open_errno = errno;
         std::cerr << "Failed to open gradient fixture: " << fixture_path
-                  << " (" << std::strerror(errno) << ")\n";
+                  << " (" << std::strerror(open_errno) << ")\n";
         return std::nullopt;
     }
 
@@ -106,8 +107,8 @@ loadGradientFixture(const std::string& fixture_path) {
         if (entry.contains("shard_id") && entry["shard_id"].is_string()) {
             shard_id = entry["shard_id"].get<std::string>();
         }
-        auto data = entry.value("data", nlohmann::json::object());
-        if (!data.is_object()) {
+        auto gradient_data = entry.value("data", nlohmann::json::object());
+        if (!gradient_data.is_object()) {
             ++skipped_entries;
             continue;
         }
@@ -116,7 +117,7 @@ loadGradientFixture(const std::string& fixture_path) {
         g.shard_id = shard_id;
         g.round = entry.value("round", static_cast<uint64_t>(1));
         g.sample_count = entry.value("sample_count", static_cast<size_t>(100));
-        g.data = std::move(data);
+        g.data = std::move(gradient_data);
         gradients.push_back(std::move(g));
     }
 
