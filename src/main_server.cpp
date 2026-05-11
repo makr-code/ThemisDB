@@ -130,7 +130,6 @@
 #include "security/hsm_provider.h"
 #include "security/hsm_security_checker.h"
 #include "security/hsm_security_metrics.h"
-#include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"

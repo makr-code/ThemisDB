@@ -740,7 +740,7 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 | `geo_topology_router.h` | Geo-distributed cluster routing |
 | `grpc_transport.h` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
 | `io_uring_batcher.h` | Linux io_uring async I/O batching |
-| `kernel_bypass.h` | Kernel bypass networking (DPDK/RDMA) <!-- TODO: verify --> |
+| `kernel_bypass.h` | Kernel bypass networking (DPDK + io_uring paths; compile-time gated) |
 | `network_audit_log.h` | Audit log for network events |
 | `qos_manager.h` | Per-tenant bandwidth quotas, token bucket, priority queuing |
 | `quic_server.h` | QUIC/HTTP3 server (port 8770, `THEMIS_ENABLE_HTTP3`) |
