@@ -17,6 +17,25 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// Public interface
+#include "acceleration/plugin_loader.h"
+#include "acceleration/plugin_security.h"
+
+#include <algorithm>
+#include <ctime>
+#include <filesystem>
+#include <iostream>
+
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#else
+#include <dlfcn.h>
+#include <sys/stat.h>
+#endif
+
 /*
  * Acceleration module — Dynamic Backend Plugin Loader
  * ====================================================
@@ -259,11 +278,11 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
             fs::path resolvedTarget = fs::canonical(entry.path(), ec);
             bool escaped = (ec.value() != 0);
             if (!escaped) {
-                auto [dirIt, tgtIt] = std::mismatch(
+                const auto mismatchPair = std::mismatch(
                     canonicalDir.begin(), canonicalDir.end(),
                     resolvedTarget.begin(), resolvedTarget.end()
                 );
-                escaped = (dirIt != canonicalDir.end());
+                escaped = (mismatchPair.first != canonicalDir.end());
             }
             if (escaped) {
                 std::cerr << "SECURITY: Skipping symlink that escapes plugin directory: "
