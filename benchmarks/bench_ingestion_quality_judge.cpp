@@ -111,6 +111,7 @@
 #include <cctype>
 #include <chrono>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -154,6 +155,7 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
     //   ---
     // i.e. newline + "---" + newline (`\n---\n`) in the serialized fixture.
     static constexpr const char* kSeparator = "\n---\n";
+    constexpr std::size_t kSeparatorLen = 5; // strlen("\n---\n")
     std::string::size_type start = 0;
     while (start <= content.size()) {
         const auto end = content.find(kSeparator, start);
@@ -168,7 +170,7 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
         if (end == std::string::npos) {
             break;
         }
-        start = end + std::char_traits<char>::length(kSeparator);
+        start = end + kSeparatorLen;
     }
     return responses;
 }
@@ -196,7 +198,13 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
     }
     try {
         const auto parsed = std::stoll(raw_value);
-        return std::chrono::microseconds{parsed < 0 ? 0 : parsed};
+        if (parsed < 0) {
+            std::cerr << "bench_ingestion_quality_judge: negative "
+                      << "THEMIS_BENCH_QJ_BACKEND_LATENCY_US=" << raw_value
+                      << " (clamped to 0)\n";
+            return std::chrono::microseconds{0};
+        }
+        return std::chrono::microseconds{parsed};
     } catch (const std::exception& e) {
         std::cerr << "bench_ingestion_quality_judge: invalid "
                   << "THEMIS_BENCH_QJ_BACKEND_LATENCY_US=" << raw_value
@@ -244,12 +252,15 @@ public:
         if (latency_.count() > 0) {
             std::this_thread::sleep_for(latency_);
         }
-        const auto index = call_index_.fetch_add(1);
+        const auto index = call_index_.fetch_add(1, std::memory_order_relaxed);
         return responses_[index % responses_.size()];
     }
 
     bool        isAvailable() const override { return available_; }
-    std::string description() const override { return "ScriptedTextBackend-bench-v2"; }
+    std::string description() const override {
+        return "ScriptedTextBackend(responses=" + std::to_string(responses_.size()) +
+               ", latency_us=" + std::to_string(latency_.count()) + ")";
+    }
 
 private:
     std::vector<std::string> responses_;
