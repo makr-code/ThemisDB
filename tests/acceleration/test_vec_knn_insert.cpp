@@ -95,9 +95,33 @@ protected:
         vim_ = std::make_unique<VectorIndexManager>(*db_);
         auto st = vim_->init("test_vec", kDim);
         ASSERT_TRUE(st.ok) << st.message;
+
+        VecKnnInsertPipeline::setAddBatchBridgeFn(
+            [](VectorIndexManager& idx,
+               const std::vector<BaseEntity>& batch,
+               std::string_view field) -> VecKnnInsertResult {
+                const auto st = idx.addBatch(batch, field);
+                VecKnnInsertResult r;
+                r.ok = st.ok;
+                r.message = st.message;
+                if (st.ok) {
+                    r.inserted = batch.size();
+                } else {
+                    r.failed = batch.size();
+                }
+                return r;
+            });
+
+        VecKnnInsertPipeline::setExtractVectorBridgeFn(
+            [](const BaseEntity& entity,
+               std::string_view field) -> std::optional<std::vector<float>> {
+                return entity.getFieldAsVector(field);
+            });
     }
 
     void TearDown() override {
+        VecKnnInsertPipeline::clearExtractVectorBridgeFn();
+        VecKnnInsertPipeline::clearAddBatchBridgeFn();
         vim_.reset();
         db_.reset();
         std::filesystem::remove_all(db_path_);

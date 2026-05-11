@@ -34,6 +34,7 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
+#include <optional>
 
 // Forward declarations
 namespace themis {
@@ -157,6 +158,36 @@ struct VecKnnInsertResult {
 /// underlying VectorIndexManager::addBatch() is serialised via a mutex.
 class VecKnnInsertPipeline {
 public:
+  /// Bridge callback for batch insertion into a vector index.
+  ///
+  /// Return value follows `VecKnnInsertResult` semantics:
+  /// `ok=true` and `inserted>0` for successful writes, `ok=false` with
+  /// `failed>0` and message on failure.
+  using AddBatchBridgeFn = std::function<VecKnnInsertResult(
+    VectorIndexManager&,
+    const std::vector<BaseEntity>&,
+    std::string_view)>;
+
+  /// Bridge callback for vector extraction from an entity field.
+  ///
+  /// Expected to return an empty optional when the field is missing or not
+  /// vector-compatible.
+  using ExtractVectorBridgeFn = std::function<std::optional<std::vector<float>>(
+    const BaseEntity&,
+    std::string_view)>;
+
+  /// Installs a process-wide add-batch bridge for link profiles where
+  /// VectorIndexManager write symbols are provided by another module.
+  static void setAddBatchBridgeFn(AddBatchBridgeFn fn);
+  /// Clears the add-batch bridge and restores fail-closed behavior.
+  static void clearAddBatchBridgeFn();
+
+  /// Installs a process-wide vector-extraction bridge for link profiles
+  /// where BaseEntity conversion helpers are provided by another module.
+  static void setExtractVectorBridgeFn(ExtractVectorBridgeFn fn);
+  /// Clears the vector-extraction bridge and restores fail-closed behavior.
+  static void clearExtractVectorBridgeFn();
+
     explicit VecKnnInsertPipeline(VecKnnPipelineConfig config = {});
     ~VecKnnInsertPipeline();
 

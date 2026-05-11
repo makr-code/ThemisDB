@@ -66,8 +66,8 @@ namespace tensor {
 
 namespace {
 std::mutex& sstMapFnMutex() { static std::mutex m; return m; }
-TensorMmapBridge::SstMapFn& sstMapFnStorage() {
-    static TensorMmapBridge::SstMapFn fn;
+std::function<void*(std::size_t, std::size_t)>& sstMapFnStorage() {
+    static std::function<void*(std::size_t, std::size_t)> fn;
     return fn;
 }
 } // anonymous namespace

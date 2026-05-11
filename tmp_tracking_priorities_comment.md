@@ -25,3 +25,65 @@ Neu angelegte Zusatz-Issues:
 - #4911 Architektur/Audit/Security
 - #4912 Performance
 - #4913 Root-Artefakte/Betriebslogs
+
+---
+
+## Doxygen-Auswertung (maschinenfreundlich)
+
+source_log: build/doxygen/doxygen-warnings.log
+timestamp: 2026-05-11
+
+metrics:
+	total: 716
+	undocumented: 31
+	param_mismatch: 152
+	unsupported_xml_html_tag: 241
+
+module_ranking:
+	- { module: query, count: 69 }
+	- { module: index, count: 54 }
+	- { module: plugins, count: 40 }
+	- { module: rag, count: 39 }
+	- { module: content, count: 38 }
+	- { module: analytics, count: 35 }
+	- { module: utils, count: 30 }
+	- { module: server, count: 27 }
+	- { module: process, count: 26 }
+	- { module: storage, count: 24 }
+	- { module: llm, count: 24 }
+	- { module: auth, count: 21 }
+	- { module: search, count: 20 }
+	- { module: temporal, count: 19 }
+	- { module: graph, count: 16 }
+
+agent_queue:
+	- id: DX-001
+		priority: P1
+		type: syntax
+		selector: "Unsupported xml/html tag"
+		scope: "include/query/**"
+		target: "Q2 2026"
+	- id: DX-002
+		priority: P1
+		type: param
+		selector: "too many @param|argument .* @param"
+		scope: "include/**"
+		target: "Q2 2026"
+	- id: DX-003
+		priority: P2
+		type: undocumented
+		selector: "is not documented"
+		scope: "include/query/**|include/index/**|include/server/**"
+		target: "Q2 2026"
+	- id: DX-004
+		priority: P3
+		type: undocumented
+		selector: "is not documented"
+		scope: "include/plugins/**|include/rag/**|include/content/**|include/analytics/**"
+		target: "Q3 2026"
+
+definition_of_done:
+	- "Count(Unsupported xml/html tag) == 0"
+	- "Count(too many @param) == 0"
+	- "Count(argument .* @param) == 0"
+	- "UNDOC in DX-003 scopes == 0"

@@ -70,6 +70,48 @@
 namespace themis {
 namespace acceleration {
 
+namespace {
+std::mutex& addBatchBridgeMutex() {
+    static std::mutex m;
+    return m;
+}
+
+VecKnnInsertPipeline::AddBatchBridgeFn& addBatchBridgeStorage() {
+    static VecKnnInsertPipeline::AddBatchBridgeFn fn;
+    return fn;
+}
+
+std::mutex& extractVectorBridgeMutex() {
+    static std::mutex m;
+    return m;
+}
+
+VecKnnInsertPipeline::ExtractVectorBridgeFn& extractVectorBridgeStorage() {
+    static VecKnnInsertPipeline::ExtractVectorBridgeFn fn;
+    return fn;
+}
+} // namespace
+
+void VecKnnInsertPipeline::setAddBatchBridgeFn(AddBatchBridgeFn fn) {
+    std::lock_guard<std::mutex> lk(addBatchBridgeMutex());
+    addBatchBridgeStorage() = std::move(fn);
+}
+
+void VecKnnInsertPipeline::clearAddBatchBridgeFn() {
+    std::lock_guard<std::mutex> lk(addBatchBridgeMutex());
+    addBatchBridgeStorage() = {};
+}
+
+void VecKnnInsertPipeline::setExtractVectorBridgeFn(ExtractVectorBridgeFn fn) {
+    std::lock_guard<std::mutex> lk(extractVectorBridgeMutex());
+    extractVectorBridgeStorage() = std::move(fn);
+}
+
+void VecKnnInsertPipeline::clearExtractVectorBridgeFn() {
+    std::lock_guard<std::mutex> lk(extractVectorBridgeMutex());
+    extractVectorBridgeStorage() = {};
+}
+
 // ============================================================================
 // SIMD helpers
 // ============================================================================
@@ -398,19 +440,156 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(
 // insertBatch – the main parallel insertion entry point
 // ---------------------------------------------------------------------------
 VecKnnInsertResult VecKnnInsertPipeline::insertBatch(
-    [[maybe_unused]] VectorIndexManager&            index,
+    VectorIndexManager&            index,
     const std::vector<BaseEntity>& entities,
-    [[maybe_unused]] std::string_view               vectorField)
+    std::string_view               vectorField)
 {
-
     VecKnnInsertResult result;
     if (entities.empty()) return result;
 
-    // Keep pipeline operational in builds where vector-index write symbols are
-    // provided by separate modules and not linked into this unit.
-    result.ok = false;
-    result.failed = entities.size();
-    result.message = "VecKnnInsertPipeline insert unavailable in current link profile";
+    AddBatchBridgeFn addBatchBridge;
+    {
+        std::lock_guard<std::mutex> lk(addBatchBridgeMutex());
+        addBatchBridge = addBatchBridgeStorage();
+    }
+    if (!addBatchBridge) {
+        result.ok = false;
+        result.failed = entities.size();
+        result.message = "VecKnnInsertPipeline addBatch bridge not configured";
+        total_failed_.fetch_add(result.failed, std::memory_order_relaxed);
+        return result;
+    }
+
+    ExtractVectorBridgeFn extractVectorBridge;
+    {
+        std::lock_guard<std::mutex> lk(extractVectorBridgeMutex());
+        extractVectorBridge = extractVectorBridgeStorage();
+    }
+    if (!extractVectorBridge) {
+        result.ok = false;
+        result.failed = entities.size();
+        result.message = "VecKnnInsertPipeline vector extraction bridge not configured";
+        total_failed_.fetch_add(result.failed, std::memory_order_relaxed);
+        return result;
+    }
+
+    std::string field = vectorField.empty()
+        ? config_.vector_field
+        : std::string(vectorField);
+    if (field.empty()) {
+        field = "embedding";
+    }
+
+    if (!config_.enable_cache) {
+        cache_->clear();
+    }
+
+    const std::size_t batchSize = std::max<std::size_t>(1, config_.batch_size);
+    const std::size_t maxWorkers = std::max<std::size_t>(1, config_.num_threads);
+
+    std::atomic<std::size_t> inserted{0};
+    std::atomic<std::size_t> failed{0};
+    std::mutex msgMutex;
+    std::string firstError;
+
+    const auto prewarmCache = [this, &field, &extractVectorBridge](const std::vector<BaseEntity>& batch) {
+        if (!config_.enable_cache) {
+            return;
+        }
+
+        std::vector<std::string> pks;
+        std::vector<std::vector<float>> vectors;
+        pks.reserve(batch.size());
+        vectors.reserve(batch.size());
+
+        for (const auto& e : batch) {
+            auto vec = extractVectorBridge(e, field);
+            if (!vec.has_value() || vec->empty()) {
+                continue;
+            }
+            pks.push_back(e.getPrimaryKey());
+            vectors.push_back(std::move(*vec));
+        }
+
+        for (std::size_t i = 0; i < vectors.size(); ++i) {
+            for (std::size_t j = i + 1; j < vectors.size(); ++j) {
+                if (vectors[i].size() != vectors[j].size()) {
+                    continue;
+                }
+
+                float cached = 0.0f;
+                if (cache_->get(pks[i], pks[j], cached)) {
+                    continue;
+                }
+
+                const float dist = simd_l2_sq(
+                    vectors[i].data(),
+                    vectors[j].data(),
+                    vectors[i].size());
+                cache_->put(pks[i], pks[j], dist);
+            }
+        }
+    };
+
+    std::vector<std::future<void>> futures;
+    futures.reserve((entities.size() + batchSize - 1) / batchSize);
+
+    for (std::size_t begin = 0; begin < entities.size(); begin += batchSize) {
+        const std::size_t end = std::min(begin + batchSize, entities.size());
+
+        auto worker = [&, begin, end]() {
+            std::vector<BaseEntity> batch;
+            batch.reserve(end - begin);
+            for (std::size_t i = begin; i < end; ++i) {
+                batch.push_back(entities[i]);
+            }
+
+            prewarmCache(batch);
+
+            VecKnnInsertResult batchResult;
+            {
+                std::lock_guard<std::mutex> lk(index_mtx_);
+                batchResult = addBatchBridge(index, batch, field);
+            }
+
+            if (batchResult.ok) {
+                const std::size_t okCount = batchResult.inserted > 0
+                    ? batchResult.inserted
+                    : batch.size();
+                inserted.fetch_add(okCount, std::memory_order_relaxed);
+            } else {
+                const std::size_t failedCount = batchResult.failed > 0
+                    ? batchResult.failed
+                    : batch.size();
+                failed.fetch_add(failedCount, std::memory_order_relaxed);
+                std::lock_guard<std::mutex> lk(msgMutex);
+                if (firstError.empty()) {
+                    firstError = batchResult.message;
+                }
+            }
+        };
+
+        futures.emplace_back(std::async(std::launch::async, worker));
+        if (futures.size() >= maxWorkers) {
+            futures.front().get();
+            futures.erase(futures.begin());
+        }
+    }
+
+    for (auto& f : futures) {
+        f.get();
+    }
+
+    result.inserted = inserted.load(std::memory_order_relaxed);
+    result.failed = failed.load(std::memory_order_relaxed);
+    result.ok = (result.failed == 0);
+    if (!result.ok) {
+        result.message = firstError.empty()
+            ? "VecKnnInsertPipeline batch insert failed"
+            : firstError;
+    }
+
+    total_inserted_.fetch_add(result.inserted, std::memory_order_relaxed);
     total_failed_.fetch_add(result.failed, std::memory_order_relaxed);
     return result;
 }

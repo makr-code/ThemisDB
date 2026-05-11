@@ -36,6 +36,7 @@
 #include <algorithm>
 #include <fstream>
 #include <map>
+#include <mutex>
 
 // Platform headers for executable path
 #if defined(__linux__)

@@ -58,6 +58,7 @@
 #include "storage/tensor_train_decomposer.h"
 
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <vector>
 
