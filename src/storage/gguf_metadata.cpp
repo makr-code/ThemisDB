@@ -23,6 +23,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <climits>
 #include <cstdio>
 #include <cstring>
@@ -62,7 +63,7 @@ std::string ProvenanceRecord::canonicalBytes() const {
 
 namespace {
 
-std::string toHex(const unsigned char* data, size_t len) {
+[[nodiscard]] std::string toHex(const unsigned char* data, size_t len) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
@@ -75,6 +76,9 @@ std::string toHex(const unsigned char* data, size_t len) {
                                             const std::string& key) {
     if (key.size() > static_cast<size_t>(INT_MAX) ||
         data.size() > static_cast<size_t>(INT_MAX)) {
+        std::fprintf(stderr,
+            "[ThemisDB][SECURITY] GGUFMetadata: HMAC input exceeds INT_MAX; "
+            "operation failed.\n");
         return {};
     }
 
@@ -105,9 +109,26 @@ std::string toHex(const unsigned char* data, size_t len) {
     std::memcpy(rhs_buf.data(), rhs.data(), rhs_copy);
 
     const int cmp = CRYPTO_memcmp(lhs_buf.data(), rhs_buf.data(), kHexSha256Len);
-    return (cmp == 0)
-        && lhs.size() == kHexSha256Len
-        && rhs.size() == kHexSha256Len;
+    const unsigned char cmp_ok =
+        static_cast<unsigned char>(cmp == 0 ? 1 : 0);
+    const unsigned char lhs_ok =
+        static_cast<unsigned char>(lhs.size() == kHexSha256Len ? 1 : 0);
+    const unsigned char rhs_ok =
+        static_cast<unsigned char>(rhs.size() == kHexSha256Len ? 1 : 0);
+    return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
+}
+
+[[nodiscard]] bool isValidHexSha256Signature(const std::string& signature) {
+    constexpr std::size_t kHexSha256Len = 64;
+    if (signature.size() != kHexSha256Len) {
+        return false;
+    }
+    for (unsigned char ch : signature) {
+        if (!std::isxdigit(ch)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // ─── Serialisation helpers ────────────────────────────────────────────────
@@ -238,17 +259,21 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
         if (fn) {
             try {
                 const std::string injected = fn(canonical, hmac_key);
-                if (!injected.empty()) {
+                if (isValidHexSha256Signature(injected)) {
                     record.hmac_signature = injected;
                     return;
                 }
                 std::fprintf(stderr,
                     "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn returned "
-                    "an empty signature; using built-in HMAC-SHA256.\n");
+                    "an invalid signature format; clearing signature.\n");
+                record.hmac_signature.clear();
+                return;
             } catch (...) {
                 std::fprintf(stderr,
                     "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn threw; "
-                    "using built-in HMAC-SHA256.\n");
+                    "clearing signature.\n");
+                record.hmac_signature.clear();
+                return;
             }
         }
     }
@@ -273,10 +298,10 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
         if (fn) {
             try {
                 const std::string expected = fn(canonical, hmac_key);
-                if (expected.empty()) {
+                if (!isValidHexSha256Signature(expected)) {
                     std::fprintf(stderr,
                         "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn "
-                        "returned empty signature.\n");
+                        "returned invalid signature format.\n");
                     return false;
                 }
                 return constantTimeEquals(record.hmac_signature, expected);

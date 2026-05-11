@@ -29,6 +29,8 @@
 #include "storage/gguf_metadata.h"
 
 #include <gtest/gtest.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 #include <string>
 #include <vector>
 
@@ -48,6 +50,32 @@ ProvenanceRecord makeRecord(const std::string& filename = "doc.pdf",
     rec.tenant_id        = tenant;
     rec.ingest_timestamp = "2026-05-06T19:00:00Z";
     return rec;
+}
+
+std::string hmacSha256Hex(const std::string& data, const std::string& key) {
+    unsigned char md[EVP_MAX_MD_SIZE];
+    unsigned int md_len = 0;
+    const auto* result = HMAC(
+        EVP_sha256(),
+        reinterpret_cast<const unsigned char*>(key.data()),
+        static_cast<int>(key.size()),
+        reinterpret_cast<const unsigned char*>(data.data()),
+        static_cast<int>(data.size()),
+        md,
+        &md_len);
+    EXPECT_NE(result, nullptr);
+    if (!result) {
+        return {};
+    }
+
+    static constexpr char kHexDigits[] = "0123456789abcdef";
+    std::string hex;
+    hex.resize(md_len * 2);
+    for (unsigned int i = 0; i < md_len; ++i) {
+        hex[2 * i] = kHexDigits[(md[i] >> 4) & 0x0F];
+        hex[2 * i + 1] = kHexDigits[md[i] & 0x0F];
+    }
+    return hex;
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -99,12 +127,13 @@ TEST(GGUFMetadata, GMD03_detach_removes_record) {
 TEST(GGUFMetadata, GMD04_sign_verify_correct_key) {
     auto rec = makeRecord();
     const std::string hmac_key = "super_secret_key_42";
+    const std::string expected =
+        hmacSha256Hex(rec.canonicalBytes(), hmac_key);
 
     GGUFMetadata::sign(rec, hmac_key);
     EXPECT_FALSE(rec.hmac_signature.empty());
     EXPECT_EQ(rec.hmac_signature.size(), 64u);
-    EXPECT_EQ(rec.hmac_signature,
-              "1efcad679031ffd693172f2a8b16ac4524f0b9ae3d7171836b58b00a1c68f0bf");
+    EXPECT_EQ(rec.hmac_signature, expected);
 
     EXPECT_TRUE(GGUFMetadata::verify(rec, hmac_key));
 }
@@ -195,9 +224,8 @@ TEST(GGUFMetadata, GMD09_injected_hmacfn_overrides_default_path) {
     const std::string signature = "injected-signature";
 
     GGUFMetadata::setHmacFn(
-        [signature](const std::string& data, const std::string& hmac_key) {
-            (void)data;
-            (void)hmac_key;
+        [signature]([[maybe_unused]] const std::string& data,
+                    [[maybe_unused]] const std::string& hmac_key) {
             return signature;
         });
 
@@ -209,10 +237,12 @@ TEST(GGUFMetadata, GMD09_injected_hmacfn_overrides_default_path) {
     GGUFMetadata::setHmacFn(nullptr);
 
     auto rec_default = makeRecord();
-    GGUFMetadata::sign(rec_default, "super_secret_key_42");
-    EXPECT_EQ(rec_default.hmac_signature,
-              "1efcad679031ffd693172f2a8b16ac4524f0b9ae3d7171836b58b00a1c68f0bf");
-    EXPECT_TRUE(GGUFMetadata::verify(rec_default, "super_secret_key_42"));
+    const std::string default_key = "super_secret_key_42";
+    const std::string expected =
+        hmacSha256Hex(rec_default.canonicalBytes(), default_key);
+    GGUFMetadata::sign(rec_default, default_key);
+    EXPECT_EQ(rec_default.hmac_signature, expected);
+    EXPECT_TRUE(GGUFMetadata::verify(rec_default, default_key));
 }
 
 } // anonymous namespace
