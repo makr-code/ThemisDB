@@ -23,6 +23,7 @@ on:
     paths:
       - 'src/server/**'
       - 'src/auth/**'
+      - 'src/governance/**'
       - '.github/workflows/security-dast-ci.yml'
   schedule:
     # Weekly on Sunday 02:00 UTC
