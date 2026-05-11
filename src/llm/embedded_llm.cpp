@@ -201,9 +201,6 @@ std::string EmbeddedLLM::generateStreaming(
     InferenceRequest request = createRequest(prompt, max_tokens);
     request.stream_callback = callback;
     auto response = generateFull(request);
-    if (callback && !request.stream_callback && !response.text.empty()) {
-        callback(response.text);
-    }
     return response.text;
 }
 

@@ -181,6 +181,34 @@ TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
     EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u}));
 }
 
+TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
+    const std::vector<float> px = {
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+    };
+    themis::tensor::UTRConfig cfg;
+    cfg.eps = 1e-6;
+    cfg.max_rank = 8;
+
+    const auto train = themis::tensor::UTRConverter::fromImage(px, 4, 4, 1, cfg);
+    const auto recon = train.reconstruct();
+    ASSERT_EQ(recon.size(), 2u);
+
+    const double expected_mean =
+        (0.0 + 64.0 + 128.0 + 255.0) / (4.0 * 255.0);
+    double variance = 0.0;
+    for (const auto value : {0.0, 64.0, 128.0, 255.0}) {
+        const auto normed = value / 255.0;
+        variance += (normed - expected_mean) * (normed - expected_mean);
+    }
+    variance /= 4.0;
+
+    EXPECT_NEAR(recon[0], expected_mean, 1e-3);
+    EXPECT_NEAR(recon[1], std::sqrt(variance), 1e-3);
+}
+
 TEST(UTRConverter, FromImageRejectsZeroDimension) {
     EXPECT_THROW(themis::tensor::UTRConverter::fromImage({}, 0, 4, 3),
                  std::invalid_argument);

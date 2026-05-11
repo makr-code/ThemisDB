@@ -202,6 +202,7 @@ TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
     EXPECT_EQ(qt.bit_depths, (std::vector<std::size_t>{2u, 2u, 3u}));
     EXPECT_EQ(qt.quantics_mode_sizes,
               (std::vector<std::size_t>{2u, 2u, 2u, 2u, 2u, 2u, 2u}));
+    EXPECT_EQ(qt.original_element_count, train.reconstruct().size());
 
     const auto original = train.reconstruct();
     const auto reshaped = qt.toTTTrain().reconstruct();
