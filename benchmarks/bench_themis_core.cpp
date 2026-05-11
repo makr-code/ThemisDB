@@ -20,9 +20,13 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <array>
+#include <cstdlib>
 #include <cstdint>
 #include <filesystem>
+#include <memory>
+#include <stdexcept>
 #include <string>
+#include <vector>
 
 #ifdef _WIN32
 #  include <windows.h>
@@ -45,6 +49,72 @@ constexpr std::string_view kZeroByteBenchmarkSignatureBase64 =
 constexpr std::uint32_t kOpcodeLcgSeed = 0xC0FFEEu;
 constexpr std::uint32_t kOpcodeLcgMultiplier = 1664525u;      // Numerical Recipes LCG
 constexpr std::uint32_t kOpcodeLcgIncrement = 1013904223u;    // Numerical Recipes LCG
+constexpr int kDefaultSocketDispatchChannels = 64;
+
+[[nodiscard]] bool parseBoolEnv(const char* name, bool default_value) {
+    const char* raw = std::getenv(name);
+    if (raw == nullptr || raw[0] == '\0') {
+        return default_value;
+    }
+    return std::string_view(raw) == "1" || std::string_view(raw) == "true" ||
+           std::string_view(raw) == "TRUE" || std::string_view(raw) == "on" ||
+           std::string_view(raw) == "ON";
+}
+
+[[nodiscard]] int parseIntEnvBounded(const char* name,
+                                     int default_value,
+                                     int min_value,
+                                     int max_value) {
+    const char* raw = std::getenv(name);
+    if (raw == nullptr || raw[0] == '\0') {
+        return default_value;
+    }
+    char* end_ptr = nullptr;
+    const long parsed = std::strtol(raw, &end_ptr, 10);
+    if (end_ptr == raw || (end_ptr != nullptr && *end_ptr != '\0')) {
+        return default_value;
+    }
+    if (parsed < min_value) {
+        return min_value;
+    }
+    if (parsed > max_value) {
+        return max_value;
+    }
+    return static_cast<int>(parsed);
+}
+
+class LoopbackOpcodeHarness {
+public:
+    explicit LoopbackOpcodeHarness(int channels)
+        : receiver_(io_context_,
+                    boost::asio::ip::udp::endpoint(boost::asio::ip::address_v4::loopback(), 0)),
+          receiver_endpoint_(receiver_.local_endpoint()) {
+        senders_.reserve(static_cast<std::size_t>(channels));
+        for (int i = 0; i < channels; ++i) {
+            senders_.push_back(std::make_unique<boost::asio::ip::udp::socket>(
+                io_context_, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)));
+        }
+    }
+
+    [[nodiscard]] uint8_t dispatch(uint8_t opcode, std::size_t session_index) {
+        auto& sender = *senders_[session_index % senders_.size()];
+        sender.send_to(boost::asio::buffer(&opcode, 1), receiver_endpoint_);
+
+        std::array<uint8_t, 1> inbound{};
+        boost::asio::ip::udp::endpoint remote;
+        const auto received = receiver_.receive_from(boost::asio::buffer(inbound), remote);
+        if (received != 1) {
+            throw std::runtime_error("loopback dispatch expected 1 byte");
+        }
+        return inbound[0];
+    }
+
+private:
+    boost::asio::io_context io_context_;
+    boost::asio::ip::udp::socket receiver_;
+    boost::asio::ip::udp::endpoint receiver_endpoint_;
+    std::vector<std::unique_ptr<boost::asio::ip::udp::socket>> senders_;
+};
 
 constexpr std::size_t decodedLengthFromBase64Length(std::size_t encoded_len,
                                                     std::size_t padding_chars) {
@@ -148,13 +218,19 @@ void BM_LicenseValidation_Ed25519(benchmark::State& state) {
     }
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose: Benchmark opcode-dispatch hot path for 10k concurrent sessions without opening 10k real sockets.
-// Activation: Always active inside benchmark-only binary bench_themis_core.
-// Production Delta: Uses synthetic session loop and in-process switch dispatch instead of live network I/O.
-// Removal Plan: Replace with socket-backed benchmark once deterministic 10k-session harness is available in CI.
+// SIMULATION NOTE:
+// Purpose: Deterministic benchmark for 10k session opcode dispatch with optional real
+//   loopback socket transport to include kernel network-stack overhead.
+// Activation: `THEMIS_BENCH_WIRE_USE_SOCKET_HARNESS=1` enables socket-backed mode;
+//   synthetic in-process dispatch remains default.
+// Production Delta: Socket mode uses loopback UDP channel fanout (`THEMIS_BENCH_WIRE_SOCKET_CHANNELS`)
+//   instead of full production session/TLS handshake and request pipeline.
+// Removal Plan: Keep as benchmark harness with explicit synthetic/socket modes.
 void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
     constexpr int kConcurrentSessions = 10000;
+    const bool use_socket_harness = parseBoolEnv("THEMIS_BENCH_WIRE_USE_SOCKET_HARNESS", false);
+    const int socket_channels = parseIntEnvBounded("THEMIS_BENCH_WIRE_SOCKET_CHANNELS",
+                                                   kDefaultSocketDispatchChannels, 1, 1024);
     enum CounterIndex : std::size_t {
         kGetCounter = 0,
         kPutCounter,
@@ -170,6 +246,16 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
         themis::wire::OpCode::OP_OK
     };
 
+    std::unique_ptr<LoopbackOpcodeHarness> socket_harness;
+    if (use_socket_harness) {
+        try {
+            socket_harness = std::make_unique<LoopbackOpcodeHarness>(socket_channels);
+        } catch (const std::exception& e) {
+            state.SkipWithError(e.what());
+            return;
+        }
+    }
+
     std::array<uint64_t, 5> counters{};
     for (auto _ : state) {
         std::uint32_t lcg_state = kOpcodeLcgSeed;
@@ -177,7 +263,12 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
             lcg_state = lcg_state * kOpcodeLcgMultiplier + kOpcodeLcgIncrement;
             const std::size_t opcode_index =
                 (static_cast<std::uint64_t>(lcg_state) * opcodes.size()) >> 32;
-            const auto opcode = opcodes[opcode_index];
+            auto opcode = opcodes[opcode_index];
+            if (socket_harness) {
+                opcode = static_cast<themis::wire::OpCode>(
+                    socket_harness->dispatch(static_cast<uint8_t>(opcode),
+                                             static_cast<std::size_t>(session)));
+            }
             switch (opcode) {
                 case themis::wire::OpCode::OP_GET:       ++counters[kGetCounter]; break;
                 case themis::wire::OpCode::OP_PUT:       ++counters[kPutCounter]; break;
@@ -190,6 +281,11 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * kConcurrentSessions);
+    if (socket_harness) {
+        state.SetLabel("mode=socket-loopback channels=" + std::to_string(socket_channels));
+    } else {
+        state.SetLabel("mode=synthetic-switch");
+    }
 }
 
 void BM_EditionManager_IsFeatureEnabled_HotPath(benchmark::State& state) {
