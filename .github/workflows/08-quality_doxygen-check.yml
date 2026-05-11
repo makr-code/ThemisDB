@@ -1,0 +1,64 @@
+name: Doxygen Documentation Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'Doxyfile'
+      - 'include/**/*.h'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hh'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'src/**/*.h'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hh'
+      - 'src/**/*.hxx'
+      - 'src/**/*.ipp'
+      - 'src/**/*.tpp'
+      - '.github/workflows/08-quality_doxygen-check.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  doxygen-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen
+
+      - name: Run Doxygen warning gate
+        run: |
+          WARN_LOG="$(awk -F= '/^WARN_LOGFILE[[:space:]]*=[[:space:]]*/{print $2}' Doxyfile | xargs)"
+          if [ -z "${WARN_LOG}" ]; then
+            echo "WARN_LOGFILE is not configured in Doxyfile"
+            exit 1
+          fi
+          mkdir -p "$(dirname "${WARN_LOG}")"
+          doxygen Doxyfile
+          if [ -f "${WARN_LOG}" ]; then
+            echo "Doxygen warnings logged: $(wc -l < "${WARN_LOG}")"
+            if grep -Ein "^[^:]+:[0-9]+:[[:space:]]*error:" "${WARN_LOG}"; then
+              echo "Doxygen reported parse/documentation errors:"
+              exit 1
+            fi
+          else
+            echo "Expected warning log file was not created: ${WARN_LOG}"
+            exit 1
+          fi
