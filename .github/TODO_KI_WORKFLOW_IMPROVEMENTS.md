@@ -68,11 +68,11 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
   kein `new`/`delete` ohne explizites Review-Flag
 
 ### 2.3 Prompt-Engineering-Leitfaden ergänzen
-- [ ] Neues Dokument `.github/copilot/PROMPT_ENGINEERING.md` anlegen
-- [ ] Enthält: Step-by-step Decomposition statt „implement feature X"
-- [ ] Enthält: Acceptance-Kriterien + Testfälle im Prompt als Best Practice
-- [ ] Enthält: Checkpoint-Strategie bei komplexen Agent-Läufen
-- [ ] Enthält: Beispiel-Prompts für Thread-sichere Queue, Socket-Handler,
+- [x] Neues Dokument `.github/copilot/PROMPT_ENGINEERING.md` anlegen
+- [x] Enthält: Step-by-step Decomposition statt „implement feature X"
+- [x] Enthält: Acceptance-Kriterien + Testfälle im Prompt als Best Practice
+- [x] Enthält: Checkpoint-Strategie bei komplexen Agent-Läufen
+- [x] Enthält: Beispiel-Prompts für Thread-sichere Queue, Socket-Handler,
   Token-Bucket-Algorithmus
 
 ---
@@ -80,20 +80,20 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 ## Phase 3 — KI-Kontext-Verzeichnisse (Mittlerer Aufwand)
 
 ### 3.1 `ai_context/` — Persistente Wissensbasis für KI-Agenten
-- [ ] Verzeichnis `ai_context/` im Root anlegen
-- [ ] `ai_context/README.md` mit Zweck und Ablage-Konventionen
-- [ ] Initiale ADRs aus `docs/research/architecture_decisions/` hierher
+- [x] Verzeichnis `ai_context/` im Root anlegen
+- [x] `ai_context/README.md` mit Zweck und Ablage-Konventionen
+- [x] Initiale ADRs aus `docs/research/architecture_decisions/` hierher
   verlinken oder symbolisch referenzieren
-- [ ] `ai_context/memory_management_policy.md` — RAII + Ownership-Regeln
+- [x] `ai_context/memory_management_policy.md` — RAII + Ownership-Regeln
   als für KI lesbares Dokument
-- [ ] `ai_context/api_contracts/` — öffentliche Header-API-Kontrakte als
+- [x] `ai_context/api_contracts/` — öffentliche Header-API-Kontrakte als
   maschinenlesbare Markdown-Tabellen
 
 ### 3.2 `ai_working/` — Iterativer Entwurfsraum
-- [ ] Verzeichnis `ai_working/` anlegen
-- [ ] `.gitignore`-Einträge für `ai_working/*.tmp.*` und `ai_working/debug_*`
+- [x] Verzeichnis `ai_working/` anlegen
+- [x] `.gitignore`-Einträge für `ai_working/*.tmp.*` und `ai_working/debug_*`
   hinzufügen (tempor. Agent-Entwürfe nicht committen)
-- [ ] `ai_working/README.md` — Regeln: kein produktiver Code hier,
+- [x] `ai_working/README.md` — Regeln: kein produktiver Code hier,
   Inhalte vor PR-Merge nach `docs/` oder `src/` migrieren
 
 ---

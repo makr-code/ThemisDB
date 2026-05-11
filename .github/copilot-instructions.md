@@ -299,3 +299,32 @@ can be bypassed efficiently:
 // Model: deepseek-coder-v2:16b
 // Reason: C++ boilerplate generation
 ```
+
+
+## 10) Dokumentationspflicht für KI-gestützte C++-Entwicklung
+
+Dokumentation ist ein verpflichtender Qualitätsbestandteil und kein optionales Add-on.
+
+### 10.1 Verbindliche Doxygen-Regeln
+
+- Jede neue/geänderte öffentliche C++-API MUSS einen Doxygen-Block haben.
+- Pflicht-Tags: `@brief`, `@param` (für alle Parameter), `@return` (wenn nicht `void`), `@throws` (falls relevant).
+- Für Templates: `@tparam`; für Concepts/semantische Voraussetzungen: `@requires`.
+- Kommentare müssen den Zweck und die Randbedingungen erklären ("warum"), nicht nur den Code paraphrasieren ("was").
+- Bei Refactorings MUSS bestehende Dokumentation im gleichen Change aktualisiert werden.
+
+### 10.2 Intent- und Edge-Case-Dokumentation
+
+- Fehler- und Randfallverhalten dokumentieren (invalid input, timeout, cancellation, empty state).
+- Bei APIs mit Ownership-/Lifetime-Vertrag diesen explizit benennen.
+
+### 10.3 Tooling und semantischer Kontext
+
+- Für C++-Symbolarbeit weiter die Language-Service-Tools verwenden (`GetSymbolInfo_CppTools`, `GetSymbolReferences_CppTools`, `GetSymbolCallHierarchy_CppTools`).
+- VS Code-Kontext für semantische Assistenz sollte `C_Cpp.enableCppCodeEditingTools: true` und `C_Cpp.codeAnalysis.runAutomatically: true` nutzen.
+
+### 10.4 CI-/Governance-Erwartung
+
+- Dokumentationslücken sind wie Build-Fehler zu behandeln.
+- Bei späterer CI-Härtung soll ein Doxygen-Coverage-Gate (z. B. Coverxygen + Threshold) verwendet werden.
+- README/API-Dokumentation muss bei Architektur- und Verhaltensänderungen synchronisiert werden.

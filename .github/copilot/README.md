@@ -16,7 +16,8 @@ This directory contains modular Copilot instructions and development tooling for
 │   ├── MVCC_CONCURRENCY.md
 │   ├── PERFORMANCE_PROFILING.md
 │   ├── TESTING_GUIDE.md
-│   └── VSCODE_CONTEXT.md
+│   ├── VSCODE_CONTEXT.md
+│   └── PROMPT_ENGINEERING.md
 ├── scripts/
 │   └── validate_copilot_refs.py     # Validate file references
 └── workflows/
@@ -129,6 +130,13 @@ The modular AI-Guardrails architecture provides:
 - IntelliSense configuration.
 - Debugging workflows.
 - Formatting support.
+
+### PROMPT_ENGINEERING.md
+
+- Step-by-step decomposition for implementation prompts.
+- Acceptance-criteria-first prompt structure.
+- Checkpoint strategy for long-running autonomous tasks.
+- Canonical prompt patterns for concurrency/networking/rate-limiting tasks.
 
 ## Validation
 
