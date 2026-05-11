@@ -535,7 +535,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](../../src/core/FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [Roadmap](../../src/core/ROADMAP.md) - Module status, phases, and production-readiness checklist
 - [Storage Headers](../storage/README.md) - Storage layer interfaces
 - [Server Headers](../server/README.md) - Server protocol interfaces
 
