@@ -26,20 +26,27 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 | Interface / File | Role |
 |-----------------|------|
 | `llm_aql_handler.cpp` | LLM command handler (INFER/RAG/EMBED/MODEL/LORA), NL-to-AQL translation |
-| `docs_assistant_functions.cpp` | Function lookup and explanation |
+| `docs_assistant_functions.cpp` | Function lookup and explanation; native NLP intent detection via `IClassifyFn` |
 | `aql_query_validator.cpp` | Query validation and linting |
 | `aql_query_builder.cpp` | Schema-aware programmatic AQL construction |
 | `aql_schema_provider.cpp` | Live schema context for query generation |
 | `aql_syntax_highlighter.cpp` | ANSI color highlighting and error annotation |
 | `aql_confidence_scorer.cpp` | Confidence scoring for generated queries |
 | `aql_autocomplete.cpp` | Token-level autocompletion (LSP-compatible) |
-| `aql_fewshot_example_library.cpp` | Few-shot NL/AQL example corpus |
+| `aql_fewshot_example_library.cpp` | Few-shot NL/AQL example corpus with optional semantic ranking |
 | `aql_optimizer_advisor.cpp` | Query plan explanation and rewrite suggestions |
-| `aql_conversation_context.cpp` | Multi-turn conversation history |
+| `aql_conversation_context.cpp` | Multi-turn conversation history with bounded context window |
 | `aql_query_template_library.cpp` | Pre-validated query templates for common patterns |
 | `aql_lora_finetuner.cpp` | LoRA adapter fine-tuning on AQL corpora |
 | `aql_migration_assistant.cpp` | Legacy AQL migration (ArangoDB → ThemisDB AQL) |
 | `llm_metrics_collector.cpp` | Latency, token counts, and cache-hit metrics |
+| `aql_agent.cpp` | ReAct (Reasoning+Acting) multi-step agent with tool calling |
+| `aql_query_diff_explainer.cpp` | Clause-level structural diff between two AQL queries |
+| `aql_rollback_suggester.cpp` | Rule-based rollback query generation for mutating statements |
+| `aql_ingestion_bridge.cpp` | Connects AQL INSERT/UPSERT operations to the ingestion pipeline |
+| `aql_model_router.cpp` | Routes AQL queries to the best-matching LLM backend by type |
+| `classify_bridge.cpp` | Zero-shot text classification bridge (`IClassifyFn` / `NullClassifyFn`) |
+| `llm_aql_embedding_bridge.cpp` | Adapts `LLMAQLHandler::executeEmbed()` to the `IEmbeddingProvider` interface |
 
 ## Scope
 
@@ -643,13 +650,233 @@ std::string embed_query = R"(
 auto result = handler.execute(embed_query);
 ```
 
-## Dependencies
+### AQLAgent / ReActAgent
+**Location:** `aql_agent.cpp`, `../include/aql/aql_agent.h`
 
-### Internal Dependencies
-- **query/**: AQL parsing and execution
-- **index/**: Vector index for similarity search
-- **storage/**: Persistent storage for embeddings and model metadata
-- **llm/**: LLM backend integration (llama.cpp)
+Autonomous multi-step reasoning agent using the ReAct (Reasoning+Acting) pattern with tool
+calling. The agent iterates Thought→Action→Observation cycles up to a configurable
+`max_iterations` limit, stopping when the LLM emits a "Final Answer:" prefix.
+
+**Key types:**
+- `AgentTool` — named callable with JSON Schema parameter description
+- `AgentConfig` — model alias, max iterations, temperature
+- `ReasoningStep` — thought, tool name, tool input/output, observation
+- `AgentResult` — final answer, reasoning trace, iterations used, success flag
+- `IAgent` — abstract interface
+- `ReActAgent` — Pimpl concrete implementation
+
+**Usage:**
+
+```cpp
+#include "aql/aql_agent.h"
+
+themis::aql::AgentConfig cfg;
+cfg.model_alias   = "llama-3-8b";
+cfg.max_iterations = 5;
+
+themis::aql::ReActAgent agent(handler, cfg);
+
+// Register a tool the agent can call
+agent.registerTool({
+    "query_db",
+    "Execute an AQL query and return results as JSON",
+    {{"type","object"},{"properties",{{"aql",{{"type","string"}}}}}},
+    [&](const nlohmann::json& args) -> nlohmann::json {
+        auto res = engine.executeAql(args["aql"]);
+        return res.has_value() ? res.value() : nlohmann::json{{"error","failed"}};
+    }
+});
+
+auto result = agent.run("Find the 3 most active users in the last week");
+if (result.succeeded) {
+    std::cout << result.final_answer << '\n';
+}
+```
+
+**Error behaviour:**
+- Duplicate tool registration → `std::invalid_argument`
+- Unknown tool removal → `std::invalid_argument`
+- LLM failure → `LLMException(INFERENCE_FAILED)`
+- Max iterations reached → `AgentResult{succeeded=false}`; tool executor exceptions are
+  captured as JSON and fed back as observations (never propagate to caller)
+
+**Note:** `ReActAgent` currently has production implementation but no active call-site in the
+server stack. See `src/STUB_INVENTORY.md` and the "Latente Symbole" section in
+[ROADMAP.md](ROADMAP.md) for the planned production-integration ticket.
+
+---
+
+### AQLQueryDiffExplainer
+**Location:** `aql_query_diff_explainer.cpp`, `../include/aql/aql_query_diff_explainer.h`
+
+Rule-based clause-level structural diff between two AQL query strings. Normalises whitespace,
+splits each query into canonical clauses (FOR, LET, FILTER, SORT, LIMIT, RETURN, COLLECT,
+INSERT, UPDATE, REMOVE, UPSERT, REPLACE), and returns every clause that was added, removed,
+or changed. No LLM required; runs in O(n) time.
+
+**Usage:**
+
+```cpp
+#include "aql/aql_query_diff_explainer.h"
+
+themis::aql::AQLQueryDiffExplainer explainer;
+auto diff = explainer.explain(
+    "FOR u IN users FILTER u.age > 18 RETURN u",
+    "FOR u IN users FILTER u.age > 21 SORT u.name RETURN u");
+
+if (!diff.is_equivalent) {
+    std::cout << diff.summary << '\n';
+    for (const auto& entry : diff.diffs)
+        std::cout << "  " << entry.explanation << '\n';
+}
+```
+
+**Typical use cases:**
+- Show what changed when a query is auto-migrated by `AQLMigrationAssistant`
+- Diff view in query history / versioning UI
+- Regression tests: assert that an optimised query is semantically equivalent to the original
+
+---
+
+### AQLRollbackSuggester
+**Location:** `aql_rollback_suggester.cpp`, `../include/aql/aql_rollback_suggester.h`
+
+Derives a compensating (rollback) AQL query for a given mutation statement (INSERT / UPDATE /
+REPLACE / REMOVE / UPSERT). All logic is rule-based and runs in O(n). No LLM required.
+
+**Usage:**
+
+```cpp
+#include "aql/aql_rollback_suggester.h"
+
+themis::aql::AQLRollbackSuggester suggester;
+auto suggestion = suggester.suggest(
+    "FOR u IN users FILTER u.status == 'trial' "
+    "UPDATE u WITH { status: 'active' } IN users");
+
+if (suggestion.is_automatic) {
+    std::cout << "Rollback:\n" << suggestion.rollback_query << '\n';
+} else {
+    std::cout << "Manual steps required:\n";
+    for (const auto& step : suggestion.manual_steps)
+        std::cout << "  - " << step << '\n';
+}
+```
+
+**Limitations:**
+- REMOVE rollback requires a pre-mutation document snapshot; the suggested query uses
+  a `@snapshot` bind-parameter placeholder.
+- UPDATE/REPLACE rollback uses a `@old_values` bind-parameter placeholder.
+- Dynamic collection names (bind parameters as collection refs) yield `is_automatic=false`.
+- Only the outermost mutation in nested sub-queries is analysed.
+
+---
+
+### AQLIngestionBridge
+**Location:** `aql_ingestion_bridge.cpp`, `../include/aql/aql_ingestion_bridge.h`
+
+Connects AQL INSERT/UPSERT operations to the ingestion pipeline: when a document payload
+contains a text field, `enrichInsertPayload()` runs the `WorkflowEngine`, appends extracted
+entities to the document under `"_entities"`, and optionally writes them to a graph store.
+All public methods are thread-safe.
+
+**Usage:**
+
+```cpp
+#include "aql/aql_ingestion_bridge.h"
+
+auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
+auto bridge  = std::make_shared<themis::aql::AQLIngestionBridge>(toolbox);
+handler.setIngestionBridge(bridge);
+
+// Automatically enriched on any INSERT/UPSERT with a "text" field:
+// handler.execute("INSERT {text: 'EU Regulation 2024/1234'} INTO documents");
+// → document stored with "_entities": [{"id":"law:EU:2024/1234","type":"LEGAL_PROVISION",...}]
+
+// Manual entity extraction for NL→AQL context
+nlohmann::json payload = {{"text", "ThemisDB supports HNSW vector indexes"}};
+std::string ctx = bridge->enrichInsertPayload(payload);
+// ctx: "Extracted entities: SOFTWARE org:themisdb | ALGORITHM algo:hnsw"
+```
+
+---
+
+### AQLModelRouter
+**Location:** `aql_model_router.cpp`, `../include/aql/aql_model_router.h`
+
+Classifies an AQL query into one of several `QueryModelType` categories (VECTOR, GRAPH, GEO,
+FULLTEXT, TIMESERIES, RELATIONAL, PROCESS) by scanning for keyword patterns, then selects
+the highest-priority enabled `ModelRoute` from a registered route table. Falls back to the
+next enabled route when the primary is unavailable.
+
+**Usage:**
+
+```cpp
+#include "aql/aql_model_router.h"
+
+themis::aql::AQLModelRouter router;
+router.registerRoute({themis::aql::QueryModelType::VECTOR,  "embed-model", 100});
+router.registerRoute({themis::aql::QueryModelType::RELATIONAL, "llama-3-8b", 10});
+
+auto route = router.route("FOR d IN docs LET s = SIMILARITY(d.emb, @q) RETURN d");
+if (route) {
+    std::cout << "Model: " << route->model_alias << '\n';  // "embed-model"
+}
+```
+
+---
+
+### ClassifyBridge / IClassifyFn
+**Location:** `classify_bridge.cpp`, `../include/aql/classify_bridge.h`
+
+Defines the `IClassifyFn` interface for zero-shot text classification and a `NullClassifyFn`
+no-op fallback. The concrete `AQLFunctionClassifyBridge` (registered in the module initialiser)
+delegates to the AQL `CLASSIFY(text, categories)` built-in, enabling native NLP intent
+detection in `DocsAssistantFunctions::detectIntentWithNativeNLP()` without an LLM round-trip.
+
+**Usage:**
+
+```cpp
+#include "aql/classify_bridge.h"
+#include "aql/docs_assistant_functions.h"
+
+// Inject a real classifier (e.g. wired to the CLASSIFY function registry)
+auto classifier = std::make_shared<themis::aql::AQLFunctionClassifyBridge>(registry);
+docs_assistant.setClassifier(classifier.get());
+
+// Now detectIntentWithNativeNLP() returns real categories instead of "unknown"
+// Fallback: when no classifier is set, NullClassifyFn is used and the LLM path takes over
+```
+
+---
+
+### LLMAQLEmbeddingBridge
+**Location:** `llm_aql_embedding_bridge.cpp`, `../include/aql/llm_aql_embedding_bridge.h`
+
+Adapter that bridges `LLMAQLHandler::executeEmbed()` to the `IEmbeddingProvider` interface
+required by `AQLFewShotExampleLibrary`. Wiring the bridge enables semantic (cosine similarity)
+few-shot selection, replacing the default Jaccard word-overlap ranking.
+
+**Usage:**
+
+```cpp
+#include "aql/llm_aql_embedding_bridge.h"
+#include "aql/aql_fewshot_example_library.h"
+
+AQLFewShotExampleLibrary library;
+library.addBuiltinSamples();
+
+// Wire semantic ranking via the handler's embed circuit
+auto bridge = handler.makeEmbeddingBridge();
+library.setEmbeddingProvider(bridge.get());
+library.rebuildEmbeddingIndex();
+
+// Now translateNLToAQLWithExamples() uses cosine similarity for example selection
+std::string aql = handler.translateNLToAQLWithExamples(
+    "find all users with role admin", library, schema_context, 5);
+```
+
+## Dependencies
 
 ### External Dependencies
 - **llama.cpp**: GGUF model loading and inference
@@ -712,6 +939,91 @@ Run the benchmarks after a Release build:
    - NL to AQL translation may not always be accurate
    - Complex queries may require manual AQL writing
 
+## Troubleshooting
+
+### NL-to-AQL Translation Returns Invalid Queries
+
+**Symptom:** `translateNLToAQL()` throws `LLMException(INVALID_RESPONSE, ...)` or the
+returned AQL fails on execution.
+
+**Causes and fixes:**
+1. **Ambiguous natural language** — Rephrase the query to be more specific, or provide a
+   `schema_context` string listing collection names and fields.
+2. **Wrong model** — Code-generation models (DeepSeek-Coder, Codestral) produce much better
+   AQL than general instruction models; switch via `LLM MODEL LOAD`.
+3. **Validation mode** — Check `handler.getValidationLimits()`. Use `RETRY_ON_ERROR` mode so
+   the handler automatically re-submits with the error annotation as feedback.
+4. **Prompt injection detected** — Input containing instruction-override patterns raises
+   `PROMPT_INJECTION`; sanitise the NL query before calling the handler.
+
+### LLM Inference Times Out
+
+**Symptom:** `LLMException(TIMEOUT)` from `executeInfer()` / `executeRAG()`.
+
+**Fixes:**
+- Increase timeouts via `handler.setTimeoutConfig({.infer_timeout = 600, ...})`.
+- Reduce `max_tokens` in the inference options.
+- Load a smaller/quantised model (4-bit GGUF).
+- Enable GPU offload: reload model with `GPU_LAYERS <n>`.
+
+### Circuit Breaker Open for INFER/RAG/EMBED
+
+**Symptom:** `LLMException(CIRCUIT_OPEN)` for one command type while others work.
+
+**Fix:** Per-command circuit breakers are isolated. Inspect state via `handler.getCircuitBreakerStates()`.
+Wait for the timeout window to expire (default 60 s) or reset programmatically.
+Use `LLM STATS` command to see current breaker state.
+
+### Conversation Context Grows Without Bound
+
+**Symptom:** `executeChat()` latency increases over a long session; backend reports context-
+window overflow.
+
+**Fix:** Configure bounded history on construction:
+```cpp
+themis::aql::AQLConversationContext::Config cfg;
+cfg.max_turns          = 20;
+cfg.max_history_tokens = 8192;
+AQLConversationContext ctx(cfg);
+```
+Bounded eviction drops the oldest user+assistant pair while preserving the system message.
+
+### Few-Shot Examples Appear Irrelevant
+
+**Symptom:** `translateNLToAQLWithExamples()` picks examples that don't match the query domain.
+
+**Fix:** Enable semantic (cosine) ranking by wiring the embedding bridge:
+```cpp
+auto bridge = handler.makeEmbeddingBridge();
+library.setEmbeddingProvider(bridge.get());
+library.rebuildEmbeddingIndex();
+```
+Without a provider, the library falls back to Jaccard word-overlap, which is
+vocabulary-sensitive and may miss semantically similar examples.
+
+### Rollback Query Uses Placeholder Bind Parameters
+
+**Symptom:** `AQLRollbackSuggester::suggest()` returns `is_automatic = false` or a query with
+`@snapshot` / `@old_values` placeholders.
+
+**Cause:** REMOVE and UPDATE rollbacks require pre-mutation snapshots that the suggester
+cannot infer from the query alone.
+
+**Fix:** Capture the affected documents with a pre-query before executing the mutation, then
+bind them to the rollback query:
+```cpp
+// Before mutation: capture snapshot
+auto snapshot = engine.executeAql(
+    "FOR u IN users FILTER u.status == 'trial' RETURN u");
+
+// Apply mutation …
+
+// After failure: execute rollback with snapshot
+auto suggestion = rollback_suggester.suggest(mutation_query);
+engine.executeAqlWithBindParams(suggestion.rollback_query,
+                                {{"snapshot", snapshot.value()}});
+```
+
 ## Status
 
 **Production Ready** (as of v1.5.0)
@@ -737,12 +1049,18 @@ Run the benchmarks after a Release build:
 
 ## Related Documentation
 
+- [ROADMAP.md](ROADMAP.md) - Implementation phases, completed features, production readiness checklist
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned improvements with interface specs and acceptance criteria
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Component diagram, data-flow, threading model
+- [include/aql/README.md](../../include/aql/README.md) - Header interface reference
 - [Query Module](../query/README.md) - Core AQL parsing and execution
 - [LLM Module](../llm/README.md) - LLM backend integration
 - [Index Module](../index/README.md) - Vector indexing for RAG
 - [AQL Syntax Guide](../../docs/de/aql/aql_syntax.md) - Complete AQL syntax reference
 - [AQL Functions Reference](../../docs/de/aql/aql_functions_reference.md) - All AQL functions
 - [AQL Hybrid Queries](../../docs/de/aql/aql_hybrid_queries.md) - Multi-model query examples
+- [docs/de/aql/README.md](../../docs/de/aql/README.md) - German overview (DE)
+- [docs/en/aql/README.md](../../docs/en/aql/README.md) - English overview (EN)
 
 ## Contributing
 
@@ -759,7 +1077,9 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned AQL improvements
+- [ROADMAP.md](ROADMAP.md) - Implementation history and planned phases
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Detailed enhancement specs
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Module architecture guide
 - [Query Module](../query/README.md) - Query execution engine
 - [LLM Module](../llm/README.md) - LLM integration
 
