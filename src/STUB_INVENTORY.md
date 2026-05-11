@@ -42,6 +42,8 @@
 
 ## Stub Inventory (251 entries — 238 resolved, 13 active)
 
+**Active stub IDs:** `84`, `91`, `95`, `107`, `226`, `230`, `231`, `232`, `233`, `242`, `252`, `253`, `256`
+
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
 | ~~1~~ | ~~`llm/embedded_llm_stub.cpp`~~ | ~~No-op EmbeddedLLM when `THEMIS_ENABLE_LLM=OFF`~~ | ~~`THEMIS_ENABLE_LLM` not defined~~ | ~~All inference returns `"LLM disabled"`, `isReady()=false`~~ | — | `src/llm/ROADMAP.md` §Phase 1 | ~~permanent fallback~~ **RESOLVED 2026-05-11** — `EmbeddedLLM` now exposes `GenerateFullFn` / `EmbedFn` bridge setters in both real and stub builds; the no-LLM build can forward generation + embedding into an injected backend while retaining the disabled fallback when no callback is configured |

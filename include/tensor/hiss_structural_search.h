@@ -104,7 +104,8 @@ public:
      *
      * Factorisation strategy:
      * - powers of two become repeated `2` modes
-     * - non-power-of-two dimensions are padded with zeros to the next power of
+     * - non-power-of-two dimensions are padded with trailing zeros (appended
+     *   after the original dense element order) to the next power of
      *   two and decomposed into pure-binary quantics modes; `QTTrain` records
      *   both the original and padded physical extents plus the original element
      *   count so callers can distinguish valid payload from padding

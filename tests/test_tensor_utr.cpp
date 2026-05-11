@@ -199,13 +199,13 @@ TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
     ASSERT_EQ(recon.size(), 2u);
 
     const double expected_mean =
-        (0.0 + 64.0 + 128.0 + 255.0) / (4.0 * 255.0);
+        (4.0 * (0.0 + 64.0 + 128.0 + 255.0)) / (16.0 * 255.0);
     double variance = 0.0;
-    for (const auto value : {0.0, 64.0, 128.0, 255.0}) {
-        const auto normed = value / 255.0;
+    for (const auto value : patch) {
+        const auto normed = static_cast<double>(value) / 255.0;
         variance += (normed - expected_mean) * (normed - expected_mean);
     }
-    variance /= 4.0;
+    variance /= static_cast<double>(patch.size());
 
     EXPECT_NEAR(recon[0], expected_mean, 1e-3);
     EXPECT_NEAR(recon[1], std::sqrt(variance), 1e-3);
