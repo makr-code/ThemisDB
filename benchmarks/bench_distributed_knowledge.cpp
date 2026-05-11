@@ -18,6 +18,8 @@
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <cstdlib>
+#include <cerrno>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -65,7 +67,8 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
 loadGradientFixture(const std::string& fixture_path) {
     std::ifstream input(fixture_path);
     if (!input.is_open()) {
-        std::cerr << "Failed to open gradient fixture: " << fixture_path << '\n';
+        std::cerr << "Failed to open gradient fixture: " << fixture_path
+                  << " (" << std::strerror(errno) << ")\n";
         return std::nullopt;
     }
 
@@ -83,15 +86,19 @@ loadGradientFixture(const std::string& fixture_path) {
         entries = &root["gradients"];
     }
     if (!entries->is_array()) {
+        std::cerr << "Invalid gradient fixture schema (" << fixture_path
+                  << "): expected top-level array or object with `gradients` array.\n";
         return std::nullopt;
     }
 
     std::vector<EncryptedGradient> gradients;
     gradients.reserve(entries->size());
+    size_t skipped_entries = 0;
 
     for (size_t i = 0; i < entries->size(); ++i) {
         const auto& entry = (*entries)[i];
         if (!entry.is_object()) {
+            ++skipped_entries;
             continue;
         }
 
@@ -101,6 +108,7 @@ loadGradientFixture(const std::string& fixture_path) {
         }
         auto data = entry.value("data", nlohmann::json::object());
         if (!data.is_object()) {
+            ++skipped_entries;
             continue;
         }
 
@@ -113,6 +121,8 @@ loadGradientFixture(const std::string& fixture_path) {
     }
 
     if (gradients.empty()) {
+        std::cerr << "Gradient fixture contains no usable entries (" << fixture_path
+                  << "); skipped " << skipped_entries << " invalid entries.\n";
         return std::nullopt;
     }
     return gradients;
