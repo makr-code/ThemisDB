@@ -14,11 +14,36 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 
 namespace themisdb {
 namespace analytics {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STUB #272 — injectable YAML parser bridge
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+std::mutex& yamlParserFnMutex() { static std::mutex m; return m; }
+KnowledgeBase::YamlParserFn& yamlParserFnStorage() {
+    static KnowledgeBase::YamlParserFn fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void KnowledgeBase::setYamlParserFn(YamlParserFn fn) {
+    std::lock_guard<std::mutex> lk(yamlParserFnMutex());
+    yamlParserFnStorage() = std::move(fn);
+}
+
+/*static*/
+void KnowledgeBase::clearYamlParserFn() {
+    std::lock_guard<std::mutex> lk(yamlParserFnMutex());
+    yamlParserFnStorage() = {};
+}
 
 // ──────────────────────────────────────────────────────────────────────────────
 // helpers
@@ -211,6 +236,18 @@ static TriplePattern parseTriplePattern(const std::string& line) {
 }
 
 int KnowledgeBase::loadRulesFromYaml(const std::string& path) {
+    // STUB #272 bridge: delegate to injected full-featured parser when set.
+    YamlParserFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(yamlParserFnMutex());
+        fn_copy = yamlParserFnStorage();
+    }
+    if (fn_copy) {
+        return fn_copy(path, *this);
+    }
+
+    // Built-in line-parser fallback (STUB #272: handles only the specific
+    // Horn-clause format from FUTURE_ENHANCEMENTS.md).
     std::ifstream file(path);
     if (!file.is_open()) return -1;
 

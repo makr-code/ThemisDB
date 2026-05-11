@@ -24,11 +24,36 @@
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 #include <algorithm>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 
 namespace themis {
 namespace tensor {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STUB #269 — default backend factory bridge
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+std::mutex& backendFactoryMutex() { static std::mutex m; return m; }
+TensorCoreStorageBridge::BackendFactory& backendFactoryStorage() {
+    static TensorCoreStorageBridge::BackendFactory fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void TensorCoreStorageBridge::setDefaultBackendFactory(BackendFactory fn) {
+    std::lock_guard<std::mutex> lk(backendFactoryMutex());
+    backendFactoryStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorCoreStorageBridge::clearDefaultBackendFactory() {
+    std::lock_guard<std::mutex> lk(backendFactoryMutex());
+    backendFactoryStorage() = {};
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
@@ -39,8 +64,20 @@ TensorCoreStorageBridge::TensorCoreStorageBridge(
     : backend_(std::move(backend))
 {
     if (!backend_) {
-        // Default: in-memory backend (non-persistent, suitable for tests).
-        backend_ = std::make_shared<storage::InMemoryTensorBackend>();
+        // STUB #269: try the process-wide factory first (injected by production
+        // bootstrap to provide a RocksDBTensorBackend); fall back to
+        // InMemoryTensorBackend for tests that don't set a factory.
+        BackendFactory factory_copy;
+        {
+            std::lock_guard<std::mutex> lk(backendFactoryMutex());
+            factory_copy = backendFactoryStorage();
+        }
+        if (factory_copy) {
+            backend_ = factory_copy();
+        }
+        if (!backend_) {
+            backend_ = std::make_shared<storage::InMemoryTensorBackend>();
+        }
     }
 }
 

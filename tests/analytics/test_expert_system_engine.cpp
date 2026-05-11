@@ -373,3 +373,65 @@ TEST(ExpertSystemEngineTest, ES20_ForwardChain1000Facts100RulesWithin1Second) {
     const auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
     EXPECT_LT(ms, 5000);  // Must complete within 5 seconds (generous upper bound)
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KnowledgeBase YAML parser bridge (STUB #272)  KB-YP-01..KB-YP-04
+// ─────────────────────────────────────────────────────────────────────────────
+
+// KB-YP-01: Without YamlParserFn, loadRulesFromYaml uses built-in parser.
+//           A non-existent path returns -1 (file-open error).
+TEST(KnowledgeBaseTest, KB_YP_01_builtin_parser_returns_minus1_for_missing_file) {
+    KnowledgeBase::clearYamlParserFn();
+    KnowledgeBase kb;
+    EXPECT_EQ(kb.loadRulesFromYaml("/tmp/does_not_exist_kb_yp_01.yaml"), -1);
+}
+
+// KB-YP-02: Injected YamlParserFn is called instead of the built-in parser.
+TEST(KnowledgeBaseTest, KB_YP_02_injected_parser_is_called) {
+    bool fn_called = false;
+    KnowledgeBase::setYamlParserFn(
+        [&fn_called](const std::string& /*path*/, KnowledgeBase& kb_ref) -> int {
+            fn_called = true;
+            HornClause rule;
+            rule.id = "injected_rule";
+            rule.priority = 1;
+            kb_ref.addRule(rule);
+            return 1;
+        });
+
+    KnowledgeBase kb;
+    int loaded = kb.loadRulesFromYaml("/any/path/does/not/matter.yaml");
+
+    KnowledgeBase::clearYamlParserFn();
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_EQ(loaded, 1);
+    EXPECT_EQ(kb.ruleCount(), 1u);
+    const auto rules = kb.getRules();
+    ASSERT_EQ(rules.size(), 1u);
+    EXPECT_EQ(rules[0].id, "injected_rule");
+}
+
+// KB-YP-03: Injected fn returning -1 propagates the error to the caller.
+TEST(KnowledgeBaseTest, KB_YP_03_injected_parser_error_propagates) {
+    KnowledgeBase::setYamlParserFn(
+        [](const std::string&, KnowledgeBase&) -> int { return -1; });
+
+    KnowledgeBase kb;
+    int result = kb.loadRulesFromYaml("any.yaml");
+
+    KnowledgeBase::clearYamlParserFn();
+    EXPECT_EQ(result, -1);
+}
+
+// KB-YP-04: After clearYamlParserFn(), built-in parser is used again.
+TEST(KnowledgeBaseTest, KB_YP_04_clear_reverts_to_builtin_parser) {
+    KnowledgeBase::setYamlParserFn(
+        [](const std::string&, KnowledgeBase&) -> int { return 42; });
+    KnowledgeBase::clearYamlParserFn();
+
+    KnowledgeBase kb;
+    int result = kb.loadRulesFromYaml("/tmp/does_not_exist_kb_yp_04.yaml");
+    // Built-in parser tries to open the file and returns -1 for missing files.
+    EXPECT_EQ(result, -1);
+}

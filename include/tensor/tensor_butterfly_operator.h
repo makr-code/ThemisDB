@@ -217,6 +217,42 @@ public:
     static void setFourierTransformFn(FourierTransformFn fn);
     static void clearFourierTransformFn();
 
+    // ─── Bridge injection API (STUB #268 — RADON / GREENS_FUNCTION) ─────────
+
+    /**
+     * @brief Per-fiber transform for the RADON operator (STUB #268).
+     *
+     * Signature: `void fn(std::vector<float>& fiber)`.
+     * When set, `build(RADON, ...)` succeeds and `apply()` calls this fn
+     * for every mode fiber of the TTTrain.
+     */
+    using RadonTransformFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Per-fiber transform for the GREENS_FUNCTION operator (STUB #268).
+     *
+     * Same signature and semantics as `RadonTransformFn`.
+     */
+    using GreensTransformFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Inject a RADON per-fiber backend.
+     *
+     * Once set, `build(RADON, ...)` no longer throws `std::logic_error`;
+     * `apply()` delegates each mode-fiber transform to this function.
+     */
+    static void setRadonTransformFn(RadonTransformFn fn);
+    static void clearRadonTransformFn();
+
+    /**
+     * @brief Inject a GREENS_FUNCTION per-fiber backend.
+     *
+     * Once set, `build(GREENS_FUNCTION, ...)` no longer throws `std::logic_error`;
+     * `apply()` delegates each mode-fiber transform to this function.
+     */
+    static void setGreensTransformFn(GreensTransformFn fn);
+    static void clearGreensTransformFn();
+
 private:
     explicit TensorButterflyOperator(ButterflyConfig cfg);
 

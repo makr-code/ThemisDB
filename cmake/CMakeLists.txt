@@ -2824,6 +2824,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/continuous_learning_orchestrator.cpp
     # IMPL-A1: Database-domain auto-labeler for LoRA training (S-2)
     ../src/training/database_domain_auto_labeler.cpp
+    # AdaLoRA ↔ TT-format bridge — zero-copy adapter lifecycle management (STUB #271)
+    ../src/training/adalora_tt_bridge.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)

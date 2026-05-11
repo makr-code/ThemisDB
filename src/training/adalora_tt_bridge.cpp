@@ -28,6 +28,7 @@
 #include <cmath>
 #include <cstring>
 #include <map>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -187,7 +188,35 @@ struct AdaLoraTTBridge::Impl {
     mutable BridgeStats                                  stats_data{};
     // TensorFingerprintGraph: keyed by "<tenant>:<adapter_name>:<layer_name>"
     mutable graph::TensorFingerprintGraph                fingerprint_graph{};
+
+    // Phase 3 bridge — GgmlTensorBridge::mapAdapter() (STUB #271)
+    MapAdapterFn map_adapter_fn;
+    mutable std::mutex map_adapter_mutex;
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 4 (STUB #271) — training-step bridge storage (process-wide static)
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+std::mutex& trainingStepFnMutex() { static std::mutex m; return m; }
+AdaLoraTTBridge::TrainingStepFn& trainingStepFnStorage() {
+    static AdaLoraTTBridge::TrainingStepFn fn;
+    return fn;
+}
+} // anonymous namespace
+
+/*static*/
+void AdaLoraTTBridge::setTrainingStepFn(TrainingStepFn fn) {
+    std::lock_guard<std::mutex> lk(trainingStepFnMutex());
+    trainingStepFnStorage() = std::move(fn);
+}
+
+/*static*/
+void AdaLoraTTBridge::clearTrainingStepFn() {
+    std::lock_guard<std::mutex> lk(trainingStepFnMutex());
+    trainingStepFnStorage() = {};
+}
 
 // ============================================================================
 // Construction
@@ -475,6 +504,18 @@ std::optional<AdaLoRAAdapter> AdaLoraTTBridge::loadAdapter(
 std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp,
                                                   double            eps) const
 {
+    // STUB #271 (Phase 4): if a training-loop backend is injected, delegate to it.
+    TrainingStepFn step_fn;
+    {
+        std::lock_guard<std::mutex> lk(trainingStepFnMutex());
+        step_fn = trainingStepFnStorage();
+    }
+    if (step_fn) {
+        return step_fn(exp, eps);
+    }
+
+    // Fallback: standalone TT-rounding via TensorTrainDecomposer (post-training
+    // use-case — does not interface with a live training loop).
     storage::TensorTrainDecomposer decomposer;
     std::size_t total_active = 0;
 
@@ -562,6 +603,32 @@ AdaLoraTTBridge::BridgeStats AdaLoraTTBridge::stats() const noexcept {
 
 const AdaLoraTTBridgeConfig& AdaLoraTTBridge::config() const noexcept {
     return impl_->cfg;
+}
+
+// ============================================================================
+// Phase 3 bridge — mapAdapter() (STUB #271)
+// ============================================================================
+
+void AdaLoraTTBridge::setMapAdapterFn(MapAdapterFn fn) {
+    std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
+    impl_->map_adapter_fn = std::move(fn);
+}
+
+void AdaLoraTTBridge::clearMapAdapterFn() {
+    std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
+    impl_->map_adapter_fn = {};
+}
+
+bool AdaLoraTTBridge::mapAdapter(const AdaLoraTTExport& exp) const {
+    MapAdapterFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
+        fn_copy = impl_->map_adapter_fn;
+    }
+    // STUB #271 (Phase 3): if no bridge fn is set, return false — the caller
+    // should detect this and fall back to native GgmlTensorBridge::mapAdapter().
+    if (!fn_copy) return false;
+    return fn_copy(exp);
 }
 
 // ============================================================================

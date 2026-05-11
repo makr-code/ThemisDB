@@ -31,6 +31,8 @@
 
 #include <atomic>
 #include <deque>
+#include <functional>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -186,6 +188,35 @@ public:
      * @return Number of rules loaded, or -1 on file-open error.
      */
     [[nodiscard]] int loadRulesFromYaml(const std::string& path);
+
+    // ─── YAML parser bridge injection API (STUB #272) ─────────────────────────
+
+    /**
+     * @brief Injectable full-featured YAML parser backend (STUB #272).
+     *
+     * Signature: `int fn(const std::string& path, KnowledgeBase& kb)`.
+     *
+     * When set, `loadRulesFromYaml()` delegates to this function instead of
+     * the built-in line-parser.  Return value semantics are the same as
+     * `loadRulesFromYaml()`: number of rules loaded, or -1 on error.
+     *
+     * Typical production bootstrap wires yaml-cpp here:
+     * ```cpp
+     * KnowledgeBase::setYamlParserFn([](const std::string& path, KnowledgeBase& kb) {
+     *     YAML::Node doc = YAML::LoadFile(path);
+     *     // ... full yaml-cpp parsing ...
+     *     return loaded_count;
+     * });
+     * ```
+     *
+     * Thread-safety: set/clear are mutex-guarded.
+     */
+    using YamlParserFn = std::function<int(const std::string& path, KnowledgeBase&)>;
+
+    /** @brief Inject a full-featured YAML parser backend (STUB #272 bridge). */
+    static void setYamlParserFn(YamlParserFn fn);
+    /** @brief Clear the YAML parser backend; falls back to the built-in parser. */
+    static void clearYamlParserFn();
 
 private:
     [[nodiscard]] std::string generateId();

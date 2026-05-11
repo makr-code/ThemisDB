@@ -40,6 +40,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <mutex>
 #include <stdexcept>
 #include <utility>
 
@@ -58,6 +59,30 @@
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// STUB #270 — SST page-map bridge storage
+// ============================================================================
+
+namespace {
+std::mutex& sstMapFnMutex() { static std::mutex m; return m; }
+TensorMmapBridge::SstMapFn& sstMapFnStorage() {
+    static TensorMmapBridge::SstMapFn fn;
+    return fn;
+}
+} // anonymous namespace
+
+/*static*/
+void TensorMmapBridge::setSstMapFn(SstMapFn fn) {
+    std::lock_guard<std::mutex> lk(sstMapFnMutex());
+    sstMapFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorMmapBridge::clearSstMapFn() {
+    std::lock_guard<std::mutex> lk(sstMapFnMutex());
+    sstMapFnStorage() = {};
+}
 
 // ============================================================================
 // Internal helpers
@@ -143,6 +168,13 @@ std::unique_ptr<TensorMmapBridge>
 TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
     auto bridge = std::unique_ptr<TensorMmapBridge>(new TensorMmapBridge());
 
+    // Snapshot the SST-page-map bridge fn once (STUB #270).
+    SstMapFn sst_fn;
+    {
+        std::lock_guard<std::mutex> lk(sstMapFnMutex());
+        sst_fn = sstMapFnStorage();
+    }
+
     bridge->regions_.reserve(train.cores.size());
     bridge->slices_.reserve(train.cores.size());
 
@@ -158,18 +190,32 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
             continue;
         }
 
-        void* ptr = allocRegion(bytes);
-        if (!ptr) {
-            THEMIS_WARN("TensorMmapBridge: mmap allocation failed for "
-                        "core {} ({} bytes); bridge will be partial", ci, bytes);
-            bridge->slices_.push_back({nullptr, 0, ci, 0});
-            bridge->regions_.push_back({nullptr, 0, false});
-            continue;
+        // STUB #270: try the injected SST page-map fn first (zero-copy path).
+        // If it returns a non-null pointer, use that region directly without
+        // memcpy.  The fn is responsible for pre-populating the region with
+        // the core float data (e.g. via MAP_SHARED on an SST page).
+        // Note: the bridge will NOT call freeRegion() on externally-mapped
+        // regions — the caller of setSstMapFn() must manage their lifetime.
+        void* ptr = nullptr;
+        bool   sst_mapped = false;
+        if (sst_fn) {
+            ptr = sst_fn(bytes, ci);
+            if (ptr) sst_mapped = true;
         }
 
-        // Copy core data into the pinned region (STUB #270: replace with
-        // MAP_SHARED page access once SST mmap integration is ready).
-        std::memcpy(ptr, core.data.data(), bytes);
+        if (!ptr) {
+            // Fallback: MAP_ANONYMOUS + memcpy (STUB #270 — Q1 2027).
+            ptr = allocRegion(bytes);
+            if (!ptr) {
+                THEMIS_WARN("TensorMmapBridge: mmap allocation failed for "
+                            "core {} ({} bytes); bridge will be partial", ci, bytes);
+                bridge->slices_.push_back({nullptr, 0, ci, 0});
+                bridge->regions_.push_back({nullptr, 0, false});
+                continue;
+            }
+            // Copy core data into the pinned region.
+            std::memcpy(ptr, core.data.data(), bytes);
+        }
 
         const bool locked = lockRegion(ptr, bytes);
         if (!locked) {
@@ -183,7 +229,9 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
         if (locked) ++bridge->locked_count_;
 
         bridge->total_bytes_ += bytes;
-        bridge->regions_.push_back({ptr, bytes, locked});
+        // For SST-mapped regions we store bytes=0 to signal that freeRegion()
+        // must NOT be called by the bridge destructor (caller owns the mapping).
+        bridge->regions_.push_back({ptr, sst_mapped ? std::size_t{0} : bytes, locked});
         bridge->slices_.push_back({
             static_cast<const float*>(ptr),
             bytes,

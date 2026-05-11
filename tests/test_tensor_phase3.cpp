@@ -59,13 +59,19 @@
  *   FR-09  buildQuery() masks low-confidence tokens when mask_uncertain_tokens=true
  *   FR-10  reset() clears all state
  *
- * TensorButterflyOperator — TBO-01..TBO-06
+ * TensorButterflyOperator — TBO-01..TBO-12
  *   TBO-01  build(FOURIER, {4}) succeeds and describe() mentions FOURIER
  *   TBO-02  apply() on a 1D TT (n=4) produces orthonormal output (‖WHT·v‖ = ‖v‖)
  *   TBO-03  apply() on a 2-mode TT ({4,4}) is separable: mode transforms commute
  *   TBO-04  apply() shape mismatch throws std::invalid_argument
  *   TBO-05  build(FOURIER, {3}) throws (3 is not a power of 2)
- *   TBO-06  build(RADON, ...) throws std::logic_error (stub #171)
+ *   TBO-06  build(RADON|GREENS_FUNCTION, ...) throws when no bridge fn set (stub #268)
+ *   TBO-07  injected FOURIER backend is used instead of WHT (stub #267)
+ *   TBO-08  clear FOURIER backend reverts to built-in WHT (stub #267)
+ *   TBO-09  injected FOURIER backend supports identity transform (stub #267)
+ *   TBO-10  build(RADON, {4}) succeeds when RadonTransformFn is injected (stub #268)
+ *   TBO-11  build(GREENS_FUNCTION, {4}) succeeds when GreensTransformFn is set (stub #268)
+ *   TBO-12  clearRadonTransformFn() reverts build(RADON) to throwing (stub #268)
  *
  * AdapterRepository — AR-01..AR-12
  *   AR-01  store() + loadAdapter() round-trip: valid=true and cores match
@@ -797,8 +803,10 @@ TEST(TensorButterflyOperator, TBO05_non_power2_throws) {
         std::invalid_argument);
 }
 
-// TBO-06: build(RADON, ...) throws std::logic_error (STUB #171)
+// TBO-06: build(RADON|GREENS_FUNCTION, ...) throws when no bridge fn is set (STUB #268).
 TEST(TensorButterflyOperator, TBO06_radon_stub_throws) {
+    TensorButterflyOperator::clearRadonTransformFn();
+    TensorButterflyOperator::clearGreensTransformFn();
     EXPECT_THROW(
         TensorButterflyOperator::build(OperatorType::RADON, {4u}),
         std::logic_error);
@@ -1952,6 +1960,66 @@ TEST(TensorButterflyOperatorPhase3, TBO09_injected_backend_supports_identity_tra
     for (std::size_t i = 0; i < in_vec.size(); ++i) {
         EXPECT_NEAR(in_vec[i], out_vec[i], 1e-6f);
     }
+}
+
+// ============================================================================
+// TensorButterflyOperator RADON / GREENS_FUNCTION bridge — TBO-10..TBO-12
+// STUB #268
+// ============================================================================
+
+// TBO-10: build(RADON, {4}) succeeds when RadonTransformFn is injected;
+//         apply() calls the injected fn.
+TEST(TensorButterflyOperatorPhase3, TBO10_radon_bridge_fn_enables_build_and_apply) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+
+    bool called = false;
+    TensorButterflyOperator::setRadonTransformFn(
+        [&called](std::vector<float>& fiber) {
+            called = true;
+            for (auto& v : fiber) v = 99.0f;
+        });
+
+    auto op = TensorButterflyOperator::build(OperatorType::RADON, {4u});
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearRadonTransformFn();
+
+    EXPECT_TRUE(called);
+    const auto recon = flatten1D(out);
+    ASSERT_FALSE(recon.empty());
+    for (float v : recon) EXPECT_FLOAT_EQ(v, 99.0f);
+}
+
+// TBO-11: build(GREENS_FUNCTION, {4}) succeeds when GreensTransformFn is set;
+//         apply() delegates to the injected fn.
+TEST(TensorButterflyOperatorPhase3, TBO11_greens_bridge_fn_enables_build_and_apply) {
+    auto train = make1DTrain({0.5f, 1.5f, 2.5f, 3.5f});
+
+    bool called = false;
+    TensorButterflyOperator::setGreensTransformFn(
+        [&called](std::vector<float>& fiber) {
+            called = true;
+            for (auto& v : fiber) v = -1.0f;
+        });
+
+    auto op = TensorButterflyOperator::build(OperatorType::GREENS_FUNCTION, {4u});
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearGreensTransformFn();
+
+    EXPECT_TRUE(called);
+    const auto recon = flatten1D(out);
+    ASSERT_FALSE(recon.empty());
+    for (float v : recon) EXPECT_FLOAT_EQ(v, -1.0f);
+}
+
+// TBO-12: after clearRadonTransformFn(), build(RADON, ...) throws again.
+TEST(TensorButterflyOperatorPhase3, TBO12_clear_radon_fn_reverts_throw) {
+    TensorButterflyOperator::setRadonTransformFn(
+        [](std::vector<float>&) {});
+    TensorButterflyOperator::clearRadonTransformFn();
+
+    EXPECT_THROW(
+        TensorButterflyOperator::build(OperatorType::RADON, {4u}),
+        std::logic_error);
 }
 
 } // namespace

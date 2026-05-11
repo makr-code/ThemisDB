@@ -107,6 +107,43 @@ public:
                                                 const std::string& source_file_id,
                                                 const std::string& chunk_id) const;
 
+/**
+     * @brief Injectable factory for the default storage backend (STUB #269).
+     *
+     * Signature: `std::shared_ptr<ITensorStorageBackend> factory()`.
+     *
+     * When set, the factory is called during `TensorCoreStorageBridge`
+     * construction whenever no explicit backend is provided.  This allows
+     * the production bootstrap to inject a `RocksDBTensorBackend` without
+     * every call site needing to know the concrete type.
+     *
+     * Typical production bootstrap (main_server.cpp):
+     * ```cpp
+     * TensorCoreStorageBridge::setDefaultBackendFactory([&] {
+     *     return std::make_shared<RocksDBTensorBackend>(db_handle);
+     * });
+     * ```
+     *
+     * Tests that need an in-memory backend simply omit this call (factory
+     * is null → constructor falls back to `InMemoryTensorBackend`).
+     */
+    using BackendFactory =
+        std::function<std::shared_ptr<storage::ITensorStorageBackend>()>;
+
+    /**
+     * @brief Set the process-wide default backend factory (STUB #269 bridge).
+     *
+     * Thread-safe.  Replaces any previously set factory.
+     */
+    static void setDefaultBackendFactory(BackendFactory fn);
+
+    /**
+     * @brief Clear the default backend factory (STUB #269 bridge).
+     *
+     * After this call the constructor falls back to `InMemoryTensorBackend`.
+     */
+    static void clearDefaultBackendFactory();
+
     // ─── Static helpers ───────────────────────────────────────────────────────
 
     /**
