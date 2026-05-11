@@ -18,11 +18,11 @@
  * ### Stub log
  * - AR-01  loadAdapter() copies TT-core data from the backend into a heap
  *          allocation instead of using mmap(MAP_SHARED) for zero-copy.
- *          See STUB #172 in STUB_INVENTORY.md.
+ *          See STUB #265 in STUB_INVENTORY.md.
  * - AR-02  findSimilarAdapters() uses column-mean fingerprint cosine similarity
- *          (inherited from STUB #174 in TensorFingerprintGraph).  Full TT
+ *          ( inherited from STUB #276 in TensorFingerprintGraph).  Full TT
  *          inner-product deferred to Q3 2027 (Phase 4 AdaLoRA bridge).
- *          See STUB #177 in STUB_INVENTORY.md.
+ *          See STUB #266 in STUB_INVENTORY.md.
  *
  * STUB/SIMULATION NOTE (AR-01):
  * Purpose: Provide a fully functional adapter store/load cycle so that
@@ -38,7 +38,7 @@
  *               mmap(MAP_SHARED) on the RocksDB SST backing file + mlock()
  *               to pin the pages; return raw float* into the mmap region.
  *
- * STUB/SIMULATION NOTE (AR-02 / STUB #177):
+ * STUB/SIMULATION NOTE (AR-02 / STUB #266):
  * Purpose: Expose findSimilarAdapters() before full TT inner-product sweep
  *          is available in TensorFingerprintGraph.
  * Activation: Only when setFingerprintGraph() has been called with a non-null
@@ -271,7 +271,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         return {};
     }
 
-    // STUB/SIMULATION NOTE (AR-02 / STUB #177):
+    // STUB/SIMULATION NOTE (AR-02 / STUB #266):
     // Delegates to TensorFingerprintGraph::findSimilar() which uses
     // column-mean fingerprint cosine similarity (not full TT inner-product).
     std::shared_ptr<TensorFingerprintGraph> graph;

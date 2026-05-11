@@ -32,30 +32,49 @@
  *           A production implementation should use the embedding of the partial
  *           output rather than raw text, and pass it through the same tokenizer
  *           as the retrieval index.  This is deferred to Phase 3-C (Q1 2027)
- *           when the embedding pipeline is wired.
+ *           when the embedding pipeline is wired.  Until then, callers can
+ *           inject an embedding backend via setEmbeddingQueryFn() and call
+ *           buildQueryEmbedding() to obtain a float vector (STUB #260).
  *
- * STUB/SIMULATION NOTE:
+ * STUB/SIMULATION NOTE (stub #260):
  * Purpose: buildQuery() concatenates token text with simple space joining.
  *          A fully integrated implementation would embed the partial output
  *          using the same text encoder as the TT-core index and pass a float
  *          vector query, not a string, to the retrieval layer.
- * Activation: Always (no embedding backend wired yet in FlareRetrieval).
+ * Activation: Always when no EmbeddingQueryFn is injected via setEmbeddingQueryFn().
  * Production Delta: String query instead of embedding vector; retrieval
  *                   quality depends on exact-match or BM25 scoring in the
  *                   upper layer, not semantic TT-cosine similarity.
- * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend and call
- *               embed(buildQuery()) before passing to tensor_index.searchFlat().
+ * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend via
+ *               setEmbeddingQueryFn() and use buildQueryEmbedding() exclusively.
  */
 
 #include "rag/flare_retrieval.h"
 
 #include <algorithm>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
 
 namespace themis {
 namespace rag {
+
+// ============================================================================
+// EmbeddingQueryFn injection bridge (STUB #260)
+// ============================================================================
+
+static std::mutex& embeddingQueryFnMutex() { static std::mutex m; return m; }
+static FlareRetrieval::EmbeddingQueryFn& embeddingQueryFnStorage() {
+    static FlareRetrieval::EmbeddingQueryFn fn;
+    return fn;
+}
+
+/*static*/
+void FlareRetrieval::setEmbeddingQueryFn(EmbeddingQueryFn fn) {
+    std::lock_guard<std::mutex> lk(embeddingQueryFnMutex());
+    embeddingQueryFnStorage() = std::move(fn);
+}
 
 // ============================================================================
 // Constructor
@@ -165,13 +184,14 @@ bool FlareRetrieval::shouldRetrieve() const noexcept {
 std::string FlareRetrieval::buildQuery() const {
     if (window_.empty()) return {};
 
-    // STUB/SIMULATION NOTE:
+    // STUB/SIMULATION NOTE (stub #260):
     // Purpose: join token text with spaces; uncertain tokens replaced by mask.
-    //          Real implementation should use the embedding backend to produce
-    //          a float vector query instead of a raw string.
-    // Activation: Always (no embedding backend wired in FlareRetrieval).
+    //          Real implementation should call buildQueryEmbedding() which uses
+    //          the injected EmbeddingQueryFn to produce a float vector query.
+    // Activation: Always (string path is the canonical public API).
     // Production Delta: String-based query vs. semantic embedding vector.
-    // Removal Plan: Phase 3-C Q1 2027 — inject IEmbeddingBackend.
+    // Removal Plan: Phase 3-C Q1 2027 — callers should migrate to
+    //               buildQueryEmbedding() once EmbeddingQueryFn is wired.
 
     std::ostringstream oss;
     bool first = true;
@@ -185,6 +205,28 @@ std::string FlareRetrieval::buildQuery() const {
         }
     }
     return oss.str();
+}
+
+// ============================================================================
+// buildQueryEmbedding
+// ============================================================================
+
+std::vector<float> FlareRetrieval::buildQueryEmbedding() const {
+    EmbeddingQueryFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(embeddingQueryFnMutex());
+        fn_copy = embeddingQueryFnStorage();
+    }
+    if (!fn_copy) {
+        // No embedding backend injected — return empty (caller must embed).
+        return {};
+    }
+    try {
+        return fn_copy(buildQuery());
+    } catch (...) {
+        // Fail-closed: embedding fn threw; return empty rather than propagating.
+        return {};
+    }
 }
 
 // ============================================================================

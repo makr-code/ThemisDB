@@ -27,16 +27,16 @@
  * metadata can be directly embedded into GGUF files when the
  * `GgmlTensorBridge` exports a model.
  *
- * ## STUB/SIMULATION NOTE (stub #173):
+ * ## STUB/SIMULATION NOTE (stub #259):
  * Purpose: Provide the provenance API so that GgmlTensorBridge and
  *          AdapterRepository can store and retrieve metadata without
  *          blocking on a real HMAC-SHA256 implementation.
- * Activation: Always (no compile flag required).
+ * Activation: Always when no `HmacFn` is injected via `setHmacFn()`.
  * Production Delta: `sign()` / `verify()` use a byte-XOR placeholder
  *                   instead of HMAC-SHA256; signatures produced here
  *                   are NOT cryptographically secure.
- * Removal Plan: Q2 2027 — replace with OpenSSL HMAC_CTX or a vendored
- *               SHA-256 implementation; add key rotation support.
+ * Removal Plan: Q2 2027 — inject a real HMAC-SHA256 fn via `setHmacFn()`
+ *               (OpenSSL HMAC_CTX or vendored mbedTLS); add key rotation.
  *
  * ## Thread Safety
  * All public methods are thread-safe; the internal store uses a
@@ -52,6 +52,8 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 #include <optional>
 #include <shared_mutex>
 #include <string>
@@ -90,10 +92,10 @@ struct ProvenanceRecord {
      * Hex-encoded HMAC signature over the canonical field set.
      *
      * @note
-     * // STUB/SIMULATION NOTE:
+     * // STUB/SIMULATION NOTE (stub #259):
      * // Purpose: placeholder field; GGUFMetadata::sign() writes a
      * //          byte-XOR tag, not a real HMAC-SHA256.
-     * // Production Delta: replace GGUFMetadata::sign() with real HMAC.
+     * // Production Delta: inject a real fn via GGUFMetadata::setHmacFn().
      * // Removal Plan: Q2 2027.
      */
     std::string hmac_signature;
@@ -200,16 +202,41 @@ public:
     // ─── Signing / Verification ───────────────────────────────────────────
 
     /**
+     * @brief Callable type for a real HMAC-SHA256 implementation.
+     *
+     * Signature: `std::string hmac(const std::string& data, const std::string& key)`
+     *
+     * Inject a real implementation at start-up via `setHmacFn()` so that
+     * `sign()` and `verify()` delegate to it instead of the XOR stub.
+     * The function must be thread-safe; it is called under no lock.
+     */
+    using HmacFn = std::function<std::string(const std::string& data,
+                                              const std::string& key)>;
+
+    /**
+     * @brief Inject a real HMAC implementation (thread-safe, process-global).
+     *
+     * Once set, all subsequent calls to `sign()` and `verify()` will delegate
+     * to @p fn instead of using the byte-XOR placeholder.  Pass a null fn to
+     * revert to the stub path (test use only).
+     *
+     * @param fn  HMAC function, e.g. wrapping OpenSSL `HMAC()` with SHA-256.
+     */
+    static void setHmacFn(HmacFn fn);
+
+    /**
      * @brief Compute a signature tag and write it to `record.hmac_signature`.
      *
+     * Delegates to the injected `HmacFn` when one has been set via
+     * `setHmacFn()`; otherwise falls back to the byte-XOR stub path.
+     *
      * @note
-     * // STUB/SIMULATION NOTE (stub #173):
+     * // STUB/SIMULATION NOTE (stub #259):
      * // Purpose: populate hmac_signature so callers can round-trip sign/verify.
-     * // Activation: Always.
+     * // Activation: Always when no HmacFn is injected.
      * // Production Delta: uses byte-XOR of canonical bytes with key bytes
      * //                   (NOT cryptographically secure).
-     * // Removal Plan: Q2 2027 — replace with HMAC-SHA256 via OpenSSL or
-     * //               a vendored SHA-256 implementation.
+     * // Removal Plan: Q2 2027 — inject HMAC-SHA256 via setHmacFn().
      *
      * @param record    Record to sign (modifies `hmac_signature` in-place).
      * @param hmac_key  Tenant-specific signing key (arbitrary bytes).
@@ -220,7 +247,7 @@ public:
     /**
      * @brief Verify that `record.hmac_signature` matches a freshly computed tag.
      *
-     * @note Uses the same byte-XOR placeholder as `sign()`.
+     * Uses the same HMAC source (injected fn or byte-XOR stub) as `sign()`.
      *
      * @param record    Record whose signature should be checked.
      * @param hmac_key  Tenant-specific signing key.

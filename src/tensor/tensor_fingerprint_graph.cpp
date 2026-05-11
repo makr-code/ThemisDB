@@ -18,9 +18,9 @@
  * ### Stub log
  * - TFG-01  findSimilar() / findSimilarByFingerprint() use column-mean
  *           fingerprint cosine similarity instead of the full TT inner-
- *           product sweep (Holtz 2012, O(d·r²)).  See STUB #174.
+ *           product sweep (Holtz 2012, O(d·r²)).  See STUB #276.
  *
- * STUB/SIMULATION NOTE (stub #174):
+ * STUB/SIMULATION NOTE (stub #276):
  * Purpose: Provide fast O(n·r₁) approximate similarity so adapter
  *          retrieval is usable before the full TT inner-product path
  *          is wired.

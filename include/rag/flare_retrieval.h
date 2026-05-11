@@ -80,6 +80,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -242,6 +244,28 @@ public:
     // ─── Query construction ───────────────────────────────────────────────
 
     /**
+     * @brief Callable type for a text-to-embedding backend.
+     *
+     * Signature: `std::vector<float> embed(const std::string& text)`
+     *
+     * When set via `setEmbeddingQueryFn()`, `buildQueryEmbedding()` delegates
+     * to this fn, enabling semantic TT-cosine similarity lookups.  The fn must
+     * be thread-safe; it is called under no internal lock.
+     */
+    using EmbeddingQueryFn = std::function<std::vector<float>(const std::string&)>;
+
+    /**
+     * @brief Inject an embedding backend (thread-safe, process-global).
+     *
+     * Once set, `buildQueryEmbedding()` will call @p fn to convert the
+     * surface-form query into a float vector.  Pass a null fn to revert to
+     * the no-embedding fallback (returns empty vector).
+     *
+     * @param fn  Embedding function wrapping e.g. a quantised SBERT encoder.
+     */
+    static void setEmbeddingQueryFn(EmbeddingQueryFn fn);
+
+    /**
      * @brief Build a retrieval query from the current partial-output window.
      *
      * Concatenates the most-recent `cfg_.query_window_tokens` tokens.
@@ -251,6 +275,17 @@ public:
      * @return Query string ready to be embedded and passed to the TT-core index.
      */
     [[nodiscard]] std::string buildQuery() const;
+
+    /**
+     * @brief Build an embedding vector from the current partial-output window.
+     *
+     * Calls the injected `EmbeddingQueryFn` on the text produced by
+     * `buildQuery()`.  Returns an empty vector when no fn is set or when the
+     * fn returns empty / throws (fail-closed, warning logged).
+     *
+     * @return Float embedding vector, or empty when no backend is wired.
+     */
+    [[nodiscard]] std::vector<float> buildQueryEmbedding() const;
 
     // ─── State management ─────────────────────────────────────────────────
 

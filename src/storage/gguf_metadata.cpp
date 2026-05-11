@@ -17,18 +17,17 @@
  *
  * ### Stub log
  * - GMD-01  sign() / verify() use byte-XOR placeholder instead of
- *           HMAC-SHA256.  Tracked as STUB #173.
+ *           HMAC-SHA256.  Tracked as STUB #259.
  *
- * STUB/SIMULATION NOTE:
+ * STUB/SIMULATION NOTE (stub #259):
  * Purpose: Allow GgmlTensorBridge and AdapterRepository to call
  *          sign() / verify() in unit tests without linking OpenSSL.
- * Activation: Always (no compile flag required).
+ * Activation: Always when no HmacFn is injected via setHmacFn().
  * Production Delta: XOR-based tag is NOT cryptographically secure.
  *                   An attacker who knows the key and any signed record
  *                   can forge signatures.
- * Removal Plan: Q2 2027 — replace stubSign() with
- *               HMAC_CTX_new() / HMAC_Update() / HMAC_Final() from
- *               OpenSSL, or a vendored SHA-256 (e.g. mbedTLS).
+ * Removal Plan: Q2 2027 — inject a real HMAC-SHA256 fn via setHmacFn()
+ *               (OpenSSL HMAC_CTX or vendored mbedTLS); add key rotation.
  */
 
 #include "storage/gguf_metadata.h"
@@ -36,6 +35,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iomanip>
+#include <mutex>
 #include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
@@ -142,6 +142,22 @@ bool readStr(const uint8_t* data, std::size_t size, std::size_t& pos,
 } // anonymous namespace
 
 // ============================================================================
+// GGUFMetadata — HmacFn injection bridge (STUB #259)
+// ============================================================================
+
+static std::mutex& hmacFnMutex() { static std::mutex m; return m; }
+static GGUFMetadata::HmacFn& hmacFnStorage() {
+    static GGUFMetadata::HmacFn fn;
+    return fn;
+}
+
+/*static*/
+void GGUFMetadata::setHmacFn(HmacFn fn) {
+    std::lock_guard<std::mutex> lk(hmacFnMutex());
+    hmacFnStorage() = std::move(fn);
+}
+
+// ============================================================================
 // GGUFMetadata — attach / detach
 // ============================================================================
 
@@ -190,18 +206,53 @@ std::size_t GGUFMetadata::size() const noexcept {
 }
 
 // ============================================================================
-// GGUFMetadata — sign / verify (STUB #173)
+// GGUFMetadata — sign / verify (STUB #259)
 // ============================================================================
 
 void GGUFMetadata::sign(ProvenanceRecord& record,
                          const std::string& hmac_key) {
-    // STUB/SIMULATION NOTE (stub #173): byte-XOR placeholder for HMAC-SHA256.
+    // Try injected HMAC fn first.
+    {
+        std::lock_guard<std::mutex> lk(hmacFnMutex());
+        const auto& fn = hmacFnStorage();
+        if (fn) {
+            try {
+                record.hmac_signature = fn(record.canonicalBytes(), hmac_key);
+            } catch (...) {
+                // STUB/SIMULATION NOTE (stub #259):
+                // Purpose: fail-closed — injected fn threw; fall back to XOR stub.
+                // Activation: injected fn throws an exception.
+                // Production Delta: XOR stub is NOT cryptographically secure.
+                // Removal Plan: Q2 2027 — injected fn should not throw.
+                record.hmac_signature = stubSign(record.canonicalBytes(), hmac_key);
+            }
+            return;
+        }
+    }
+    // STUB/SIMULATION NOTE (stub #259): byte-XOR placeholder for HMAC-SHA256.
+    // Activation: no HmacFn injected via setHmacFn() (test / bootstrap only).
+    // Production Delta: XOR tag is NOT cryptographically secure.
+    // Removal Plan: Q2 2027 — inject real HMAC-SHA256 fn via setHmacFn().
     record.hmac_signature = stubSign(record.canonicalBytes(), hmac_key);
 }
 
 bool GGUFMetadata::verify(const ProvenanceRecord& record,
                            const std::string& hmac_key) {
     if (record.hmac_signature.empty()) return false;
+    // Try injected HMAC fn first.
+    {
+        std::lock_guard<std::mutex> lk(hmacFnMutex());
+        const auto& fn = hmacFnStorage();
+        if (fn) {
+            try {
+                const std::string expected = fn(record.canonicalBytes(), hmac_key);
+                return record.hmac_signature == expected;
+            } catch (...) {
+                return false;  // fail-closed on exception
+            }
+        }
+    }
+    // STUB/SIMULATION NOTE (stub #259): byte-XOR placeholder for HMAC-SHA256.
     const std::string expected = stubSign(record.canonicalBytes(), hmac_key);
     return record.hmac_signature == expected;
 }

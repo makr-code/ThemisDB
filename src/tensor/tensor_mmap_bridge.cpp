@@ -13,7 +13,7 @@
 
 /**
  * @file tensor/tensor_mmap_bridge.cpp
- * @brief Zero-copy mmap bridge for TT-core data (STUB #176).
+ * @brief Zero-copy mmap bridge for TT-core data (STUB #270).
  *
  * ## Implementation notes
  *
@@ -28,7 +28,7 @@
  * heap-allocated copy guarded by `VirtualLock` (Windows) or a no-lock
  * fallback.
  *
- * STUB #176: This path performs a memcpy instead of a true zero-copy.
+ * STUB #270: This path performs a memcpy instead of a true zero-copy.
  *   The production upgrade (Q1 2027) will open RocksDB SST files,
  *   obtain their page-aligned offsets for each TT-core key, and use
  *   `mmap(MAP_SHARED)` to expose those pages directly — eliminating
@@ -132,7 +132,7 @@ void freeRegion(void* ptr, std::size_t bytes) noexcept {
 //   a lock on the TensorIndexManager.
 // Activation: Always — no compile flag required.
 // Production Delta: Copies core data into MAP_ANONYMOUS region via memcpy.
-//   Real production path (STUB #176) uses MAP_SHARED on RocksDB SST file
+//   Real production path (STUB #270) uses MAP_SHARED on RocksDB SST file
 //   pages so no memcpy occurs; the TT-core bytes are accessed in-place.
 // Removal Plan: Q1 2027 — replace MAP_ANONYMOUS + memcpy with MAP_SHARED
 //   over RocksDB SST file descriptor + offset, once the SST mmap
@@ -167,7 +167,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
             continue;
         }
 
-        // Copy core data into the pinned region (STUB #176: replace with
+        // Copy core data into the pinned region (STUB #270: replace with
         // MAP_SHARED page access once SST mmap integration is ready).
         std::memcpy(ptr, core.data.data(), bytes);
 
