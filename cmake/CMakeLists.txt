@@ -2250,7 +2250,6 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/utils/capability_auto_generator.cpp
     ../src/utils/self_awareness.cpp
-    ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/capability_matcher.cpp
     ../src/sharding/adaptive_shard_router.cpp
@@ -2826,6 +2825,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/continuous_learning_orchestrator.cpp
     # IMPL-A1: Database-domain auto-labeler for LoRA training (S-2)
     ../src/training/database_domain_auto_labeler.cpp
+    # AdaLoRA ↔ TT-format bridge — zero-copy adapter lifecycle management (STUB #271)
+    ../src/training/adalora_tt_bridge.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
@@ -3132,7 +3133,6 @@ if(MSVC)
         ../src/governance/review_scheduler.cpp
         ../src/governance/policy_review.cpp
         ../src/security/pii_redaction_policy.cpp
-        ../src/stubs.cpp
         ../src/analytics/columnar_execution.cpp
         ../src/analytics/streaming_window.cpp
         ../src/analytics/cep_engine.cpp

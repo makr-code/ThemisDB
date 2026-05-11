@@ -53,6 +53,25 @@
 namespace themis {
 namespace build_info {
 
+// ============================================================================
+// HSM MODULE STATUS BRIDGE – storage (STUB #95)
+// ============================================================================
+// Defined before getBuildConfiguration() so the #else HSM branch can call it.
+
+namespace {
+
+std::mutex& hsmStatusFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HsmModuleStatusFn& hsmStatusFnStorage() {
+    static HsmModuleStatusFn fn;
+    return fn;
+}
+
+} // anonymous namespace
+
 BuildConfiguration getBuildConfiguration() {
     BuildConfiguration config;
     
@@ -545,12 +564,33 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
-    config.modules.push_back({
-        "HSM PKCS#11",
-        false,
-        false,
-        "Hardware Security Module integration"
-    });
+    // STUB #95: Consult the runtime bridge when available so the server can
+    // report the actual HSM KEK state (stub vs. injected hardware backend).
+    // Default (no bridge set): report not-compiled-in with stub annotation.
+    {
+        bool is_real_hsm = false;
+        std::string desc = "Hardware Security Module integration (software stub – dev only)";
+        HsmModuleStatusFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+            fn_copy = hsmStatusFnStorage();
+        }
+        if (fn_copy) {
+            try {
+                auto [hsm_active, bridge_desc] = fn_copy();
+                is_real_hsm = hsm_active;
+                desc = bridge_desc;
+            } catch (...) {
+                // Bridge failure → keep static defaults
+            }
+        }
+        config.modules.push_back({
+            "HSM PKCS#11",
+            is_real_hsm,
+            is_real_hsm,
+            desc
+        });
+    }
 #endif
 
     // Tracing and Observability
@@ -1015,6 +1055,16 @@ bool verifyBuildManifest(const std::string& manifest_path) {
     bool toolchain_ok = containsField("toolchain",  repro.toolchain);
 
     return commit_ok && toolchain_ok;
+}
+
+void setHsmModuleStatusFn(HsmModuleStatusFn fn) {
+    std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+    hsmStatusFnStorage() = std::move(fn);
+}
+
+void clearHsmModuleStatusFn() {
+    std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+    hsmStatusFnStorage() = nullptr;
 }
 
 } // namespace build_info

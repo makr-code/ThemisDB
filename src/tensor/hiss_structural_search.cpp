@@ -306,24 +306,11 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     }
 
     std::vector<std::size_t> bit_depths;
+    std::vector<std::size_t> padded_grid_sizes;
     std::vector<std::size_t> quantics_mode_sizes;
     bit_depths.reserve(resolved_grid_sizes.size());
+    padded_grid_sizes.reserve(resolved_grid_sizes.size());
 
-    // STUB/SIMULATION NOTE (STUB #254):
-    // Purpose: Provide a production-usable quantics reshape path before the
-    //          full pure-binary QTT layout and inverse physical-index mapping land.
-    // Activation: When no QuanticsFn bridge is installed.
-    // Production Delta: Each physical dimension is factorised into repeated
-    //                   `2` modes plus one residual factor when needed
-    //                   (e.g. 12 -> {2, 2, 3}) instead of a zero-padded pure
-    //                   binary QTT layout; metadata stores `grid_sizes` and
-    //                   `quantics_mode_sizes` only.
-    // Removal Plan: Q2 2028 — replace residual-factor fallback with padded
-    //               pure-binary QTT plus explicit reversible index mapping.
-
-    // Delegate to an injected pure-binary QTT encoder when available.
-    // Copy the fn outside the critical section to minimise lock hold time
-    // (mirrors the pattern in tnsr_task.cpp::run()).
     QuanticsFn quantics_fn;
     {
         std::lock_guard<std::mutex> lk(g_quantics_mtx);
@@ -333,13 +320,22 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         return quantics_fn(train, grid_sizes);
     }
 
+    // Pure-binary quantics layout:
+    // - every physical dimension is padded to the next power-of-two extent
+    // - the reshaped TT uses only size-2 quantics modes
+    // - QTTrain metadata keeps both original and padded physical extents
     for (const auto grid_size : resolved_grid_sizes) {
-        bit_depths.push_back(calculateBitDepth(grid_size));
-        const auto factors = quanticsFactors(grid_size);
-        quantics_mode_sizes.insert(quantics_mode_sizes.end(), factors.begin(), factors.end());
+        const auto bit_depth = calculateBitDepth(grid_size);
+        bit_depths.push_back(bit_depth);
+        const auto padded_grid_size = static_cast<std::size_t>(1ULL << bit_depth);
+        padded_grid_sizes.push_back(padded_grid_size);
+        quantics_mode_sizes.insert(quantics_mode_sizes.end(), bit_depth, std::size_t{2});
     }
 
     const auto dense_tensor = train.reconstruct();
+    const auto padded_dense_elements = denseElementCount(padded_grid_sizes);
+    std::vector<float> padded_dense_tensor(padded_dense_elements, 0.0f);
+    std::copy(dense_tensor.begin(), dense_tensor.end(), padded_dense_tensor.begin());
     storage::TensorTrainDecomposer decomposer;
     storage::TensorTrainConfig cfg;
     cfg.eps = train.achieved_eps > 0.0
@@ -347,14 +343,16 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
                   : kMinQuanticsEpsilon;
     cfg.max_rank = train.maxRank();
 
-    auto decomposed = decomposer.decompose(dense_tensor, quantics_mode_sizes, cfg);
+    auto decomposed = decomposer.decompose(padded_dense_tensor, quantics_mode_sizes, cfg);
     auto reshaped_train = std::move(decomposed.first);
     reshaped_train.original_norm = train.original_norm;
 
     QTTrain qt;
     qt.bit_depths = std::move(bit_depths);
     qt.grid_sizes = resolved_grid_sizes;
+    qt.padded_grid_sizes = std::move(padded_grid_sizes);
     qt.quantics_mode_sizes = quantics_mode_sizes;
+    qt.original_element_count = dense_tensor.size();
     qt.tt_train = std::move(reshaped_train);
     return qt;
 }

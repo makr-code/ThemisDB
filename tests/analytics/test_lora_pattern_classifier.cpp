@@ -50,6 +50,9 @@ TEST(LoRAPatternClassifierTest, LPC02_FallbackWhenNoInferenceFn) {
     const auto result = clf.classify({makeEvent("e1")}, "ada1");
     EXPECT_TRUE(result.used_fallback);
     EXPECT_EQ(result.adapter_id, "ada1");
+    EXPECT_EQ(result.label, "fraud");
+    EXPECT_GE(result.confidence, 0.0);
+    EXPECT_LE(result.confidence, 1.0);
 }
 
 TEST(LoRAPatternClassifierTest, LPC03_UsesInjectedInferenceFn) {
@@ -216,4 +219,41 @@ TEST(LoRAPatternClassifierTest, LPC15_ConcurrentBatchClassifyFrom4ThreadsIsSafe)
     for (auto& th : threads) th.join();
     // No crashes and all calls accounted for.
     EXPECT_GE(call_count.load(), 1);
+}
+
+TEST(LoRAPatternClassifierTest, LPC16_FallbackConfidenceAdaptsToEventSignal) {
+    LoRAPatternClassifier clf;
+    clf.registerAdapterDomain(makeDomain("ada1", "anomaly", {1.0, 0.0}));
+
+    DataPoint low_signal;
+    low_signal.id = "low";
+    low_signal.timestamp_ms = 10;
+    low_signal.set("status", std::string("ok"));
+
+    DataPoint high_signal_1;
+    high_signal_1.id = "high_1";
+    high_signal_1.timestamp_ms = 100;
+    high_signal_1.set("amount", 10.0);
+    high_signal_1.set("count", static_cast<int64_t>(5));
+    high_signal_1.set("flag", true);
+
+    DataPoint high_signal_2;
+    high_signal_2.id = "high_2";
+    high_signal_2.timestamp_ms = 200;
+    high_signal_2.set("amount", 120.0);
+    high_signal_2.set("count", static_cast<int64_t>(50));
+    high_signal_2.set("flag", true);
+
+    const auto low = clf.classify({low_signal}, "ada1");
+    const auto high = clf.classify({high_signal_1, high_signal_2}, "ada1");
+
+    EXPECT_TRUE(low.used_fallback);
+    EXPECT_TRUE(high.used_fallback);
+    EXPECT_EQ(low.label, "anomaly");
+    EXPECT_EQ(high.label, "anomaly");
+    EXPECT_GE(low.confidence, 0.0);
+    EXPECT_LE(low.confidence, 1.0);
+    EXPECT_GE(high.confidence, 0.0);
+    EXPECT_LE(high.confidence, 1.0);
+    EXPECT_GT(high.confidence, low.confidence);
 }

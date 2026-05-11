@@ -15,27 +15,23 @@
  * @file storage/gguf_metadata.cpp
  * @brief GGUFMetadata — GGUF v3 provenance store implementation.
  *
- * ### Stub log
- * - GMD-01  sign() / verify() use byte-XOR placeholder instead of
- *           HMAC-SHA256.  Tracked as STUB #173.
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Allow GgmlTensorBridge and AdapterRepository to call
- *          sign() / verify() in unit tests without linking OpenSSL.
- * Activation: Always (no compile flag required).
- * Production Delta: XOR-based tag is NOT cryptographically secure.
- *                   An attacker who knows the key and any signed record
- *                   can forge signatures.
- * Removal Plan: Q2 2027 — replace stubSign() with
- *               HMAC_CTX_new() / HMAC_Update() / HMAC_Final() from
- *               OpenSSL, or a vendored SHA-256 (e.g. mbedTLS).
+ * Default sign/verify operations use OpenSSL HMAC-SHA256. A custom
+ * implementation can be injected via GGUFMetadata::setHmacFn().
  */
 
 #include "storage/gguf_metadata.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <climits>
+#include <cstdio>
 #include <cstring>
 #include <iomanip>
+#include <mutex>
+#include <openssl/crypto.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 #include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
@@ -62,34 +58,77 @@ std::string ProvenanceRecord::canonicalBytes() const {
 }
 
 // ============================================================================
-// Internal helper — byte-XOR "HMAC" (STUB #173)
+// Internal helpers
 // ============================================================================
 
 namespace {
 
-/// XOR-based tag: tag[i] = canonical[i % len] XOR key[i % keylen].
-/// NOT cryptographically secure — placeholder for real HMAC-SHA256.
-std::string stubSign(const std::string& data, const std::string& key) {
-    if (key.empty()) {
-        return std::string(8, '\x00');
-    }
-    // Produce an 8-byte tag (64-bit) by folding XOR over the data.
-    uint8_t tag[8] = {0};
-    for (std::size_t i = 0; i < data.size(); ++i) {
-        tag[i % 8] ^= static_cast<uint8_t>(data[i])
-                    ^ static_cast<uint8_t>(key[i % key.size()]);
-    }
-    // Also mix in key bytes on their own pass.
-    for (std::size_t i = 0; i < key.size(); ++i) {
-        tag[(i + 1) % 8] ^= static_cast<uint8_t>(key[i]);
-    }
-    // Hex-encode.
+[[nodiscard]] std::string toHex(const unsigned char* data, size_t len) {
     std::ostringstream oss;
-    for (uint8_t b : tag) {
-        oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(b);
+    oss << std::hex << std::setfill('0');
+    for (size_t i = 0; i < len; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(data[i]);
     }
     return oss.str();
+}
+
+[[nodiscard]] std::string computeHmacSha256(const std::string& data,
+                                            const std::string& key) {
+    if (key.size() > static_cast<size_t>(INT_MAX) ||
+        data.size() > static_cast<size_t>(INT_MAX)) {
+        std::fprintf(stderr,
+            "[ThemisDB][SECURITY] GGUFMetadata: HMAC input exceeds INT_MAX; "
+            "operation failed.\n");
+        return {};
+    }
+
+    unsigned char md[EVP_MAX_MD_SIZE];
+    unsigned int md_len = 0;
+    if (!HMAC(EVP_sha256(),
+              reinterpret_cast<const unsigned char*>(key.data()),
+              static_cast<int>(key.size()),
+              reinterpret_cast<const unsigned char*>(data.data()),
+              static_cast<int>(data.size()),
+              md,
+              &md_len)) {
+        return {};
+    }
+
+    return toHex(md, md_len);
+}
+
+[[nodiscard]] bool constantTimeEquals(const std::string& lhs,
+                                      const std::string& rhs) {
+    constexpr std::size_t kHexSha256Len = 64;
+    std::array<unsigned char, kHexSha256Len> lhs_buf{};
+    std::array<unsigned char, kHexSha256Len> rhs_buf{};
+
+    const auto lhs_copy = std::min(lhs.size(), kHexSha256Len);
+    const auto rhs_copy = std::min(rhs.size(), kHexSha256Len);
+    std::memcpy(lhs_buf.data(), lhs.data(), lhs_copy);
+    std::memcpy(rhs_buf.data(), rhs.data(), rhs_copy);
+
+    const int cmp = CRYPTO_memcmp(lhs_buf.data(), rhs_buf.data(), kHexSha256Len);
+    const unsigned char cmp_ok =
+        static_cast<unsigned char>(cmp == 0 ? 1 : 0);
+    const unsigned char lhs_ok =
+        static_cast<unsigned char>(lhs.size() == kHexSha256Len ? 1 : 0);
+    const unsigned char rhs_ok =
+        static_cast<unsigned char>(rhs.size() == kHexSha256Len ? 1 : 0);
+    return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
+}
+
+[[nodiscard]] bool isValidHexSha256Signature(const std::string& signature) {
+    constexpr std::size_t kHexSha256Len = 64;
+    if (signature.size() != kHexSha256Len) {
+        return false;
+    }
+    for (unsigned char ch : signature) {
+        if (!std::isxdigit(ch)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // ─── Serialisation helpers ────────────────────────────────────────────────
@@ -142,6 +181,22 @@ bool readStr(const uint8_t* data, std::size_t size, std::size_t& pos,
 } // anonymous namespace
 
 // ============================================================================
+// GGUFMetadata — HmacFn injection bridge
+// ============================================================================
+
+static std::mutex& hmacFnMutex() { static std::mutex m; return m; }
+static GGUFMetadata::HmacFn& hmacFnStorage() {
+    static GGUFMetadata::HmacFn fn;
+    return fn;
+}
+
+/*static*/
+void GGUFMetadata::setHmacFn(HmacFn fn) {
+    std::lock_guard<std::mutex> lk(hmacFnMutex());
+    hmacFnStorage() = std::move(fn);
+}
+
+// ============================================================================
 // GGUFMetadata — attach / detach
 // ============================================================================
 
@@ -190,20 +245,81 @@ std::size_t GGUFMetadata::size() const noexcept {
 }
 
 // ============================================================================
-// GGUFMetadata — sign / verify (STUB #173)
+// GGUFMetadata — sign / verify
 // ============================================================================
 
 void GGUFMetadata::sign(ProvenanceRecord& record,
                          const std::string& hmac_key) {
-    // STUB/SIMULATION NOTE (stub #173): byte-XOR placeholder for HMAC-SHA256.
-    record.hmac_signature = stubSign(record.canonicalBytes(), hmac_key);
+    const std::string canonical = record.canonicalBytes();
+
+    // Try injected HMAC fn first.
+    {
+        std::lock_guard<std::mutex> lk(hmacFnMutex());
+        const auto& fn = hmacFnStorage();
+        if (fn) {
+            try {
+                const std::string injected = fn(canonical, hmac_key);
+                if (isValidHexSha256Signature(injected)) {
+                    record.hmac_signature = injected;
+                    return;
+                }
+                std::fprintf(stderr,
+                    "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn returned "
+                    "an invalid signature format; clearing signature.\n");
+                record.hmac_signature.clear();
+                return;
+            } catch (...) {
+                std::fprintf(stderr,
+                    "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn threw; "
+                    "clearing signature.\n");
+                record.hmac_signature.clear();
+                return;
+            }
+        }
+    }
+
+    record.hmac_signature = computeHmacSha256(canonical, hmac_key);
+    if (record.hmac_signature.empty()) {
+        std::fprintf(stderr,
+            "[ThemisDB][SECURITY] GGUFMetadata::sign: built-in HMAC-SHA256 "
+            "failed; clearing signature.\n");
+    }
 }
 
 bool GGUFMetadata::verify(const ProvenanceRecord& record,
-                           const std::string& hmac_key) {
+                            const std::string& hmac_key) {
     if (record.hmac_signature.empty()) return false;
-    const std::string expected = stubSign(record.canonicalBytes(), hmac_key);
-    return record.hmac_signature == expected;
+    const std::string canonical = record.canonicalBytes();
+
+    // Try injected HMAC fn first.
+    {
+        std::lock_guard<std::mutex> lk(hmacFnMutex());
+        const auto& fn = hmacFnStorage();
+        if (fn) {
+            try {
+                const std::string expected = fn(canonical, hmac_key);
+                if (!isValidHexSha256Signature(expected)) {
+                    std::fprintf(stderr,
+                        "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn "
+                        "returned invalid signature format.\n");
+                    return false;
+                }
+                return constantTimeEquals(record.hmac_signature, expected);
+            } catch (...) {
+                std::fprintf(stderr,
+                    "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn threw; "
+                    "returning false (fail-closed). Operator should diagnose why the "
+                    "HMAC function is failing.\n");
+                return false;  // fail-closed on exception
+            }
+        }
+    }
+
+    const std::string expected = computeHmacSha256(canonical, hmac_key);
+    if (expected.empty()) {
+        return false;
+    }
+    return constantTimeEquals(record.hmac_signature, expected);
 }
 
 // ============================================================================

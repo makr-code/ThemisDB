@@ -19,6 +19,9 @@
 
 #include "llm/lora_framework/quantization.h"
 
+#include <fmt/format.h>
+#include <exception>
+
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
 #else
@@ -42,13 +45,19 @@
 namespace spdlog {
     template<typename... Args>
     inline void debug(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(fmt::format_string<Args...>, Args&&...) {}
 }
 #endif
 
 #include <cmath>
 #include <algorithm>
 #include <limits>
+#include <mutex>
 #include <numeric>
+#include <string>
 
 namespace themis {
 namespace llm {
@@ -93,6 +102,36 @@ size_t QuantizedTensor::memory_bytes() const {
 
 namespace quantization {
 
+namespace {
+
+std::mutex g_debug_log_mutex;
+DebugLogFn g_debug_log_fn;
+
+template <typename... Args>
+void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
+    const auto message = fmt::format(fmt_str, std::forward<Args>(args)...);
+    {
+        std::lock_guard<std::mutex> lock(g_debug_log_mutex);
+        if (g_debug_log_fn) {
+            try {
+                g_debug_log_fn(message);
+            } catch (const std::exception& e) {
+                spdlog::warn("quantization debug callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("quantization debug callback failed with unknown exception");
+            }
+        }
+    }
+    spdlog::debug("{}", message);
+}
+
+} // namespace
+
+void setDebugLogFn(DebugLogFn fn) {
+    std::lock_guard<std::mutex> lock(g_debug_log_mutex);
+    g_debug_log_fn = std::move(fn);
+}
+
 uint8_t find_nf4_bin(float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
@@ -120,8 +159,8 @@ void quantize_nf4(const std::vector<float>& input,
     size_t total = input.size();
     size_t num_blocks = (total + block_size - 1) / block_size;
     
-    spdlog::debug("Quantizing to NF4: {} elements, {} blocks, block_size={}",
-                  total, num_blocks, block_size);
+    emitDebugLog("Quantizing to NF4: {} elements, {} blocks, block_size={}",
+                 total, num_blocks, block_size);
     
     // Ensure output is properly sized
     if (output.data().size() < (total + 1) / 2) {
@@ -173,7 +212,7 @@ void quantize_nf4(const std::vector<float>& input,
         }
     }
     
-    spdlog::debug("NF4 quantization complete: {} bytes", output.memory_bytes());
+    emitDebugLog("NF4 quantization complete: {} bytes", output.memory_bytes());
 }
 
 void quantize_int8(const std::vector<float>& input,
@@ -183,8 +222,8 @@ void quantize_int8(const std::vector<float>& input,
     size_t total = input.size();
     size_t num_blocks = (total + block_size - 1) / block_size;
     
-    spdlog::debug("Quantizing to INT8: {} elements, {} blocks, block_size={}",
-                  total, num_blocks, block_size);
+    emitDebugLog("Quantizing to INT8: {} elements, {} blocks, block_size={}",
+                 total, num_blocks, block_size);
     
     // Ensure output is properly sized
     if (output.data().size() < total) {

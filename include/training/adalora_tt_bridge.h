@@ -380,6 +380,65 @@ public:
 
     const AdaLoraTTBridgeConfig& config() const noexcept;
 
+    // -----------------------------------------------------------------------
+    // Phase 3 bridge — GgmlTensorBridge::mapAdapter() injection (STUB #271)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Injectable backend for zero-copy adapter mapping (Phase 3).
+     *
+     * Signature: `bool fn(const AdaLoraTTExport& exp)`.
+     *
+     * When set, `mapAdapter(exp)` delegates to this function instead of
+     * returning `false` (the Phase 3 stub).  Typically wired to
+     * `GgmlTensorBridge::mapAdapter()` during production bootstrap.
+     *
+     * Thread-safe (instance-level; stored in Impl).
+     */
+    using MapAdapterFn = std::function<bool(const AdaLoraTTExport&)>;
+
+    /**
+     * @brief Set the Phase 3 GgmlTensorBridge::mapAdapter() bridge.
+     * @param fn  Function called by `mapAdapter()` to inject TT-cores into llama.cpp.
+     */
+    void setMapAdapterFn(MapAdapterFn fn);
+    void clearMapAdapterFn();
+
+    /**
+     * @brief Map a stored adapter into the GGML context (Phase 3 bridge).
+     *
+     * Delegates to the injected `MapAdapterFn` when set.  Returns `false`
+     * when no fn is injected (Phase 3 not yet wired — STUB #271).
+     *
+     * @param exp  AdaLoraTTExport to inject.
+     * @return true on success; false when the bridge is not yet wired.
+     */
+    bool mapAdapter(const AdaLoraTTExport& exp) const;
+
+    // -----------------------------------------------------------------------
+    // Phase 4 bridge — training-loop integration for roundAndReallocate (STUB #271)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Injectable training-step backend (Phase 4).
+     *
+     * Signature: `std::size_t fn(AdaLoraTTExport& exp, double eps)`.
+     *
+     * When set, `roundAndReallocate()` delegates to this function instead of
+     * using the standalone `TensorTrainDecomposer::round()` path.  The fn
+     * receives the full export and epsilon budget; it is responsible for
+     * interfacing with the live training loop (e.g. ggml-autograd or libtorch
+     * custom op) and returning the total active rank after the step.
+     *
+     * Thread-safe (process-wide static; same pattern as FourierTransformFn).
+     */
+    using TrainingStepFn = std::function<std::size_t(AdaLoraTTExport&, double)>;
+
+    /** @brief Inject the Phase 4 training-loop backend. Thread-safe. */
+    static void setTrainingStepFn(TrainingStepFn fn);
+    /** @brief Clear the Phase 4 training-loop backend. */
+    static void clearTrainingStepFn();
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

@@ -13,7 +13,7 @@
 
 /**
  * @file tensor/tensor_mmap_bridge.cpp
- * @brief Zero-copy mmap bridge for TT-core data (STUB #176).
+ * @brief Zero-copy mmap bridge for TT-core data (STUB #270).
  *
  * ## Implementation notes
  *
@@ -28,7 +28,7 @@
  * heap-allocated copy guarded by `VirtualLock` (Windows) or a no-lock
  * fallback.
  *
- * STUB #176: This path performs a memcpy instead of a true zero-copy.
+ * STUB #270: This path performs a memcpy instead of a true zero-copy.
  *   The production upgrade (Q1 2027) will open RocksDB SST files,
  *   obtain their page-aligned offsets for each TT-core key, and use
  *   `mmap(MAP_SHARED)` to expose those pages directly — eliminating
@@ -40,6 +40,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <mutex>
 #include <stdexcept>
 #include <utility>
 
@@ -58,6 +59,30 @@
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// STUB #270 — SST page-map bridge storage
+// ============================================================================
+
+namespace {
+std::mutex& sstMapFnMutex() { static std::mutex m; return m; }
+TensorMmapBridge::SstMapFn& sstMapFnStorage() {
+    static TensorMmapBridge::SstMapFn fn;
+    return fn;
+}
+} // anonymous namespace
+
+/*static*/
+void TensorMmapBridge::setSstMapFn(SstMapFn fn) {
+    std::lock_guard<std::mutex> lk(sstMapFnMutex());
+    sstMapFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorMmapBridge::clearSstMapFn() {
+    std::lock_guard<std::mutex> lk(sstMapFnMutex());
+    sstMapFnStorage() = {};
+}
 
 // ============================================================================
 // Internal helpers
@@ -132,7 +157,7 @@ void freeRegion(void* ptr, std::size_t bytes) noexcept {
 //   a lock on the TensorIndexManager.
 // Activation: Always — no compile flag required.
 // Production Delta: Copies core data into MAP_ANONYMOUS region via memcpy.
-//   Real production path (STUB #176) uses MAP_SHARED on RocksDB SST file
+//   Real production path (STUB #270) uses MAP_SHARED on RocksDB SST file
 //   pages so no memcpy occurs; the TT-core bytes are accessed in-place.
 // Removal Plan: Q1 2027 — replace MAP_ANONYMOUS + memcpy with MAP_SHARED
 //   over RocksDB SST file descriptor + offset, once the SST mmap
@@ -142,6 +167,13 @@ void freeRegion(void* ptr, std::size_t bytes) noexcept {
 std::unique_ptr<TensorMmapBridge>
 TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
     auto bridge = std::unique_ptr<TensorMmapBridge>(new TensorMmapBridge());
+
+    // Snapshot the SST-page-map bridge fn once (STUB #270).
+    SstMapFn sst_fn;
+    {
+        std::lock_guard<std::mutex> lk(sstMapFnMutex());
+        sst_fn = sstMapFnStorage();
+    }
 
     bridge->regions_.reserve(train.cores.size());
     bridge->slices_.reserve(train.cores.size());
@@ -158,18 +190,32 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
             continue;
         }
 
-        void* ptr = allocRegion(bytes);
-        if (!ptr) {
-            THEMIS_WARN("TensorMmapBridge: mmap allocation failed for "
-                        "core {} ({} bytes); bridge will be partial", ci, bytes);
-            bridge->slices_.push_back({nullptr, 0, ci, 0});
-            bridge->regions_.push_back({nullptr, 0, false});
-            continue;
+        // STUB #270: try the injected SST page-map fn first (zero-copy path).
+        // If it returns a non-null pointer, use that region directly without
+        // memcpy.  The fn is responsible for pre-populating the region with
+        // the core float data (e.g. via MAP_SHARED on an SST page).
+        // Note: the bridge will NOT call freeRegion() on externally-mapped
+        // regions — the caller of setSstMapFn() must manage their lifetime.
+        void* ptr = nullptr;
+        bool   sst_mapped = false;
+        if (sst_fn) {
+            ptr = sst_fn(bytes, ci);
+            if (ptr) sst_mapped = true;
         }
 
-        // Copy core data into the pinned region (STUB #176: replace with
-        // MAP_SHARED page access once SST mmap integration is ready).
-        std::memcpy(ptr, core.data.data(), bytes);
+        if (!ptr) {
+            // Fallback: MAP_ANONYMOUS + memcpy (STUB #270 — Q1 2027).
+            ptr = allocRegion(bytes);
+            if (!ptr) {
+                THEMIS_WARN("TensorMmapBridge: mmap allocation failed for "
+                            "core {} ({} bytes); bridge will be partial", ci, bytes);
+                bridge->slices_.push_back({nullptr, 0, ci, 0});
+                bridge->regions_.push_back({nullptr, 0, false});
+                continue;
+            }
+            // Copy core data into the pinned region.
+            std::memcpy(ptr, core.data.data(), bytes);
+        }
 
         const bool locked = lockRegion(ptr, bytes);
         if (!locked) {
@@ -183,7 +229,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
         if (locked) ++bridge->locked_count_;
 
         bridge->total_bytes_ += bytes;
-        bridge->regions_.push_back({ptr, bytes, locked});
+        bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});
         bridge->slices_.push_back({
             static_cast<const float*>(ptr),
             bytes,
@@ -203,9 +249,12 @@ void TensorMmapBridge::release() noexcept {
     for (auto& r : regions_) {
         if (!r.ptr) continue;
         if (r.locked) unlockRegion(r.ptr, r.bytes);
-        freeRegion(r.ptr, r.bytes);
-        r.ptr    = nullptr;
-        r.locked = false;
+        // Do not call freeRegion() on externally-owned (SST-mapped) regions;
+        // the caller of setSstMapFn() is responsible for their lifetime.
+        if (!r.externally_owned) freeRegion(r.ptr, r.bytes);
+        r.ptr             = nullptr;
+        r.locked          = false;
+        r.externally_owned = false;
     }
     regions_.clear();
     slices_.clear();

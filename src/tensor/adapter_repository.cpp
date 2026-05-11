@@ -18,11 +18,11 @@
  * ### Stub log
  * - AR-01  loadAdapter() copies TT-core data from the backend into a heap
  *          allocation instead of using mmap(MAP_SHARED) for zero-copy.
- *          See STUB #172 in STUB_INVENTORY.md.
+ *          See STUB #265 in STUB_INVENTORY.md.
  * - AR-02  findSimilarAdapters() uses column-mean fingerprint cosine similarity
- *          (inherited from STUB #174 in TensorFingerprintGraph).  Full TT
+ *          ( inherited from STUB #276 in TensorFingerprintGraph).  Full TT
  *          inner-product deferred to Q3 2027 (Phase 4 AdaLoRA bridge).
- *          See STUB #177 in STUB_INVENTORY.md.
+ *          See STUB #266 in STUB_INVENTORY.md.
  *
  * STUB/SIMULATION NOTE (AR-01):
  * Purpose: Provide a fully functional adapter store/load cycle so that
@@ -38,7 +38,7 @@
  *               mmap(MAP_SHARED) on the RocksDB SST backing file + mlock()
  *               to pin the pages; return raw float* into the mmap region.
  *
- * STUB/SIMULATION NOTE (AR-02 / STUB #177):
+ * STUB/SIMULATION NOTE (AR-02 / STUB #266):
  * Purpose: Expose findSimilarAdapters() before full TT inner-product sweep
  *          is available in TensorFingerprintGraph.
  * Activation: Only when setFingerprintGraph() has been called with a non-null
@@ -54,12 +54,52 @@
 #include "tensor/adapter_repository.h"
 
 #include <algorithm>
+#include <cstdio>
+#include <mutex>
 #include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
 
 namespace themis {
 namespace tensor {
+
+namespace {
+std::mutex& mmapLoadFnMutex() { static std::mutex m; return m; }
+AdapterRepository::MmapLoadFn& mmapLoadFnStorage() {
+    static AdapterRepository::MmapLoadFn fn;
+    return fn;
+}
+
+std::mutex& exactSimilarityFnMutex() { static std::mutex m; return m; }
+AdapterRepository::ExactSimilarityFn& exactSimilarityFnStorage() {
+    static AdapterRepository::ExactSimilarityFn fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void AdapterRepository::setMmapLoadFn(MmapLoadFn fn) {
+    std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+    mmapLoadFnStorage() = std::move(fn);
+}
+
+/*static*/
+void AdapterRepository::clearMmapLoadFn() {
+    std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+    mmapLoadFnStorage() = {};
+}
+
+/*static*/
+void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+    exactSimilarityFnStorage() = std::move(fn);
+}
+
+/*static*/
+void AdapterRepository::clearExactSimilarityFn() {
+    std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+    exactSimilarityFnStorage() = {};
+}
 
 // ============================================================================
 // Constructor
@@ -164,12 +204,47 @@ bool AdapterRepository::remove(const std::string& domain,
 
 GgmlCoreDescriptor
 AdapterRepository::loadAdapter(const std::string& domain,
-                                const std::string& base_model_id) const {
+                                 const std::string& base_model_id) const {
     GgmlCoreDescriptor desc;
     desc.tenant_id      = tenant_id_;
     desc.domain         = domain;
     desc.base_model_id  = base_model_id;
     desc.adapter_key    = makeKey(domain, base_model_id);
+
+    // Delegate to injected mmap-style loader backend when available (STUB #265).
+    MmapLoadFn mmap_fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+        mmap_fn_copy = mmapLoadFnStorage();
+    }
+    if (mmap_fn_copy) {
+        try {
+            auto mapped = mmap_fn_copy(
+                tenant_id_, domain, base_model_id, desc.adapter_key, backend_);
+            if (mapped.tenant_id.empty()) mapped.tenant_id = tenant_id_;
+            if (mapped.domain.empty()) mapped.domain = domain;
+            if (mapped.base_model_id.empty()) mapped.base_model_id = base_model_id;
+            if (mapped.adapter_key.empty()) mapped.adapter_key = desc.adapter_key;
+            {
+                std::unique_lock lock(stats_mutex_);
+                if (mapped.valid) ++stats_.load_hits;
+                else ++stats_.load_misses;
+            }
+            return mapped;
+        } catch (const std::exception& e) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::loadAdapter: injected "
+                "MmapLoadFn failed (%s); using heap-deserialize fallback.\n",
+                e.what());
+            // Fail-closed to existing heap-deserialize fallback path below.
+        } catch (...) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::loadAdapter: injected "
+                "MmapLoadFn failed (unknown exception); using heap-deserialize "
+                "fallback.\n");
+            // Fail-closed to existing heap-deserialize fallback path below.
+        }
+    }
 
     // STUB/SIMULATION NOTE (AR-01):
     // Retrieves bytes from the backend and deserialises into desc.train.
@@ -271,7 +346,34 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         return {};
     }
 
-    // STUB/SIMULATION NOTE (AR-02 / STUB #177):
+    const std::string key = makeKey(domain, base_model_id);
+
+    // Delegate to injected exact-similarity backend when available (STUB #266).
+    ExactSimilarityFn exact_fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+        exact_fn_copy = exactSimilarityFnStorage();
+    }
+    if (exact_fn_copy) {
+        try {
+            return exact_fn_copy(key, k, backend_);
+        } catch (const std::exception& e) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
+                "injected ExactSimilarityFn failed (%s); using fingerprint "
+                "fallback.\n",
+                e.what());
+            // Fail-closed to fingerprint-graph path below.
+        } catch (...) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
+                "injected ExactSimilarityFn failed (unknown exception); using "
+                "fingerprint fallback.\n");
+            // Fail-closed to fingerprint-graph path below.
+        }
+    }
+
+    // STUB/SIMULATION NOTE (AR-02 / STUB #266):
     // Delegates to TensorFingerprintGraph::findSimilar() which uses
     // column-mean fingerprint cosine similarity (not full TT inner-product).
     std::shared_ptr<TensorFingerprintGraph> graph;
@@ -283,7 +385,6 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         return {};
     }
 
-    const std::string key = makeKey(domain, base_model_id);
     return graph->findSimilar(key, k);
 }
 

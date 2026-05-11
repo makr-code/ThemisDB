@@ -50,6 +50,7 @@
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tt_quantizer.h"
 
+#include <functional>
 #include <rocksdb/compaction_filter.h>
 #include <string>
 
@@ -75,6 +76,14 @@ namespace storage {
  */
 class TensorCompactionFilter final : public rocksdb::CompactionFilter {
 public:
+    /**
+     * @brief Injectable recompress backend for compaction.
+     *
+     * Signature: `TTTrain fn(const TTTrain&, const TensorTrainConfig&)`
+     */
+    using RecompressFn = std::function<TTTrain(const TTTrain&,
+                                               const TensorTrainConfig&)>;
+
     /**
      * @brief Construct filter with compression parameters.
      *
@@ -107,6 +116,17 @@ public:
                       const rocksdb::Slice&     existing_value,
                       std::string*              new_value,
                       std::string*              skip_until) const override;
+
+    /**
+     * @brief Inject a recompress backend (e.g. LAPACK dgesdd wrapper).
+     *
+     * When set, filterTTCore()/filterTTNMeta() delegate recompression to this
+     * callback instead of using TensorTrainDecomposer::recompress().
+     */
+    static void setRecompressFn(RecompressFn fn);
+
+    /** @brief Remove a previously injected recompress backend. */
+    static void clearRecompressFn();
 
 private:
     double           epsilon_;

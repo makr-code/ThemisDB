@@ -43,6 +43,7 @@
 #include "tensor/hyper_index_builder.h"
 #include "storage/tensor_train_decomposer.h"
 
+#include <array>
 #include <atomic>
 #include <gtest/gtest.h>
 #include <cmath>
@@ -154,19 +155,52 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
     const auto recon = train.reconstruct();
     ASSERT_EQ(recon.size(), g.values.size());
 
-    // Compute normalised RMSE against normalised input
+    // Compare normalised value distributions (Hilbert ordering may permute index order).
     float vmin = g.values[0], vmax = g.values[0];
     for (const auto v : g.values) { vmin = std::min(vmin, v); vmax = std::max(vmax, v); }
     const float range = (vmax > vmin) ? (vmax - vmin) : 1.0f;
 
+    std::vector<float> expected;
+    expected.reserve(recon.size());
+    for (std::size_t i = 0; i < g.values.size(); ++i) {
+        expected.push_back((g.values[i] - vmin) / range);
+    }
+
+    // Hilbert traversal may permute index order vs. row-major source layout.
+    // We verify value-distribution fidelity after ordering-independent sort.
+    auto sorted_recon = recon;
+    auto sorted_expected = expected;
+    std::sort(sorted_recon.begin(), sorted_recon.end());
+    std::sort(sorted_expected.begin(), sorted_expected.end());
+
     double ss_res = 0.0, ss_tot = 0.0;
-    for (std::size_t i = 0; i < recon.size(); ++i) {
-        const double normed = (g.values[i] - vmin) / range;
-        ss_res += (recon[i] - normed) * (recon[i] - normed);
-        ss_tot += normed * normed;
+    for (std::size_t i = 0; i < sorted_recon.size(); ++i) {
+        const double delta = sorted_recon[i] - sorted_expected[i];
+        const double expected_val = static_cast<double>(sorted_expected[i]);
+        ss_res += delta * delta;
+        ss_tot += expected_val * expected_val;
     }
     const double rmse = (ss_tot > 0.0) ? std::sqrt(ss_res / ss_tot) : 0.0;
     EXPECT_LT(rmse, 0.05);
+}
+
+TEST(UTRConverter, FromGeospatialPadsToHilbertPowerOfTwoGrid) {
+    themis::tensor::RasterGrid g;
+    g.rows = 3;
+    g.cols = 5;
+    g.cell_size_deg = 0.01;
+    g.values.resize(g.rows * g.cols);
+    for (std::size_t i = 0; i < g.values.size(); ++i) {
+        g.values[i] = static_cast<float>(i);
+    }
+
+    themis::tensor::UTRConfig cfg;
+    cfg.eps = 1e-4;
+    cfg.max_rank = 8;
+    const auto train = themis::tensor::UTRConverter::fromGeospatial(g, cfg);
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{8u, 8u}));
+    const auto recon = train.reconstruct();
+    ASSERT_EQ(recon.size(), 64u);
 }
 
 // ============================================================================
@@ -177,14 +211,52 @@ TEST(UTRConverter, FromImageRGBReturnValidTrain) {
     const auto px = makePixels(4, 4, 3);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 4, 4, 3);
     EXPECT_EQ(train.cores.size(), 3u);
-    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{4u, 4u, 3u}));
+    // 4x4 with patch extent 4 -> single 1x1 patch grid.
+    // RGB statistics emit {mean,stddev} per channel -> feature width 3*2 = 6.
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{1u, 1u, 6u}));
 }
 
 TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
     const auto px = makePixels(8, 8, 1);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 8, 8, 1);
-    EXPECT_EQ(train.cores.size(), 2u);
-    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{8u, 8u}));
+    EXPECT_EQ(train.cores.size(), 3u);
+    // 8x8 with patch extent 4 -> 2x2 patch grid.
+    // Single-channel stats emit {mean,stddev} -> feature width 2.
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u}));
+}
+
+TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
+    const std::array<float, 16> patch = {
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+        0.f, 64.f, 128.f, 255.f,
+    };
+    const std::vector<float> px(patch.begin(), patch.end());
+    themis::tensor::UTRConfig cfg;
+    cfg.eps = 1e-6;
+    cfg.max_rank = 8;
+
+    const auto train = themis::tensor::UTRConverter::fromImage(px, 4, 4, 1, cfg);
+    const auto recon = train.reconstruct();
+    ASSERT_EQ(recon.size(), 2u);
+
+    const double expected_mean =
+        (4.0 * (0.0 + 64.0 + 128.0 + 255.0)) / (16.0 * 255.0);
+    // Two-pass variance: first compute the mean, then accumulate squared
+    // deviations.  The two-pass approach is numerically preferable to the
+    // single-pass (sum_of_squares - n*mean^2) formula which suffers from
+    // catastrophic cancellation when the mean is large relative to the
+    // variance.
+    double variance = 0.0;
+    for (const auto value : patch) {
+        const auto normed = static_cast<double>(value) / 255.0;
+        variance += (normed - expected_mean) * (normed - expected_mean);
+    }
+    variance /= static_cast<double>(patch.size());
+
+    EXPECT_NEAR(recon[0], expected_mean, 1e-3);
+    EXPECT_NEAR(recon[1], std::sqrt(variance), 1e-3);
 }
 
 TEST(UTRConverter, FromImageRejectsZeroDimension) {
@@ -244,6 +316,33 @@ TEST(UTRConverter, FromDocumentParagraphVsSentenceProduceDifferentShapes) {
     EXPECT_NE(ht_para.shape[0], ht_sent.shape[0]);
 }
 
+TEST(UTRConverter, FromDocumentLexicalEmbeddingChangesAcrossTopics) {
+    themis::tensor::UTRConfig cfg;
+    cfg.embed_dim = 32;
+    cfg.max_segments = 8;
+
+    const auto ht_a = themis::tensor::UTRConverter::fromDocument(
+        "Database transaction commit durability rollback",
+        themis::tensor::DocumentStructureHint::SENTENCES,
+        cfg);
+    const auto ht_b = themis::tensor::UTRConverter::fromDocument(
+        "Satellite imagery forest canopy terrain elevation",
+        themis::tensor::DocumentStructureHint::SENTENCES,
+        cfg);
+
+    const auto dense_a = ht_a.reconstruct();
+    const auto dense_b = ht_b.reconstruct();
+    ASSERT_EQ(dense_a.size(), dense_b.size());
+    bool differs = false;
+    for (std::size_t i = 0; i < dense_a.size(); ++i) {
+        if (std::abs(dense_a[i] - dense_b[i]) > 1e-4f) {
+            differs = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(differs);
+}
+
 // ============================================================================
 // fromTabular / HyperIndexBuilder
 // ============================================================================
@@ -292,6 +391,42 @@ TEST(UTRConverter, HyperIndexTensorContractPinnedModeReturnsSubset) {
     const auto pinned  = hi.contract({{0u, 0u}});  // pin dimension-0 to bucket 0
     EXPECT_GE(full, pinned);
     EXPECT_GE(pinned, 0.0);
+}
+
+TEST(UTRConverter, HyperIndexBuilderQuantileBucketingPreservesTailSignal) {
+    using namespace themis::tensor;
+
+    ColumnSchema amount;
+    amount.name = "amount";
+    amount.type = ColumnType::NUMERIC;
+    amount.range_min = 0.0;
+    amount.range_max = 1000.0;
+
+    ColumnSchema status;
+    status.name = "status";
+    status.type = ColumnType::CATEGORY;
+    status.categories = {"cold", "warm", "hot"};
+
+    std::vector<TableRow> rows;
+    for (int i = 0; i < 63; ++i) {
+        TableRow row;
+        row.numeric_values = {static_cast<double>(i)};
+        row.category_values = {"cold"};
+        rows.push_back(row);
+    }
+    TableRow outlier;
+    outlier.numeric_values = {999.0};
+    outlier.category_values = {"hot"};
+    rows.push_back(outlier);
+
+    HyperIndexConfig cfg;
+    cfg.bucket_count = 4;
+    cfg.eps = 0.01;
+    cfg.max_rank = 8;
+
+    const auto hi = HyperIndexBuilder::fromSchema("tenant", {amount, status}, rows, cfg);
+    const auto tail_bucket = hi.contract({{0u, 3u}});
+    EXPECT_GT(tail_bucket, 0.0);
 }
 
 TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeAccessor) {

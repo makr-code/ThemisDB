@@ -34,6 +34,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <functional>
 #include "themis/edition.h"
 #include "themis/export.h"
 
@@ -176,6 +177,42 @@ THEMIS_BASE_API bool exportBuildManifest(const std::string& output_path);
  * @return true if all compared fields match, false otherwise.
  */
 THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
+
+// ============================================================================
+// HSM MODULE STATUS BRIDGE (STUB #95)
+// ============================================================================
+//
+// Allows the server startup code to inject the actual runtime HSM state
+// into the build-info module report.  When the bridge is set, the HSM
+// PKCS#11 module entry in getBuildConfiguration() reflects the live state
+// of the HSM provider (stub vs. hardware-backed) instead of the static
+// compile-time default.
+//
+// The bridge is only consulted in builds WITHOUT THEMIS_ENABLE_HSM_REAL.
+// In THEMIS_ENABLE_HSM_REAL builds the real HSM is compiled in and always
+// reported as compiled_in=true.
+//
+// Usage (server startup):
+//   themis::build_info::setHsmModuleStatusFn([]() {
+//       bool real = !hsm->isStubProvider();
+//       std::string desc = real ? "HSM PKCS#11 (hardware-backed)"
+//                               : "HSM PKCS#11 (software stub – dev only)";
+//       return std::make_pair(real, desc);
+//   });
+//
+// Usage (tests / teardown):
+//   themis::build_info::clearHsmModuleStatusFn();  // restore default
+
+/// Callable that returns {is_real_hsm_active, description}.
+using HsmModuleStatusFn = std::function<std::pair<bool, std::string>()>;
+
+/// Register a bridge that reports runtime HSM module status.
+/// Thread-safe.  Pass an empty function to restore static defaults.
+THEMIS_BASE_API void setHsmModuleStatusFn(HsmModuleStatusFn fn);
+
+/// Remove any previously registered HSM module status bridge.
+/// Thread-safe.
+THEMIS_BASE_API void clearHsmModuleStatusFn();
 
 } // namespace build_info
 } // namespace themis

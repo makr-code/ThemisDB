@@ -59,13 +59,19 @@
  *   FR-09  buildQuery() masks low-confidence tokens when mask_uncertain_tokens=true
  *   FR-10  reset() clears all state
  *
- * TensorButterflyOperator — TBO-01..TBO-06
+ * TensorButterflyOperator — TBO-01..TBO-12
  *   TBO-01  build(FOURIER, {4}) succeeds and describe() mentions FOURIER
  *   TBO-02  apply() on a 1D TT (n=4) produces orthonormal output (‖WHT·v‖ = ‖v‖)
  *   TBO-03  apply() on a 2-mode TT ({4,4}) is separable: mode transforms commute
  *   TBO-04  apply() shape mismatch throws std::invalid_argument
  *   TBO-05  build(FOURIER, {3}) throws (3 is not a power of 2)
- *   TBO-06  build(RADON, ...) throws std::logic_error (stub #171)
+ *   TBO-06  build(RADON|GREENS_FUNCTION, ...) throws when no bridge fn set (stub #268)
+ *   TBO-07  injected FOURIER backend is used instead of WHT (stub #267)
+ *   TBO-08  clear FOURIER backend reverts to built-in WHT (stub #267)
+ *   TBO-09  injected FOURIER backend supports identity transform (stub #267)
+ *   TBO-10  build(RADON, {4}) succeeds when RadonTransformFn is injected (stub #268)
+ *   TBO-11  build(GREENS_FUNCTION, {4}) succeeds when GreensTransformFn is set (stub #268)
+ *   TBO-12  clearRadonTransformFn() reverts build(RADON) to throwing (stub #268)
  *
  * AdapterRepository — AR-01..AR-12
  *   AR-01  store() + loadAdapter() round-trip: valid=true and cores match
@@ -89,7 +95,7 @@
  *   TFG-05  removeAdapter() removes the entry; second remove returns false
  *   TFG-06  findSimilarByFingerprint() respects tenant_id filter
  *
- * TensorRAGPipeline — TRPL-01..TRPL-08
+ * TensorRAGPipeline — TRPL-01..TRPL-11
  *   TRPL-01  step() returns should_retrieve=false for a confident token (large gap, high log-prob)
  *   TRPL-02  step() sets flare_triggered when log-prob is below FLARE threshold
  *   TRPL-03  step() sets targ_triggered when logit gap is below TARG threshold
@@ -98,6 +104,28 @@
  *   TRPL-06  reset() clears stats and sub-gate state
  *   TRPL-07  stats() tracks total_token_steps, flare_triggers, targ_triggers correctly
  *   TRPL-08  use_flare=false disables FLARE; use_targ=false disables TARG
+ *   TRPL-09  flare_query_embedding empty when no EmbeddingQueryFn injected (STUB #261)
+ *   TRPL-10  flare_query_embedding populated when EmbeddingQueryFn is set (STUB #261)
+ *   TRPL-11  flare_query_embedding empty when FLARE does not trigger (STUB #261)
+ *
+ * FlareRetrieval bridge — FR-11..FR-14 (STUB #260)
+ *   FR-11  buildQueryEmbedding() returns empty when no fn injected
+ *   FR-12  buildQueryEmbedding() calls fn with buildQuery() text and returns vector
+ *   FR-13  buildQueryEmbedding() returns empty (fail-closed) when fn throws
+ *   FR-14  buildQueryEmbedding() returns empty after fn is cleared
+ *
+ * TARGRetrieval FullEntropyFn bridge — TARG-09..TARG-11 (STUB #262)
+ *   TARG-09  no fn → top-32 approximation produces non-zero entropy
+ *   TARG-10  fn set → fn return value replaces built-in approximation
+ *   TARG-11  fn that returns high entropy triggers the entropy gate
+ *
+ * GgmlTensorBridge — GTB-01..GTB-06 (STUB #263a/#263b, THEMIS_ENABLE_GGML_BRIDGE only)
+ *   GTB-01  ggmlTensor() returns nullptr when GgmlAllocFn not set
+ *   GTB-02  ggmlTensor() returns non-null pointer when GgmlAllocFn is set
+ *   GTB-03  GgmlAllocFn receives correct n_elements matching stored data size
+ *   GTB-04  ggmlTensor() reverts to nullptr after GgmlAllocFn is cleared
+ *   GTB-05  prefetch() is a no-op (no throw) when no PrefetchFn is set
+ *   GTB-06  PrefetchFn is called with the correct key and version arguments
  */
 
 #include "query/tensor_contraction_engine.h"
@@ -105,7 +133,9 @@
 #include "rag/targ_retrieval.h"
 #include "rag/flare_retrieval.h"
 #include "rag/tensor_rag_pipeline.h"
+#include "storage/tensor_compaction_filter.h"
 #include "storage/tensor_train_decomposer.h"
+#include "storage/ggml_tensor_bridge.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
 #include "tensor/tensor_fingerprint_graph.h"
@@ -114,6 +144,7 @@
 #include <cmath>
 #include <memory>
 #include <numeric>
+#include <stdexcept>
 #include <vector>
 
 using namespace themis::storage;
@@ -772,8 +803,10 @@ TEST(TensorButterflyOperator, TBO05_non_power2_throws) {
         std::invalid_argument);
 }
 
-// TBO-06: build(RADON, ...) throws std::logic_error (STUB #171)
+// TBO-06: build(RADON|GREENS_FUNCTION, ...) throws when no bridge fn is set (STUB #268).
 TEST(TensorButterflyOperator, TBO06_radon_stub_throws) {
+    TensorButterflyOperator::clearRadonTransformFn();
+    TensorButterflyOperator::clearGreensTransformFn();
     EXPECT_THROW(
         TensorButterflyOperator::build(OperatorType::RADON, {4u}),
         std::logic_error);
@@ -1354,3 +1387,666 @@ TEST(TensorRAGPipeline, TRPL08_individual_gate_disable) {
 }
 
 } // anonymous namespace
+
+// ============================================================================
+// TARG FullEntropyFn bridge tests — TARG-09..TARG-11 (STUB #262)
+// ============================================================================
+
+namespace {
+
+TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
+    TARGRetrieval::clearFullEntropyFn();
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate = true;
+    cfg.entropy_threshold = 10.0f;  // high — gate never fires
+    cfg.gap_threshold = -1.0f;      // gap gate never fires
+    TARGRetrieval targ(cfg);
+
+    // Equal logits → entropy = ln(4) ≈ 1.386 via top-32 approx
+    std::vector<float> flat_logits(4, 0.0f);
+    auto d = targ.gate(flat_logits);
+    EXPECT_GT(d.entropy, 0.0f);
+    EXPECT_LT(d.entropy, 10.0f);
+}
+
+TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_top32_approximation) {
+    constexpr float kSentinel = 42.0f;
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return kSentinel;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate  = true;
+    cfg.entropy_threshold = 100.0f;
+    cfg.gap_threshold     = -1.0f;
+    TARGRetrieval targ(cfg);
+
+    auto d = targ.gate({1.0f, 0.5f, 0.2f});
+    EXPECT_FLOAT_EQ(d.entropy, kSentinel);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
+TEST(TARGRetrievalPhase3, TARG11_full_entropy_fn_triggers_gate_when_above_threshold) {
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return 5.0f;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate          = true;
+    cfg.entropy_threshold         = 1.0f;   // trigger when entropy > 1.0
+    cfg.gap_threshold             = 100.0f; // gap gate also fires
+    cfg.min_consecutive_uncertain = 1;
+    TARGRetrieval targ(cfg);
+
+    auto d = targ.gate({10.0f, 9.5f});
+    EXPECT_FLOAT_EQ(d.entropy, 5.0f);
+    EXPECT_TRUE(d.should_retrieve);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
+} // namespace
+
+// ============================================================================
+// FlareRetrieval EmbeddingQueryFn bridge tests — FR-11..FR-14 (STUB #260)
+// ============================================================================
+
+namespace {
+
+TEST(FlareRetrievalPhase3, FR11_embedding_fn_not_set_returns_empty) {
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.min_consecutive_uncertain = 1;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("hello", -0.1f);
+
+    EXPECT_TRUE(flare.buildQueryEmbedding().empty());
+}
+
+TEST(FlareRetrievalPhase3, FR12_embedding_fn_called_with_buildQuery_text) {
+    std::string captured_query;
+    FlareRetrieval::setEmbeddingQueryFn([&captured_query](const std::string& q) {
+        captured_query = q;
+        return std::vector<float>{1.0f, 2.0f, 3.0f};
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("hello", -0.1f);
+    flare.notifyTokenEmitted("world", -0.1f);
+
+    auto emb = flare.buildQueryEmbedding();
+    EXPECT_EQ(emb.size(), 3u);
+    EXPECT_FLOAT_EQ(emb[0], 1.0f);
+    EXPECT_EQ(captured_query, flare.buildQuery());
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(FlareRetrievalPhase3, FR13_embedding_fn_throws_returns_empty_fail_closed) {
+    FlareRetrieval::setEmbeddingQueryFn([](const std::string&) -> std::vector<float> {
+        throw std::runtime_error("backend unavailable");
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("tok", -0.1f);
+
+    EXPECT_NO_THROW({
+        auto emb = flare.buildQueryEmbedding();
+        EXPECT_TRUE(emb.empty());
+    });
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(FlareRetrievalPhase3, FR14_embedding_fn_cleared_returns_empty) {
+    FlareRetrieval::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{9.0f};
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("x", -0.1f);
+    EXPECT_FALSE(flare.buildQueryEmbedding().empty());
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+    EXPECT_TRUE(flare.buildQueryEmbedding().empty());
+}
+
+} // namespace
+
+// ============================================================================
+// TensorRAGPipeline EmbeddingQueryFn bridge tests — TRPL-09..TRPL-11 (STUB #261)
+// ============================================================================
+
+namespace {
+
+static std::vector<float> confidentLogits2() { return {10.0f, 4.0f, 3.0f, 2.0f}; }
+static std::vector<float> uncertainLogits2() { return {1.0f,  0.9f, 0.8f, 0.7f}; }
+
+TEST(TensorRAGPipeline, TRPL09_flare_query_embedding_empty_when_no_fn) {
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    TensorRAGPipeline pipeline(cfg);
+
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(d.flare_triggered);
+    EXPECT_TRUE(d.flare_query_embedding.empty());
+}
+
+TEST(TensorRAGPipeline, TRPL10_flare_query_embedding_populated_when_fn_set) {
+    TensorRAGPipeline::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{7.0f, 8.0f};
+    });
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    TensorRAGPipeline pipeline(cfg);
+
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(d.flare_triggered);
+    ASSERT_EQ(d.flare_query_embedding.size(), 2u);
+    EXPECT_FLOAT_EQ(d.flare_query_embedding[0], 7.0f);
+
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(TensorRAGPipeline, TRPL11_flare_query_embedding_empty_when_flare_not_triggered) {
+    TensorRAGPipeline::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{1.0f};
+    });
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    TensorRAGPipeline pipeline(cfg);
+
+    // High log-prob → FLARE does not trigger
+    auto d = pipeline.step("tok", -0.01f, confidentLogits2());
+    EXPECT_FALSE(d.flare_triggered);
+    EXPECT_TRUE(d.flare_query_embedding.empty());
+
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+} // namespace
+
+// ============================================================================
+// GgmlTensorBridge injection bridge tests — GTB-01..GTB-06 (STUB #263a/#263b)
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+
+namespace {
+
+// Minimal in-process storage for tests
+static std::shared_ptr<TensorNetworkStorageEngine> makeTestStorage(
+        const TensorFieldKey& key, const std::vector<float>& data) {
+    auto engine = std::make_shared<TensorNetworkStorageEngine>();
+    engine->put(key, data, {data.size()});
+    return engine;
+}
+
+// GTB-01: without GgmlAllocFn, ggmlTensor() returns nullptr
+TEST(GgmlTensorBridge, GTB01_ggml_tensor_null_without_alloc_fn) {
+    GgmlTensorBridge::clearGgmlAllocFn();
+    TensorFieldKey key{"t", "c", "f"};
+    auto storage = makeTestStorage(key, {1.0f, 2.0f, 3.0f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_TRUE(handle.valid());
+    EXPECT_EQ(handle.ggmlTensor(), nullptr);
+}
+
+// GTB-02: with GgmlAllocFn, ggmlTensor() returns the allocated pointer
+TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
+    // Use a process-local buffer as a stand-in for a real ggml_tensor*.
+    ggml_tensor local_sentinel{};
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](std::size_t) -> ggml_tensor* {
+        return &local_sentinel;
+    });
+
+    TensorFieldKey key{"t", "c", "f2"};
+    auto storage = makeTestStorage(key, {4.0f, 5.0f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_TRUE(handle.valid());
+    EXPECT_EQ(handle.ggmlTensor(), &local_sentinel);
+
+    GgmlTensorBridge::clearGgmlAllocFn();
+}
+
+// GTB-03: n_elements passed to GgmlAllocFn matches data size
+TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
+    std::size_t received_n = 0;
+    GgmlTensorBridge::setGgmlAllocFn([&received_n](std::size_t n) -> ggml_tensor* {
+        received_n = n;
+        return nullptr;
+    });
+
+    TensorFieldKey key{"t", "c", "f3"};
+    std::vector<float> data(7, 1.0f);
+    auto storage = makeTestStorage(key, data);
+    GgmlTensorBridge bridge(storage);
+    bridge.map(nullptr, key);
+    EXPECT_EQ(received_n, 7u);
+
+    GgmlTensorBridge::clearGgmlAllocFn();
+}
+
+// GTB-04: GgmlAllocFn cleared → ggmlTensor() reverts to nullptr
+TEST(GgmlTensorBridge, GTB04_alloc_fn_cleared_reverts_to_nullptr) {
+    ggml_tensor local_sentinel4{};
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](std::size_t) -> ggml_tensor* {
+        return &local_sentinel4;
+    });
+    GgmlTensorBridge::clearGgmlAllocFn();
+
+    TensorFieldKey key{"t", "c", "f4"};
+    auto storage = makeTestStorage(key, {0.5f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_EQ(handle.ggmlTensor(), nullptr);
+}
+
+// GTB-05: without PrefetchFn, prefetch() is a no-op (no throw, no observable effect)
+TEST(GgmlTensorBridge, GTB05_prefetch_noop_without_fn) {
+    GgmlTensorBridge::clearPrefetchFn();
+    TensorFieldKey key{"t", "c", "f5"};
+    auto storage = makeTestStorage(key, {1.0f});
+    GgmlTensorBridge bridge(storage);
+    EXPECT_NO_THROW(bridge.prefetch(key, 0));
+}
+
+// GTB-06: PrefetchFn is called with correct key and version
+TEST(GgmlTensorBridge, GTB06_prefetch_fn_called_with_correct_args) {
+    TensorFieldKey captured_key;
+    uint64_t       captured_version = 99;
+    GgmlTensorBridge::setPrefetchFn(
+        [&captured_key, &captured_version](const TensorFieldKey& k, uint64_t v) {
+            captured_key     = k;
+            captured_version = v;
+        });
+
+    TensorFieldKey key{"ten", "col", "fld"};
+    auto storage = makeTestStorage(key, {1.0f});
+    GgmlTensorBridge bridge(storage);
+    bridge.prefetch(key, 3);
+
+    EXPECT_EQ(captured_key.tenant,     key.tenant);
+    EXPECT_EQ(captured_key.collection, key.collection);
+    EXPECT_EQ(captured_key.field,      key.field);
+    EXPECT_EQ(captured_version,        3u);
+
+    GgmlTensorBridge::clearPrefetchFn();
+}
+
+} // namespace
+
+#endif // THEMIS_ENABLE_GGML_BRIDGE
+
+// ============================================================================
+// TensorCompactionFilter bridge tests — TCF-01..TCF-03 (STUB #264)
+// ============================================================================
+
+namespace {
+
+static TTTrain makeSimpleTrainForCompaction() {
+    TensorTrainConfig cfg;
+    cfg.eps = 1e-6;
+    TensorTrainDecomposer dec;
+    auto [train, _] = dec.decompose({1.0f, 2.0f, 3.0f, 4.0f}, {2u, 2u}, cfg);
+    return train;
+}
+
+TEST(TensorCompactionFilterBridge, TCF01_recompress_fn_called_for_ttcore_keys) {
+    auto train = makeSimpleTrainForCompaction();
+    const auto raw = train.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    const auto decision = filter.FilterV2(
+        0,
+        rocksdb::Slice("__ttcore__:tenant:file:chunk"),
+        rocksdb::CompactionFilter::ValueType::kValue,
+        rocksdb::Slice(value),
+        &new_value,
+        &skip_until);
+
+    EXPECT_TRUE(called);
+    EXPECT_EQ(decision, rocksdb::CompactionFilter::Decision::kKeep);
+    TensorCompactionFilter::clearRecompressFn();
+}
+
+TEST(TensorCompactionFilterBridge, TCF02_recompress_fn_called_for_ttn_meta_keys) {
+    auto train = makeSimpleTrainForCompaction();
+    TTQuantizer q;
+    auto qt = q.quantize(train, QuantizationType::INT8);
+    const auto raw = qt.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    const auto decision = filter.FilterV2(
+        0,
+        rocksdb::Slice("__ttn__:tenant:collection:field:meta:1"),
+        rocksdb::CompactionFilter::ValueType::kValue,
+        rocksdb::Slice(value),
+        &new_value,
+        &skip_until);
+
+    EXPECT_TRUE(called);
+    EXPECT_EQ(decision, rocksdb::CompactionFilter::Decision::kKeep);
+    TensorCompactionFilter::clearRecompressFn();
+}
+
+TEST(TensorCompactionFilterBridge, TCF03_clear_recompress_fn_disables_bridge) {
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+    TensorCompactionFilter::clearRecompressFn();
+
+    auto train = makeSimpleTrainForCompaction();
+    const auto raw = train.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    filter.FilterV2(0,
+                    rocksdb::Slice("__ttcore__:tenant:file:chunk"),
+                    rocksdb::CompactionFilter::ValueType::kValue,
+                    rocksdb::Slice(value),
+                    &new_value,
+                    &skip_until);
+
+    EXPECT_FALSE(called);
+}
+
+} // namespace
+
+// ============================================================================
+// AdapterRepository bridge tests — AR-13..AR-16 (STUB #265 / #266)
+// ============================================================================
+
+namespace {
+
+TEST(AdapterRepositoryPhase3, AR13_mmap_loader_bridge_is_used_when_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-mm");
+
+    bool called = false;
+    AdapterRepository::setMmapLoadFn(
+        [&called](const std::string& tenant,
+                  const std::string& domain,
+                  const std::string& model,
+                  const std::string& key,
+                  const std::shared_ptr<ITensorStorageBackend>&) {
+            called = true;
+            GgmlCoreDescriptor d;
+            d.valid = true;
+            d.tenant_id = tenant;
+            d.domain = domain;
+            d.base_model_id = model;
+            d.adapter_key = key;
+            return d;
+        });
+
+    auto desc = repo.loadAdapter("legal", "llama3");
+    EXPECT_TRUE(called);
+    EXPECT_TRUE(desc.valid);
+    AdapterRepository::clearMmapLoadFn();
+}
+
+TEST(AdapterRepositoryPhase3, AR14_mmap_loader_clear_reverts_to_backend_path) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-mm2");
+
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    ASSERT_TRUE(repo.store("legal", "llama3", train));
+
+    AdapterRepository::setMmapLoadFn(
+        [](const std::string&, const std::string&, const std::string&,
+           const std::string&, const std::shared_ptr<ITensorStorageBackend>&) {
+            GgmlCoreDescriptor d;
+            d.valid = false;
+            return d;
+        });
+    AdapterRepository::clearMmapLoadFn();
+
+    auto desc = repo.loadAdapter("legal", "llama3");
+    EXPECT_TRUE(desc.valid);
+}
+
+TEST(AdapterRepositoryPhase3, AR15_exact_similarity_bridge_is_used_when_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-sim");
+
+    bool called = false;
+    AdapterRepository::setExactSimilarityFn(
+        [&called](const std::string& query_key,
+                  std::size_t k,
+                  const std::shared_ptr<ITensorStorageBackend>&) {
+            called = true;
+            SimilarityResult r;
+            r.adapter_key = query_key + ":sim";
+            r.domain = "d";
+            r.base_model_id = "m";
+            r.score = 0.9f;
+            std::vector<SimilarityResult> out{r};
+            if (out.size() > k) out.resize(k);
+            return out;
+        });
+
+    auto out = repo.findSimilarAdapters("d", "m", 1);
+    EXPECT_TRUE(called);
+    ASSERT_EQ(out.size(), 1u);
+    EXPECT_FLOAT_EQ(out[0].score, 0.9f);
+    AdapterRepository::clearExactSimilarityFn();
+}
+
+TEST(AdapterRepositoryPhase3, AR16_exact_similarity_clear_reverts_to_graph_path) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-sim2");
+
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    auto a = make1DTrain({1.0f, 0.0f, 0.0f, 0.0f});
+    auto b = make1DTrain({0.9f, 0.1f, 0.0f, 0.0f});
+    ASSERT_TRUE(repo.store("d", "mA", a));
+    ASSERT_TRUE(repo.store("d", "mB", b));
+
+    AdapterRepository::setExactSimilarityFn(
+        [](const std::string&, std::size_t, const std::shared_ptr<ITensorStorageBackend>&) {
+            return std::vector<SimilarityResult>{};
+        });
+    AdapterRepository::clearExactSimilarityFn();
+
+    auto out = repo.findSimilarAdapters("d", "mA", 1);
+    EXPECT_LE(out.size(), 1u);
+}
+
+} // namespace
+
+// ============================================================================
+// TensorButterflyOperator bridge tests — TBO-07..TBO-09 (STUB #267)
+// ============================================================================
+
+namespace {
+
+TEST(TensorButterflyOperatorPhase3, TBO07_injected_fourier_backend_is_used) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>& fiber) {
+            for (auto& v : fiber) v = 7.0f;
+        });
+
+    auto out = op.apply(train);
+    const auto recon = flatten1D(out);
+    ASSERT_EQ(recon.size(), 4u);
+    for (float v : recon) EXPECT_FLOAT_EQ(v, 7.0f);
+
+    TensorButterflyOperator::clearFourierTransformFn();
+}
+
+TEST(TensorButterflyOperatorPhase3, TBO08_clear_fourier_backend_reverts_to_wht) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>& fiber) { for (auto& v : fiber) v = 0.0f; });
+    TensorButterflyOperator::clearFourierTransformFn();
+
+    auto out = op.apply(train);
+    const auto recon = flatten1D(out);
+    const auto ref = refWHT({1.0f, 2.0f, 3.0f, 4.0f});
+    ASSERT_EQ(recon.size(), ref.size());
+    for (std::size_t i = 0; i < ref.size(); ++i) {
+        EXPECT_NEAR(recon[i], ref[i], 1e-5f);
+    }
+}
+
+TEST(TensorButterflyOperatorPhase3, TBO09_injected_backend_supports_identity_transform) {
+    auto train = make1DTrain({1.0f, -2.0f, 3.5f, 0.25f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>&) {
+            // identity: do nothing
+        });
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearFourierTransformFn();
+
+    const auto in_vec = flatten1D(train);
+    const auto out_vec = flatten1D(out);
+    ASSERT_EQ(in_vec.size(), out_vec.size());
+    for (std::size_t i = 0; i < in_vec.size(); ++i) {
+        EXPECT_NEAR(in_vec[i], out_vec[i], 1e-6f);
+    }
+}
+
+// ============================================================================
+// TensorButterflyOperator RADON / GREENS_FUNCTION bridge — TBO-10..TBO-12
+// STUB #268
+// ============================================================================
+
+// TBO-10: build(RADON, {4}) succeeds when RadonTransformFn is injected;
+//         apply() calls the injected fn.
+TEST(TensorButterflyOperatorPhase3, TBO10_radon_bridge_fn_enables_build_and_apply) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+
+    bool called = false;
+    TensorButterflyOperator::setRadonTransformFn(
+        [&called](std::vector<float>& fiber) {
+            called = true;
+            for (auto& v : fiber) v = 99.0f;
+        });
+
+    auto op = TensorButterflyOperator::build(OperatorType::RADON, {4u});
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearRadonTransformFn();
+
+    EXPECT_TRUE(called);
+    const auto recon = flatten1D(out);
+    ASSERT_FALSE(recon.empty());
+    for (float v : recon) EXPECT_FLOAT_EQ(v, 99.0f);
+}
+
+// TBO-11: build(GREENS_FUNCTION, {4}) succeeds when GreensTransformFn is set;
+//         apply() delegates to the injected fn.
+TEST(TensorButterflyOperatorPhase3, TBO11_greens_bridge_fn_enables_build_and_apply) {
+    auto train = make1DTrain({0.5f, 1.5f, 2.5f, 3.5f});
+
+    bool called = false;
+    TensorButterflyOperator::setGreensTransformFn(
+        [&called](std::vector<float>& fiber) {
+            called = true;
+            for (auto& v : fiber) v = -1.0f;
+        });
+
+    auto op = TensorButterflyOperator::build(OperatorType::GREENS_FUNCTION, {4u});
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearGreensTransformFn();
+
+    EXPECT_TRUE(called);
+    const auto recon = flatten1D(out);
+    ASSERT_FALSE(recon.empty());
+    for (float v : recon) EXPECT_FLOAT_EQ(v, -1.0f);
+}
+
+// TBO-12: after clearRadonTransformFn(), build(RADON, ...) throws again.
+TEST(TensorButterflyOperatorPhase3, TBO12_clear_radon_fn_reverts_throw) {
+    TensorButterflyOperator::setRadonTransformFn(
+        [](std::vector<float>&) {});
+    TensorButterflyOperator::clearRadonTransformFn();
+
+    EXPECT_THROW(
+        TensorButterflyOperator::build(OperatorType::RADON, {4u}),
+        std::logic_error);
+}
+
+} // namespace
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+// ============================================================================
+// GgmlTensorBridge type-registration tests — GTB-07..GTB-09 (STUB #263c)
+// ============================================================================
+
+namespace {
+
+TEST(GgmlTensorBridge, GTB07_register_type_returns_placeholder_without_fn) {
+    GgmlTensorBridge::clearTypeRegistrationFn();
+    EXPECT_EQ(registerGgmlTypeTT(), 9999);
+}
+
+TEST(GgmlTensorBridge, GTB08_register_type_uses_injected_backend) {
+    GgmlTensorBridge::setTypeRegistrationFn([] { return 4242; });
+    EXPECT_EQ(registerGgmlTypeTT(), 4242);
+    GgmlTensorBridge::clearTypeRegistrationFn();
+}
+
+TEST(GgmlTensorBridge, GTB09_clear_type_registration_fn_reverts_placeholder) {
+    GgmlTensorBridge::setTypeRegistrationFn([] { return 1111; });
+    GgmlTensorBridge::clearTypeRegistrationFn();
+    EXPECT_EQ(registerGgmlTypeTT(), 9999);
+}
+
+} // namespace
+#endif // THEMIS_ENABLE_GGML_BRIDGE

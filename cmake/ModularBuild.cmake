@@ -306,8 +306,6 @@ set(THEMIS_BASE_SOURCES
     ../src/themis/module_signature_verifier.cpp
     ../src/themis/edition_manager.cpp
     
-    # Stubs for missing symbols
-    ../src/stubs.cpp
     # Interface stubs: forces MSVC to emit ISecondaryIndex/IVectorIndex/IGraphIndex
     # constructor+destructor symbols into themis_base.dll (THEMIS_BASE_API = dllexport)
     ../src/core/index_interface_stubs.cpp

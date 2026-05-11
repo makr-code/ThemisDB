@@ -24,6 +24,7 @@
 #include "storage/tensor_compaction_filter.h"
 
 #include <cstring>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -43,6 +44,30 @@ static constexpr const char* kMetaInfix = ":meta:";
 static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
 
 } // anonymous namespace
+
+// ============================================================================
+// RecompressFn injection bridge (STUB #264)
+// ============================================================================
+
+namespace {
+std::mutex& recompressFnMutex() { static std::mutex m; return m; }
+TensorCompactionFilter::RecompressFn& recompressFnStorage() {
+    static TensorCompactionFilter::RecompressFn fn;
+    return fn;
+}
+} // anonymous namespace
+
+/*static*/
+void TensorCompactionFilter::setRecompressFn(RecompressFn fn) {
+    std::lock_guard<std::mutex> lk(recompressFnMutex());
+    recompressFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorCompactionFilter::clearRecompressFn() {
+    std::lock_guard<std::mutex> lk(recompressFnMutex());
+    recompressFnStorage() = {};
+}
 
 // ============================================================================
 // Construction
@@ -96,7 +121,12 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     TensorTrainConfig cfg;
     cfg.eps = epsilon_;
 
-    TTTrain compressed = decomposer_.recompress(orig, cfg);
+    RecompressFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(recompressFnMutex());
+        fn_copy = recompressFnStorage();
+    }
+    TTTrain compressed = fn_copy ? fn_copy(orig, cfg) : decomposer_.recompress(orig, cfg);
 
     // Only replace if the compressed form is strictly smaller
     if (compressed.totalParams() >= orig.totalParams()) return false;
@@ -130,7 +160,12 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     TensorTrainConfig cfg;
     cfg.eps = epsilon_;
 
-    TTTrain compressed = decomposer_.recompress(train, cfg);
+    RecompressFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(recompressFnMutex());
+        fn_copy = recompressFnStorage();
+    }
+    TTTrain compressed = fn_copy ? fn_copy(train, cfg) : decomposer_.recompress(train, cfg);
 
     // Only replace if the compressed form has fewer parameters
     if (compressed.totalParams() >= train.totalParams()) return false;

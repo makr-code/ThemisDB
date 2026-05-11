@@ -29,14 +29,16 @@ HyperIndexBuilder::BucketAssignmentFn g_bucket_assignment_fn;
 // Bucket helpers
 // ============================================================================
 
-/// Assign bucket index for a NUMERIC value given [range_min, range_max).
+/// Assign bucket index for a NUMERIC value given quantile thresholds.
 std::size_t numericBucket(double value,
-                           double range_min, double range_max,
-                           std::size_t bucket_count) noexcept {
-    if (range_max <= range_min) return 0;
-    const double frac = (value - range_min) / (range_max - range_min);
-    const auto   raw  = static_cast<std::size_t>(frac * static_cast<double>(bucket_count));
-    return std::min(raw, bucket_count - 1U);
+                          const std::vector<double>& thresholds,
+                          std::size_t bucket_count) noexcept {
+    if (thresholds.empty()) {
+        return 0;
+    }
+    const auto it = std::upper_bound(thresholds.begin(), thresholds.end(), value);
+    return std::min<std::size_t>(static_cast<std::size_t>(std::distance(thresholds.begin(), it)),
+                                 bucket_count - 1U);
 }
 
 /// Assign bucket index for a CATEGORY value given ordered category list.
@@ -62,8 +64,10 @@ std::size_t boolBucket(bool value, std::size_t bucket_count) noexcept {
 // ============================================================================
 
 std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
-                                       const std::vector<ColumnSchema>& schema,
-                                       std::size_t                      bucket_count) {
+                                      const std::vector<ColumnSchema>& schema,
+                                      const std::vector<std::vector<double>>& numeric_thresholds,
+                                      const std::vector<std::vector<std::string>>& category_orders,
+                                      std::size_t bucket_count) {
     std::size_t num_col = 0;
     std::size_t cat_col = 0;
     std::size_t bool_col = 0;
@@ -79,8 +83,8 @@ std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
                     "row has fewer numeric values than NUMERIC columns in schema");
             }
             buckets.push_back(numericBucket(row.numeric_values[num_col],
-                                             col.range_min, col.range_max,
-                                             bucket_count));
+                                            numeric_thresholds[num_col],
+                                            bucket_count));
             ++num_col;
             break;
         case ColumnType::CATEGORY:
@@ -89,7 +93,7 @@ std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
                     "row has fewer category values than CATEGORY columns in schema");
             }
             buckets.push_back(categoryBucket(row.category_values[cat_col],
-                                              col.categories, bucket_count));
+                                             category_orders[cat_col], bucket_count));
             ++cat_col;
             break;
         case ColumnType::BOOLEAN:
@@ -116,6 +120,95 @@ std::size_t flattenBuckets(const std::vector<std::size_t>& buckets,
         idx = idx * bucket_count + b;
     }
     return idx;
+}
+
+std::vector<std::vector<double>> buildNumericThresholds(
+    const std::vector<ColumnSchema>& schema,
+    const std::vector<TableRow>& rows,
+    std::size_t bucket_count) {
+    std::size_t numeric_cols = 0;
+    for (const auto& col : schema) {
+        if (col.type == ColumnType::NUMERIC) {
+            ++numeric_cols;
+        }
+    }
+
+    std::vector<std::vector<double>> thresholds(numeric_cols);
+    if (bucket_count <= 1) {
+        return thresholds;
+    }
+
+    for (std::size_t numeric_index = 0; numeric_index < numeric_cols; ++numeric_index) {
+        std::vector<double> values;
+        values.reserve(rows.size());
+        for (const auto& row : rows) {
+            if (numeric_index < row.numeric_values.size()) {
+                values.push_back(row.numeric_values[numeric_index]);
+            }
+        }
+        if (values.empty()) {
+            continue;
+        }
+        std::sort(values.begin(), values.end());
+        auto& out = thresholds[numeric_index];
+        out.reserve(bucket_count - 1U);
+        const auto value_count = static_cast<double>(values.size());
+        const auto bucket_count_d = static_cast<double>(bucket_count);
+        // Thresholds are computed by truncating the exact quantile index to an
+        // integer position in the sorted array.  This is the "nearest rank"
+        // method.  When the number of distinct values is small relative to
+        // bucket_count, adjacent buckets may share the same threshold,
+        // effectively collapsing to the same range.  This is intentional for
+        // the HyperIndex use-case where data distribution is not known in
+        // advance; callers that require strict non-duplicate thresholds should
+        // deduplicate after the call.
+        for (std::size_t bucket = 1; bucket < bucket_count; ++bucket) {
+            const auto quantile = static_cast<double>(bucket) / bucket_count_d;
+            const auto quantile_index = static_cast<std::size_t>(
+                quantile * value_count);
+            const auto idx = std::min<std::size_t>(
+                quantile_index,
+                values.size() - 1U);
+            out.push_back(values[idx]);
+        }
+    }
+    return thresholds;
+}
+
+std::vector<std::vector<std::string>> buildCategoryOrders(
+    const std::vector<ColumnSchema>& schema,
+    const std::vector<TableRow>& rows) {
+    std::size_t category_cols = 0;
+    for (const auto& col : schema) {
+        if (col.type == ColumnType::CATEGORY) {
+            ++category_cols;
+        }
+    }
+
+    std::vector<std::vector<std::string>> category_orders(category_cols);
+    for (std::size_t category_index = 0; category_index < category_cols; ++category_index) {
+        std::unordered_map<std::string, std::size_t> frequencies;
+        for (const auto& row : rows) {
+            if (category_index < row.category_values.size()) {
+                ++frequencies[row.category_values[category_index]];
+            }
+        }
+
+        std::vector<std::pair<std::string, std::size_t>> ordered(frequencies.begin(), frequencies.end());
+        std::sort(ordered.begin(), ordered.end(),
+                  [](const auto& lhs, const auto& rhs) {
+                      if (lhs.second != rhs.second) {
+                          return lhs.second > rhs.second;
+                      }
+                      return lhs.first < rhs.first;
+                  });
+        auto& out = category_orders[category_index];
+        out.reserve(ordered.size());
+        for (const auto& [value, _] : ordered) {
+            out.push_back(value);
+        }
+    }
+    return category_orders;
 }
 
 } // namespace
@@ -223,6 +316,8 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     // FK-graph-aware assignment) before co-occurrence counting.
 
     std::vector<float> count_tensor(total_elements, 0.0f);
+    const auto numeric_thresholds = buildNumericThresholds(schema, rows, bucket_count);
+    const auto category_orders = buildCategoryOrders(schema, rows);
     BucketAssignmentFn bucket_assignment_fn;
     {
         std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
@@ -234,7 +329,8 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
 
     for (std::size_t row_idx = 0; row_idx < rows.size(); ++row_idx) {
         const auto& row = rows[row_idx];
-        auto buckets = bucketiseRow(row, schema, bucket_count);
+        auto buckets = bucketiseRow(
+            row, schema, numeric_thresholds, category_orders, bucket_count);
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(

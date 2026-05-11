@@ -92,6 +92,30 @@ Replace the simulated HTTP response stubs in `api_connector.cpp` and `huggingfac
 
 ---
 
+### Ingestion Sinks (`IDocWriter`)
+**Priority:** Medium
+**Target Version:** v1.6.0
+**Status:** ✅ Implemented (2026-04-15)
+
+The production `IDocWriter` path is no longer the in-memory JSON snapshot sink.
+Real ingestion persistence is provided by `DocumentStoreSinkAdapter`
+(`include/ingestion/ingestion_sinks.h`, `src/ingestion/ingestion_sinks.cpp`),
+which serialises `BaseEntitySet` records into a real `IDocumentStore`
+backend. `InMemoryDocWriter` remains intentionally available as the canonical
+test/dry-run sink only.
+
+**Implementation Notes:**
+- `[x]` `DocumentStoreSinkAdapter` persists `BaseEntitySet` payloads into `IDocumentStore`.
+- `[x]` Duplicate `source_file_id` writes update the stored document instead of failing hard.
+- `[x]` `IngestionSinkBundle::writeAll()` can route document writes to the adapter.
+- `[x]` `InMemoryDocWriter` remains the explicit no-persistence test double.
+
+**Test Coverage:**
+- `DW-01..DW-03` in `tests/test_ingestion_assembler_sinks.cpp`
+- `DS-01..DS-05` in `tests/test_ingestion_legal_domain.cpp`
+
+---
+
 ### Kafka Consumer Source Connector
 **Priority:** High
 **Target Version:** v1.7.0
@@ -317,7 +341,7 @@ The following IEEE-formatted references support the research basis for features 
 
 ## German Legal Hierarchy Position Tracking (Target: v1.7.0 — stub completion)
 
-**Stub:** `src/ingestion/legal_domain.cpp` — `buildHierarchy()` Teil-grouping block: all paragraphs placed at root when `teile` are present; paragraph→Teil containment lost  
+**Stub:** `src/ingestion/legal_domain.cpp` — `buildHierarchy()` Teil-grouping block: all paragraphs placed at root when `teile` are present; paragraph→Teil containment lost
 **Risk:** Downstream consumers that traverse Teil children see empty lists; German legal document hierarchy is structurally flat when Teil sections exist.
 
 ### Scope

@@ -6,7 +6,7 @@
 
 The API module exposes ThemisDB's functionality over multiple transport protocols: GraphQL, gRPC, and WebSocket. It provides the query and document interfaces used by all external clients, with authentication, tracing, and geospatial index hooks built in as middleware.
 
-> **Note:** The HTTP/REST server implementation lives in `src/server/http_server.cpp` (11,000+ lines). The `http_server.cpp` stub in this directory is a deprecated placeholder and is not compiled. All REST routing and HTTP lifecycle management is handled by the `server` module.
+> **Note:** The HTTP/REST server implementation lives in `src/server/http_server.cpp` (11,000+ lines). The legacy `src/api/http_server.cpp` placeholder has been removed; all REST routing and HTTP lifecycle management is handled by the `server` module.
 
 ## Relevant Interfaces
 

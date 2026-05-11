@@ -27,16 +27,9 @@
  * metadata can be directly embedded into GGUF files when the
  * `GgmlTensorBridge` exports a model.
  *
- * ## STUB/SIMULATION NOTE (stub #173):
- * Purpose: Provide the provenance API so that GgmlTensorBridge and
- *          AdapterRepository can store and retrieve metadata without
- *          blocking on a real HMAC-SHA256 implementation.
- * Activation: Always (no compile flag required).
- * Production Delta: `sign()` / `verify()` use a byte-XOR placeholder
- *                   instead of HMAC-SHA256; signatures produced here
- *                   are NOT cryptographically secure.
- * Removal Plan: Q2 2027 — replace with OpenSSL HMAC_CTX or a vendored
- *               SHA-256 implementation; add key rotation support.
+ * `sign()` / `verify()` use a built-in OpenSSL HMAC-SHA256 implementation
+ * by default. Callers can still override this via `setHmacFn()` to route
+ * signing/verification through external KMS/HSM integrations.
  *
  * ## Thread Safety
  * All public methods are thread-safe; the internal store uses a
@@ -52,6 +45,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <shared_mutex>
 #include <string>
@@ -87,14 +81,7 @@ struct ProvenanceRecord {
 
     // ─── Security ─────────────────────────────────────────────────────────
     /**
-     * Hex-encoded HMAC signature over the canonical field set.
-     *
-     * @note
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: placeholder field; GGUFMetadata::sign() writes a
-     * //          byte-XOR tag, not a real HMAC-SHA256.
-     * // Production Delta: replace GGUFMetadata::sign() with real HMAC.
-     * // Removal Plan: Q2 2027.
+     * Hex-encoded HMAC-SHA256 signature over the canonical field set.
      */
     std::string hmac_signature;
 
@@ -200,16 +187,34 @@ public:
     // ─── Signing / Verification ───────────────────────────────────────────
 
     /**
+     * @brief Callable type for a real HMAC-SHA256 implementation.
+     *
+     * Signature: `std::string hmac(const std::string& data, const std::string& key)`
+     *
+     * `GGUFMetadata` includes a secure OpenSSL HMAC-SHA256 default path.
+     * Inject a custom implementation via `setHmacFn()` only when external
+     * crypto backends (e.g. KMS/HSM gateways) are required.
+     * The function must be thread-safe; it is called under no lock.
+     */
+    using HmacFn = std::function<std::string(const std::string& data,
+                                              const std::string& key)>;
+
+    /**
+     * @brief Inject a real HMAC implementation (thread-safe, process-global).
+     *
+     * Once set, all subsequent calls to `sign()` and `verify()` will delegate
+     * to @p fn instead of using the built-in OpenSSL HMAC-SHA256 path.
+     * Pass a null fn to restore the built-in implementation.
+     *
+     * @param fn  HMAC function, e.g. wrapping OpenSSL `HMAC()` with SHA-256.
+     */
+    static void setHmacFn(HmacFn fn);
+
+    /**
      * @brief Compute a signature tag and write it to `record.hmac_signature`.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (stub #173):
-     * // Purpose: populate hmac_signature so callers can round-trip sign/verify.
-     * // Activation: Always.
-     * // Production Delta: uses byte-XOR of canonical bytes with key bytes
-     * //                   (NOT cryptographically secure).
-     * // Removal Plan: Q2 2027 — replace with HMAC-SHA256 via OpenSSL or
-     * //               a vendored SHA-256 implementation.
+     * Delegates to the injected `HmacFn` when one has been set via
+     * `setHmacFn()`; otherwise uses the built-in OpenSSL HMAC-SHA256 path.
      *
      * @param record    Record to sign (modifies `hmac_signature` in-place).
      * @param hmac_key  Tenant-specific signing key (arbitrary bytes).
@@ -220,7 +225,7 @@ public:
     /**
      * @brief Verify that `record.hmac_signature` matches a freshly computed tag.
      *
-     * @note Uses the same byte-XOR placeholder as `sign()`.
+     * Uses the same HMAC source (injected fn or built-in OpenSSL path) as `sign()`.
      *
      * @param record    Record whose signature should be checked.
      * @param hmac_key  Tenant-specific signing key.

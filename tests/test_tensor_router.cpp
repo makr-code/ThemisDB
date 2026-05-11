@@ -24,6 +24,7 @@
 #include "storage/tensor_network_storage_engine.h"
 
 #include <gtest/gtest.h>
+#include <atomic>
 #include <memory>
 #include <vector>
 
@@ -115,6 +116,7 @@ TEST(TensorRouterRoute, RelationalForceKeep) {
 // ============================================================================
 TEST(TensorRouterRoute, DomainTagTemplateCatalogPromotesLift) {
     themis::storage::TensorRouter router(makeEngine());
+    std::atomic<int> apply_calls{0};
 
     // Build and wire a TemplateCatalog with "finance" template
     auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
@@ -122,6 +124,16 @@ TEST(TensorRouterRoute, DomainTagTemplateCatalogPromotesLift) {
     g.addNode({"n0", 0, 1, 2, 4, 0.0});
     catalog->registerTemplate("finance", g);
     router.setTemplateCatalog(catalog);
+    router.setTemplateTopologyApplyFn(
+        [&apply_calls](const std::string&                    domain,
+                       const themis::tensor::TensorNetworkGraph& topology,
+                       const themis::storage::TensorRouteHint&) {
+            if (!domain.empty() && topology.nodeCount() > 0) {
+                ++apply_calls;
+                return true;
+            }
+            return false;
+        });
 
     // Provide hint with matching domain_tag and low-compressibility data
     themis::storage::TensorRouteHint hint;
@@ -133,6 +145,7 @@ TEST(TensorRouterRoute, DomainTagTemplateCatalogPromotesLift) {
     auto d = router.route(rand_data, {8, 8}, hint);
     // Catalog hit should promote to LIFT
     EXPECT_EQ(d, themis::storage::TensorRouteDecision::LIFT);
+    EXPECT_EQ(apply_calls.load(), 1);
 }
 
 // ============================================================================
@@ -165,16 +178,56 @@ TEST(TensorRouterRoute, NullCatalogDisablesPromotion) {
     EXPECT_EQ(router.templateCatalog(), nullptr);
 }
 
+TEST(TensorRouterRoute, DomainTagWithoutTopologyApplyCallbackDoesNotForceLift) {
+    themis::storage::TensorRouter router(makeEngine());
+
+    auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    catalog->registerTemplate("finance", g);
+    router.setTemplateCatalog(catalog);
+
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "finance";
+    hint.min_ratio = 10.0;  // Force heuristic to avoid LIFT/HYBRID fallback.
+    std::vector<float> rand_data(64);
+    for (std::size_t i = 0; i < 64; ++i) {
+        rand_data[i] = static_cast<float>((i * 37) % 101) * 0.01f;
+    }
+
+    const auto d = router.route(rand_data, {8, 8}, hint);
+    EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);
+}
+
 // ============================================================================
 // TR-10  templateCatalog() returns the wired catalog
 // ============================================================================
 TEST(TensorRouterRoute, TemplateCatalogAccessor) {
     themis::storage::TensorRouter router(makeEngine());
     EXPECT_EQ(router.templateCatalog(), nullptr);
+    EXPECT_FALSE(router.hasTemplateTopologyApplyFn());
 
     auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    catalog->registerTemplate("template-check", g);
     router.setTemplateCatalog(catalog);
     EXPECT_EQ(router.templateCatalog().get(), catalog.get());
+    std::atomic<int> calls{0};
+    router.setTemplateTopologyApplyFn(
+        [&calls](const std::string&,
+                 const themis::tensor::TensorNetworkGraph&,
+                 const themis::storage::TensorRouteHint&) {
+            ++calls;
+            return true;
+        });
+    EXPECT_TRUE(router.hasTemplateTopologyApplyFn());
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "template-check";
+    (void)router.route(constantData(64), {8, 8}, hint);
+    EXPECT_GE(calls.load(), 1);
+    router.clearTemplateTopologyApplyFn();
+    EXPECT_FALSE(router.hasTemplateTopologyApplyFn());
 }
 
 // ============================================================================

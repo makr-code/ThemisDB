@@ -71,6 +71,16 @@ EmbeddedLLM::~EmbeddedLLM() {
     }
 }
 
+void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    generate_full_fn_ = std::move(fn);
+}
+
+void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    embed_fn_ = std::move(fn);
+}
+
 // ═══════════════════════════════════════════════════════════
 // Simple text generation
 // ═══════════════════════════════════════════════════════════
@@ -80,7 +90,7 @@ std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response (add disclaimer if needed)
     if (hasEthicalGuidelines()) {
@@ -101,7 +111,7 @@ std::string EmbeddedLLM::generateWithParams(
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens, temperature, top_p);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response
     if (hasEthicalGuidelines()) {
@@ -144,6 +154,17 @@ std::string EmbeddedLLM::chatSimple(
 // ═══════════════════════════════════════════════════════════
 
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
+    EmbedFn embed_fn;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        embed_fn = embed_fn_;
+    }
+    if (embed_fn) {
+        auto result = embed_fn(text);
+        if (!result.empty()) {
+            return result;
+        }
+    }
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = embedding_cache_.find(text);
@@ -181,8 +202,7 @@ std::string EmbeddedLLM::generateStreaming(
 ) {
     InferenceRequest request = createRequest(prompt, max_tokens);
     request.stream_callback = callback;
-    
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return response.text;
 }
 
@@ -207,17 +227,23 @@ std::string EmbeddedLLM::generateStreamingSSE(
 
 json EmbeddedLLM::generateAsMCP(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsMCPResponse(response);
 }
 
 json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsJsonMarkdown(response);
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_) {
+            return generate_full_fn_(request);
+        }
+    }
     return wrapper_->generate(request);
 }
 
@@ -226,6 +252,12 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
 // ═══════════════════════════════════════════════════════════
 
 bool EmbeddedLLM::isReady() const {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_ || embed_fn_) {
+            return true;
+        }
+    }
     return wrapper_ && wrapper_->isModelLoaded();
 }
 

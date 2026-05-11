@@ -29,7 +29,8 @@
  *      to tighten bond dimensions.
  *   4. Rebuild a `TensorNetworkGraph` with `HissStructuralSearchEngine::search()`
  *      and apply up to `max_topology_changes_per_run` `rerouteEdge()` calls.
- *      (STUB #252 — actual topology-guided re-serialisation deferred Q3 2028.)
+ *      Optional callback hook `setRerouteSerializeFn()` can project the
+ *      mutated graph back into a writable `TTTrain` before persistence.
  *   5. If the recompressed train is smaller and accuracy loss < epsilon,
  *      write it back only when savings ≥ `min_bytes_saved_to_commit`.
  *
@@ -62,6 +63,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -190,10 +192,10 @@ struct TNSRReport {
  *         const storage::TTTrain&              train);
  * ```
  *
- * Returning `true` indicates success (the key is counted in `keys_rewritten`
- * for topology changes); returning `false` increments `error_count`.
- *
- * ### Thread safety
+     * Returning `true` indicates success (the key is counted in `keys_rewritten`
+     * for topology changes); returning `false` increments `error_count`.
+     *
+     * ### Thread safety
  * `run()` takes exclusive ownership of the engine for the duration of the
  * run (holds the engine's internal write lock during each `put()`).  Do not
  * call `run()` from multiple threads concurrently on the same engine.
@@ -225,8 +227,6 @@ public:
     /// Remove the topology re-serialization backend (fallback: count-only).
     static void clearRerouteSerializeFn();
 
-    /// Return the currently installed RerouteSerializeFn (empty if none).
-    static RerouteSerializeFn getRerouteSerializeFn();
     /**
      * @brief Construct with an engine and optional decomposer.
      *
@@ -281,6 +281,9 @@ public:
     bool isCancelRequested() const noexcept {
         return cancel_requested_.load(std::memory_order_acquire);
     }
+
+    [[nodiscard]] static bool hasRerouteSerializeFn();
+    [[nodiscard]] static RerouteSerializeFn getRerouteSerializeFn();
 
 private:
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine_;

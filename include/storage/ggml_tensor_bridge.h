@@ -266,6 +266,75 @@ public:
 
     BridgeStats stats() const noexcept;
 
+    // ─── GgmlAllocFn bridge (STUB #263a) ──────────────────────────────────
+
+    /**
+     * @brief Injectable ggml_tensor allocation function.
+     *
+     * When set via `setGgmlAllocFn()`, `map()` will call @p fn to obtain a
+     * real `ggml_tensor*` for each successfully decompressed TT-train.  The
+     * fn receives the number of float32 elements and must allocate a
+     * `ggml_tensor` owned by the ggml context supplied to `map()`.
+     *
+     * When not set, `ggmlTensor()` on the returned handle returns nullptr
+     * (stub fallback — safe for unit tests, not for llama.cpp inference).
+     *
+     * Signature: `ggml_tensor* fn(std::size_t n_elements)`
+     */
+    using GgmlAllocFn = std::function<ggml_tensor*(std::size_t /*n_elements*/)>;
+
+    /**
+     * @brief Inject a ggml_tensor allocation function.
+     * @param fn  Allocator; pass nullptr / empty fn to clear.
+     */
+    static void setGgmlAllocFn(GgmlAllocFn fn);
+
+    /** @brief Remove a previously injected GgmlAllocFn. */
+    static void clearGgmlAllocFn();
+
+    // ─── PrefetchFn bridge (STUB #263b) ───────────────────────────────────
+
+    /**
+     * @brief Injectable prefetch function for TT-core readahead.
+     *
+     * When set via `setPrefetchFn()`, `prefetch()` delegates to @p fn
+     * instead of the no-op stub.  The fn may use `madvise(MADV_SEQUENTIAL)`,
+     * `io_uring`, or any OS-level mechanism to warm the page cache.
+     *
+     * Signature: `void fn(const TensorFieldKey&, uint64_t version)`
+     */
+    using PrefetchFn = std::function<void(const TensorFieldKey&, uint64_t)>;
+
+    /**
+     * @brief Inject a prefetch implementation.
+     * @param fn  Prefetch callable; pass empty fn to revert to no-op.
+     */
+    static void setPrefetchFn(PrefetchFn fn);
+
+    /** @brief Remove a previously injected PrefetchFn. */
+    static void clearPrefetchFn();
+
+    // ─── TypeRegistrationFn bridge (STUB #263c) ────────────────────────────
+
+    /**
+     * @brief Injectable GGML TT-type registration function.
+     *
+     * When set via `setTypeRegistrationFn()`, `registerGgmlTypeTT()` delegates
+     * to the injected function instead of returning the placeholder id.
+     *
+     * Signature: `int fn()`
+     */
+    using TypeRegistrationFn = std::function<int()>;
+
+    /**
+     * @brief Inject a GGML type-registration implementation.
+     * @param fn  Registration callable; pass empty fn to revert to placeholder.
+     */
+    static void setTypeRegistrationFn(TypeRegistrationFn fn);
+
+    /** @brief Remove a previously injected TypeRegistrationFn. */
+    static void clearTypeRegistrationFn();
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

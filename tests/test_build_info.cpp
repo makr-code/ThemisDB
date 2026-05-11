@@ -239,3 +239,91 @@ TEST(BuildManifest, ExportToInvalidPathReturnsFalse) {
     EXPECT_FALSE(exportBuildManifest(
         "/no/such/directory/manifest.json"));
 }
+
+// ===== HSM Module Status Bridge Tests (STUB #95) =====
+
+namespace {
+/// Helper: find the "HSM PKCS#11" module entry in a BuildConfiguration.
+auto findHsmModule(const BuildConfiguration& cfg) {
+    return std::find_if(cfg.modules.begin(), cfg.modules.end(),
+                        [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+}
+} // namespace
+
+TEST(HsmModuleStatus, DefaultStubBuildReportsNotCompiledIn) {
+    // BI-HSM-01: Without THEMIS_ENABLE_HSM_REAL and without a bridge set,
+    // "HSM PKCS#11" must be reported with compiled_in=false.
+    clearHsmModuleStatusFn();
+
+    auto cfg = getBuildConfiguration();
+    auto it = findHsmModule(cfg);
+    ASSERT_NE(it, cfg.modules.end()) << "HSM PKCS#11 module must be present";
+
+#ifndef THEMIS_ENABLE_HSM_REAL
+    // In stub builds without a bridge, HSM must NOT be reported as active.
+    EXPECT_FALSE(it->compiled_in)
+        << "Stub build must not report HSM as compiled_in without a bridge";
+    EXPECT_FALSE(it->runtime_enabled)
+        << "Stub build must not report HSM as runtime_enabled without a bridge";
+#else
+    // In real-HSM builds the module is always compiled in.
+    EXPECT_TRUE(it->compiled_in);
+    EXPECT_TRUE(it->runtime_enabled);
+#endif
+}
+
+TEST(HsmModuleStatus, BridgeInjectsRealHsmStatus) {
+    // BI-HSM-02: After injecting a bridge that returns {true, "HSM real"},
+    // getBuildConfiguration() must report compiled_in=true for "HSM PKCS#11".
+#ifdef THEMIS_ENABLE_HSM_REAL
+    // Real-HSM build: bridge is not consulted; module is always compiled_in.
+    GTEST_SKIP() << "Bridge is only active in stub builds";
+#endif
+
+    setHsmModuleStatusFn([]() {
+        return std::make_pair(true,
+                              std::string("HSM PKCS#11 (hardware-backed – test bridge)"));
+    });
+
+    auto cfg = getBuildConfiguration();
+    auto it = findHsmModule(cfg);
+    ASSERT_NE(it, cfg.modules.end());
+    EXPECT_TRUE(it->compiled_in)
+        << "Bridge returning true must make the module appear compiled_in";
+    EXPECT_TRUE(it->runtime_enabled);
+    EXPECT_NE(it->description.find("hardware-backed"), std::string::npos)
+        << "Bridge description should be propagated";
+
+    clearHsmModuleStatusFn();
+}
+
+TEST(HsmModuleStatus, ClearBridgeRevertsToStubDefaults) {
+    // BI-HSM-03: After clearHsmModuleStatusFn(), the module reverts to the
+    // static stub default (compiled_in=false).
+#ifdef THEMIS_ENABLE_HSM_REAL
+    GTEST_SKIP() << "Bridge is only active in stub builds";
+#endif
+
+    // First: inject a real-HSM-like bridge.
+    setHsmModuleStatusFn([]() {
+        return std::make_pair(true, std::string("bridge active"));
+    });
+    {
+        auto cfg = getBuildConfiguration();
+        auto it = findHsmModule(cfg);
+        ASSERT_NE(it, cfg.modules.end());
+        EXPECT_TRUE(it->compiled_in) << "Bridge must take effect";
+    }
+
+    // Now clear it.
+    clearHsmModuleStatusFn();
+
+    {
+        auto cfg = getBuildConfiguration();
+        auto it = findHsmModule(cfg);
+        ASSERT_NE(it, cfg.modules.end());
+        EXPECT_FALSE(it->compiled_in)
+            << "After clearHsmModuleStatusFn() the module must revert to stub default";
+        EXPECT_FALSE(it->runtime_enabled);
+    }
+}

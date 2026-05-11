@@ -62,6 +62,72 @@ namespace themis {
 namespace storage {
 
 // ============================================================================
+// GgmlAllocFn injection bridge (STUB #263a)
+// ============================================================================
+
+static std::mutex& ggmlAllocFnMutex() { static std::mutex m; return m; }
+static GgmlTensorBridge::GgmlAllocFn& ggmlAllocFnStorage() {
+    static GgmlTensorBridge::GgmlAllocFn fn;
+    return fn;
+}
+
+/*static*/
+void GgmlTensorBridge::setGgmlAllocFn(GgmlAllocFn fn) {
+    std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
+    ggmlAllocFnStorage() = std::move(fn);
+}
+
+/*static*/
+void GgmlTensorBridge::clearGgmlAllocFn() {
+    std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
+    ggmlAllocFnStorage() = {};
+}
+
+// ============================================================================
+// PrefetchFn injection bridge (STUB #263b)
+// ============================================================================
+
+static std::mutex& prefetchFnMutex() { static std::mutex m; return m; }
+static GgmlTensorBridge::PrefetchFn& prefetchFnStorage() {
+    static GgmlTensorBridge::PrefetchFn fn;
+    return fn;
+}
+
+/*static*/
+void GgmlTensorBridge::setPrefetchFn(PrefetchFn fn) {
+    std::lock_guard<std::mutex> lk(prefetchFnMutex());
+    prefetchFnStorage() = std::move(fn);
+}
+
+/*static*/
+void GgmlTensorBridge::clearPrefetchFn() {
+    std::lock_guard<std::mutex> lk(prefetchFnMutex());
+    prefetchFnStorage() = {};
+}
+
+// ============================================================================
+// TypeRegistrationFn injection bridge (STUB #263c)
+// ============================================================================
+
+static std::mutex& typeRegistrationFnMutex() { static std::mutex m; return m; }
+static GgmlTensorBridge::TypeRegistrationFn& typeRegistrationFnStorage() {
+    static GgmlTensorBridge::TypeRegistrationFn fn;
+    return fn;
+}
+
+/*static*/
+void GgmlTensorBridge::setTypeRegistrationFn(TypeRegistrationFn fn) {
+    std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+    typeRegistrationFnStorage() = std::move(fn);
+}
+
+/*static*/
+void GgmlTensorBridge::clearTypeRegistrationFn() {
+    std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+    typeRegistrationFnStorage() = {};
+}
+
+// ============================================================================
 // Internal: FakeTensor — minimal ggml_tensor-compatible proxy
 // ============================================================================
 // STUB/SIMULATION NOTE:
@@ -93,6 +159,7 @@ struct MappedTTTensor::Impl {
     TTTrain             train;
     TensorFieldKey      key;
     FakeTensor          fake_tensor;
+    ggml_tensor*        real_ggml_tensor = nullptr;  // non-null when GgmlAllocFn is wired
     bool                valid = false;
 };
 
@@ -107,7 +174,10 @@ MappedTTTensor& MappedTTTensor::operator=(MappedTTTensor&&) noexcept = default;
 
 ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     if (!impl_ || !impl_->valid) return nullptr;
-    // STUB: returns nullptr until real ggml_tensor allocation is wired (GTB-03)
+    // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
+    if (impl_->real_ggml_tensor) return impl_->real_ggml_tensor;
+    // Stub fallback: GgmlAllocFn not set — returns nullptr (safe for unit tests,
+    // not for llama.cpp inference until a real allocator is injected).
     return impl_->fake_tensor.asGgmlPtr();
 }
 
@@ -165,6 +235,21 @@ struct GgmlTensorBridge::Impl {
         // STUB GTB-01: real GGML_TYPE_TT path skips decompression entirely.
         handle.impl_->fake_tensor.data = *raw;
         handle.impl_->fake_tensor.n_elements = raw->size();
+
+        // If a real ggml allocator is wired (STUB #263a), call it now so
+        // that ggmlTensor() returns a non-null usable pointer.
+        {
+            GgmlAllocFn alloc_fn_copy;
+            {
+                std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
+                alloc_fn_copy = ggmlAllocFnStorage();
+            }
+            if (alloc_fn_copy) {
+                handle.impl_->real_ggml_tensor =
+                    alloc_fn_copy(handle.impl_->fake_tensor.n_elements);
+            }
+        }
+
         handle.impl_->valid = true;
 
         // Update stats
@@ -232,9 +317,19 @@ MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
 
 void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
                                  [[maybe_unused]] uint64_t              version) {
+    // Delegate to injected PrefetchFn when available (STUB #263b).
+    PrefetchFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(prefetchFnMutex());
+        fn_copy = prefetchFnStorage();
+    }
+    if (fn_copy) {
+        fn_copy(key, version);
+        return;
+    }
     // STUB/SIMULATION NOTE:
     // Purpose: Speculative prefetch of TT-cores into OS page cache.
-    // Activation: Called speculatively before FLARE generation step.
+    // Activation: Called speculatively before FLARE generation step when no PrefetchFn is injected.
     // Production Delta: No-op in current implementation; real path calls
     //                   madvise(MADV_SEQUENTIAL) or io_uring readahead on the
     //                   RocksDB SST file pages containing the requested keys.
@@ -260,6 +355,16 @@ GgmlTensorBridge::BridgeStats GgmlTensorBridge::stats() const noexcept {
 // ============================================================================
 
 int registerGgmlTypeTT() {
+    // Delegate to injected registration backend when available (STUB #263c).
+    GgmlTensorBridge::TypeRegistrationFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+        fn_copy = typeRegistrationFnStorage();
+    }
+    if (fn_copy) {
+        return fn_copy();
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Register GGML_TYPE_TT with the ggml runtime.
     // Activation: Called once before any ggml tensor operation on TT-type data.

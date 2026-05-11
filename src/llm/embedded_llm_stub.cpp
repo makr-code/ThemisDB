@@ -42,6 +42,15 @@
 
 #include <stdexcept>
 
+#ifndef THEMIS_NO_SPDLOG
+#include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+template <typename... Args>
+inline void warn(const char*, Args&&...) {}
+} // namespace spdlog
+#endif
+
 namespace themis {
 namespace llm {
 
@@ -52,6 +61,16 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     : config_(config) {}
 
 EmbeddedLLM::~EmbeddedLLM() = default;
+
+void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    generate_full_fn_ = std::move(fn);
+}
+
+void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    embed_fn_ = std::move(fn);
+}
 
 std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     auto req = createRequest(prompt, max_tokens);
@@ -92,6 +111,21 @@ std::string EmbeddedLLM::chatSimple(
 }
 
 std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (embed_fn_) {
+            try {
+                auto result = embed_fn_(text);
+                if (!result.empty()) {
+                    return result;
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("EmbeddedLLM embed bridge callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("EmbeddedLLM embed bridge callback failed with unknown exception");
+            }
+        }
+    }
     return {};
 }
 
@@ -140,6 +174,29 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_) {
+            try {
+                auto response = generate_full_fn_(request);
+                if (request.stream_callback && !response.text.empty()) {
+                    try {
+                        request.stream_callback(response.text);
+                    } catch (const std::exception& e) {
+                        spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
+                    } catch (...) {
+                        spdlog::warn("EmbeddedLLM stream callback failed with unknown exception");
+                    }
+                }
+                return response;
+            } catch (const std::exception& e) {
+                spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("EmbeddedLLM generate bridge callback failed with unknown exception");
+            }
+        }
+    }
+
     InferenceResponse resp;
     resp.request_id = request.request_id;
     resp.model_id = request.model_id;
@@ -152,7 +209,8 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
 }
 
 bool EmbeddedLLM::isReady() const {
-    return false;
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    return static_cast<bool>(generate_full_fn_) || static_cast<bool>(embed_fn_);
 }
 
 std::string EmbeddedLLM::getModelInfo() const {
@@ -160,7 +218,12 @@ std::string EmbeddedLLM::getModelInfo() const {
 }
 
 json EmbeddedLLM::getStats() const {
-    return json{{"llm_enabled", false}, {"initialized", false}};
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    return json{
+        {"llm_enabled", static_cast<bool>(generate_full_fn_)},
+        {"embedding_enabled", static_cast<bool>(embed_fn_)},
+        {"initialized", static_cast<bool>(generate_full_fn_) || static_cast<bool>(embed_fn_)}
+    };
 }
 
 void EmbeddedLLM::clearCache() {}

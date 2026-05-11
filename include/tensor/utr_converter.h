@@ -26,22 +26,19 @@
  * - No tenant data mixing — each converter method is scoped to a single dataset.
  * - Coordinate precision loss ≤ 1e-7 for geospatial inputs.
  *
- * ## Stub status
+ * ## Current implementation status
  *
- * - STUB #256: `fromGeospatial()` — raster grid encoded as TT via row-major
- *   unfolding + TT-SVD.  Neighborhood preservation is structural (locality of
- *   grid coordinates in row-major order) rather than curvature-aware.
- *   Full topology-preserving encoding (geomorphic TT mode ordering) deferred to
- *   Q3 2028.
+ * - `fromGeospatial()` encodes raster values in Hilbert-curve traversal order
+ *   (with power-of-two square padding) before TT-SVD, improving locality
+ *   retention for non-axis-aligned neighbors.
  *
- * - STUB #257: `fromDocument()` — hierarchical sentence embedding; uses uniform
- *   paragraph splits rather than a learned segmentation model.  Full HT encoding
- *   with discourse-graph-guided tree topology deferred to Q4 2028.
+ * - `fromDocument()` now uses normalized token features plus hashed character
+ *   trigram features for each segment before HT decomposition.  A learned
+ *   sentence encoder / discourse-guided topology is still deferred.
  *
- * - STUB #258: `fromImage()` — 3-D / 4-D TT encoding of pixel data in
- *   H×W×C mode ordering.  No semantic alignment or patch embedding performed;
- *   pixel values are normalised to [0, 1] and decomposed directly.
- *   Patch-based structural similarity embedding deferred to Q4 2028.
+ * - `fromImage()` now performs non-overlapping patch aggregation (mean +
+ *   stddev per channel) before TT decomposition.  Learned semantic image
+ *   embeddings remain deferred to Q4 2028.
  */
 
 #pragma once
@@ -189,16 +186,13 @@ public:
      * @brief Encode a geospatial raster grid as a TT-train.
      *
      * The grid is treated as a 2-D tensor T ∈ ℝ^{rows × cols} and decomposed
-     * via TT-SVD.  Spatial locality is preserved by row-major mode ordering
-     * (adjacent cells map to adjacent index tuples).
+     * via TT-SVD after Hilbert-curve reordering on a power-of-two square grid.
      *
      * @param grid   Input raster grid (rows × cols scalar values).
      * @param cfg    UTR configuration (eps, max_rank).
      * @return TT-train encoding the geospatial field.
      *
      * @throws std::invalid_argument if grid is empty or cell_size_deg ≤ 0.
-     *
-     * @note STUB #256 — topology-preserving mode ordering deferred to Q3 2028.
      */
     [[nodiscard]] static storage::TTTrain
     fromGeospatial(const RasterGrid& grid, const UTRConfig& cfg = {});
@@ -237,7 +231,8 @@ public:
      *
      * @throws std::invalid_argument if h, w, or c is 0 or pixels.size() != h*w*c.
      *
-     * @note STUB #258 — patch-based structural similarity embedding deferred to Q4 2028.
+      * @note Uses patch statistics today; learned semantic image embeddings are
+      *       still deferred to Q4 2028.
      */
     [[nodiscard]] static storage::TTTrain
     fromImage(const std::vector<float>& pixels,
@@ -248,8 +243,9 @@ public:
      * @brief Encode a document as a hierarchical TT (HTTrain).
      *
      * The document is split into segments (paragraphs or sentences depending on
-     * `hint`).  Each segment is encoded as a fixed-length embedding vector via
-     * a hash-projection (STUB #257).  The resulting segment × embed_dim matrix
+      * `hint`).  Each segment is encoded as a fixed-length embedding vector via
+      * normalized token + hashed trigram features.  The resulting
+      * segment × embed_dim matrix
      * is decomposed via HT-SVD into an HTTrain.
      *
      * @param text   Raw document text (UTF-8).
@@ -259,7 +255,8 @@ public:
      *
      * @throws std::invalid_argument if text is empty.
      *
-     * @note STUB #257 — discourse-graph HT topology deferred to Q4 2028.
+      * @note Learned sentence encoders / discourse-graph HT topology remain
+      *       deferred to Q4 2028.
      */
     [[nodiscard]] static tensor::HTTrain
     fromDocument(const std::string&       text,
