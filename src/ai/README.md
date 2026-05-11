@@ -3,7 +3,7 @@
 # AI Module
 
 <!-- Status: current | validated: 2026-05-11 -->
-<!-- Links: include/ai/README.md · src/ROADMAP.md · src/FUTURE_ENHANCEMENTS.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
+<!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · include/ai/README.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Dokumentation der produktiven Implementierung in `src/ai/`.
 
@@ -77,8 +77,10 @@ Das Modul wird über den normalen ThemisDB-Build eingebunden; es ist keine separ
 ## Siehe auch
 
 - Public API: [`../../include/ai/README.md`](../../include/ai/README.md)
-- Modulübergreifende Roadmap: [`../ROADMAP.md`](../ROADMAP.md)
-- Modulübergreifende Future Enhancements: [`../FUTURE_ENHANCEMENTS.md`](../FUTURE_ENHANCEMENTS.md)
+- AI-Roadmap: [`ROADMAP.md`](./ROADMAP.md)
+- AI-Future-Enhancements: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
 - Plugin-Roadmap (AIPluginGenerator-Einträge): [`../plugins/ROADMAP.md`](../plugins/ROADMAP.md)
 - Plugin-Future-Enhancements: [`../plugins/FUTURE_ENHANCEMENTS.md`](../plugins/FUTURE_ENHANCEMENTS.md)
+- Modulübergreifende Roadmap: [`../ROADMAP.md`](../ROADMAP.md)
+- Modulübergreifende Future Enhancements: [`../FUTURE_ENHANCEMENTS.md`](../FUTURE_ENHANCEMENTS.md)
 - Sekundärdoku (DE): [`../../docs/de/plugins/README.md`](../../docs/de/plugins/README.md)

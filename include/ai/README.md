@@ -3,7 +3,7 @@
 # AI Module - Public API
 
 <!-- Status: current | validated: 2026-05-11 -->
-<!-- Links: src/ai/README.md · src/ROADMAP.md · src/FUTURE_ENHANCEMENTS.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
+<!-- Links: src/ai/README.md · src/ai/ROADMAP.md · src/ai/FUTURE_ENHANCEMENTS.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Dokumentation der öffentlichen Header in `include/ai/`.
 
@@ -92,8 +92,10 @@ Header werden über den regulären ThemisDB-Build bereitgestellt; keine zusätzl
 ## Siehe auch
 
 - Implementierung: [`../../src/ai/README.md`](../../src/ai/README.md)
-- Modulübergreifende Roadmap: [`../../src/ROADMAP.md`](../../src/ROADMAP.md)
-- Modulübergreifende Future Enhancements: [`../../src/FUTURE_ENHANCEMENTS.md`](../../src/FUTURE_ENHANCEMENTS.md)
+- AI-Roadmap: [`../../src/ai/ROADMAP.md`](../../src/ai/ROADMAP.md)
+- AI-Future-Enhancements: [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
 - Plugin-Roadmap (AIPluginGenerator-Einträge): [`../../src/plugins/ROADMAP.md`](../../src/plugins/ROADMAP.md)
 - Plugin-Future-Enhancements: [`../../src/plugins/FUTURE_ENHANCEMENTS.md`](../../src/plugins/FUTURE_ENHANCEMENTS.md)
+- Modulübergreifende Roadmap: [`../../src/ROADMAP.md`](../../src/ROADMAP.md)
+- Modulübergreifende Future Enhancements: [`../../src/FUTURE_ENHANCEMENTS.md`](../../src/FUTURE_ENHANCEMENTS.md)
 - Sekundärdoku (DE): [`../../docs/de/plugins/README.md`](../../docs/de/plugins/README.md)
