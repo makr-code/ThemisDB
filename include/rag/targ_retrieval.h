@@ -61,6 +61,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -178,6 +179,35 @@ public:
      * @return        true if retrieval is recommended.
      */
     [[nodiscard]] bool shouldRetrieve(const std::vector<float>& logits);
+
+    // ─── FullEntropyFn bridge (STUB #262) ─────────────────────────────────
+
+    /**
+     * @brief Injectable full-vocabulary entropy computation function.
+     *
+     * When set via `setFullEntropyFn()`, the entropy gate uses the injected
+     * function instead of the top-32 logit approximation.  This allows
+     * plugging in a full-vocabulary softmax-entropy computation at runtime.
+     *
+     * Signature: `float fn(const std::vector<float>& logits)` returning
+     * the Shannon entropy in nats.
+     */
+    using FullEntropyFn = std::function<float(const std::vector<float>&)>;
+
+    /**
+     * @brief Inject a full-vocabulary entropy computation function.
+     *
+     * Once set, `gate()` will call @p fn instead of the built-in top-32
+     * approximation whenever `TARGConfig::use_entropy_gate == true`.
+     * Pass a null / default-constructed `FullEntropyFn` to revert to the
+     * built-in approximation.
+     *
+     * @param fn  Callable accepting raw logits and returning entropy in nats.
+     */
+    static void setFullEntropyFn(FullEntropyFn fn);
+
+    /** @brief Remove a previously injected FullEntropyFn. */
+    static void clearFullEntropyFn();
 
     // ─── State management ─────────────────────────────────────────────────
 

@@ -89,7 +89,7 @@
  *   TFG-05  removeAdapter() removes the entry; second remove returns false
  *   TFG-06  findSimilarByFingerprint() respects tenant_id filter
  *
- * TensorRAGPipeline — TRPL-01..TRPL-08
+ * TensorRAGPipeline — TRPL-01..TRPL-11
  *   TRPL-01  step() returns should_retrieve=false for a confident token (large gap, high log-prob)
  *   TRPL-02  step() sets flare_triggered when log-prob is below FLARE threshold
  *   TRPL-03  step() sets targ_triggered when logit gap is below TARG threshold
@@ -98,6 +98,28 @@
  *   TRPL-06  reset() clears stats and sub-gate state
  *   TRPL-07  stats() tracks total_token_steps, flare_triggers, targ_triggers correctly
  *   TRPL-08  use_flare=false disables FLARE; use_targ=false disables TARG
+ *   TRPL-09  flare_query_embedding empty when no EmbeddingQueryFn injected (STUB #261)
+ *   TRPL-10  flare_query_embedding populated when EmbeddingQueryFn is set (STUB #261)
+ *   TRPL-11  flare_query_embedding empty when FLARE does not trigger (STUB #261)
+ *
+ * FlareRetrieval bridge — FR-11..FR-14 (STUB #260)
+ *   FR-11  buildQueryEmbedding() returns empty when no fn injected
+ *   FR-12  buildQueryEmbedding() calls fn with buildQuery() text and returns vector
+ *   FR-13  buildQueryEmbedding() returns empty (fail-closed) when fn throws
+ *   FR-14  buildQueryEmbedding() returns empty after fn is cleared
+ *
+ * TARGRetrieval FullEntropyFn bridge — TARG-09..TARG-11 (STUB #262)
+ *   TARG-09  no fn → top-32 approximation produces non-zero entropy
+ *   TARG-10  fn set → fn return value replaces built-in approximation
+ *   TARG-11  fn that returns high entropy triggers the entropy gate
+ *
+ * GgmlTensorBridge — GTB-01..GTB-06 (STUB #263a/#263b, THEMIS_ENABLE_GGML_BRIDGE only)
+ *   GTB-01  ggmlTensor() returns nullptr when GgmlAllocFn not set
+ *   GTB-02  ggmlTensor() returns non-null pointer when GgmlAllocFn is set
+ *   GTB-03  GgmlAllocFn receives correct n_elements matching stored data size
+ *   GTB-04  ggmlTensor() reverts to nullptr after GgmlAllocFn is cleared
+ *   GTB-05  prefetch() is a no-op (no throw) when no PrefetchFn is set
+ *   GTB-06  PrefetchFn is called with the correct key and version arguments
  */
 
 #include "query/tensor_contraction_engine.h"
@@ -106,6 +128,7 @@
 #include "rag/flare_retrieval.h"
 #include "rag/tensor_rag_pipeline.h"
 #include "storage/tensor_train_decomposer.h"
+#include "storage/ggml_tensor_bridge.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
 #include "tensor/tensor_fingerprint_graph.h"
@@ -114,6 +137,7 @@
 #include <cmath>
 #include <memory>
 #include <numeric>
+#include <stdexcept>
 #include <vector>
 
 using namespace themis::storage;
@@ -1354,3 +1378,314 @@ TEST(TensorRAGPipeline, TRPL08_individual_gate_disable) {
 }
 
 } // anonymous namespace
+
+// ============================================================================
+// TARG FullEntropyFn bridge tests — TARG-09..TARG-11 (STUB #262)
+// ============================================================================
+
+namespace {
+
+TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
+    TARGRetrieval::clearFullEntropyFn();
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate = true;
+    cfg.entropy_threshold = 10.0f;  // high — gate never fires
+    cfg.gap_threshold = -1.0f;      // gap gate never fires
+    TARGRetrieval targ(cfg);
+
+    // Equal logits → entropy = ln(4) ≈ 1.386 via top-32 approx
+    std::vector<float> flat_logits(4, 0.0f);
+    auto d = targ.gate(flat_logits);
+    EXPECT_GT(d.entropy, 0.0f);
+    EXPECT_LT(d.entropy, 10.0f);
+}
+
+TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_top32_approximation) {
+    constexpr float kSentinel = 42.0f;
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return kSentinel;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate  = true;
+    cfg.entropy_threshold = 100.0f;
+    cfg.gap_threshold     = -1.0f;
+    TARGRetrieval targ(cfg);
+
+    auto d = targ.gate({1.0f, 0.5f, 0.2f});
+    EXPECT_FLOAT_EQ(d.entropy, kSentinel);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
+TEST(TARGRetrievalPhase3, TARG11_full_entropy_fn_triggers_gate_when_above_threshold) {
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return 5.0f;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate          = true;
+    cfg.entropy_threshold         = 1.0f;   // trigger when entropy > 1.0
+    cfg.gap_threshold             = 100.0f; // gap gate also fires
+    cfg.min_consecutive_uncertain = 1;
+    TARGRetrieval targ(cfg);
+
+    auto d = targ.gate({10.0f, 9.5f});
+    EXPECT_FLOAT_EQ(d.entropy, 5.0f);
+    EXPECT_TRUE(d.should_retrieve);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
+} // namespace
+
+// ============================================================================
+// FlareRetrieval EmbeddingQueryFn bridge tests — FR-11..FR-14 (STUB #260)
+// ============================================================================
+
+namespace {
+
+TEST(FlareRetrievalPhase3, FR11_embedding_fn_not_set_returns_empty) {
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.min_consecutive_uncertain = 1;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("hello", -0.1f);
+
+    EXPECT_TRUE(flare.buildQueryEmbedding().empty());
+}
+
+TEST(FlareRetrievalPhase3, FR12_embedding_fn_called_with_buildQuery_text) {
+    std::string captured_query;
+    FlareRetrieval::setEmbeddingQueryFn([&captured_query](const std::string& q) {
+        captured_query = q;
+        return std::vector<float>{1.0f, 2.0f, 3.0f};
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("hello", -0.1f);
+    flare.notifyTokenEmitted("world", -0.1f);
+
+    auto emb = flare.buildQueryEmbedding();
+    EXPECT_EQ(emb.size(), 3u);
+    EXPECT_FLOAT_EQ(emb[0], 1.0f);
+    EXPECT_EQ(captured_query, flare.buildQuery());
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(FlareRetrievalPhase3, FR13_embedding_fn_throws_returns_empty_fail_closed) {
+    FlareRetrieval::setEmbeddingQueryFn([](const std::string&) -> std::vector<float> {
+        throw std::runtime_error("backend unavailable");
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("tok", -0.1f);
+
+    EXPECT_NO_THROW({
+        auto emb = flare.buildQueryEmbedding();
+        EXPECT_TRUE(emb.empty());
+    });
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(FlareRetrievalPhase3, FR14_embedding_fn_cleared_returns_empty) {
+    FlareRetrieval::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{9.0f};
+    });
+
+    FlareConfig cfg;
+    FlareRetrieval flare(cfg);
+    flare.notifyTokenEmitted("x", -0.1f);
+    EXPECT_FALSE(flare.buildQueryEmbedding().empty());
+
+    FlareRetrieval::setEmbeddingQueryFn(nullptr);
+    EXPECT_TRUE(flare.buildQueryEmbedding().empty());
+}
+
+} // namespace
+
+// ============================================================================
+// TensorRAGPipeline EmbeddingQueryFn bridge tests — TRPL-09..TRPL-11 (STUB #261)
+// ============================================================================
+
+namespace {
+
+static std::vector<float> confidentLogits2() { return {10.0f, 4.0f, 3.0f, 2.0f}; }
+static std::vector<float> uncertainLogits2() { return {1.0f,  0.9f, 0.8f, 0.7f}; }
+
+TEST(TensorRAGPipeline, TRPL09_flare_query_embedding_empty_when_no_fn) {
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    TensorRAGPipeline pipeline(cfg);
+
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(d.flare_triggered);
+    EXPECT_TRUE(d.flare_query_embedding.empty());
+}
+
+TEST(TensorRAGPipeline, TRPL10_flare_query_embedding_populated_when_fn_set) {
+    TensorRAGPipeline::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{7.0f, 8.0f};
+    });
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    TensorRAGPipeline pipeline(cfg);
+
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(d.flare_triggered);
+    ASSERT_EQ(d.flare_query_embedding.size(), 2u);
+    EXPECT_FLOAT_EQ(d.flare_query_embedding[0], 7.0f);
+
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(TensorRAGPipeline, TRPL11_flare_query_embedding_empty_when_flare_not_triggered) {
+    TensorRAGPipeline::setEmbeddingQueryFn([](const std::string&) {
+        return std::vector<float>{1.0f};
+    });
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    TensorRAGPipeline pipeline(cfg);
+
+    // High log-prob → FLARE does not trigger
+    auto d = pipeline.step("tok", -0.01f, confidentLogits2());
+    EXPECT_FALSE(d.flare_triggered);
+    EXPECT_TRUE(d.flare_query_embedding.empty());
+
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+} // namespace
+
+// ============================================================================
+// GgmlTensorBridge injection bridge tests — GTB-01..GTB-06 (STUB #263a/#263b)
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+
+namespace {
+
+// Minimal in-process storage for tests
+static std::shared_ptr<TensorNetworkStorageEngine> makeTestStorage(
+        const TensorFieldKey& key, const std::vector<float>& data) {
+    auto engine = std::make_shared<TensorNetworkStorageEngine>();
+    engine->put(key, data, {data.size()});
+    return engine;
+}
+
+// GTB-01: without GgmlAllocFn, ggmlTensor() returns nullptr
+TEST(GgmlTensorBridge, GTB01_ggml_tensor_null_without_alloc_fn) {
+    GgmlTensorBridge::clearGgmlAllocFn();
+    TensorFieldKey key{"t", "c", "f"};
+    auto storage = makeTestStorage(key, {1.0f, 2.0f, 3.0f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_TRUE(handle.valid());
+    EXPECT_EQ(handle.ggmlTensor(), nullptr);
+}
+
+// GTB-02: with GgmlAllocFn, ggmlTensor() returns the allocated pointer
+TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
+    // Use a static sentinel as a stand-in for a real ggml_tensor*.
+    static ggml_tensor sentinel;
+    GgmlTensorBridge::setGgmlAllocFn([](std::size_t) -> ggml_tensor* {
+        return &sentinel;
+    });
+
+    TensorFieldKey key{"t", "c", "f2"};
+    auto storage = makeTestStorage(key, {4.0f, 5.0f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_TRUE(handle.valid());
+    EXPECT_EQ(handle.ggmlTensor(), &sentinel);
+
+    GgmlTensorBridge::clearGgmlAllocFn();
+}
+
+// GTB-03: n_elements passed to GgmlAllocFn matches data size
+TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
+    std::size_t received_n = 0;
+    GgmlTensorBridge::setGgmlAllocFn([&received_n](std::size_t n) -> ggml_tensor* {
+        received_n = n;
+        return nullptr;
+    });
+
+    TensorFieldKey key{"t", "c", "f3"};
+    std::vector<float> data(7, 1.0f);
+    auto storage = makeTestStorage(key, data);
+    GgmlTensorBridge bridge(storage);
+    bridge.map(nullptr, key);
+    EXPECT_EQ(received_n, 7u);
+
+    GgmlTensorBridge::clearGgmlAllocFn();
+}
+
+// GTB-04: GgmlAllocFn cleared → ggmlTensor() reverts to nullptr
+TEST(GgmlTensorBridge, GTB04_alloc_fn_cleared_reverts_to_nullptr) {
+    static ggml_tensor sentinel2;
+    GgmlTensorBridge::setGgmlAllocFn([](std::size_t) -> ggml_tensor* {
+        return &sentinel2;
+    });
+    GgmlTensorBridge::clearGgmlAllocFn();
+
+    TensorFieldKey key{"t", "c", "f4"};
+    auto storage = makeTestStorage(key, {0.5f});
+    GgmlTensorBridge bridge(storage);
+    auto handle = bridge.map(nullptr, key);
+    EXPECT_EQ(handle.ggmlTensor(), nullptr);
+}
+
+// GTB-05: without PrefetchFn, prefetch() is a no-op (no throw, no observable effect)
+TEST(GgmlTensorBridge, GTB05_prefetch_noop_without_fn) {
+    GgmlTensorBridge::clearPrefetchFn();
+    TensorFieldKey key{"t", "c", "f5"};
+    auto storage = makeTestStorage(key, {1.0f});
+    GgmlTensorBridge bridge(storage);
+    EXPECT_NO_THROW(bridge.prefetch(key, 0));
+}
+
+// GTB-06: PrefetchFn is called with correct key and version
+TEST(GgmlTensorBridge, GTB06_prefetch_fn_called_with_correct_args) {
+    TensorFieldKey captured_key;
+    uint64_t       captured_version = 99;
+    GgmlTensorBridge::setPrefetchFn(
+        [&captured_key, &captured_version](const TensorFieldKey& k, uint64_t v) {
+            captured_key     = k;
+            captured_version = v;
+        });
+
+    TensorFieldKey key{"ten", "col", "fld"};
+    auto storage = makeTestStorage(key, {1.0f});
+    GgmlTensorBridge bridge(storage);
+    bridge.prefetch(key, 3);
+
+    EXPECT_EQ(captured_key.tenant,     key.tenant);
+    EXPECT_EQ(captured_key.collection, key.collection);
+    EXPECT_EQ(captured_key.field,      key.field);
+    EXPECT_EQ(captured_version,        3u);
+
+    GgmlTensorBridge::clearPrefetchFn();
+}
+
+} // namespace
+
+#endif // THEMIS_ENABLE_GGML_BRIDGE

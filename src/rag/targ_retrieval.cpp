@@ -38,11 +38,34 @@
 
 #include <algorithm>
 #include <cmath>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
 
 namespace themis {
 namespace rag {
+
+// ============================================================================
+// FullEntropyFn injection bridge (STUB #262)
+// ============================================================================
+
+static std::mutex& fullEntropyFnMutex() { static std::mutex m; return m; }
+static TARGRetrieval::FullEntropyFn& fullEntropyFnStorage() {
+    static TARGRetrieval::FullEntropyFn fn;
+    return fn;
+}
+
+/*static*/
+void TARGRetrieval::setFullEntropyFn(FullEntropyFn fn) {
+    std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
+    fullEntropyFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TARGRetrieval::clearFullEntropyFn() {
+    std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
+    fullEntropyFnStorage() = {};
+}
 
 // ============================================================================
 // Constructor
@@ -78,6 +101,19 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
     if (!compute_entropy) {
         out_entropy = 0.0f;
         return;
+    }
+
+    // If a full-vocabulary entropy function is injected, use it (STUB #262).
+    {
+        FullEntropyFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
+            fn_copy = fullEntropyFnStorage();
+        }
+        if (fn_copy) {
+            out_entropy = fn_copy(logits);
+            return;
+        }
     }
 
     // Approximate entropy from the top-32 logits.
