@@ -285,11 +285,17 @@ public:
      * Fit the model to the given time series.
      *
      * @param ts     Training data (must have at least 2 points).
+     * @throws std::invalid_argument if ts has fewer than 2 points.
+     */
+    void fit(const TimeSeries& ts);
+    /**
+     * Fit the model to the given time series.
+     *
+     * @param ts     Training data (must have at least 2 points).
      * @param config Optional overrides; if not supplied the model's own
      *               config (set at construction) is used.
      * @throws std::invalid_argument if ts has fewer than 2 points.
      */
-    void fit(const TimeSeries& ts);
     void fit(const TimeSeries& ts, const ForecastConfig& config);
 
     bool isFitted() const noexcept;

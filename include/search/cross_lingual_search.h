@@ -142,10 +142,17 @@ public:
      *
      * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be
      *                   null; all searches will return empty results.
-     * @param config     Engine configuration.
      * @throws std::invalid_argument when config contains invalid values.
      */
     explicit CrossLingualSearch(VectorIndexManager* vec_index);
+    /**
+     * @brief Construct a CrossLingualSearch engine.
+     *
+     * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be
+     *                   null; all searches will return empty results.
+     * @param config     Engine configuration.
+     * @throws std::invalid_argument when config contains invalid values.
+     */
     CrossLingualSearch(VectorIndexManager* vec_index,
                        const Config& config);
 

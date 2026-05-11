@@ -208,12 +208,21 @@ public:
      * populate its snapshot.
      *
      * @param def    View definition.
-     * @param config Optional tuning parameters.
      * @return       Shared pointer to the new view, or an Error.
      */
     static Result<std::shared_ptr<MaterializedView>> create(
         const Definition& def);
 
+    /**
+     * @brief Create a new MaterializedView from @p def.
+     *
+     * The returned view starts in the stale state — call refresh() to
+     * populate its snapshot.
+     *
+     * @param def    View definition.
+     * @param config Optional tuning parameters.
+     * @return       Shared pointer to the new view, or an Error.
+     */
     static Result<std::shared_ptr<MaterializedView>> create(
         const Definition& def,
         Config            config);

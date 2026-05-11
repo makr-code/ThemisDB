@@ -140,7 +140,6 @@ public:
      * will accept all operations (useful in tests).
      *
      * @param shard_id   Identifier of this shard
-     * @param config     Participant configuration
      * @param validate   Callback to validate & lock ops in PREPARE phase
      * @param apply      Callback to apply ops in COMMIT phase
      * @param release    Callback to release locks in ABORT/after COMMIT
@@ -152,6 +151,18 @@ public:
         ReleaseLockCallback         release  = nullptr
     );
 
+    /**
+     * @brief Construct a participant with optional storage callbacks
+     *
+     * If validate_and_lock / apply / release are left nullptr the participant
+     * will accept all operations (useful in tests).
+     *
+     * @param shard_id   Identifier of this shard
+     * @param config     Participant configuration
+     * @param validate   Callback to validate & lock ops in PREPARE phase
+     * @param apply      Callback to apply ops in COMMIT phase
+     * @param release    Callback to release locks in ABORT/after COMMIT
+     */
     explicit TwoPhaseCommitParticipant(
         const std::string&          shard_id,
         const Config&               config,

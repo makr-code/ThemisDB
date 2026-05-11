@@ -106,12 +106,17 @@ public:
     /**
      * @param index   Non-owning pointer to a SecondaryIndexManager. May be null
      *                (all searches will return empty results).
-     * @param config  Engine configuration.
      * @throws std::invalid_argument on invalid config.
      */
     explicit MultiFieldBoostedSearch(SecondaryIndexManager* index);
+    /**
+     * @param index   Non-owning pointer to a SecondaryIndexManager. May be null
+     *                (all searches will return empty results).
+     * @param config  Engine configuration.
+     * @throws std::invalid_argument on invalid config.
+     */
     MultiFieldBoostedSearch(SecondaryIndexManager* index,
-                const Config& config);
+          const Config& config);
 
     // -----------------------------------------------------------------------
     // Search

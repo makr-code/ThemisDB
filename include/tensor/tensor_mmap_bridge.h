@@ -182,6 +182,7 @@ private:
     [[nodiscard]] static std::unique_ptr<TensorMmapBridge>
     buildFromTrain(const storage::TTTrain& train);
 
+public:
     // ─── Bridge injection API (STUB #270) ────────────────────────────────────
 
     /**
@@ -212,6 +213,7 @@ private:
     /** @brief Clear the SST page-map backend. Falls back to MAP_ANONYMOUS+memcpy. */
     static void clearSstMapFn();
 
+private:
     // ---- internal region tracking ----
 
     struct Region {

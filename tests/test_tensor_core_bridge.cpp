@@ -461,8 +461,8 @@ TEST(TCS, TCS_20_FailOnWriteError) {
 
 // TCB-FB-01: Without a factory, constructor uses InMemoryTensorBackend.
 TEST(TCS, TCB_FB_01_null_factory_uses_in_memory_backend) {
-    TensorCoreStorageBridge::clearDefaultBackendFactory();
-    TensorCoreStorageBridge bridge; // no arg → should use InMemoryTensorBackend
+    tensor::TensorCoreStorageBridge::clearDefaultBackendFactory();
+    tensor::TensorCoreStorageBridge bridge; // no arg → should use InMemoryTensorBackend
     ingestion::TensorCoreRecord rec;
     rec.chunk_id = "c1";
     rec.source_file_id = "f1";
@@ -475,12 +475,12 @@ TEST(TCS, TCB_FB_01_null_factory_uses_in_memory_backend) {
 // TCB-FB-02: Injected factory provides a custom backend used by the bridge.
 TEST(TCS, TCB_FB_02_injected_factory_backend_is_used) {
     auto custom = std::make_shared<storage::InMemoryTensorBackend>();
-    TensorCoreStorageBridge::setDefaultBackendFactory(
+    tensor::TensorCoreStorageBridge::setDefaultBackendFactory(
         [custom]() -> std::shared_ptr<storage::ITensorStorageBackend> {
             return custom;
         });
 
-    TensorCoreStorageBridge bridge;
+    tensor::TensorCoreStorageBridge bridge;
     ingestion::TensorCoreRecord rec;
     rec.chunk_id = "ck2";
     rec.source_file_id = "f2";
@@ -492,7 +492,7 @@ TEST(TCS, TCB_FB_02_injected_factory_backend_is_used) {
     auto raw = custom->get("__ttcore__:T2:f2:ck2");
     EXPECT_TRUE(raw.has_value());
 
-    TensorCoreStorageBridge::clearDefaultBackendFactory();
+    tensor::TensorCoreStorageBridge::clearDefaultBackendFactory();
 }
 
 // TCB-FB-03: When the factory returns nullptr, bridge falls back to InMemoryTensorBackend.
@@ -500,12 +500,12 @@ TEST(TCS, TCB_FB_02_injected_factory_backend_is_used) {
 TEST(TCS, TCB_FB_03_clear_factory_reverts_to_in_memory) {
     // Set a factory that returns nullptr (simulating a misconfigured bootstrap).
     // The bridge must then fall back to InMemoryTensorBackend automatically.
-    TensorCoreStorageBridge::setDefaultBackendFactory(
+    tensor::TensorCoreStorageBridge::setDefaultBackendFactory(
         []() -> std::shared_ptr<storage::ITensorStorageBackend> {
             return nullptr;
         });
 
-    TensorCoreStorageBridge bridge;
+    tensor::TensorCoreStorageBridge bridge;
     ingestion::TensorCoreRecord rec;
     rec.chunk_id = "ck3";
     rec.source_file_id = "f3";
@@ -514,5 +514,5 @@ TEST(TCS, TCB_FB_03_clear_factory_reverts_to_in_memory) {
     EXPECT_TRUE(r);
     EXPECT_EQ(bridge.writeCount(), 1u);
 
-    TensorCoreStorageBridge::clearDefaultBackendFactory();
+    tensor::TensorCoreStorageBridge::clearDefaultBackendFactory();
 }

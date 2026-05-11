@@ -111,11 +111,15 @@ public:
     /**
      * @param validator  JWTValidator whose kid denylist is updated on revocation.
      * @param blacklist  Optional TokenBlacklist for mass-revoking JTIs.
-     * @param config     Rotation policy configuration.
      */
     explicit JWTKeyRotationManager(
         JWTValidator& validator,
         TokenBlacklist* blacklist = nullptr);
+    /**
+     * @param validator  JWTValidator whose kid denylist is updated on revocation.
+     * @param blacklist  Optional TokenBlacklist for mass-revoking JTIs.
+     * @param config     Rotation policy configuration.
+     */
     JWTKeyRotationManager(
         JWTValidator& validator,
         TokenBlacklist* blacklist,

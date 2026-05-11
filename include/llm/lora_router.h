@@ -174,7 +174,6 @@ public:
      * @param adapter_registry Registry for adapter metadata
      * @param load_balancer Load balancer for GPU-aware placement
      * @param lora_manager Multi-LoRA manager for adapter operations
-     * @param config Router configuration
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -182,6 +181,15 @@ public:
         std::shared_ptr<AdapterLoadBalancer> load_balancer,
         std::shared_ptr<MultiLoRAManager> lora_manager
     );
+    /**
+     * @brief Construct LoRA router
+     * 
+     * @param embedding_provider Provider for query embeddings
+     * @param adapter_registry Registry for adapter metadata
+     * @param load_balancer Load balancer for GPU-aware placement
+     * @param lora_manager Multi-LoRA manager for adapter operations
+     * @param config Router configuration
+     */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
         std::shared_ptr<AdapterRegistry> adapter_registry,

@@ -116,6 +116,14 @@ public:
     };
 
     /**
+     * @brief Construct with a (possibly null) secondary index.
+     *
+     * @param index  Non-owning pointer to the SecondaryIndexManager used to
+     *               look up documents containing excluded terms.  May be null;
+     *               all filter() calls return an error in that case.
+     */
+    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr);
+    /**
      * @brief Construct with a (possibly null) secondary index and optional config.
      *
      * @param index  Non-owning pointer to the SecondaryIndexManager used to
@@ -123,9 +131,8 @@ public:
      *               all filter() calls return an error in that case.
      * @param config Engine configuration.
      */
-    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr);
     NegativeKeywordFilter(SecondaryIndexManager* index,
-                const Config& config);
+          const Config& config);
 
     // -----------------------------------------------------------------------
     // Static helpers

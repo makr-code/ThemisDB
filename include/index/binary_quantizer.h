@@ -70,11 +70,15 @@ public:
     };
 
     /**
-     * @brief Construct a new Binary Quantizer
-     * @param dimension Vector dimension
-     * @param config Configuration parameters
+     * @brief Construct a new Binary Quantizer.
+     * @param dimension Vector dimension.
      */
     explicit BinaryQuantizer(int dimension);
+    /**
+     * @brief Construct a new Binary Quantizer.
+     * @param dimension Vector dimension.
+     * @param config Configuration parameters.
+     */
     explicit BinaryQuantizer(int dimension, const Config& config);
     
     ~BinaryQuantizer();

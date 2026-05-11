@@ -89,11 +89,18 @@ public:
      *                   only popular-query suggestions are needed).
      * @param analytics  Optional non-owning pointer to SearchAnalytics for popular
      *                   query sourcing (may be null).
-     * @param config     Engine configuration.
      * @throws std::invalid_argument if max_suggestions == 0 or min_prefix_length == 0.
      */
     explicit AutocompleteEngine(SecondaryIndexManager* index,
                   SearchAnalytics* analytics = nullptr);
+    /**
+     * @param index      Non-owning pointer to a SecondaryIndexManager (may be null if
+     *                   only popular-query suggestions are needed).
+     * @param analytics  Optional non-owning pointer to SearchAnalytics for popular
+     *                   query sourcing (may be null).
+     * @param config     Engine configuration.
+     * @throws std::invalid_argument if max_suggestions == 0 or min_prefix_length == 0.
+     */
     AutocompleteEngine(SecondaryIndexManager* index,
                SearchAnalytics* analytics,
                const Config& config);

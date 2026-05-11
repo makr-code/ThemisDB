@@ -79,10 +79,14 @@ public:
 
     /**
      * @param index  Non-owning pointer to a SecondaryIndexManager.  Must outlive this.
-     * @param config  Fuzzy search configuration.
      * @throws std::invalid_argument on invalid Config.
      */
     explicit FuzzyMatcher(SecondaryIndexManager* index);
+    /**
+     * @param index  Non-owning pointer to a SecondaryIndexManager.  Must outlive this.
+     * @param config  Fuzzy search configuration.
+     * @throws std::invalid_argument on invalid Config.
+     */
     FuzzyMatcher(SecondaryIndexManager* index, const Config& config);
 
     // -----------------------------------------------------------------------

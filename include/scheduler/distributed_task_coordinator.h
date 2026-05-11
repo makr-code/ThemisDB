@@ -125,7 +125,6 @@ public:
      *                    coordinator is started.
      * @param coordinator Gossip-based distributed coordinator used for leader
      *                    election.  Must not be null.
-     * @param config      Optional runtime configuration.
      *
      * @throws std::invalid_argument if either scheduler or coordinator is null.
      */
@@ -133,6 +132,18 @@ public:
       TaskScheduler* scheduler,
       sharding::DistributedCoordinator* coordinator);
 
+    /**
+     * @brief Construct a DistributedTaskCoordinator.
+     *
+     * @param scheduler   Local single-node task scheduler.  Must not be null.
+     *                    The scheduler must NOT already be running when the
+     *                    coordinator is started.
+     * @param coordinator Gossip-based distributed coordinator used for leader
+     *                    election.  Must not be null.
+     * @param config      Optional runtime configuration.
+     *
+     * @throws std::invalid_argument if either scheduler or coordinator is null.
+     */
     DistributedTaskCoordinator(
         TaskScheduler* scheduler,
         sharding::DistributedCoordinator* coordinator,

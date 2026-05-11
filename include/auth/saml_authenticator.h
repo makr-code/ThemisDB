@@ -299,9 +299,9 @@ private:
     static std::vector<uint8_t> base64Decode(const std::string& input);
 
     /// Verify an enveloped XML signature using the IdP public key
-    /// @param signed_xml  Raw XML of the signed element
+    /// @param reference_xml  Raw XML of the signed element
     /// @param signature_value_b64  Base64-encoded signature bytes
-    /// @param signed_info_xml  Canonicalized SignedInfo XML for digest verification
+    /// @param signed_info_c14n  Canonicalized SignedInfo XML for digest verification
     /// @param digest_value_b64 Base64-encoded digest value from Reference
     /// @param digest_algorithm_uri URI identifying digest algorithm
     /// @param sig_algorithm_uri    URI identifying signature algorithm

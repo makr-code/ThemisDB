@@ -211,13 +211,19 @@ public:
      *
      * @param coordinator_id  Unique name for this coordinator instance
      * @param truetime        TrueTime clock for commit-timestamp assignment
-     * @param config          Optional configuration (WAL, timeouts, …)
      */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
         std::shared_ptr<themis::sharding::TrueTime> truetime
     );
 
+    /**
+     * @brief Construct a global transaction coordinator.
+     *
+     * @param coordinator_id  Unique name for this coordinator instance
+     * @param truetime        TrueTime clock for commit-timestamp assignment
+     * @param config          Optional configuration (WAL, timeouts, …)
+     */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
         std::shared_ptr<themis::sharding::TrueTime> truetime,

@@ -88,7 +88,6 @@ public:
      * @param llm_store LLM interaction store (optional)
      * @param prompt_manager Prompt template manager (optional)
      * @param auth Authentication/authorization middleware
-     * @param config Server configuration
      */
     QueryApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,

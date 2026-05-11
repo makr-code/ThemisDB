@@ -63,7 +63,6 @@ AdaLoraTTExport makeMinimalExport(const std::string& name = "test_adapter",
 
     train.cores     = {g0, g1};
     train.mode_sizes = {4u, 4u};
-    train.ranks      = {1u, 2u, 1u};
 
     AdaLoraTTLayerExport lexp;
     lexp.layer_name  = "q_proj";

@@ -68,9 +68,15 @@ public:
      *
      * @param engine  Governance PolicyEngine to reload on file change.
      *                Must outlive this watcher.
-     * @param config  Watcher configuration.
      */
     explicit PolicyFileWatcher(PolicyEngine& engine);
+    /**
+     * @brief Construct a watcher bound to the given PolicyEngine.
+     *
+     * @param engine  Governance PolicyEngine to reload on file change.
+     *                Must outlive this watcher.
+     * @param config  Watcher configuration.
+     */
     explicit PolicyFileWatcher(PolicyEngine& engine, Config config);
 
     ~PolicyFileWatcher();

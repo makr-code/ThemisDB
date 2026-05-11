@@ -158,12 +158,17 @@ public:
      * @brief Construct a coordinator.
      *
      * @param coordinator_id  Unique identifier for this coordinator instance
-     * @param config          Configuration (WAL, timeouts, …)
      */
     explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id
     );
 
+    /**
+     * @brief Construct a coordinator.
+     *
+     * @param coordinator_id  Unique identifier for this coordinator instance
+     * @param config          Configuration (WAL, timeouts, …)
+     */
     explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id,
         const Config&      config

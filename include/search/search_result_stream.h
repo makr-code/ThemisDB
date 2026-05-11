@@ -118,10 +118,17 @@ public:
      *
      * @param hybrid_search  Non-owning pointer to the underlying HybridSearch.
      *                       May be null; `open()` will return an empty stream.
-     * @param config         Engine configuration.
      * @throws std::invalid_argument on invalid config values.
      */
     explicit SearchResultStream(HybridSearch* hybrid_search);
+    /**
+     * @brief Construct a SearchResultStream engine.
+     *
+     * @param hybrid_search  Non-owning pointer to the underlying HybridSearch.
+     *                       May be null; `open()` will return an empty stream.
+     * @param config         Engine configuration.
+     * @throws std::invalid_argument on invalid config values.
+     */
     SearchResultStream(HybridSearch* hybrid_search, const Config& config);
 
     // -----------------------------------------------------------------------

@@ -155,14 +155,20 @@ public:
      *
      * @param left   Left-hand versioned rows.
      * @param right  Right-hand versioned rows.
-     * @param config Join configuration (mode, point-in-time, etc.).
      */
     BiTemporalJoin(std::vector<BiTemporalRow> left,
-                   std::vector<BiTemporalRow> right);
+             std::vector<BiTemporalRow> right);
 
+    /**
+     * @brief Construct the join operator with input row sets.
+     *
+     * @param left   Left-hand versioned rows.
+     * @param right  Right-hand versioned rows.
+     * @param config Join configuration (mode, point-in-time, etc.).
+     */
     explicit BiTemporalJoin(std::vector<BiTemporalRow> left,
-                            std::vector<BiTemporalRow> right,
-                            Config                     config);
+                std::vector<BiTemporalRow> right,
+                Config                     config);
 
     /**
      * @brief Execute the join and return all matching result rows.

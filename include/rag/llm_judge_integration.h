@@ -121,22 +121,32 @@ public:
     };
     
     /**
-     * @brief Construct with an explicit inference engine (production path).
+     * @brief Construct with explicit inference engine (production path)
      *
      * @param engine Pointer to an ILLMInferenceEngine implementation.
-     *               Must not be nullptr unless @p config.allow_mock is true.
-     * @param config Integration configuration.
-     * @throws std::invalid_argument if @p engine is nullptr and
-     *         @p config.allow_mock is false.
+     *               Must not be nullptr unless config.allow_mock is true.
+     * @throws std::invalid_argument if engine is nullptr and allow_mock is false.
      */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine);
+    
+    /**
+     * @brief Construct with inference engine and configuration
+     *
+     * @param engine Pointer to an ILLMInferenceEngine implementation.
+     * @param config Integration configuration.
+     * @throws std::invalid_argument if engine is nullptr and config.allow_mock is false.
+     */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config);
 
     /**
-     * @brief Construct LLM integration
-     * @param config Integration configuration
+     * @brief Construct with default configuration
      */
     LLMJudgeIntegration();
+    
+    /**
+     * @brief Construct with custom configuration
+     * @param config Integration configuration
+     */
     explicit LLMJudgeIntegration(const Config& config);
     
     /**

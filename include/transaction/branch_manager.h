@@ -153,7 +153,6 @@ public:
      * @param parent_branch Parent branch name (or empty for root)
      * @param description Human-readable description
      * @param created_by Optional user/service identifier
-     * @param options Additional creation options
      * @return Branch metadata if successful, nullopt on error
      * 
      * Error conditions:
@@ -169,6 +168,15 @@ public:
         const std::string& created_by = "system"
     );
     
+    /**
+     * @brief Create a new branch with custom options
+     * @param branch_name Unique branch name (alphanumeric, hyphens, underscores)
+     * @param parent_branch Parent branch name (or empty for root)
+     * @param description Human-readable description
+     * @param created_by Optional user/service identifier
+     * @param options Additional creation options
+     * @return Branch metadata if successful, nullopt on error
+     */
     std::optional<Branch> createBranch(
         const std::string& branch_name,
         const std::string& parent_branch,
@@ -229,7 +237,6 @@ public:
      * @brief Merge source branch into target branch
      * @param source_branch Branch to merge from
      * @param target_branch Branch to merge into
-     * @param options Merge options
      * @return Merge result with success status and conflicts
      */
     MergeResult mergeBranches(
@@ -237,6 +244,13 @@ public:
         const std::string& target_branch
     );
     
+    /**
+     * @brief Merge source branch into target branch with custom options
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param options Merge options
+     * @return Merge result with success status and conflicts
+     */
     MergeResult mergeBranches(
         const std::string& source_branch,
         const std::string& target_branch,

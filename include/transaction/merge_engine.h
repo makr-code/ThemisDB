@@ -178,7 +178,6 @@ public:
      * @param base_sequence Common ancestor sequence
      * @param source_sequence Source branch sequence (to merge from)
      * @param target_sequence Target branch sequence (to merge into)
-     * @param options Merge options including strategy and resolutions
      * @return MergeResult with success status, conflicts, and applied changes
      */
     MergeResult merge(
@@ -187,6 +186,14 @@ public:
         uint64_t target_sequence
     );
     
+    /**
+     * @brief Perform three-way merge with custom options
+     * @param base_sequence Common ancestor sequence
+     * @param source_sequence Source branch sequence (to merge from)
+     * @param target_sequence Target branch sequence (to merge into)
+     * @param options Merge options including strategy and resolutions
+     * @return MergeResult with success status, conflicts, and applied changes
+     */
     MergeResult merge(
         uint64_t base_sequence,
         uint64_t source_sequence,
@@ -199,7 +206,6 @@ public:
      * @param base_tag Tag name for common ancestor
      * @param source_tag Tag name for source branch
      * @param target_tag Tag name for target branch (or "current" for HEAD)
-     * @param options Merge options including strategy and resolutions
      * @return MergeResult with success status, conflicts, and applied changes
      */
     MergeResult mergeByTag(
@@ -208,6 +214,14 @@ public:
         const std::string& target_tag
     );
     
+    /**
+     * @brief Perform three-way merge using snapshot tags with custom options
+     * @param base_tag Tag name for common ancestor
+     * @param source_tag Tag name for source branch
+     * @param target_tag Tag name for target branch (or "current" for HEAD)
+     * @param options Merge options including strategy and resolutions
+     * @return MergeResult with success status, conflicts, and applied changes
+     */
     MergeResult mergeByTag(
         const std::string& base_tag,
         const std::string& source_tag,

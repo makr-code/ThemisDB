@@ -150,7 +150,6 @@ public:
      * @param executor      RemoteExecutor configured with mTLS credentials for
      *                      inter-node communication.  May be null; in that case
      *                      only local search is executed.
-     * @param config        Engine configuration.
      * @throws std::invalid_argument on invalid configuration values.
      */
     explicit DistributedHybridSearch(
@@ -159,6 +158,20 @@ public:
         themis::sharding::RemoteExecutor* executor
     );
 
+    /**
+     * @brief Construct a DistributedHybridSearch engine.
+     *
+     * @param local_search  Local HybridSearch instance for this node.
+     *                      May be null; the local shard will then return no
+     *                      results.
+     * @param resolver      URN/shard resolver used to enumerate healthy shards.
+     *                      May be null; only the local shard will be queried.
+     * @param executor      RemoteExecutor configured with mTLS credentials for
+     *                      inter-node communication.  May be null; in that case
+     *                      only local search is executed.
+     * @param config        Engine configuration.
+     * @throws std::invalid_argument on invalid configuration values.
+     */
     DistributedHybridSearch(
         HybridSearch* local_search,
         themis::sharding::URNResolver* resolver,

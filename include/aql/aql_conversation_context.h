@@ -114,14 +114,20 @@ public:
     };
 
     /**
-     * @brief Construct a context that will use @p handler for LLM calls.
+     * @brief Construct a context with a handler (default configuration)
      * @param handler   Reference to an LLMAQLHandler instance.
      *                  The handler must outlive this context.
-     * @param config    Optional runtime configuration (max turns, token budget).
+     */
+    explicit AQLConversationContext(LLMAQLHandler& handler);
+    
+    /**
+     * @brief Construct a context with handler, configuration, and custom estimator
+     * @param handler   Reference to an LLMAQLHandler instance.
+     *                  The handler must outlive this context.
+     * @param config    Runtime configuration (max turns, token budget).
      * @param estimator Optional token estimator; defaults to
      *                  CharDivisionEstimator (4 chars per token).
      */
-    explicit AQLConversationContext(LLMAQLHandler& handler);
     explicit AQLConversationContext(
       LLMAQLHandler& handler,
       Config config,

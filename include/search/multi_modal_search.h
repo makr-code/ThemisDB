@@ -103,11 +103,18 @@ public:
      *                   if no TEXT modality queries are used.
      * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be null if
      *                   no embedding modalities are used.
-     * @param config     Search configuration.
      * @throws std::invalid_argument on invalid config.
      */
     explicit MultiModalSearch(SecondaryIndexManager* sec_index,
                               VectorIndexManager* vec_index);
+    /**
+     * @param sec_index  Non-owning pointer to a SecondaryIndexManager.  May be null
+     *                   if no TEXT modality queries are used.
+     * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be null if
+     *                   no embedding modalities are used.
+     * @param config     Search configuration.
+     * @throws std::invalid_argument on invalid config.
+     */
     MultiModalSearch(SecondaryIndexManager* sec_index,
                      VectorIndexManager* vec_index,
                      const Config& config);

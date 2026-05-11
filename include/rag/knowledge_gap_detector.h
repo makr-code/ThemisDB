@@ -243,10 +243,14 @@ using LlmSampleFn =
 class KnowledgeGapDetector {
 public:
     /**
-     * @brief Construct detector with configuration
-     * @param config Detection configuration parameters
+     * @brief Construct detector with default configuration
      */
     KnowledgeGapDetector();
+    
+    /**
+     * @brief Construct detector with custom configuration
+     * @param config Detection configuration parameters
+     */
     explicit KnowledgeGapDetector(const KnowledgeGapConfig& config);
     
     /**
