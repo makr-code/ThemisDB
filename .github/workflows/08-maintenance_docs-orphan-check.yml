@@ -15,25 +15,26 @@ on:
   push:
     branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'examples/**'
-      - 'tools/**'
-      - 'benchmarks/**'
-      - 'tests/**'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'examples/*/**'
+      - 'tools/*/**'
+      - 'benchmarks/*/**'
+      - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'
       - 'scripts/docs-orphan-check.py'
       - '.github/workflows/08-maintenance_docs-orphan-check.yml'
   pull_request:
+    branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'examples/**'
-      - 'tools/**'
-      - 'benchmarks/**'
-      - 'tests/**'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'examples/*/**'
+      - 'tools/*/**'
+      - 'benchmarks/*/**'
+      - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'

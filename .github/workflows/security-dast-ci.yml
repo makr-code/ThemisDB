@@ -17,6 +17,9 @@ on:
       - '.github/workflows/security-dast-ci.yml'
       - 'scripts/zap-context.xml'
   pull_request:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/server/**'
       - 'src/auth/**'
@@ -29,6 +32,9 @@ on:
 concurrency:
   group: dast-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────

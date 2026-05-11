@@ -17,14 +17,30 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 ## Aktiver Workflow-Kern
 
 ### Fokus-Workflows
+- `.github/workflows/00-shared_changelog-update.yml`
+  — Reusable changelog writer fuer Security/Documentation/Infrastructure-Eintraege in `CHANGELOG.md`
+- `.github/workflows/00-shared_changelog-backfill.yml`
+  — Manueller historischer Changelog-Backfill aus Milestones/PRs ohne Build-Last
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
   — Optional voice benchmark CI (THEMIS_ENABLE_VOICE_ASSISTANT=ON); satisfies PERFORMANCE_EXPECTATIONS.md §1.4 Maßnahme #4 (perf audit check 4d)
 - `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
   — GPU benchmark matrix (CUDA/HIP/Vulkan); satisfies §1.4 Maßnahme #5 (perf audit check 5c)
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
   — Nightly benchmark sweep (schedule 02:00 UTC, modules 2..35); satisfies §1.4 Maßnahme #10 (perf audit check 10a)
+- `.github/workflows/08-maintenance_root-docs-hygiene.yml`
+  — Root-Dokumentationshygiene fuer Top-Level-Dateien (Push/Schedule/Manual)
+- `.github/workflows/08-maintenance_src-include-docs-align.yml`
+  — Modulabgleich `src/include` ↔ `docs/de` fuer Doku-Abdeckung
+- `.github/workflows/08-maintenance_docs-orphan-check.yml`
+  — Orphan/Broken-Reference-Pruefung fuer `docs/de` und `docs/en`
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
+- `.github/workflows/security-dast-ci.yml`
+  — OWASP-ZAP-basierter DAST-Sicherheitscheck fuer API-Pfade
+- `.github/workflows/sbom-ci.yml`
+  — Supply-Chain-SBOM-Erzeugung, Verifikation und Signierung fuer Releases
+- `.github/workflows/soc2-evidence-ci.yml`
+  — Geplanter SOC-2-Evidence-Export mit Artefaktablage fuer Audit-Nachweise
 - `.github/workflows/copilot-ollama-router-ci.yml`
   — Scoped CI fuer das lokale VS-Code-Extension-Tooling unter `tools/copilot-ollama-router/**`
 - `.github/workflows/copilot-regression-guard.yml`
@@ -61,6 +77,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 7
-- Deaktivierte Workflows in `.github/no_workflows/`: 31
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 15
+- Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

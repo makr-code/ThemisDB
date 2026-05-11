@@ -25,15 +25,16 @@ on:
   push:
     branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
+      - 'src/*/**'
+      - 'include/*/**'
       - 'docs/de/**'
       - 'scripts/src-include-docs-align.py'
       - '.github/workflows/08-maintenance_src-include-docs-align.yml'
   pull_request:
+    branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
+      - 'src/*/**'
+      - 'include/*/**'
       - 'docs/de/**'
       - 'scripts/src-include-docs-align.py'
       - '.github/workflows/08-maintenance_src-include-docs-align.yml'

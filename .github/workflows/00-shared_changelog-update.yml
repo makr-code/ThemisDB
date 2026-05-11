@@ -173,6 +173,9 @@ on:
         description: "'true' if a new entry was inserted; 'false' if idempotency key already present"
         value: ${{ jobs.update.outputs.changed }}
 
+permissions:
+  contents: write
+
 jobs:
   update:
     name: "Update CHANGELOG.md"
