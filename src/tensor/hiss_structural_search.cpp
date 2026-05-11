@@ -15,11 +15,36 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Static bridge slots — STUB #254 (QuanticsFn)
+// ============================================================================
+
+namespace {
+    std::mutex           g_quantics_mtx;
+    HissReshaper::QuanticsFn g_quantics_fn;
+} // namespace
+
+void HissReshaper::setQuanticsFn(HissReshaper::QuanticsFn fn) {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    g_quantics_fn = std::move(fn);
+}
+
+void HissReshaper::clearQuanticsFn() {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    g_quantics_fn = nullptr;
+}
+
+HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    return g_quantics_fn;
+}
 
 namespace {
 
@@ -283,10 +308,11 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     std::vector<std::size_t> bit_depths;
     std::vector<std::size_t> quantics_mode_sizes;
     bit_depths.reserve(resolved_grid_sizes.size());
-    // STUB/SIMULATION NOTE:
+
+    // STUB/SIMULATION NOTE (STUB #254):
     // Purpose: Provide a production-usable quantics reshape path before the
     //          full pure-binary QTT layout and inverse physical-index mapping land.
-    // Activation: Always.
+    // Activation: When no QuanticsFn bridge is installed.
     // Production Delta: Each physical dimension is factorised into repeated
     //                   `2` modes plus one residual factor when needed
     //                   (e.g. 12 -> {2, 2, 3}) instead of a zero-padded pure
@@ -294,6 +320,15 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     //                   `quantics_mode_sizes` only.
     // Removal Plan: Q2 2028 — replace residual-factor fallback with padded
     //               pure-binary QTT plus explicit reversible index mapping.
+
+    // Delegate to an injected pure-binary QTT encoder when available.
+    {
+        std::lock_guard<std::mutex> lk(g_quantics_mtx);
+        if (g_quantics_fn) {
+            return g_quantics_fn(train, grid_sizes);
+        }
+    }
+
     for (const auto grid_size : resolved_grid_sizes) {
         bit_depths.push_back(calculateBitDepth(grid_size));
         const auto factors = quanticsFactors(grid_size);
