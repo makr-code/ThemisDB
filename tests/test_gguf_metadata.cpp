@@ -102,6 +102,9 @@ TEST(GGUFMetadata, GMD04_sign_verify_correct_key) {
 
     GGUFMetadata::sign(rec, hmac_key);
     EXPECT_FALSE(rec.hmac_signature.empty());
+    EXPECT_EQ(rec.hmac_signature.size(), 64u);
+    EXPECT_EQ(rec.hmac_signature,
+              "1efcad679031ffd693172f2a8b16ac4524f0b9ae3d7171836b58b00a1c68f0bf");
 
     EXPECT_TRUE(GGUFMetadata::verify(rec, hmac_key));
 }
@@ -184,6 +187,32 @@ TEST(GGUFMetadata, GMD08_size_and_keys) {
     EXPECT_EQ(ks[0], "key_a");
     EXPECT_EQ(ks[1], "key_b");
     EXPECT_EQ(ks[2], "key_c");
+}
+
+TEST(GGUFMetadata, GMD09_injected_hmacfn_overrides_default_path) {
+    auto rec = makeRecord();
+    const std::string key = "custom-key";
+    const std::string signature = "injected-signature";
+
+    GGUFMetadata::setHmacFn(
+        [signature](const std::string& data, const std::string& hmac_key) {
+            (void)data;
+            (void)hmac_key;
+            return signature;
+        });
+
+    GGUFMetadata::sign(rec, key);
+    EXPECT_EQ(rec.hmac_signature, signature);
+    EXPECT_TRUE(GGUFMetadata::verify(rec, key));
+    EXPECT_FALSE(GGUFMetadata::verify(rec, "wrong-key"));
+
+    GGUFMetadata::setHmacFn(nullptr);
+
+    auto rec_default = makeRecord();
+    GGUFMetadata::sign(rec_default, "super_secret_key_42");
+    EXPECT_EQ(rec_default.hmac_signature,
+              "1efcad679031ffd693172f2a8b16ac4524f0b9ae3d7171836b58b00a1c68f0bf");
+    EXPECT_TRUE(GGUFMetadata::verify(rec_default, "super_secret_key_42"));
 }
 
 } // anonymous namespace
