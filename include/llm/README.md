@@ -44,7 +44,35 @@ ThemisDB provides **two independent inference engines** serving different needs:
 1. **AsyncInferenceEngine**: Lightweight, single-model, for simple API calls
 2. **InferenceEngineEnhanced**: Enterprise-grade, multi-model, with advanced features
 
-See `../../src/llm/README.md` for detailed architecture documentation.
+See [`../../src/llm/README.md`](../../src/llm/README.md) for detailed architecture documentation.
+
+## Public API by Concern
+
+- **Inference engines:** `async_inference_engine.h`, `inference_engine_enhanced.h`, `inference_handle.h`, `llamacpp_inference_engine.h`
+- **Model management:** `model_loader.h`, `model_router.h`, `model_downloader.h`, `model_metadata_cache.h`, `gguf_loader.h`, `lazy_model_loader.h`
+- **LoRA adapter management:** `adapter_registry.h`, `adapter_load_balancer.h`, `adapter_deployment_manager.h`, `adapter_compatibility.h`, `lora_router.h`, `multi_lora_manager.h`, `lora_metadata_cache.h`, `lora_security_validator.h`, `lora_certificate_store.h`
+- **KV-cache and batching:** `paged_kv_cache.h`, `paged_kv_cache_manager.h`, `paged_block_manager.h`, `block_table.h`, `kv_cache_buffer.h`, `kv_prefix_transfer_manager.h`, `llm_prefix_cache.h`, `llm_response_cache.h`, `continuous_batch_scheduler.h`
+- **VRAM / GPU resource management:** `active_vram_allocator.h`, `adaptive_vram_allocator.h`, `gpu_memory_manager.h`, `multi_gpu_memory_coordinator.h`, `vision_resource_monitor.h`, `gpu_safe_fail.h`
+- **AI safety, ethics, and auditing:** `constitutional_reasoning_engine.h`, `ethical_guidelines_manager.h`, `ethics_aware_confidence_detector.h`, `moral_analyzer.h`, `ai_decision_auditor.h`
+- **Prompt management:** `prompt_manager.h`, `prompt_optimizer.h`, `prompt_evaluator.h`, `prompt_policy.h`, `meta_prompt_generator.h`, `fewshot_optimizer.h`
+- **Training and fine-tuning:** `inline_training_engine.h`, `distributed_training_coordinator.h`, `llamacpp_training_backend.h`, `aql_train_parser.h`, `training_data_iterator.h`, `multi_model_training_data.h`
+- **Plugin and orchestration layer:** `i_llm_plugin.h`, `llm_plugin_interface.h`, `llm_plugin_manager.h`, `llm_deployment_plugin.h`, `ai_orchestrator.h`, `adapter_registry.h`
+- **Grammar, sampling, and speculative decoding:** `grammar.h`, `grammar_cache.h`, `json_schema_converter.h`, `sampling_strategy.h`, `speculative_decoder.h`, `lookup_decoder.h`
+- **Streaming, vision, and OpenAI compat:** `streaming_handler.h`, `openai_compat_adapter.h`, `vision_encoder.h`, `vision_config.h`
+- **Metrics, security, and utility:** `grafana_metrics.h`, `llm_security_utils.h`, `token_quota_manager.h`, `llm_model_audit_logger.h`, `shared_worker_pool.h`, `context_window_budget.h`
+
+## Runtime Configuration Surfaces
+
+| Header | Key Configuration Types |
+|---|---|
+| `async_inference_engine.h` | Plugin registration, thread pool size, timeout, priority queue depth |
+| `inference_engine_enhanced.h` | Multi-model backends, batch size, KV-cache size, load-balance policy |
+| `model_router.h` | Regex/tag routing rules, fallback model |
+| `gguf_loader.h` | Model file path (must be within trusted directory) |
+| `adapter_registry.h` | LoRA adapter trusted base path, hot-load callback, certificate store |
+| `active_vram_allocator.h` | VRAM capacity, LRU eviction threshold, CPU spill ratio |
+| `token_quota_manager.h` | Per-tenant token budget, refill interval |
+| `openai_compat_adapter.h` | Model-name mapping, streaming mode, function-calling schema |
 
 ## All Headers
 
@@ -143,14 +171,6 @@ See `../../src/llm/README.md` for detailed architecture documentation.
 | `vision_encoder.h` | Vision encoder interface |
 | `vision_resource_monitor.h` | Resource monitor for vision models |
 
-## Implementation
-
-See `../../src/llm/` for the implementation code.
-
-## Documentation
-
-See `../../docs/src/llm/` for detailed module documentation.
-
 ## Installation
 
 This module is included as part of ThemisDB. Add the module headers to your include path:
@@ -159,12 +179,62 @@ This module is included as part of ThemisDB. Add the module headers to your incl
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
 
+## Implementation
+
+See [`../../src/llm/`](../../src/llm/) for the implementation code.
+
 ## Usage
 
-Include the relevant headers from this module:
+### C++: async inference with InferenceHandle
 
 ```cpp
-#include "llm/module_header.h"
+#include "llm/async_inference_engine.h"
+
+AsyncInferenceEngine engine;
+engine.registerPlugin(my_llm_plugin);
+
+auto handle = engine.submitRequest({
+    .prompt = "Summarize the document.",
+    .max_tokens = 512
+});
+
+auto result = handle.get();   // blocking wait
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+### C++: grammar-constrained output
+
+```cpp
+#include "llm/grammar.h"
+
+Grammar grammar(R"(root ::= "yes" | "no")", "root");
+if (!grammar.isValid()) {
+    // llama.cpp grammar APIs unavailable — unconstrained fallback
+}
+```
+
+## Runtime Behavior, Errors, and Limits
+
+- LoRA adapter paths and model IDs **must** be validated against a trusted directory before use; unchecked paths cause path-injection vulnerabilities (see AUDIT.md F1-1/F2-1).
+- Grammar-constrained generation silently falls back to unconstrained sampling when the llama.cpp grammar API is absent.
+- VRAM OOM is handled by LRU eviction and CPU spilling in `ActiveVRAMAllocator`; callers receive `nullptr` when spill capacity is exhausted.
+- Speculative decoding requires draft and target models to share vocabulary.
+
+## Troubleshooting
+
+- **LoRA hot-load fails**: validate the adapter path is inside the configured trusted directory.
+- **`grammar.isValid()` returns false**: rebuild llama.cpp with grammar API support.
+- **VRAM OOM**: reduce batch size or context window; check `ActiveVRAMAllocator` limits.
+- **OpenAI adapter 500**: verify `ModelRouter` routing rules cover the requested model name.
+
+## See Also
+
+- [`../../src/llm/README.md`](../../src/llm/README.md) — implementation details and usage
+- [`../../src/llm/ARCHITECTURE.md`](../../src/llm/ARCHITECTURE.md) — engine design and component diagram
+- [`../../src/llm/SECURITY.md`](../../src/llm/SECURITY.md) — threat model and path-injection mitigations
+- [`../../src/llm/AUDIT.md`](../../src/llm/AUDIT.md) — S0/S1/S2 findings and resolution status
+- [`../../src/llm/CHANGELOG.md`](../../src/llm/CHANGELOG.md) — module history
+- [`../../src/llm/PERFORMANCE_EXPECTATIONS.md`](../../src/llm/PERFORMANCE_EXPECTATIONS.md) — benchmark targets
+- [`../../src/llm/ROADMAP.md`](../../src/llm/ROADMAP.md) — implementation status and planned work
+- [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md) — long-term backlog
+- [`../../docs/en/llm/PRIMARY_SOURCES.md`](../../docs/en/llm/PRIMARY_SOURCES.md) — canonical source index (EN)
+- [`../../docs/de/llm/PRIMARY_SOURCES.md`](../../docs/de/llm/PRIMARY_SOURCES.md) — Quellenindex (DE)
