@@ -27,6 +27,13 @@ VISIBILITY = {
     "package": "~",
 }
 
+BUILTIN_TYPE_EXCLUSIONS = {
+    "std",
+    "size_t",
+    "uint32_t",
+    "uint64_t",
+}
+
 
 def _safe_text(value: str) -> str:
     return value.replace('"', "'").replace("\n", " ").strip()
@@ -163,7 +170,7 @@ def _build_class_aliases(classes: dict[str, ClassInfo]) -> dict[str, str]:
 def _possible_type_refs(type_text: str) -> set[str]:
     cleaned = type_text.replace("*", " ").replace("&", " ").replace("const", " ")
     tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_:]*", cleaned)
-    return {tok for tok in tokens if tok and tok not in {"std", "size_t", "uint32_t", "uint64_t"}}
+    return {tok for tok in tokens if tok and tok not in BUILTIN_TYPE_EXCLUSIONS}
 
 
 def build_class_diagram(classes: dict[str, ClassInfo], max_methods_per_class: int) -> str:
@@ -309,7 +316,11 @@ def main(argv: list[str] | None = None) -> int:
     classes, namespaces = scanner.scan()
 
     if not classes and not namespaces:
-        print(f"No parseable classes/namespaces found in {args.xml_dir}", file=sys.stderr)
+        print(
+            "No parseable classes/namespaces found. "
+            f"Verify Doxygen XML exists at '{args.xml_dir}' and run 'doxygen Doxyfile' first.",
+            file=sys.stderr,
+        )
         return 2
 
     class_diagram = build_class_diagram(classes, max_methods_per_class=max(1, args.max_methods_per_class))
