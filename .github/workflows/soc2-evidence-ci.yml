@@ -16,6 +16,10 @@ on:
         required: false
         default: '7'
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
   # Evidence export and validation
