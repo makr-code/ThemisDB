@@ -8,8 +8,10 @@
 #include "security/hsm_startup_policy.h"
 
 #include <cstdlib>
+#include <initializer_list>
 #include <optional>
 #include <string>
+#include <vector>
 
 using nlohmann::json;
 using ::testing::HasSubstr;
@@ -18,6 +20,9 @@ namespace themis::security::test {
 
 namespace {
 
+// RAII helper for environment-variable based tests.
+// Captures the original value (if any) and restores it on destruction so tests
+// remain isolated across platforms.
 class ScopedEnvVar {
 public:
     explicit ScopedEnvVar(const char* name)
@@ -64,6 +69,10 @@ private:
     std::optional<std::string> old_value_;
 };
 
+std::vector<char*> makeArgv(std::initializer_list<char*> args) {
+    return std::vector<char*>(args);
+}
+
 } // namespace
 
 TEST(HSMStartupPolicy, NoConfigRequiresExplicitStubOptIn) {
@@ -71,9 +80,10 @@ TEST(HSMStartupPolicy, NoConfigRequiresExplicitStubOptIn) {
     allow_stub.unset();
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(std::nullopt, std::nullopt, 1, argv);
+    const auto result = resolveHSMStartupPolicy(std::nullopt, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     EXPECT_FALSE(result.ok());
     EXPECT_THAT(result.error, HasSubstr("No HSM configuration found"));
 }
@@ -84,9 +94,10 @@ TEST(HSMStartupPolicy, NoConfigAllowsExplicitStubOptInFromFlag) {
 
     char arg0[] = "themis_server";
     char arg1[] = "--allow-stub-hsm";
-    char* argv[] = {arg0, arg1};
+    auto argv = makeArgv({arg0, arg1});
 
-    const auto result = resolveHSMStartupPolicy(std::nullopt, std::nullopt, 2, argv);
+    const auto result = resolveHSMStartupPolicy(std::nullopt, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_TRUE(result.explicit_stub_opt_in);
     EXPECT_EQ(result.config_source, "explicit stub opt-in");
@@ -104,9 +115,10 @@ TEST(HSMStartupPolicy, StubProviderRequiresExplicitOptIn) {
     };
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
+    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     EXPECT_FALSE(result.ok());
     EXPECT_THAT(result.error, HasSubstr("requires explicit development opt-in"));
 }
@@ -122,9 +134,10 @@ TEST(HSMStartupPolicy, StubProviderAllowsEnvironmentOptIn) {
     };
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
+    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_TRUE(result.explicit_stub_opt_in);
     EXPECT_EQ(result.config_source, "security config");
@@ -145,9 +158,10 @@ TEST(HSMStartupPolicy, Pkcs11ProviderRequiresLibraryPath) {
     };
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
+    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     EXPECT_FALSE(result.ok());
     EXPECT_THAT(result.error, HasSubstr("library_path"));
 }
@@ -170,9 +184,10 @@ TEST(HSMStartupPolicy, Pkcs11ProviderParsesConfiguredFields) {
     };
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
+    const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt,
+                                                static_cast<int>(argv.size()), argv.data());
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_FALSE(result.explicit_stub_opt_in);
     EXPECT_EQ(result.config.library_path, "/usr/lib/libCryptoki2_64.so");
@@ -206,9 +221,10 @@ TEST(HSMStartupPolicy, SecurityConfigTakesPrecedenceOverMainConfig) {
     };
 
     char arg0[] = "themis_server";
-    char* argv[] = {arg0};
+    auto argv = makeArgv({arg0});
 
-    const auto result = resolveHSMStartupPolicy(security_cfg, main_cfg, 1, argv);
+    const auto result = resolveHSMStartupPolicy(security_cfg, main_cfg,
+                                                static_cast<int>(argv.size()), argv.data());
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_EQ(result.config.library_path, "/security/lib.so");
     EXPECT_EQ(result.config.slot_id, 1u);
