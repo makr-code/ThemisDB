@@ -49,7 +49,7 @@ namespace content {
  * - Boilerplate removal (&lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;, &lt;script&gt;, &lt;style&gt;, &lt;form&gt;)
  * - Plain text extraction preserving semantic structure (headings, paragraphs)
  * - Metadata extraction (&lt;title&gt;, &lt;meta name="description"/"keywords"/"author"&gt;)
- * - HTML entity decoding (&amp;, &lt;, &gt;, &quot;, &#NNN;, &#xHH;)
+ * - HTML entity decoding (`&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#NNN;`, `&#xHH;`)
  * - Chunking by paragraph / heading boundary
  */
 class HtmlProcessor : public IContentProcessor {
@@ -161,8 +161,8 @@ public:
     /**
      * @brief Decode common HTML entities
      *
-     * Handles named entities (&amp; &lt; &gt; &quot; &apos; &nbsp;),
-     * decimal references (&#NNN;), and hex references (&#xHH;).
+      * Handles named entities (`&amp;` `&lt;` `&gt;` `&quot;` `&apos;` `&nbsp;`),
+      * decimal references (`&#NNN;`), and hex references (`&#xHH;`).
      *
      * @param text  Text that may contain HTML entities
      * @return Decoded text

@@ -103,7 +103,7 @@ using ::themis::geo::haversine_km;
  * @brief Haversine great-circle distance in **metres**.
  *
  * Thin wrapper over haversine_km(); use this when the rest of the call-site
- * operates in metres (e.g. the geo/*.cpp clustering code that previously used
+ * operates in metres (e.g. the geo/\*.cpp clustering code that previously used
  * file-local `haversineDistanceM()`).
  *
  * @return Great-circle distance in metres (always ≥ 0).
