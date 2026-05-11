@@ -90,16 +90,14 @@ public:
      *
      * @param kernel_id  Unique identifier (e.g. "vector_dot_fp32").
      * @param expected_checksum  FNV-1a 64-bit hash of the canonical blob.
-     *                           Pass 0 to compute it from @p canonical_blob.
-     * @param canonical_blob     Canonical byte sequence for checksum computation
-     *                           (may be empty if expected_checksum is provided
-     *                           directly).
      */
     void registerKernel(const std::string& kernel_id,
                         uint64_t expected_checksum);
 
     /**
      * @brief Register a kernel by computing its checksum from the blob.
+     * @param kernel_id  Unique identifier (e.g. "vector_dot_fp32").
+     * @param canonical_blob Canonical byte sequence for checksum computation.
      */
     void registerKernel(const std::string& kernel_id,
                         const std::vector<uint8_t>& canonical_blob);

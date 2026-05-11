@@ -99,13 +99,23 @@ public:
      *
      * @param store   The TSStore to scan (must outlive the cursor).
      * @param options Query filter (metric, time range, entity, tags).
-     * @param cfg     Tuning parameters (page size).
      * @return A ready cursor, or an error if the initial fetch failed.
      */
     static Result<std::unique_ptr<TsStreamCursor>> open(
         TSStore& store,
       TSStore::QueryOptions options);
 
+    /**
+     * @brief Open a streaming cursor over @p store.
+     *
+     * The first page is fetched eagerly during open() so that valid() is
+     * immediately usable.
+     *
+     * @param store   The TSStore to scan (must outlive the cursor).
+     * @param options Query filter (metric, time range, entity, tags).
+     * @param cfg     Tuning parameters (page size).
+     * @return A ready cursor, or an error if the initial fetch failed.
+     */
     static Result<std::unique_ptr<TsStreamCursor>> open(
       TSStore& store,
       TSStore::QueryOptions options,

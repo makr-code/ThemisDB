@@ -118,7 +118,7 @@ public:
      * Extract chunks from blob based on manifest.
      * 
      * @param blob_path Path to blob file
-     * @param chunks Chunk indices to extract
+        * @param chunk_indices Chunk indices to extract
      * @return Map of chunk index to chunk data
      */
     std::map<uint32_t, std::string> ExtractChunks(

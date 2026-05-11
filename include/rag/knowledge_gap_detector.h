@@ -300,7 +300,6 @@ public:
      * @param query User query string
      * @param documents Retrieved documents
      * @param generated_answer The generated answer
-     * @param context Optional generation context
      * @return Combined detection result
      */
     DetectionResult detectGap(
@@ -308,6 +307,14 @@ public:
         const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer
     );
+    /**
+     * @brief Comprehensive detection (all levels)
+     * @param query User query string
+     * @param documents Retrieved documents
+     * @param generated_answer The generated answer
+     * @param context Optional generation context
+     * @return Combined detection result
+     */
     DetectionResult detectGap(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,
@@ -319,6 +326,7 @@ public:
      * @brief FLARE-style forward-looking active retrieval
      * @param query User query string
      * @param initial_documents Initial retrieved documents
+     * @param tenant_id Optional tenant scope for FLARE re-retrieval.
      * @return Detection result after iterative retrieval
      * 
      * Generates answer sentence-by-sentence, monitoring confidence

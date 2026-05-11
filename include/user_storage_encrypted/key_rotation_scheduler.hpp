@@ -72,9 +72,6 @@ public:
     void setRotationStore(std::shared_ptr<IRotationStore> store);
 
     /**
-     * @brief Initialize scheduler
-     * 
-     * @param check_interval_seconds How often to check for rotation needs
      * @brief Initialize scheduler, optionally loading persisted rotation state.
      *
      * When a non-null @p store is supplied the scheduler loads any previously
@@ -88,8 +85,8 @@ public:
      *   scheduler.initialize(3600, std::move(store));
      * @endcode
      *
-     * @param check_interval_seconds  How often to check for rotation needs
-     * @param store                   Optional persistence backend (may be nullptr)
+    * @param check_interval_seconds  How often to check for rotation needs.
+    * @param store                   Optional persistence backend (may be nullptr).
      */
     Result<void> initialize(
         int check_interval_seconds = 3600,

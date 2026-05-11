@@ -107,13 +107,19 @@ public:
      * @brief Generate a full LLM descriptor for a process model record.
      *
      * @param record  The process model record (from ProcessModelManager::load).
-     * @param cfg     Optional generation configuration.
      * @return JSON descriptor object ready for LLM consumption.
      */
     static nlohmann::json generate(
       const ProcessModelRecord& record
     );
 
+    /**
+     * @brief Generate a full LLM descriptor for a process model record.
+     *
+     * @param record  The process model record (from ProcessModelManager::load).
+     * @param cfg     Optional generation configuration.
+     * @return JSON descriptor object ready for LLM consumption.
+     */
     static nlohmann::json generate(
       const ProcessModelRecord& record,
       const Config&             cfg

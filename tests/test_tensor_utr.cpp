@@ -45,6 +45,7 @@
 
 #include <array>
 #include <atomic>
+#include <algorithm>
 #include <gtest/gtest.h>
 #include <cmath>
 #include <numeric>
@@ -564,15 +565,15 @@ TEST(UTRConverter, ImageEmbedFnBridgeIsCalledFromImage) {
     UTRConverter::setImageEmbedFn(
         [&fn_called](const std::vector<float>& px,
                      std::size_t h, std::size_t w, std::size_t c,
-                     const UTRConfig& cfg) -> storage::TTTrain {
+                     const UTRConfig& cfg) -> themis::storage::TTTrain {
             fn_called = true;
             // Delegate to the default path via a fresh normalised buffer so
             // we don't need to re-implement TT decomposition here.
             std::vector<float> normed(px.size());
             for (std::size_t i = 0; i < px.size(); ++i)
                 normed[i] = px[i] / 255.0f;
-            storage::TensorTrainDecomposer decomp;
-            storage::TensorTrainConfig tt_cfg;
+            themis::storage::TensorTrainDecomposer decomp;
+            themis::storage::TensorTrainConfig tt_cfg;
             tt_cfg.eps      = cfg.eps;
             tt_cfg.max_rank = cfg.max_rank;
             std::vector<std::size_t> shape = (c == 1) ? std::vector<std::size_t>{h, w}
@@ -595,8 +596,8 @@ TEST(UTRConverter, ClearImageEmbedFnRevertsToRawPixelFallback) {
 
     UTRConverter::setImageEmbedFn(
         [](const std::vector<float>&, std::size_t, std::size_t, std::size_t,
-           const UTRConfig&) -> storage::TTTrain {
-            return storage::TTTrain{};
+           const UTRConfig&) -> themis::storage::TTTrain {
+            return themis::storage::TTTrain{};
         });
     UTRConverter::clearImageEmbedFn();
 

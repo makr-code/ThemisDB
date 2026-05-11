@@ -108,7 +108,6 @@ protected:
      * @param task_description Description of the analysis task
      * @param input_text Input text to analyze
      * @param criteria Evaluation criteria
-     * @param examples Optional examples
      * @return Formatted prompt with CoT instructions
      */
     std::string buildPromptWithCoT(
@@ -116,6 +115,14 @@ protected:
         const std::string& input_text,
         const std::vector<std::string>& criteria
     );
+    /**
+     * @brief Build prompt with chain-of-thought
+     * @param task_description Description of the analysis task
+     * @param input_text Input text to analyze
+     * @param criteria Evaluation criteria
+     * @param examples Optional examples
+     * @return Formatted prompt with CoT instructions
+     */
     std::string buildPromptWithCoT(
         const std::string& task_description,
         const std::string& input_text,

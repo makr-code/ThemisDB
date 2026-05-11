@@ -84,8 +84,9 @@ static constexpr double kCharsPerTokenHeuristic = 3.5;
  */
 inline size_t estimateTokens(
     const std::string& text,
-    TokenEstimationMethod /*method*/ = TokenEstimationMethod::CHAR_HEURISTIC)
+    TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
 {
+    (void)method;
     if (text.empty()) return 0u;
     return static_cast<size_t>(
         std::ceil(static_cast<double>(text.size()) / kCharsPerTokenHeuristic));
@@ -96,8 +97,9 @@ inline size_t estimateTokens(
  */
 inline size_t estimateTokens(
     size_t char_count,
-    TokenEstimationMethod /*method*/ = TokenEstimationMethod::CHAR_HEURISTIC)
+    TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
 {
+    (void)method;
     if (char_count == 0u) return 0u;
     return static_cast<size_t>(
         std::ceil(static_cast<double>(char_count) / kCharsPerTokenHeuristic));

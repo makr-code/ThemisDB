@@ -133,7 +133,6 @@ public:
      * @param B LoRA down-projection [rank, in_dim] (transposed internally)
      * @param A LoRA up-projection [out_dim, rank] (transposed internally)
      * @param scaling Scaling factor (typically lora_alpha / rank)
-     * @param config Tiling configuration (auto-tuned by default)
      * @return output tensor [batch, seq_len, out_dim] or [batch, out_dim]
      * 
      * Numerical accuracy: <1e-4 max error vs standard implementation
@@ -144,6 +143,16 @@ public:
         const GPUTensor& A,
         float scaling
     );
+    /**
+     * @brief FlashLoRA forward pass with explicit tiling configuration.
+     * 
+     * @param input Input tensor [batch, seq_len, in_dim] or [batch, in_dim]
+     * @param B LoRA down-projection [rank, in_dim] (transposed internally)
+     * @param A LoRA up-projection [out_dim, rank] (transposed internally)
+     * @param scaling Scaling factor (typically lora_alpha / rank)
+     * @param config Tiling configuration (auto-tuned by default)
+     * @return output tensor [batch, seq_len, out_dim] or [batch, out_dim]
+     */
     static GPUTensor forward(
         const GPUTensor& input,
         const GPUTensor& B,

@@ -214,15 +214,17 @@ public:
 
     // Multi-GPU vector operations
     /**
-     * Distributed top-k merge across GPUs
-     * Each GPU has local top-k results, merge to global top-k
+     * Distributed top-k merge across GPUs.
+     * Each GPU has local top-k results, merged into a global top-k set.
      * 
-     * @param localTopK Local top-k results (indices and distances)
-     * @param localK Number of local results
-     * @param globalTopK Output buffer for global top-k (only valid on root)
-     * @param k Final number of results to return
-     * @param root Rank where final results are gathered
-     * @param stream CUDA stream for async operation
+     * @param localIndices Local result indices.
+     * @param localDistances Local result distances.
+     * @param localK Number of local results.
+     * @param globalIndices Output buffer for global result indices (only valid on root).
+     * @param globalDistances Output buffer for global result distances (only valid on root).
+     * @param k Final number of results to return.
+     * @param root Rank where final results are gathered.
+     * @param stream CUDA stream for async operation.
      */
     bool mergeTopK(const uint32_t* localIndices, const float* localDistances,
                    size_t localK, uint32_t* globalIndices, float* globalDistances,

@@ -164,9 +164,13 @@ public:
     /**
      * @brief Construct batch evaluator
      * @param judge Judge instance to use
-     * @param config Batch evaluator configuration
      */
     explicit BatchEvaluator(std::shared_ptr<RAGJudge> judge);
+    /**
+     * @brief Construct batch evaluator
+     * @param judge Judge instance to use
+     * @param config Batch evaluator configuration
+     */
     BatchEvaluator(std::shared_ptr<RAGJudge> judge, const BatchEvaluatorConfig& config);
     
     /**

@@ -52,11 +52,10 @@ public:
     ~ReplicationCoordinator();
 
     /**
-     * Wait for replicas to acknowledge a write
-     * @param entry_lsn LSN of the written entry
-     * @param concern Write concern level
-     * @param timeout Max time to wait for acknowledgments
-     * @return ReplicationResult with success status and replica count
+     * Wait for replicas to acknowledge a write.
+     * @param entry_lsn LSN of the written entry.
+     * @param concern Write concern level.
+     * @return ReplicationResult with success status and replica count.
      */
     ReplicationResult waitForReplication(
         const LSN& entry_lsn,

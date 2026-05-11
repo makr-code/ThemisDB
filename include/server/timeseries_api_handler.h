@@ -127,7 +127,6 @@ public:
     /**
      * @brief Handle GET /ts/metrics request
      * @param req HTTP request
-     * @param format Output format: "json" or "prometheus" (default: json)
      * @return HTTP response with time series metrics
      */
     http::response<http::string_body> handleMetricsGet(const http::request<http::string_body>& req);
