@@ -20,7 +20,7 @@
 #include "llm/i_feedback_plugin.h"
 #include "utils/logger.h"
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace llm {

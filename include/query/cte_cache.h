@@ -25,7 +25,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <fstream>
 #include <filesystem>
 

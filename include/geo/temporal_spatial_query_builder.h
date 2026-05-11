@@ -25,7 +25,7 @@
 #include "utils/geo/ewkb.h"
 
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>

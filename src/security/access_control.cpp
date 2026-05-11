@@ -36,7 +36,7 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
-#include &lt;regex&gt;
+#include <regex>
 #include <cstdlib>
 #include <openssl/evp.h>
 #include <openssl/rand.h>

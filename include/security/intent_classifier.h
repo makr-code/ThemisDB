@@ -16,7 +16,7 @@
 #include "security/zero_trust_policy_enforcer.h"
 
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <vector>
 

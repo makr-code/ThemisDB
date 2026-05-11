@@ -40,7 +40,7 @@
 #include "index/property_graph.h"
 #include "storage/base_entity.h"
 #include <deque>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <atomic>
 #include <thread>

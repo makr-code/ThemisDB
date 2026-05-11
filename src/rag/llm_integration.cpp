@@ -32,7 +32,7 @@
 #include <numeric>
 #include <cmath>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <random>
 #include <mutex>
 #include <atomic>

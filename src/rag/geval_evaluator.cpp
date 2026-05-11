@@ -31,7 +31,7 @@
 #include <sstream>
 #include <iomanip>
 #include <atomic>
-#include &lt;regex&gt;
+#include <regex>
 
 // Forward declaration for llama.cpp types
 extern "C" {

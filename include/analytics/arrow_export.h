@@ -24,7 +24,7 @@
 #include <memory>
 #include <variant>
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace analytics {

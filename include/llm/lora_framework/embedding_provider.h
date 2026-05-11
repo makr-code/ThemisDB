@@ -24,7 +24,7 @@
 #include <memory>
 #include <chrono>
 #include <unordered_map>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
 
 // Forward declaration for llama.cpp types

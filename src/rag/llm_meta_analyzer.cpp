@@ -27,7 +27,7 @@
 #include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <algorithm>
 #include <atomic>
 #include <cstdint>

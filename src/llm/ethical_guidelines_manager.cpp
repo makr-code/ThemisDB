@@ -27,7 +27,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 
 // Map legacy logging calls to project-wide macros
 #define LogInfo  THEMIS_INFO

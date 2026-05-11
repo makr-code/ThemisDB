@@ -37,7 +37,7 @@
 #include <memory>
 #include <functional>
 #include <chrono>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace training {

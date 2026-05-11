@@ -23,7 +23,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
-#include &lt;optional&gt;
+#include <optional>
 #include <type_traits>
 
 namespace themis {

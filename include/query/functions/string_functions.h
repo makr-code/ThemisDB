@@ -23,7 +23,7 @@
 #include <algorithm>
 #include <cctype>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace query {

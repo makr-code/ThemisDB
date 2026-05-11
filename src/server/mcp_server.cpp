@@ -48,7 +48,7 @@
 #include <thread>
 #include <chrono>
 #include <fmt/format.h>
-#include &lt;regex&gt;
+#include <regex>
 
 #if defined(_WIN32)
 #include <windows.h>

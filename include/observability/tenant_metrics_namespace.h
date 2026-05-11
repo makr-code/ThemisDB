@@ -57,7 +57,7 @@
 #pragma once
 
 #include <atomic>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <mutex>
 #include <shared_mutex>

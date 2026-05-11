@@ -27,7 +27,7 @@
 #include <nlohmann/json.hpp>
 #include <functional>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>

@@ -68,7 +68,7 @@
 
 #include <cstddef>
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>

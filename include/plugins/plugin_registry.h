@@ -25,7 +25,7 @@
 #include "plugins/plugin_interface.h"
 #include <memory>
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <vector>
 #include <string>
 #include <typeinfo>

@@ -24,7 +24,7 @@
 #include "key_rotation_scheduler.hpp"
 #include <thread>
 #include <chrono>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <atomic>
 #include <condition_variable>

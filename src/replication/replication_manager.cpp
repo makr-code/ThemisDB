@@ -46,7 +46,7 @@
 #include <sstream>
 #include <iomanip>
 #include <limits>
-#include &lt;set&gt;
+#include <set>
 #include <future>
 #include <numeric>
 #include <lz4.h>

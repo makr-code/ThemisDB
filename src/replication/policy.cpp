@@ -30,7 +30,7 @@
 #include "replication/policy.h"
 
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themisdb {
 namespace replication {

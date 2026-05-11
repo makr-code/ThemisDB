@@ -20,7 +20,7 @@
 #pragma once
 
 #include "core/concerns/lifecycle.h"
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>

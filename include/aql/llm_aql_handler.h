@@ -54,7 +54,7 @@ class ContinuousBatchScheduler;
 #include <functional>
 #include <future>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <thread>
 #include <unordered_map>
 #include <vector>

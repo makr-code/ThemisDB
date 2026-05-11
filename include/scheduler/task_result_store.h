@@ -40,7 +40,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
 #include <shared_mutex>
 #include <cstdint>

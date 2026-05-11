@@ -29,7 +29,7 @@
 #include "llm/constitutional_reasoning_engine.h"
 #include <algorithm>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <mutex>
 
 namespace themis {

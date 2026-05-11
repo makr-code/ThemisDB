@@ -2,7 +2,7 @@
 
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 
 namespace themis::distributed_knowledge {

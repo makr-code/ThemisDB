@@ -23,9 +23,9 @@
 #include "llm/adapter_registry.h"
 #include <vector>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace llm {

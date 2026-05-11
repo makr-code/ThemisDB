@@ -37,7 +37,7 @@
 #include "temporal/temporal_index.h"
 #include <functional>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>

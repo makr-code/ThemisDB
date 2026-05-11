@@ -28,7 +28,7 @@
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/iterator.h>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 #include <cmath>
 
 namespace themis {

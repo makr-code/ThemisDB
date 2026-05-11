@@ -28,7 +28,7 @@
 #include <atomic>
 #include <unordered_map>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace server {

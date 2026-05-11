@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace llm {

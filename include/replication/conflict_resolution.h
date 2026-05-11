@@ -49,9 +49,9 @@
 #include "replication/multi_master_replication.h"
 
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <vector>
 

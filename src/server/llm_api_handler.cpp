@@ -42,7 +42,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <iostream>
 #include <chrono>
 #include "utils/tracing.h"

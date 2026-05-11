@@ -36,7 +36,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 
 namespace themis {

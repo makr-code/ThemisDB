@@ -21,7 +21,7 @@
  */
 
 #include "ingestion/deontic_extractor.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <algorithm>
 #include <cctype>
 

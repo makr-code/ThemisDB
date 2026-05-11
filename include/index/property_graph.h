@@ -25,7 +25,7 @@
 #include <string_view>
 #include <vector>
 #include <unordered_set>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

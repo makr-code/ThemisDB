@@ -50,7 +50,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>

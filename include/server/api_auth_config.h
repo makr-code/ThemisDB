@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
 
 namespace themis {

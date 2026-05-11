@@ -21,7 +21,7 @@
 
 #include "core/concerns/i_logger.h"  // for TraceContext
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>

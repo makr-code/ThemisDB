@@ -22,7 +22,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <atomic>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 #include <utility>  // for std::declval
 

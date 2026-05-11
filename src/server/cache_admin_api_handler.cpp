@@ -24,7 +24,7 @@
 #include "server/cache_admin_api_handler.h"
 #include "utils/logger.h"
 
-#include &lt;regex&gt;
+#include <regex>
 #include <stdexcept>
 #include "utils/tracing.h"
 

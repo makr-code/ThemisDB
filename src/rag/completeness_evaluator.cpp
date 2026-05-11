@@ -29,7 +29,7 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis::rag::judge {
 

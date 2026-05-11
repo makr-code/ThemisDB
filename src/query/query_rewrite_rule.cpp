@@ -23,7 +23,7 @@
 #include "query/query_rewrite_rule.h"
 
 #include <stdexcept>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 

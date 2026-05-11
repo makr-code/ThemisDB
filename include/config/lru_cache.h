@@ -24,10 +24,10 @@
 
 #include <string>
 #include <unordered_map>
-#include &lt;list&gt;
+#include <list>
 #include <chrono>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace config {

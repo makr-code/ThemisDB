@@ -45,7 +45,7 @@
 #include <functional>
 #include <atomic>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 #include "content/content_manager.h"
 #include "content/content_processor.h"

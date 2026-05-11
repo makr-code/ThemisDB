@@ -56,13 +56,13 @@
 #undef ERROR
 #endif
 #include <string>
-#include &lt;map&gt;
+#include <map>
 #include <vector>
 #include <mutex>
 #include <memory>
 #include <atomic>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {

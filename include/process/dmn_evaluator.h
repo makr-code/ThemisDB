@@ -42,7 +42,7 @@
 #pragma once
 
 #include <nlohmann/json.hpp>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>

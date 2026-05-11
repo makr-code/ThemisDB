@@ -58,7 +58,7 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 #include "governance/gdpr_subject_rights.h"
 #include "llm/decision_record_yaml_processor.h"

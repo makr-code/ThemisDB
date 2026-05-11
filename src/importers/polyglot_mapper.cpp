@@ -22,7 +22,7 @@
 
 #include "importers/polyglot_mapper.h"
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 namespace importers {

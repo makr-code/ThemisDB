@@ -41,7 +41,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 #include <vector>
 
 // OpenCL headers — platform-specific include path

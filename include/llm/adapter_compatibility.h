@@ -22,7 +22,7 @@
 #include "llm/adapter_registry.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace llm {

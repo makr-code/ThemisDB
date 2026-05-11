@@ -21,7 +21,7 @@
  */
 
 #include "plugins/plugin_registry.h"
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <shared_mutex>
 

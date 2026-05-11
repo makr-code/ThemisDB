@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 #include <mutex>
 #include <openssl/x509.h>

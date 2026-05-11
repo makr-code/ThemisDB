@@ -46,7 +46,7 @@
 #include <memory>
 #include <chrono>
 #include <condition_variable>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
 
 namespace themis::sharding {

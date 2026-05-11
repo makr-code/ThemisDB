@@ -27,7 +27,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 #include <cmath>
 #include <spdlog/spdlog.h>
 

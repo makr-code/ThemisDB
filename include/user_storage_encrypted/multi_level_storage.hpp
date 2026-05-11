@@ -30,7 +30,7 @@
 #include "../../include/security/key_provider.h"
 #include <atomic>
 #include <memory>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <string>
 

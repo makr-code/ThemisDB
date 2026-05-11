@@ -36,11 +36,11 @@
 
 #include "content/office_processor.h"
 #include "content/content_metrics.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <cstring>
 #include <algorithm>
-#include &lt;map&gt;
+#include <map>
 #include <cmath>
 #include <functional>
 #include <string>

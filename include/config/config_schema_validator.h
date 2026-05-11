@@ -26,7 +26,7 @@
 #include "config/config_errors.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {

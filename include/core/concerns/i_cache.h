@@ -22,7 +22,7 @@
 #include "core/concerns/lifecycle.h"
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
 #include <memory>
 

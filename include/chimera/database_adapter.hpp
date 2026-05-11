@@ -38,7 +38,7 @@
 #ifndef CHIMERA_STREAMING_PREPARED_INTERFACES_HPP
 #define CHIMERA_STREAMING_PREPARED_INTERFACES_HPP
 
-#include &lt;optional&gt;
+#include <optional>
 
 namespace chimera {
 

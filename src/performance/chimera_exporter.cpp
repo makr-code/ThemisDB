@@ -24,7 +24,7 @@
 #include <iomanip>
 #include <ctime>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace performance {

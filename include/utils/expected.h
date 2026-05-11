@@ -28,7 +28,7 @@
   #define HAS_TL_EXPECTED 1
 #else
   // Fallback: provide a lightweight tl::expected implementation.
-  #include &lt;optional&gt;
+  #include <optional>
   #include <stdexcept>
   #include <type_traits>
   #include <utility>

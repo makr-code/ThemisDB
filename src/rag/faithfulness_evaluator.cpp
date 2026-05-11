@@ -30,8 +30,8 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>
-#include &lt;regex&gt;
-#include &lt;set&gt;
+#include <regex>
+#include <set>
 
 namespace themis::rag::judge {
 

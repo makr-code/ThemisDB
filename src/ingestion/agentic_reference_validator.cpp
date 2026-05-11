@@ -21,7 +21,7 @@
  */
 
 #include "ingestion/agentic_reference_validator.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <algorithm>
 
 namespace themis {

@@ -25,7 +25,7 @@
 #include <spdlog/spdlog.h>
 
 #include <filesystem>
-#include &lt;set&gt;
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <vector>

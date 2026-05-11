@@ -24,7 +24,7 @@
 #include "storage/pitr_manager.h"
 #include "transaction/snapshot_manager.h"
 #include "utils/logger.h"
-#include &lt;regex&gt;
+#include <regex>
 
 // Note: This file provides the PITRServiceImpl gRPC bridge.
 // The actual gRPC service methods require proto/themis_core.proto to be compiled

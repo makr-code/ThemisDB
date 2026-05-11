@@ -26,7 +26,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 
 namespace themis {

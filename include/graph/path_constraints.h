@@ -23,7 +23,7 @@
 #include "graph/ontology_manager.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 #include <unordered_set>
 #include <memory>

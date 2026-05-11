@@ -14,7 +14,7 @@
 // GraphQL query dialect support for ThemisDB
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <functional>
 
 namespace themis { namespace query {

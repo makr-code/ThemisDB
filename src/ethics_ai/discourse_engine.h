@@ -26,7 +26,7 @@
 #include "philosophy_loader.h"
 #include "argument_store.h"
 #include "rag_context_engine.h"
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <mutex>
 

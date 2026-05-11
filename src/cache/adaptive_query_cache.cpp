@@ -37,7 +37,7 @@
 #include <thread>
 #include <shared_mutex>
 #include <openssl/sha.h>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 

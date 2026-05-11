@@ -29,7 +29,7 @@
 #include "transaction/merge_engine.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 #include <mutex>
 #include <nlohmann/json.hpp>

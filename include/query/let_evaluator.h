@@ -22,7 +22,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
 

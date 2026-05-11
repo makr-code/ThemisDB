@@ -26,7 +26,7 @@
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis::rag::judge {
 

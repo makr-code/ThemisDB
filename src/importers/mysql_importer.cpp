@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <thread>
 #include <future>
-#include &lt;regex&gt;
+#include <regex>
 #include <cctype>
 #include <cinttypes>
 #include <cstdio>

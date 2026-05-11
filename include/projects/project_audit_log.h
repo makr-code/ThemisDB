@@ -14,9 +14,9 @@
 // Project activity audit log REST API interface
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis { namespace projects {
 

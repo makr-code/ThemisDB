@@ -27,7 +27,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <stdexcept>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace config {

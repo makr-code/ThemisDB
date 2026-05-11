@@ -1,7 +1,7 @@
 #include "ethics_ai/convergence_marker_engine.h"
 
 #include <algorithm>
-#include &lt;map&gt;
+#include <map>
 #include <sstream>
 
 namespace themis {

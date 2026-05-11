@@ -30,7 +30,7 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <filesystem>
 #include <unordered_map>
 

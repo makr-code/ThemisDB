@@ -47,7 +47,7 @@
 
 #include <chrono>
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <string>
 #include <thread>
@@ -55,7 +55,7 @@
 #include <atomic>
 #include <vector>
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace cdc {

@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis { namespace voice {
 

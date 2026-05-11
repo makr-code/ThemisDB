@@ -25,11 +25,11 @@
 #include <string>
 #include <memory>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 #include <mutex>
 #include <unordered_map>
-#include &lt;list&gt;
+#include <list>
 
 namespace themis {
 namespace query {

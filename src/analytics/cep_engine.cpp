@@ -51,7 +51,7 @@
 #include <limits>
 #include <numeric>
 #include <random>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <stdexcept>
 #include <string>

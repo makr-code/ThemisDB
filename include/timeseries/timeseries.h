@@ -27,7 +27,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 

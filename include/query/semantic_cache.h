@@ -35,11 +35,11 @@
 #include "storage/base_entity.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
-#include &lt;map&gt;
+#include <optional>
+#include <map>
 #include <chrono>
 #include <mutex>
-#include &lt;list&gt;
+#include <list>
 
 namespace themis {
 

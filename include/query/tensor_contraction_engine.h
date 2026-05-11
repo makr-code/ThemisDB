@@ -46,7 +46,7 @@
 #include "storage/tensor_train_decomposer.h"
 
 #include <cstddef>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <vector>
 

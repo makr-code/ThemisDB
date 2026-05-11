@@ -20,7 +20,7 @@
 #include "utils/http_client_pool.h"
 #include <stdexcept>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <algorithm>
 
 namespace themis {

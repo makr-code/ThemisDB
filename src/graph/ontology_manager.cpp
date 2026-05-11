@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
-#include &lt;list&gt;
+#include <list>
 #include <mutex>
 #include <queue>
 #include <sstream>

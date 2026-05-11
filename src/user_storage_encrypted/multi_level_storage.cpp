@@ -33,7 +33,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
-#include &lt;set&gt;
+#include <set>
 #include <cstdio>
 #include <sys/stat.h>
 #if defined(__linux__) || defined(__APPLE__)

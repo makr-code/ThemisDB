@@ -27,7 +27,7 @@
 #include <memory>
 #include <stdexcept>
 #include <atomic>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_set>
 
 namespace themis {

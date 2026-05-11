@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 #ifdef THEMIS_ENABLE_PDF
 #include <poppler/cpp/poppler-page.h>

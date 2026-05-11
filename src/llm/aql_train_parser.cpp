@@ -34,7 +34,7 @@
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace llm {

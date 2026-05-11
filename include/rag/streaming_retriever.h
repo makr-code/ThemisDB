@@ -43,7 +43,7 @@
 #include <functional>
 #include <memory>
 #include <atomic>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis::rag::streaming {
 

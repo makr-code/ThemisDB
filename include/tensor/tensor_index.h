@@ -52,7 +52,7 @@
 #include "storage/tensor_train_decomposer.h"  // TTTrain, TTCore
 #include <cstddef>
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <vector>
 

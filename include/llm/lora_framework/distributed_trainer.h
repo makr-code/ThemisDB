@@ -23,7 +23,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {

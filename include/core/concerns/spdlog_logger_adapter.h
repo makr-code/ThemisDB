@@ -26,7 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
-#include &lt;regex&gt;
+#include <regex>
 #include <ctime>
 #include <cstdio>
 

@@ -24,7 +24,7 @@
 #pragma once
 
 #include <string>
-#include &lt;map&gt;
+#include <map>
 #include <vector>
 #include <mutex>
 #include <atomic>

@@ -23,7 +23,7 @@
 #include "storage/base_entity.h"
 #include <vector>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace llm {

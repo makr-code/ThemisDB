@@ -31,7 +31,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 #include <cmath>
 #include <unordered_set>
 #include <cctype>

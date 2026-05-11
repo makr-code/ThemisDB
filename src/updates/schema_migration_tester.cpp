@@ -32,7 +32,7 @@
 
 #include <chrono>
 #include <filesystem>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 
 namespace themis {

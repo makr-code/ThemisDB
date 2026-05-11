@@ -23,9 +23,9 @@
 
 #include "ethics_evaluator.h"
 #include <algorithm>
-#include &lt;map&gt;
+#include <map>
 #include <numeric>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 #include <variant>
 

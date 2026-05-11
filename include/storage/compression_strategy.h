@@ -31,7 +31,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace compression {

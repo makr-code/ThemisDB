@@ -28,7 +28,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace ingestion {

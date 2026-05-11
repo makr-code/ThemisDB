@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
-#include &lt;map&gt;
+#include <map>
 
 // Arrow Compute includes (conditional)
 #ifdef ARROW_ENABLED

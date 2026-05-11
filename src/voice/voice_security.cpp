@@ -23,7 +23,7 @@
  */
 
 #include "voice/voice_security.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <chrono>
 #include <algorithm>
 #include <sstream>

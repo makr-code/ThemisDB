@@ -24,7 +24,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 #include <string>
 
 namespace themis {

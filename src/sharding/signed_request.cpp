@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <fstream>
 #include <filesystem>
-#include &lt;regex&gt;
+#include <regex>
 #include <spdlog/spdlog.h>
 
 // OpenSSL for signing / verification

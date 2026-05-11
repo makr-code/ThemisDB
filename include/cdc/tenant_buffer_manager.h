@@ -44,11 +44,11 @@
 #include "cdc/changefeed_buffer.h"
 #include "cdc/cdc_metrics.h"
 #include "cdc/cdc_error.h"
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 
 namespace themis {

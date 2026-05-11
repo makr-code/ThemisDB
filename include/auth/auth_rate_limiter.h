@@ -34,7 +34,7 @@
 #include <shared_mutex>
 #include <chrono>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 #include <cstdint>
 

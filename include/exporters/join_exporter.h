@@ -26,9 +26,9 @@
 #include "exporter_interface.h"
 #include "exporter_metrics.h"
 #include "pii_detector.h"
-#include &lt;map&gt;
+#include <map>
 #include <memory>
-#include &lt;set&gt;
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>

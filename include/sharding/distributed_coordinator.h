@@ -27,7 +27,7 @@
 #include "sharding/cross_shard_transaction.h"
 #include <nlohmann/json.hpp>
 #include <atomic>
-#include &lt;optional&gt;
+#include <optional>
 #include <shared_mutex>
 #include <thread>
 #include <chrono>

@@ -23,7 +23,7 @@
 #include "observability/log_search_engine.h"
 
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 namespace observability {

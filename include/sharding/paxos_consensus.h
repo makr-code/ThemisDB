@@ -28,8 +28,8 @@
 
 #include "sharding/consensus_module.h"
 #include "sharding/wal_manager.h"
-#include &lt;map&gt;
-#include &lt;set&gt;
+#include <map>
+#include <set>
 #include <atomic>
 #include <functional>
 #include <mutex>

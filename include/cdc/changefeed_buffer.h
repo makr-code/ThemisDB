@@ -41,7 +41,7 @@
 #include "cdc/cdc_metrics.h"
 #include "cdc/dead_letter_queue.h"
 #include <deque>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <atomic>
 #include <thread>

@@ -28,7 +28,7 @@
 #include <mutex>
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace observability {

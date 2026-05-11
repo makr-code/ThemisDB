@@ -23,7 +23,7 @@
 #include <string_view>
 #include <cstdint>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace core {

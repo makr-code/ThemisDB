@@ -30,8 +30,8 @@
 
 #include <string>
 #include <vector>
-#include &lt;map&gt;
-#include &lt;optional&gt;
+#include <map>
+#include <optional>
 #include "analytics/nlp_text_analyzer.h"
 #include "storage/base_entity.h"
 

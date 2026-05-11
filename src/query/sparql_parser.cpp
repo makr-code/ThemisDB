@@ -28,7 +28,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include &lt;map&gt;
+#include <map>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>

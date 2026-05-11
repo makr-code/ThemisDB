@@ -29,7 +29,7 @@
 #include "llm/ethics_aware_confidence_detector.h"
 #include <algorithm>
 #include <cmath>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <unordered_set>
 

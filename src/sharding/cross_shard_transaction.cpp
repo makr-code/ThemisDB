@@ -39,7 +39,7 @@
 #include "sharding/transaction_snapshot.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 #include <fstream>
 #include <thread>
 #include <chrono>

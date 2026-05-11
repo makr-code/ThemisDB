@@ -48,7 +48,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>

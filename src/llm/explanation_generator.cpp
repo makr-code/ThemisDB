@@ -21,7 +21,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-#include &lt;set&gt;
+#include <set>
 #include <iomanip>
 
 namespace themis {

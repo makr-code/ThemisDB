@@ -44,13 +44,13 @@
 #include "sharding/shard_rpc_server.h"
 #include "sharding/wal_manager.h"
 #include <string>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <memory>
 #include <atomic>
 #include <chrono>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {

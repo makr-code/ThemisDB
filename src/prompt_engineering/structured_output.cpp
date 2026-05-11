@@ -7,7 +7,7 @@
 
 #include <algorithm>
 #include <chrono>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 
 namespace themis {

@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <cmath>
 #include <unordered_set>

@@ -47,8 +47,8 @@
 
 #include <string>
 #include <vector>
-#include &lt;map&gt;
-#include &lt;set&gt;
+#include <map>
+#include <set>
 #include <memory>
 #include <thread>
 #include <mutex>
@@ -57,7 +57,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"

@@ -26,7 +26,7 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <thread>
 #include <nlohmann/json.hpp>

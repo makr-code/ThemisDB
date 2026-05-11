@@ -24,11 +24,11 @@
 
 #include <string>
 #include <vector>
-#include &lt;list&gt;
+#include <list>
 #include <unordered_map>
 #include <mutex>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 #include "query/query_optimizer.h"
 

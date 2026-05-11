@@ -1,8 +1,8 @@
 #include "ethics_ai/tournament_mode_selector.h"
 
 #include <algorithm>
-#include &lt;map&gt;
-#include &lt;set&gt;
+#include <map>
+#include <set>
 #include <sstream>
 
 namespace themis {

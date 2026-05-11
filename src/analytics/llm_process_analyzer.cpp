@@ -26,7 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
-#include &lt;list&gt;
+#include <list>
 #include <unordered_map>
 #include <mutex>
 #include <thread>

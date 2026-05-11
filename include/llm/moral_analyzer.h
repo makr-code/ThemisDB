@@ -27,9 +27,9 @@
 #include "storage/base_entity.h"
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace llm {

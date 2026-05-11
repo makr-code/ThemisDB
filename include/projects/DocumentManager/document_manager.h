@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"

@@ -25,12 +25,12 @@
 #include "sharding/urn.h"
 #include "sharding/shard_topology.h"
 #include <cstdint>
-#include &lt;map&gt;
+#include <map>
 #include <string>
 #include <vector>
 #include <functional>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis::sharding {
 

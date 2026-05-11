@@ -29,7 +29,7 @@
 #include "llm/multi_perspective_generator.h"
 #include <algorithm>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <mutex>
 #include <unordered_set>
 #include <cmath>

@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_map>
 #include <atomic>
 #include <istream>

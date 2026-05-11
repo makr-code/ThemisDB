@@ -39,7 +39,7 @@
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <string>
 #include <vector>
 

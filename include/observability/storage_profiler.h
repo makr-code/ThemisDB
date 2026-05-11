@@ -27,7 +27,7 @@
 #include <chrono>
 #include <memory>
 #include <unordered_map>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {

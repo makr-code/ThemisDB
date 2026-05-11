@@ -14,7 +14,7 @@
 // Project import/export ZIP bundle interface
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis { namespace projects {
 

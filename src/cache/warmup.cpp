@@ -28,7 +28,7 @@
 #include <chrono>
 #include <fstream>
 #include <future>
-#include &lt;regex&gt;
+#include <regex>
 #include <thread>
 #include <nlohmann/json.hpp>
 

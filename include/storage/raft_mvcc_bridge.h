@@ -26,7 +26,7 @@
 #include "storage/hlc.h"
 #include "sharding/distributed_time_coordinator.h"
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>

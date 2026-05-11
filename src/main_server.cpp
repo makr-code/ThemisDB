@@ -155,7 +155,7 @@
 #include <cstdlib>
 #include <csignal>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <string_view>
 #include <thread>
 #include <atomic>

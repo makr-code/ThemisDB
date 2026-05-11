@@ -26,7 +26,7 @@
 
 #include "rag/rag_judge.h"
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis::rag::judge {

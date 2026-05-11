@@ -39,7 +39,7 @@
 #include <queue>
 #include <sstream>
 #include <stdexcept>
-#include &lt;regex&gt;
+#include <regex>
 #include <unordered_map>
 #include <unordered_set>
 

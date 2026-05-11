@@ -25,7 +25,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 #include <cmath>
 
 namespace themis {

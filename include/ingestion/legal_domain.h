@@ -44,7 +44,7 @@
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>

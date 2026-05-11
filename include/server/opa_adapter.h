@@ -21,7 +21,7 @@
 
 #include "server/policy_engine.h"
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

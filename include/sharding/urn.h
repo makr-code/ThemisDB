@@ -21,9 +21,9 @@
 
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis::sharding {
 

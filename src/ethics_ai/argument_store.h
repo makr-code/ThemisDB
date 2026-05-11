@@ -27,7 +27,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 // Forward declarations for ThemisDB components
 namespace themis {

@@ -26,7 +26,7 @@
 #include <vector>
 #include <memory>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {

@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <functional>
 #include <iomanip>
-#include &lt;list&gt;
+#include <list>
 #include <sstream>
 #include <string_view>
 #include <thread>

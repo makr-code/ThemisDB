@@ -39,14 +39,14 @@
 
 #include <cstddef>
 #include <cstdint>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace index {

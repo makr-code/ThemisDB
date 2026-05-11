@@ -22,9 +22,9 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <variant>
 #include "utils/geo/ewkb.h"  // For GeoSidecar definition
 

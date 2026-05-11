@@ -75,7 +75,7 @@
 #include <cstdint>
 #include <future>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <queue>
 #include <stdexcept>
 #include <string>

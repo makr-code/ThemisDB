@@ -24,7 +24,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace sharding {
 

@@ -17,7 +17,7 @@
 #include <vector>
 #include <mutex>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace governance {

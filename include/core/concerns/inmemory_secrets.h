@@ -26,11 +26,11 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 
 namespace themis {

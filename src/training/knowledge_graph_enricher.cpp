@@ -29,7 +29,7 @@
 #include <sstream>
 #include <cmath>
 #include <functional>
-#include &lt;list&gt;
+#include <list>
 #include <mutex>
 #include <unordered_map>
 

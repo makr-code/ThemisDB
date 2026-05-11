@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 #include "server/policy_engine.h" // provides themis::PolicyEngine and nested Policy

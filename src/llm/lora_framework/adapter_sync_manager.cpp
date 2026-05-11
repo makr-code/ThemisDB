@@ -28,7 +28,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include &lt;map&gt;
+#include <map>
 #include <algorithm>
 
 #ifdef THEMIS_HAS_PROMETHEUS

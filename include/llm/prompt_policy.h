@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;regex&gt;
+#include <regex>
 #include <functional>
 #include <memory>
 

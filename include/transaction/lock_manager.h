@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;list&gt;
+#include <list>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>

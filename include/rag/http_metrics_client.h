@@ -36,7 +36,7 @@
 #include <memory>
 #include <functional>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_map>
 #include <mutex>
 #include <shared_mutex>

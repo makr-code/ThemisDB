@@ -71,7 +71,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <random>
 #include <thread>
 

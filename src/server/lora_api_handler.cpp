@@ -34,7 +34,7 @@
 #include "utils/cursor.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <iostream>
 #include "utils/tracing.h"
 

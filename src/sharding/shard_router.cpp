@@ -26,10 +26,10 @@
 #include "sharding/prometheus_metrics.h"
 #include "utils/tracing.h"
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 #include <chrono>
 #include <sstream>
-#include &lt;map&gt;
+#include <map>
 #include <unordered_map>
 #include <future>
 #include <thread>

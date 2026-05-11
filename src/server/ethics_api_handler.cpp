@@ -30,7 +30,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <functional>
 
 namespace themis {

@@ -49,7 +49,7 @@
 #include "chimera/database_adapter.hpp"
 #include <atomic>
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <unordered_set>
 #include <string>

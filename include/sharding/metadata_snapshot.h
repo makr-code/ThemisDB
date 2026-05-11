@@ -31,9 +31,9 @@
 #include "sharding/metadata_shard.h"
 #include <string>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <nlohmann/json.hpp>
 
 namespace themisdb {

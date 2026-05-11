@@ -35,7 +35,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <future>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 namespace llm {

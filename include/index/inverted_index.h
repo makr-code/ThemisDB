@@ -25,7 +25,7 @@
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>

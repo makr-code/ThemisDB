@@ -25,7 +25,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 
 namespace themis {

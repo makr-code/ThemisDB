@@ -27,7 +27,7 @@
 #include "transaction/snapshot_manager.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 #include <condition_variable>
 #include <functional>

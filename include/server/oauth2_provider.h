@@ -34,7 +34,7 @@
 #include <mutex>
 #include <chrono>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace server {

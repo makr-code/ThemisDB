@@ -22,7 +22,7 @@
 #include "utils/expected.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <memory>
 
 namespace themis {

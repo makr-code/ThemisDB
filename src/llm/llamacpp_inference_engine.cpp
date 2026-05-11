@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <unordered_set>
 #include <unordered_map>

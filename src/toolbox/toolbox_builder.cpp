@@ -19,7 +19,7 @@
 
 #include <stdexcept>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 namespace toolbox {

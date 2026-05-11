@@ -74,9 +74,9 @@
 
 #include <string>
 #include <vector>
-#include &lt;set&gt;
+#include <set>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

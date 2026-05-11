@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace auth {

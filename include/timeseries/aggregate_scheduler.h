@@ -27,7 +27,7 @@
 #include "timeseries/timeseries_metrics.h"
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <thread>
 #include <mutex>

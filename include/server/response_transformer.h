@@ -28,7 +28,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis::server {
 

@@ -31,7 +31,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 #include <stdexcept>
 #include <string>
 #include <vector>

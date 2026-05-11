@@ -24,7 +24,7 @@
 
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <utility>
 
 namespace themis {

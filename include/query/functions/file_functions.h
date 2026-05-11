@@ -23,7 +23,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include &lt;regex&gt;
+#include <regex>
 
 
 

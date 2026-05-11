@@ -29,8 +29,8 @@
 #include "sharding/wal_manager.h"
 #include "sharding/consensus_module.h"
 #include <string>
-#include &lt;map&gt;
-#include &lt;optional&gt;
+#include <map>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themisdb {

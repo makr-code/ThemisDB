@@ -24,7 +24,7 @@
 #include "content/content_security.h"
 #include "content/content_errors.h"
 #include <openssl/sha.h>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <iomanip>
 

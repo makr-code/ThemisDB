@@ -25,7 +25,7 @@
 
 #include <algorithm>
 #include <fstream>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>

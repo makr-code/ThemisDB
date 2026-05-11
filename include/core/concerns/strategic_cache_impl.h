@@ -25,7 +25,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <chrono>
-#include &lt;regex&gt;
+#include <regex>
 #include <memory>
 
 namespace themis {

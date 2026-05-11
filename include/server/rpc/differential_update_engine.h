@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include "shard_rpc.pb.h"
 
 namespace themis {

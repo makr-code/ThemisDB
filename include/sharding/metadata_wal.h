@@ -31,7 +31,7 @@
 #include "sharding/metadata_shard.h"
 #include <string>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 #include <mutex>
 #include <nlohmann/json.hpp>

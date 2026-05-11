@@ -22,7 +22,7 @@
 #include "storage/blob_storage_backend.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace storage {

@@ -23,9 +23,9 @@
 #pragma once
 
 #include <string>
-#include &lt;regex&gt;
+#include <regex>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <functional>
 
 namespace themis::exporters {

@@ -38,7 +38,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 #include "utils/tracing.h"
 
 namespace themis::server {

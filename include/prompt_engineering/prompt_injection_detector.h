@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;regex&gt;
+#include <regex>
 #include <nlohmann/json.hpp>
 
 namespace themis {

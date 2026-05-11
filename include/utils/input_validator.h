@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 #include <cstdint>
 #include <nlohmann/json.hpp>

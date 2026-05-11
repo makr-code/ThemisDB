@@ -38,7 +38,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 
 namespace themis {

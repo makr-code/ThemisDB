@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace utils { class AuditLogger; }

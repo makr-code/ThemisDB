@@ -44,7 +44,7 @@
 #include "maintenance/maintenance_schedule.h"
 #include "themis/base/interfaces/storage_interface.h"
 
-#include &lt;map&gt;
+#include <map>
 #include <string>
 
 namespace themis {

@@ -50,7 +50,7 @@
 #include <condition_variable>
 #include <functional>
 #include <future>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 #include <mutex>
 #include <queue>

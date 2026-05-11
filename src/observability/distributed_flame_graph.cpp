@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <sstream>
 #include <stdexcept>

@@ -26,7 +26,7 @@
 #include "importers/conflict_resolver.h"
 #include "importers/relationship_mapper.h"
 #include "plugins/plugin_interface.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <atomic>
 #include <unordered_map>
 #include <unordered_set>

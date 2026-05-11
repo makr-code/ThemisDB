@@ -25,9 +25,9 @@
 #include "auth/secure_memory.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <memory>
-#include &lt;map&gt;
+#include <map>
 #include <chrono>
 
 namespace themis {

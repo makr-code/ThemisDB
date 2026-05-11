@@ -33,7 +33,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include &lt;optional&gt;
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>

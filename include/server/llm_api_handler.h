@@ -29,7 +29,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 #include <auth/jwt_validator.h>
 

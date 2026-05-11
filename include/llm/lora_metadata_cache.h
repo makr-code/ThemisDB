@@ -22,7 +22,7 @@
 #include "utils/concurrent_cache.h"
 #include <string>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace llm {

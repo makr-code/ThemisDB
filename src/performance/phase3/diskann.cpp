@@ -22,7 +22,7 @@
 #include <cmath>
 #include <queue>
 #include <random>
-#include &lt;set&gt;
+#include <set>
 #include <limits>
 
 namespace themis {

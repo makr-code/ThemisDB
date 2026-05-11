@@ -42,8 +42,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
-#include &lt;map&gt;
+#include <optional>
+#include <map>
 
 namespace themis {
 namespace content {

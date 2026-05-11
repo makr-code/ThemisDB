@@ -26,7 +26,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
-#include &lt;set&gt;
+#include <set>
 #include <stdexcept>
 
 namespace themis {

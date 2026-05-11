@@ -23,7 +23,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-#include &lt;regex&gt;
+#include <regex>
 #include <cmath>
 
 namespace themis {

@@ -37,7 +37,7 @@
 #include <cstring>
 #include <sstream>
 #include <chrono>
-#include &lt;regex&gt;
+#include <regex>
 
 // Conditional Piper TTS includes
 #ifdef THEMIS_ENABLE_PIPER_TTS

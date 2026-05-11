@@ -23,7 +23,7 @@
 #include "importers/graphql_federation.h"
 #include <algorithm>
 #include <cctype>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 
 namespace themis {

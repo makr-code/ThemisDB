@@ -22,7 +22,7 @@
 
 #include "importers/adaptive_import.h"
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 #include <stdexcept>
 
 namespace themis {

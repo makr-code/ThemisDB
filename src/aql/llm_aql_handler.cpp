@@ -50,7 +50,7 @@
 #include <atomic>
 #include <cctype>
 #include <future>
-#include &lt;regex&gt;
+#include <regex>
 #include <thread>
 #include <spdlog/spdlog.h>
 

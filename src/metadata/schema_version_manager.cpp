@@ -24,7 +24,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <iomanip>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 #include <stdexcept>
 

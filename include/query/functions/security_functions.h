@@ -36,7 +36,7 @@
 
 #include "query/functions/function_registry.h"
 #include <nlohmann/json.hpp>
-#include &lt;regex&gt;
+#include <regex>
 #include <string>
 #include <algorithm>
 #include <iomanip>

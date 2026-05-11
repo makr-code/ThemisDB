@@ -79,7 +79,7 @@
 #include "graph/knowledge_graph_reasoner.h"
 
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>

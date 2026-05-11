@@ -26,7 +26,7 @@
 #include <string_view>
 #include <vector>
 #include <utility>
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 
 #include "query/query_engine.h"

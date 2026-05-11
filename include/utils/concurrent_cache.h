@@ -20,7 +20,7 @@
 #pragma once
 
 #include <tbb/concurrent_hash_map.h>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

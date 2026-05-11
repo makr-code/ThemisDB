@@ -22,7 +22,7 @@
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
-#include &lt;optional&gt;
+#include <optional>
 #include <spdlog/spdlog.h>
 
 namespace themis {

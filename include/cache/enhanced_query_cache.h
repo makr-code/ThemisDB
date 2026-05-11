@@ -24,7 +24,7 @@
 #include <chrono>
 #include <atomic>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <algorithm>
 #include <tbb/concurrent_hash_map.h>
 

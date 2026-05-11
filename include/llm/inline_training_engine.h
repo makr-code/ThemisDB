@@ -29,7 +29,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 #include "adapter_registry.h"
 #include "training_data_iterator.h"

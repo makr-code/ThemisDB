@@ -23,7 +23,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
-#include &lt;map&gt;
+#include <map>
 #include <atomic>
 
 namespace themis {

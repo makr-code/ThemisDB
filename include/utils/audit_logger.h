@@ -27,7 +27,7 @@
 #include <vector>
 #include <fstream>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 #include "security/encryption.h"

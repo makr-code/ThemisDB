@@ -21,7 +21,7 @@
 
 #include "core/concerns/i_cache.h"
 #include <future>
-#include &lt;optional&gt;
+#include <optional>
 #include <string_view>
 
 namespace themis {

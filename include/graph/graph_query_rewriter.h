@@ -25,11 +25,11 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include &lt;set&gt;
+#include <set>
 #include <memory>
 #include <functional>
 #include <unordered_map>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {

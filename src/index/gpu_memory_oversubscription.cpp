@@ -26,7 +26,7 @@
 #include <chrono>
 #include <cstring>
 #include <iostream>
-#include &lt;list&gt;
+#include <list>
 #include <mutex>
 #include <unordered_map>
 

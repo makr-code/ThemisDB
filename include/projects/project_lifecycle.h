@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <shared_mutex>
 #include <nlohmann/json.hpp>
 #include "projects/DocumentManager/document_manager.h"

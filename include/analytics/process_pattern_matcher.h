@@ -23,11 +23,11 @@
 #include "index/vector_index.h"
 #include "index/graph_index.h"
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
-#include &lt;set&gt;
+#include <set>
 #include <algorithm>
 
 namespace themis {

@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;regex&gt;
+#include <regex>
 #include <unordered_set>
 #include "query/aql_parser.h"
 #include "utils/expected.h"

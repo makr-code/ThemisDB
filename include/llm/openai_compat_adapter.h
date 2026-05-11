@@ -23,7 +23,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <variant>
-#include &lt;optional&gt;
+#include <optional>
 
 /**
  * @file openai_compat_adapter.h

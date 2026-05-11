@@ -32,7 +32,7 @@
 #include <memory>
 #include <mutex>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <utility>
 
 namespace themis {

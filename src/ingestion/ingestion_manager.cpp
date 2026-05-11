@@ -44,8 +44,8 @@
 #include <random>
 #include <filesystem>
 #include <fstream>
-#include &lt;regex&gt;
-#include &lt;optional&gt;
+#include <regex>
+#include <optional>
 
 namespace themis {
 namespace ingestion {

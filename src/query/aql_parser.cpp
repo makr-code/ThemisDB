@@ -23,7 +23,7 @@
 #include "query/aql_parser.h"
 #include "utils/error_registry.h"
 #include <cctype>
-#include &lt;optional&gt;
+#include <optional>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>

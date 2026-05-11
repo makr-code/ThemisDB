@@ -23,7 +23,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

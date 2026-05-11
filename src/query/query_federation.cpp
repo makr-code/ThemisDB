@@ -24,8 +24,8 @@
 #include "query/query_federation.h"
 #include <chrono>
 #include <algorithm>
-#include &lt;regex&gt;
-#include &lt;set&gt;
+#include <regex>
+#include <set>
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 

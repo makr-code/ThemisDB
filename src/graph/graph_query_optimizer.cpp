@@ -40,7 +40,7 @@
 #include <atomic>
 #include <nlohmann/json.hpp>
 #include <limits>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace graph {

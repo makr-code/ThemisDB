@@ -24,7 +24,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/circuit_breaker.h"
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include <memory>
 #include <nlohmann/json.hpp>
 

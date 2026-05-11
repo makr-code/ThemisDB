@@ -26,11 +26,11 @@
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include <filesystem>
-#include &lt;map&gt;
+#include <map>
 #include <thread>
 #include <chrono>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 #ifdef _WIN32
     #include <windows.h>

@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <memory>
 #include <cstdint>
 #include "utils/expected.h"

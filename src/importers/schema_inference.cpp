@@ -23,8 +23,8 @@
 #include "importers/schema_inference.h"
 #include <algorithm>
 #include <cmath>
-#include &lt;regex&gt;
-#include &lt;set&gt;
+#include <regex>
+#include <set>
 #include <unordered_set>
 
 namespace themis {

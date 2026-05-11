@@ -36,7 +36,7 @@
 
 #include "content/pdf_processor.h"
 #include "content/content_metrics.h"
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <cstring>
 #include <algorithm>

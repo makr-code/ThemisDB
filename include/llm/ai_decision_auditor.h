@@ -23,7 +23,7 @@
 #include "utils/audit_logger.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 #include <memory>
 #include <nlohmann/json.hpp>

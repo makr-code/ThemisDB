@@ -33,7 +33,7 @@
 #include <algorithm>
 #include <chrono>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <thread>

@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <nlohmann/json.hpp>
 
 // Forward declarations to avoid heavy includes in header

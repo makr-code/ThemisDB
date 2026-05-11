@@ -25,7 +25,7 @@
 #include "importers/schema_inference.h"
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <utility>
 #include <nlohmann/json.hpp>
 

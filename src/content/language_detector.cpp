@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstring>
-#include &lt;map&gt;
+#include <map>
 
 namespace themis {
 namespace content {

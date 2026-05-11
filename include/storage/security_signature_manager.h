@@ -26,7 +26,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <memory>
 #include <unordered_map>
 

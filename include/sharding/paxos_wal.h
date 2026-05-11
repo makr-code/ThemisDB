@@ -30,7 +30,7 @@
 #include "sharding/consensus_module.h"
 #include <string>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 
 namespace themis {

@@ -28,7 +28,7 @@
 #include <memory>
 #include <mutex>
 #include <shared_mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>

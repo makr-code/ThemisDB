@@ -24,7 +24,7 @@
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 
 using json = nlohmann::json;

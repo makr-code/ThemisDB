@@ -28,7 +28,7 @@
 #include "cdc/changefeed.h"
 #include <string>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 

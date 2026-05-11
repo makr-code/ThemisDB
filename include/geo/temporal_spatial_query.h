@@ -23,7 +23,7 @@
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
 
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>

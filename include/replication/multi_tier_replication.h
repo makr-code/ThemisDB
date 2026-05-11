@@ -41,14 +41,14 @@
 #pragma once
 
 #include <string>
-#include &lt;map&gt;
+#include <map>
 #include <deque>
 #include <mutex>
 #include <shared_mutex>
 #include <atomic>
 #include <chrono>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
 
 #include "replication/replication_manager.h"  // ReplicationMode

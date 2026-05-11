@@ -32,7 +32,7 @@
 #define LOG_WARN(...) SPDLOG_WARN(__VA_ARGS__)
 #define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 #include <algorithm>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <variant>
 

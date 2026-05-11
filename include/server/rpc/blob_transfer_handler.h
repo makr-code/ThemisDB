@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include <functional>
-#include &lt;map&gt;
+#include <map>
 #include <atomic>
 #include "shard_rpc.pb.h"
 

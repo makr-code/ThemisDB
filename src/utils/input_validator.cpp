@@ -27,7 +27,7 @@
 #include <cctype>
 #include <algorithm>
 #include <array>
-#include &lt;regex&gt;
+#include <regex>
 #include <mutex>
 #include <unordered_set>
 

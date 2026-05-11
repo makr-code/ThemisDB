@@ -51,7 +51,7 @@
     #include <arpa/inet.h>  // For ntohl/htonl on Unix
 #endif
 #include <openssl/crypto.h>  // For CRYPTO_memcmp (WPS-2: constant-time token comparison)
-#include &lt;map&gt;  // For multi-bucket aggregation
+#include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
 #include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 

@@ -21,7 +21,7 @@
 
 #include "search/learning_to_rank.h"
 #include <chrono>
-#include &lt;map&gt;
+#include <map>
 #include <mutex>
 #include <string>
 #include <vector>

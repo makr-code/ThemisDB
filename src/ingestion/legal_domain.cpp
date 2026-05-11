@@ -27,7 +27,7 @@
 #include <cctype>
 #include <cstring>
 #include <functional>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>

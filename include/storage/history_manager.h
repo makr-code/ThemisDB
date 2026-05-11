@@ -25,7 +25,7 @@
 #include "storage/hlc.h"
 #include "storage/rocksdb_wrapper.h"
 #include <cstdint>
-#include &lt;optional&gt;
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>

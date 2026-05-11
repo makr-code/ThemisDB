@@ -21,7 +21,7 @@
 
 #include <memory>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 #include "utils/expected.h"
 
 namespace themis {

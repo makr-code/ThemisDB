@@ -22,9 +22,9 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include &lt;map&gt;
+#include <map>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <chrono>
 #include <nlohmann/json.hpp>
 #include "llm/byzantine_detector.h"

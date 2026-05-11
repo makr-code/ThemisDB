@@ -30,7 +30,7 @@
 #include <cstdint>
 #include <vector>
 #include <functional>
-#include &lt;set&gt;
+#include <set>
 #include <atomic>
 #include <thread>
 #include <mutex>

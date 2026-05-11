@@ -30,7 +30,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include &lt;optional&gt;
+#include <optional>
 #include <vector>
 
 namespace themis::rag::judge {

@@ -30,10 +30,10 @@
 #include "sharding/shard_topology.h"
 #include "sharding/consistent_hash.h"
 #include <memory>
-#include &lt;map&gt;
+#include <map>
 #include <string>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themisdb {
 namespace sharding {

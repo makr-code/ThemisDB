@@ -28,7 +28,7 @@
 #include <chrono>
 #include <ctime>
 #include <mutex>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <spdlog/spdlog.h>
 

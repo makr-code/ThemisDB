@@ -26,7 +26,7 @@
 #include "storage/merge_operators.h"
 #include <spdlog/spdlog.h>
 #include <charconv>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 #include <algorithm>
 

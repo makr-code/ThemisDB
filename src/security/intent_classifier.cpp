@@ -24,7 +24,7 @@
 #include <cctype>
 #include <cmath>
 #include <fstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <unordered_map>
 

@@ -38,7 +38,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include &lt;optional&gt;
+#include <optional>
 
 using namespace themis;
 

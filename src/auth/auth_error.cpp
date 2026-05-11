@@ -25,7 +25,7 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
-#include &lt;regex&gt;
+#include <regex>
 
 namespace themis {
 namespace auth {

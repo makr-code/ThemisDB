@@ -25,7 +25,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 namespace query {

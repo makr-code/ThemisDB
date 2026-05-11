@@ -21,7 +21,7 @@
 
 #include <memory>
 #include <stdexcept>
-#include &lt;optional&gt;
+#include <optional>
 #include <functional>
 #include <type_traits>
 #include <spdlog/spdlog.h>

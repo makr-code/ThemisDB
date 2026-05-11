@@ -47,7 +47,7 @@
 #pragma once
 
 #include <mutex>
-#include &lt;set&gt;
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <string_view>

@@ -24,7 +24,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <iostream>
-#include &lt;set&gt;
+#include <set>
 
 #if THEMIS_HAS_VULKAN_HEADER
 

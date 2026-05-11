@@ -26,7 +26,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
 
 // Forward-declare MetricsServer to avoid pulling httplib into every TU that

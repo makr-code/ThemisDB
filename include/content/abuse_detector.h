@@ -26,8 +26,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include &lt;map&gt;
-#include &lt;regex&gt;
+#include <map>
+#include <regex>
 #include <cstdint>
 
 namespace themis {

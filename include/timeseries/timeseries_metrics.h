@@ -27,7 +27,7 @@
 #include <atomic>
 #include <chrono>
 #include <mutex>
-#include &lt;map&gt;
+#include <map>
 #include <vector>
 
 namespace themis {

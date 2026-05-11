@@ -80,7 +80,7 @@
 #include <cmath>
 #include <limits>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>

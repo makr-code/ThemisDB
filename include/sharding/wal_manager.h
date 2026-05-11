@@ -57,7 +57,7 @@
 #include <atomic>
 #include <mutex>
 #include <fstream>
-#include &lt;optional&gt;
+#include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 

@@ -31,7 +31,7 @@
 #include <memory>
 #include <functional>
 #include <chrono>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 namespace auth {

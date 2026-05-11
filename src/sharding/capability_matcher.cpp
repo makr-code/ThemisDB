@@ -22,7 +22,7 @@
 #include <cmath>
 #include <cctype>
 #include <sstream>
-#include &lt;set&gt;
+#include <set>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {

@@ -28,7 +28,7 @@
 #include "core/concerns/cache_strategies.h"
 #include <unordered_map>
 #include <unordered_set>
-#include &lt;list&gt;
+#include <list>
 #include <queue>
 #include <chrono>
 #include <string>

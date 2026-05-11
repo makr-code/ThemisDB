@@ -57,7 +57,7 @@
 #include <atomic>
 #include <cstdint>
 #include <mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>

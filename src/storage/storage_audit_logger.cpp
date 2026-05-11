@@ -30,7 +30,7 @@
 #include <cstring>
 #include <ctime>
 #include <filesystem>
-#include &lt;regex&gt;
+#include <regex>
 #include <sstream>
 #include <iomanip>
 

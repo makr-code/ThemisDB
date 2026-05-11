@@ -29,7 +29,7 @@
 #include <unordered_set>
 #include <chrono>
 #include <shared_mutex>
-#include &lt;optional&gt;
+#include <optional>
 #include <mutex>
 
 namespace themis {

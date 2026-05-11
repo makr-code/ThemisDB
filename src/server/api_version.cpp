@@ -23,7 +23,7 @@
 #include "server/api_version.h"
 #include "server/api_version_config.h"
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <algorithm>
 #include <spdlog/spdlog.h>
 

@@ -30,7 +30,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include &lt;optional&gt;
+#include <optional>
 
 namespace themis {
 

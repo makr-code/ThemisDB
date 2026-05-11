@@ -67,7 +67,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
-#include &lt;optional&gt;
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>

@@ -27,7 +27,7 @@
 #include "exporter_metrics.h"
 #include "format_template.h"
 #include "plugins/plugin_interface.h"
-#include &lt;map&gt;
+#include <map>
 #include <memory>
 
 namespace themis {

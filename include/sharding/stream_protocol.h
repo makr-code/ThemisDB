@@ -47,9 +47,9 @@
 #include <condition_variable>
 #include <thread>
 #include <queue>
-#include &lt;map&gt;
-#include &lt;set&gt;
-#include &lt;optional&gt;
+#include <map>
+#include <set>
+#include <optional>
 
 namespace themisdb {
 namespace streaming {

@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
-#include &lt;set&gt;
+#include <set>
 #include <sstream>
 #include <stdexcept>
 

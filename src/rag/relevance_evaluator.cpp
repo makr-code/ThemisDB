@@ -29,9 +29,9 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>
-#include &lt;regex&gt;
+#include <regex>
 #include <cmath>
-#include &lt;set&gt;
+#include <set>
 #include <unordered_map>
 
 namespace themis::rag::judge {

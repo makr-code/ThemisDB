@@ -24,7 +24,7 @@
 #include "utils/logger.h"
 #include <chrono>
 #include <algorithm>
-#include &lt;set&gt;
+#include <set>
 
 namespace themis {
 
