@@ -398,6 +398,8 @@ AdaLoRAAdapter::AdaLoRAAdapter(size_t default_rank, float default_alpha, size_t 
 {}
 
 AdaLoRAAdapter::~AdaLoRAAdapter() = default;
+AdaLoRAAdapter::AdaLoRAAdapter(AdaLoRAAdapter&&) noexcept = default;
+AdaLoRAAdapter& AdaLoRAAdapter::operator=(AdaLoRAAdapter&&) noexcept = default;
 
 void AdaLoRAAdapter::addLayer(const std::string& layer_name,
                               size_t in_dim, size_t out_dim,

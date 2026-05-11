@@ -101,7 +101,7 @@ protected:
 TEST_F(GPUTraversalTest, GPU01_EmptyGraphLoadSucceeds) {
     GPUGraphTraversal t(*mgr_);
     auto res = t.load();
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(t.vertexCount(), 0u);
     EXPECT_EQ(t.edgeCount(), 0u);
 }
@@ -116,7 +116,7 @@ TEST_F(GPUTraversalTest, GPU02_LoadWithExplicitVertexIds) {
 
     GPUGraphTraversal t(*mgr_);
     auto res = t.load({"A", "B"});
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     // Explicit vertex IDs seed the load, but discovered neighbours are still
     // materialized into the CSR graph during adjacency expansion.
     EXPECT_EQ(t.vertexCount(), 3u);
@@ -135,7 +135,7 @@ TEST_F(GPUTraversalTest, GPU03_BFS_LinearChain_CorrectDistances) {
     ASSERT_TRUE(t.load().has_value());
 
     auto res = t.bfs("A");
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     const auto& r = res.value();
 
     EXPECT_EQ(r.distances.at("A"), 0);
@@ -260,7 +260,7 @@ TEST_F(GPUTraversalTest, GPU09_DFS_BasicTraversal_AllReachableVisited) {
     ASSERT_TRUE(t.load().has_value());
 
     auto res = t.dfs("A");
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     const auto& r = res.value();
 
     std::unordered_set<std::string> visited(r.visited_vertices.begin(),
@@ -430,7 +430,7 @@ TEST_F(GPUTraversalTest, GPU17_BFS_CyclicGraph_Terminates) {
     ASSERT_TRUE(t.load().has_value());
 
     auto res = t.bfs("A");
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     const auto& r = res.value();
 
     // All 3 vertices visited exactly once.
@@ -456,7 +456,7 @@ TEST_F(GPUTraversalTest, GPU18_DFS_CyclicGraph_Terminates) {
     ASSERT_TRUE(t.load().has_value());
 
     auto res = t.dfs("A");
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     const auto& r = res.value();
 
     EXPECT_EQ(r.visited_vertices.size(), 3u);

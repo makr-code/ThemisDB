@@ -7388,6 +7388,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_expert_system_engine.cpp")
         analytics/test_expert_system_engine.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/expert_system_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/model_serving.cpp
     )
 
     target_include_directories(test_expert_system_focused PRIVATE

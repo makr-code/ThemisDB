@@ -115,6 +115,8 @@ public:
 
     AdaLoRAAdapter(const AdaLoRAAdapter&)            = delete;
     AdaLoRAAdapter& operator=(const AdaLoRAAdapter&) = delete;
+    AdaLoRAAdapter(AdaLoRAAdapter&&) noexcept;
+    AdaLoRAAdapter& operator=(AdaLoRAAdapter&&) noexcept;
 
     // -------------------------------------------------------------------------
     // Layer management

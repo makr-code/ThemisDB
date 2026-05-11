@@ -1523,11 +1523,11 @@ void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
         // Represent the journal entry as a directed edge anchor → tensor_id
         // in GraphIndexManager (enables outAdjacency-based enumeration).
         BaseEntity edge(edge_id);
-        edge.setField("_from",  BaseEntity::Value{anchor});
-        edge.setField("_to",    BaseEntity::Value{std::string(tensor_id)});
-        edge.setField("_graph", BaseEntity::Value{std::string(effective_snap)});
-        edge.setField("_type", BaseEntity::Value{std::string(kJournalType)});
-        edge.setField(std::string(kJournalPayloadField), BaseEntity::Value{toHex(payload)});
+        edge.setField("_from",  themis::Value{std::string(anchor)});
+        edge.setField("_to",    themis::Value{std::string(tensor_id)});
+        edge.setField("_graph", themis::Value{std::string(effective_snap)});
+        edge.setField("_type", themis::Value{std::string(kJournalType)});
+        edge.setField(std::string(kJournalPayloadField), themis::Value{toHex(payload)});
         // Idempotent: deleteEdge before addEdge in case an entry already exists.
         (void)graph_idx.deleteEdge(edge_id);
         const auto status = graph_idx.addEdge(edge);
