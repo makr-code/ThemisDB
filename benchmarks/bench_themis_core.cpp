@@ -79,7 +79,7 @@ constexpr int kDefaultSocketDispatchChannels = 64;
     }
     char* end_ptr = nullptr;
     const long parsed = std::strtol(raw, &end_ptr, 10);
-    if (end_ptr == raw || (end_ptr != nullptr && *end_ptr != '\0')) {
+    if (end_ptr == raw || *end_ptr != '\0') {
         return default_value;
     }
     if (parsed < min_value) {
