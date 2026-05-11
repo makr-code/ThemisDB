@@ -134,7 +134,7 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 ## Phase 5 — PR Governance (Geringer bis mittlerer Aufwand)
 
 ### 5.1 `ai-generated` Label einführen
-- [~] Label `ai-generated` in `.github/LABELS.md` und als GitHub-Label anlegen (Repo-Doku erledigt, GitHub-Label-Objekt noch manuell anzulegen)
+- [?] Label `ai-generated` in `.github/LABELS.md` und als GitHub-Label anlegen (Repo-Doku erledigt, GitHub-Label-Objekt noch manuell anzulegen)
 - [x] `labeler.yml` Eintrag für automatische Vergabe erweitern:
   - Option A: PR-Body enthält `<!-- ai-generated -->` Marker
   - Option B: Änderungen in `ai_working/` → automatisch `ai-generated`

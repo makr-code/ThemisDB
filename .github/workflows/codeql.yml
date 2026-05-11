@@ -28,7 +28,7 @@ on:
     - cron: '41 19 * * 2'
 
 concurrency:
-  group: codeql-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
