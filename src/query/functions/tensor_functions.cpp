@@ -51,15 +51,15 @@ static std::vector<float> jsonToFloats(const json& arr) {
     return out;
 }
 
-static bool isUnsignedIntegerToken(const std::string& token) {
+[[nodiscard]] static bool isAllDigits(const std::string& token) {
     if (token.empty()) return false;
     return std::all_of(token.begin(), token.end(), [](unsigned char c) {
-        return std::isdigit(c) != 0;
+        return std::isdigit(c);
     });
 }
 
-static const json* resolvePathSegments(const json& root,
-                                       const std::string& path) {
+[[nodiscard]] static const json* resolvePathSegments(const json& root,
+                                                     const std::string& path) {
     const json* current = &root;
     std::size_t pos = 0;
     while (pos < path.size()) {
@@ -73,10 +73,14 @@ static const json* resolvePathSegments(const json& root,
             auto it = current->find(token);
             if (it == current->end()) return nullptr;
             current = &(*it);
-        } else if (current->is_array() && isUnsignedIntegerToken(token)) {
-            const auto idx = static_cast<std::size_t>(std::stoull(token));
-            if (idx >= current->size()) return nullptr;
-            current = &(*current)[idx];
+        } else if (current->is_array() && isAllDigits(token)) {
+            try {
+                const auto idx = static_cast<std::size_t>(std::stoull(token));
+                if (idx >= current->size()) return nullptr;
+                current = &(*current)[idx];
+            } catch (const std::exception&) {
+                return nullptr;
+            }
         } else {
             return nullptr;
         }
@@ -88,7 +92,7 @@ static const json* resolvePathSegments(const json& root,
     return current;
 }
 
-static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
+[[nodiscard]] static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
     if (arg.is_object()) {
         if (!arg.contains("data") || !arg.contains("shape")) {
             throw std::invalid_argument(
@@ -102,24 +106,27 @@ static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
             "Tensor argument must be an object {data,shape} or a string field path");
     }
 
-    std::string path = arg.get<std::string>();
-    if (path.empty()) {
+    std::string normalized_path = arg.get<std::string>();
+    if (normalized_path.empty()) {
         throw std::invalid_argument("Tensor field path cannot be empty");
     }
-    if (!path.empty() && path.front() == '$') {
-        path.erase(path.begin());
+    if (normalized_path.front() == '$') {
+        normalized_path.erase(normalized_path.begin());
+        if (normalized_path.empty()) {
+            throw std::invalid_argument("Tensor field path cannot be empty");
+        }
     }
 
     // 1) Variable lookup: "var" or "var.sub.path"
-    const auto dot = path.find('.');
-    const auto var_name = (dot == std::string::npos) ? path : path.substr(0, dot);
+    const auto dot = normalized_path.find('.');
+    const auto var_name = (dot == std::string::npos) ? normalized_path : normalized_path.substr(0, dot);
     auto variable = ctx.getVariable(var_name);
     if (!variable.is_null()) {
         const json* resolved = nullptr;
         if (dot == std::string::npos) {
             resolved = &variable;
         } else {
-            resolved = resolvePathSegments(variable, path.substr(dot + 1));
+            resolved = resolvePathSegments(variable, normalized_path.substr(dot + 1));
         }
         if (resolved && resolved->is_object() &&
             resolved->contains("data") && resolved->contains("shape")) {
@@ -130,18 +137,18 @@ static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
     // 2) Current-document lookup (supports dot-path and JSON pointer syntax)
     const auto& doc = ctx.currentDocument();
     if (!doc.is_null()) {
-        if (!path.empty() && path.front() == '/') {
+        if (!normalized_path.empty() && normalized_path.front() == '/') {
             try {
-                const auto* ptr = &doc.at(nlohmann::json::json_pointer(path));
+                const auto* ptr = &doc.at(nlohmann::json::json_pointer(normalized_path));
                 if (ptr->is_object() &&
                     ptr->contains("data") && ptr->contains("shape")) {
                     return *ptr;
                 }
-            } catch (...) {
-                // Keep error reporting unified below.
+            } catch (const nlohmann::json::exception&) {
+                // Expected for invalid/missing pointer paths; unified error below.
             }
         } else {
-            if (const auto* resolved = resolvePathSegments(doc, path)) {
+            if (const auto* resolved = resolvePathSegments(doc, normalized_path)) {
                 if (resolved->is_object() &&
                     resolved->contains("data") && resolved->contains("shape")) {
                     return *resolved;
@@ -151,7 +158,7 @@ static json resolveTensorArg(const json& arg, const FunctionContext& ctx) {
     }
 
     throw std::invalid_argument(
-        "Tensor field path '" + path +
+        "Tensor field path '" + normalized_path +
         "' could not be resolved to an object with 'data' and 'shape'");
 }
 
