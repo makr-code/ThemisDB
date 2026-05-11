@@ -567,8 +567,11 @@ TEST(TNSRTask, RerouteSerializeFnCallbackInvoked) {
 
     const auto report = task.run({key}, cfg);
     EXPECT_EQ(report.error_count, 0u);
-    // If topology changes occurred, the serialize fn must have been called.
+    // If topology changes occurred, the serialize fn must have been called;
+    // if no topology changes occurred, the callback must not have been called.
     if (report.topology_changes > 0) {
         EXPECT_GE(serialize_calls, 1);
+    } else {
+        EXPECT_EQ(serialize_calls, 0);
     }
 }

@@ -322,11 +322,15 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     //               pure-binary QTT plus explicit reversible index mapping.
 
     // Delegate to an injected pure-binary QTT encoder when available.
+    // Copy the fn outside the critical section to minimise lock hold time
+    // (mirrors the pattern in tnsr_task.cpp::run()).
+    QuanticsFn quantics_fn;
     {
         std::lock_guard<std::mutex> lk(g_quantics_mtx);
-        if (g_quantics_fn) {
-            return g_quantics_fn(train, grid_sizes);
-        }
+        quantics_fn = g_quantics_fn;
+    }
+    if (quantics_fn) {
+        return quantics_fn(train, grid_sizes);
     }
 
     for (const auto grid_size : resolved_grid_sizes) {
