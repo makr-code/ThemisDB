@@ -2,7 +2,7 @@
 
 This directory contains recommended VS Code settings for ThemisDB development.
 
-## Setup
+## Installation
 
 Copy these files to your `.vscode/` directory:
 
@@ -41,6 +41,16 @@ Copy-Item -Recurse .vscode.example\* .vscode\
 - Markdown support
 - Git integration
 - Docker support
+
+## Platform Note for `cmake.buildDirectory`
+
+The template sets `cmake.buildDirectory` to `build/linux-debug` for Linux preset workflows. On Windows/macOS or custom presets, override this locally in `.vscode/settings.json`, e.g.:
+
+```json
+{
+  "cmake.buildDirectory": "${workspaceFolder}/build/<your-preset>"
+}
+```
 
 ## Usage
 

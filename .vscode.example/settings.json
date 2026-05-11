@@ -26,11 +26,15 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.encoding": "utf8",
-  "cmake.configureOnOpen": false,
+  "cmake.configureOnOpen": true,
+  "cmake.buildDirectory": "${workspaceFolder}/build/linux-debug",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "C_Cpp.default.cppStandard": "c++20",
   "C_Cpp.default.cStandard": "c17",
   "C_Cpp.clang_format_fallbackStyle": "LLVM",
+  "C_Cpp.enableCppCodeEditingTools": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "github.copilot.chat.localeOverride": "de",
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true

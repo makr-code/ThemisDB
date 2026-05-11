@@ -12,52 +12,52 @@ Checkbox-Status: `[ ]` offen · `[~]` in Bearbeitung · `[x]` erledigt ·
 ## Phase 1 — VS Code / IDE-Integration (Sofort, geringer Aufwand)
 
 ### 1.1 `.vscode/settings.json` erstellen
-- [ ] `github.copilot.chat.codeGeneration.useInstructionFiles: true` setzen
+- [x] `github.copilot.chat.codeGeneration.useInstructionFiles: true` setzen
   — aktiviert automatisches Laden aller `.github/instructions/*.instructions.md`
-- [ ] `C_Cpp.enableCppCodeEditingTools: true` setzen
+- [x] `C_Cpp.enableCppCodeEditingTools: true` setzen
   — schaltet GetSymbolInfo, GetSymbolReferences, GetSymbolCallHierarchy für
   Copilot frei (semantische Analyse statt reiner Textsuche)
-- [ ] `cmake.configureOnOpen: true` + `cmake.buildDirectory` auf Build-Preset
+- [x] `cmake.configureOnOpen: true` + `cmake.buildDirectory` auf Build-Preset
   zeigen lassen, damit Copilot Build-Konfiguration automatisch erkennt
-- [ ] `github.copilot.chat.localeOverride: "de"` optional, falls Team DE bevorzugt
+- [x] `github.copilot.chat.localeOverride: "de"` optional, falls Team DE bevorzugt
 
-Zieldatei: `.vscode/settings.json`
+Zieldatei: `.vscode/settings.json` (repo-versioniert via `.vscode.example/settings.json`)
 Akzeptanzkriterium: Copilot nutzt bei Symbol-Suche die C++-Symboltools
 statt `grep`; verifizierbar über Copilot Chat → `/explain` auf einem
 overloaded Funktionsnamen.
 
 ### 1.2 `.vscode/tasks.json` — CMake-Tasks für Copilot-Verifikation
-- [ ] Task `cmake: configure` — ruft `cmake --preset linux-debug` auf
-- [ ] Task `cmake: build`     — ruft `cmake --build --preset linux-debug` auf
-- [ ] Task `cmake: test`      — ruft `ctest --preset linux-debug` auf
-- [ ] Tasks als `"group": {"kind": "build"/"test", "isDefault": true}`
+- [x] Task `cmake: configure` — ruft `cmake --preset linux-debug` auf
+- [x] Task `cmake: build`     — ruft `cmake --build --preset linux-debug` auf
+- [x] Task `cmake: test`      — ruft `ctest --preset linux-debug` auf
+- [x] Tasks als `"group": {"kind": "build"/"test", "isDefault": true}`
   registrieren, damit Copilot via `"Fixe den Kompilierfehler und verifiziere
   mit einem Build"` direkt triggern kann
 
-Zieldatei: `.vscode/tasks.json`
+Zieldatei: `.vscode/tasks.json` (repo-versioniert via `.vscode.example/tasks.json`)
 Abhängigkeit: CMakePresets.json (bereits vorhanden)
 
 ### 1.3 `.vscode/launch.json` — Debug-Konfigurationen
-- [ ] GDB/LLDB-Konfiguration für `main_server` anlegen
-- [ ] `preLaunchTask` auf den cmake-build-Task verknüpfen
+- [x] GDB/LLDB-Konfiguration für `main_server` anlegen
+- [x] `preLaunchTask` auf den cmake-build-Task verknüpfen
 
-Zieldatei: `.vscode/launch.json`
+Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.json`)
 
 ---
 
 ## Phase 2 — Custom Instructions erweitern (Mittlerer Aufwand)
 
 ### 2.1 Neue Instruction-Datei: C++ Language Service Tools
-- [ ] Datei `.github/instructions/cpp-language-service-tools.instructions.md`
+- [x] Datei `.github/instructions/cpp-language-service-tools.instructions.md`
   anlegen (analog zu `cpp-best-practices.instructions.md`)
-- [ ] Inhalt mandatiert:
+- [x] Inhalt mandatiert:
   - Immer `GetSymbolInfo_CppTools` statt Textstichwort-Suche
   - Immer `GetSymbolReferences_CppTools` vor Rename/Refactor
   - Immer `GetSymbolCallHierarchy_CppTools` bei Analyse von Aufrufketten
   - Absolute Pfade bei Tool-Parametern verwenden
   - Kein `grep` / `ripgrep` für C++-Symbol-Lookups
-- [ ] Glob-Pattern `**/*.{cpp,hpp,h,cc,cxx}` in der Datei registrieren
-- [ ] Vorlage: https://github.com/github/awesome-copilot/blob/main/instructions/cpp-language-service-tools.instructions.md
+- [x] Glob-Pattern `**/*.{cpp,hpp,h,cc,cxx}` in der Datei registrieren
+- [x] Vorlage: https://github.com/github/awesome-copilot/blob/main/instructions/cpp-language-service-tools.instructions.md
 
 ### 2.2 `copilot-instructions.md` um Modern-C++20/23-Mandate erweitern
 - [ ] `std::string_view` und `std::span` für Parameter-Übergabe ohne Kopien vorschreiben
@@ -134,15 +134,15 @@ Zieldatei: `.vscode/launch.json`
 ## Phase 5 — PR Governance (Geringer bis mittlerer Aufwand)
 
 ### 5.1 `ai-generated` Label einführen
-- [ ] Label `ai-generated` in `.github/LABELS.md` und als GitHub-Label anlegen
-- [ ] `labeler.yml` Eintrag für automatische Vergabe erweitern:
+- [~] Label `ai-generated` in `.github/LABELS.md` und als GitHub-Label anlegen (Repo-Doku erledigt, GitHub-Label-Objekt noch manuell anzulegen)
+- [x] `labeler.yml` Eintrag für automatische Vergabe erweitern:
   - Option A: PR-Body enthält `<!-- ai-generated -->` Marker
   - Option B: Änderungen in `ai_working/` → automatisch `ai-generated`
 - [ ] `CODEOWNERS` prüfen: KI-generierte PRs sollten Review durch Maintainer
   erfordern (kein Auto-Merge ohne Human-Approval)
 
 ### 5.2 `pull_request_template.md` — AI-Review-Checkliste ergänzen
-- [ ] Neuen Abschnitt `## KI-generierter Code` hinzufügen:
+- [x] Neuen Abschnitt `## KI-generierter Code` hinzufügen:
   - `[ ]` Code wurde mit `GetSymbolReferences_CppTools` auf vollständige
     Referenz-Abdeckung geprüft
   - `[ ]` Keine rohen Pointer / kein `new`/`delete` eingeführt

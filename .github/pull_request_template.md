@@ -1,3 +1,5 @@
+# Pull Request
+
 ## Description
 
 <!-- Describe the changes in this PR -->
@@ -14,7 +16,7 @@
 - [ ] Documentation
 - [ ] Breaking change (requires MAJOR version bump — see [VERSIONING.md](../VERSIONING.md))
 - [ ] Security fix
-- [ ] Other: 
+- [ ] Other:
 
 ## Breaking Change Checklist
 
@@ -40,9 +42,19 @@
   - Falls JA: In `/docs/research/implementation_influence/` eingetragen?
 
 **Relevante Quellen:**
-- [ ] Paper: <!-- [Title](docs/research/papers/file.md) -->
-- [ ] Best Practice: <!-- [Title](docs/research/best_practices/file.md) -->
-- [ ] Architecture Decision: <!-- [ADR-NNN](docs/research/architecture_decisions/adr_NNN.md) -->
+- [ ] Paper: <!-- docs/research/papers/<file>.md -->
+- [ ] Best Practice: <!-- docs/research/best_practices/<file>.md -->
+- [ ] Architecture Decision: <!-- docs/research/architecture_decisions/adr_<NNN>.md -->
+
+## AI-Generated Code (KI-generierter Code)
+
+<!-- Tool-Referenz: siehe `.github/instructions/cpp-language-service-tools.instructions.md` -->
+
+- [ ] Symbol-Referenzen mit `GetSymbolReferences_CppTools` geprüft
+- [ ] Keine rohen Pointer und kein `new`/`delete` ohne explizites Review eingeführt
+- [ ] RAII und Exception-Safety für neue/angepasste Pfade geprüft
+- [ ] Keine unnötig komplexen KI-Abstraktionen eingeführt
+- [ ] Performance-Metriken geprüft, falls Hotpath betroffen
 
 ## Checklist
 
