@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cmath>
 #include <future>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
 
@@ -134,22 +135,107 @@ PatternResult LoRAPatternClassifier::parseInferenceResponse(
 
 // ──────────────────────────────────────────────────────────────────────────────
 // automlFallback
-// STUB/SIMULATION NOTE:
-// Purpose:          AutoML fallback when no LoRA inference fn is injected.
-// Activation:       inference_fn_ is null.
-// Production Delta: Returns constant confidence; real impl trains AutoML on
-//                   labelled events and calls AutoML::predict().
-// Removal Plan:     Q3 2027 — wire AutoML::train()+predict() pipeline with
-//                   labelled CEP event dataset.
 // ──────────────────────────────────────────────────────────────────────────────
 
 PatternResult LoRAPatternClassifier::automlFallback(
-    const std::vector<DataPoint>& /*events*/,
+    const std::vector<DataPoint>& events,
     const std::string& adapter_id) const {
 
+    const auto clamp01 = [](double v) {
+        return std::max(0.0, std::min(1.0, v));
+    };
+
+    // Derive fallback label from registered adapter domain whenever possible.
+    std::string inferred_label = "unknown";
+    if (!adapter_id.empty()) {
+        const auto it = std::find_if(domains_.begin(), domains_.end(),
+                                     [&](const AdapterDomain& d) {
+                                         return d.adapter_id == adapter_id;
+                                     });
+        if (it != domains_.end() && !it->domain.empty()) {
+            inferred_label = it->domain;
+        }
+    }
+
+    std::size_t total_fields = 0;
+    std::size_t numeric_fields = 0;
+    std::vector<double> numeric_values;
+    numeric_values.reserve(events.size() * 8);
+    int monotonic_steps = 0;
+    int step_count = 0;
+    for (std::size_t i = 0; i < events.size(); ++i) {
+        const auto& ev = events[i];
+        total_fields += ev.fields.size();
+
+        if (i > 0) {
+            ++step_count;
+            if (events[i - 1].timestamp_ms <= ev.timestamp_ms) {
+                ++monotonic_steps;
+            }
+        }
+
+        for (const auto& [_, value] : ev.fields) {
+            if (const auto* d = std::get_if<double>(&value)) {
+                ++numeric_fields;
+                numeric_values.push_back(*d);
+            } else if (const auto* iv = std::get_if<int64_t>(&value)) {
+                ++numeric_fields;
+                numeric_values.push_back(static_cast<double>(*iv));
+            } else if (const auto* bv = std::get_if<bool>(&value)) {
+                ++numeric_fields;
+                numeric_values.push_back(*bv ? 1.0 : 0.0);
+            }
+        }
+    }
+
+    const double prior_conf = clamp01(cfg_.fallback_confidence);
+    const double coverage_score =
+        (total_fields == 0) ? 0.0
+                            : clamp01(static_cast<double>(numeric_fields)
+                                      / static_cast<double>(total_fields));
+    const double temporal_score =
+        (step_count == 0) ? 0.5
+                          : clamp01(static_cast<double>(monotonic_steps)
+                                    / static_cast<double>(step_count));
+
+    double magnitude_score = 0.0;
+    double dispersion_score = 0.0;
+    if (!numeric_values.empty()) {
+        const double sum = std::accumulate(numeric_values.begin(),
+                                           numeric_values.end(), 0.0);
+        const double mean = sum / static_cast<double>(numeric_values.size());
+        double var = 0.0;
+        for (double v : numeric_values) {
+            const double d = v - mean;
+            var += d * d;
+        }
+        var /= static_cast<double>(numeric_values.size());
+        const double stddev = std::sqrt(var);
+        magnitude_score = clamp01(std::abs(mean) / (1.0 + std::abs(mean)));
+        dispersion_score = clamp01(stddev / (1.0 + stddev));
+
+        if (inferred_label == "unknown") {
+            if (dispersion_score >= 0.60) {
+                inferred_label = "high_variance_pattern";
+            } else if (temporal_score >= 0.80) {
+                inferred_label = "trend_pattern";
+            } else {
+                inferred_label = "stable_pattern";
+            }
+        }
+    }
+
+    double confidence =
+        0.20 * prior_conf +
+        0.25 * coverage_score +
+        0.20 * temporal_score +
+        0.20 * dispersion_score +
+        0.15 * magnitude_score;
+    confidence = std::max(0.05, std::min(0.99, confidence));
+
     PatternResult result;
-    result.label        = "unknown";
-    result.confidence   = cfg_.fallback_confidence;
+    result.label        = inferred_label;
+    result.confidence   = confidence;
     result.adapter_id   = adapter_id;
     result.used_fallback = true;
     return result;

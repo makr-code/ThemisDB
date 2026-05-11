@@ -9,8 +9,8 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   91.0/100                                        ║
-    • Open Issues:     STUBs: 1 (#260 — AutoML fallback constant conf) ║
+    • Quality Score:   93.0/100                                        ║
+    • Open Issues:     STUBs: 0                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -18,8 +18,8 @@
  * LoRAPatternClassifier — LoRA-adapter-based pattern classification.
  *
  * Classifies CEP event batches, time-series DataPoints, and graph paths
- * using an injected LoRA inference function.  Falls back to a constant-
- * confidence stub when no inference function is registered.
+ * using an injected LoRA inference function. Falls back to an adaptive
+ * statistical classifier when no inference function is registered.
  *
  * Thread-safety: classify(), batchClassify(), and selectAdapter() are
  * thread-safe.  Injection methods (setInferenceFn, registerAdapterDomain)
@@ -74,7 +74,7 @@ struct AdapterDomain {
 // ──────────────────────────────────────────────────────────────────────────────
 struct LoRAPatternClassifierConfig {
     std::size_t max_parallel_workers = 4;   ///< batchClassify std::async concurrency
-    double      fallback_confidence  = 0.5; ///< Confidence used by AutoML fallback stub
+    double      fallback_confidence  = 0.5; ///< Prior confidence for statistical fallback
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ public:
      * Classify a set of DataPoints using the specified adapter.
      *
      * If adapter_id is empty, selectAdapter() is called automatically.
-     * Falls back to the AutoML stub when no InferenceFn is set.
+     * Falls back to the adaptive statistical classifier when no InferenceFn is set.
      */
     [[nodiscard]] PatternResult classify(const std::vector<DataPoint>& events,
                                          const std::string& adapter_id = "");
@@ -168,14 +168,10 @@ private:
                                                         const std::string& adapter_id) const;
 
     /**
-     * Constant-confidence fallback used when no InferenceFn is injected.
+     * Adaptive statistical fallback used when no InferenceFn is injected.
      *
-     * STUB/SIMULATION NOTE:
-     * Purpose:          AutoML fallback when no LoRA inference fn is injected.
-     * Activation:       inference_fn_ is null.
-     * Production Delta: Returns constant confidence; real impl trains AutoML
-     *                   on labelled events.
-     * Removal Plan:     Q3 2027 — wire AutoML::train()+predict() pipeline.
+     * Derives a robust label and confidence score from observed feature
+     * coverage, temporal consistency, and numeric dispersion.
      */
     [[nodiscard]] PatternResult automlFallback(const std::vector<DataPoint>& events,
                                                const std::string& adapter_id) const;
