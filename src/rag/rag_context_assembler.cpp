@@ -151,7 +151,7 @@ int RAGContextAssembler::computeMaxTokens(
     int                        user_max)
 {
     // Tokens available for the response = reserved_response_tokens (minimum).
-    int computed = static_cast&lt;int&gt;(budget.reserved_response_tokens);
+    int computed = static_cast<int>(budget.reserved_response_tokens);
     if (computed <= 0) computed = 1;
 
     if (user_max > 0) {
@@ -161,3 +161,4 @@ int RAGContextAssembler::computeMaxTokens(
 }
 
 } // namespace themis::rag
+

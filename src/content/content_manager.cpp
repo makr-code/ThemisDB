@@ -137,7 +137,7 @@ static std::string categoryToString(ContentCategory cat) {
     }
 }
 
-// Build whitelist of chunk PKs ("chunks:&lt;id&gt;") based on filters
+// Build whitelist of chunk PKs ("chunks:<id>") based on filters
 static const json* jsonPathRef(const json& j, const std::string& path) {
     // dotted path (no arrays)
     const json* cur = &j;
@@ -172,8 +172,8 @@ static std::vector<std::string> buildChunkWhitelist(
                         auto cat = parseCategory(v.get<std::string>());
                         if (cat) allowedCats.insert(*cat);
                     } else if (v.is_number_integer()) {
-                        int ci = v.get&lt;int&gt;();
-                        if (ci >= 0 && ci <= static_cast&lt;int&gt;(ContentCategory::BINARY)) {
+                        int ci = v.get<int>();
+                        if (ci >= 0 && ci <= static_cast<int>(ContentCategory::BINARY)) {
                             allowedCats.insert(static_cast<ContentCategory>(ci));
                         }
                     }
@@ -333,7 +333,7 @@ json ContentMeta::toJson() const {
     return json{
         {"id", id},
         {"mime_type", mime_type},
-        {"category", static_cast&lt;int&gt;(category)},
+        {"category", static_cast<int>(category)},
         {"original_filename", original_filename},
         {"size_bytes", size_bytes},
         {"compressed", compressed},
@@ -361,7 +361,7 @@ json ContentMeta::toJson() const {
 ContentMeta ContentMeta::fromJson(const json& j) {
     auto parseCategory = [](const json& value) -> ContentCategory {
         if (value.is_number_integer()) {
-            return static_cast<ContentCategory>(value.get&lt;int&gt;());
+            return static_cast<ContentCategory>(value.get<int>());
         }
         if (value.is_string()) {
             std::string category = value.get<std::string>();
@@ -749,7 +749,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
         int embedding_dim = 0;
-        std::vector<float> first_chunk_embedding;  // For content-level emb:&lt;id&gt; storage
+        std::vector<float> first_chunk_embedding;  // For content-level emb:<id> storage
         
         // Load fulltext index configuration from DB: key config:content
         bool auto_fulltext_index = false;
@@ -850,16 +850,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
                 if (!c.embedding.empty() && vector_index_) {
                     if (vector_index_->getDimension() == 0) {
-                        (void)vector_index_->init("chunks", static_cast&lt;int&gt;(c.embedding.size()), VectorIndexManager::Metric::COSINE);
+                        (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
                     }
-                    if (vector_index_->getDimension() == static_cast&lt;int&gt;(c.embedding.size())) {
+                    if (vector_index_->getDimension() == static_cast<int>(c.embedding.size())) {
                         BaseEntity e = BaseEntity::fromFields(
                             std::string("chunks:") + c.id,
                             BaseEntity::FieldMap{{"content_id", c.content_id}, {"seq_num", static_cast<int64_t>(c.seq_num)}, {"mime_type", meta.mime_type}, {"chunk_type", c.chunk_type}, {"embedding", c.embedding}}
                         );
                         auto st = vector_index_->addEntity(e);
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
-                        embedding_dim = static_cast&lt;int&gt;(c.embedding.size());
+                        embedding_dim = static_cast<int>(c.embedding.size());
                     }
                     // Keep the first chunk's embedding for content-level storage.
                     if (first_chunk_embedding.empty()) {
@@ -953,7 +953,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         }
 
     // Content-Meta aktualisieren/speichern (verschlüsselte Felder markiert)
-        meta.chunk_count = static_cast&lt;int&gt;(chunk_ids.size());
+        meta.chunk_count = static_cast<int>(chunk_ids.size());
         meta.chunked = meta.chunk_count > 0;
         if (meta.created_at == 0) meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
         meta.modified_at = meta.created_at;
@@ -1856,7 +1856,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             result.metadata = json{
                 {"content_id", content_id},
                 {"mime_type", detected_mime},
-                {"category", static_cast&lt;int&gt;(category)},
+                {"category", static_cast<int>(category)},
                 {"archive_processing", "disabled"}
             };
             
@@ -2163,7 +2163,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                             cm.created_at = now;
                             chunks_json.push_back(cm.toJson());
                         }
-                        meta.chunk_count = static_cast&lt;int&gt;(chunks_json.size());
+                        meta.chunk_count = static_cast<int>(chunks_json.size());
                         meta.chunked     = !chunks_json.empty();
                         return true;
                     },
@@ -2242,7 +2242,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                             cm.created_at = now;
                             chunks_json.push_back(cm.toJson());
                         }
-                        meta.chunk_count = static_cast&lt;int&gt;(chunks_json.size());
+                        meta.chunk_count = static_cast<int>(chunks_json.size());
                         meta.chunked     = !chunks_json.empty();
                         return true;
                     },
@@ -2323,7 +2323,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     cm.created_at = now;
                     chunks_json.push_back(cm.toJson());
                 }
-                meta.chunk_count = static_cast&lt;int&gt;(chunks_json.size());
+                meta.chunk_count = static_cast<int>(chunks_json.size());
                 meta.chunked     = !chunks_json.empty();
             }
 
@@ -2410,10 +2410,10 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     result.metadata = json{
         {"content_id", content_id},
         {"mime_type", detected_mime},
-        {"category", static_cast&lt;int&gt;(category)}
+        {"category", static_cast<int>(category)}
     };
     if (!chunks_json.empty()) {
-        result.metadata["chunk_count"] = static_cast&lt;int&gt;(chunks_json.size());
+        result.metadata["chunk_count"] = static_cast<int>(chunks_json.size());
     }
     
     return result;
@@ -2646,8 +2646,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
         if (!cm.embedding.empty() && vector_index_) {
             if (vector_index_->getDimension() == 0)
-                vector_index_->init("chunks", static_cast&lt;int&gt;(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
-            if (vector_index_->getDimension() == static_cast&lt;int&gt;(cm.embedding.size())) {
+                vector_index_->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
+            if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {
                 BaseEntity e = BaseEntity::fromFields(
                     std::string("chunks:") + cm.id,
                     BaseEntity::FieldMap{
@@ -2734,7 +2734,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         return oss.str();
     }();
     meta.text_extracted   = true;
-    meta.chunk_count      = static_cast&lt;int&gt;(chunk_ids.size());
+    meta.chunk_count      = static_cast<int>(chunk_ids.size());
     meta.chunked          = meta.chunk_count > 0;
 
     std::string mkey = std::string("content:") + meta.id;
@@ -2771,8 +2771,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
     result.metadata = json{
         {"content_id",  content_id},
         {"mime_type",   detected_mime},
-        {"category",    static_cast&lt;int&gt;(ContentCategory::TEXT)},
-        {"chunk_count", static_cast&lt;int&gt;(chunk_ids.size())},
+        {"category",    static_cast<int>(ContentCategory::TEXT)},
+        {"chunk_count", static_cast<int>(chunk_ids.size())},
         {"total_bytes", total_bytes},
         {"streaming",   true}
     };
@@ -2790,9 +2790,10 @@ ContentManager::Stats ContentManager::getStats() {
     storage_->scanPrefix("content:", [&](std::string_view, std::string_view){ s.total_content_items++; return true; });
     storage_->scanPrefix("chunk:", [&](std::string_view, std::string_view){ s.total_chunks++; return true; });
     // embeddings equal vector_index count if initialized
-    if (vector_index_) s.total_embeddings = static_cast&lt;int&gt;(vector_index_->getVectorCount());
+    if (vector_index_) s.total_embeddings = static_cast<int>(vector_index_->getVectorCount());
     return s;
 }
 
 } // namespace content
 } // namespace themis
+

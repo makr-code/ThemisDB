@@ -231,7 +231,7 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
-        oss << std::setw(2) << static_cast&lt;int&gt;(digest[i]);
+        oss << std::setw(2) << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -549,3 +549,4 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
 
 } // namespace updates
 } // namespace themis
+

@@ -94,7 +94,7 @@ GCSBlobBackend::~GCSBlobBackend() = default;
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        ss << std::setw(2) << static_cast&lt;int&gt;(hash[i]);
+        ss << std::setw(2) << static_cast<int>(hash[i]);
     }
     return ss.str();
 }
@@ -265,3 +265,4 @@ bool GCSBlobBackend::isAvailable() const {
 
 } // namespace storage
 } // namespace themis
+

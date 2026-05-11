@@ -268,7 +268,7 @@ std::string ShardRepairEngine::exportPrometheusMetrics() const {
     oss << "# HELP themis_shard_health Shard health status (0=healthy,1=degraded,2=failed,3=rebuilding)\n"
         << "# TYPE themis_shard_health gauge\n";
     for (const auto& r : reports) {
-        int status_val = static_cast&lt;int&gt;(r.status);
+        int status_val = static_cast<int>(r.status);
         oss << "themis_shard_health{shard=\"" << r.shard_id << "\"} " << status_val << "\n";
     }
     oss << "\n";
@@ -742,3 +742,4 @@ void ShardRepairEngine::updateMetricsAfterRepair(bool success,
 
 }  // namespace sharding
 }  // namespace themis
+

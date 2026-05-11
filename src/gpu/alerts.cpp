@@ -114,9 +114,9 @@ size_t GPUAlerts::evaluate() {
                 vram_used_frac_,
                 cfg_.vram_high_threshold,
                 "VRAM usage " +
-                    std::to_string(static_cast&lt;int&gt;(vram_used_frac_ * 100)) +
+                    std::to_string(static_cast<int>(vram_used_frac_ * 100)) +
                     "% >= threshold " +
-                    std::to_string(static_cast&lt;int&gt;(
+                    std::to_string(static_cast<int>(
                         cfg_.vram_high_threshold * 100)) + "%");
 
     updateAlert(ALERT_ERROR_RATE_HIGH,
@@ -124,14 +124,14 @@ size_t GPUAlerts::evaluate() {
                 error_rate_,
                 cfg_.error_rate_threshold,
                 "GPU error rate " +
-                    std::to_string(static_cast&lt;int&gt;(error_rate_ * 100)) + "%");
+                    std::to_string(static_cast<int>(error_rate_ * 100)) + "%");
 
     updateAlert(ALERT_FALLBACK_RATE,
                 fallback_rate_ >= cfg_.fallback_rate_threshold,
                 fallback_rate_,
                 cfg_.fallback_rate_threshold,
                 "CPU fallback rate " +
-                    std::to_string(static_cast&lt;int&gt;(fallback_rate_ * 100)) + "%");
+                    std::to_string(static_cast<int>(fallback_rate_ * 100)) + "%");
 
     updateAlert(ALERT_CIRCUIT_OPEN,
                 circuit_open_,
@@ -184,3 +184,4 @@ bool GPUAlerts::isFiring(const std::string& alert_name) const {
 
 } // namespace gpu
 } // namespace themis
+

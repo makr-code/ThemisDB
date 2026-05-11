@@ -265,6 +265,21 @@ python3 scripts/toc-check.py
 python3 scripts/docs-lint.py --format json --output lint-report.json
 ```
 
+### Local Quality Gate (Windows)
+
+Run a local end-to-end quality flow (build, tests, static analysis, security scan, docs):
+
+- **`quality-gate.ps1`** - PowerShell runner with per-step skip switches and report output
+- **`quality_gate_gui.py`** - Tkinter desktop launcher for `quality-gate.ps1`
+
+**Quick Start:**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1
+python .\scripts\quality_gate_gui.py
+```
+
+Detailed guide: [docs/development/LOCAL_QUALITY_GATE.md](../docs/development/LOCAL_QUALITY_GATE.md)
+
 **CI/CD Integration:**
 - Automated via `.github/workflows/documentation-validation.yml`
 - Runs on PRs and pushes to main/develop branches

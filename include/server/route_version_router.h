@@ -39,7 +39,7 @@ namespace server {
  * 1. **Prefixed paths** (`/v1/<rest>`, `/v2/<rest>`): version is extracted; the
  *    canonical path (without the prefix) is returned for routing.
  * 2. **Unversioned paths** (e.g., `/documents/123`): the caller should issue a
- *    301 redirect to `/v1/&lt;path&gt;` for backward compatibility.
+ *    301 redirect to `/v1/<path>` for backward compatibility.
  * 3. **Admin and API-prefixed paths** (`/api/v1/…`, `/v1/admin/…`): treated as
  *    already versioned; not redirected.
  *
@@ -49,7 +49,7 @@ namespace server {
  *
  * // In routeRequest():
  * if (auto redirect_target = vr.getRedirectTarget(path)) {
- *     // 301 Moved Permanently → /v1/&lt;path&gt;
+ *     // 301 Moved Permanently → /v1/<path>
  *     return make301Response(*redirect_target);
  * }
  * auto [version, canonical_path] = vr.normalize(path);
@@ -294,3 +294,4 @@ RouteVersionRouter::getRedirectTarget(std::string_view path) const
 
 } // namespace server
 } // namespace themis
+

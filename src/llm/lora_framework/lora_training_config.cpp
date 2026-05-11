@@ -62,13 +62,13 @@ LoRATrainingConfig LoRATrainingConfig::loadFromString(const std::string& yaml_co
             if (defaults["concurrency"]) {
                 if (defaults["concurrency"]["max_concurrent_trainings"]) {
                     config.max_concurrent_trainings_ = 
-                        defaults["concurrency"]["max_concurrent_trainings"].as&lt;int&gt;();
+                        defaults["concurrency"]["max_concurrent_trainings"].as<int>();
                 }
             }
             if (defaults["retry"]) {
                 if (defaults["retry"]["max_attempts"]) {
                     config.max_retry_attempts_ = 
-                        defaults["retry"]["max_attempts"].as&lt;int&gt;();
+                        defaults["retry"]["max_attempts"].as<int>();
                 }
             }
         }
@@ -239,12 +239,12 @@ LoRATrainingConfig::parseAdapterConfig(
     if (node["pipeline"] && node["pipeline"]["execution"]) {
         auto exec = node["pipeline"]["execution"];
         if (exec["device"]) config.device = exec["device"].as<std::string>();
-        if (exec["device_id"]) config.device_id = exec["device_id"].as&lt;int&gt;();
+        if (exec["device_id"]) config.device_id = exec["device_id"].as<int>();
         if (exec["mixed_precision"]) 
             config.mixed_precision = exec["mixed_precision"].as<bool>();
         if (exec["gradient_accumulation_steps"])
             config.gradient_accumulation_steps = 
-                exec["gradient_accumulation_steps"].as&lt;int&gt;();
+                exec["gradient_accumulation_steps"].as<int>();
     }
     
     return config;
@@ -253,15 +253,15 @@ LoRATrainingConfig::parseAdapterConfig(
 LoRAHyperparameters LoRATrainingConfig::parseHyperparameters(const YAML::Node& node) {
     LoRAHyperparameters params;
     
-    if (node["rank"]) params.rank = node["rank"].as&lt;int&gt;();
+    if (node["rank"]) params.rank = node["rank"].as<int>();
     if (node["alpha"]) params.alpha = node["alpha"].as<float>();
     if (node["dropout"]) params.dropout = node["dropout"].as<float>();
     if (node["learning_rate"]) 
         params.learning_rate = node["learning_rate"].as<float>();
-    if (node["batch_size"]) params.batch_size = node["batch_size"].as&lt;int&gt;();
-    if (node["num_epochs"]) params.num_epochs = node["num_epochs"].as&lt;int&gt;();
+    if (node["batch_size"]) params.batch_size = node["batch_size"].as<int>();
+    if (node["num_epochs"]) params.num_epochs = node["num_epochs"].as<int>();
     if (node["max_seq_length"]) 
-        params.max_seq_length = node["max_seq_length"].as&lt;int&gt;();
+        params.max_seq_length = node["max_seq_length"].as<int>();
     
     if (node["target_modules"]) {
         params.target_modules.clear();
@@ -303,7 +303,7 @@ LoRATrainingConfig::parseFeedbackWeighting(const YAML::Node& node) {
     // Rating weights
     if (node["rating_weights"]) {
         for (const auto& weight : node["rating_weights"]) {
-            int rating = weight.first.as&lt;int&gt;();
+            int rating = weight.first.as<int>();
             float value = weight.second.as<float>();
             weighting.rating_weights[rating] = value;
         }
@@ -332,7 +332,7 @@ LoRATrainingConfig::parseTrainingTrigger(const YAML::Node& node) {
         if (automatic["time"]) {
             auto time = automatic["time"];
             if (time["max_wait_hours"])
-                trigger.max_wait_hours = time["max_wait_hours"].as&lt;int&gt;();
+                trigger.max_wait_hours = time["max_wait_hours"].as<int>();
             if (time["cron_schedule"])
                 trigger.cron_schedule = time["cron_schedule"].as<std::string>();
         }
@@ -360,7 +360,7 @@ LoRATrainingConfig::parseQualityConfig(const YAML::Node& node) {
         if (ab["traffic_split"]) 
             quality.traffic_split = ab["traffic_split"].as<float>();
         if (ab["duration_hours"]) 
-            quality.duration_hours = ab["duration_hours"].as&lt;int&gt;();
+            quality.duration_hours = ab["duration_hours"].as<int>();
         if (ab["min_improvement"]) 
             quality.min_improvement = ab["min_improvement"].as<float>();
     }
@@ -370,7 +370,7 @@ LoRATrainingConfig::parseQualityConfig(const YAML::Node& node) {
         if (rollback["enabled"]) 
             quality.auto_rollback_enabled = rollback["enabled"].as<bool>();
         if (rollback["cooldown_hours"])
-            quality.cooldown_hours = rollback["cooldown_hours"].as&lt;int&gt;();
+            quality.cooldown_hours = rollback["cooldown_hours"].as<int>();
         if (rollback["triggers"]) {
             for (const auto& trigger : rollback["triggers"]) {
                 quality.rollback_triggers.push_back(trigger.as<std::string>());
@@ -403,3 +403,4 @@ LoRATrainingConfig::parseTrainingDataSource(const YAML::Node& node) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

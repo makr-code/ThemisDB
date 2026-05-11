@@ -95,7 +95,7 @@ std::string calculate_sha256(const std::string& file_path) {
     
     std::stringstream ss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     
     return ss.str();
@@ -562,7 +562,7 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
                 resolved.use_cache = model["use_cache"].as<bool>();
             }
             if (model["timeout_seconds"]) {
-                resolved.timeout_seconds = model["timeout_seconds"].as&lt;int&gt;();
+                resolved.timeout_seconds = model["timeout_seconds"].as<int>();
             }
 
             if (model["sources"] && model["sources"].IsMap() && model["sources"]["ollama"]) {
@@ -609,3 +609,4 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 
 } // namespace llm
 } // namespace themis
+

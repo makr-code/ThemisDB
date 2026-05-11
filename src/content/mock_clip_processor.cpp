@@ -30,7 +30,7 @@ ExtractionResult MockClipProcessor::extract(const std::string& blob, const Conte
     res.ok = true;
     res.metadata = nlohmann::json::object();
     res.metadata["mime_type"] = content_type.mime_type;
-    res.metadata["original_size_bytes"] = static_cast&lt;int&gt;(blob.size());
+    res.metadata["original_size_bytes"] = static_cast<int>(blob.size());
 
     // For images we don't extract text; instead produce a mock embedding
     res.embedding = computeMockEmbedding_(blob);
@@ -83,3 +83,4 @@ std::vector<float> MockClipProcessor::computeMockEmbedding_(const std::string& d
 
 } // namespace content
 } // namespace themis
+

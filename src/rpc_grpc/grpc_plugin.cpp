@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/&lt;name&gt;/ and inc... ║
+    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
     • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -537,3 +537,4 @@ void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
 }
 
 } // extern "C"
+

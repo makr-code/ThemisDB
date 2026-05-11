@@ -97,8 +97,8 @@ struct ProjectStateTransition {
  *
  * RocksDB key layout
  * ──────────────────
- *  lifecycle:&lt;project_id&gt;              → current ProjectState (string)
- *  lifecycle_log:&lt;project_id&gt;:&lt;ts_ns&gt;  → ProjectStateTransition JSON
+ *  lifecycle:<project_id>              → current ProjectState (string)
+ *  lifecycle_log:<project_id>:<ts_ns>  → ProjectStateTransition JSON
  *
  * All methods are thread-safe (protected by an internal shared_mutex).
  */
@@ -193,3 +193,4 @@ private:
 
 } // namespace projects
 } // namespace themis
+

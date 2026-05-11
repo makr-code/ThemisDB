@@ -358,7 +358,7 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
                 std::ostringstream hex;
                 hex << std::hex << std::setfill('0');
                 for (uint8_t b : v) {
-                    hex << std::setw(2) << static_cast&lt;int&gt;(b);
+                    hex << std::setw(2) << static_cast<int>(b);
                 }
                 j[key] = hex.str();
             } else {
@@ -371,3 +371,4 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
 }
 
 } // namespace themis::exporters
+

@@ -108,7 +108,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
 
     // 3. Generate a random 12-byte IV (nonce).
     std::vector<uint8_t> iv(IV_LEN);
-    if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(IV_LEN)) != 1) {
+    if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
         throw std::runtime_error("EncryptedChunkStore: RAND_bytes failed");
     }
 
@@ -125,7 +125,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
         if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_EncryptInit_ex (init) failed");
         }
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast&lt;int&gt;(IV_LEN), nullptr) != 1) {
+        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast<int>(IV_LEN), nullptr) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_CTRL_GCM_SET_IVLEN failed");
         }
         if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv.data()) != 1) {
@@ -134,7 +134,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
 
         int len = 0;
         if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
-                               plaintext.data(), static_cast&lt;int&gt;(plaintext.size())) != 1) {
+                               plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_EncryptUpdate failed");
         }
 
@@ -143,7 +143,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
             throw std::runtime_error("EncryptedChunkStore: EVP_EncryptFinal_ex failed");
         }
 
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast&lt;int&gt;(TAG_LEN), tag.data()) != 1) {
+        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast<int>(TAG_LEN), tag.data()) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_CTRL_GCM_GET_TAG failed");
         }
     } catch (...) {
@@ -231,7 +231,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
         if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_DecryptInit_ex (init) failed");
         }
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast&lt;int&gt;(IV_LEN), nullptr) != 1) {
+        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast<int>(IV_LEN), nullptr) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_CTRL_GCM_SET_IVLEN failed");
         }
         if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv) != 1) {
@@ -240,14 +240,14 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 
         int len = 0;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                               ct, static_cast&lt;int&gt;(ct_len)) != 1) {
+                               ct, static_cast<int>(ct_len)) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_DecryptUpdate failed");
         }
 
         // Set the expected GCM tag.
         // EVP_CTRL_GCM_SET_TAG takes a non-const pointer.
         std::vector<uint8_t> tag_copy(tag_ptr, tag_ptr + TAG_LEN);
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, static_cast&lt;int&gt;(TAG_LEN), tag_copy.data()) != 1) {
+        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, static_cast<int>(TAG_LEN), tag_copy.data()) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_CTRL_GCM_SET_TAG failed");
         }
 
@@ -305,3 +305,4 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
 }
 
 } // namespace themis
+

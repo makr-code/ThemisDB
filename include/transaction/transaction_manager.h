@@ -1269,7 +1269,7 @@ private:
     std::atomic<uint64_t> total_deadlocks_{0};
 
     // Victim selection policy (stored as underlying int for atomic access)
-    std::atomic&lt;int&gt; victim_policy_{static_cast&lt;int&gt;(DeadlockVictimPolicy::YOUNGEST)};
+    std::atomic<int> victim_policy_{static_cast<int>(DeadlockVictimPolicy::YOUNGEST)};
 
     // Cumulative deadlock metrics
     std::atomic<uint64_t> deadlock_total_cycle_len_{0};  // sum of all cycle lengths
@@ -1318,3 +1318,4 @@ private:
 };
 
 } // namespace themis
+

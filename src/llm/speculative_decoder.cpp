@@ -78,7 +78,7 @@ SpeculativeDecoder::SpeculativeDecoder(const Config& config)
 // ═══════════════════════════════════════════════════════════
 
 SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
-    const std::vector&lt;int&gt;&                      draft_tokens,
+    const std::vector<int>&                      draft_tokens,
     const std::vector<std::vector<float>>&       draft_logits,
     const std::vector<std::vector<float>>&       target_logits
 ) {
@@ -290,12 +290,13 @@ int SpeculativeDecoder::sampleToken(
     for (size_t i = 0; i < probs.size(); ++i) {
         cumulative += probs[i];
         if (r <= cumulative) {
-            return static_cast&lt;int&gt;(i);
+            return static_cast<int>(i);
         }
     }
     // Fallback: return last token (handles floating-point rounding).
-    return static_cast&lt;int&gt;(probs.size() - 1);
+    return static_cast<int>(probs.size() - 1);
 }
 
 } // namespace llm
 } // namespace themis
+

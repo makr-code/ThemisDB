@@ -471,12 +471,12 @@ static int cpu_ann_topk(
         std::priority_queue<Pair> heap;
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (static_cast&lt;int&gt;(heap.size()) > topK) {
+            if (static_cast<int>(heap.size()) > topK) {
                 heap.pop(); // ejects largest (highest dist, or equal dist + highest index)
             }
         }
         // Drain heap in ascending order
-        int slot = static_cast&lt;int&gt;(heap.size()) - 1;
+        int slot = static_cast<int>(heap.size()) - 1;
         while (!heap.empty()) {
             topk_indices[q * topK + slot] = heap.top().second;
             topk_dists  [q * topK + slot] = heap.top().first;
@@ -563,9 +563,9 @@ int CPUMatrixBackend::matmul(const MatrixKernelParams& params, void* /*opaque_st
         static_cast<const float*>(params.A),
         static_cast<const float*>(params.B),
         static_cast<float*>(params.C),
-        static_cast&lt;int&gt;(params.M),
-        static_cast&lt;int&gt;(params.K),
-        static_cast&lt;int&gt;(params.N),
+        static_cast<int>(params.M),
+        static_cast<int>(params.K),
+        static_cast<int>(params.N),
         params.alpha,
         params.beta
     );
@@ -589,3 +589,4 @@ MatrixKernelDispatch CPUMatrixBackend::populateMatrixDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
+

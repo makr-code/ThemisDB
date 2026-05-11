@@ -150,7 +150,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const 
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(const std::string& pem_data) {
-    auto bio = utils::make_bio_mem_buf(pem_data.c_str(), static_cast&lt;int&gt;(pem_data.size()));
+    auto bio = utils::make_bio_mem_buf(pem_data.c_str(), static_cast<int>(pem_data.size()));
     if (!bio) {
         return std::nullopt;
     }
@@ -223,7 +223,7 @@ bool PKIShardCertificate::verifyCertificate(const std::string& cert_path, const 
     }
     
     // Parse certificate
-    auto cert_bio = utils::make_bio_mem_buf(cert_pem->c_str(), static_cast&lt;int&gt;(cert_pem->size()));
+    auto cert_bio = utils::make_bio_mem_buf(cert_pem->c_str(), static_cast<int>(cert_pem->size()));
     auto cert = utils::read_x509_from_bio(cert_bio.get());
     
     if (!cert) {
@@ -231,7 +231,7 @@ bool PKIShardCertificate::verifyCertificate(const std::string& cert_path, const 
     }
     
     // Parse CA certificate
-    auto ca_bio = utils::make_bio_mem_buf(ca_pem->c_str(), static_cast&lt;int&gt;(ca_pem->size()));
+    auto ca_bio = utils::make_bio_mem_buf(ca_pem->c_str(), static_cast<int>(ca_pem->size()));
     auto ca_cert = utils::read_x509_from_bio(ca_bio.get());
     
     if (!ca_cert) {
@@ -257,7 +257,7 @@ bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std:
         return false; // If CRL doesn't exist, assume not revoked
     }
     
-    auto bio = utils::make_bio_mem_buf(crl_pem->c_str(), static_cast&lt;int&gt;(crl_pem->size()));
+    auto bio = utils::make_bio_mem_buf(crl_pem->c_str(), static_cast<int>(crl_pem->size()));
     if (!bio) {
         return false;
     }
@@ -406,3 +406,4 @@ bool PKIShardCertificate::parseSAN(void* x509_cert_ptr, ShardCertificateInfo& in
 }
 
 } // namespace themis::sharding
+

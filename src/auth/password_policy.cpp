@@ -133,9 +133,9 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string& pas
         double entropy = computeEntropy(password);
         if (entropy < config_.min_entropy_bits) {
             std::ostringstream msg;
-            msg << "Password entropy (" << static_cast&lt;int&gt;(entropy)
+            msg << "Password entropy (" << static_cast<int>(entropy)
                 << " bits) is below the required minimum of "
-                << static_cast&lt;int&gt;(config_.min_entropy_bits) << " bits";
+                << static_cast<int>(config_.min_entropy_bits) << " bits";
             result.violations.push_back(msg.str());
         }
     }
@@ -231,3 +231,4 @@ PasswordPolicy PasswordPolicy::basic() {
 
 } // namespace auth
 } // namespace themis
+

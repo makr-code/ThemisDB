@@ -40,7 +40,7 @@
 //             exhausting the queue form a cyclic subgraph.
 //
 // Version constraint format: comma-separated tokens, each of the form
-//   &lt;op&gt;<version>, where &lt;op&gt; is one of >=, <=, >, <, ==, !=.
+//   <op><version>, where <op> is one of >=, <=, >, <, ==, !=.
 // All tokens are ANDed; an empty constraint is always satisfied.
 
 #include "updates/dependency_resolver.h"
@@ -538,3 +538,4 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
 
 } // namespace updates
 } // namespace themis
+

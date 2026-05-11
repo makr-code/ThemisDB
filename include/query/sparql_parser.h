@@ -36,7 +36,7 @@ namespace query {
 
 enum class SPARQLTermType {
     Variable,      // ?var or $var
-    URIRef,        // &lt;uri&gt;
+    URIRef,        // <uri>
     PrefixedName,  // prefix:local or bare name
     Literal        // "string", 123, 3.14, true, false
 };
@@ -131,7 +131,7 @@ struct SPARQLOrderSpec {
 struct SPARQLSelectStatement {
     bool                          star = false;    ///< SELECT *
     std::vector<std::string>      variables;       ///< projected variable names (without ?/$)
-    std::optional<std::string>    from_graph;      ///< FROM &lt;uri&gt; (optional)
+    std::optional<std::string>    from_graph;      ///< FROM URI (optional)
     std::vector<SPARQLWhereClause> where_clauses;
     std::vector<SPARQLOrderSpec>  order_by;
     std::optional<int64_t>        limit;
@@ -241,3 +241,4 @@ private:
 
 }  // namespace query
 }  // namespace themis
+

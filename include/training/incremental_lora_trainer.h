@@ -183,7 +183,7 @@ struct IncrementalTrainingConfig {
 
     // Multi-GPU distributed training
     int num_gpus = 1;                     ///< Number of GPUs to use (1 = single-GPU)
-    std::vector&lt;int&gt; gpu_ids;             ///< Explicit GPU device IDs (empty = first N GPUs)
+    std::vector<int> gpu_ids;             ///< Explicit GPU device IDs (empty = first N GPUs)
     int sync_steps = 1;                   ///< Gradient-sync interval (steps between all-reduce)
 
     // Quantization (QLoRA)
@@ -449,3 +449,4 @@ private:
 
 } // namespace training
 } // namespace themis
+

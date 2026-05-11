@@ -336,8 +336,8 @@ public:
     /// callers need no size checks and the API is backward compatible.
     ///
     /// Key scheme (internal, not part of public contract):
-    ///   manifest : "__tmbs_m__:&lt;key&gt;"
-    ///   chunk N  : "__tmbs_c__:&lt;key&gt;:<6-digit-index>"
+    ///   manifest : "__tmbs_m__:<key>"
+    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
     ///
     /// @param key  Logical blob key (visible to getBlob() / delBlob()).
     /// @param data Blob bytes.
@@ -781,7 +781,7 @@ private:
     // Mutex to protect db_ lifecycle (race condition fix #3)
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
-    mutable std::atomic&lt;int&gt; active_operations_{0};
+    mutable std::atomic<int> active_operations_{0};
     // Set to true inside db_lifecycle_mutex_ when close() starts so that new
     // OperationGuards see it under the same lock and refuse to start (R-1 fix).
     mutable std::atomic<bool> closing_{false};
@@ -799,3 +799,4 @@ private:
 };
 
 } // namespace themis
+

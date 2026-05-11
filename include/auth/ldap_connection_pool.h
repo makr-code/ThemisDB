@@ -205,7 +205,7 @@ private:
     std::deque<LDAP*> idle_;
 
     /// Number of connections currently checked out.
-    std::atomic&lt;int&gt; active_count_{0};
+    std::atomic<int> active_count_{0};
 
     /// Total live connections (idle + active); used to enforce max_size.
     int total_count_{0};
@@ -213,3 +213,4 @@ private:
 
 } // namespace auth
 } // namespace themis
+

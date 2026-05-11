@@ -365,9 +365,9 @@ std::vector<BaseEntity> DataAugmentationPipeline::applyStrategy(
                 copy = entity;
                 break;
         }
-        // Assign a unique primary key: &lt;prefix&gt;<strategy_idx>_<variant>_<original_pk>
+        // Assign a unique primary key: <prefix><strategy_idx>_<variant>_<original_pk>
         copy.setPrimaryKey(config_.augmented_key_prefix +
-                           std::to_string(static_cast&lt;int&gt;(strategy)) + "_" +
+                           std::to_string(static_cast<int>(strategy)) + "_" +
                            std::to_string(i) + "_" +
                            entity.getPrimaryKey());
         copies.push_back(std::move(copy));
@@ -426,3 +426,4 @@ std::vector<BaseEntity> DataAugmentationPipeline::augment(
 
 } // namespace exporters
 } // namespace themis
+

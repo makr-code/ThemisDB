@@ -166,7 +166,6 @@ public:
      * @param B LoRA down-projection [rank, in_dim]
      * @param A LoRA up-projection [out_dim, rank]
      * @param scaling Scaling factor
-     * @param config Tiling configuration
      * @return tuple of (grad_input, grad_B, grad_A)
      */
     static std::tuple<GPUTensor, GPUTensor, GPUTensor> backward(
@@ -176,6 +175,24 @@ public:
         const GPUTensor& A,
         float scaling
     );
+    
+    /**
+     * @brief FlashLoRA backward pass with custom configuration
+     * 
+     * Computes gradients for input, B, and A using custom tiling
+     * 
+     * Memory optimization same as forward pass:
+     * - No intermediate gradients stored in HBM
+     * - All computation in shared memory tiles
+     * 
+     * @param grad_output Gradient from next layer [batch, seq_len, out_dim]
+     * @param input Cached input from forward pass [batch, seq_len, in_dim]
+     * @param B LoRA down-projection [rank, in_dim]
+     * @param A LoRA up-projection [out_dim, rank]
+     * @param scaling Scaling factor
+     * @param config Tiling configuration
+     * @return tuple of (grad_input, grad_B, grad_A)
+     */
     static std::tuple<GPUTensor, GPUTensor, GPUTensor> backward(
         const GPUTensor& grad_output,
         const GPUTensor& input,

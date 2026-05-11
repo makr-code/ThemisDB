@@ -51,7 +51,7 @@ enum class DeltaType {
  *
  * @c field_path follows JSON Pointer syntax (RFC 6901), e.g.
  * @c "/metadata/title".  For top-level document additions/removals the
- * path is the document key (e.g. @c "/doc:&lt;uuid&gt;").
+ * path is the document key (e.g. @c "/doc:<uuid>").
  */
 struct DeltaEntry {
     std::string field_path; ///< JSON Pointer path of the changed field
@@ -195,3 +195,4 @@ private:
 
 } // namespace projects
 } // namespace themis
+

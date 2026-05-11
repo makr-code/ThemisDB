@@ -556,7 +556,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
         if (embOpt.has_value()) {
             node_embeddings.push_back(*embOpt);
             if (embedding_dim == 0) {
-                embedding_dim = static_cast&lt;int&gt;(embOpt->size());
+                embedding_dim = static_cast<int>(embOpt->size());
             }
         }
         return true;
@@ -889,3 +889,4 @@ GNNEmbeddingManager::getStats() const {
 }
 
 } // namespace themis
+

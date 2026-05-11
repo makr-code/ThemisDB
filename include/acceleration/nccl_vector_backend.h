@@ -73,7 +73,7 @@ public:
     struct Config {
         int worldSize = 1;          // Total number of GPUs
         int rank = 0;               // Current GPU rank (0 to worldSize-1)
-        std::vector&lt;int&gt; deviceIds; // GPU device IDs to use
+        std::vector<int> deviceIds; // GPU device IDs to use
         bool enableP2P = true;      // Enable peer-to-peer transfers
         bool enableNVLink = true;   // Use NVLink if available
         size_t bufferSizeMB = 256;  // Communication buffer size
@@ -112,7 +112,7 @@ public:
     // Device management
     int getRank() const;
     int getWorldSize() const;
-    std::vector&lt;int&gt; getDeviceIds() const;
+    std::vector<int> getDeviceIds() const;
     bool isP2PEnabled() const;
 
     // Collective operations
@@ -247,7 +247,7 @@ public:
     static bool isNCCLAvailable();
     static int getNCCLVersion();
     static std::string getNCCLVersionString();
-    static bool checkNVLinkSupport(const std::vector&lt;int&gt;& deviceIds);
+    static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
 
 #ifndef THEMIS_ENABLE_NCCL
     // -----------------------------------------------------------------------
@@ -268,3 +268,4 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+

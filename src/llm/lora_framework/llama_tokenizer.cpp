@@ -78,7 +78,7 @@ void LlamaTokenizer::cleanup() {
     // We don't call it here to avoid conflicts with multiple instances
 }
 
-std::vector&lt;int&gt; LlamaTokenizer::encode(const std::string& text, 
+std::vector<int> LlamaTokenizer::encode(const std::string& text, 
                                         bool add_bos, 
                                         bool add_eos) {
     if (!model_) {
@@ -86,7 +86,7 @@ std::vector&lt;int&gt; LlamaTokenizer::encode(const std::string& text,
     }
     
     if (text.empty()) {
-        std::vector&lt;int&gt; tokens;
+        std::vector<int> tokens;
         if (add_bos) tokens.push_back(bos_token_id());
         if (add_eos) tokens.push_back(eos_token_id());
         return tokens;
@@ -129,8 +129,8 @@ std::vector&lt;int&gt; LlamaTokenizer::encode(const std::string& text,
     
     tokens_buffer.resize(n_tokens);
     
-    // Convert to std::vector&lt;int&gt;
-    std::vector&lt;int&gt; result(tokens_buffer.begin(), tokens_buffer.end());
+    // Convert to std::vector<int>
+    std::vector<int> result(tokens_buffer.begin(), tokens_buffer.end());
     
     // Add EOS token if requested (llama_tokenize doesn't add it by default)
     if (add_eos) {
@@ -140,7 +140,7 @@ std::vector&lt;int&gt; LlamaTokenizer::encode(const std::string& text,
     return result;
 }
 
-std::string LlamaTokenizer::decode(const std::vector&lt;int&gt;& tokens) {
+std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
     if (!model_) {
         throw std::runtime_error("Tokenizer not initialized");
     }
@@ -208,3 +208,4 @@ int LlamaTokenizer::pad_token_id() const {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

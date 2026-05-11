@@ -309,7 +309,7 @@ std::vector<float> IntentClassifier::buildEmbedding(
     std::vector<float> emb(kEmbeddingDim, 0.0f);
 
     // Use the intent ordinal as a class seed.
-    const int classSeed = static_cast&lt;int&gt;(intent);
+    const int classSeed = static_cast<int>(intent);
 
     // Simple hash of primary_indicator for deterministic variation.
     std::size_t strHash = std::hash<std::string>{}(primary_indicator);
@@ -368,3 +368,4 @@ const std::string& IntentClassifier::loraModelPath() const noexcept {
 
 } // namespace security
 } // namespace themis
+

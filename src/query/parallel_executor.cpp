@@ -207,7 +207,7 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
     const size_t nmors   = (n + morsel - 1) / morsel;
     std::vector<Table> buckets(nmors);
 
-    tbb::task_arena arena(static_cast&lt;int&gt;(threads));
+    tbb::task_arena arena(static_cast<int>(threads));
     arena.execute([&]() {
         tbb::task_group tg;
         for (size_t m = 0; m < nmors; ++m) {
@@ -303,7 +303,7 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
 
     // Execute all parallel work (partitioning + join) inside a scoped arena
     // so the thread count is enforced by the TBB scheduler.
-    tbb::task_arena arena(static_cast&lt;int&gt;(threads));
+    tbb::task_arena arena(static_cast<int>(threads));
 
     std::vector<Table> left_parts;
     std::vector<Table> right_parts;
@@ -357,7 +357,7 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
     const size_t nmors  = (n + morsel - 1) / morsel;
     std::vector<PartialMap> partials(nmors);
 
-    tbb::task_arena arena(static_cast&lt;int&gt;(threads));
+    tbb::task_arena arena(static_cast<int>(threads));
     arena.execute([&]() {
         tbb::task_group tg;
         for (size_t m = 0; m < nmors; ++m) {
@@ -400,3 +400,4 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
 }
 
 } // namespace themis
+

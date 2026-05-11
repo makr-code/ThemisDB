@@ -20,7 +20,7 @@ bool PositionAbstractValidator::isValidVerdict(const std::string& v) noexcept
 
 int PositionAbstractValidator::countTokens(const std::string& text) noexcept
 {
-    return static_cast&lt;int&gt;((text.size() + 3) / 4);
+    return static_cast<int>((text.size() + 3) / 4);
 }
 
 std::string PositionAbstractValidator::extractVerdictFromContent(
@@ -115,7 +115,7 @@ bool PositionAbstractValidator::validate(
     }
 
     // 5. Truncate core_thesis_ids silently if over the limit (not an error)
-    if (static_cast&lt;int&gt;(output.core_thesis_ids.size()) > config_.max_core_thesis_ids) {
+    if (static_cast<int>(output.core_thesis_ids.size()) > config_.max_core_thesis_ids) {
         output.core_thesis_ids.resize(static_cast<std::size_t>(config_.max_core_thesis_ids));
     }
 
@@ -188,3 +188,4 @@ std::string PositionAbstractValidator::buildSchemaInstruction() const
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
+

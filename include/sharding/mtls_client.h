@@ -146,7 +146,7 @@ public:
      * @param endpoint Server endpoint
      * @param path Request path
      * @param body Request body (JSON)
-     * @param authorization_header Value for the Authorization header (e.g. "Bearer &lt;token&gt;")
+     * @param authorization_header Value for the Authorization header (e.g. "Bearer <token>")
      * @return Response with JSON body, or error
      */
     Response post(const std::string& endpoint,
@@ -243,3 +243,4 @@ private:
 };
 
 } // namespace themis::sharding
+

@@ -71,7 +71,7 @@ public:
         if (!backend) {
             int dims = 768;
             if (cfg.config.contains("dims") && cfg.config["dims"].is_number_integer()) {
-                dims = cfg.config["dims"].get&lt;int&gt;();
+                dims = cfg.config["dims"].get<int>();
             }
             fallback  = std::make_shared<NullEmbeddingBackend>(dims);
             backend   = fallback.get();
@@ -139,3 +139,4 @@ std::shared_ptr<IIngestionStep> createChunkEmbedStep(
 } // namespace builtin
 } // namespace ingestion
 } // namespace themis
+

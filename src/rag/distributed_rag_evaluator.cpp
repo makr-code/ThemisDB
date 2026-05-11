@@ -70,7 +70,7 @@ DistributedRAGEvaluator::DistributedRAGEvaluator(
     THEMIS_INFO("DistributedRAGEvaluator initialised with {} judge(s), "
                 "aggregation={}",
                 impl_->workers.size(),
-                static_cast&lt;int&gt;(config.aggregation));
+                static_cast<int>(config.aggregation));
 }
 
 DistributedRAGEvaluator::~DistributedRAGEvaluator() = default;
@@ -457,3 +457,4 @@ DistributedEvaluatorFactory::createFastThorough()
 }
 
 } // namespace themis::rag::distributed
+

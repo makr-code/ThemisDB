@@ -547,7 +547,7 @@ std::string JITAggregationCompiler::makeSpecKey(
     };
     std::ostringstream oss;
     for (const auto& s : specs) {
-        int fi = static_cast&lt;int&gt;(s.function);
+        int fi = static_cast<int>(s.function);
         oss << (fi >= 0 && fi < 6 ? kFnName[fi] : "?")
             << '|' << s.input_column
             << '|' << s.result_name
@@ -583,3 +583,4 @@ const JITAggregationCompiler::Config& JITAggregationCompiler::config() const noe
 
 }  // namespace analytics
 }  // namespace themisdb
+

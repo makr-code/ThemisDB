@@ -255,7 +255,7 @@ PolicyRule DataLifecycleTemplate::instantiateImpl(
     rule.description = "Retention policy for " + params["resource_pattern"].get<std::string>();
     rule.resources = {params["resource_pattern"].get<std::string>()};
     rule.actions = {"*"};
-    rule.retention_days = getParam&lt;int&gt;(params, "retention_days", 365);
+    rule.retention_days = getParam<int>(params, "retention_days", 365);
     rule.classification_level = getParam<std::string>(params, "classification_level", "vs-nfd");
     rule.audit_changes = true;
     rule.priority = 50;
@@ -430,7 +430,7 @@ PolicyRule TimeBasedAccessTemplate::instantiateImpl(
     rule.resources = {params["resource_pattern"].get<std::string>()};
     rule.actions = {"*"};
     rule.required_roles = {params["required_role"].get<std::string>()};
-    rule.retention_days = getParam&lt;int&gt;(params, "access_duration_days", 30);
+    rule.retention_days = getParam<int>(params, "access_duration_days", 30);
     rule.audit_access = true;
     rule.priority = 75;
     rule.enabled = true;
@@ -498,7 +498,7 @@ PolicyRule Soc2ComplianceTemplate::instantiateImpl(
     rule.actions             = {"*"};
     rule.required_roles      = {params["required_role"].get<std::string>()};
     rule.classification_level = getParam<std::string>(params, "classification_level", "vs-nfd");
-    rule.retention_days      = getParam&lt;int&gt;(params, "retention_days", 365);
+    rule.retention_days      = getParam<int>(params, "retention_days", 365);
 
     // CC6.1: Field-level encryption and role-based access control
     rule.require_encryption = true;
@@ -610,3 +610,4 @@ void PolicyTemplateManager::registerBuiltInTemplates() {
 
 } // namespace governance
 } // namespace themis
+

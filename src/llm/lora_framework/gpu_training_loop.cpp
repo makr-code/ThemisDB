@@ -44,7 +44,7 @@ GPUTrainingLoop::GPUTrainingLoop(const GPUTrainingConfig& config)
     spdlog::info("GPUTrainingLoop initialized:");
     spdlog::info("  Epochs: {}", config_.num_epochs);
     spdlog::info("  Learning rate: {}", config_.learning_rate);
-    spdlog::info("  Device: {}", static_cast&lt;int&gt;(config_.device.type));
+    spdlog::info("  Device: {}", static_cast<int>(config_.device.type));
     spdlog::info("  Mixed precision: {}", config_.use_mixed_precision);
     spdlog::info("  Multi-GPU: {}", config_.use_multi_gpu);
     spdlog::info("  Adaptive batching: {}", config_.enable_adaptive_batching);
@@ -353,7 +353,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     }
     
     // Count total layers
-    int total_layers = static_cast&lt;int&gt;(layers_.size());
+    int total_layers = static_cast<int>(layers_.size());
     if (multi_gpu_layer_) {
         total_layers = 1;  // Multi-GPU layer counts as one
     }
@@ -376,10 +376,10 @@ void GPUTrainingLoop::initializeCheckpointing() {
     // Apply checkpointing to layers
     int checkpointed_count = 0;
     for (size_t i = 0; i < layers_.size(); ++i) {
-        if (checkpointer_->shouldCheckpoint(static_cast&lt;int&gt;(i))) {
+        if (checkpointer_->shouldCheckpoint(static_cast<int>(i))) {
             layers_[i]->set_checkpointing(true);
-            layers_[i]->set_layer_id(static_cast&lt;int&gt;(i));
-            checkpointer_->setLayerType(static_cast&lt;int&gt;(i), LayerType::LORA);
+            layers_[i]->set_layer_id(static_cast<int>(i));
+            checkpointer_->setLayerType(static_cast<int>(i), LayerType::LORA);
             checkpointed_count++;
             spdlog::debug("Enabled checkpointing for layer {}", i);
         }
@@ -391,7 +391,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     float compute_overhead = checkpointer_->estimateComputeOverhead();
     
     spdlog::info("Gradient checkpointing initialized:");
-    spdlog::info("  Strategy: {}", static_cast&lt;int&gt;(config_.checkpoint_strategy));
+    spdlog::info("  Strategy: {}", static_cast<int>(config_.checkpoint_strategy));
     spdlog::info("  Total layers: {}", total_layers);
     spdlog::info("  Checkpointed layers: {}", checkpointed_count);
     spdlog::info("  Estimated memory savings: {:.2f} GB", 
@@ -783,7 +783,7 @@ GPUTensor createEmbeddingsOnGPU(
     for (size_t i = 0; i < batch_size; ++i) {
         for (size_t j = 0; j < hidden_dim; ++j) {
             size_t token_idx = j % seq_len;
-            int token_id = static_cast&lt;int&gt;(token_data[i * seq_len + token_idx]);
+            int token_id = static_cast<int>(token_data[i * seq_len + token_idx]);
             embedding_data[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
         }
     }
@@ -805,7 +805,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
         // Step 1: Parallel reduction on GPU
         int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
-        int blocks = std::min(THEMIS_GPU_MAX_BLOCKS, static_cast&lt;int&gt;((n + threads - 1) / threads));
+        int blocks = std::min(THEMIS_GPU_MAX_BLOCKS, static_cast<int>((n + threads - 1) / threads));
         
         // Allocate temporary buffer for partial sums
         GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
@@ -817,7 +817,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 static_cast<float*>(partial_sums.gpu_ptr()),
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 blocks,
                 nullptr  // use default stream
             );
@@ -833,7 +833,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 static_cast<float*>(partial_sums.gpu_ptr()),
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 blocks,
                 nullptr  // use default stream
             );
@@ -903,7 +903,7 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 scale,
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 nullptr  // use default stream
             );
             if (err != cudaSuccess) {
@@ -919,7 +919,7 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 scale,
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 nullptr  // use default stream
             );
             if (err != hipSuccess) {
@@ -995,7 +995,7 @@ float computeFusedMSELossGradientGPU(
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
         // Parallel reduction on GPU
         int threads = 256;
-        int blocks = std::min(1024, static_cast&lt;int&gt;((n + threads - 1) / threads));
+        int blocks = std::min(1024, static_cast<int>((n + threads - 1) / threads));
         
         // Allocate temporary buffer for partial sums
         GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
@@ -1008,7 +1008,7 @@ float computeFusedMSELossGradientGPU(
                 static_cast<float*>(partial_sums.gpu_ptr()),
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 blocks,
                 nullptr  // use default stream
             );
@@ -1021,7 +1021,7 @@ float computeFusedMSELossGradientGPU(
                 static_cast<float*>(partial_sums.gpu_ptr()),
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
-                static_cast&lt;int&gt;(n),
+                static_cast<int>(n),
                 blocks,
                 nullptr  // use default stream
             );
@@ -1077,3 +1077,4 @@ float computeFusedMSELossGradientGPU(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

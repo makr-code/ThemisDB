@@ -799,7 +799,7 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     metadata_entity.setField("confidence", decision.confidence);
     metadata_entity.setField("keywords", std::string(json(keywords).dump()));
     metadata_entity.setField("timestamp", std::chrono::system_clock::now().time_since_epoch().count());
-    metadata_entity.setField("principle_count", static_cast&lt;int&gt;(decision.principle_citations.size()));
+    metadata_entity.setField("principle_count", static_cast<int>(decision.principle_citations.size()));
     metadata_entity.setField("metrics_avg", 
         (decision.metrics.consistency + decision.metrics.fairness + 
          decision.metrics.transparency + decision.metrics.feasibility + 
@@ -1375,3 +1375,4 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
 
 } // namespace llm
 } // namespace themis
+

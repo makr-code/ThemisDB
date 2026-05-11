@@ -701,7 +701,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(
         // Search top-k*3 candidates per vertex to give the threshold filter
         // enough room even if some ANN results fall below add_threshold.
         const int k_search =
-            static_cast&lt;int&gt;(policy.top_k_candidates) * 3 + 1; // +1 to exclude self
+            static_cast<int>(policy.top_k_candidates) * 3 + 1; // +1 to exclude self
 
         for (const auto& vertex : vertices) {
             auto emb_v = embedding_fn_(vertex);
@@ -967,3 +967,4 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
 
 } // namespace graph
 } // namespace themis
+

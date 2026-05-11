@@ -109,7 +109,7 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     tokens_buffer.resize(n_tokens);
     
     // Convert to int vector
-    std::vector&lt;int&gt; tokens(tokens_buffer.begin(), tokens_buffer.end());
+    std::vector<int> tokens(tokens_buffer.begin(), tokens_buffer.end());
     
     // Extract embedding
     auto embedding = extractEmbeddingFromTokens(tokens);
@@ -341,7 +341,7 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
 }
 
 std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
-    const std::vector&lt;int&gt;& tokens
+    const std::vector<int>& tokens
 ) {
     if (tokens.empty()) {
         return std::vector<float>();
@@ -464,3 +464,4 @@ void EmbeddingProvider::addToCache(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

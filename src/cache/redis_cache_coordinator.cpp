@@ -651,9 +651,9 @@ std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const
 
     if (!HMAC(EVP_sha256(),
               config_.hmac_secret.data(),
-              static_cast&lt;int&gt;(config_.hmac_secret.size()),
+              static_cast<int>(config_.hmac_secret.size()),
               reinterpret_cast<const unsigned char*>(payload.data()),
-              static_cast&lt;int&gt;(payload.size()),
+              static_cast<int>(payload.size()),
               md, &md_len)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
         return {};
@@ -662,7 +662,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const
     std::ostringstream oss;
     for (unsigned int i = 0; i < md_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast&lt;int&gt;(md[i]);
+            << static_cast<int>(md[i]);
     }
     return oss.str();
 }
@@ -742,3 +742,4 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(
 
 } // namespace cache
 } // namespace themis
+

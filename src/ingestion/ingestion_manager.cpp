@@ -92,7 +92,7 @@ static std::string sourceTypeLabel(SourceType t) {
 
 /// Map IngestionErrorCode to its integer string for a metric label
 [[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
-    return std::to_string(static_cast&lt;int&gt;(c));
+    return std::to_string(static_cast<int>(c));
 }
 
 // ============================================================================
@@ -739,7 +739,7 @@ public:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
                                    IngestionErrorSeverity::ERROR,
                                    "Connector type not yet implemented: " +
-                                   std::to_string(static_cast&lt;int&gt;(config.type)),
+                                   std::to_string(static_cast<int>(config.type)),
                                    source_id);
                     return stats;
             }
@@ -1891,7 +1891,7 @@ std::string IngestionMetricsExporter::exportText(
         // Count occurrences per error code
         std::unordered_map<int, size_t> code_counts;
         for (const auto& err : stats.errors) {
-            code_counts[static_cast&lt;int&gt;(err.code)]++;
+            code_counts[static_cast<int>(err.code)]++;
         }
         for (const auto& [code_int, cnt] : code_counts) {
             auto labels = base_labels;
@@ -2332,4 +2332,5 @@ std::string IngestionAdminApi::healthJson() const {
 
 } // namespace ingestion
 } // namespace themis
+
 

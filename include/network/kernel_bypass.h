@@ -155,7 +155,7 @@ public:
     /**
      * @brief Return all core IDs that belong to the specified NUMA node.
      */
-    static std::vector&lt;int&gt; coresOnNuma(int numa_node) noexcept;
+    static std::vector<int> coresOnNuma(int numa_node) noexcept;
 };
 
 // =============================================================================
@@ -424,7 +424,7 @@ public:
     /**
      * @brief Return the set of CPU cores derived from `cpu_core_mask`.
      */
-    static std::vector&lt;int&gt; coresFromMask(uint64_t mask) noexcept;
+    static std::vector<int> coresFromMask(uint64_t mask) noexcept;
 
 private:
     Config                  config_;
@@ -624,3 +624,4 @@ private:
 
 } // namespace network
 } // namespace themis
+

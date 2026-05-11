@@ -51,7 +51,7 @@ nlohmann::json OptimizationResult::toJson() const {
     j["prompt_id"] = prompt_id;
     j["original_version"] = original_version;
     j["optimized_version"] = optimized_version;
-    j["status"] = static_cast&lt;int&gt;(status);
+    j["status"] = static_cast<int>(status);
     j["baseline_score"] = baseline_score;
     j["optimized_score"] = optimized_score;
     j["improvement"] = improvement;
@@ -664,3 +664,4 @@ std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
 
 } // namespace prompt_engineering
 } // namespace themis
+

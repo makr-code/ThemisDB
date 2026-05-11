@@ -497,7 +497,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 // ---------------------------------------------------------------------------
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
     std::vector<uint8_t> nonce(bytes);
-    if (RAND_bytes(nonce.data(), static_cast&lt;int&gt;(bytes)) != 1) {
+    if (RAND_bytes(nonce.data(), static_cast<int>(bytes)) != 1) {
         last_error_ = "RAND_bytes failed";
         return {};
     }
@@ -538,7 +538,7 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(
     TS_MSG_IMPRINT_set_msg(
         imprint,
         const_cast<unsigned char*>(hash.data()),
-        static_cast&lt;int&gt;(hash.size()));
+        static_cast<int>(hash.size()));
 
     TS_REQ_set_msg_imprint(req, imprint);
     TS_MSG_IMPRINT_free(imprint);
@@ -546,7 +546,7 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(
     // --- Nonce for replay protection ---
     if (!nonce_bytes.empty()) {
         BIGNUM* bn = BN_bin2bn(
-            nonce_bytes.data(), static_cast&lt;int&gt;(nonce_bytes.size()), nullptr);
+            nonce_bytes.data(), static_cast<int>(nonce_bytes.size()), nullptr);
         if (bn) {
             ASN1_INTEGER* asn1_nonce = BN_to_ASN1_INTEGER(bn, nullptr);
             BN_free(bn);
@@ -668,7 +668,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(
     }
 
     long pki_status = ASN1_INTEGER_get(TS_STATUS_INFO_get0_status(status_info));
-    tok.pki_status = static_cast&lt;int&gt;(pki_status);
+    tok.pki_status = static_cast<int>(pki_status);
 
     // 0 = granted, 1 = grantedWithMods; anything else is a rejection
     if (pki_status != 0 && pki_status != 1) {
@@ -710,7 +710,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         BIO_push(b64, mem);
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
         BIO_write(b64, tok.token_der.data(),
-                  static_cast&lt;int&gt;(tok.token_der.size()));
+                  static_cast<int>(tok.token_der.size()));
         BIO_flush(b64);
         const char* b64_data = nullptr;
         long b64_len = BIO_get_mem_data(mem, &b64_data);
@@ -952,12 +952,12 @@ TimestampToken TimestampAuthority::parseToken(
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     BIO* b64 = BIO_new(BIO_f_base64());
     BIO* mem = BIO_new_mem_buf(token_b64.data(),
-                               static_cast&lt;int&gt;(token_b64.size()));
+                               static_cast<int>(token_b64.size()));
     BIO_push(b64, mem);
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> der(token_b64.size()); // upper bound
-    int n = BIO_read(b64, der.data(), static_cast&lt;int&gt;(der.size()));
+    int n = BIO_read(b64, der.data(), static_cast<int>(der.size()));
     BIO_free_all(b64);
 
     if (n <= 0) {
@@ -1029,7 +1029,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
 
     for (const auto& pem_anchor : trust_anchors) {
         BIO* bio = BIO_new_mem_buf(
-            pem_anchor.data(), static_cast&lt;int&gt;(pem_anchor.size()));
+            pem_anchor.data(), static_cast<int>(pem_anchor.size()));
         X509* ca = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
         BIO_free(bio);
         if (ca) {
@@ -1127,7 +1127,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     }
 
     BIO* bio = BIO_new_mem_buf(
-        tsa_cert_pem.data(), static_cast&lt;int&gt;(tsa_cert_pem.size()));
+        tsa_cert_pem.data(), static_cast<int>(tsa_cert_pem.size()));
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
 
@@ -1161,3 +1161,4 @@ std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
 } } // namespace themis::security
 
 #endif // THEMIS_USE_OPENSSL_TSA
+

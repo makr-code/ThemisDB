@@ -109,6 +109,15 @@ public:
              const DataPoint& point);
     
     /**
+     * @brief Query data points in time range (all data)
+     * @param metric Metric name
+     * @param entity Entity ID
+     * @return Vector of data points
+     */
+    std::vector<DataPoint> query(std::string_view metric,
+                                  std::string_view entity) const;
+    
+    /**
      * @brief Query data points in time range
      * @param metric Metric name
      * @param entity Entity ID
@@ -116,10 +125,17 @@ public:
      * @return Vector of data points
      */
     std::vector<DataPoint> query(std::string_view metric,
-                                  std::string_view entity) const;
-    std::vector<DataPoint> query(std::string_view metric,
                                   std::string_view entity,
                                   const RangeQuery& query) const;
+    
+    /**
+     * @brief Aggregate data points in time range (all data)
+     * @param metric Metric name
+     * @param entity Entity ID
+     * @return Aggregation result
+     */
+    Aggregation aggregate(std::string_view metric,
+                         std::string_view entity) const;
     
     /**
      * @brief Aggregate data points in time range
@@ -128,8 +144,6 @@ public:
      * @param query Range query parameters
      * @return Aggregation result
      */
-    Aggregation aggregate(std::string_view metric,
-                         std::string_view entity) const;
     Aggregation aggregate(std::string_view metric,
                          std::string_view entity,
                          const RangeQuery& query) const;

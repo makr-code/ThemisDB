@@ -139,7 +139,7 @@ enum class AuthErrorCode {
  * @brief Convert AuthErrorCode to ErrorRegistry ErrorCode
  */
 inline errors::ErrorCode toErrorCode(AuthErrorCode code) {
-    return static_cast<errors::ErrorCode>(static_cast&lt;int&gt;(code));
+    return static_cast<errors::ErrorCode>(static_cast<int>(code));
 }
 
 /**
@@ -313,3 +313,4 @@ void registerAuthErrors();
 
 } // namespace auth
 } // namespace themis
+

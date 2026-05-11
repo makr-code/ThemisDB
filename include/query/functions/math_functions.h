@@ -132,7 +132,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        int precision = args.size() > 1 ? static_cast&lt;int&gt;(args[1].get<int64_t>()) : 0;
+        int precision = args.size() > 1 ? static_cast<int>(args[1].get<int64_t>()) : 0;
         
         if (precision == 0) {
             return std::round(num);
@@ -735,3 +735,4 @@ inline void registerMathFunctions(FunctionRegistry& reg) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+

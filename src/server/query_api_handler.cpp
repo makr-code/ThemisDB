@@ -127,7 +127,7 @@ http::response<http::string_body> QueryApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -842,7 +842,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             }
 
-            // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.&lt;field&gt; == <literal|funktion> oder FILTER e.&lt;field&gt; == <literal|funktion>
+            // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
                 char var; // 'v' oder 'e'
@@ -1257,7 +1257,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (auto* be = dynamic_cast<const BinaryOpExpr*>(e)) {
                     auto evalCmp = [&](const Expression* left, BinaryOperator op, const Expression* right)->bool{
-                        // Unterst�tze: FieldAccess(v|e).field &lt;op&gt; (Literal|Funktion) und umgekehrt
+                        // Unterst�tze: FieldAccess(v|e).field <op> (Literal|Funktion) und umgekehrt
                         auto parseFA = [&](const Expression* ex, char& var, std::string& field)->bool{
                             auto* fa = dynamic_cast<const FieldAccessExpr*>(ex);
                             if (!fa) return false;
@@ -1993,9 +1993,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 res["metrics"] = std::move(metrics);
             }
             
-            traversalSpan.setAttribute("traversal.result_count", static_cast<int64_t>(res["count"].get&lt;int&gt;()));
+            traversalSpan.setAttribute("traversal.result_count", static_cast<int64_t>(res["count"].get<int>()));
             traversalSpan.setStatus(true);
-            span.setAttribute("aql.result_count", static_cast<int64_t>(res["count"].get&lt;int&gt;()));
+            span.setAttribute("aql.result_count", static_cast<int64_t>(res["count"].get<int>()));
             span.setStatus(true);
             if (res.contains("entities") && res["entities"].is_array()) {
                 res["entities"] = applyMasking(res["entities"], req);
@@ -2933,7 +2933,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         int start = off.is_number_integer() ? themis::utils::conversion::safe_int64_to_int32(off.get<int64_t>()) : 0;
                         int count = len.is_number_integer() ? 
                             themis::utils::conversion::safe_int64_to_int32(len.get<int64_t>()) : 
-                            themis::utils::conversion::safe_size_to_int(str.size()) - std::min&lt;int&gt;(start, themis::utils::conversion::safe_size_to_int(str.size()));
+                            themis::utils::conversion::safe_size_to_int(str.size()) - std::min<int>(start, themis::utils::conversion::safe_size_to_int(str.size()));
                         if (start < 0) {
                             start = 0;
                         }
@@ -3518,7 +3518,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         // Emit a terminal "done" event with metadata
         json done_event = {
             {"rows_streamed", seq},
-            {"total",         result.value("count", static_cast&lt;int&gt;(rows.size()))}
+            {"total",         result.value("count", static_cast<int>(rows.size()))}
         };
         body << "event: done\n";
         body << "data: " << done_event.dump() << "\n\n";
@@ -3540,3 +3540,4 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
 
 } // namespace server
 } // namespace themis
+

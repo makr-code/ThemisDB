@@ -1005,7 +1005,7 @@ std::string AccessControl::generateSessionToken() const {
     
     std::stringstream ss;
     for (size_t i = 0; i < sizeof(buffer); i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(buffer[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(buffer[i]);
     }
     
     return ss.str();
@@ -1039,3 +1039,4 @@ bool AccessControl::checkRateLimit(const std::string& user_id) {
 
 } // namespace security
 } // namespace themis
+

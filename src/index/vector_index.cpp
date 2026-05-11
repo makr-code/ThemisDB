@@ -106,7 +106,7 @@ VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const Adva
 	
 	if (config.enabled) {
 		THEMIS_INFO("Advanced vector indexing enabled: type={}, nlist={}, nprobe={}, use_pq={}, gpu={}",
-		           static_cast&lt;int&gt;(config.index_type), config.nlist, config.nprobe, 
+		           static_cast<int>(config.index_type), config.nlist, config.nprobe, 
 		           config.use_pq, config.use_gpu);
 		
 		// SCANN and DISKANN are pure-C++ backends that do not require FAISS/GPU
@@ -469,7 +469,7 @@ float VectorIndexManager::distance(const std::vector<float>& a, const std::vecto
 		// to align with expected semantics for generated test embeddings ((i + j)/1000 pattern).
 		if (isVectorEncryptionEnabled()) {
 			std::vector<float> b_adj = b;
-			const int n = static_cast&lt;int&gt;(b_adj.size());
+			const int n = static_cast<int>(b_adj.size());
 			double sumj = 0.0, sumj2 = 0.0, sumb = 0.0, sumjb = 0.0;
 			for (int j = 0; j < n; ++j) {
 				sumj += j;
@@ -1014,7 +1014,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 		std::vector<uint8_t> codes(v->size());
 		for (size_t i = 0; i < v->size(); ++i) {
-			int q = static_cast&lt;int&gt;(std::round((*v)[i] / scale));
+			int q = static_cast<int>(std::round((*v)[i] / scale));
 			q = std::max(-127, std::min(127, q));
 			codes[i] = static_cast<uint8_t>(static_cast<int8_t>(q));
 		}
@@ -1114,7 +1114,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 		std::vector<uint8_t> codes(v->size());
 		for (size_t i = 0; i < v->size(); ++i) {
-			int q = static_cast&lt;int&gt;(std::round((*v)[i] / scale));
+			int q = static_cast<int>(std::round((*v)[i] / scale));
 			q = std::max(-127, std::min(127, q));
 			codes[i] = static_cast<uint8_t>(static_cast<int8_t>(q));
 		}
@@ -1451,7 +1451,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				// Estimate layers traversed (HNSW formula: log2(N))
 				// Note: This is an approximation based on the probabilistic layer model.
 				// For more accurate layer information, consider using actual layer data from the HNSW index.
-				int estimated_layers = static_cast&lt;int&gt;(std::log2(idToPk_.size() + 1));
+				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
 				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
 			}
 			
@@ -1572,7 +1572,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	if (ann_backend_ && (!whitelist || whitelist->empty())) {
 		std::vector<float> q = query;
 		if (metric_ == Metric::COSINE) normalizeL2(q);
-		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast&lt;int&gt;(k));
+		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast<int>(k));
 		std::vector<Result> out;
 		out.reserve(raw.size());
 		for (const auto& r : raw) {
@@ -1931,7 +1931,7 @@ VectorIndexManager::searchKnnRadius(
 	size_t max_results,
 	const std::vector<std::string>* whitelistPks
 ) const {
-	if (static_cast&lt;int&gt;(query.size()) != dim_) {
+	if (static_cast<int>(query.size()) != dim_) {
 		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), {}};
 	}
 
@@ -2010,7 +2010,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	const std::vector<AttributeFilterV2>& filters,
 	SecondaryIndexManager* secondaryIdx
 ) const {
-	if (static_cast&lt;int&gt;(query.size()) != dim_) {
+	if (static_cast<int>(query.size()) != dim_) {
 		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), {}};
 	}
 
@@ -2385,7 +2385,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 		std::vector<uint8_t> codes(v->size());
 		for (size_t i = 0; i < v->size(); ++i) {
-			int q = static_cast&lt;int&gt;(std::round((*v)[i] / scale));
+			int q = static_cast<int>(std::round((*v)[i] / scale));
 			q = std::max(-127, std::min(127, q));
 			codes[i] = static_cast<uint8_t>(static_cast<int8_t>(q));
 		}
@@ -2508,7 +2508,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 			float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 			std::vector<uint8_t> codes(v->size());
 			for (size_t i = 0; i < v->size(); ++i) {
-				int q = static_cast&lt;int&gt;(std::round((*v)[i] / scale));
+				int q = static_cast<int>(std::round((*v)[i] / scale));
 				q = std::max(-127, std::min(127, q));
 				codes[i] = static_cast<uint8_t>(static_cast<int8_t>(q));
 			}
@@ -3032,3 +3032,4 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
+

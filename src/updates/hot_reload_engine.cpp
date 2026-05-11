@@ -104,7 +104,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     
     for (const auto& file : manifest->files) {
         current_file++;
-        int progress = 10 + (static_cast&lt;int&gt;(current_file) * 80 / static_cast&lt;int&gt;(file_count));
+        int progress = 10 + (static_cast<int>(current_file) * 80 / static_cast<int>(file_count));
         reportProgress(progress, "Downloading " + file.path);
         
         std::string dest_path = version_dir + "/" + file.path;
@@ -222,7 +222,7 @@ ReloadResult HotReloadEngine::applyHotReload(
 
     for (const auto& file : manifest->files) {
         current_file++;
-        int progress = 50 + (static_cast&lt;int&gt;(current_file) * 40 / static_cast&lt;int&gt;(file_count));
+        int progress = 50 + (static_cast<int>(current_file) * 40 / static_cast<int>(file_count));
         reportProgress(progress, "Updating " + file.path);
 
         std::string src_path = version_dir + "/" + file.path;
@@ -658,3 +658,4 @@ UpdateHistoryLogger* HotReloadEngine::historyLogger() {
 
 } // namespace updates
 } // namespace themis
+

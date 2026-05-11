@@ -39,7 +39,7 @@ static std::string toHex(const uint8_t* data, size_t len) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
-        oss << std::setw(2) << static_cast&lt;int&gt;(data[i]);
+        oss << std::setw(2) << static_cast<int>(data[i]);
     }
     return oss.str();
 }
@@ -298,3 +298,4 @@ Result<void> ContentFS::remove(const std::string& pk) {
 }
 
 } // namespace themis
+

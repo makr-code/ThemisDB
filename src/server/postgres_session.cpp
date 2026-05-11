@@ -808,7 +808,7 @@ void PostgresSession::handleCopyDone() {
                 doc["col" + std::to_string(i)] = fields[i];
             }
 
-            // Build AQL: INSERT &lt;doc&gt; INTO <table>
+            // Build AQL: INSERT <doc> INTO <table>
             std::string aql = "INSERT " + doc.dump() + " INTO " + copyTableName_;
             try {
                 query::AQLParser parser;
@@ -2029,3 +2029,4 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
 }
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
+

@@ -158,7 +158,7 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
     uint32_t attempt = 0;
     while (true) {
         ++attempt;
-        result.attempts = static_cast&lt;int&gt;(attempt);
+        result.attempts = static_cast<int>(attempt);
 
         if (executor_ == nullptr) {
             result.success = false;
@@ -249,7 +249,7 @@ InferenceResponse FederatedInferenceCoordinator::parseResponse(const nlohmann::j
         resp.model_id = data["model_id"].get<std::string>();
     }
     if (data.contains("tokens_generated") && data["tokens_generated"].is_number_integer()) {
-        resp.tokens_generated = data["tokens_generated"].get&lt;int&gt;();
+        resp.tokens_generated = data["tokens_generated"].get<int>();
     }
     if (data.contains("inference_time_ms") && data["inference_time_ms"].is_number()) {
         resp.inference_time_ms = data["inference_time_ms"].get<float>();
@@ -260,3 +260,4 @@ InferenceResponse FederatedInferenceCoordinator::parseResponse(const nlohmann::j
 }
 
 } // namespace themis::llm
+

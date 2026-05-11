@@ -247,7 +247,7 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     }
     
     THEMIS_DEBUG("Depth assessment: level={}, score={:.2f}, examples={}, evidence={}, sentences={}", 
-                 static_cast&lt;int&gt;(level), depth_score, example_count, evidence_count, sentence_count);
+                 static_cast<int>(level), depth_score, example_count, evidence_count, sentence_count);
     
     return {level, depth_score};
 }
@@ -392,3 +392,4 @@ CompletenessResult CompletenessEvaluator::evaluate(
 }
 
 } // namespace themis::rag::judge
+

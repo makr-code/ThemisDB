@@ -155,7 +155,7 @@ public:
     );
     
     // Parallel BFS example using Ligra
-    std::vector&lt;int&gt; parallel_bfs(
+    std::vector<int> parallel_bfs(
         NodeID start_vertex,
         const std::vector<std::vector<NodeID>>& adj_list
     );
@@ -203,3 +203,4 @@ private:
 
 } // namespace performance
 } // namespace themis
+

@@ -177,7 +177,7 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
         spdlog::info("  - Number of patches: {}", getNumPatches());
         spdlog::info("  - Total embedding size: {}", getTotalEmbeddingSize());
         spdlog::info("  - API Version: {}", config_->getAPIVersion());
-        spdlog::info("  - Stability: {}", static_cast&lt;int&gt;(config_->getAPIStability()));
+        spdlog::info("  - Stability: {}", static_cast<int>(config_->getAPIStability()));
         
         auto license = config_->getModelLicense(model_id_);
         if (license) {
@@ -598,3 +598,4 @@ void VisionEncoder::freeImage(clip_image_f32* img_f32) {
 
 } // namespace llm
 } // namespace themis
+

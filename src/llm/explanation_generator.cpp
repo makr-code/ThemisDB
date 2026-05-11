@@ -271,7 +271,7 @@ std::string ExplanationGenerator::explainConfidence(
     std::ostringstream out;
     
     // Convert to percentage
-    int confidence_pct = static_cast&lt;int&gt;(confidence * 100);
+    int confidence_pct = static_cast<int>(confidence * 100);
     
     out << "Confidence Level: " << confidence_pct << "%\n\n";
     
@@ -446,3 +446,4 @@ float ExplanationGenerator::calculateSimilarity(
 
 } // namespace llm
 } // namespace themis
+

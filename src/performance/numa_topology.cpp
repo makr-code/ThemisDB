@@ -64,7 +64,7 @@ int NumaTopology::local_node() const noexcept {
     unsigned node_num = 0;
 #   ifdef SYS_getcpu
     if (syscall(SYS_getcpu, &cpu, &node_num, nullptr) == 0) {
-        return static_cast&lt;int&gt;(node_num);
+        return static_cast<int>(node_num);
     }
 #   endif
     // Fallback: derive from sched_getcpu
@@ -80,8 +80,8 @@ int NumaTopology::local_node() const noexcept {
 
 #ifdef __linux__
 
-static std::vector&lt;int&gt; parse_cpu_list(const std::string& list_str) {
-    std::vector&lt;int&gt; cpus;
+static std::vector<int> parse_cpu_list(const std::string& list_str) {
+    std::vector<int> cpus;
     std::stringstream ss(list_str);
     std::string token;
     while (std::getline(ss, token, ',')) {
@@ -122,16 +122,16 @@ static NumaTopology detect_linux() noexcept {
         node0.node_id = 0;
         long nproc = sysconf(_SC_NPROCESSORS_ONLN);
         if (nproc < 0) nproc = 1;
-        for (int i = 0; i < static_cast&lt;int&gt;(nproc); ++i) node0.cpu_ids.push_back(i);
+        for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
-        topo.num_cpus = static_cast&lt;int&gt;(nproc);
+        topo.num_cpus = static_cast<int>(nproc);
         return topo;
     }
 
     struct dirent* entry;
-    std::vector&lt;int&gt; node_ids;
+    std::vector<int> node_ids;
     while ((entry = readdir(dir)) != nullptr) {
         std::string name(entry->d_name);
         if (name.rfind("node", 0) == 0 && name.size() > 4) {
@@ -180,22 +180,22 @@ static NumaTopology detect_linux() noexcept {
             while (iss >> d) node.distances.push_back(d);
         }
 
-        topo.num_cpus += static_cast&lt;int&gt;(node.cpu_ids.size());
+        topo.num_cpus += static_cast<int>(node.cpu_ids.size());
         topo.nodes.push_back(std::move(node));
     }
 
-    topo.num_nodes = static_cast&lt;int&gt;(topo.nodes.size());
+    topo.num_nodes = static_cast<int>(topo.nodes.size());
     if (topo.num_nodes == 0) {
         // Fallback
         long nproc = sysconf(_SC_NPROCESSORS_ONLN);
         if (nproc < 0) nproc = 1;
         NumaNode node0;
         node0.node_id = 0;
-        for (int i = 0; i < static_cast&lt;int&gt;(nproc); ++i) node0.cpu_ids.push_back(i);
+        for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
-        topo.num_cpus = static_cast&lt;int&gt;(nproc);
+        topo.num_cpus = static_cast<int>(nproc);
     }
     return topo;
 }
@@ -217,22 +217,22 @@ static NumaTopology detect_windows() noexcept {
         node0.node_id = 0;
         SYSTEM_INFO si;
         GetSystemInfo(&si);
-        for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) node0.cpu_ids.push_back(static_cast&lt;int&gt;(i));
+        for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) node0.cpu_ids.push_back(static_cast<int>(i));
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
-        topo.num_cpus = static_cast&lt;int&gt;(si.dwNumberOfProcessors);
+        topo.num_cpus = static_cast<int>(si.dwNumberOfProcessors);
         return topo;
     }
 
     for (ULONG n = 0; n <= highest_node; ++n) {
         NumaNode node;
-        node.node_id = static_cast&lt;int&gt;(n);
+        node.node_id = static_cast<int>(n);
 
         GROUP_AFFINITY affinity;
         if (GetNumaNodeProcessorMaskEx(static_cast<USHORT>(n), &affinity)) {
             KAFFINITY mask = affinity.Mask;
-            int cpu_base = static_cast&lt;int&gt;(affinity.Group) * 64;
+            int cpu_base = static_cast<int>(affinity.Group) * 64;
             for (int bit = 0; bit < 64; ++bit) {
                 if (mask & (static_cast<KAFFINITY>(1) << bit)) {
                     node.cpu_ids.push_back(cpu_base + bit);
@@ -244,11 +244,11 @@ static NumaTopology detect_windows() noexcept {
         GetNumaAvailableMemoryNodeEx(static_cast<USHORT>(n), &mem_kb);
         node.memory_bytes = mem_kb * 1024;
 
-        topo.num_cpus += static_cast&lt;int&gt;(node.cpu_ids.size());
+        topo.num_cpus += static_cast<int>(node.cpu_ids.size());
         topo.nodes.push_back(std::move(node));
     }
 
-    topo.num_nodes = static_cast&lt;int&gt;(topo.nodes.size());
+    topo.num_nodes = static_cast<int>(topo.nodes.size());
     return topo;
 }
 
@@ -293,11 +293,11 @@ NumaTopology NumaTopologyDetector::detect_impl() noexcept {
     node0.node_id = 0;
     unsigned int nproc = std::thread::hardware_concurrency();
     if (nproc == 0) nproc = 1;
-    for (unsigned int i = 0; i < nproc; ++i) node0.cpu_ids.push_back(static_cast&lt;int&gt;(i));
+    for (unsigned int i = 0; i < nproc; ++i) node0.cpu_ids.push_back(static_cast<int>(i));
     node0.distances = {10};
     topo.nodes.push_back(node0);
     topo.num_nodes = 1;
-    topo.num_cpus = static_cast&lt;int&gt;(nproc);
+    topo.num_cpus = static_cast<int>(nproc);
     return topo;
 #endif
 }
@@ -330,7 +330,7 @@ bool ThreadPinner::pin_to_node(int node_id) noexcept {
     return false;
 }
 
-bool ThreadPinner::pin_to_cpus(const std::vector&lt;int&gt;& cpu_ids) noexcept {
+bool ThreadPinner::pin_to_cpus(const std::vector<int>& cpu_ids) noexcept {
     if (cpu_ids.empty()) return false;
     cpu_set_t cs;
     CPU_ZERO(&cs);
@@ -350,11 +350,11 @@ bool ThreadPinner::unpin() noexcept {
     return set_affinity_from_cpu_set(&cs);
 }
 
-std::vector&lt;int&gt; ThreadPinner::current_affinity() noexcept {
+std::vector<int> ThreadPinner::current_affinity() noexcept {
     cpu_set_t cs;
     CPU_ZERO(&cs);
     if (pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cs) != 0) return {};
-    std::vector&lt;int&gt; cpus;
+    std::vector<int> cpus;
     for (int i = 0; i < CPU_SETSIZE; ++i) {
         if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) cpus.push_back(i);
     }
@@ -384,7 +384,7 @@ bool ThreadPinner::pin_to_node(int node_id) noexcept {
     return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;
 }
 
-bool ThreadPinner::pin_to_cpus(const std::vector&lt;int&gt;& cpu_ids) noexcept {
+bool ThreadPinner::pin_to_cpus(const std::vector<int>& cpu_ids) noexcept {
     if (cpu_ids.empty()) return false;
     // All CPUs must be in the same processor group for SetThreadGroupAffinity
     WORD group = static_cast<WORD>(cpu_ids[0] / 64);
@@ -408,11 +408,11 @@ bool ThreadPinner::unpin() noexcept {
     return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;
 }
 
-std::vector&lt;int&gt; ThreadPinner::current_affinity() noexcept {
+std::vector<int> ThreadPinner::current_affinity() noexcept {
     GROUP_AFFINITY affinity{};
     if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) return {};
-    std::vector&lt;int&gt; cpus;
-    int base = static_cast&lt;int&gt;(affinity.Group) * 64;
+    std::vector<int> cpus;
+    int base = static_cast<int>(affinity.Group) * 64;
     for (int bit = 0; bit < 64; ++bit) {
         if (affinity.Mask & (static_cast<KAFFINITY>(1) << bit)) {
             cpus.push_back(base + bit);
@@ -427,7 +427,7 @@ int ThreadPinner::current_node() noexcept {
     // Find the first set bit
     for (int bit = 0; bit < 64; ++bit) {
         if (affinity.Mask & (static_cast<KAFFINITY>(1) << bit)) {
-            int cpu_id = static_cast&lt;int&gt;(affinity.Group) * 64 + bit;
+            int cpu_id = static_cast<int>(affinity.Group) * 64 + bit;
             return NumaTopologyDetector::detect().node_of_cpu(cpu_id);
         }
     }
@@ -438,15 +438,15 @@ int ThreadPinner::current_node() noexcept {
 
 bool ThreadPinner::pin_to_cpu(int /*cpu_id*/) noexcept { return false; }
 bool ThreadPinner::pin_to_node(int /*node_id*/) noexcept { return false; }
-bool ThreadPinner::pin_to_cpus(const std::vector&lt;int&gt;& /*cpu_ids*/) noexcept { return false; }
+bool ThreadPinner::pin_to_cpus(const std::vector<int>& /*cpu_ids*/) noexcept { return false; }
 bool ThreadPinner::unpin() noexcept { return false; }
 
-std::vector&lt;int&gt; ThreadPinner::current_affinity() noexcept {
+std::vector<int> ThreadPinner::current_affinity() noexcept {
     // Return all logical CPUs as a best-effort fallback
     unsigned int nproc = std::thread::hardware_concurrency();
     if (nproc == 0) nproc = 1;
-    std::vector&lt;int&gt; cpus;
-    for (unsigned int i = 0; i < nproc; ++i) cpus.push_back(static_cast&lt;int&gt;(i));
+    std::vector<int> cpus;
+    for (unsigned int i = 0; i < nproc; ++i) cpus.push_back(static_cast<int>(i));
     return cpus;
 }
 
@@ -456,3 +456,4 @@ int ThreadPinner::current_node() noexcept { return 0; }
 
 } // namespace performance
 } // namespace themis
+

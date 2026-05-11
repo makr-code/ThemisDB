@@ -50,7 +50,7 @@ std::string base64Encode(const unsigned char* data, size_t len) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data, static_cast&lt;int&gt;(len));
+    BIO_write(bio, data, static_cast<int>(len));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -92,9 +92,9 @@ JWKSSecurityConfig::JWKSSecurityConfig(const Config& config)
     validate();
     
     utils::Logger::info("JWKS Security Config initialized:");
-    utils::Logger::info("  Pinning mode: {}", static_cast&lt;int&gt;(config_.pinning_mode));
+    utils::Logger::info("  Pinning mode: {}", static_cast<int>(config_.pinning_mode));
     utils::Logger::info("  mTLS enabled: {}", config_.enable_mtls);
-    utils::Logger::info("  Min TLS version: {}", static_cast&lt;int&gt;(config_.min_tls_version));
+    utils::Logger::info("  Min TLS version: {}", static_cast<int>(config_.min_tls_version));
 }
 
 void JWKSSecurityConfig::validate() const {
@@ -400,7 +400,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast&lt;int&gt;(cert_pem.size()));
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }
@@ -507,3 +507,4 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
 
 } // namespace auth
 } // namespace themis
+

@@ -144,7 +144,7 @@ public:
 private:
     EmbeddingPipelineConfig config_;
     mutable std::atomic<uint64_t> failure_count_{0};
-    mutable std::atomic&lt;int&gt; embedding_dim_{0};
+    mutable std::atomic<int> embedding_dim_{0};
 
     /// Core embed call wrapped with timeout enforcement.
     /// Returns empty vector on timeout/error, increments failure_count_, and
@@ -157,3 +157,4 @@ private:
 
 } // namespace content
 } // namespace themis
+

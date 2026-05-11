@@ -1436,10 +1436,10 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
 
     const std::string& kw0 = tok(0);
 
-    // ── DROP CONTINUOUS QUERY &lt;name&gt; ─────────────────────────────────────────
+    // ── DROP CONTINUOUS QUERY <name> ─────────────────────────────────────────
     if (kw0 == "DROP") {
         if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
-            return make_err("Expected: DROP CONTINUOUS QUERY &lt;name&gt;");
+            return make_err("Expected: DROP CONTINUOUS QUERY <name>");
         }
         if (tok(3).empty()) {
             return make_err("DROP CONTINUOUS QUERY requires a query name");
@@ -1450,10 +1450,10 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         return Ok(std::move(ddl));
     }
 
-    // ── DESCRIBE CONTINUOUS QUERY &lt;name&gt; ─────────────────────────────────────
+    // ── DESCRIBE CONTINUOUS QUERY <name> ─────────────────────────────────────
     if (kw0 == "DESCRIBE") {
         if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
-            return make_err("Expected: DESCRIBE CONTINUOUS QUERY &lt;name&gt;");
+            return make_err("Expected: DESCRIBE CONTINUOUS QUERY <name>");
         }
         if (tok(3).empty()) {
             return make_err("DESCRIBE CONTINUOUS QUERY requires a query name");
@@ -1474,7 +1474,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         return Ok(std::move(ddl));
     }
 
-    // ── CREATE CONTINUOUS QUERY &lt;name&gt; ON <collection>
+    // ── CREATE CONTINUOUS QUERY <name> ON <collection>
     //         WINDOW TIME(<r>,<s>) | COUNT(<rows>,<slide>) | TUMBLING(<i>)
     //         RETURN <aql_body> ────────────────────────────────────────────────
     if (kw0 != "CREATE") {
@@ -1484,7 +1484,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     }
 
     if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
-        return make_err("Expected: CREATE CONTINUOUS QUERY &lt;name&gt; ...");
+        return make_err("Expected: CREATE CONTINUOUS QUERY <name> ...");
     }
 
     const std::string& query_name = tok(3);
@@ -1615,3 +1615,4 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
 
 }  // namespace query
 }  // namespace themis
+

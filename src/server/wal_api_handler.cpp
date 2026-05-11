@@ -147,7 +147,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
             {"error", true},
             {"message", "Apply failed"},
             {"errors", result.errors},
-            {"status_code", static_cast&lt;int&gt;(http::status::internal_server_error)}
+            {"status_code", static_cast<int>(http::status::internal_server_error)}
         };
         return makeResponse(http::status::internal_server_error, body.dump(), req);
     }
@@ -172,7 +172,7 @@ http::response<http::string_body> WALApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -205,7 +205,7 @@ void WALApiHandler::recordLatency(int64_t elapsed_us) {
 
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {
     unsigned int len = 0;
-    unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast&lt;int&gt;(key.size()),
+    unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
                                  reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
     if (!result || len == 0) {
         return {};
@@ -231,3 +231,4 @@ bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) 
 
 } // namespace server
 } // namespace themis
+

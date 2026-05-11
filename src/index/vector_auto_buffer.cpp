@@ -507,7 +507,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
             return entities;
         }
 
-        const int dim = static_cast&lt;int&gt;(training_vecs[0].size());
+        const int dim = static_cast<int>(training_vecs[0].size());
 
         // Step 2: precondition checks.
         if (dim % num_subvectors != 0) {
@@ -516,7 +516,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
                         dim, num_subvectors);
             return entities;
         }
-        if (static_cast&lt;int&gt;(training_vecs.size()) < num_centroids) {
+        if (static_cast<int>(training_vecs.size()) < num_centroids) {
             THEMIS_WARN("VectorAutoBuffer: PQ skipped — batch size={} < "
                         "pq_num_centroids={}; returning entities unchanged",
                         training_vecs.size(), num_centroids);
@@ -621,3 +621,4 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 }
 
 } // namespace themis
+

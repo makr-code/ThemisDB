@@ -77,7 +77,7 @@ inline std::string aqlEscape(const std::string& raw) {
     return aqlEscapeLiteral(raw);
 }
 
-/// Validate a collection name used as an AQL identifier (FOR doc IN &lt;name&gt;).
+/// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
 /// Delegates to the shared header implementation.
 inline bool isValidCollectionName(const std::string& name) {
     return isValidAqlIdentifier(name);
@@ -889,3 +889,4 @@ void* ThemisDBGrpcService::service() {
 
 } // namespace api
 } // namespace themis
+

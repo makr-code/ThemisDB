@@ -222,7 +222,7 @@ private:
 namespace {
 
 /// Validates a string that will be used as a component in the tenant-scoped
-/// key `"tenant:&lt;tenant_id&gt;:&lt;index_name&gt;"`.
+/// key `"tenant:<tenant_id>:<index_name>"`.
 ///
 /// The separator between components is `:`.  Allowing `:` inside either
 /// component would let a caller with tenant id "a:b" construct the same storage
@@ -447,7 +447,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     // Parse config (format: "metric:COSINE,M:16,ef:200")
     // For simplicity, use defaults for now
 
-    auto status = per_index_manager->init(name, static_cast&lt;int&gt;(dimension),
+    auto status = per_index_manager->init(name, static_cast<int>(dimension),
                                           metric, M, efConstruction, efSearch);
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Failed to create index '{}': {}", 
@@ -835,7 +835,7 @@ std::vector<std::string> IndexManager::listIndexes(
     std::vector<std::string> result;
     for (const auto& [key, _] : index_types_) {
         if (key.starts_with(prefix)) {
-            // Return the logical name without the "tenant:&lt;id&gt;:" prefix.
+            // Return the logical name without the "tenant:<id>:" prefix.
             result.push_back(key.substr(prefix.size()));
         }
     }
@@ -858,3 +858,4 @@ Result<IndexType> IndexManager::getIndexType(std::string_view tenant_id,
 }
 
 } // namespace themis
+

@@ -125,7 +125,7 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
                 // Parse signature bytes
                 if (sig_node["signature"]) {
                     for (const auto& byte : sig_node["signature"]) {
-                        sig.signature.push_back(static_cast<uint8_t>(byte.as&lt;int&gt;()));
+                        sig.signature.push_back(static_cast<uint8_t>(byte.as<int>()));
                     }
                 }
                 
@@ -580,4 +580,5 @@ void MimeDetector::enableOcr(bool enable) {
 
 } // namespace content
 } // namespace themis
+
 

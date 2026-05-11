@@ -274,7 +274,7 @@ std::string DistributedCoordinator::scheduleTask(const CoordinatorTask& task) {
     // Broadcast task via gossip
     broadcastTask(task);
     
-    THEMIS_INFO("Scheduled task: {} (type: {})", task.task_id, static_cast&lt;int&gt;(task.type));
+    THEMIS_INFO("Scheduled task: {} (type: {})", task.task_id, static_cast<int>(task.type));
     
     return task.task_id;
 }
@@ -578,3 +578,4 @@ DistributedCoordinator::getTransaction(const std::string& txn_id) const
 }
 
 } // namespace themis::sharding
+

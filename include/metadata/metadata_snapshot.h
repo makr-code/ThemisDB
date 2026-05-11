@@ -136,7 +136,7 @@ struct MetadataSnapshot {
      * Schema:
      * @code
      * {
-     *   "snapshot_id": "&lt;id&gt;",
+     *   "snapshot_id": "<id>",
      *   "created_at":  "<ISO-8601>",
      *   "author":      "<string>",
      *   "description": "<string>",
@@ -324,3 +324,4 @@ private:
 
 } // namespace metadata
 } // namespace themis
+

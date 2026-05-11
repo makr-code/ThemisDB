@@ -133,13 +133,23 @@ public:
      * merged once all threads have completed.
      *
      * @param sources  Non-empty list of source vertex IDs.
-     * @param config   Traversal configuration.
      * @return Merged MultiSourceResult, or an error if sources is empty.
      */
     Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources
     );
 
+    /**
+     * @brief Run BFS from each source vertex in parallel with custom configuration.
+     *
+     * Each source vertex gets its own BFS executed in a separate thread.  The
+     * per-source BFS uses level-by-level frontier expansion.  Results are
+     * merged once all threads have completed.
+     *
+     * @param sources  Non-empty list of source vertex IDs.
+     * @param config   Traversal configuration.
+     * @return Merged MultiSourceResult, or an error if sources is empty.
+     */
     Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources,
         const Config& config
@@ -152,13 +162,22 @@ public:
      * thread.  Results are merged once all threads have completed.
      *
      * @param sources  Non-empty list of source vertex IDs.
-     * @param config   Traversal configuration.
      * @return Merged MultiSourceResult, or an error if sources is empty.
      */
     Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources
     );
 
+    /**
+     * @brief Run DFS from each source vertex in parallel with custom configuration.
+     *
+     * Each source vertex gets its own iterative DFS executed in a separate
+     * thread.  Results are merged once all threads have completed.
+     *
+     * @param sources  Non-empty list of source vertex IDs.
+     * @param config   Traversal configuration.
+     * @return Merged MultiSourceResult, or an error if sources is empty.
+     */
     Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources,
         const Config& config

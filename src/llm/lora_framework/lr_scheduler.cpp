@@ -296,7 +296,7 @@ LRSchedulerConfig CyclicLR::config() const {
 // ============================================================================
 
 float OneCycleLR::get_lr(int step) const {
-    int warmup_steps = static_cast&lt;int&gt;(pct_start_ * total_steps_);
+    int warmup_steps = static_cast<int>(pct_start_ * total_steps_);
     warmup_steps = std::max(1, warmup_steps);
     int decay_steps = total_steps_ - warmup_steps;
     if (decay_steps < 1) decay_steps = 1;
@@ -333,7 +333,7 @@ LRSchedulerConfig OneCycleLR::config() const {
 // ============================================================================
 
 std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig& config) {
-    spdlog::debug("Creating LR scheduler: type={}", static_cast&lt;int&gt;(config.type));
+    spdlog::debug("Creating LR scheduler: type={}", static_cast<int>(config.type));
     
     switch (config.type) {
         case SchedulerType::CONSTANT:
@@ -348,7 +348,7 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
         case SchedulerType::COSINE_WITH_RESTARTS:
             return std::make_unique<CosineAnnealingWarmRestartsLR>(
                 config.max_lr, config.min_lr, 
-                static_cast&lt;int&gt;(config.step_size), config.num_cycles
+                static_cast<int>(config.step_size), config.num_cycles
             );
         
         case SchedulerType::POLYNOMIAL:
@@ -358,7 +358,7 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
         
         case SchedulerType::STEP:
             return std::make_unique<StepLR>(
-                config.base_lr, static_cast&lt;int&gt;(config.step_size), config.gamma
+                config.base_lr, static_cast<int>(config.step_size), config.gamma
             );
         
         case SchedulerType::EXPONENTIAL:
@@ -381,7 +381,7 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
         case SchedulerType::CYCLIC:
             return std::make_unique<CyclicLR>(
                 config.base_lr, config.max_lr,
-                static_cast&lt;int&gt;(config.step_size_up), static_cast&lt;int&gt;(config.step_size_down)
+                static_cast<int>(config.step_size_up), static_cast<int>(config.step_size_down)
             );
         
         case SchedulerType::ONE_CYCLE:
@@ -421,3 +421,4 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::createWarmupCosine(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

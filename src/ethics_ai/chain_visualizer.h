@@ -127,7 +127,7 @@ private:
     // Node colour (DOT fillcolor) based on argument type
     static const char* dotFillColor(ArgumentType type);
 
-    // Short label string:  "<school>\n&lt;type&gt; | <strength>"
+    // Short label string:  "<school>\n<type> | <strength>"
     static std::string makeLabel(const EthicalArgument& arg);
 
     // Escape a string for use inside DOT double-quoted attributes
@@ -140,3 +140,4 @@ private:
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
+

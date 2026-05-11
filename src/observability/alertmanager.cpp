@@ -153,7 +153,7 @@ void DefaultAlertmanager::ensureHttpPool() {
     http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_cfg);
 }
 
-Result&lt;int&gt; DefaultAlertmanager::postWithRetry(const std::string& path,
+Result<int> DefaultAlertmanager::postWithRetry(const std::string& path,
                                                const std::string& json_body) {
     ensureHttpPool();
 
@@ -687,3 +687,4 @@ size_t AlertRuleManager::ruleCount() const {
 
 } // namespace observability
 } // namespace themis
+

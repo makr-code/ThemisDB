@@ -31,7 +31,7 @@ namespace errors {
 
 json ErrorMetadata::toJSON() const {
     return {
-        {"code", static_cast&lt;int&gt;(code)},
+        {"code", static_cast<int>(code)},
         {"category", category},
         {"severity", severity},
         {"message_template", message_template},
@@ -340,7 +340,7 @@ void ErrorRegistry::registerDefaultErrors() {
         "1. Verify model file is not corrupted (check file size and hash)\n"
         "2. Ensure model format is GGUF for llama.cpp backend\n"
         "3. Check that model architecture is supported\n"
-        "4. Review model metadata with: llama-cli --model &lt;path&gt; --check",
+        "4. Review model metadata with: llama-cli --model <path> --check",
         {"/docs/llm/model_loading.md", "/docs/llm/supported_models.md"},
         {"llm", "model", "load", "failed", "gguf"}
     });
@@ -1697,13 +1697,13 @@ void ErrorRegistry::registerDefaultErrors() {
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
-    int code_value = static_cast&lt;int&gt;(metadata.code);
+    int code_value = static_cast<int>(metadata.code);
     errors_[code_value] = metadata;
     category_index_[metadata.category].push_back(code_value);
 }
 
 ErrorMetadata ErrorRegistry::getError(ErrorCode code) const {
-    int code_value = static_cast&lt;int&gt;(code);
+    int code_value = static_cast<int>(code);
     auto it = errors_.find(code_value);
     if (it != errors_.end()) {
         return it->second;
@@ -1781,3 +1781,4 @@ std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
 
 } // namespace errors
 } // namespace themis
+

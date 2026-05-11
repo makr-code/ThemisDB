@@ -96,7 +96,7 @@ struct RetrievalSpec {
     } chunking;
 
     /// Read timestamp semantics for shard-local consistency
-    std::string read_ts_semantics = "latest"; ///< "latest", "snapshot:&lt;ts&gt;"
+    std::string read_ts_semantics = "latest"; ///< "latest", "snapshot:<ts>"
     /// Optional cluster/shard locality hint
     std::string locality;
 };
@@ -462,7 +462,7 @@ struct OrchestratorContext {
     std::vector<RAGContext::Document> documents;
 
     // Optional overrides
-    std::optional&lt;int&gt;   max_tokens;
+    std::optional<int>   max_tokens;
     std::optional<float> temperature;
     std::optional<std::string> system_prompt;
 
@@ -648,3 +648,4 @@ public:
 #endif // THEMIS_ENABLE_MCP
 
 } // namespace themis::llm
+

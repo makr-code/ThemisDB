@@ -69,7 +69,7 @@ struct OtlpExporterConfig {
     std::string tls_client_cert;
     std::string tls_client_key;
 
-    // Optional Bearer token; placed in `Authorization: Bearer &lt;token&gt;`.
+    // Optional Bearer token; placed in `Authorization: Bearer <token>`.
     std::string auth_header;
 
     // Extra static HTTP headers sent with every export request.
@@ -225,3 +225,4 @@ private:
 
 } // namespace api
 } // namespace themis
+

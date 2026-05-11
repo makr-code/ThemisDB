@@ -81,7 +81,7 @@ static int curlHttpPost(const std::string& url,
     } else {
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        status_code = static_cast&lt;int&gt;(http_code);
+        status_code = static_cast<int>(http_code);
     }
 
     curl_slist_free_all(headers);
@@ -257,13 +257,13 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
             auto resp = json::parse(response_body);
             if (resp.contains("mutatedEntities")) {
                 for (const auto& [op, arr] : resp["mutatedEntities"].items()) {
-                    if (arr.is_array()) count += static_cast&lt;int&gt;(arr.size());
+                    if (arr.is_array()) count += static_cast<int>(arr.size());
                 }
             }
         } catch (...) { /* count stays at 0 */ }
 
         // Use entity array size as lower-bound count when response is empty
-        const int sent = static_cast&lt;int&gt;(
+        const int sent = static_cast<int>(
             payload.contains("entities") ? payload["entities"].size() : 0u);
         if (count == 0) count = sent;
 
@@ -417,3 +417,4 @@ int CatalogExporter::httpPost(const std::string& url,
 }
 
 } // namespace themis
+

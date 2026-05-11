@@ -319,7 +319,7 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
     // (equivalent to ~100 Hz – 1000 Hz at 16 kHz).
     const size_t half_n = n / 2;
     constexpr int kLagMin = 16;
-    const int kLagMax = static_cast&lt;int&gt;(std::min<size_t>(160, half_n / 2));
+    const int kLagMax = static_cast<int>(std::min<size_t>(160, half_n / 2));
 
     float best_r    = -1.0f;
     int   best_lag  = kLagMin;
@@ -567,3 +567,4 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
 
 } // namespace voice
 } // namespace themis
+

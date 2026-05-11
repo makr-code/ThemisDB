@@ -421,7 +421,7 @@ public:
      *
      * @param snapshot_name  Human-readable name; used as the directory name
      *                       inside the default snapshot base path
-     *                       ("<db_path>/../snapshots/<snapshot_name>_&lt;ts&gt;").
+     *                       ("<db_path>/../snapshots/<snapshot_name>_<ts>").
      * @param storage_class  Reserved for future cloud / K8s integration;
      *                       ignored for local snapshots.
      * @return On success: the absolute path to the snapshot directory.
@@ -593,3 +593,4 @@ private:
 };
 
 } // namespace themis
+

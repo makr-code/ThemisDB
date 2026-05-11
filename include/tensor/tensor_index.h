@@ -195,7 +195,7 @@ public:
     /**
      * @brief Persist the index to a RocksDB-backed storage path.
      *
-     * Key schema: `__ttidx__:&lt;index_name&gt;:&lt;id&gt;:&lt;core_k&gt;`
+     * Key schema: `__ttidx__:<index_name>:<id>:<core_k>`
      */
     virtual bool save(const std::string& path) const = 0;
 
@@ -214,3 +214,4 @@ public:
 
 } // namespace tensor
 } // namespace themis
+

@@ -482,29 +482,12 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     };
 
 #if defined(THEMIS_ENABLE_LLM)
-    const auto manager = lora_manager_;
-    // Keep cache call-local so each scoring pass observes current manager state
-    // without cross-request synchronization.
-    std::unordered_map<std::string, std::optional<llm::LoRAInfo>> manager_info_cache;
-    const auto managerScore = [&](std::string_view adapter,
-                                  const InferenceEdge& edge) -> std::optional<double> {
-        if (!manager || adapter.empty()) {
-            return std::nullopt;
-        }
-        const std::string adapter_key(adapter);
-        auto it = manager_info_cache.find(adapter_key);
-        if (it == manager_info_cache.end()) {
-            auto info = manager->getLoRAInfo(adapter_key);
-            it = manager_info_cache.emplace(adapter_key, std::move(info)).first;
-        }
-        if (!it->second.has_value()) {
-            return std::nullopt;
-        }
-        const double scaled_confidence =
-            std::clamp(static_cast<double>(it->second->scale), 0.0, 1.0);
-        const double complexity_penalty =
-            1.0 / (1.0 + 0.25 * static_cast<double>(edge.premises.size()));
-        return std::clamp(scaled_confidence * complexity_penalty, 0.0, 1.0);
+    const auto managerScore = [&](std::string_view /*adapter*/,
+                                  const InferenceEdge& /*edge*/) -> std::optional<double> {
+        // In modular link profiles, avoid hard symbol dependencies on optional
+        // MultiLoRAManager methods. Without an injected scorer callback we keep
+        // fail-closed behavior by returning no score override.
+        return std::nullopt;
     };
 #endif
 

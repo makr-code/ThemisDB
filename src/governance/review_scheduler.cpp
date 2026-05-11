@@ -71,7 +71,7 @@ nlohmann::json ReviewSchedule::toJson() const {
 ReviewSchedule ReviewSchedule::fromJson(const nlohmann::json& j) {
     ReviewSchedule s;
     if (j.contains("rule_id")) s.rule_id = j["rule_id"].get<std::string>();
-    if (j.contains("review_period_days")) s.review_period_days = j["review_period_days"].get&lt;int&gt;();
+    if (j.contains("review_period_days")) s.review_period_days = j["review_period_days"].get<int>();
     if (j.contains("last_review_date")) s.last_review_date = j["last_review_date"].get<std::int64_t>();
     if (j.contains("next_review_date")) s.next_review_date = j["next_review_date"].get<std::int64_t>();
     if (j.contains("auto_schedule")) s.auto_schedule = j["auto_schedule"].get<bool>();
@@ -311,3 +311,4 @@ std::int64_t ReviewScheduler::calculateNextReviewDate(const std::string& rule_id
 
 } // namespace governance
 } // namespace themis
+

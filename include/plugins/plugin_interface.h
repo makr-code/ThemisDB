@@ -578,7 +578,7 @@ public:
             if (!j["load_priority"].is_number_integer()) {
                 result.errors.push_back("Field 'load_priority' must be an integer");
             } else {
-                int prio = j["load_priority"].get&lt;int&gt;();
+                int prio = j["load_priority"].get<int>();
                 if (prio < 0 || prio > 1000) {
                     result.errors.push_back("Field 'load_priority' must be between 0 and 1000");
                 }
@@ -823,3 +823,4 @@ private:
             delete plugin; \
         } \
     }
+

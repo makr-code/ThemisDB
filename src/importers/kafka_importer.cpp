@@ -97,11 +97,11 @@ bool KafkaImporter::initialize(const std::string& config) {
         opt_str("auto_offset_reset", auto_offset_reset_,  "earliest");
 
         if (cfg.contains("poll_timeout_ms") && cfg["poll_timeout_ms"].is_number_integer())
-            poll_timeout_ms_ = cfg["poll_timeout_ms"].get&lt;int&gt;();
+            poll_timeout_ms_ = cfg["poll_timeout_ms"].get<int>();
         if (cfg.contains("max_messages") && cfg["max_messages"].is_number_integer())
             max_messages_ = static_cast<size_t>(cfg["max_messages"].get<uint64_t>());
         if (cfg.contains("session_timeout_ms") && cfg["session_timeout_ms"].is_number_integer())
-            session_timeout_ms_ = cfg["session_timeout_ms"].get&lt;int&gt;();
+            session_timeout_ms_ = cfg["session_timeout_ms"].get<int>();
 
     } catch (const std::exception& e) {
         THEMIS_WARN("Kafka Importer: failed to parse config JSON: {}", e.what());
@@ -752,3 +752,4 @@ void KafkaImporterPlugin::shutdown() {
 
 } // namespace importers
 } // namespace themis
+

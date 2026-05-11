@@ -66,7 +66,7 @@ namespace fs = std::filesystem;
 
 json OptimizerConfig::toJSON() const {
     json j;
-    j["type"]                  = static_cast&lt;int&gt;(type);
+    j["type"]                  = static_cast<int>(type);
     j["learning_rate"]         = learning_rate;
     j["beta1"]                 = beta1;
     j["beta2"]                 = beta2;
@@ -81,7 +81,7 @@ json OptimizerConfig::toJSON() const {
 
 OptimizerConfig OptimizerConfig::fromJSON(const json& j) {
     OptimizerConfig cfg;
-    if (j.contains("type"))                  cfg.type = static_cast<OptimizerType>(j["type"].get&lt;int&gt;());
+    if (j.contains("type"))                  cfg.type = static_cast<OptimizerType>(j["type"].get<int>());
     if (j.contains("learning_rate"))         cfg.learning_rate = j["learning_rate"].get<float>();
     if (j.contains("beta1"))                 cfg.beta1 = j["beta1"].get<float>();
     if (j.contains("beta2"))                 cfg.beta2 = j["beta2"].get<float>();
@@ -100,7 +100,7 @@ OptimizerConfig OptimizerConfig::fromJSON(const json& j) {
 
 json SchedulerConfig::toJSON() const {
     json j;
-    j["type"]         = static_cast&lt;int&gt;(type);
+    j["type"]         = static_cast<int>(type);
     j["warmup_steps"] = warmup_steps;
     j["min_lr"]       = min_lr;
     j["max_lr"]       = max_lr;
@@ -111,11 +111,11 @@ json SchedulerConfig::toJSON() const {
 
 SchedulerConfig SchedulerConfig::fromJSON(const json& j) {
     SchedulerConfig cfg;
-    if (j.contains("type"))         cfg.type = static_cast<SchedulerType>(j["type"].get&lt;int&gt;());
-    if (j.contains("warmup_steps")) cfg.warmup_steps = j["warmup_steps"].get&lt;int&gt;();
+    if (j.contains("type"))         cfg.type = static_cast<SchedulerType>(j["type"].get<int>());
+    if (j.contains("warmup_steps")) cfg.warmup_steps = j["warmup_steps"].get<int>();
     if (j.contains("min_lr"))       cfg.min_lr = j["min_lr"].get<float>();
     if (j.contains("max_lr"))       cfg.max_lr = j["max_lr"].get<float>();
-    if (j.contains("total_steps"))  cfg.total_steps = j["total_steps"].get&lt;int&gt;();
+    if (j.contains("total_steps"))  cfg.total_steps = j["total_steps"].get<int>();
     if (j.contains("power"))        cfg.power = j["power"].get<float>();
     return cfg;
 }
@@ -154,8 +154,8 @@ json TrainingState::toJSON() const {
 
 TrainingState TrainingState::fromJSON(const json& j) {
     TrainingState s;
-    if (j.contains("current_epoch"))   s.current_epoch = j["current_epoch"].get&lt;int&gt;();
-    if (j.contains("current_step"))    s.current_step = j["current_step"].get&lt;int&gt;();
+    if (j.contains("current_epoch"))   s.current_epoch = j["current_epoch"].get<int>();
+    if (j.contains("current_step"))    s.current_step = j["current_step"].get<int>();
     if (j.contains("best_loss"))       s.best_loss = j["best_loss"].get<float>();
     if (j.contains("loss_history"))    s.loss_history = j["loss_history"].get<std::vector<float>>();
     if (j.contains("optimizer_state")) s.optimizer_state = j["optimizer_state"].get<std::vector<uint8_t>>();
@@ -188,21 +188,21 @@ json InlineTrainingConfig::toJSON() const {
 
 InlineTrainingConfig InlineTrainingConfig::fromJSON(const json& j) {
     InlineTrainingConfig cfg;
-    if (j.contains("epochs"))                      cfg.epochs = j["epochs"].get&lt;int&gt;();
-    if (j.contains("batch_size"))                  cfg.batch_size = j["batch_size"].get&lt;int&gt;();
-    if (j.contains("gradient_accumulation_steps")) cfg.gradient_accumulation_steps = j["gradient_accumulation_steps"].get&lt;int&gt;();
-    if (j.contains("max_steps"))                   cfg.max_steps = j["max_steps"].get&lt;int&gt;();
-    if (j.contains("eval_steps"))                  cfg.eval_steps = j["eval_steps"].get&lt;int&gt;();
-    if (j.contains("save_steps"))                  cfg.save_steps = j["save_steps"].get&lt;int&gt;();
+    if (j.contains("epochs"))                      cfg.epochs = j["epochs"].get<int>();
+    if (j.contains("batch_size"))                  cfg.batch_size = j["batch_size"].get<int>();
+    if (j.contains("gradient_accumulation_steps")) cfg.gradient_accumulation_steps = j["gradient_accumulation_steps"].get<int>();
+    if (j.contains("max_steps"))                   cfg.max_steps = j["max_steps"].get<int>();
+    if (j.contains("eval_steps"))                  cfg.eval_steps = j["eval_steps"].get<int>();
+    if (j.contains("save_steps"))                  cfg.save_steps = j["save_steps"].get<int>();
     if (j.contains("eval_on_start"))               cfg.eval_on_start = j["eval_on_start"].get<bool>();
     if (j.contains("use_fp16"))                    cfg.use_fp16 = j["use_fp16"].get<bool>();
     if (j.contains("use_bf16"))                    cfg.use_bf16 = j["use_bf16"].get<bool>();
     if (j.contains("checkpoint_dir"))              cfg.checkpoint_dir = j["checkpoint_dir"].get<std::string>();
     if (j.contains("save_optimizer_state"))        cfg.save_optimizer_state = j["save_optimizer_state"].get<bool>();
-    if (j.contains("max_checkpoints_to_keep"))     cfg.max_checkpoints_to_keep = j["max_checkpoints_to_keep"].get&lt;int&gt;();
+    if (j.contains("max_checkpoints_to_keep"))     cfg.max_checkpoints_to_keep = j["max_checkpoints_to_keep"].get<int>();
     if (j.contains("optimizer"))                   cfg.optimizer = OptimizerConfig::fromJSON(j["optimizer"]);
     if (j.contains("scheduler"))                   cfg.scheduler = SchedulerConfig::fromJSON(j["scheduler"]);
-    if (j.contains("seed"))                        cfg.seed = j["seed"].get&lt;int&gt;();
+    if (j.contains("seed"))                        cfg.seed = j["seed"].get<int>();
     return cfg;
 }
 
@@ -652,7 +652,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                         }
                     }
                     std::sort(ckpts.begin(), ckpts.end());
-                    while (static_cast&lt;int&gt;(ckpts.size()) > cfg.max_checkpoints_to_keep) {
+                    while (static_cast<int>(ckpts.size()) > cfg.max_checkpoints_to_keep) {
                         fs::remove_all(ckpts.front().second);
                         ckpts.erase(ckpts.begin());
                     }
@@ -1044,3 +1044,4 @@ std::unique_ptr<InlineTrainingEngine> TrainingEngineFactory::create(
 
 } // namespace llm
 } // namespace themis
+

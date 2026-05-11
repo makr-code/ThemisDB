@@ -75,7 +75,7 @@ struct TopologyLink {
 struct ClusterNode {
     std::string              node_id;         ///< Unique identifier (hostname or ordinal)
     int                      rank         = 0;///< MPI/NCCL-style global rank
-    std::vector&lt;int&gt;         device_indices;  ///< Local GPU device ordinals on this node
+    std::vector<int>         device_indices;  ///< Local GPU device ordinals on this node
     std::string              ib_device;       ///< InfiniBand device name (e.g. "mlx5_0")
     std::string              ib_port;         ///< InfiniBand port (e.g. "1")
 };
@@ -225,3 +225,4 @@ private:
 
 } // namespace gpu
 } // namespace themis
+

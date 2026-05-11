@@ -97,7 +97,7 @@ bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
     // Convert UTF-8 path to wide string for the Windows API.
     int wideLen = MultiByteToWideChar(CP_UTF8, 0,
                                       modulePath.c_str(),
-                                      static_cast&lt;int&gt;(modulePath.size()),
+                                      static_cast<int>(modulePath.size()),
                                       nullptr, 0);
     if (wideLen == 0) {
         spdlog::error("ModuleSignatureVerifier::verifyAuthenticodeSignature: "
@@ -107,7 +107,7 @@ bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
     std::wstring widePath(wideLen, L'\0');
     MultiByteToWideChar(CP_UTF8, 0,
                         modulePath.c_str(),
-                        static_cast&lt;int&gt;(modulePath.size()),
+                        static_cast<int>(modulePath.size()),
                         &widePath[0], wideLen);
 
     WINTRUST_FILE_INFO fileInfo = {};
@@ -293,3 +293,4 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
 
 } // namespace modules
 } // namespace themis
+

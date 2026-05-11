@@ -99,7 +99,7 @@ public:
      * @param start_vertex Starting vertex ID (local, without shard qualifier).
      * @param max_depth    Maximum BFS depth.
      * @param constraints  Optional query constraints (edge type, forbidden vertices, …).
-     * @return Visited vertex IDs, each qualified as "&lt;id&gt;@<shardId>".
+     * @return Visited vertex IDs, each qualified as "<id>@<shardId>".
      */
     [[nodiscard]] virtual Result<std::vector<std::string>> executeBFS(
         const std::string& start_vertex,
@@ -112,7 +112,7 @@ public:
      * @param start_vertex  Start vertex (local, without shard qualifier).
      * @param target_vertex Target vertex (local, without shard qualifier).
      * @param constraints   Optional query constraints.
-     * @return PathResult with node IDs qualified as "&lt;id&gt;@<shardId>" and total cost.
+     * @return PathResult with node IDs qualified as "<id>@<shardId>" and total cost.
      *         Returns ERR_GRAPH_PATH_NOT_FOUND when no path exists on this shard.
      */
     [[nodiscard]] virtual Result<GraphIndexManager::PathResult> executeDijkstra(
@@ -165,7 +165,7 @@ private:
     std::string shard_id_;
     GraphQueryOptimizer optimizer_;
 
-    /// Qualify a vertex ID returned by the local optimizer as "&lt;id&gt;@<shard_id_>".
+    /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".
     std::string qualify(const std::string& vertex_id) const;
 };
 
@@ -246,8 +246,8 @@ public:
      * without explicit cross-shard edges, use kHopNeighbors to gather the reachable
      * frontier and then submit a targeted follow-up query.
      *
-     * @param start_vertex  Source vertex ID (optionally qualified: "&lt;id&gt;@&lt;shard&gt;").
-     * @param target_vertex Target vertex ID (optionally qualified: "&lt;id&gt;@&lt;shard&gt;").
+     * @param start_vertex  Source vertex ID (optionally qualified: "<id>@<shard>").
+     * @param target_vertex Target vertex ID (optionally qualified: "<id>@<shard>").
      * @param constraints   Optional per-query execution constraints.
      * @return The lowest-cost PathResult found across all shards, or
      *         ERR_GRAPH_PATH_NOT_FOUND if no shard contains the path.
@@ -264,10 +264,10 @@ public:
      * BFS is executed on every healthy shard; results are merged (de-duplicated)
      * and returned as a flat list.
      *
-     * @param start_vertex  Source vertex ID (optionally qualified: "&lt;id&gt;@&lt;shard&gt;").
+     * @param start_vertex  Source vertex ID (optionally qualified: "<id>@<shard>").
      * @param k             Maximum hop count.
      * @param constraints   Optional per-query execution constraints.
-     * @return Merged list of reachable vertex IDs, each qualified as "&lt;id&gt;@&lt;shard&gt;".
+     * @return Merged list of reachable vertex IDs, each qualified as "<id>@<shard>".
      */
     Result<std::vector<std::string>> kHopNeighbors(
         std::string_view start_vertex,
@@ -333,3 +333,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

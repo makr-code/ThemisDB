@@ -641,7 +641,7 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     
     THEMIS_INFO("Registered task: {} (name={}, trigger_type={})",
                 id, sanitized_task.name,
-                static_cast&lt;int&gt;(sanitized_task.trigger_type));
+                static_cast<int>(sanitized_task.trigger_type));
     
     // Log audit event for task registration
     if (audit_manager_) {
@@ -872,7 +872,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
                         "[strategy={}]",
                         task_id, attempt + 1, max_attempts,
                         static_cast<int64_t>(delay_ms),
-                        static_cast&lt;int&gt;(policy.strategy));
+                        static_cast<int>(policy.strategy));
             if (delay_ms > 0.0) {
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
@@ -996,7 +996,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         in_degree[id] = 0;
     }
     for (const auto& [id, deps] : adj) {
-        in_degree[id] += static_cast&lt;int&gt;(deps.size());
+        in_degree[id] += static_cast<int>(deps.size());
     }
 
     // Queue nodes with no dependencies
@@ -1652,7 +1652,7 @@ void TaskScheduler::schedulerLoop() {
                                 THEMIS_INFO("TaskScheduler: aging boost triggered for task '{}' "
                                            "(skipped {} ticks, priority={})",
                                            id, task->consecutive_skips,
-                                           static_cast&lt;int&gt;(task->priority));
+                                           static_cast<int>(task->priority));
                             }
                         }
                         continue;
@@ -1689,10 +1689,10 @@ void TaskScheduler::schedulerLoop() {
         // it cannot be indefinitely starved by higher-priority tasks.
         const uint32_t aging_thr = config_.aging_threshold;
         auto effectivePriority = [aging_thr](const std::shared_ptr<ScheduledTask>& t) -> int {
-            const int base = static_cast&lt;int&gt;(t->priority);
+            const int base = static_cast<int>(t->priority);
             if (aging_thr > 0 && t->consecutive_skips >= aging_thr) {
                 // Boost by 1 level (clamped to HIGH == 2).
-                return std::min(base + 1, static_cast&lt;int&gt;(ScheduledTask::Priority::HIGH));
+                return std::min(base + 1, static_cast<int>(ScheduledTask::Priority::HIGH));
             }
             return base;
         };
@@ -1801,7 +1801,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
                         task->id, attempt + 1, max_attempts,
                         static_cast<int64_t>(delay_ms),
-                        static_cast&lt;int&gt;(policy.strategy));
+                        static_cast<int>(policy.strategy));
 
             if (delay_ms > 0.0) {
                 std::this_thread::sleep_for(
@@ -2133,10 +2133,10 @@ void TaskScheduler::saveTasks() {
         task_json["enabled"] = task->enabled;
         
         // Save trigger configuration
-        task_json["trigger_type"] = static_cast&lt;int&gt;(task->trigger_type);
+        task_json["trigger_type"] = static_cast<int>(task->trigger_type);
         task_json["cron_expression"] = task->cron_expression;
-        task_json["priority"] = static_cast&lt;int&gt;(task->priority);
-        task_json["trigger_logic"] = static_cast&lt;int&gt;(task->trigger_logic);
+        task_json["priority"] = static_cast<int>(task->priority);
+        task_json["trigger_logic"] = static_cast<int>(task->trigger_logic);
         
         // Save CDC trigger config
         nlohmann::json cdc_json;
@@ -2155,7 +2155,7 @@ void TaskScheduler::saveTasks() {
         nlohmann::json retry_json;
         if (task->retry_policy) {
             const auto& rp = *task->retry_policy;
-            retry_json["strategy"]           = static_cast&lt;int&gt;(rp.strategy);
+            retry_json["strategy"]           = static_cast<int>(rp.strategy);
             retry_json["max_retries"]        = rp.max_retries;
             retry_json["initial_delay_ms"]   = rp.initial_delay.count();
             retry_json["max_delay_ms"]       = rp.max_delay.count();
@@ -2255,12 +2255,12 @@ void TaskScheduler::loadTasks() {
             
             // Load trigger configuration (with defaults for backward compatibility)
             task.trigger_type = static_cast<ScheduledTask::TriggerType>(
-                task_json.value("trigger_type", static_cast&lt;int&gt;(ScheduledTask::TriggerType::INTERVAL)));
+                task_json.value("trigger_type", static_cast<int>(ScheduledTask::TriggerType::INTERVAL)));
             task.cron_expression = task_json.value("cron_expression", "");
             task.priority = static_cast<ScheduledTask::Priority>(
-                task_json.value("priority", static_cast&lt;int&gt;(ScheduledTask::Priority::NORMAL)));
+                task_json.value("priority", static_cast<int>(ScheduledTask::Priority::NORMAL)));
             task.trigger_logic = static_cast<ScheduledTask::TriggerLogic>(
-                task_json.value("trigger_logic", static_cast&lt;int&gt;(ScheduledTask::TriggerLogic::OR)));
+                task_json.value("trigger_logic", static_cast<int>(ScheduledTask::TriggerLogic::OR)));
             
             // Load CDC trigger config
             if (task_json.contains("cdc_trigger")) {
@@ -2270,7 +2270,7 @@ void TaskScheduler::loadTasks() {
                 
                 if (cdc_json.contains("event_types")) {
                     for (const auto& type : cdc_json["event_types"]) {
-                        task.cdc_trigger.event_types.insert(type.get&lt;int&gt;());
+                        task.cdc_trigger.event_types.insert(type.get<int>());
                     }
                 }
                 
@@ -2285,7 +2285,7 @@ void TaskScheduler::loadTasks() {
                 ScheduledTask::RetryPolicy rp;
                 rp.strategy = static_cast<ScheduledTask::RetryStrategy>(
                     rp_json.value("strategy",
-                                  static_cast&lt;int&gt;(ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF)));
+                                  static_cast<int>(ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF)));
                 rp.max_retries        = rp_json.value("max_retries", size_t{3});
                 rp.initial_delay      = std::chrono::milliseconds(rp_json.value("initial_delay_ms", int64_t{1000}));
                 rp.max_delay          = std::chrono::milliseconds(rp_json.value("max_delay_ms", int64_t{30000}));
@@ -2719,7 +2719,7 @@ void TaskScheduler::removeEventTrigger(const std::string& task_id) {
 void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
                                const Changefeed::ChangeEvent& event) {
     THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
-                task->id, event.key, static_cast&lt;int&gt;(event.type));
+                task->id, event.key, static_cast<int>(event.type));
 
     // Audit log CDC trigger activation
     if (config_.enable_audit_logging && audit_logger_) {
@@ -2727,7 +2727,7 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
             {"task_name", task->name},
             {"trigger_type", "CDC_EVENT"},
             {"cdc_key", event.key},
-            {"cdc_event_type", static_cast&lt;int&gt;(event.type)},
+            {"cdc_event_type", static_cast<int>(event.type)},
             {"cdc_key_prefix", task->cdc_trigger.key_prefix}
         };
 
@@ -2989,3 +2989,4 @@ void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
 }
 
 } // namespace themis
+

@@ -40,10 +40,10 @@ namespace themis {
  * fuzzy (Levenshtein) search over a RocksDB backend.
  *
  * Key schema (compatible with SecondaryIndexManager fulltext keys):
- *   ftidxmeta:&lt;table&gt;:&lt;column&gt;          – index configuration (JSON)
- *   ftidx:&lt;table&gt;:&lt;column&gt;:&lt;token&gt;:&lt;pk&gt; – posting entry
- *   fttf:&lt;table&gt;:&lt;column&gt;:&lt;token&gt;:&lt;pk&gt;  – term frequency (uint32 as string)
- *   ftdlen:&lt;table&gt;:&lt;column&gt;:&lt;pk&gt;        – document length (uint32 as string)
+ *   ftidxmeta:<table>:<column>          – index configuration (JSON)
+ *   ftidx:<table>:<column>:<token>:<pk> – posting entry
+ *   fttf:<table>:<column>:<token>:<pk>  – term frequency (uint32 as string)
+ *   ftdlen:<table>:<column>:<pk>        – document length (uint32 as string)
  *
  * Thread-safety: a single InvertedIndex instance is **not** thread-safe.
  * Use one instance per thread or guard with an external mutex.
@@ -123,7 +123,7 @@ public:
      *
      * The @p text parameter is retained for API backward compatibility but is
      * **no longer used** internally.  Removal is driven entirely by the
-     * `ftrev:&lt;table&gt;:&lt;column&gt;:&lt;pk&gt;` reverse-index key written by index().
+     * `ftrev:<table>:<column>:<pk>` reverse-index key written by index().
      * Callers may pass an empty string.
      *
      * @return Error if the index does not exist.
@@ -198,7 +198,7 @@ public:
                                      std::string_view pk);
 
     /// Reverse-index key: stores the set of tokens currently indexed for a pk.
-    /// Key: ftrev:&lt;table&gt;:&lt;column&gt;:&lt;pk&gt;  →  JSON array of token strings.
+    /// Key: ftrev:<table>:<column>:<pk>  →  JSON array of token strings.
     static std::string makeRevKey(std::string_view table,
                                   std::string_view column,
                                   std::string_view pk);
@@ -217,3 +217,4 @@ private:
 };
 
 } // namespace themis
+

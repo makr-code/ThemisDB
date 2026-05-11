@@ -166,8 +166,8 @@ double SemanticMatcher::jaroSimilarity(const std::string& s1, const std::string&
     if (s1.empty() || s2.empty()) return 0.0;
     if (s1 == s2) return 1.0;
 
-    const int len1 = static_cast&lt;int&gt;(s1.size());
-    const int len2 = static_cast&lt;int&gt;(s2.size());
+    const int len1 = static_cast<int>(s1.size());
+    const int len2 = static_cast<int>(s2.size());
     const int match_dist = std::max(std::max(len1, len2) / 2 - 1, 0);
 
     std::vector<bool> s1_matched(static_cast<size_t>(len1), false);
@@ -679,3 +679,4 @@ HybridEntityMatcher::selectOptimalStrategy(
 
 } // namespace importers
 } // namespace themis
+

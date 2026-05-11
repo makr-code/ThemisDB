@@ -77,18 +77,18 @@
 
 // Thin syscall wrappers (not exposed by all glibc versions).
 static int themis_io_uring_setup(unsigned entries, struct io_uring_params* p) {
-    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_setup, entries, p));
+    return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
 static int themis_io_uring_enter(int fd, unsigned to_submit,
                                   unsigned min_complete, unsigned flags,
                                   sigset_t* sig) {
-    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_enter,
+    return static_cast<int>(::syscall(__NR_io_uring_enter,
                                       fd, to_submit, min_complete,
                                       flags, sig, _NSIG / 8));
 }
 static int themis_io_uring_register(int fd, unsigned opcode,
                                      void* arg, unsigned nr_args) {
-    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_register,
+    return static_cast<int>(::syscall(__NR_io_uring_register,
                                       fd, opcode, arg, nr_args));
 }
 #endif  // THEMIS_ENABLE_IO_URING && __linux__
@@ -166,10 +166,10 @@ int CpuPinner::numaNodeForCore(int core_id) noexcept {
 
 int CpuPinner::logicalCpuCount() noexcept {
 #ifdef __linux__
-    int n = static_cast&lt;int&gt;(::sysconf(_SC_NPROCESSORS_ONLN));
+    int n = static_cast<int>(::sysconf(_SC_NPROCESSORS_ONLN));
     return n > 0 ? n : 1;
 #else
-    return static_cast&lt;int&gt;(std::thread::hardware_concurrency());
+    return static_cast<int>(std::thread::hardware_concurrency());
 #endif
 }
 
@@ -181,8 +181,8 @@ int CpuPinner::currentCpu() noexcept {
 #endif
 }
 
-std::vector&lt;int&gt; CpuPinner::coresOnNuma(int numa_node) noexcept {
-    std::vector&lt;int&gt; result;
+std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
+    std::vector<int> result;
     int ncpu = logicalCpuCount();
     for (int i = 0; i < ncpu; ++i) {
         if (numaNodeForCore(i) == numa_node) {
@@ -377,8 +377,8 @@ bool DPDKServer::isDpdkAvailable() noexcept {
 }
 
 /*static*/
-std::vector&lt;int&gt; DPDKServer::coresFromMask(uint64_t mask) noexcept {
-    std::vector&lt;int&gt; cores;
+std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
+    std::vector<int> cores;
     for (int i = 0; i < 64; ++i) {
         if (mask & (1ULL << static_cast<unsigned>(i))) {
             cores.push_back(i);
@@ -443,7 +443,7 @@ bool DPDKServer::start() {
     for (auto& s : eal_arg_strs) {
         eal_argv.push_back(const_cast<char*>(s.c_str()));
     }
-    int eal_argc = static_cast&lt;int&gt;(eal_argv.size());
+    int eal_argc = static_cast<int>(eal_argv.size());
 
     // -------------------------------------------------------------------------
     // 2. Initialise DPDK EAL.
@@ -569,7 +569,7 @@ bool DPDKServer::start() {
     auto cores = coresFromMask(config_.cpu_core_mask);
     int queue_id = 0;
     for (int core : cores) {
-        int qid = queue_id++ % static_cast&lt;int&gt;(config_.num_rx_queues);
+        int qid = queue_id++ % static_cast<int>(config_.num_rx_queues);
         workers_.emplace_back([this, core, qid]() {
             if (!CpuPinner::pinCallerToCore(core)) {
                 THEMIS_WARN("DPDKServer: failed to pin to core {}", core);
@@ -869,7 +869,7 @@ bool IoUringServer::start() {
     running_.store(true, std::memory_order_release);
 
     for (uint32_t i = 0; i < config_.num_worker_threads; ++i) {
-        workers_.emplace_back([this, i]() { workerLoop(static_cast&lt;int&gt;(i)); });
+        workers_.emplace_back([this, i]() { workerLoop(static_cast<int>(i)); });
     }
 
     THEMIS_INFO("IoUringServer: started on {}:{}, ring_size={}, {} workers",
@@ -983,3 +983,4 @@ IoUringServer::Stats IoUringServer::stats() const noexcept {
 
 } // namespace network
 } // namespace themis
+

@@ -31,7 +31,7 @@ namespace process {
  * Each @c ProcessAttachment maps to exactly one @c OcelEvent.
  */
 struct OcelEvent {
-    std::string event_id;                                           ///< "attach:<inst>:&lt;obj&gt;"
+    std::string event_id;                                           ///< "attach:<inst>:<obj>"
     std::string activity;                                           ///< toString(link_type)
     int64_t     timestamp_ms{0};                                    ///< attached_at_ms
     std::unordered_map<std::string, std::vector<std::string>> object_refs; ///< {type→[ids]}
@@ -152,3 +152,4 @@ private:
 
 } // namespace process
 } // namespace themis
+

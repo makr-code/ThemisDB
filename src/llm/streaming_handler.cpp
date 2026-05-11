@@ -69,7 +69,7 @@ static std::string escapeJsonString(const std::string& s) {
                     // Encode other control characters as \uXXXX
                     std::ostringstream esc;
                     esc << "\\u" << std::hex << std::setw(4)
-                        << std::setfill('0') << static_cast&lt;int&gt;(c);
+                        << std::setfill('0') << static_cast<int>(c);
                     out += esc.str();
                 } else {
                     out += static_cast<char>(c);
@@ -147,3 +147,4 @@ std::function<void(const std::string&)> StreamingHandler::makeStreamCallback(
 
 } // namespace llm
 } // namespace themis
+

@@ -132,7 +132,7 @@ void AsyncIngestionWorker::start() {
     
     // Start worker threads
     for (size_t i = 0; i < config_.worker_thread_count; ++i) {
-        workers_.emplace_back(&AsyncIngestionWorker::workerLoop, this, static_cast&lt;int&gt;(i));
+        workers_.emplace_back(&AsyncIngestionWorker::workerLoop, this, static_cast<int>(i));
     }
     
     // Start cleanup thread if auto-cleanup enabled
@@ -437,7 +437,7 @@ std::string AsyncIngestionWorker::submitBatch(
     job.created_at = getCurrentTimeMs();
     job.started_at = 0;
     job.completed_at = 0;
-    job.total_items = static_cast&lt;int&gt;(files.size());
+    job.total_items = static_cast<int>(files.size());
     job.processed_items = 0;
     job.progress = 0.0f;
     
@@ -845,7 +845,7 @@ void AsyncIngestionWorker::processArchive(IngestionJob& job) {
         result.extracted_content_ids.begin(), 
         result.extracted_content_ids.end());
     job.result_metadata = result.metadata;
-    job.total_items = static_cast&lt;int&gt;(result.extracted_content_ids.size()) + 1;
+    job.total_items = static_cast<int>(result.extracted_content_ids.size()) + 1;
     job.processed_items = job.total_items;
     job.progress = 1.0f;
     
@@ -1003,7 +1003,7 @@ std::string AsyncIngestionWorker::submitSourceJob(
     // logical item for handler-driven source jobs.
     if (plugin) {
         try {
-            job.total_items = static_cast&lt;int&gt;(plugin->estimateJobSize(job));
+            job.total_items = static_cast<int>(plugin->estimateJobSize(job));
         } catch (const std::exception& e) {
             THEMIS_WARN("Plugin {} failed to estimate job size: {}", 
                 source.plugin_name, e.what());
@@ -1062,7 +1062,7 @@ void AsyncIngestionWorker::loadSourcesFromConfig(const std::string& config_path)
         config_.batch_size = cfg["batch_size"].get<size_t>();
     }
     if (cfg.contains("retry_attempts") && cfg["retry_attempts"].is_number_integer()) {
-        config_.retry_attempts = cfg["retry_attempts"].get&lt;int&gt;();
+        config_.retry_attempts = cfg["retry_attempts"].get<int>();
     }
 
     // Submit each source listed under the "sources" key
@@ -1164,3 +1164,4 @@ void AsyncIngestionWorker::cleanupLoop() {
 
 } // namespace content
 } // namespace themis
+

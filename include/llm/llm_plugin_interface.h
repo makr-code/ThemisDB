@@ -361,7 +361,7 @@ public:
      */
     struct DraftTokensResult {
         /// K draft token IDs (one per speculative step).
-        std::vector&lt;int&gt; tokens;
+        std::vector<int> tokens;
         /// K × vocab_size raw logit rows (row i corresponds to tokens[i]).
         std::vector<std::vector<float>> logits;
         /// Vocabulary size used for the logit rows.
@@ -423,7 +423,7 @@ public:
 
         // Built-in text-heuristic fallback.
         InferenceRequest draft_req = request;
-        draft_req.max_tokens      = static_cast&lt;int&gt;(k);
+        draft_req.max_tokens      = static_cast<int>(k);
         draft_req.stream_callback = nullptr;
 
         const auto resp = generate(draft_req);
@@ -440,8 +440,8 @@ public:
         const std::string& text = resp.text;
         for (size_t i = 0; i < k; ++i) {
             const int token_id = (i < text.size())
-                ? (static_cast&lt;int&gt;(static_cast<unsigned char>(text[i])) %
-                   static_cast&lt;int&gt;(vocab))
+                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
+                   static_cast<int>(vocab))
                 : 0;
             result.tokens.push_back(token_id);
 
@@ -602,3 +602,4 @@ private:
         themis::llm::ILLMPlugin* themis_llm_create();                             \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
         void themis_llm_destroy(themis::llm::ILLMPlugin* p)
+

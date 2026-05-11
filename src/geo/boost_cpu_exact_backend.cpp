@@ -267,7 +267,7 @@ public:
                 return result;
             }
             THEMIS_WARN("Boost stBuffer: unsupported geometry type {}",
-                        static_cast&lt;int&gt;(geom.type));
+                        static_cast<int>(geom.type));
         } catch (const std::exception& e) {
             THEMIS_WARN("Boost stBuffer error: {}", e.what());
         }
@@ -410,3 +410,4 @@ ISpatialComputeBackend* getBoostCpuBackend() {
 #endif // THEMIS_GEO_BOOST_BACKEND
 
 } } // namespace themis::geo
+

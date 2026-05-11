@@ -193,20 +193,20 @@ public:
     AQLTrainParser() = default;
     
     /// Parse TRAIN ADAPTER statement
-    /// Syntax: TRAIN ADAPTER &lt;id&gt; FROM &lt;collection&gt; [WHERE ...] 
+    /// Syntax: TRAIN ADAPTER <id> FROM <collection> [WHERE ...] 
     ///         [USING GRAPH_CONTEXT(...)]
     ///         [USING VECTOR_SIMILARITY(...)]
     ///         [USING RELATIONAL_JOIN(...)]
-    ///         [DISTRIBUTED] WITH &lt;config&gt;
+    ///         [DISTRIBUTED] WITH <config>
     std::shared_ptr<TrainAdapterStmt> parseTrainAdapter(const std::string& aql);
     
     /// Parse DEPLOY ADAPTER statement
-    /// Syntax: DEPLOY ADAPTER &lt;id&gt; TO SHARD '&lt;shard&gt;' [, '&lt;shard2&gt;'] 
+    /// Syntax: DEPLOY ADAPTER <id> TO SHARD '<shard>' [, '<shard2>'] 
     ///         [WITH strategy = '...', validate_compatibility = TRUE]
     std::shared_ptr<DeployAdapterStmt> parseDeployAdapter(const std::string& aql);
     
     /// Parse VERIFY ADAPTER statement
-    /// Syntax: VERIFY ADAPTER &lt;id&gt; [CHECK signature, manifest, safetensors_match]
+    /// Syntax: VERIFY ADAPTER <id> [CHECK signature, manifest, safetensors_match]
     std::shared_ptr<VerifyAdapterStmt> parseVerifyAdapter(const std::string& aql);
     
     /// Parse LIST ADAPTERS statement
@@ -291,3 +291,4 @@ private:
 };
 
 } // namespace themis::llm
+

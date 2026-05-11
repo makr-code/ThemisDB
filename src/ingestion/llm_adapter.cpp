@@ -117,7 +117,7 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
         "{\n"
         "  \"deontic_category\": \"<category>\",\n"
         "  \"confidence\": <0.0-1.0>,\n"
-        "  \"entities\": [{\"type\": \"&lt;type&gt;\", \"value\": \"&lt;value&gt;\"}],\n"
+        "  \"entities\": [{\"type\": \"<type>\", \"value\": \"<value>\"}],\n"
         "  \"obligations\": [{\"actor\": \"\", \"action\": \"\", \"condition\": \"\"}]\n"
         "}\n\n"
         "Gesetzestext:\n" + text + "\n[/INST]";
@@ -186,3 +186,4 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
 
 } // namespace ingestion
 } // namespace themis
+

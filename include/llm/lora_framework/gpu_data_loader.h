@@ -198,9 +198,10 @@ private:
     void stopPrefetching();
     void prefetchWorker();
     GPUBatch prepareBatch(size_t batch_idx);
-    std::vector&lt;int&gt; tokenizeSample(const InstructionDataSample& sample);
+    std::vector<int> tokenizeSample(const InstructionDataSample& sample);
 };
 
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

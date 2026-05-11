@@ -58,7 +58,7 @@ public:
     /**
      * POST /dtxn/begin
      * Body: { "shards": ["shard1", "shard2", ...] }
-     * Returns: { "transaction_id": "&lt;id&gt;", "status": "active" }
+     * Returns: { "transaction_id": "<id>", "status": "active" }
      */
     http::response<http::string_body> handleBegin(
         const http::request<http::string_body>& req
@@ -66,8 +66,8 @@ public:
 
     /**
      * POST /dtxn/operation
-     * Body: { "transaction_id": "&lt;id&gt;", "shard_id": "&lt;shard&gt;", "operation": {...} }
-     * Returns: { "transaction_id": "&lt;id&gt;", "status": "ok" }
+     * Body: { "transaction_id": "<id>", "shard_id": "<shard>", "operation": {...} }
+     * Returns: { "transaction_id": "<id>", "status": "ok" }
      */
     http::response<http::string_body> handleOperation(
         const http::request<http::string_body>& req
@@ -75,8 +75,8 @@ public:
 
     /**
      * POST /dtxn/commit
-     * Body: { "transaction_id": "&lt;id&gt;" }
-     * Returns: { "transaction_id": "&lt;id&gt;", "status": "committed" | "aborted" }
+     * Body: { "transaction_id": "<id>" }
+     * Returns: { "transaction_id": "<id>", "status": "committed" | "aborted" }
      */
     http::response<http::string_body> handleCommit(
         const http::request<http::string_body>& req
@@ -84,8 +84,8 @@ public:
 
     /**
      * POST /dtxn/abort
-     * Body: { "transaction_id": "&lt;id&gt;" }
-     * Returns: { "transaction_id": "&lt;id&gt;", "status": "aborted" }
+     * Body: { "transaction_id": "<id>" }
+     * Returns: { "transaction_id": "<id>", "status": "aborted" }
      */
     http::response<http::string_body> handleAbort(
         const http::request<http::string_body>& req
@@ -102,7 +102,7 @@ public:
 
     /**
      * GET /dtxn/status/{txn_id}
-     * Returns: { "transaction_id": "&lt;id&gt;", "state": "ACTIVE|PREPARING|..." }
+     * Returns: { "transaction_id": "<id>", "state": "ACTIVE|PREPARING|..." }
      */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req
@@ -134,3 +134,4 @@ private:
 };
 
 } // namespace themis::server
+

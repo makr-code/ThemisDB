@@ -136,7 +136,7 @@ std::vector<MetadataWALEntry> MetadataWAL::readEntries(const LSN& start_lsn) {
         // Convert to MetadataWALEntry
         for (const auto& wal_entry : wal_entries) {
             // Only process metadata-specific entry types (120-122)
-            const int wal_type = static_cast&lt;int&gt;(wal_entry.type);
+            const int wal_type = static_cast<int>(wal_entry.type);
             if (wal_type >= 120 && wal_type <= 122) {
                 entries.push_back(MetadataWALEntry::fromWALEntry(wal_entry));
             }
@@ -175,7 +175,7 @@ LSN MetadataWAL::writeEntry(const MetadataWALEntry& entry) {
         spdlog::debug("Logged metadata {} to WAL: partition={}, key={}, version={}, LSN=({}, {})",
                      entry.type == MetadataWALEntryType::PUT ? "PUT" :
                      entry.type == MetadataWALEntryType::DELETE_OP ? "DELETE" : "UPDATE",
-                     static_cast&lt;int&gt;(entry.partition),
+                     static_cast<int>(entry.partition),
                      entry.key,
                      entry.version,
                      lsn.segment,
@@ -190,3 +190,4 @@ LSN MetadataWAL::writeEntry(const MetadataWALEntry& entry) {
 
 } // namespace sharding
 } // namespace themisdb
+

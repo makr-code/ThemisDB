@@ -1313,7 +1313,7 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
     }
     
     spdlog::info("RedundancyStrategy initialized: mode={}, replication_factor={}, storage_efficiency={:.2f}",
-                 static_cast&lt;int&gt;(config_.mode),
+                 static_cast<int>(config_.mode),
                  config_.replication_factor,
                  config_.getStorageEfficiency());
 }
@@ -3025,3 +3025,4 @@ namespace sharding {
 using namespace themis::sharding;
 }
 }
+

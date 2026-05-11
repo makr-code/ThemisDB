@@ -145,7 +145,7 @@ public:
         
         // Calculate in-degree for each node
         for (const auto& [name, deps] : graph.dependencies) {
-            in_degree[name] = static_cast&lt;int&gt;(deps.size());
+            in_degree[name] = static_cast<int>(deps.size());
         }
         
         // Find all nodes with no dependencies (in-degree = 0)
@@ -344,3 +344,4 @@ private:
 
 } // namespace plugins
 } // namespace themis
+

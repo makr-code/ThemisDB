@@ -625,7 +625,7 @@ private:
         std::atomic<int64_t> created_at_ms{0};         // Written at insert; reset by adaptive TTL
         std::atomic<int64_t> last_accessed_ms{0};      // Updated lock-free on every get() hit
         std::atomic<int64_t> access_count{0};          // Incremented lock-free
-        std::atomic&lt;int&gt; ttl_seconds{0};               // Adaptive TTL writes
+        std::atomic<int> ttl_seconds{0};               // Adaptive TTL writes
         std::atomic<int64_t> window_start_ms{0};       // Adaptive TTL window start
         std::atomic<uint32_t> window_count{0};         // Accesses in current window
         std::atomic<bool> expired_flag{false};         // CAS-based expiry marker for lazy cleanup
@@ -754,3 +754,4 @@ private:
 };
 
 } // namespace themis
+

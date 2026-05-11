@@ -91,7 +91,7 @@ public:
         int numDevices = 2;
 
         /// Explicit GPU device IDs.  When empty, IDs 0 .. numDevices-1 are used.
-        std::vector&lt;int&gt; deviceIds;
+        std::vector<int> deviceIds;
 
         /// Minimum GPUs required for isAvailable() to return true.
         int minDevices = 2;
@@ -202,3 +202,4 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+

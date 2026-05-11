@@ -49,7 +49,7 @@ inline std::string aqlEscapeLiteral(const std::string& raw) {
 }
 
 /// Validate a name that will be used as an AQL collection identifier
-/// (i.e. directly after `FOR doc IN &lt;name&gt;` or `INSERT ... INTO &lt;name&gt;`).
+/// (i.e. directly after `FOR doc IN <name>` or `INSERT ... INTO <name>`).
 ///
 /// AQL identifiers must:
 ///   - not be empty
@@ -70,3 +70,4 @@ inline bool isValidAqlIdentifier(const std::string& name) {
 }
 
 } // namespace themis::api
+

@@ -194,7 +194,7 @@ struct EIDAuthConfig {
     std::vector<EIDAttributeType> requested_attributes;
 
     // Age / community verification
-    std::optional&lt;int&gt; age_verification_threshold; ///< Verify age ≥ N years (or nullopt)
+    std::optional<int> age_verification_threshold; ///< Verify age ≥ N years (or nullopt)
     std::string community_id_sector;               ///< Sector for RESTRICTED_ID derivation
 
     // Session management
@@ -542,3 +542,4 @@ private:
 
 } // namespace auth
 } // namespace themis
+

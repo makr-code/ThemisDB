@@ -42,13 +42,13 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
     }
     // OpenSSL BIO chain: base64 filter -> memory source
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* mem = BIO_new_mem_buf(encoded.data(), static_cast&lt;int&gt;(encoded.size()));
+    BIO* mem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
     b64 = BIO_push(b64, mem);
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
 
     // Upper bound for decoded output
     std::vector<uint8_t> buf(encoded.size());
-    int decoded_len = BIO_read(b64, buf.data(), static_cast&lt;int&gt;(buf.size()));
+    int decoded_len = BIO_read(b64, buf.data(), static_cast<int>(buf.size()));
     BIO_free_all(b64);
 
     if (decoded_len <= 0) {
@@ -62,7 +62,7 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
 std::string bytesToHex(const uint8_t* data, size_t len) {
     std::ostringstream ss;
     for (size_t i = 0; i < len; ++i) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(data[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
     }
     return ss.str();
 }
@@ -330,3 +330,4 @@ bool SignedPluginRepository::verifyEd25519Signature(
 
 } // namespace plugins
 } // namespace themis
+

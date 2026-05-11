@@ -580,8 +580,8 @@ public:
      * across restarts.
      *
      * Format (one partial match per "pm_match=" line, followed by pm_ev= lines):
-     *   pm_match=&lt;group_key_hex&gt;|&lt;current_state&gt;|&lt;age_ms&gt;
-     *   pm_ev=&lt;event_hex&gt;
+     *   pm_match=<group_key_hex>|<current_state>|<age_ms>
+     *   pm_ev=<event_hex>
      *   ...
      */
     std::string serializeState() const;
@@ -847,15 +847,15 @@ public:
      * Parse EPL string to rule config.
      *
      * Supported syntax:
-     *   [CREATE RULE &lt;name&gt; AS | NAME &lt;name&gt;]
-     *   SELECT [&lt;agg_fn&gt;(&lt;field&gt;) [AS &lt;alias&gt;], ...] FROM &lt;stream&gt;
-     *   [WHERE &lt;filter&gt;]
-     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (&lt;types&gt;) [WITHIN &lt;n&gt;(ms|s|MINUTES|HOURS)]]
-     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(&lt;n&gt; UNIT[, &lt;n&gt; UNIT])]
-     *   [GROUP BY &lt;field&gt;[, ...]]
-     *   [HAVING &lt;condition&gt;]
-     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(&lt;params&gt;)
-     *    | ON MATCH ALERT [severity=&lt;s&gt;] [message=&lt;m&gt;]]
+     *   [CREATE RULE <name> AS | NAME <name>]
+     *   SELECT [<agg_fn>(<field>) [AS <alias>], ...] FROM <stream>
+     *   [WHERE <filter>]
+     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<types>) [WITHIN <n>(ms|s|MINUTES|HOURS)]]
+     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(<n> UNIT[, <n> UNIT])]
+     *   [GROUP BY <field>[, ...]]
+     *   [HAVING <condition>]
+     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(<params>)
+     *    | ON MATCH ALERT [severity=<s>] [message=<m>]]
      *
      * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
      *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
@@ -1083,13 +1083,13 @@ public:
      * in the engine are silently skipped.
      *
      * Checkpoint file format:
-     *   events_received=&lt;N&gt;
-     *   events_processed=&lt;N&gt;
-     *   alerts_generated=&lt;N&gt;
-     *   rule=&lt;rule_id&gt;:&lt;rule_name&gt;:&lt;1|0&gt;          (1 = enabled, 0 = disabled)
-     *   pm_rule=&lt;rule_id&gt;                          (start of matcher state block)
-     *   pm_match=&lt;group_key_hex&gt;|&lt;nfa_state&gt;|&lt;age_ms&gt;
-     *   pm_ev=&lt;hex-encoded-serialized-event&gt;       (one line per matched event)
+     *   events_received=<N>
+     *   events_processed=<N>
+     *   alerts_generated=<N>
+     *   rule=<rule_id>:<rule_name>:<1|0>          (1 = enabled, 0 = disabled)
+     *   pm_rule=<rule_id>                          (start of matcher state block)
+     *   pm_match=<group_key_hex>|<nfa_state>|<age_ms>
+     *   pm_ev=<hex-encoded-serialized-event>       (one line per matched event)
      *   ...additional pm_match/pm_ev lines...
      *   pm_rule_end                                (end of matcher state block)
      *
@@ -1218,3 +1218,4 @@ inline const char* aggregationTypeToString(AggregationType type) {
 
 } // namespace analytics
 } // namespace themisdb
+

@@ -101,7 +101,7 @@ const char* levelName(core::concerns::ILogger::Level level) noexcept {
 }
 
 int levelIndex(core::concerns::ILogger::Level level) noexcept {
-    return static_cast&lt;int&gt;(level);
+    return static_cast<int>(level);
 }
 
 /// Format a system_clock time_point as ISO-8601 UTC (seconds precision).
@@ -508,3 +508,4 @@ std::future<void> LogAggregator::logWithContextAsync(Level level,
 
 } // namespace observability
 } // namespace themis
+

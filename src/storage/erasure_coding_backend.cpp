@@ -72,7 +72,7 @@ ErasureCodingBackend::ErasureCodingBackend(const ErasureCodingConfig& config)
 
     spdlog::debug("ErasureCodingBackend: RS({},{}) algorithm={} overhead={:.1f}x",
                   config_.data_shards, config_.parity_shards,
-                  static_cast&lt;int&gt;(config_.algorithm),
+                  static_cast<int>(config_.algorithm),
                   storageOverhead());
 }
 
@@ -288,3 +288,4 @@ uint32_t ErasureCodingBackend::availableShardCount(
 
 } // namespace storage
 } // namespace themisdb
+

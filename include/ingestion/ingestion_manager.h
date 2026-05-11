@@ -1608,7 +1608,7 @@ public:
      *
      * | Key                     | Description                                        | Default       |
      * |-------------------------|----------------------------------------------------|---------------|
-     * | `api_key`               | Bearer token for `Authorization: Bearer &lt;token&gt;`   | (none)        |
+     * | `api_key`               | Bearer token for `Authorization: Bearer <token>`   | (none)        |
      * | `page_size`             | Items per page                                     | `100`         |
      * | `pagination_mode`       | `"offset"` (numeric) or `"cursor"` (opaque token)  | `"offset"`    |
      * | `cursor_param`          | Query-parameter name for the cursor / offset       | `"offset"`    |
@@ -2044,3 +2044,4 @@ private:
 
 } // namespace ingestion
 } // namespace themis
+

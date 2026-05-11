@@ -531,7 +531,7 @@ bool DistributedTransactionCoordinator::sendPrepare(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast&lt;int&gt;(config_.rpc_timeout_ms);
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -572,7 +572,7 @@ bool DistributedTransactionCoordinator::sendCommit(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast&lt;int&gt;(config_.rpc_timeout_ms);
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -602,7 +602,7 @@ bool DistributedTransactionCoordinator::sendAbort(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast&lt;int&gt;(config_.rpc_timeout_ms);
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -707,7 +707,7 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
     // Create recovery log entry
     nlohmann::json recovery_data = {
         {"transaction_id", txn.transaction_id},
-        {"state", static_cast&lt;int&gt;(txn.state)},
+        {"state", static_cast<int>(txn.state)},
         {"commit_time", txn.commit_time.count()},
         {"start_time", txn.start_time.count()},
         {"participants", nlohmann::json::array()}
@@ -755,7 +755,7 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
     // Operations are not included as they're already at participants
     nlohmann::json prepared_data = {
         {"transaction_id", txn.transaction_id},
-        {"state", static_cast&lt;int&gt;(TransactionState::PREPARED)},
+        {"state", static_cast<int>(TransactionState::PREPARED)},
         {"start_time", txn.start_time.count()},
         {"participants", nlohmann::json::array()}
     };
@@ -875,7 +875,7 @@ void DistributedTransactionCoordinator::recoverTransactions() {
                 abort_entry.transaction_id = txn_id;
                 abort_entry.data = {
                     {"transaction_id", txn_id},
-                    {"state", static_cast&lt;int&gt;(TransactionState::ABORTED)},
+                    {"state", static_cast<int>(TransactionState::ABORTED)},
                     {"reason", "in-doubt recovery on coordinator restart"}
                 };
                 
@@ -968,3 +968,4 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
 }
 
 } // namespace themis::sharding
+

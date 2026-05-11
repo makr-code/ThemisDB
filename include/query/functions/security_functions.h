@@ -193,7 +193,7 @@ public:
         if (!args[0].is_string()) return false;
         
         std::string ip = args[0].get<std::string>();
-        int version = args.size() > 1 && args[1].is_number() ? args[1].get&lt;int&gt;() : 0;
+        int version = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
         
         // IPv4 pattern
         static const std::regex ipv4Pattern(
@@ -361,7 +361,7 @@ public:
         // Luhn algorithm
         int sum = 0;
         bool alternate = false;
-        for (int i = static_cast&lt;int&gt;(cleaned.length()) - 1; i >= 0; --i) {
+        for (int i = static_cast<int>(cleaned.length()) - 1; i >= 0; --i) {
             int digit = cleaned[i] - '0';
             if (alternate) {
                 digit *= 2;
@@ -387,7 +387,7 @@ public:
  * @param str String to sanitize
  * @param type Type of sanitization: "html", "sql", "json", "filename" (default: "html")
  * 
- * - Example: SANITIZE("<script>alert('xss')</script>", "html") → "&lt;script&gt;..."
+ * - Example: SANITIZE("<script>alert('xss')</script>", "html") → "<script>..."
  */
 class SanitizeFunction : public IFunction {
 public:
@@ -431,8 +431,8 @@ private:
         result.reserve(str.size() * 1.2);
         for (char c : str) {
             switch (c) {
-                case '<': result += "&lt;"; break;
-                case '>': result += "&gt;"; break;
+                case '<': result += "<"; break;
+                case '>': result += ">"; break;
                 case '&': result += "&amp;"; break;
                 case '"': result += "&quot;"; break;
                 case '\'': result += "&#39;"; break;
@@ -618,12 +618,12 @@ public:
         if (!args[0].is_string()) return args[0].dump();
         
         std::string str = args[0].get<std::string>();
-        int start = args.size() > 1 && args[1].is_number() ? args[1].get&lt;int&gt;() : 0;
-        int end = args.size() > 2 && args[2].is_number() ? args[2].get&lt;int&gt;() : 0;
+        int start = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
+        int end = args.size() > 2 && args[2].is_number() ? args[2].get<int>() : 0;
         char maskChar = args.size() > 3 && args[3].is_string() && !args[3].get<std::string>().empty() 
                         ? args[3].get<std::string>()[0] : '*';
         
-        int len = static_cast&lt;int&gt;(str.length());
+        int len = static_cast<int>(str.length());
         if (start + end >= len) {
             return str; // Nothing to mask
         }
@@ -950,3 +950,4 @@ inline void registerSecurityFunctions() {
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
+

@@ -46,7 +46,7 @@ ValidationResult LLMOutputValidator::validate(const std::string& text) {
     ValidationResult result;
     
     // Calculate basic metrics
-    result.metrics.char_count = static_cast&lt;int&gt;(text.length());
+    result.metrics.char_count = static_cast<int>(text.length());
     result.metrics.word_count = countWords(text);
     result.metrics.sentence_count = countSentences(text);
     result.metrics.avg_word_length = calculateAvgWordLength(text);
@@ -190,7 +190,7 @@ bool LLMOutputValidator::detectTruncation(const std::string& text) {
     if (text.empty()) return false;
     
     // Check last characters
-    std::string last_chars = text.substr(std::max(0, static_cast&lt;int&gt;(text.length()) - 50));
+    std::string last_chars = text.substr(std::max(0, static_cast<int>(text.length()) - 50));
     
     // Heuristics for truncation:
     // 1. Ends mid-sentence (no period, question mark, exclamation)
@@ -524,3 +524,4 @@ double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
 
 } // namespace llm
 } // namespace themis
+

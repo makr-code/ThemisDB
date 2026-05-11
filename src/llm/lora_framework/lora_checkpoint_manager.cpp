@@ -92,7 +92,7 @@ std::string sha256Hex(const uint8_t* data, size_t len) {
     std::ostringstream oss;
     for (unsigned int i = 0; i < digest_len; ++i)
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast&lt;int&gt;(digest[i]);
+            << static_cast<int>(digest[i]);
     return oss.str();
 }
 
@@ -268,7 +268,7 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
         if (fname.rfind("checkpoint-", 0) != 0) continue;
         if (entry.path().extension() != ".bin") continue;
 
-        // Extract step from filename: "checkpoint-&lt;step&gt;.bin"
+        // Extract step from filename: "checkpoint-<step>.bin"
         uint64_t step = 0;
         try {
             std::string base = entry.path().stem().string(); // "checkpoint-N"
@@ -427,3 +427,4 @@ void LoRACheckpointManager::prune(const std::string& adapter_id) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

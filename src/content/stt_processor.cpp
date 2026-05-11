@@ -105,7 +105,7 @@ bool STTProcessor::initialize(const PluginConfig& config) {
     default_language_ = config.get<std::string>("language", "auto");
     enable_timestamps_ = config.get<bool>("timestamps", true);
     enable_speaker_diarization_ = config.get<bool>("speaker_diarization", false);
-    max_speakers_ = config.get&lt;int&gt;("max_speakers", 0);
+    max_speakers_ = config.get<int>("max_speakers", 0);
     enable_word_confidence_ = config.get<bool>("word_confidence", false);
     vad_threshold_ = config.get<float>("vad_threshold", 0.5f);
     
@@ -820,7 +820,7 @@ TranscriptionResult STTProcessor::transcribeInternal(
         }
         
         // Run transcription
-        int ret = whisper_full(ctx, wparams, pcm_data.data(), static_cast&lt;int&gt;(pcm_data.size()));
+        int ret = whisper_full(ctx, wparams, pcm_data.data(), static_cast<int>(pcm_data.size()));
         
         if (ret != 0) {
             result.success = false;
@@ -1051,7 +1051,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
     };
 
     // Extract and normalise a feature vector for every segment.
-    const int n_segs = static_cast&lt;int&gt;(segments.size());
+    const int n_segs = static_cast<int>(segments.size());
     std::vector<std::vector<float>> features;
     features.reserve(static_cast<size_t>(n_segs));
     for (const auto& seg : segments) {
@@ -1104,7 +1104,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
         centroids.push_back(features[best_idx]);
     }
 
-    std::vector&lt;int&gt; labels(static_cast<size_t>(n_segs), 0);
+    std::vector<int> labels(static_cast<size_t>(n_segs), 0);
     for (int iter = 0; iter < 20; ++iter) {
         // Assignment step.
         bool changed = false;
@@ -1128,7 +1128,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
         // Update step: recompute centroids as normalised mean of assigned features.
         std::vector<std::vector<float>> new_centroids(
             static_cast<size_t>(best_k), std::vector<float>(kFeatureDim, 0.0f));
-        std::vector&lt;int&gt; counts(static_cast<size_t>(best_k), 0);
+        std::vector<int> counts(static_cast<size_t>(best_k), 0);
         for (int i = 0; i < n_segs; ++i) {
             int c = labels[i];
             for (int d = 0; d < kFeatureDim; ++d) {
@@ -1197,10 +1197,10 @@ json STTProcessor::formatAsProtocol(
 
 // Helper function to format timestamp
 std::string STTProcessor::formatTimestamp(int64_t ms) {
-    int hours = static_cast&lt;int&gt;(ms / 3600000);
-    int minutes = static_cast&lt;int&gt;((ms % 3600000) / 60000);
-    int seconds = static_cast&lt;int&gt;((ms % 60000) / 1000);
-    int millis = static_cast&lt;int&gt;(ms % 1000);
+    int hours = static_cast<int>(ms / 3600000);
+    int minutes = static_cast<int>((ms % 3600000) / 60000);
+    int seconds = static_cast<int>((ms % 60000) / 1000);
+    int millis = static_cast<int>(ms % 1000);
     
     char buffer[32];
     snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
@@ -1212,3 +1212,4 @@ THEMIS_CONTENT_PLUGIN(STTProcessor)
 
 } // namespace content
 } // namespace themis
+

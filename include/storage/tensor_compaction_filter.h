@@ -21,7 +21,7 @@
  *
  * - `__ttcore__:<tenant>:<file_id>:<chunk_id>` — raw `TTTrain::serialize()`
  *   bytes stored by `TensorCoreStorageBridge`.
- * - `__ttn__:<tenant>:<collection>:&lt;field&gt;:meta:<ver>` — `QuantizedTrain`
+ * - `__ttn__:<tenant>:<collection>:<field>:meta:<ver>` — `QuantizedTrain`
  *   header bytes stored by `TensorNetworkStorageEngine`.
  *
  * For each matching key the filter:
@@ -157,3 +157,4 @@ private:
 
 } // namespace storage
 } // namespace themis
+

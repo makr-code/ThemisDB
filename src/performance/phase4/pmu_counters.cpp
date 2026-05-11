@@ -91,7 +91,7 @@ bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {
     if (fd < 0) {
         return false;
     }
-    fd_ = static_cast&lt;int&gt;(fd);
+    fd_ = static_cast<int>(fd);
     return true;
 }
 
@@ -311,7 +311,7 @@ static inline uint64_t read_platform_cycles() noexcept {
 // start cycle, read() returns the delta since last enable().
 constexpr int kMaxFallbackSlots = 128;
 static thread_local uint64_t tl_fallback_starts[kMaxFallbackSlots] = {};
-static std::atomic&lt;int&gt;      s_fallback_slot_seq{0};
+static std::atomic<int>      s_fallback_slot_seq{0};
 
 // ---- kpc setup helper ----
 
@@ -494,7 +494,7 @@ static inline uint64_t read_platform_cycles() noexcept {
 // Thread-local slot pool for per-counter start-cycle storage.
 constexpr int kMaxWinSlots = 128;
 static thread_local uint64_t tl_win_starts[kMaxWinSlots] = {};
-static std::atomic&lt;int&gt;      s_win_slot_seq{0};
+static std::atomic<int>      s_win_slot_seq{0};
 
 } // anonymous namespace
 
@@ -620,7 +620,7 @@ static inline uint64_t read_platform_cycles() noexcept {
 
 constexpr int kMaxRdtscSlots = 128;
 static thread_local uint64_t tl_rdtsc_starts[kMaxRdtscSlots] = {};
-static std::atomic&lt;int&gt;      s_rdtsc_slot_seq{0};
+static std::atomic<int>      s_rdtsc_slot_seq{0};
 
 } // anonymous namespace
 
@@ -834,3 +834,4 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_PMU_COUNTERS
+

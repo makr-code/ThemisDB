@@ -707,7 +707,7 @@ void WebSocketManager::pollCDCEvents() {
                 
                 for (const auto& event : events) {
                     cdc_message["sequence"] = event.sequence;
-                    cdc_message["event_type"] = static_cast&lt;int&gt;(event.type);
+                    cdc_message["event_type"] = static_cast<int>(event.type);
                     cdc_message["key"] = event.key;
                     cdc_message["timestamp_ms"] = event.timestamp_ms;
                     
@@ -828,3 +828,4 @@ void WebSocketManager::closeAll() {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+

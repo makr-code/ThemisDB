@@ -930,7 +930,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(distLiteral->value)) {
-                        maxDistance = static_cast&lt;int&gt;(std::get<int64_t>(distLiteral->value));
+                        maxDistance = static_cast<int>(std::get<int64_t>(distLiteral->value));
                     } else {
                         return TranslationResult::Error("FUZZY() maxDistance must be an integer");
                     }
@@ -1912,4 +1912,5 @@ void AQLTranslator::attachCTEs(
 }
 
 } // namespace themis
+
 

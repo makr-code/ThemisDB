@@ -41,7 +41,7 @@ json IngestionSource::toJson() const {
     return json{
         {"source_id", source_id},
         {"plugin_name", plugin_name},
-        {"type", static_cast&lt;int&gt;(type)},
+        {"type", static_cast<int>(type)},
         {"location", location},
         {"config", config},
         {"priority", priority},
@@ -54,7 +54,7 @@ IngestionSource IngestionSource::fromJson(const json& j) {
     IngestionSource source;
     source.source_id = j.at("source_id").get<std::string>();
     source.plugin_name = j.at("plugin_name").get<std::string>();
-    source.type = static_cast<IngestionJobType>(j.at("type").get&lt;int&gt;());
+    source.type = static_cast<IngestionJobType>(j.at("type").get<int>());
     source.location = j.at("location").get<std::string>();
     source.config = j.value("config", json::object());
     source.priority = j.value("priority", 0);
@@ -65,3 +65,4 @@ IngestionSource IngestionSource::fromJson(const json& j) {
 
 } // namespace content
 } // namespace themis
+

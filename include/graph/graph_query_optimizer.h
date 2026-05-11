@@ -106,7 +106,7 @@ public:
      * Query constraints and hints
      */
     struct QueryConstraints {
-        std::optional&lt;int&gt; max_depth;
+        std::optional<int> max_depth;
         std::optional<size_t> max_results;
         std::optional<std::string> edge_type;
         std::optional<std::string> graph_id;
@@ -593,7 +593,6 @@ public:
      *
      * @param start_vertex  Starting vertex for the traversal
      * @param max_depth     Maximum BFS depth (inclusive)
-     * @param constraints   Query constraints (timeout, forbidden vertices, …)
      * @param stream_config Stream batch / buffer configuration
      * @return Streaming iterator over discovered vertex IDs, or an error
      */
@@ -603,6 +602,20 @@ public:
         query::StreamConfig stream_config = {}
     );
 
+    /**
+     * @brief Stream BFS traversal results with constraints for large path sets.
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
         std::string_view start_vertex,
         int max_depth,
@@ -620,7 +633,6 @@ public:
      *
      * @param start_vertex  Starting vertex for the traversal
      * @param max_depth     Maximum DFS depth (inclusive)
-     * @param constraints   Query constraints (timeout, forbidden vertices, …)
      * @param stream_config Stream batch / buffer configuration
      * @return Streaming iterator over discovered vertex IDs, or an error
      */
@@ -630,6 +642,20 @@ public:
         query::StreamConfig stream_config = {}
     );
 
+    /**
+     * @brief Stream DFS traversal results with constraints for large path sets.
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
         std::string_view start_vertex,
         int max_depth,
@@ -671,6 +697,31 @@ public:
      *     already-mapped vertices must be present in the data graph.
      *  3. The mapping is injective: each data vertex may appear at most once.
      *
+     * @param pattern_vertices  Ordered list of vertex labels in the pattern graph.
+     * @param pattern_edges     Directed edges as (source_label, target_label) pairs.
+     * @param stats             Optional output execution statistics.
+     * @return SubgraphIsomorphismResult containing all matches, or an error if the
+     *         query timed out before the first result could be produced.
+     */
+    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
+        const std::vector<std::string>& pattern_vertices,
+        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+        ExecutionStats* stats = nullptr
+    );
+
+    /**
+     * @brief Execute a subgraph isomorphism (pattern matching) query with constraints.
+     *
+     * Finds all injective mappings from the pattern graph onto subgraphs of the
+     * data graph.  The algorithm is a VF2-style recursive backtracking search:
+     *
+     *  1. The pattern is described by a list of vertex labels and directed edges
+     *     (pairs of labels).
+     *  2. For each candidate extension (pattern_vertex → data_vertex), the method
+     *     checks structural feasibility: every edge in the pattern that connects
+     *     already-mapped vertices must be present in the data graph.
+     *  3. The mapping is injective: each data vertex may appear at most once.
+     *
      * Constraints supported via `QueryConstraints`:
      *  - `timeout_ms`: abort and return partial results after the given deadline.
      *  - `max_results`: stop after the first N matches are found.
@@ -683,12 +734,6 @@ public:
      * @return SubgraphIsomorphismResult containing all matches, or an error if the
      *         query timed out before the first result could be produced.
      */
-    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
-        const std::vector<std::string>& pattern_vertices,
-        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
-        ExecutionStats* stats = nullptr
-    );
-
     Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
@@ -1256,3 +1301,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

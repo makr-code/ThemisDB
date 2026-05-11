@@ -145,7 +145,7 @@ ExportStats HuggingFaceExporter::exportEntities(
 
     } catch (const ExportIOException& e) {
         stats.errors.push_back(
-            "[" + std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + "] " +
+            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " +
             e.what() + " (file: " + e.getFilePath() + ")"
         );
         metrics_->recordError("io_exception");
@@ -372,3 +372,4 @@ const std::vector<HuggingFaceFeature>& HuggingFaceExporter::resolvedFeatures() c
 }
 
 } // namespace themis::exporters
+

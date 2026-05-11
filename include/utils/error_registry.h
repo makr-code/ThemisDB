@@ -327,7 +327,7 @@ private:
     void registerDefaultErrors();
     
     std::unordered_map<int, ErrorMetadata> errors_;
-    std::unordered_map<std::string, std::vector&lt;int&gt;> category_index_;
+    std::unordered_map<std::string, std::vector<int>> category_index_;
 };
 
 // Helper function to log errors with error code
@@ -344,7 +344,7 @@ void logError(ErrorCode code, Args&&... args) {
     } catch (...) {
         formatted = metadata.message_template;
     }
-    spdlog::error("[{}] {}", static_cast&lt;int&gt;(code), formatted);
+    spdlog::error("[{}] {}", static_cast<int>(code), formatted);
 }
 
 } // namespace errors

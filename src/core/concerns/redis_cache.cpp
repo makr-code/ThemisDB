@@ -278,7 +278,7 @@ RedisCache::SocketFd RedisCache::tcpConnect(const std::string& host,
 
         int rv = ::connect(fd,
 #if defined(_WIN32)
-                           p->ai_addr, static_cast&lt;int&gt;(p->ai_addrlen)
+                           p->ai_addr, static_cast<int>(p->ai_addrlen)
 #else
                            p->ai_addr, p->ai_addrlen
 #endif
@@ -340,7 +340,7 @@ bool RedisCache::sendAll(SocketFd fd, const std::string& buf) noexcept {
 #if defined(_WIN32)
         int sent = ::send(static_cast<SOCKET>(fd),
                           buf.data() + total,
-                          static_cast&lt;int&gt;(buf.size() - total), 0);
+                          static_cast<int>(buf.size() - total), 0);
         if (sent == SOCKET_ERROR) return false;
 #else
         ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total,
@@ -446,7 +446,7 @@ bool RedisCache::readReply(SocketFd fd, std::string& out) noexcept {
 #if defined(_WIN32)
             int n = ::recv(static_cast<SOCKET>(fd),
                            &data[received],
-                           static_cast&lt;int&gt;(static_cast<size_t>(len) - received), 0);
+                           static_cast<int>(static_cast<size_t>(len) - received), 0);
             if (n <= 0) return false;
 #else
             ssize_t n = ::recv(fd, &data[received],
@@ -875,3 +875,4 @@ bool RedisCache::isConnected() const {
 } // namespace concerns
 } // namespace core
 } // namespace themis
+

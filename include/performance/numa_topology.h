@@ -35,9 +35,9 @@ namespace performance {
  */
 struct NumaNode {
     int node_id = -1;
-    std::vector&lt;int&gt; cpu_ids;       ///< Logical CPU IDs belonging to this node
+    std::vector<int> cpu_ids;       ///< Logical CPU IDs belonging to this node
     uint64_t memory_bytes = 0;      ///< Total memory on this node (bytes)
-    std::vector&lt;int&gt; distances;     ///< Relative access cost to every other node
+    std::vector<int> distances;     ///< Relative access cost to every other node
 };
 
 /**
@@ -117,7 +117,7 @@ public:
      * @param cpu_ids  Non-empty list of logical CPU ids.
      * @return true on success.
      */
-    static bool pin_to_cpus(const std::vector&lt;int&gt;& cpu_ids) noexcept;
+    static bool pin_to_cpus(const std::vector<int>& cpu_ids) noexcept;
 
     /**
      * @brief Remove any CPU affinity restriction from the calling thread.
@@ -129,7 +129,7 @@ public:
      * @brief Query the current CPU affinity set of the calling thread.
      * @return List of CPU ids the thread may run on; empty on error.
      */
-    static std::vector&lt;int&gt; current_affinity() noexcept;
+    static std::vector<int> current_affinity() noexcept;
 
     /**
      * @brief Get the NUMA node of the CPU the calling thread is currently running on.
@@ -140,3 +140,4 @@ public:
 
 } // namespace performance
 } // namespace themis
+

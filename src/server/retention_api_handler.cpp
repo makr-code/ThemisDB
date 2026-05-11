@@ -71,7 +71,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     }
 
     // Pagination
-    int total = static_cast&lt;int&gt;(filtered.size());
+    int total = static_cast<int>(filtered.size());
     int page = std::max(1, filter.page);
     int page_size = std::max(1, std::min(1000, filter.page_size)); // Cap at 1000
     int start = (page - 1) * page_size;
@@ -192,12 +192,12 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
     policy.name = j.at("name").get<std::string>();
     
     // Parse retention_period (days -> seconds)
-    int retention_days = j.at("retention_period_days").get&lt;int&gt;();
+    int retention_days = j.at("retention_period_days").get<int>();
     policy.retention_period = std::chrono::seconds(retention_days * 86400);
     
     // Parse archive_after (optional, default to retention_period / 2)
     if (j.contains("archive_after_days")) {
-        int archive_days = j["archive_after_days"].get&lt;int&gt;();
+        int archive_days = j["archive_after_days"].get<int>();
         policy.archive_after = std::chrono::seconds(archive_days * 86400);
     } else {
         policy.archive_after = policy.retention_period / 2;
@@ -245,3 +245,4 @@ json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAct
 }
 
 }} // namespace themis::server
+

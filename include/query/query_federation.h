@@ -118,13 +118,20 @@ public:
      * @brief Construct query federation engine
      * 
      * @param shard_router Shard router for execution
-     * @param config Configuration
      */
     QueryFederation(std::shared_ptr<sharding::ShardRouter> shard_router);
+    
+    /**
+     * @brief Construct query federation engine with configuration
+     * 
+     * @param shard_router Shard router for execution
+     * @param config Configuration
+     */
     QueryFederation(
         std::shared_ptr<sharding::ShardRouter> shard_router,
         const Config& config
     );
+    
     /**
      * @brief Construct query federation engine with explicit ShardingManager
      *
@@ -133,12 +140,22 @@ public:
      *
      * @param shard_router      Shard router for execution
      * @param sharding_manager  ShardingManager owning the consistent-hash ring
-     * @param config            Optional configuration
      */
     QueryFederation(
         std::shared_ptr<sharding::ShardRouter> shard_router,
         sharding::ShardingManager& sharding_manager
     );
+    
+    /**
+     * @brief Construct query federation engine with explicit ShardingManager and configuration
+     *
+     * Enables shard-key routing (point-lookup and range queries) so that
+     * only the relevant shards are consulted instead of broadcasting to all.
+     *
+     * @param shard_router      Shard router for execution
+     * @param sharding_manager  ShardingManager owning the consistent-hash ring
+     * @param config            Optional configuration
+     */
     QueryFederation(
         std::shared_ptr<sharding::ShardRouter> shard_router,
         sharding::ShardingManager& sharding_manager,
@@ -294,7 +311,7 @@ public:
      */
     struct QueryMetadata {
         // ── Shard-key predicate ──────────────────────────────────────────────
-        // Populated by analyzeQuery() when it detects a _key == &lt;value&gt; or
+        // Populated by analyzeQuery() when it detects a _key == <value> or
         // _key >= <min> AND _key <= <max> predicate, enabling partition pruning.
         struct ShardKeyPredicate {
             enum class Kind { POINT, RANGE };
@@ -323,7 +340,7 @@ public:
 
         // Shard-key routing fields (populated by analyzeQuery)
         // Set when the query contains an equality predicate on _key:
-        //   FILTER doc._key == "&lt;value&gt;"
+        //   FILTER doc._key == "<value>"
         std::optional<std::string> point_lookup_key;
         // Set when the query contains a range predicate on _key:
         //   FILTER doc._key >= "<min>" AND doc._key <= "<max>"
@@ -382,3 +399,4 @@ public:
 };
 
 } // namespace themis::query
+

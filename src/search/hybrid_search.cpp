@@ -89,7 +89,7 @@ HybridSearch::HybridSearch(
 
     THEMIS_INFO("HybridSearch initialized (RRF={}, k={}, metric={})", 
                 config_.use_rrf, config_.k,
-                static_cast&lt;int&gt;(config_.vector_metric));
+                static_cast<int>(config_.vector_metric));
 }
 
 HybridSearch::~HybridSearch() = default;
@@ -138,7 +138,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     Result r;
                     r.document_id = ft_result.pk;
                     r.bm25_score = ft_result.score;
-                    r.bm25_rank = static_cast&lt;int&gt;(i + 1);
+                    r.bm25_rank = static_cast<int>(i + 1);
                     bm25_results.push_back(r);
                 }
                 bm25_ok = true;
@@ -169,7 +169,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     // Convert distance to similarity based on configured metric
                     r.vector_score = distanceToSimilarity(vec_result.distance, 
                                                           config_.vector_metric);
-                    r.vector_rank = static_cast&lt;int&gt;(i + 1);
+                    r.vector_rank = static_cast<int>(i + 1);
                     vector_results.push_back(r);
                 }
                 vector_ok = true;
@@ -308,7 +308,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;
         doc.bm25_score = r.bm25_score;
-        doc.bm25_rank = static_cast&lt;int&gt;(i + 1);
+        doc.bm25_rank = static_cast<int>(i + 1);
         doc.content = r.content;
         
         // RRF contribution from BM25
@@ -322,7 +322,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;
         doc.vector_score = r.vector_score;
-        doc.vector_rank = static_cast&lt;int&gt;(i + 1);
+        doc.vector_rank = static_cast<int>(i + 1);
         if (doc.content.empty()) doc.content = r.content;
         
         // RRF contribution from vector search
@@ -389,3 +389,4 @@ void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
 }
 
 } // namespace themis
+

@@ -349,7 +349,7 @@ http::response<http::string_body> FeedbackAPIHandler::makeErrorResponse(
 ) {
     json error_json;
     error_json["error"] = error;
-    error_json["status"] = static_cast&lt;int&gt;(status);
+    error_json["status"] = static_cast<int>(status);
     return makeJsonResponse(status, error_json, req);
 }
 
@@ -404,3 +404,4 @@ llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::st
 
 } // namespace server
 } // namespace themis
+

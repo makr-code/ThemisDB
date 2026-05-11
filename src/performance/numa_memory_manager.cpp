@@ -236,10 +236,10 @@ int NUMAMemoryManager::get_current_node() const noexcept {
 #  ifdef SYS_getcpu
     unsigned cpu = 0, node_num = 0;
     if (syscall(SYS_getcpu, &cpu, &node_num, nullptr) == 0)
-        return static_cast&lt;int&gt;(node_num % topology_.num_nodes);
+        return static_cast<int>(node_num % topology_.num_nodes);
 #  endif
     int c = sched_getcpu();
-    if (c >= 0) return c % static_cast&lt;int&gt;(topology_.num_nodes);
+    if (c >= 0) return c % static_cast<int>(topology_.num_nodes);
 #endif
     return 0;
 }
@@ -278,3 +278,4 @@ void NUMAMemoryManager::reset_stats() {
 
 }  // namespace performance
 }  // namespace themis
+

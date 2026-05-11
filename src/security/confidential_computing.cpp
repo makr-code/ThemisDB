@@ -140,7 +140,7 @@ inline std::array<uint32_t, 4> cpuid(uint32_t leaf, uint32_t subleaf = 0)
 #if defined(THEMIS_HAS_CPUID)
 #  if defined(_MSC_VER)
     int info[4];
-    __cpuidex(info, static_cast&lt;int&gt;(leaf), static_cast&lt;int&gt;(subleaf));
+    __cpuidex(info, static_cast<int>(leaf), static_cast<int>(subleaf));
     r[0] = static_cast<uint32_t>(info[0]);
     r[1] = static_cast<uint32_t>(info[1]);
     r[2] = static_cast<uint32_t>(info[2]);
@@ -262,7 +262,7 @@ void aes256gcm_encrypt(
         int len = 0;
         if (!plaintext.empty()) {
             if (EVP_EncryptUpdate(ctx, ciphertext_out.data(), &len,
-                                  plaintext.data(), static_cast&lt;int&gt;(plaintext.size())) != 1)
+                                  plaintext.data(), static_cast<int>(plaintext.size())) != 1)
                 throw std::runtime_error("ConfidentialComputing: EVP_EncryptUpdate failed");
         }
         int final_len = 0;
@@ -307,7 +307,7 @@ std::vector<uint8_t> aes256gcm_decrypt(
         int len = 0;
         if (!ciphertext.empty()) {
             if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                                  ciphertext.data(), static_cast&lt;int&gt;(ciphertext.size())) != 1)
+                                  ciphertext.data(), static_cast<int>(ciphertext.size())) != 1)
                 throw std::runtime_error("ConfidentialComputing: EVP_DecryptUpdate failed");
         }
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16,
@@ -342,7 +342,7 @@ public:
     // lifetime without external dependencies.
     explicit ConfidentialComputingBase(TeeType tee_type) : tee_type_(tee_type)
     {
-        if (RAND_bytes(sealing_key_.data(), static_cast&lt;int&gt;(sealing_key_.size())) != 1)
+        if (RAND_bytes(sealing_key_.data(), static_cast<int>(sealing_key_.size())) != 1)
             throw std::runtime_error("ConfidentialComputing: failed to generate sealing key");
     }
 
@@ -634,3 +634,4 @@ std::unique_ptr<ConfidentialComputing> ConfidentialComputing::create()
 
 } // namespace security
 } // namespace themis
+

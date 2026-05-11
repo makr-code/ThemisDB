@@ -162,7 +162,7 @@ public:
      * @brief Get a specific stage quantizer (for inspection/testing)
      */
     const ProductQuantizer* getStageQuantizer(int stage) const {
-        if (stage >= 0 && stage < static_cast&lt;int&gt;(stage_quantizers_.size())) {
+        if (stage >= 0 && stage < static_cast<int>(stage_quantizers_.size())) {
             return stage_quantizers_[stage].get();
         }
         return nullptr;
@@ -188,3 +188,4 @@ private:
 };
 
 } // namespace themis
+

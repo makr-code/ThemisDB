@@ -456,7 +456,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                 if (context_type == "group" && pki && !groups_claim.empty()) {
                                     // Take first group as context (MVP)
                                     auto gdek = pki->getGroupDEK(groups_claim.front());
-                                    // HKDF over gdek with Info=field:&lt;name&gt;
+                                    // HKDF over gdek with Info=field:<name>
                                     std::vector<uint8_t> salt; // empty
                                     std::string info = "field:" + f;
                                     raw_key = utils::HKDFHelper::derive(gdek, salt, info, 32);
@@ -557,7 +557,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 auto strategy = redundancy_manager_->getStrategy(table);
                 if (strategy) {
                     THEMIS_DEBUG("Applying RAID redundancy for {}:{} using mode {}", 
-                                table, pk, static_cast&lt;int&gt;(strategy->getConfig().mode));
+                                table, pk, static_cast<int>(strategy->getConfig().mode));
                     
                     // Create write handler that writes to shards
                     auto write_handler = [this](const std::string& shard_id, 
@@ -1088,7 +1088,7 @@ http::response<http::string_body> EntityApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -1222,3 +1222,4 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
 } // namespace server
 } // namespace themis
+

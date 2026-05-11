@@ -552,12 +552,12 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             [](const RAGContext::Document& a, const RAGContext::Document& b) {
                 return a.relevance_score > b.relevance_score;
             });
-        if (static_cast&lt;int&gt;(docs.size()) > mode.retrieval.top_k) {
+        if (static_cast<int>(docs.size()) > mode.retrieval.top_k) {
             docs.resize(static_cast<size_t>(mode.retrieval.top_k));
         }
     }
 
-    result.metadata.retrieved_docs = static_cast&lt;int&gt;(docs.size());
+    result.metadata.retrieved_docs = static_cast<int>(docs.size());
     if (!docs.empty()) {
         float sum = 0.0f;
         for (const auto& d : docs) sum += d.relevance_score;
@@ -711,3 +711,4 @@ OrchestratorResult AIOrchestrator::runMultiAgent(const OrchestratorContext& ctx,
 }
 
 } // namespace themis::llm
+

@@ -144,7 +144,7 @@ LSN PaxosWAL::logEntry(const PaxosWALEntry& entry) {
     LSN lsn = wal_manager_->append(wal_entry);
     
     spdlog::debug("PaxosWAL: Logged entry type={} slot={} round={} at LSN={}",
-                  static_cast&lt;int&gt;(entry.type), entry.slot, entry.round, lsn.toString());
+                  static_cast<int>(entry.type), entry.slot, entry.round, lsn.toString());
     
     return lsn;
 }
@@ -311,3 +311,4 @@ PaxosWALEntry PaxosWAL::createEntry(PaxosWALEntryType type, uint64_t slot,
 
 } // namespace sharding
 } // namespace themis
+

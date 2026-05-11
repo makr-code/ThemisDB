@@ -310,7 +310,7 @@ void ResultStream<T>::updateCursor(const T& item) {
 
 // Instantiate for common types used in QueryEngine
 template class ResultStream<std::string>;
-template class ResultStream&lt;int&gt;;
+template class ResultStream<int>;
 template class ResultStream<double>;
 
 // Instantiate for nlohmann::json (commonly used for query results)
@@ -326,3 +326,4 @@ std::shared_ptr<ResultStream<std::string>> createKeyStream(
 
 } // namespace query
 } // namespace themis
+

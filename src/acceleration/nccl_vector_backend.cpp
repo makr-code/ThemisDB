@@ -99,7 +99,7 @@ public:
                   << " of " << config.worldSize << std::endl;
         
         // Set device for this rank
-        if (!config.deviceIds.empty() && config.rank < static_cast&lt;int&gt;(config.deviceIds.size())) {
+        if (!config.deviceIds.empty() && config.rank < static_cast<int>(config.deviceIds.size())) {
             CUDA_CHECK(cudaSetDevice(config.deviceIds[config.rank]));
         } else {
             CUDA_CHECK(cudaSetDevice(config.rank));
@@ -255,7 +255,7 @@ int NCCLVectorBackend::getWorldSize() const {
     return pImpl->config.worldSize;
 }
 
-std::vector&lt;int&gt; NCCLVectorBackend::getDeviceIds() const {
+std::vector<int> NCCLVectorBackend::getDeviceIds() const {
     return pImpl->config.deviceIds;
 }
 
@@ -555,7 +555,7 @@ std::string NCCLVectorBackend::getNCCLVersionString() {
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
-bool NCCLVectorBackend::checkNVLinkSupport(const std::vector&lt;int&gt;& deviceIds) {
+bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
     if (deviceIds.size() < 2) return false;
     
     // Check if P2P is available between devices (simplified NVLink check)
@@ -622,7 +622,7 @@ void NCCLVectorBackend::shutdown() {}
 bool NCCLVectorBackend::isInitialized() const { return false; }
 int NCCLVectorBackend::getRank() const { return 0; }
 int NCCLVectorBackend::getWorldSize() const { return 1; }
-std::vector&lt;int&gt; NCCLVectorBackend::getDeviceIds() const { return {}; }
+std::vector<int> NCCLVectorBackend::getDeviceIds() const { return {}; }
 bool NCCLVectorBackend::isP2PEnabled() const { return false; }
 bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
                                   ReductionOp op, void* stream) {
@@ -656,9 +656,10 @@ void NCCLVectorBackend::resetStatistics() {}
 bool NCCLVectorBackend::isNCCLAvailable() { return false; }
 int NCCLVectorBackend::getNCCLVersion() { return 0; }
 std::string NCCLVectorBackend::getNCCLVersionString() { return "Not available"; }
-bool NCCLVectorBackend::checkNVLinkSupport(const std::vector&lt;int&gt;&) { return false; }
+bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>&) { return false; }
 
 #endif // THEMIS_ENABLE_NCCL
 
 } // namespace acceleration
 } // namespace themis
+

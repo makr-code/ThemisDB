@@ -153,7 +153,7 @@ std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
 
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; ++i) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     return ss.str();
 }
@@ -349,7 +349,7 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
 
     for (const auto& fd : manifest.deltas) {
         ++idx;
-        int pct = static_cast&lt;int&gt;(idx * 100 / (total > 0 ? total : 1));
+        int pct = static_cast<int>(idx * 100 / (total > 0 ? total : 1));
         reportProgress(pct, "Patching " + fd.path);
 
         // --- 0. Validate relative path (path traversal prevention) ---
@@ -879,3 +879,4 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
+

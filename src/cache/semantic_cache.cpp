@@ -42,7 +42,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(con
         entry.response = j.at("response").get<std::string>();
         entry.metadata = j.value("metadata", nlohmann::json::object());
         entry.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
-        entry.ttl_seconds = j.at("ttl_seconds").get&lt;int&gt;();
+        entry.ttl_seconds = j.at("ttl_seconds").get<int>();
         return entry;
     } catch (const std::exception&) {
         return std::nullopt;
@@ -313,3 +313,4 @@ bool SemanticCache::clear() {
 }
 
 } // namespace themis
+

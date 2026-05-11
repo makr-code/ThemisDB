@@ -21,7 +21,7 @@ std::vector<std::string> GraphWatermark::generateWatermarkIds(
     const std::string& tenant_id,
     uint64_t           seed)
 {
-    const int k = static_cast&lt;int&gt;(seed % 5) + 3; // k ∈ [3, 7]
+    const int k = static_cast<int>(seed % 5) + 3; // k ∈ [3, 7]
     std::vector<std::string> ids;
     ids.reserve(static_cast<size_t>(k));
     for (int i = 0; i < k; ++i) {
@@ -128,3 +128,4 @@ std::optional<FingerprintMatch> GraphFingerprintDetector::detect(
 
 } // namespace graph
 } // namespace themis
+

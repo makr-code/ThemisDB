@@ -99,7 +99,7 @@ TrainingDataSample makeSample(
     TrainingDataSample s;
     s.input  = input;
     s.output = output;
-    s.metadata["category"] = static_cast&lt;int&gt;(cat);
+    s.metadata["category"] = static_cast<int>(cat);
     return s;
 }
 
@@ -825,3 +825,4 @@ void AQLLoRAFinetuner::setAdapterRegistry(
 
 } // namespace aql
 } // namespace themis
+

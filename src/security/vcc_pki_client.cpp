@@ -350,7 +350,7 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     X509Certificate cert;
     
     // Parse PEM using OpenSSL
-    BIO* bio = BIO_new_mem_buf(pem.c_str(), static_cast&lt;int&gt;(pem.size()));
+    BIO* bio = BIO_new_mem_buf(pem.c_str(), static_cast<int>(pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO from PEM");
     }
@@ -420,7 +420,7 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
 
 bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     // Load the certificate from PEM
-    BIO* cert_bio = BIO_new_mem_buf(cert.pem.data(), static_cast&lt;int&gt;(cert.pem.size()));
+    BIO* cert_bio = BIO_new_mem_buf(cert.pem.data(), static_cast<int>(cert.pem.size()));
     if (!cert_bio) {
         return false;
     }
@@ -496,3 +496,4 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
 }
 
 } // namespace themis
+

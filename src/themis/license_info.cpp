@@ -313,7 +313,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
         
         // Calculate difference in days
         double diff_seconds = std::difftime(expiry_t, now_time);
-        int diff_days = static_cast&lt;int&gt;(diff_seconds / (60 * 60 * 24));
+        int diff_days = static_cast<int>(diff_seconds / (60 * 60 * 24));
         
         return diff_days;
     } catch (...) {
@@ -324,7 +324,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast&lt;int&gt;(encoded.size()));
+    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
     if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
     if (!b64) { BIO_free(bmem); return {}; }
@@ -332,7 +332,7 @@ static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     auto bio = themis::utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bio.get(), output.data(), static_cast&lt;int&gt;(output.size()));
+    int decoded_size = BIO_read(bio.get(), output.data(), static_cast<int>(output.size()));
     
     if (decoded_size < 0) {
         return {};
@@ -662,19 +662,19 @@ private:
                 // Parsed first so that a nested "limits" object (WordPress plugin / future)
                 // can override individual values — nested takes priority.
                 if (j.contains("max_nodes")      && j["max_nodes"].is_number_integer())
-                    refreshed.max_nodes      = j["max_nodes"].get&lt;int&gt;();
+                    refreshed.max_nodes      = j["max_nodes"].get<int>();
                 if (j.contains("max_cores")      && j["max_cores"].is_number_integer())
-                    refreshed.max_cores      = j["max_cores"].get&lt;int&gt;();
+                    refreshed.max_cores      = j["max_cores"].get<int>();
                 if (j.contains("max_storage_tb") && j["max_storage_tb"].is_number_integer())
-                    refreshed.max_storage_tb = j["max_storage_tb"].get&lt;int&gt;();
+                    refreshed.max_storage_tb = j["max_storage_tb"].get<int>();
                 if (j.contains("limits") && j["limits"].is_object()) {
                     const auto& lim = j["limits"];
                     if (lim.contains("max_nodes")      && lim["max_nodes"].is_number_integer())
-                        refreshed.max_nodes      = lim["max_nodes"].get&lt;int&gt;();
+                        refreshed.max_nodes      = lim["max_nodes"].get<int>();
                     if (lim.contains("max_cores")      && lim["max_cores"].is_number_integer())
-                        refreshed.max_cores      = lim["max_cores"].get&lt;int&gt;();
+                        refreshed.max_cores      = lim["max_cores"].get<int>();
                     if (lim.contains("max_storage_tb") && lim["max_storage_tb"].is_number_integer())
-                        refreshed.max_storage_tb = lim["max_storage_tb"].get&lt;int&gt;();
+                        refreshed.max_storage_tb = lim["max_storage_tb"].get<int>();
                 }
             } catch (const nlohmann::json::exception&) {
                 // Malformed JSON response — keep the embedded baseline.
@@ -721,7 +721,7 @@ private:
                     return base;
                 }
                 base.grace_days_remaining =
-                    cfg_.grace_period_days - static_cast&lt;int&gt;(offline_days);
+                    cfg_.grace_period_days - static_cast<int>(offline_days);
             }
         }
 
@@ -818,7 +818,7 @@ int LicenseInfo::remaining_grace_days() const {
     }
 
     auto elapsed_since_expiry = now - expiry_tp;
-    auto days_since_expiry    = static_cast&lt;int&gt;(
+    auto days_since_expiry    = static_cast<int>(
         std::chrono::duration_cast<std::chrono::hours>(elapsed_since_expiry).count() / 24);
 
     int remaining = grace_period_days_ - days_since_expiry;
@@ -827,3 +827,4 @@ int LicenseInfo::remaining_grace_days() const {
 
 } // namespace license
 } // namespace themis
+

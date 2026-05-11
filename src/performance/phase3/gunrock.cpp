@@ -66,9 +66,9 @@ void GunrockProcessor::load_graph(const std::vector<std::vector<NodeID>>& adj_li
     }
 }
 
-std::vector&lt;int&gt; GunrockProcessor::gpu_bfs(NodeID start_vertex) {
+std::vector<int> GunrockProcessor::gpu_bfs(NodeID start_vertex) {
     const size_t n = impl_->num_vertices;
-    std::vector&lt;int&gt; distances(n, -1);
+    std::vector<int> distances(n, -1);
     
     if (start_vertex >= n) {
         return distances;
@@ -198,3 +198,4 @@ GunrockProcessor::Stats GunrockProcessor::get_stats() const {
 } // namespace phase3
 } // namespace performance
 } // namespace themis
+

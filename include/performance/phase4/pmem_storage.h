@@ -269,7 +269,7 @@ private:
 ///
 /// Example:
 ///   PMemPool pool({.path="/mnt/pmem0/themis.pool", .pool_size=1<<30});
-///   std::vector<int, PMemAllocator&lt;int&gt;> v(PMemAllocator&lt;int&gt;(&pool));
+///   std::vector<int, PMemAllocator<int>> v(PMemAllocator<int>(&pool));
 template <typename T>
 class PMemAllocator {
 public:
@@ -371,3 +371,4 @@ private:
 } // namespace phase4
 } // namespace performance
 } // namespace themis
+

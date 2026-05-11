@@ -132,9 +132,9 @@ struct CrossShardTransaction {
     nlohmann::json toJson() const {
         nlohmann::json j = {
             {"transaction_id", transaction_id},
-            {"protocol", static_cast&lt;int&gt;(protocol)},
-            {"isolation_level", static_cast&lt;int&gt;(isolation_level)},
-            {"state", static_cast&lt;int&gt;(state)},
+            {"protocol", static_cast<int>(protocol)},
+            {"isolation_level", static_cast<int>(isolation_level)},
+            {"state", static_cast<int>(state)},
             {"start_time", std::chrono::duration_cast<std::chrono::milliseconds>(
                 start_time.time_since_epoch()).count()},
             {"metadata", metadata}
@@ -674,3 +674,4 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
+

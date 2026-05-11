@@ -399,8 +399,8 @@ private:
         for (char c : s) {
             switch (c) {
                 case '&':  out += "&amp;";  break;
-                case '<':  out += "&lt;";   break;
-                case '>':  out += "&gt;";   break;
+                case '<':  out += "<";   break;
+                case '>':  out += ">";   break;
                 case '"':  out += "&quot;"; break;
                 case '\'': out += "&apos;"; break;
                 default:   out += c;        break;
@@ -415,3 +415,4 @@ private:
 
 } // namespace importers
 } // namespace themis
+

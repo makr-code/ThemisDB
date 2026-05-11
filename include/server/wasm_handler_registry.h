@@ -256,7 +256,7 @@ public:
     /**
      * @brief Handle GET /api/v1/functions/wasm – list all registered handlers.
      *
-     * Optional query parameter: `?tenant_id=&lt;id&gt;` to filter by tenant.
+     * Optional query parameter: `?tenant_id=<id>` to filter by tenant.
      *
      * Response: 200 OK with JSON array of handler metadata objects.
      */
@@ -376,3 +376,4 @@ private:
 
 } // namespace server
 } // namespace themis
+

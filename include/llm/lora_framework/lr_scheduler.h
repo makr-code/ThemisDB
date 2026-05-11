@@ -74,7 +74,7 @@ struct LRSchedulerConfig {
     
     json toJSON() const {
         return json{
-            {"type", static_cast&lt;int&gt;(type)},
+            {"type", static_cast<int>(type)},
             {"base_lr", base_lr},
             {"min_lr", min_lr},
             {"max_lr", max_lr},
@@ -93,7 +93,7 @@ struct LRSchedulerConfig {
     
     static LRSchedulerConfig fromJSON(const json& j) {
         LRSchedulerConfig config;
-        if (j.contains("type")) config.type = static_cast<SchedulerType>(j["type"].get&lt;int&gt;());
+        if (j.contains("type")) config.type = static_cast<SchedulerType>(j["type"].get<int>());
         if (j.contains("base_lr")) config.base_lr = j["base_lr"];
         if (j.contains("min_lr")) config.min_lr = j["min_lr"];
         if (j.contains("max_lr")) config.max_lr = j["max_lr"];
@@ -391,3 +391,4 @@ public:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -315,7 +315,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     // Propagate grpc-timeout if present
     const std::string timeout_hdr{req["grpc-timeout"]};
     if (!timeout_hdr.empty() && timeout_hdr.size() > 1) {
-        // Format: &lt;value&gt;<unit>  where unit ∈ {H,M,S,m,u,n}
+        // Format: <value><unit>  where unit ∈ {H,M,S,m,u,n}
         try {
             const char unit = timeout_hdr.back();
             const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
@@ -369,7 +369,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
         cq.Next(&tag, &ok);
     }
 
-    grpc_code    = static_cast&lt;int&gt;(status.error_code());
+    grpc_code    = static_cast<int>(status.error_code());
     grpc_message = status.error_message();
 
     if (status.ok()) {
@@ -412,3 +412,4 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
 } // namespace server
 } // namespace themis
+

@@ -833,7 +833,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
             // Just store metadata without extraction
             result.success = true;
             result.metadata = json{
-                {"format", static_cast&lt;int&gt;(format)},
+                {"format", static_cast<int>(format)},
                 {"encrypted", true},
                 {"member_count", metadata.member_count},
                 {"total_size", metadata.total_uncompressed_size},
@@ -874,7 +874,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
     if (config_.strategy == ArchiveStrategy::METADATA_ONLY) {
         result.success = true;
         result.metadata = json{
-            {"format", static_cast&lt;int&gt;(format)},
+            {"format", static_cast<int>(format)},
             {"encrypted", metadata.is_encrypted},
             {"member_count", metadata.member_count},
             {"file_count", metadata.file_count},
@@ -906,7 +906,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
     
     result.success = true;
     result.metadata = json{
-        {"format", static_cast&lt;int&gt;(format)},
+        {"format", static_cast<int>(format)},
         {"encrypted", metadata.is_encrypted},
         {"member_count", metadata.member_count},
         {"file_count", metadata.file_count},
@@ -981,3 +981,4 @@ std::vector<float> ArchiveProcessor::generateEmbedding(const std::string& /*chun
 
 } // namespace content
 } // namespace themis
+

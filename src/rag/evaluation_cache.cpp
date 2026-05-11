@@ -246,7 +246,7 @@ void EvaluationCache::invalidate(
         stats_.invalidations += old_size;
         stats_.current_size = 0;
         THEMIS_INFO("EvaluationCache: full invalidation, removed {} entries (trigger={})",
-                    old_size, static_cast&lt;int&gt;(trigger));
+                    old_size, static_cast<int>(trigger));
     }
 
     if (invalidation_callback_) {
@@ -304,3 +304,4 @@ void EvaluationCache::registerInvalidationCallback(
 }
 
 } // namespace themis::rag::judge
+

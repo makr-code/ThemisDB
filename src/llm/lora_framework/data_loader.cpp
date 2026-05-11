@@ -38,10 +38,10 @@ SimpleTokenizer::SimpleTokenizer(int vocab_size)
     : vocab_size_(vocab_size) {
 }
 
-std::vector&lt;int&gt; SimpleTokenizer::encode(const std::string& text, 
+std::vector<int> SimpleTokenizer::encode(const std::string& text, 
                                          bool add_bos, 
                                          bool add_eos) {
-    std::vector&lt;int&gt; tokens;
+    std::vector<int> tokens;
     
     if (add_bos) {
         tokens.push_back(bos_token_id());
@@ -50,7 +50,7 @@ std::vector&lt;int&gt; SimpleTokenizer::encode(const std::string& text,
     // Simple character-level tokenization for testing
     // Each character maps to token ID based on ASCII value + offset
     for (char c : text) {
-        int token_id = static_cast&lt;int&gt;(static_cast<unsigned char>(c)) + 10;
+        int token_id = static_cast<int>(static_cast<unsigned char>(c)) + 10;
         if (token_id < vocab_size_) {
             tokens.push_back(token_id);
         }
@@ -63,7 +63,7 @@ std::vector&lt;int&gt; SimpleTokenizer::encode(const std::string& text,
     return tokens;
 }
 
-std::string SimpleTokenizer::decode(const std::vector&lt;int&gt;& tokens) {
+std::string SimpleTokenizer::decode(const std::vector<int>& tokens) {
     std::string text;
     
     for (int token_id : tokens) {
@@ -383,7 +383,7 @@ TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) 
         
         batch.max_sequence_length = std::max(
             batch.max_sequence_length, 
-            static_cast&lt;int&gt;(sample.input_ids.size())
+            static_cast<int>(sample.input_ids.size())
         );
     }
     
@@ -588,3 +588,4 @@ trainValSplit(const std::vector<InstructionDataSample>& samples, float validatio
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

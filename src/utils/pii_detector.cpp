@@ -179,7 +179,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
     
     for (const auto& engine : engines_) {
         if (engine->isEnabled()) {
-            metadata["enabled_engines"] = metadata["enabled_engines"].get&lt;int&gt;() + 1;
+            metadata["enabled_engines"] = metadata["enabled_engines"].get<int>() + 1;
         }
         
         engines_array.push_back(engine->getMetadata());
@@ -255,7 +255,7 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                         } catch (...) {}
                         
                         try {
-                            json_node = yaml_node.as&lt;int&gt;();
+                            json_node = yaml_node.as<int>();
                             return;
                         } catch (...) {}
                         
@@ -530,3 +530,4 @@ std::vector<PIIFinding> PIIDetector::deduplicateFindings(
 
 } // namespace utils
 } // namespace themis
+

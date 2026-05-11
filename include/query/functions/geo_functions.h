@@ -1185,7 +1185,7 @@ public:
         const double distance_m = args[1].get<double>();
         // Truncation is intentional: arc_points must be a whole number of vertices.
         const int arc_points = (args.size() >= 3 && args[2].is_number())
-                               ? static_cast&lt;int&gt;(args[2].get<double>())
+                               ? static_cast<int>(args[2].get<double>())
                                : 36;
         const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
         const std::string json_str = EWKBParser::toGeoJSON(result);
@@ -1333,4 +1333,5 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

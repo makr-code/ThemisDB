@@ -69,14 +69,18 @@ Status-Legende:
 
 ### P1: Doxygen-Kommentarsyntax korrigieren (schneller, hoher Hebel)
 
-- [ ] Unsupported XML/HTML Tags bereinigen (Target: Q2 2026)
+- [x] Unsupported XML/HTML Tags bereinigen (Target: Q2 2026)
 	- Fokusdatei-Cluster: include/query/*
-	- Regel: Platzhalter wie <name>, <collection>, <aql_body> in Code-Format oder Escapes ueberfuehren.
-	- Akzeptanz: 0 Treffer fuer "Unsupported xml/html tag" im erneuten Audit.
+	- Regel: Platzhalter wie NAME/COLLECTION/AQL_BODY statt Winkelklammer-Tags verwenden.
+	- Ergebnis (2026-05-11): query-spezifisch 19 -> 0 Unsupported-Tags.
+	- Akzeptanz: erreicht.
 
-- [ ] @param-Inkonsistenzen reparieren (Target: Q2 2026)
-	- Regel: Parameterliste in Signatur und Doxygen muessen 1:1 uebereinstimmen.
-	- Akzeptanz: 0 Treffer fuer "too many @param" und "argument .* @param".
+- [~] @param-Inkonsistenzen reparieren - Phase 1 (Target: Q2 2026)
+	- PHASE 1 COMPLETE: 152 -> 121 violations (-31, 20% reduction) ✅
+	- Patched files (5): rag_judge.h, vram_secure_clear.h, graph_query_optimizer.h, timeseries.h, query_federation.h
+	- Strategy: Split overloaded function docs to match individual signatures
+	- Remaining (121): param_mismatch=61, too_many=44, no_args_with_param=15
+	- Phase 2: Target next 20 high-priority files, reduce to ≤50 violations
 
 ### P2: Fehlende API-Dokumentation in Hotspot-Modulen
 

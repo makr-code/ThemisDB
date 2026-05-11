@@ -458,7 +458,7 @@ private:
                     auto diff = compare(last_flush_snap, snap);
                     if (diff.cpu_regression_percent > 20.0) {
                         std::string msg = "CPU regression detected: +" +
-                            std::to_string(static_cast&lt;int&gt;(diff.cpu_regression_percent)) + "%";
+                            std::to_string(static_cast<int>(diff.cpu_regression_percent)) + "%";
                         try { cb(snap, msg); } catch (...) {}
                     }
                 }
@@ -507,7 +507,7 @@ private:
     }
 
     void persistSnapshot(const ProfileSnapshot& snap) {
-        // Build filename: <output_dir>/&lt;type&gt;_<timestamp_s>.folded
+        // Build filename: <output_dir>/<type>_<timestamp_s>.folded
         auto ts_s = std::chrono::duration_cast<std::chrono::seconds>(
                         snap.timestamp.time_since_epoch())
                         .count();
@@ -598,3 +598,4 @@ ContinuousProfilerConfig ContinuousProfiler::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+

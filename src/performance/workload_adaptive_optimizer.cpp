@@ -198,7 +198,7 @@ void WorkloadAdaptiveOptimizer::enable_auto_adapt(std::chrono::seconds interval)
     adapt_interval_ = interval;
     adapt_thread_ = std::thread([this]() {
         while (adapt_running_.load(std::memory_order_relaxed)) {
-            for (int i = 0; i < static_cast&lt;int&gt;(adapt_interval_.count()) * 10 && adapt_running_; ++i)
+            for (int i = 0; i < static_cast<int>(adapt_interval_.count()) * 10 && adapt_running_; ++i)
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
             if (adapt_running_) adapt_once();
         }
@@ -250,3 +250,4 @@ double WorkloadAdaptiveOptimizer::getProfileDrift() const {
 
 }  // namespace performance
 }  // namespace themis
+

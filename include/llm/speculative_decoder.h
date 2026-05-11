@@ -95,7 +95,7 @@ public:
 
     struct VerifyResult {
         /// The draft-token IDs that were accepted (subset of the input K tokens).
-        std::vector&lt;int&gt; accepted_tokens;
+        std::vector<int> accepted_tokens;
 
         /// Correction token: resampled from the adjusted distribution when a
         /// draft token is rejected, or freshly sampled from the target distribution
@@ -156,7 +156,7 @@ public:
      * @throws std::invalid_argument on precondition violations.
      */
     VerifyResult verify(
-        const std::vector&lt;int&gt;&                      draft_tokens,
+        const std::vector<int>&                      draft_tokens,
         const std::vector<std::vector<float>>&       draft_logits,
         const std::vector<std::vector<float>>&       target_logits
     );
@@ -214,3 +214,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

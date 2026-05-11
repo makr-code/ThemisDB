@@ -105,7 +105,7 @@ std::pair<ProcessMining::Status, std::vector<ProcessMining::VariantInfo>> Proces
     return {unsupported(), {}};
 }
 
-std::pair<ProcessMining::Status, std::map<int, std::vector&lt;int&gt;>> ProcessMining::clusterVariants(
+std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining::clusterVariants(
     const EventLog& /*log*/,
     int /*num_clusters*/
 ) {
@@ -475,7 +475,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-        [](int sum, const Trace& t) { return sum + static_cast&lt;int&gt;(t.events.size()); });
+        [](int sum, const Trace& t) { return sum + static_cast<int>(t.events.size()); });
     
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities",
                 log.total_events, log.unique_cases, log.unique_activities);
@@ -588,7 +588,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromRef
     log.unique_cases = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-        [](int sum, const Trace& t) { return sum + static_cast&lt;int&gt;(t.events.size()); });
+        [](int sum, const Trace& t) { return sum + static_cast<int>(t.events.size()); });
     
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities",
                 log.total_events, log.unique_cases, log.unique_activities);
@@ -1115,7 +1115,7 @@ SubDFG buildSubDFG(const std::vector<ProcessTrace>& traces, double noise_thresho
     }
 
     // Filter infrequent edges (IMf noise threshold)
-    int threshold = static_cast&lt;int&gt;(noise_threshold * max_freq);
+    int threshold = static_cast<int>(noise_threshold * max_freq);
     for (const auto& [k, v] : raw) {
         if (v > threshold) {
             dfg.freq[k] = v;
@@ -1809,7 +1809,7 @@ ProcessMining::checkConformance(const EventLog& log, const DiscoveredProcess& mo
         }
         
         // Check remaining tokens
-        result.remaining_tokens += static_cast&lt;int&gt;(tokens.size());
+        result.remaining_tokens += static_cast<int>(tokens.size());
         if (!tokens.empty()) {
             bool hasEndToken = false;
             for (const auto& token : tokens) {
@@ -1990,9 +1990,9 @@ std::vector<float> ProcessMining::embedActivities(const std::vector<std::string>
 // a semantic model, so clusters reflect activity-name co-occurrence rather than
 // true process semantics.  See src/analytics/FUTURE_ENHANCEMENTS.md
 // §ProcessMining Clustering for the semantic-model upgrade path.
-std::pair<ProcessMining::Status, std::map<int, std::vector&lt;int&gt;>>
+std::pair<ProcessMining::Status, std::map<int, std::vector<int>>>
 ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
-    std::map<int, std::vector&lt;int&gt;> result;
+    std::map<int, std::vector<int>> result;
 
     if (log.traces.empty() || num_clusters <= 0) {
         return {Status::OK(), result};
@@ -2001,14 +2001,14 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
     // ── 1. Collect unique variants and representative trace activity lists ──
     // variant_signature → { trace indices, first seen activity sequence }
     struct VariantInfo {
-        std::vector&lt;int&gt; trace_indices;
+        std::vector<int> trace_indices;
         std::vector<std::string> activities;
     };
     std::map<std::string, VariantInfo> variant_map;
     for (size_t i = 0; i < log.traces.size(); ++i) {
         const auto& trace = log.traces[i];
         auto& info = variant_map[trace.variant_signature];
-        info.trace_indices.push_back(static_cast&lt;int&gt;(i));
+        info.trace_indices.push_back(static_cast<int>(i));
         if (info.activities.empty()) {
             for (const auto& ev : trace.events) {
                 info.activities.push_back(ev.activity);
@@ -2026,7 +2026,7 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
         variant_embeddings.push_back(embedActivities(info.activities));
     }
 
-    const int n_variants = static_cast&lt;int&gt;(variant_keys.size());
+    const int n_variants = static_cast<int>(variant_keys.size());
     const int k = std::min(num_clusters, n_variants);
 
     if (k <= 1) {
@@ -2063,7 +2063,7 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
         return dist;
     };
 
-    std::vector&lt;int&gt; assignments(n_variants, 0);
+    std::vector<int> assignments(n_variants, 0);
     constexpr int MAX_ITERS = 20;
     bool converged = false;
     for (int iter = 0; iter < MAX_ITERS; ++iter) {
@@ -2084,7 +2084,7 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
 
         // Update step: recompute centroids as mean of assigned embeddings
         std::vector<std::vector<float>> new_centroids(k, std::vector<float>(emb_dim, 0.0f));
-        std::vector&lt;int&gt; counts(k, 0);
+        std::vector<int> counts(k, 0);
         for (int vi = 0; vi < n_variants; ++vi) {
             int c = assignments[vi];
             ++counts[c];
@@ -2222,14 +2222,14 @@ ProcessMining::computeAlignment(const EventLog& log, const DiscoveredProcess& mo
         }
     }
 
-    const int M = static_cast&lt;int&gt;(modelOrder.size());
+    const int M = static_cast<int>(modelOrder.size());
 
     double totalCost = 0.0;
     double worstCaseCost = 0.0;
     int totalTraces = 0;
 
     for (const auto& trace : log.traces) {
-        const int N = static_cast&lt;int&gt;(trace.events.size());
+        const int N = static_cast<int>(trace.events.size());
         if (N == 0) continue;
 
         totalTraces++;
@@ -2345,7 +2345,7 @@ ProcessMining::enhanceWithPerformance(const DiscoveredProcess& model, const Even
         for (double d : durations) sum += d;
         double avg = sum / durations.size();
         enhanced.node_avg_duration[activity] = avg;
-        enhanced.node_frequency[activity] = static_cast&lt;int&gt;(durations.size());
+        enhanced.node_frequency[activity] = static_cast<int>(durations.size());
     }
     
     THEMIS_INFO("Enhanced process with performance metrics for {} activities", activity_durations.size());
@@ -2390,19 +2390,19 @@ ProcessMining::exportToPNML(const DiscoveredProcess& model) {
     xml << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     xml << "<pnml xmlns=\"http://www.pnml.org/version-1-0/pnml\">\n";
     xml << "  <net id=\"net1\" type=\"http://www.pnml.org/version-1-0/ptnet\">\n";
-    xml << "    &lt;name&gt;<text>" << model.name << "</text></name>\n";
+    xml << "    <name><text>" << model.name << "</text></name>\n";
     
     // Add places (nodes)
     for (const auto& node : model.nodes) {
         xml << "    <place id=\"" << node.id << "\">\n";
-        xml << "      &lt;name&gt;<text>" << node.name << "</text></name>\n";
+        xml << "      <name><text>" << node.name << "</text></name>\n";
         xml << "    </place>\n";
     }
     
     // Add transitions (edges)
     for (const auto& edge : model.edges) {
         xml << "    <transition id=\"" << edge.id << "\">\n";
-        xml << "      &lt;name&gt;<text>" << edge.from << " -> " << edge.to << "</text></name>\n";
+        xml << "      <name><text>" << edge.from << " -> " << edge.to << "</text></name>\n";
         xml << "    </transition>\n";
     }
     
@@ -2451,7 +2451,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string>& pattern, cons
     
     // Convert to results
     for (const auto& [freq, data] : freq_sorted) {
-        if (static_cast&lt;int&gt;(results.size()) >= k) break;
+        if (static_cast<int>(results.size()) >= k) break;
         SimilarFragment frag;
         frag.activities = data.first;
         frag.similarity = static_cast<double>(freq) / log.traces.size();
@@ -2481,7 +2481,7 @@ ProcessMining::discoverGeoVariants(const EventLog& log, [[maybe_unused]] double 
         GeoProcessCluster cluster;
         cluster.region = "default";
         cluster.centroid_wkt = "POINT(51.5074 -0.1278)";
-        cluster.case_count = static_cast&lt;int&gt;(trace_ids.size());
+        cluster.case_count = static_cast<int>(trace_ids.size());
         
         // Create a basic local model for this cluster
         cluster.local_model.name = "Cluster_" + variant_sig.substr(0, 8);
@@ -2559,3 +2559,4 @@ void registerFunctions() {
 } // namespace themis
 
 #endif // _WIN32
+

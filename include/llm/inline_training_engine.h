@@ -186,7 +186,7 @@ struct InlineTrainingConfig {
     CheckpointCallback checkpoint_callback;
 
     // Seed for reproducibility
-    std::optional&lt;int&gt; seed;
+    std::optional<int> seed;
 
     // Governance: when true, train() fails immediately if no governance
     // policy is set (or if the policy returns DENY).  When false (default),
@@ -406,3 +406,4 @@ public:
 };
 
 } // namespace themis::llm
+

@@ -34,7 +34,7 @@
  *
  * Slot state is persisted to a JSON file beside the WAL directory so that
  * it survives process restarts.  The state file path is:
- *   &lt;wal_directory&gt;/slots/<slot_name>.json
+ *   <wal_directory>/slots/<slot_name>.json
  *
  * Design constraints:
  *   - pause() / resume() are atomic with respect to the WAL manager.
@@ -193,7 +193,7 @@ private:
 class ReplicationSlotManager {
 public:
     struct ManagerConfig {
-        std::string wal_directory;  ///< Base WAL directory; slot states stored under &lt;wal_directory&gt;/slots/
+        std::string wal_directory;  ///< Base WAL directory; slot states stored under <wal_directory>/slots/
     };
 
     explicit ReplicationSlotManager(
@@ -259,3 +259,4 @@ private:
 
 } // namespace replication
 } // namespace themisdb
+

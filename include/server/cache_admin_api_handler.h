@@ -103,7 +103,7 @@ public:
     /**
      * POST /v1/admin/cache/warmup
      *
-     * Body: {"log_path":"&lt;path&gt;","max_entries":<optional uint>}
+     * Body: {"log_path":"<path>","max_entries":<optional uint>}
      *
      * Loads cache entries from the NDJSON log at log_path.
      * Returns a JSON summary of the load operation.
@@ -114,7 +114,7 @@ public:
     /**
      * POST /v1/admin/cache/snapshot
      *
-     * Body: {"out_path":"&lt;path&gt;"}
+     * Body: {"out_path":"<path>"}
      *
      * Exports all live L1/L2 entries to the specified NDJSON file.
      * Returns a JSON summary of the export operation.
@@ -145,7 +145,7 @@ public:
     /**
      * PATCH /v1/admin/cache/tenant/{tenant_id}/quota
      *
-     * Body: {"quota_bytes": &lt;uint64&gt;}
+     * Body: {"quota_bytes": <uint64>}
      *
      * Updates the cache size quota for the specified tenant.
      * A quota_bytes value of 0 resets the tenant to the global default quota.
@@ -163,7 +163,7 @@ public:
      * erasure propagation across all three cache tiers (L1, L2, L3).
      *
      * Requires "admin:cache:write" scope.
-     * Returns 200 with {"evicted": &lt;count&gt;, "pii_uuid": "<uuid>"} on success.
+     * Returns 200 with {"evicted": <count>, "pii_uuid": "<uuid>"} on success.
      * Returns 400 when pii_uuid is missing or empty.
      */
     http::response<http::string_body> handlePiiEvict(
@@ -209,3 +209,4 @@ private:
 
 } // namespace server
 } // namespace themis
+

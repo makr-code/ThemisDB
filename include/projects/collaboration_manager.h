@@ -109,8 +109,8 @@ using ProjectEventCallback = std::function<void(const Change&)>;
  *
  * RocksDB key layout (persistent entries)
  * ────────────────────────────────────────
- *  collab_share:&lt;project_id&gt;:&lt;user_id&gt;  → permission string
- *  collab_change:&lt;project_id&gt;:&lt;ts_ns&gt;   → Change JSON
+ *  collab_share:<project_id>:<user_id>  → permission string
+ *  collab_change:<project_id>:<ts_ns>   → Change JSON
  */
 class CollaborationManager {
 public:
@@ -286,7 +286,7 @@ private:
     std::vector<ProjectEventCallback> subscribers_;
 
     mutable std::shared_mutex locks_mutex_;
-    /// Composite key "&lt;project_id&gt;:&lt;object_name&gt;" → locker_id
+    /// Composite key "<project_id>:<object_name>" → locker_id
     std::unordered_map<std::string, std::string> locks_;
 
     mutable std::shared_mutex log_mutex_;
@@ -304,3 +304,4 @@ private:
 
 } // namespace projects
 } // namespace themis
+

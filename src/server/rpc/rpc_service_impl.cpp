@@ -1845,7 +1845,7 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
         // Optional: filter by collection
         std::string collection(params.value("collection", ""));
 
-        // Scan DB for index metadata stored under _idx_meta:<collection>:&lt;name&gt;
+        // Scan DB for index metadata stored under _idx_meta:<collection>:<name>
         std::string prefix = "_idx_meta:";
         if (!collection.empty()) {
             prefix += collection + ":";
@@ -1977,7 +1977,7 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
                         "$limit stage requires integer value"
                     );
                 }
-                int limit = stage_spec.get&lt;int&gt;();
+                int limit = stage_spec.get<int>();
                 if (limit < 0) {
                     return createError(
                         themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
@@ -2058,7 +2058,7 @@ json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params
             std::string key(iter.key());
             
             // Parse key format: collection:model:uuid
-            // Skip internal metadata keys (e.g. _idx_meta:<collection>:&lt;name&gt;)
+            // Skip internal metadata keys (e.g. _idx_meta:<collection>:<name>)
             size_t first_colon = key.find(':');
             if (first_colon != std::string::npos) {
                 std::string collection = key.substr(0, first_colon);
@@ -2118,7 +2118,7 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
         std::string index_name = collection + "_" + field + "_idx";
         std::string index_type(params.value("type", "btree"));
 
-        // Persist index metadata in database under _idx_meta:<collection>:&lt;index_name&gt;
+        // Persist index metadata in database under _idx_meta:<collection>:<index_name>
         std::string meta_key = "_idx_meta:" + collection + ":" + index_name;
         json meta = {
             {"name", index_name},
@@ -2480,7 +2480,7 @@ bool ThemisRPCService::verifyAuth(
 json ThemisRPCService::createError(themis::plugins::rpc::RPCErrorCode code, const std::string& message) {
     return {
         {"error", {
-            {"code", static_cast&lt;int&gt;(code)},
+            {"code", static_cast<int>(code)},
             {"message", message},
             {"type", themis::plugins::rpc::rpcErrorCodeToString(code)}
         }}
@@ -2496,3 +2496,4 @@ json ThemisRPCService::createSuccess(const json& result) {
 } // namespace rpc
 } // namespace server
 } // namespace themis
+

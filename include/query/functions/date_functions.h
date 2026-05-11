@@ -509,9 +509,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        int year = args[0].get&lt;int&gt;();
-        int month = args[1].get&lt;int&gt;();
-        int day = args[2].get&lt;int&gt;();
+        int year = args[0].get<int>();
+        int month = args[1].get<int>();
+        int day = args[2].get<int>();
         
         std::tm tm = {};
         tm.tm_year = year - 1900;
@@ -554,12 +554,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        int year = args[0].get&lt;int&gt;();
-        int month = args[1].get&lt;int&gt;();
-        int day = args[2].get&lt;int&gt;();
-        int hour = args.size() > 3 ? args[3].get&lt;int&gt;() : 0;
-        int minute = args.size() > 4 ? args[4].get&lt;int&gt;() : 0;
-        int second = args.size() > 5 ? args[5].get&lt;int&gt;() : 0;
+        int year = args[0].get<int>();
+        int month = args[1].get<int>();
+        int day = args[2].get<int>();
+        int hour = args.size() > 3 ? args[3].get<int>() : 0;
+        int minute = args.size() > 4 ? args[4].get<int>() : 0;
+        int second = args.size() > 5 ? args[5].get<int>() : 0;
         
         std::tm tm = {};
         tm.tm_year = year - 1900;
@@ -599,9 +599,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        int hour = args[0].get&lt;int&gt;();
-        int minute = args[1].get&lt;int&gt;();
-        int second = args.size() > 2 ? args[2].get&lt;int&gt;() : 0;
+        int hour = args[0].get<int>();
+        int minute = args[1].get<int>();
+        int second = args.size() > 2 ? args[2].get<int>() : 0;
         
         return static_cast<int64_t>(hour * 3600 + minute * 60 + second) * 1000;
     }
@@ -1865,7 +1865,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         int64_t ts = args[0].get<int64_t>();
-        int startDay = args.size() > 1 ? args[1].get&lt;int&gt;() : 1;
+        int startDay = args.size() > 1 ? args[1].get<int>() : 1;
         
         std::time_t seconds = static_cast<std::time_t>(ts / 1000);
         std::tm* tm = std::gmtime(&seconds);
@@ -2065,3 +2065,4 @@ inline void registerDateFunctions(FunctionRegistry& reg) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+

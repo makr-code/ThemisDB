@@ -201,16 +201,16 @@ public:
     
     // Single training step (forward + backward + optimizer step)
     TrainingStepResult trainingStep(
-        const std::vector&lt;int&gt;& input_ids,
-        const std::vector&lt;int&gt;& labels,
+        const std::vector<int>& input_ids,
+        const std::vector<int>& labels,
         float learning_rate,
         const std::map<std::string, std::vector<float>>& optimizer_state
     );
     
     // Evaluation step (no gradient computation)
     EvaluationResult evaluate(
-        const std::vector&lt;int&gt;& input_ids,
-        const std::vector&lt;int&gt;& labels
+        const std::vector<int>& input_ids,
+        const std::vector<int>& labels
     );
     
     // Save LoRA weights to file (GGUF format compatible with llama.cpp inference)
@@ -297,3 +297,4 @@ public:
 
 } // namespace llm
 } // namespace themisdb
+

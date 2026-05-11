@@ -61,10 +61,18 @@ public:
      * 
      * @param ptr Device pointer to clear
      * @param size_bytes Size of memory region in bytes
-     * @param config Clearing configuration
      * @return true if successful, false on error
      */
     static bool secureClearCUDA(void* ptr, size_t size_bytes);
+    
+    /**
+     * @brief Securely clear GPU memory with multi-pass overwrite (with configuration)
+     * 
+     * @param ptr Device pointer to clear
+     * @param size_bytes Size of memory region in bytes
+     * @param config Clearing configuration
+     * @return true if successful, false on error
+     */
     static bool secureClearCUDA(void* ptr, size_t size_bytes, const Config& config);
     
     /**
@@ -72,10 +80,18 @@ public:
      * 
      * @param ptr Device pointer to clear
      * @param size_bytes Size of memory region in bytes
-     * @param config Clearing configuration
      * @return true if successful, false on error
      */
     static bool secureClearHIP(void* ptr, size_t size_bytes);
+    
+    /**
+     * @brief Securely clear HIP memory with multi-pass overwrite (with configuration)
+     * 
+     * @param ptr Device pointer to clear
+     * @param size_bytes Size of memory region in bytes
+     * @param config Clearing configuration
+     * @return true if successful, false on error
+     */
     static bool secureClearHIP(void* ptr, size_t size_bytes, const Config& config);
     
     /**
@@ -85,9 +101,18 @@ public:
      * 
      * @param ptr Memory pointer to clear
      * @param size_bytes Size of memory region in bytes
-     * @param config Clearing configuration
      */
     static void secureClearCPU(void* ptr, size_t size_bytes);
+    
+    /**
+     * @brief Securely clear CPU memory with configuration (for comparison/fallback)
+     * 
+     * Uses volatile writes to prevent compiler optimization
+     * 
+     * @param ptr Memory pointer to clear
+     * @param size_bytes Size of memory region in bytes
+     * @param config Clearing configuration
+     */
     static void secureClearCPU(void* ptr, size_t size_bytes, const Config& config);
 
 private:

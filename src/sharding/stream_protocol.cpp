@@ -373,13 +373,13 @@ std::vector<uint8_t> StreamCompressor::compress(
     
 #ifdef THEMIS_ENABLE_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
-        int max_dst_size = LZ4_compressBound(static_cast&lt;int&gt;(data.size()));
+        int max_dst_size = LZ4_compressBound(static_cast<int>(data.size()));
         std::vector<uint8_t> compressed(max_dst_size);
         
         int compressed_size = LZ4_compress_default(
             reinterpret_cast<const char*>(data.data()),
             reinterpret_cast<char*>(compressed.data()),
-            static_cast&lt;int&gt;(data.size()),
+            static_cast<int>(data.size()),
             max_dst_size
         );
         
@@ -430,8 +430,8 @@ std::vector<uint8_t> StreamCompressor::decompress(
         int decompressed_size = LZ4_decompress_safe(
             reinterpret_cast<const char*>(data.data()),
             reinterpret_cast<char*>(decompressed.data()),
-            static_cast&lt;int&gt;(data.size()),
-            static_cast&lt;int&gt;(uncompressed_size)
+            static_cast<int>(data.size()),
+            static_cast<int>(uncompressed_size)
         );
         
         if (decompressed_size > 0) {
@@ -1379,3 +1379,4 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
 
 } // namespace streaming
 } // namespace themisdb
+

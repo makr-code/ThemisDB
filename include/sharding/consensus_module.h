@@ -349,7 +349,7 @@ struct ConsensusConfig {
     
     nlohmann::json toJson() const {
         return {
-            {"type", static_cast&lt;int&gt;(type)},
+            {"type", static_cast<int>(type)},
             {"node_id", node_id},
             {"cluster_nodes", cluster_nodes},
             {"heartbeat_interval_ms", heartbeat_interval.count()},
@@ -363,3 +363,4 @@ struct ConsensusConfig {
 
 } // namespace sharding
 } // namespace themisdb
+

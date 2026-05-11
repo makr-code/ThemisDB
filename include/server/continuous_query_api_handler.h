@@ -76,7 +76,7 @@ public:
      * }
      * @endcode
      *
-     * @return 201 Created with `{"name": "&lt;name&gt;"}`, or 400/409 on error.
+     * @return 201 Created with `{"name": "<name>"}`, or 400/409 on error.
      */
     [[nodiscard]] http::response<http::string_body> handleRegister(
         const http::request<http::string_body>& req);
@@ -153,3 +153,4 @@ private:
 
 }  // namespace server
 }  // namespace themis
+

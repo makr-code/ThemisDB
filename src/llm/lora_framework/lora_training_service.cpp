@@ -498,7 +498,7 @@ public:
                 auto scheduler_config = config_.lr_scheduler;
                 scheduler_config.total_steps = total_steps;  // Update total_steps based on actual data
                 lr_scheduler = LRSchedulerFactory::create(scheduler_config);
-                spdlog::info("Using production LR scheduler: type={}", static_cast&lt;int&gt;(scheduler_config.type));
+                spdlog::info("Using production LR scheduler: type={}", static_cast<int>(scheduler_config.type));
             } else {
                 // Fall back to params-based scheduler for backward compatibility
                 spdlog::info("Creating LR scheduler from params: {}", params.lr_scheduler);
@@ -552,7 +552,7 @@ public:
                         lora_layer->parameter_count());
             spdlog::info("Production features enabled:");
             spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
-            spdlog::info("  Gradient clipping: {}", static_cast&lt;int&gt;(config_.gradient_clipping.method));
+            spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
             spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
             
             // Training loop
@@ -1079,7 +1079,7 @@ private:
      * @return Flattened embedding tensor [batch_size * hidden_dim]
      */
     std::vector<float> generateHashEmbeddings(
-        const std::vector&lt;int&gt;& token_ids,
+        const std::vector<int>& token_ids,
         size_t hidden_dim
     ) const {
         std::vector<float> embeddings(token_ids.size() * hidden_dim);
@@ -1322,7 +1322,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Output dim: {}", hidden_dim);
         spdlog::info("  Rank: {}", params.rank);
         spdlog::info("  Parameters: {}", gpu_lora_layer->parameter_count());
-        spdlog::info("  Device: {}", static_cast&lt;int&gt;(target_device.type));
+        spdlog::info("  Device: {}", static_cast<int>(target_device.type));
         
         // Setup llama.cpp tokenizer (REQUIRED for production training)
         std::shared_ptr<ITokenizer> tokenizer;
@@ -1410,7 +1410,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(impl_->config_.mixed_precision);
             trainer.setMixedPrecisionTrainer(mixed_precision.get());
             spdlog::info("Mixed precision training enabled: mode={}", 
-                        static_cast&lt;int&gt;(impl_->config_.mixed_precision.mode));
+                        static_cast<int>(impl_->config_.mixed_precision.mode));
         }
         
         // Register callback for progress updates with resource profiling
@@ -1462,7 +1462,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             {"num_layers", quantized_model->num_layers()},
             {"trainable_parameters", gpu_lora_layer->parameter_count()},
             {"gpu_accelerated", has_gpu},
-            {"device_type", static_cast&lt;int&gt;(target_device.type)},
+            {"device_type", static_cast<int>(target_device.type)},
             {"mixed_precision", training_config.use_mixed_precision},
             {"resource_stats", resource_stats.toJSON()},
             {"compatibility_result", compat_result.toJSON()}
@@ -1925,7 +1925,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
         
         // 6. Execute training steps with gradient synchronization
-        int total_steps = hyper.num_epochs * (static_cast&lt;int&gt;(data.size()) / hyper.batch_size);
+        int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
         spdlog::info("Starting distributed training: {} epochs, {} total steps", 
                     hyper.num_epochs, total_steps);
         
@@ -2063,7 +2063,7 @@ TrainingResult LoRATrainingService::trainDistributed(
             }
         }
         result.metrics["active_shards"] = active_shards;
-        result.metrics["total_shards"] = static_cast&lt;int&gt;(impl_->config_.participant_shards.size());
+        result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
         
         // Add per-shard loss tracking from last successful step
         if (!last_step_result.per_shard_loss.empty()) {
@@ -2111,3 +2111,4 @@ TrainingResult LoRATrainingService::trainDistributed(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

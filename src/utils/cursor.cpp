@@ -66,7 +66,7 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     }
     
     std::string output;
-    std::vector&lt;int&gt; T(256, -1);
+    std::vector<int> T(256, -1);
     
     for (int i = 0; i < 64; i++) {
         T[base64_chars[i]] = i;
@@ -142,7 +142,7 @@ std::optional<CursorInfo> Cursor::decodeDetailed(const std::string& cursor_token
         }
         
         if (cursor_data.contains("version")) {
-            info.version = cursor_data["version"].get&lt;int&gt;();
+            info.version = cursor_data["version"].get<int>();
         }
         
         return info;

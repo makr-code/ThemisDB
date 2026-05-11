@@ -103,7 +103,7 @@ std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encode
     int i = 0;
     unsigned char char4[4];
     unsigned char char3[3];
-    int len = static_cast&lt;int&gt;(encoded.size());
+    int len = static_cast<int>(encoded.size());
 
     int idx = 0;
     while (idx < len && encoded[idx] != '=' && isBase64(
@@ -570,3 +570,4 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
 
 } // namespace server
 } // namespace themis
+

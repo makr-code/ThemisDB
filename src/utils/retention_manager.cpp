@@ -324,11 +324,11 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
             // - legacy: retention_period_days/archive_after_days/auto_purge_enabled
             // - modern: retention_days/archive_days/auto_purge
             const int retention_days = using_legacy_schema
-                ? policy_node["retention_period_days"].as&lt;int&gt;()
-                : policy_node["retention_days"].as&lt;int&gt;();
+                ? policy_node["retention_period_days"].as<int>()
+                : policy_node["retention_days"].as<int>();
             const int archive_days = using_legacy_schema
-                ? policy_node["archive_after_days"].as&lt;int&gt;(0)
-                : policy_node["archive_days"].as&lt;int&gt;(0);
+                ? policy_node["archive_after_days"].as<int>(0)
+                : policy_node["archive_days"].as<int>(0);
 
             policy.retention_period = std::chrono::seconds(static_cast<int64_t>(retention_days) * 86400);
             policy.archive_after = std::chrono::seconds(static_cast<int64_t>(archive_days) * 86400);
@@ -450,3 +450,4 @@ RetentionManager::ComplianceMetrics RetentionManager::getComplianceMetrics() con
 }
 
 } // namespace vcc
+

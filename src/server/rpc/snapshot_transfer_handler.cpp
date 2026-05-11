@@ -683,7 +683,7 @@ private:
                 std::stringstream ss;
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
                     ss << std::hex << std::setw(2) << std::setfill('0')
-                       << static_cast&lt;int&gt;(hash[i]);
+                       << static_cast<int>(hash[i]);
                 }
                 return ss.str();
             }
@@ -728,7 +728,7 @@ private:
         std::stringstream ss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
-               << static_cast&lt;int&gt;(hash[i]);
+               << static_cast<int>(hash[i]);
         }
         return ss.str();
     }
@@ -808,3 +808,4 @@ void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
 
 } // namespace rpc
 } // namespace themis
+

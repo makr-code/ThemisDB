@@ -116,7 +116,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
         suggestions.push_back({
             ValidationIssue::Severity::WARNING,
             "Query complexity is high (score " +
-                std::to_string(static_cast&lt;int&gt;(complexity * 100)) + "/100). "
+                std::to_string(static_cast<int>(complexity * 100)) + "/100). "
                 "Consider breaking it into smaller sub-queries or adding "
                 "intermediate LET clauses to aid the optimizer.",
             "OPTIMIZER"
@@ -252,3 +252,4 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
 
 } // namespace aql
 } // namespace themis
+

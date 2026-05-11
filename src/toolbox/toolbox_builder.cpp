@@ -187,7 +187,7 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
             step = ingestion::builtin::createParseAudioStep(ext);
             (void)reg.registerStep("builtin.parse_audio", step);
         } else {
-            // Generic text extractor → registers under builtin.parse_format_&lt;name&gt;
+            // Generic text extractor → registers under builtin.parse_format_<name>
             const std::string step_name =
                 std::string("builtin.parse_format.") + ext->name();
             step = ingestion::builtin::createParsePdfStep(ext); // reuse base
@@ -282,3 +282,4 @@ ToolboxBuilder::BuiltToolbox ToolboxBuilder::buildWithBridges() {
 
 } // namespace toolbox
 } // namespace themis
+

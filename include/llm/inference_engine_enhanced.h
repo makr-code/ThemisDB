@@ -629,7 +629,7 @@ private:
     // approximation.  A real tokenizer call would be required for exact counts,
     // but the ILLMPlugin interface does not expose a standalone tokenize()
     // method at this level of abstraction.
-    static std::vector&lt;int&gt; estimateTokenSequence(const std::string& text);
+    static std::vector<int> estimateTokenSequence(const std::string& text);
 
     // Statistics updates
     void recordCacheHit(size_t tokens_saved);
@@ -665,3 +665,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

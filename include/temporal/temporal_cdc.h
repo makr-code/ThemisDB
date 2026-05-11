@@ -346,7 +346,7 @@ private:
  * ## WAL segment format
  *
  * Each segment is an append-only binary file named
- * `<segment_dir>/&lt;prefix&gt;_<segment_seq>.wal`.  A segment header is written
+ * `<segment_dir>/<prefix>_<segment_seq>.wal`.  A segment header is written
  * once at creation time, followed by zero or more fixed-layout records:
  *
  * ```
@@ -518,4 +518,5 @@ private:
 
 } // namespace temporal
 } // namespace themisdb
+
 

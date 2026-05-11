@@ -88,13 +88,13 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     const EvaluationInput& input,
     const PromptTemplateManager& template_mgr
 ) {
-    THEMIS_DEBUG("Evaluating dimension {} with LLM", static_cast&lt;int&gt;(dimension));
+    THEMIS_DEBUG("Evaluating dimension {} with LLM", static_cast<int>(dimension));
     
     // Generate prompt
     std::string prompt = template_mgr.generatePrompt(dimension, input);
     
     if (prompt.empty()) {
-        THEMIS_ERROR("Failed to generate prompt for dimension {}", static_cast&lt;int&gt;(dimension));
+        THEMIS_ERROR("Failed to generate prompt for dimension {}", static_cast<int>(dimension));
         ParsedResponse error_response;
         error_response.success = false;
         error_response.error_message = "Failed to generate prompt";
@@ -153,7 +153,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
     EvaluationDimension dimension
 ) {
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
-                 static_cast&lt;int&gt;(dimension), prompt.size());
+                 static_cast<int>(dimension), prompt.size());
 
     const themis::utils::RetryConfig dim_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
@@ -168,7 +168,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
                 auto r = callLLM(prompt);
                 if (!r.empty()) return r;
             } catch (const std::exception& e) {
-                THEMIS_WARN("LLM call failed (dim={}): {}", static_cast&lt;int&gt;(dimension), e.what());
+                THEMIS_WARN("LLM call failed (dim={}): {}", static_cast<int>(dimension), e.what());
             }
             return std::nullopt;
         },
@@ -176,7 +176,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
 
     if (dim_result) return *dim_result;
 
-    THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast&lt;int&gt;(dimension));
+    THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
     return "{}";  // Return empty JSON object as safe fallback
 }
 
@@ -260,3 +260,4 @@ bool LLMJudgeIntegration::isMockMode() const {
 }
 
 } // namespace themis::rag::judge
+

@@ -104,9 +104,9 @@ bool VideoProcessor::initialize(const PluginConfig& config) {
     }
     
     // Load configuration
-    max_thumbnail_width_ = config.get&lt;int&gt;("thumbnail.max_width", 320);
-    max_thumbnail_height_ = config.get&lt;int&gt;("thumbnail.max_height", 240);
-    max_keyframes_ = config.get&lt;int&gt;("keyframes.max_count", 10);
+    max_thumbnail_width_ = config.get<int>("thumbnail.max_width", 320);
+    max_thumbnail_height_ = config.get<int>("thumbnail.max_height", 240);
+    max_keyframes_ = config.get<int>("keyframes.max_count", 10);
     extract_subtitles_ = config.get<bool>("subtitles.extract", true);
     enable_scene_detection_ = config.get<bool>("scene_detection.enabled", false);
     scene_detection_threshold_ = config.get<double>("scene_detection.threshold", 0.4);
@@ -704,9 +704,9 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
             // Maintain aspect ratio
             double aspect = static_cast<double>(frame->width) / frame->height;
             if (frame->width > frame->height) {
-                thumb_height = static_cast&lt;int&gt;(thumb_width / aspect);
+                thumb_height = static_cast<int>(thumb_width / aspect);
             } else {
-                thumb_width = static_cast&lt;int&gt;(thumb_height * aspect);
+                thumb_width = static_cast<int>(thumb_height * aspect);
             }
             
             // Create scaling context
@@ -823,7 +823,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
                 packet->pts != AV_NOPTS_VALUE) {
                 int64_t pts_ms = av_rescale_q(packet->pts, time_base, {1, 1000});
                 keyframes.push_back(pts_ms);
-                if (max_keyframes_ > 0 && static_cast&lt;int&gt;(keyframes.size()) >= max_keyframes_) {
+                if (max_keyframes_ > 0 && static_cast<int>(keyframes.size()) >= max_keyframes_) {
                     av_packet_unref(packet);
                     break;
                 }
@@ -995,3 +995,4 @@ THEMIS_CONTENT_PLUGIN(VideoProcessor)
 
 } // namespace content
 } // namespace themis
+

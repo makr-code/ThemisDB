@@ -39,7 +39,7 @@ DistributedTrainer::DistributedTrainer(const DistributedConfig& config)
     stats_.rank = config_.rank;
     
     spdlog::info("DistributedTrainer created:");
-    spdlog::info("  Backend: {}", static_cast&lt;int&gt;(config_.backend));
+    spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
     spdlog::info("  World size: {}", config_.world_size);
     spdlog::info("  Rank: {}", config_.rank);
 }
@@ -63,7 +63,7 @@ bool DistributedTrainer::initialize() {
     }
     
     spdlog::info("Initializing distributed training:");
-    spdlog::info("  Backend: {}", static_cast&lt;int&gt;(config_.backend));
+    spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
     spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
     
     // NOTE: This is a placeholder implementation for Phase 3
@@ -324,3 +324,4 @@ bool is_mpi_available() {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

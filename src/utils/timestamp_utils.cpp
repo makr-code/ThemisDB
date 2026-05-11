@@ -88,7 +88,7 @@ time_t utc_to_time_t(std::tm& tm_utc) {
 std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, bool include_ms) {
     auto ms_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch());
     time_t sec = static_cast<time_t>(ms_since_epoch.count() / 1000);
-    int ms_part = static_cast&lt;int&gt;(ms_since_epoch.count() % 1000);
+    int ms_part = static_cast<int>(ms_since_epoch.count() % 1000);
     if (ms_part < 0) { --sec; ms_part += 1000; }
 
     std::tm tm_utc{};
@@ -263,3 +263,4 @@ std::chrono::system_clock::time_point TimestampUtils::fromUnixMs(int64_t ms) {
 
 } // namespace utils
 } // namespace themis
+

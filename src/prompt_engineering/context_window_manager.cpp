@@ -224,7 +224,7 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
     for (const Thesis* t : active) {
         // The text we would inject: prefer description, fallback to name
         const std::string full_text = t->description.empty() ? t->name : t->description;
-        int full_tokens = static_cast&lt;int&gt;(countTokens(full_text));
+        int full_tokens = static_cast<int>(countTokens(full_text));
 
         // Apply per-thesis cap (token_budget == -1 → no cap)
         int capped_tokens = (t->token_budget >= 0)
@@ -247,7 +247,7 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
             inj.thesis_id   = t->thesis_id;
             inj.text        = headline;
             inj.is_full     = false;
-            inj.tokens_used = static_cast&lt;int&gt;(countTokens(headline));
+            inj.tokens_used = static_cast<int>(countTokens(headline));
             result.push_back(std::move(inj));
         }
     }
@@ -259,7 +259,7 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
         inj.thesis_id   = t->thesis_id;
         inj.text        = headline;
         inj.is_full     = false;
-        inj.tokens_used = static_cast&lt;int&gt;(countTokens(headline));
+        inj.tokens_used = static_cast<int>(countTokens(headline));
         result.push_back(std::move(inj));
     }
 
@@ -268,3 +268,4 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
 
 } // namespace prompt_engineering
 } // namespace themis
+

@@ -185,7 +185,7 @@ public:
         // Prepend null terminator
         preByte(0);
         // Prepend string bytes in REVERSE (so they appear forward in final)
-        for (int i = static_cast&lt;int&gt;(s.size()) - 1; i >= 0; --i)
+        for (int i = static_cast<int>(s.size()) - 1; i >= 0; --i)
             preByte(static_cast<uint8_t>(s[i]));
         // Prepend length
         pre32(static_cast<int32_t>(s.size()));
@@ -206,7 +206,7 @@ public:
     uint32_t preOffsetVector(const std::vector<uint32_t>& refs) {
         // Prepend elements in REVERSE order (last element first) so they appear
         // in forward order in the final buffer.
-        for (int i = static_cast&lt;int&gt;(refs.size()) - 1; i >= 0; --i) {
+        for (int i = static_cast<int>(refs.size()) - 1; i >= 0; --i) {
             preUOffset(refs[i]);
         }
         pre32(static_cast<int32_t>(refs.size()));
@@ -421,7 +421,7 @@ static uint32_t buildRecordBatch(
     // FieldNode is a struct (inline): [length int64][null_count int64]
     // Build vector: [count int32][node0 length int64][node0 null_count int64]...
     // In backward building, prepend struct elements in reverse element order.
-    for (int i = static_cast&lt;int&gt;(num_cols) - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(num_cols) - 1; i >= 0; --i) {
         fb.pre64(0);         // null_count = 0
         fb.pre64(num_rows);  // length = num_rows
     }
@@ -432,7 +432,7 @@ static uint32_t buildRecordBatch(
     // Buffer struct: [offset int64][length int64]
     // Buffers per column: [validity_bitmap (empty), offsets_buf, data_buf]
     size_t num_bufs = num_cols * 3;
-    for (int i = static_cast&lt;int&gt;(num_bufs) - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(num_bufs) - 1; i >= 0; --i) {
         fb.pre64(buf_lengths[i]);
         fb.pre64(buf_offsets[i]);
     }
@@ -771,7 +771,7 @@ static std::vector<uint8_t> buildFooterFB(
 
     // recordBatches vector: each Block is a struct (inline), 24 bytes
     // Prepend blocks in reverse order
-    for (int i = static_cast&lt;int&gt;(record_batch_blocks.size()) - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(record_batch_blocks.size()) - 1; i >= 0; --i) {
         const auto& blk = record_batch_blocks[i];
         fb.pre64(blk.body_length);           // bodyLength int64
         fb.pre32(0);                          // padding int32
@@ -1147,3 +1147,4 @@ ExportStats ArrowIPCExporter::exportWithArrow(
 #endif  // ARROW_ENABLED
 
 } // namespace themis::exporters
+

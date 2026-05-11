@@ -176,7 +176,7 @@ std::string SecurityEvidenceCollector::generateBundleId() {
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 16; ++i) {
         if (i == 4 || i == 6 || i == 8 || i == 10) oss << '-';
-        oss << std::setw(2) << static_cast&lt;int&gt;(raw[i]);
+        oss << std::setw(2) << static_cast<int>(raw[i]);
     }
     return oss.str();
 }
@@ -548,3 +548,4 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
 
 } // namespace security
 } // namespace themis
+

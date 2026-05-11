@@ -36,12 +36,12 @@ KVCacheManager::KVCacheManager(const FlashAttentionConfig& config)
     size_t block_size = calculateBlockSize();
     
     for (size_t i = 0; i < total_blocks; ++i) {
-        blocks_[i].block_id = static_cast&lt;int&gt;(i);
+        blocks_[i].block_id = static_cast<int>(i);
         blocks_[i].is_free = true;
         blocks_[i].ref_count = 0;
         blocks_[i].data.resize(block_size, 0.0f);
         
-        free_blocks_.push(static_cast&lt;int&gt;(i));
+        free_blocks_.push(static_cast<int>(i));
     }
 }
 
@@ -111,7 +111,7 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     
     // Check if we need to allocate a new block
     int token_block_idx = table.num_tokens / config_.kv_block_size;
-    if (token_block_idx >= static_cast&lt;int&gt;(table.block_ids.size())) {
+    if (token_block_idx >= static_cast<int>(table.block_ids.size())) {
         if (free_blocks_.empty()) {
             throw std::runtime_error("Out of KV cache blocks");
         }
@@ -180,7 +180,7 @@ const BlockTable* KVCacheManager::getBlockTable(uint64_t seq_id) const {
 }
 
 const Block* KVCacheManager::getBlock(int block_id) const {
-    if (block_id < 0 || block_id >= static_cast&lt;int&gt;(blocks_.size())) {
+    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return nullptr;
     }
     return &blocks_[block_id];
@@ -236,7 +236,7 @@ int KVCacheManager::allocateBlock() {
 }
 
 void KVCacheManager::freeBlock(int block_id) {
-    if (block_id < 0 || block_id >= static_cast&lt;int&gt;(blocks_.size())) {
+    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return;
     }
     
@@ -261,3 +261,4 @@ size_t KVCacheManager::calculateBlockSize() const {
 } // namespace attention
 } // namespace llm
 } // namespace themis
+

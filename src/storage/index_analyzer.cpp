@@ -54,7 +54,7 @@ constexpr uint64_t kBytesPerMB           = 1024ULL * 1024ULL;
 constexpr uint64_t kEstimatedOrphansPerMB = 1000ULL;
 
 /// RocksDB key prefix used to persist per-index stats-update timestamps.
-/// Key format: "__ia_stats_ts__:&lt;index_name&gt;"  Value: decimal epoch seconds.
+/// Key format: "__ia_stats_ts__:<index_name>"  Value: decimal epoch seconds.
 static const std::string kStatsTimestampPrefix = "__ia_stats_ts__:";
 
 /// Fallback statistics-age used when the RocksDB metadata key cannot be read
@@ -514,7 +514,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
 
     THEMIS_DEBUG("IndexAnalyzer: '{}' [{}] frag={:.1f}% l0={} → {}",
                  index_name, tierToString(tier), frag_pct, l0_files,
-                 static_cast&lt;int&gt;(report.recommendation));
+                 static_cast<int>(report.recommendation));
 
     return report;
 }
@@ -541,8 +541,8 @@ void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
             report.ai_reason         = override_result->second;
             THEMIS_INFO("IndexAnalyzer: AI advisor overrode recommendation for '{}': {} → {} ({})",
                         report.index_name,
-                        static_cast&lt;int&gt;(report.recommendation),
-                        static_cast&lt;int&gt;(report.ai_recommendation.value()),
+                        static_cast<int>(report.recommendation),
+                        static_cast<int>(report.ai_recommendation.value()),
                         report.ai_reason);
         }
     } catch (const std::exception& ex) {
@@ -565,3 +565,4 @@ IndexRecommendation IndexAnalyzer::classify(double frag_pct,
 }
 
 } // namespace themis
+

@@ -106,7 +106,7 @@ bool TTSProcessor::initialize(const PluginConfig& config) {
     default_language_ = config.get<std::string>("default_language", "en");
     default_speed_ = config.get<float>("default_speed", 1.0f);
     default_pitch_ = config.get<float>("default_pitch", 1.0f);
-    default_sample_rate_ = config.get&lt;int&gt;("default_sample_rate", 22050);
+    default_sample_rate_ = config.get<int>("default_sample_rate", 22050);
     
     // Load TTS model
     if (!loadTTSModel()) {
@@ -562,3 +562,4 @@ THEMIS_CONTENT_PLUGIN(TTSProcessor)
 
 } // namespace content
 } // namespace themis
+

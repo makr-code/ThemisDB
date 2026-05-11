@@ -160,7 +160,7 @@ GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const
         float best_sum = -1.0f;
 
         for (int i = 0; i < topology_.num_gpus; ++i) {
-            if (i >= static_cast&lt;int&gt;(local_devices_.size())) break;
+            if (i >= static_cast<int>(local_devices_.size())) break;
             const auto& dev = local_devices_[static_cast<size_t>(i)];
             if (!dev.is_healthy) continue;
             if (required_vram_bytes > 0 &&
@@ -189,7 +189,7 @@ GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const
     }
 
     // Fallback: pick the first healthy device that meets VRAM requirements.
-    for (int i = 0; i < static_cast&lt;int&gt;(local_devices_.size()); ++i) {
+    for (int i = 0; i < static_cast<int>(local_devices_.size()); ++i) {
         const auto& dev = local_devices_[static_cast<size_t>(i)];
         if (!dev.is_healthy) continue;
         if (required_vram_bytes > 0 &&
@@ -261,9 +261,9 @@ GPUClusterCoordinator::clusterHealth() const
     std::lock_guard<std::mutex> lock(mutex_);
 
     ClusterHealth h;
-    h.total_nodes        = static_cast&lt;int&gt;(topology_.nodes.size());
+    h.total_nodes        = static_cast<int>(topology_.nodes.size());
     h.healthy_nodes      = h.total_nodes;  // all registered nodes assumed healthy
-    h.total_gpus         = static_cast&lt;int&gt;(local_devices_.size());
+    h.total_gpus         = static_cast<int>(local_devices_.size());
     h.nvlink_available   = topology_.has_nvlink;
     h.infiniband_available = topology_.has_infiniband;
     return h;
@@ -456,3 +456,4 @@ size_t GPUClusterCoordinator::onlineNodeCount() const
 
 } // namespace gpu
 } // namespace themis
+

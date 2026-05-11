@@ -739,7 +739,7 @@ std::string PromptVersionControl::generateVersionId(
     // Convert to hex string (first 16 bytes = 32 hex chars, like git)
     std::ostringstream oss;
     for (int i = 0; i < 16; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     
     return oss.str();
@@ -1128,3 +1128,4 @@ MergeResult PromptVersionControl::autoMerge(
 
 } // namespace prompt_engineering
 } // namespace themis
+

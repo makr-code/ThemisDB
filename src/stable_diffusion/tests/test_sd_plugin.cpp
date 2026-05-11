@@ -556,15 +556,15 @@ std::pair<int,int> png_ihdr_dims(const std::vector<uint8_t>& buf) {
     if (buf[pos + 4] != 'I' || buf[pos + 5] != 'H' ||
         buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};
     const int w =
-        (static_cast&lt;int&gt;(buf[pos + 8])  << 24) |
-        (static_cast&lt;int&gt;(buf[pos + 9])  << 16) |
-        (static_cast&lt;int&gt;(buf[pos + 10]) <<  8) |
-         static_cast&lt;int&gt;(buf[pos + 11]);
+        (static_cast<int>(buf[pos + 8])  << 24) |
+        (static_cast<int>(buf[pos + 9])  << 16) |
+        (static_cast<int>(buf[pos + 10]) <<  8) |
+         static_cast<int>(buf[pos + 11]);
     const int h =
-        (static_cast&lt;int&gt;(buf[pos + 12]) << 24) |
-        (static_cast&lt;int&gt;(buf[pos + 13]) << 16) |
-        (static_cast&lt;int&gt;(buf[pos + 14]) <<  8) |
-         static_cast&lt;int&gt;(buf[pos + 15]);
+        (static_cast<int>(buf[pos + 12]) << 24) |
+        (static_cast<int>(buf[pos + 13]) << 16) |
+        (static_cast<int>(buf[pos + 14]) <<  8) |
+         static_cast<int>(buf[pos + 15]);
     return {w, h};
 }
 
@@ -670,3 +670,4 @@ TEST(SDPluginFocusedTests, Q3_StubImg2ImgFallsBackWhenInputEmpty) {
     EXPECT_EQ(out_h, 8);
     EXPECT_EQ(result.size(), static_cast<size_t>(8 * 8 * 3));
 }
+

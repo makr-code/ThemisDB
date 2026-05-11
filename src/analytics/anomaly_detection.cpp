@@ -250,9 +250,9 @@ ITree buildITree(const FeatureMatrix& fm,
         auto [idx, h, parent_id, side] = std::move(stack.back()); stack.pop_back();
 
         // Allocate node; write index back to parent before building children.
-        int node_id = static_cast&lt;int&gt;(tree.nodes.size());
+        int node_id = static_cast<int>(tree.nodes.size());
         IFNode node;
-        node.size = static_cast&lt;int&gt;(idx.size());
+        node.size = static_cast<int>(idx.size());
         tree.nodes.push_back(node);
 
         if (parent_id >= 0) {
@@ -310,7 +310,7 @@ ITree buildITree(const FeatureMatrix& fm,
             continue;
         }
 
-        tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast&lt;int&gt;(feat);
+        tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
         tree.nodes[static_cast<size_t>(node_id)].split_value   = split_val;
         // left/right child indices will be filled when those frames are processed
 
@@ -325,7 +325,7 @@ ITree buildITree(const FeatureMatrix& fm,
 double iforestPathLength(const ITree& tree, const std::vector<double>& x) {
     int node = 0;
     int depth = 0;
-    while (node >= 0 && node < static_cast&lt;int&gt;(tree.nodes.size())) {
+    while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
         const IFNode& n = tree.nodes[static_cast<size_t>(node)];
         if (n.split_feature < 0) {
             // leaf: add adjustment for remaining points
@@ -362,7 +362,7 @@ std::vector<std::pair<double, size_t>> knn(
     dists.reserve(train.size());
     for (size_t i = 0; i < train.size(); ++i)
         dists.emplace_back(euclidean(train[i], query), i);
-    int kk = std::min(k, static_cast&lt;int&gt;(dists.size()));
+    int kk = std::min(k, static_cast<int>(dists.size()));
     std::partial_sort(dists.begin(), dists.begin() + kk, dists.end());
     dists.resize(static_cast<size_t>(kk));
     return dists;
@@ -501,8 +501,8 @@ struct AnomalyDetector::Impl {
     // ---- LOF score ----
     double scoreLOF(const std::vector<double>& x) const {
         if (lof_train.empty()) return 0.0;
-        int k = std::min(static_cast&lt;int&gt;(cfg.k_neighbors),
-                         static_cast&lt;int&gt;(lof_train.size()));
+        int k = std::min(static_cast<int>(cfg.k_neighbors),
+                         static_cast<int>(lof_train.size()));
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) return 0.0;
 
@@ -583,8 +583,8 @@ struct AnomalyDetector::Impl {
         }
 
         if (cfg.method == AnomalyMethod::ISOLATION_FOREST) {
-            int sub_size = std::min(cfg.max_samples, static_cast&lt;int&gt;(data.size()));
-            int hl       = static_cast&lt;int&gt;(std::ceil(std::log2(static_cast<double>(sub_size))));
+            int sub_size = std::min(cfg.max_samples, static_cast<int>(data.size()));
+            int hl       = static_cast<int>(std::ceil(std::log2(static_cast<double>(sub_size))));
             iforest_c_n  = iforestC(static_cast<double>(sub_size));
 
             std::mt19937 rng(42);
@@ -605,7 +605,7 @@ struct AnomalyDetector::Impl {
             for (const auto& p : data)
                 lof_train.push_back(impl_extractForLof(p));
 
-            int k = std::min(cfg.k_neighbors, static_cast&lt;int&gt;(lof_train.size()));
+            int k = std::min(cfg.k_neighbors, static_cast<int>(lof_train.size()));
             lof_lrd.resize(lof_train.size(), 1.0);
             lof_max = 1.0;
 
@@ -666,7 +666,7 @@ struct AnomalyDetector::Impl {
         for (const auto& tree : forest) {
             int node = 0;
             int depth = 0;
-            while (node >= 0 && node < static_cast&lt;int&gt;(tree.nodes.size())) {
+            while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
                 const IFNode& nd = tree.nodes[static_cast<size_t>(node)];
                 if (nd.split_feature < 0) break;  // leaf
                 size_t f = static_cast<size_t>(nd.split_feature);
@@ -689,8 +689,8 @@ struct AnomalyDetector::Impl {
     std::vector<double> lofFeatureContributions(const std::vector<double>& x) const {
         std::vector<double> contrib(n_features, 0.0);
         if (lof_train.empty()) return contrib;
-        int k = std::min(static_cast&lt;int&gt;(cfg.k_neighbors),
-                         static_cast&lt;int&gt;(lof_train.size()));
+        int k = std::min(static_cast<int>(cfg.k_neighbors),
+                         static_cast<int>(lof_train.size()));
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) return contrib;
         for (const auto& [dist, idx] : neighbours) {
@@ -921,7 +921,7 @@ void AnomalyDetector::update(const DataPoint& point) {
 
 std::string AnomalyDetector::serialize() const {
     std::ostringstream ss;
-    ss << "method=" << static_cast&lt;int&gt;(impl_->cfg.method) << "\n";
+    ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
     ss << "threshold=" << impl_->cfg.threshold << "\n";
     ss << "contamination=" << impl_->cfg.contamination << "\n";
     ss << "trained=" << (impl_->trained ? 1 : 0) << "\n";
@@ -1204,3 +1204,4 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
 
 } // namespace analytics
 } // namespace themisdb
+

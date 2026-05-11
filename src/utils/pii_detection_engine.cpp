@@ -55,7 +55,7 @@ std::string PluginSignature::computeConfigHash(const nlohmann::json& config) {
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
-            << static_cast&lt;int&gt;(hash[i]);
+            << static_cast<int>(hash[i]);
     }
     
     return oss.str();
@@ -389,3 +389,4 @@ bool PIIDetectionEngineFactory::verifyPluginSignature(
 
 } // namespace utils
 } // namespace themis
+

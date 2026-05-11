@@ -158,7 +158,7 @@ std::string QueryExpander::correctSpelling(const std::string& word) const {
     // Find the vocabulary word closest in edit distance;
     // break ties by preferring the higher-frequency word.
     std::string best = word;
-    int best_dist = std::numeric_limits&lt;int&gt;::max();
+    int best_dist = std::numeric_limits<int>::max();
     size_t best_freq = 0;
     for (const auto& vocab_word : vocabulary_) {
         int d = editDistance(lower, vocab_word);
@@ -271,7 +271,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
     // For each token, get its top correction (if any)
     bool any_token_needs_correction = false;
     std::vector<std::string> best_corrections(tokens.size());
-    std::vector&lt;int&gt; best_distances(tokens.size(), 0);
+    std::vector<int> best_distances(tokens.size(), 0);
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         const std::string lower = toLower(tokens[i]);
@@ -428,16 +428,16 @@ std::string QueryExpander::toLower(const std::string& s) {
 int QueryExpander::editDistance(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
     // Fast early exits
-    if (la == 0) return static_cast&lt;int&gt;(lb);
-    if (lb == 0) return static_cast&lt;int&gt;(la);
-    if (std::abs(static_cast&lt;int&gt;(la) - static_cast&lt;int&gt;(lb)) > 3) {
-        return static_cast&lt;int&gt;(std::abs(static_cast&lt;int&gt;(la) - static_cast&lt;int&gt;(lb)));
+    if (la == 0) return static_cast<int>(lb);
+    if (lb == 0) return static_cast<int>(la);
+    if (std::abs(static_cast<int>(la) - static_cast<int>(lb)) > 3) {
+        return static_cast<int>(std::abs(static_cast<int>(la) - static_cast<int>(lb)));
     }
     // Standard DP Levenshtein
-    std::vector&lt;int&gt; prev(lb + 1), curr(lb + 1);
-    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast&lt;int&gt;(j);
+    std::vector<int> prev(lb + 1), curr(lb + 1);
+    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast<int>(j);
     for (size_t i = 1; i <= la; ++i) {
-        curr[0] = static_cast&lt;int&gt;(i);
+        curr[0] = static_cast<int>(i);
         for (size_t j = 1; j <= lb; ++j) {
             int cost = (a[i-1] == b[j-1]) ? 0 : 1;
             curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});
@@ -448,3 +448,4 @@ int QueryExpander::editDistance(const std::string& a, const std::string& b) {
 }
 
 } // namespace themis
+

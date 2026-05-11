@@ -24,7 +24,7 @@ WARN_NO_PARAMDOC       = NO
 WARN_AS_ERROR          = NO
 WARN_LOGFILE           = build/doxygen/doxygen-warnings.log
 
-QUIET                  = YES
+QUIET                  = NO
 GENERATE_HTML          = NO
 GENERATE_LATEX         = NO
 GENERATE_XML           = YES

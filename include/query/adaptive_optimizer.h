@@ -275,12 +275,12 @@ public:
         int node_id;
         size_t available_cores;
         size_t memory_gb;
-        std::vector&lt;int&gt; cpu_ids;
+        std::vector<int> cpu_ids;
     };
     
     struct NumaPlacement {
         int preferred_numa_node;
-        std::vector&lt;int&gt; cpu_affinity;
+        std::vector<int> cpu_affinity;
         bool use_local_memory;
     };
     
@@ -308,3 +308,4 @@ public:
 };
 
 } // namespace themis
+

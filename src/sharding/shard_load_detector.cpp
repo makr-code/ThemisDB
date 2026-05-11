@@ -164,7 +164,7 @@ bool ShardLoadDetector::detectStorageImbalance(
     
     if (imbalance_ratio > config_.storage_imbalance_threshold) {
         result.reason = "Storage imbalance detected (" + 
-                       std::to_string(static_cast&lt;int&gt;(imbalance_ratio * 100)) + "% variance)";
+                       std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
         
         // Identify hotspots (above 120% of average)
         for (size_t i = 0; i < storage_values.size(); i++) {
@@ -207,7 +207,7 @@ bool ShardLoadDetector::detectRequestImbalance(
     if (imbalance_ratio > config_.request_imbalance_threshold) {
         if (!result.reason.empty()) result.reason += "; ";
         result.reason += "Request imbalance (" + 
-                        std::to_string(static_cast&lt;int&gt;(imbalance_ratio * 100)) + "% variance)";
+                        std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
         
         // Identify hotspots (above 150% of average)
         for (size_t i = 0; i < request_rates.size(); i++) {
@@ -249,7 +249,7 @@ bool ShardLoadDetector::detectLatencyDegradation(
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
             if (!result.reason.empty()) result.reason += "; ";
             result.reason += "Latency degradation on " + shard_ids[i] + 
-                           " (" + std::to_string(static_cast&lt;int&gt;(latencies[i])) + "ms p99)";
+                           " (" + std::to_string(static_cast<int>(latencies[i])) + "ms p99)";
             
             if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
                          shard_ids[i]) == result.hotspot_shards.end()) {
@@ -273,7 +273,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
         if (metrics.cpu_usage_percent > config_.cpu_exhaustion_threshold * 100.0) {
             if (!result.reason.empty()) result.reason += "; ";
             result.reason += "CPU exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast&lt;int&gt;(metrics.cpu_usage_percent)) + "%)";
+                           " (" + std::to_string(static_cast<int>(metrics.cpu_usage_percent)) + "%)";
             
             if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
                          shard_id) == result.hotspot_shards.end()) {
@@ -286,7 +286,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
         if (metrics.storage_usage_percent > config_.storage_exhaustion_threshold * 100.0) {
             if (!result.reason.empty()) result.reason += "; ";
             result.reason += "Storage exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast&lt;int&gt;(metrics.storage_usage_percent)) + "%)";
+                           " (" + std::to_string(static_cast<int>(metrics.storage_usage_percent)) + "%)";
             
             if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
                          shard_id) == result.hotspot_shards.end()) {
@@ -335,9 +335,9 @@ void ShardLoadDetector::generateRebalanceRecommendations(
         rec.expected_load_reduction_percent = ((source_load - target_load) / source_load) * 0.2 * 100.0;
         
         rec.justification = "Move data from overloaded shard (" + 
-                           std::to_string(static_cast&lt;int&gt;(source_load)) + 
+                           std::to_string(static_cast<int>(source_load)) + 
                            " load units) to underutilized shard (" + 
-                           std::to_string(static_cast&lt;int&gt;(target_load)) + " load units)";
+                           std::to_string(static_cast<int>(target_load)) + " load units)";
         
         result.recommendations.push_back(rec);
     }
@@ -573,3 +573,4 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
 } // namespace sharding
 } // namespace themis
+

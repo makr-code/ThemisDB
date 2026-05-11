@@ -652,7 +652,7 @@ private:
         
         std::stringstream ss;
         for (unsigned int i = 0; i < hash_len; i++) {
-            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
         
         return ss.str();
@@ -661,3 +661,4 @@ private:
 
 } // namespace security
 } // namespace themis
+

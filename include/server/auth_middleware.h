@@ -173,7 +173,7 @@ public:
     /// Extract basic context (user_id, groups) from token if valid
     std::optional<AuthContext> extractContext(std::string_view token) const;
 
-    /// Extract token from "Bearer &lt;token&gt;" header value
+    /// Extract token from "Bearer <token>" header value
     static std::optional<std::string> extractBearerToken(std::string_view auth_header);
 
     /// Get metrics (for Prometheus)
@@ -255,3 +255,4 @@ private:
 };
 
 } // namespace themis
+

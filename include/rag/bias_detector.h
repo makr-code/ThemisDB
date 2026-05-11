@@ -156,9 +156,10 @@ private:
     double calculatePValue(double correlation, size_t sample_size);
     
     double calculateChiSquare(
-        const std::vector&lt;int&gt;& observed,
-        const std::vector&lt;int&gt;& expected
+        const std::vector<int>& observed,
+        const std::vector<int>& expected
     );
 };
 
 } // namespace themis::rag::judge
+

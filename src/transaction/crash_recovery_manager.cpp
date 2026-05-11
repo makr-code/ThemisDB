@@ -104,10 +104,10 @@ static constexpr const char* B64_CHARS =
     json j;
     j["t"]   = e.timestamp_ms;
     j["txn"] = e.txn_id;
-    j["type"] = static_cast&lt;int&gt;(e.type);
+    j["type"] = static_cast<int>(e.type);
 
     if (e.type == EntryType::BEGIN) {
-        j["iso"] = static_cast&lt;int&gt;(e.isolation);
+        j["iso"] = static_cast<int>(e.isolation);
     } else if (e.type == EntryType::OPERATION) {
         j["op"]  = e.operation.op;
         j["key"] = base64Encode(e.operation.key);
@@ -493,3 +493,4 @@ size_t CrashRecoveryManager::pendingTransactionCount() const {
 
 } // namespace transaction
 } // namespace themis
+

@@ -28,11 +28,11 @@ namespace lora {
 
 SequencePacker::SequencePacker(const Device& device)
     : device_(device) {
-    spdlog::debug("SequencePacker initialized for device: {}", static_cast&lt;int&gt;(device.type));
+    spdlog::debug("SequencePacker initialized for device: {}", static_cast<int>(device.type));
 }
 
 SequencePacker::PackedBatch SequencePacker::packSequences(
-    const std::vector<std::vector&lt;int&gt;>& sequences
+    const std::vector<std::vector<int>>& sequences
 ) {
     PackedBatch batch;
     batch.num_sequences = sequences.size();
@@ -148,7 +148,7 @@ std::vector<GPUTensor> SequencePacker::unpackResults(
 }
 
 float SequencePacker::calculateMemorySavings(
-    const std::vector<std::vector&lt;int&gt;>& sequences,
+    const std::vector<std::vector<int>>& sequences,
     size_t max_length
 ) {
     if (sequences.empty()) {
@@ -172,8 +172,8 @@ float SequencePacker::calculateMemorySavings(
     return 1.0f - (static_cast<float>(actual_tokens) / padded_tokens);
 }
 
-std::pair<std::vector<std::vector&lt;int&gt;>, std::vector<size_t>> 
-SequencePacker::sortByLength(const std::vector<std::vector&lt;int&gt;>& sequences) const {
+std::pair<std::vector<std::vector<int>>, std::vector<size_t>> 
+SequencePacker::sortByLength(const std::vector<std::vector<int>>& sequences) const {
     // Create index array
     std::vector<size_t> indices(sequences.size());
     std::iota(indices.begin(), indices.end(), 0);
@@ -185,7 +185,7 @@ SequencePacker::sortByLength(const std::vector<std::vector&lt;int&gt;>& sequence
               });
     
     // Reorder sequences
-    std::vector<std::vector&lt;int&gt;> sorted;
+    std::vector<std::vector<int>> sorted;
     sorted.reserve(sequences.size());
     for (size_t idx : indices) {
         sorted.push_back(sequences[idx]);
@@ -197,3 +197,4 @@ SequencePacker::sortByLength(const std::vector<std::vector&lt;int&gt;>& sequence
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

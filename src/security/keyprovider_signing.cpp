@@ -40,7 +40,7 @@ public:
 
         // Fallback: retrieve raw private key bytes and perform local CMS signing
         auto key_bytes = kp_->getKey(key_id);
-        BIO* bio = BIO_new_mem_buf(key_bytes.data(), static_cast&lt;int&gt;(key_bytes.size()));
+        BIO* bio = BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size()));
         if (!bio) throw std::runtime_error("BIO_new_mem_buf failed");
 
         EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
@@ -52,7 +52,7 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast&lt;int&gt;(cert_bytes.size()));
+                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
                 X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
                 BIO_free(cbio);
                 if (x) cert_ptr = x; // transfer ownership to CMSSigningService below
@@ -71,7 +71,7 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast&lt;int&gt;(cert_bytes.size()));
+                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
                 X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
                 BIO_free(cbio);
                 if (x) {
@@ -96,3 +96,4 @@ std::shared_ptr<SigningService> createKeyProviderSigningService(std::shared_ptr<
 }
 
 } // namespace themis
+

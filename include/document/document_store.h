@@ -157,7 +157,7 @@ public:
  * @brief Thread-safe in-memory implementation of IDocumentStore.
  *
  * Stores all records in a @c std::unordered_map keyed by
- * @c "<collection>:&lt;id&gt;".  Intended for unit tests and development; not
+ * @c "<collection>:<id>".  Intended for unit tests and development; not
  * suitable for production use.
  */
 class InMemoryDocumentStore final : public IDocumentStore {
@@ -267,3 +267,4 @@ private:
 
 } // namespace document
 } // namespace themis
+

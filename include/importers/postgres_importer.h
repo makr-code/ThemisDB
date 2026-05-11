@@ -129,7 +129,7 @@ private:
      * the parsed fields to reconstruct the DDL exactly.
      */
     struct ExcludeConstraint {
-        /// Constraint name (from `CONSTRAINT &lt;name&gt; EXCLUDE …`)
+        /// Constraint name (from `CONSTRAINT <name> EXCLUDE …`)
         std::string name;
         /// Index access method (e.g. "gist", "btree", "spgist")
         std::string index_method;
@@ -450,3 +450,4 @@ private:
 
 } // namespace importers
 } // namespace themis
+

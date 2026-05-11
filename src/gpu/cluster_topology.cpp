@@ -63,7 +63,7 @@ GPUClusterTopology GPUClusterTopology::detect(
     const std::vector<DeviceInfo>& devices)
 {
     GPUClusterTopology topo;
-    topo.num_gpus = static_cast&lt;int&gt;(devices.size());
+    topo.num_gpus = static_cast<int>(devices.size());
 
     if (devices.empty()) {
         return topo;
@@ -309,3 +309,4 @@ ClusterNode GPUClusterTopology::getNode(const std::string& node_id) const {
 
 } // namespace gpu
 } // namespace themis
+

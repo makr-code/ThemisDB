@@ -42,7 +42,7 @@ namespace auth {
  *
  * Stores each revoked JTI as a Redis key with a TTL matching the token's
  * remaining lifetime:
- *   SET &lt;prefix&gt;&lt;jti&gt; 1 EX &lt;ttl_seconds&gt; NX
+ *   SET <prefix><jti> 1 EX <ttl_seconds> NX
  *
  * isRevoked() performs a single EXISTS command which is O(1) server-side.
  * purgeExpired() is a no-op because Redis handles expiry via TTL automatically.
@@ -88,7 +88,7 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Revoke a token in Redis: SET &lt;key&gt; 1 EX &lt;ttl&gt; NX
+     * @brief Revoke a token in Redis: SET <key> 1 EX <ttl> NX
      *
      * If the token has already expired (expiry ≤ now) a TTL of
      * Config::min_ttl_seconds is used to handle clock skew gracefully.
@@ -142,3 +142,4 @@ private:
 
 } // namespace auth
 } // namespace themis
+

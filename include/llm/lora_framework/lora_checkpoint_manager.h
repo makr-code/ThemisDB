@@ -38,8 +38,8 @@
  * ```
  * <root>/
  *   <adapter_id>/
- *     checkpoint-&lt;step&gt;.bin      – adapter weights (safetensors)
- *     checkpoint-&lt;step&gt;.meta.json – training metadata
+ *     checkpoint-<step>.bin      – adapter weights (safetensors)
+ *     checkpoint-<step>.meta.json – training metadata
  *     best.json                  – symlink/record to best checkpoint
  * ```
  *
@@ -224,3 +224,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

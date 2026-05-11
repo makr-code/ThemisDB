@@ -38,18 +38,18 @@ void PagedKVCacheManager::initializeBlocks() {
     free_block_ids_.reserve(config_.num_blocks);
     
     for (size_t i = 0; i < config_.num_blocks; ++i) {
-        blocks_[i].block_id = static_cast&lt;int&gt;(i);
+        blocks_[i].block_id = static_cast<int>(i);
         blocks_[i].ref_count = 0;
         blocks_[i].is_pinned = false;
         blocks_[i].parent_sequence_id = 0;
         blocks_[i].device_ptr = nullptr;  // Would allocate GPU memory here
         
-        free_block_ids_.push_back(static_cast&lt;int&gt;(i));
+        free_block_ids_.push_back(static_cast<int>(i));
     }
 }
 
-std::vector&lt;int&gt; PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
-    std::vector&lt;int&gt; allocated;
+std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
+    std::vector<int> allocated;
     allocated.reserve(num_blocks);
     
     for (size_t i = 0; i < num_blocks && !free_block_ids_.empty(); ++i) {
@@ -64,9 +64,9 @@ std::vector&lt;int&gt; PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
     return allocated;
 }
 
-void PagedKVCacheManager::freeBlocks(const std::vector&lt;int&gt;& block_ids) {
+void PagedKVCacheManager::freeBlocks(const std::vector<int>& block_ids) {
     for (int block_id : block_ids) {
-        if (block_id >= 0 && block_id < static_cast&lt;int&gt;(blocks_.size())) {
+        if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
             releaseBlock(block_id);
         }
     }
@@ -131,7 +131,7 @@ PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     size_t num_blocks_needed = (num_tokens + config_.block_size - 1) / config_.block_size;
     
     // Allocate blocks
-    std::vector&lt;int&gt; block_ids = allocateBlocks(num_blocks_needed);
+    std::vector<int> block_ids = allocateBlocks(num_blocks_needed);
     
     BlockTable table;
     table.sequence_id = seq_id;
@@ -204,13 +204,13 @@ PagedKVCacheManager::getMemoryStats() const {
 
 bool PagedKVCacheManager::isBlockAvailable(int block_id) const {
     return block_id >= 0 && 
-           block_id < static_cast&lt;int&gt;(blocks_.size()) && 
+           block_id < static_cast<int>(blocks_.size()) && 
            blocks_[block_id].ref_count > 0;
 }
 
 PagedKVCacheManager::BlockInfo 
 PagedKVCacheManager::getBlockInfo(int block_id) const {
-    if (block_id >= 0 && block_id < static_cast&lt;int&gt;(blocks_.size())) {
+    if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
         const auto& block = blocks_[block_id];
         BlockInfo info;
         info.block_id = block.block_id;
@@ -238,7 +238,7 @@ size_t PagedKVCacheManager::defragment() {
     //
     // Implementation: scan blocks for ref_count==0 && !is_pinned that are not
     // already in free_block_ids_ and return them to the free list.
-    std::unordered_set&lt;int&gt; known_free(free_block_ids_.begin(), free_block_ids_.end());
+    std::unordered_set<int> known_free(free_block_ids_.begin(), free_block_ids_.end());
 
     size_t reclaimed = 0;
     for (const auto& block : blocks_) {
@@ -269,7 +269,7 @@ int PagedKVCacheManager::getFreeBlock() {
 }
 
 void PagedKVCacheManager::releaseBlock(int block_id) {
-    if (block_id < 0 || block_id >= static_cast&lt;int&gt;(blocks_.size())) {
+    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return;
     }
     
@@ -356,7 +356,7 @@ void PagedKVCacheManager::updateWorkloadMetrics() {
             sequences_with_prefix++;
             // Estimate prefix length from shared blocks
             for (int block_id : table.block_ids) {
-                if (block_id >= 0 && block_id < static_cast&lt;int&gt;(blocks_.size())) {
+                if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
                     if (blocks_[block_id].ref_count.load() > 1) {
                         total_prefix_length += config_.block_size;
                     }
@@ -403,3 +403,4 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
 
 } // namespace llm
 } // namespace themis
+

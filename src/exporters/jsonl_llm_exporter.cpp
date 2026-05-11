@@ -350,7 +350,7 @@ ExportStats JSONLLLMExporter::exportEntities(
             } catch (const ExporterException& e) {
                 stats.failed_entities++;
                 std::string error_msg = "Entity " + entity.getPrimaryKey() + 
-                                      ": [" + std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + 
+                                      ": [" + std::to_string(static_cast<int>(e.getErrorCode())) + 
                                       "] " + e.what();
                 stats.errors.push_back(error_msg);
                 metrics_->recordError("exporter_exception");
@@ -432,7 +432,7 @@ ExportStats JSONLLLMExporter::exportEntities(
         
     } catch (const ExportIOException& e) {
         stats.errors.push_back(
-            "[" + std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + "] " + 
+            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + 
             e.what() + " (file: " + e.getFilePath() + ")"
         );
         metrics_->recordError("io_exception");
@@ -1142,3 +1142,4 @@ std::string JSONLLLMExporter::getQualityMetricsReport() const {
 }
 
 } // namespace themis::exporters
+

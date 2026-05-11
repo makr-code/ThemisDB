@@ -211,7 +211,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     size_t sample_size)
 {
     if (table_name.empty()) {
-        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast&lt;int&gt;(StatsErrorCode::TABLE_NOT_FOUND));
+        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -238,10 +238,10 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
         auto duration_ms = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - collect_start).count();
         spdlog::error("StatisticsCollector: Iterator error: table='{}' duration_ms={:.2f} rows_sampled=0 error_code={}",
-                      table_name, duration_ms, static_cast&lt;int&gt;(StatsErrorCode::ITERATOR_ERROR));
+                      table_name, duration_ms, static_cast<int>(StatsErrorCode::ITERATOR_ERROR));
         if (metrics_hook_) {
             metrics_hook_->onCollect(table_name, duration_ms, 0, false);
-            metrics_hook_->onError(table_name, static_cast&lt;int&gt;(StatsErrorCode::ITERATOR_ERROR));
+            metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::ITERATOR_ERROR));
         }
         return StatsResult<TableStats>::failure(
             StatsErrorCode::ITERATOR_ERROR, "Failed to create RocksDB iterator");
@@ -344,7 +344,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
 StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_name) {
     if (table_name.empty()) {
-        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast&lt;int&gt;(StatsErrorCode::TABLE_NOT_FOUND));
+        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -766,3 +766,4 @@ std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
 }
 
 } // namespace themis
+

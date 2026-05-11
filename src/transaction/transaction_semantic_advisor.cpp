@@ -45,10 +45,10 @@ TransactionSemanticAdvisor::analyzeBatch(
     const size_t n = pending_txs.size();
 
     // assigned[i] = index of the primary for tx i (-1 = unassigned)
-    std::vector&lt;int&gt; assigned(n, -1);
+    std::vector<int> assigned(n, -1);
 
     // Map primary index → position in hints vector
-    std::vector&lt;int&gt; hint_index(n, -1);
+    std::vector<int> hint_index(n, -1);
 
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = i + 1; j < n; ++j) {
@@ -56,7 +56,7 @@ TransactionSemanticAdvisor::analyzeBatch(
                 || entityOverlap(pending_txs[i], pending_txs[j]) > 0.0)
             {
                 // i and j are batch-affine
-                int primary = (assigned[i] == -1) ? static_cast&lt;int&gt;(i) : assigned[i];
+                int primary = (assigned[i] == -1) ? static_cast<int>(i) : assigned[i];
 
                 if (assigned[i] == -1) {
                     // Create a new hint with i as primary
@@ -69,9 +69,9 @@ TransactionSemanticAdvisor::analyzeBatch(
                         hint.reason               = "same_entity_competing_writes";
                     }
 
-                    hint_index[i] = static_cast&lt;int&gt;(hints.size());
+                    hint_index[i] = static_cast<int>(hints.size());
                     hints.push_back(std::move(hint));
-                    assigned[i] = static_cast&lt;int&gt;(i);
+                    assigned[i] = static_cast<int>(i);
                 }
 
                 if (assigned[j] == -1) {
@@ -180,3 +180,4 @@ void TransactionSemanticAdvisor::emitDecisionRecord(
 
 } // namespace transaction
 } // namespace themis
+

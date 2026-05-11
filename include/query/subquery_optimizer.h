@@ -144,7 +144,7 @@ public:
         
         // Multiple FORs (JOINs) are expensive
         if (query->for_nodes.size() > 1) {
-            cost += 50 * static_cast&lt;int&gt;(query->for_nodes.size() - 1);
+            cost += 50 * static_cast<int>(query->for_nodes.size() - 1);
         }
         
         // Aggregation is expensive
@@ -158,7 +158,7 @@ public:
         }
         
         // Each filter adds cost
-        cost += 10 * static_cast&lt;int&gt;(query->filters.size());
+        cost += 10 * static_cast<int>(query->filters.size());
         
         // LIMIT reduces result set (cost reduction)
         if (query->limit) {
@@ -275,3 +275,4 @@ private:
 
 } // namespace query
 } // namespace themis
+

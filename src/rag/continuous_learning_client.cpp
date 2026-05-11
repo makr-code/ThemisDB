@@ -390,7 +390,7 @@ std::vector<QualityMetric> qcResultToMetrics(const QCResult& result) {
     faithfulness.type = MetricType::FAITHFULNESS;
     faithfulness.value = result.faithfulness_score;
     faithfulness.timestamp = now;
-    faithfulness.metadata["mode"] = static_cast&lt;int&gt;(result.mode);
+    faithfulness.metadata["mode"] = static_cast<int>(result.mode);
     metrics.push_back(faithfulness);
     
     // Relevance metric
@@ -419,7 +419,7 @@ std::vector<QualityMetric> qcResultToMetrics(const QCResult& result) {
     overall.type = MetricType::OVERALL_QUALITY;
     overall.value = result.overall_score;
     overall.timestamp = now;
-    overall.metadata["decision"] = static_cast&lt;int&gt;(result.decision);
+    overall.metadata["decision"] = static_cast<int>(result.decision);
     overall.metadata["passed_threshold"] = result.passed_threshold;
     metrics.push_back(overall);
     
@@ -428,7 +428,7 @@ std::vector<QualityMetric> qcResultToMetrics(const QCResult& result) {
     latency.type = MetricType::LATENCY;
     latency.value = static_cast<double>(result.latency.count());
     latency.timestamp = now;
-    latency.metadata["mode"] = static_cast&lt;int&gt;(result.mode);
+    latency.metadata["mode"] = static_cast<int>(result.mode);
     metrics.push_back(latency);
     
     return metrics;
@@ -496,3 +496,4 @@ std::string metricTypeToString(MetricType type) {
 } // namespace cl_utils
 
 } // namespace themis::rag::judge
+

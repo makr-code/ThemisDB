@@ -136,19 +136,19 @@ std::string StorageLayoutAdvisor::buildRationale(
     switch (layout) {
         case LayoutType::COLUMNAR_COMPRESSED:
             ss << "Time-series access pattern with high aggregation ratio ("
-               << static_cast&lt;int&gt;(stats.aggregation_ratio * 100)
+               << static_cast<int>(stats.aggregation_ratio * 100)
                << "%) detected; columnar compressed layout will significantly "
                   "reduce storage and improve scan performance.";
             break;
         case LayoutType::ROW_ORIENTED:
             ss << "High point-lookup ratio ("
-               << static_cast&lt;int&gt;(stats.point_lookup_ratio * 100)
+               << static_cast<int>(stats.point_lookup_ratio * 100)
                << "%) detected; row-oriented layout minimises random-access "
                   "latency.";
             break;
         case LayoutType::HYBRID:
             ss << "Mixed access pattern: metadata-only access dominates ("
-               << static_cast&lt;int&gt;(stats.metadata_only_access_ratio * 100)
+               << static_cast<int>(stats.metadata_only_access_ratio * 100)
                << "%) alongside BLOB fields; hybrid layout separates hot "
                   "metadata from cold payload.";
             break;
@@ -273,3 +273,4 @@ std::string StorageLayoutAdvisor::layoutName(LayoutType t)
 
 } // namespace storage
 } // namespace themis
+

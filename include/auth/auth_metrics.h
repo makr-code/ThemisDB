@@ -384,9 +384,9 @@ private:
     std::atomic<uint64_t> credential_stuffing_total_{0};
 
     // LDAP connection pool gauges (always available)
-    std::atomic&lt;int&gt; ldap_pool_size_count_{0};
-    std::atomic&lt;int&gt; ldap_idle_connections_count_{0};
-    std::atomic&lt;int&gt; ldap_active_connections_count_{0};
+    std::atomic<int> ldap_pool_size_count_{0};
+    std::atomic<int> ldap_idle_connections_count_{0};
+    std::atomic<int> ldap_active_connections_count_{0};
     
     // Helper methods
     static std::string authMethodToString(AuthMethod method);
@@ -447,3 +447,4 @@ private:
 
 } // namespace auth
 } // namespace themis
+

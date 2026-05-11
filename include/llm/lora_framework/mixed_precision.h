@@ -57,7 +57,7 @@ struct MixedPrecisionConfig {
     // Convert to JSON
     json toJSON() const {
         return json{
-            {"mode", static_cast&lt;int&gt;(mode)},
+            {"mode", static_cast<int>(mode)},
             {"loss_scale", loss_scale},
             {"loss_scale_factor", loss_scale_factor},
             {"loss_scale_window", loss_scale_window},
@@ -195,3 +195,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -89,7 +89,7 @@ RetrievalSpec parseRetrieval(const YAML::Node& node) {
 
     spec.enabled   = safeAs<bool>(node["enabled"],   false);
     spec.strategy  = safeAs<std::string>(node["strategy"],  "hybrid");
-    spec.top_k     = safeAs&lt;int&gt;(node["top_k"],      5);
+    spec.top_k     = safeAs<int>(node["top_k"],      5);
     spec.threshold = safeAs<float>(node["threshold"], 0.5f);
     spec.rerank    = safeAs<bool>(node["rerank"],    false);
     spec.locality  = safeAs<std::string>(node["locality"],  "");
@@ -97,8 +97,8 @@ RetrievalSpec parseRetrieval(const YAML::Node& node) {
 
     if (node["chunking"] && node["chunking"].IsMap()) {
         const auto& ch = node["chunking"];
-        spec.chunking.size     = safeAs&lt;int&gt;(ch["size"],    512);
-        spec.chunking.overlap  = safeAs&lt;int&gt;(ch["overlap"], 64);
+        spec.chunking.size     = safeAs<int>(ch["size"],    512);
+        spec.chunking.overlap  = safeAs<int>(ch["overlap"], 64);
         spec.chunking.strategy = safeAs<std::string>(ch["strategy"], "fixed");
     }
     return spec;
@@ -122,12 +122,12 @@ BudgetSpec parseBudgets(const YAML::Node& node) {
     BudgetSpec spec;
     if (!node || !node.IsMap()) return spec;
 
-    spec.max_tokens  = safeAs&lt;int&gt;(node["max_tokens"],   512);
-    spec.timeout_ms  = safeAs&lt;int&gt;(node["timeout_ms"],   30000);
-    spec.max_retries = safeAs&lt;int&gt;(node["max_retries"],  1);
+    spec.max_tokens  = safeAs<int>(node["max_tokens"],   512);
+    spec.timeout_ms  = safeAs<int>(node["timeout_ms"],   30000);
+    spec.max_retries = safeAs<int>(node["max_retries"],  1);
     spec.temperature = safeAs<float>(node["temperature"], 0.7f);
     spec.top_p       = safeAs<float>(node["top_p"],       0.9f);
-    spec.top_k       = safeAs&lt;int&gt;(node["top_k"],         40);
+    spec.top_k       = safeAs<int>(node["top_k"],         40);
     return spec;
 }
 
@@ -146,7 +146,7 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
     ToolSpec spec;
     spec.name        = safeAs<std::string>(node["name"],        "");
     spec.description = safeAs<std::string>(node["description"], "");
-    spec.timeout_ms  = safeAs&lt;int&gt;(node["timeout_ms"],          5000);
+    spec.timeout_ms  = safeAs<int>(node["timeout_ms"],          5000);
 
     if (node["schema"] && !node["schema"].IsNull()) {
         try {
@@ -204,8 +204,8 @@ ModelEntry parseModelEntry(const YAML::Node& node) {
     ModelEntry entry;
     entry.id         = safeAs<std::string>(node["id"],         "default");
     entry.path       = safeAs<std::string>(node["path"],       "");
-    entry.gpu_layers = safeAs&lt;int&gt;(node["gpu_layers"],         0);
-    entry.n_ctx      = safeAs&lt;int&gt;(node["n_ctx"],              4096);
+    entry.gpu_layers = safeAs<int>(node["gpu_layers"],         0);
+    entry.n_ctx      = safeAs<int>(node["n_ctx"],              4096);
     return entry;
 }
 
@@ -413,3 +413,4 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
 }
 
 } // namespace themis::llm
+

@@ -81,7 +81,7 @@ public:
      */
     struct Constraint {
         ConstraintType type;
-        std::optional&lt;int&gt; int_value;
+        std::optional<int> int_value;
         std::optional<std::string> string_value;
         std::optional<std::function<bool(const std::vector<std::string>&)>> predicate;
         /// Property key for NODE_PROPERTY / EDGE_PROPERTY constraints.
@@ -392,3 +392,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

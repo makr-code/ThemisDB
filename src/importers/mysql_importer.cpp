@@ -90,7 +90,7 @@ bool MySQLImporter::initialize(const std::string& config) {
         if (cfg.contains("host") && cfg["host"].is_string())
             jdbc_config_.host = cfg["host"].get<std::string>();
         if (cfg.contains("port") && cfg["port"].is_number_integer())
-            jdbc_config_.port = cfg["port"].get&lt;int&gt;();
+            jdbc_config_.port = cfg["port"].get<int>();
         if (cfg.contains("database") && cfg["database"].is_string())
             jdbc_config_.database = cfg["database"].get<std::string>();
         if (cfg.contains("user") && cfg["user"].is_string())
@@ -1365,3 +1365,4 @@ namespace importers {
 REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
 } // namespace importers
 } // namespace themis
+

@@ -94,16 +94,16 @@ struct RowFilter {
 /**
  * SQL:2011 temporal clause type (§7.6).
  *
- * AS_OF          — FOR SYSTEM_TIME AS OF &lt;timestamp&gt;
+ * AS_OF          — FOR SYSTEM_TIME AS OF <timestamp>
  *                  Returns all rows current at the given instant.
  *
- * FROM_TO        — FOR SYSTEM_TIME FROM &lt;start&gt; TO &lt;end&gt;
+ * FROM_TO        — FOR SYSTEM_TIME FROM <start> TO <end>
  *                  Returns all row versions whose sys_time overlaps [start, end).
  *
- * BETWEEN_AND    — FOR SYSTEM_TIME BETWEEN &lt;start&gt; AND &lt;end&gt;
+ * BETWEEN_AND    — FOR SYSTEM_TIME BETWEEN <start> AND <end>
  *                  Closed-interval variant: overlaps [start, end].
  *
- * CONTAINED_IN   — FOR SYSTEM_TIME CONTAINED IN PERIOD (&lt;start&gt;, &lt;end&gt;)
+ * CONTAINED_IN   — FOR SYSTEM_TIME CONTAINED IN PERIOD (<start>, <end>)
  *                  Returns only rows whose entire sys_time lies within [start, end).
  *
  * ALL            — FOR SYSTEM_TIME ALL
@@ -134,19 +134,19 @@ struct TemporalQuerySpec {
     Timestamp end_time{kMaxTimestamp};
     bool include_deleted{false};
 
-    /// Convenience factory — FOR SYSTEM_TIME AS OF &lt;t&gt;
+    /// Convenience factory — FOR SYSTEM_TIME AS OF <t>
     static TemporalQuerySpec asOf(Timestamp t) noexcept {
         return {TemporalClause::AS_OF, t, kMaxTimestamp, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME FROM &lt;s&gt; TO &lt;e&gt;
+    /// Convenience factory — FOR SYSTEM_TIME FROM <s> TO <e>
     static TemporalQuerySpec fromTo(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::FROM_TO, s, e, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME BETWEEN &lt;s&gt; AND &lt;e&gt;
+    /// Convenience factory — FOR SYSTEM_TIME BETWEEN <s> AND <e>
     static TemporalQuerySpec betweenAnd(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::BETWEEN_AND, s, e, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (&lt;s&gt;, &lt;e&gt;)
+    /// Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (<s>, <e>)
     static TemporalQuerySpec containedIn(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::CONTAINED_IN, s, e, false};
     }
@@ -585,3 +585,4 @@ std::vector<VersionedDocument> queryAsOfCached(
 
 } // namespace temporal
 } // namespace themisdb
+

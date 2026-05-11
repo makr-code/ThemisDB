@@ -53,17 +53,17 @@ namespace themis {
  *
  * Versioned keys are encoded as:
  *
- *     &lt;base_key&gt; '\x00' <8-byte-big-endian-HLC-timestamp>
+ *     <base_key> '\x00' <8-byte-big-endian-HLC-timestamp>
  *
  * The null-byte separator `\x00` terminates the logical key, and the 8-byte
  * big-endian timestamp ensures that RocksDB's bytewise comparator sorts
- * versions in chronological order.  A prefix scan over `&lt;base_key&gt;\x00`
+ * versions in chronological order.  A prefix scan over `<base_key>\x00`
  * therefore traverses all versions of that key from oldest to newest.
  *
  * To find the latest version at-or-before timestamp T:
- *   1. Seek to `&lt;base_key&gt;\x00<T+1_be>` (exclusive upper bound).
+ *   1. Seek to `<base_key>\x00<T+1_be>` (exclusive upper bound).
  *   2. Step one entry backward with Prev().
- *   3. If the resulting key still starts with `&lt;base_key&gt;\x00`, it is the
+ *   3. If the resulting key still starts with `<base_key>\x00`, it is the
  *      answer; otherwise the key has no version at or before T.
  *
  * ## Thread safety
@@ -260,14 +260,14 @@ public:
     /**
      * @brief Build the versioned storage key for @p base_key at @p ts.
      *
-     * Format: `&lt;base_key&gt;'\\0'&lt;8-byte-big-endian-ts&gt;`
+     * Format: `<base_key>'\\0'<8-byte-big-endian-ts>`
      */
     static std::string encodeVersionedKey(std::string_view base_key, HLCTimestamp ts);
 
     /**
      * @brief Build the prefix used to scan all versions of @p base_key.
      *
-     * Format: `&lt;base_key&gt;'\\0'`
+     * Format: `<base_key>'\\0'`
      */
     static std::string encodeVersionPrefix(std::string_view base_key);
 
@@ -301,3 +301,4 @@ private:
 };
 
 } // namespace themis
+

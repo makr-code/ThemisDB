@@ -520,7 +520,7 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
     std::string prefix = oss.str();
 
     db_.scanPrefix(prefix, [this, &edges, &prefix, &graph_id](std::string_view key, std::string_view /*val*/) {
-        // Extract edgeId from key: type:<graph_id>:&lt;type&gt;:<edgeId>
+        // Extract edgeId from key: type:<graph_id>:<type>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos && lastColon >= prefix.size() - 1) {
@@ -702,7 +702,7 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     typePrefix << "type:" << graph_id << ":";
     db_.scanPrefix(typePrefix.str(), [&types, &typePrefix](std::string_view key, std::string_view /*val*/) {
         std::string keyStr(key);
-        // Extract type from key: type:<graph_id>:&lt;type&gt;:<edgeId>
+        // Extract type from key: type:<graph_id>:<type>:<edgeId>
         size_t prefixLen = typePrefix.str().size();
         size_t nextColon = keyStr.find(':', prefixLen);
         if (nextColon != std::string::npos) {
@@ -1268,3 +1268,4 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
+

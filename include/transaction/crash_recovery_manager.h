@@ -47,8 +47,8 @@ namespace transaction {
  *
  * ## WAL layout (one append-only file per session)
  * Each entry is a newline-terminated JSON record:
- *   {"t":&lt;ms&gt;,"txn":&lt;id&gt;,"type":"BEGIN"|"OP"|"COMMIT"|"ABORT",
- *    "iso":&lt;int&gt;,          // BEGIN only
+ *   {"t":<ms>,"txn":<id>,"type":"BEGIN"|"OP"|"COMMIT"|"ABORT",
+ *    "iso":<int>,          // BEGIN only
  *    "op":"put"|"del",     // OP only
  *    "key":"...",          // OP only
  *    "old":"...",          // OP only – base64 for undo
@@ -284,3 +284,4 @@ private:
 
 } // namespace transaction
 } // namespace themis
+

@@ -85,7 +85,7 @@ void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms
 }
 
 void TransactionManager::setDeadlockVictimPolicy(DeadlockVictimPolicy policy) {
-    victim_policy_.store(static_cast&lt;int&gt;(policy), std::memory_order_relaxed);
+    victim_policy_.store(static_cast<int>(policy), std::memory_order_relaxed);
     const char* name =
         policy == DeadlockVictimPolicy::YOUNGEST        ? "YOUNGEST"        :
         policy == DeadlockVictimPolicy::OLDEST          ? "OLDEST"          :
@@ -2193,4 +2193,5 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
 }
 
 } // namespace themis
+
 

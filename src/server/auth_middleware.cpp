@@ -459,7 +459,7 @@ bool AuthMiddleware::isEnabled() const {
 }
 
 std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view auth_header) {
-    // Expected format: "Bearer &lt;token&gt;"
+    // Expected format: "Bearer <token>"
     constexpr std::string_view prefix = "Bearer ";
     
     if (auth_header.size() <= prefix.size()) {
@@ -732,3 +732,4 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
+

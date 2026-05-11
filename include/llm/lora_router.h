@@ -330,7 +330,7 @@ public:
      *
      * When set, every successful non-cached routing decision emits a
      * `LORA_ADAPTER_SELECTION` decision record written asynchronously to
-     * `logs/decisions/YYYY-MM-DD/&lt;ts&gt;_LORA_ADAPTER_SELECTION_&lt;id&gt;.yaml`.
+     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_ADAPTER_SELECTION_<id>.yaml`.
      *
      * @param processor  Shared processor instance (may be nullptr to disable).
      */
@@ -468,3 +468,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

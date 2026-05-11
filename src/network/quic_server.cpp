@@ -82,7 +82,7 @@ static uint64_t quicServerNow() {
 /// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
 static void generateCid(ngtcp2_cid* cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
-    if (RAND_bytes(cid->data, static_cast&lt;int&gt;(cid->datalen)) != 1) {
+    if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {
         // Fallback: deterministic zero-fill rather than undefined memory.
         std::memset(cid->data, 0, cid->datalen);
     }
@@ -704,7 +704,7 @@ void QUICClient::connect() {
                                          size_t /*cidlen*/,
                                          void* /*user_data*/) -> int {
         cid->datalen = NGTCP2_MIN_CIDLEN;
-        RAND_bytes(cid->data, static_cast&lt;int&gt;(cid->datalen));
+        RAND_bytes(cid->data, static_cast<int>(cid->datalen));
         return 0;
     };
 
@@ -818,3 +818,4 @@ std::unique_ptr<QUICClient::Stream> QUICClient::openStream() {
 }  // namespace themis::network
 
 #endif  // THEMIS_ENABLE_HTTP3
+

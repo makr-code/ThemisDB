@@ -369,7 +369,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             // Dispatch to the appropriate handler.  Because this lambda
             // captures `this` (as `self`), private members are accessible.
             const OpCode opcode = header.get_opcode();
-            const int    isz    = static_cast&lt;int&gt;(payload.size());
+            const int    isz    = static_cast<int>(payload.size());
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
             // Helper lambda: log a parse failure and send an error response.
             auto on_parse_fail = [this](const char* name) {
@@ -1206,3 +1206,4 @@ void WireProtocolServer::handle_accept(
 
 } // namespace wire
 } // namespace themis
+

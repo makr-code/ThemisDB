@@ -135,7 +135,7 @@ struct EntityProvenance {
  *   e.g. "law:BImSchG:§4:Abs1"
  * • Norm references: "normref:<target_law>:§<n>"
  * • Decisions:       "bescheid:<aktenzeichen>"
- * • Generic chunks:  "chunk:<file_id>:&lt;seq&gt;"
+ * • Generic chunks:  "chunk:<file_id>:<seq>"
  */
 struct BaseEntity {
     // ── Identity ──────────────────────────────────────────────────────────────
@@ -233,3 +233,4 @@ struct BaseEntitySet {
 
 } // namespace ingestion
 } // namespace themis
+

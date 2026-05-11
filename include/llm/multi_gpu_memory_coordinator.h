@@ -70,7 +70,7 @@ public:
      */
     struct DistributionPlan {
         DistributionStrategy strategy;
-        std::vector&lt;int&gt; gpu_ids;
+        std::vector<int> gpu_ids;
         
         // Tensor parallelism details
         int tensor_parallel_size;
@@ -78,10 +78,10 @@ public:
         
         // Pipeline parallelism details
         int pipeline_parallel_size;
-        std::vector<std::vector&lt;int&gt;> layer_assignments;  // Layers per GPU
+        std::vector<std::vector<int>> layer_assignments;  // Layers per GPU
         
         // Load balancing
-        std::vector&lt;int&gt; batch_assignments;  // Batch size per GPU
+        std::vector<int> batch_assignments;  // Batch size per GPU
         
         // Communication topology
         bool enable_p2p;
@@ -99,7 +99,7 @@ public:
      * @param gpu_ids List of GPU device IDs to use
      * @return true if initialization succeeded
      */
-    bool initialize(const std::vector&lt;int&gt;& gpu_ids);
+    bool initialize(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Distribute model weights using tensor parallelism
@@ -112,7 +112,7 @@ public:
      * @return Distribution plan
      */
     DistributionPlan distributeModelWeights(
-        const std::vector&lt;int&gt;& gpu_ids,
+        const std::vector<int>& gpu_ids,
         size_t model_size_bytes
     );
 
@@ -128,7 +128,7 @@ public:
      * @return Distribution plan
      */
     DistributionPlan distributeLayers(
-        const std::vector&lt;int&gt;& gpu_ids,
+        const std::vector<int>& gpu_ids,
         size_t num_layers,
         size_t layer_size_bytes
     );
@@ -143,7 +143,7 @@ public:
      * @return Distribution plan
      */
     DistributionPlan balanceInferenceLoad(
-        const std::vector&lt;int&gt;& gpu_ids,
+        const std::vector<int>& gpu_ids,
         size_t total_batch_size
     );
 
@@ -156,7 +156,7 @@ public:
      * @param gpu_ids GPUs to enable P2P for
      * @return true if P2P enabled successfully
      */
-    bool enableP2P(const std::vector&lt;int&gt;& gpu_ids);
+    bool enableP2P(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Get GPU device information
@@ -228,3 +228,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

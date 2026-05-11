@@ -219,7 +219,7 @@ public:
 
     /// POST /api/v1/metadata/constraints/validate/:table
     /// Validate a batch of rows against the table's registered constraints.
-    /// Body: { "rows": [ { <column>: &lt;value&gt;, … }, … ] }
+    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
     http::response<http::string_body> handleBatchConstraintValidation(
         const http::request<http::string_body>& req);
 
@@ -285,4 +285,5 @@ private:
 
 } // namespace server
 } // namespace themis
+
 

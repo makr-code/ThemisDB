@@ -316,7 +316,7 @@ DistributedTxnApiHandler::error(http::status        status,
     res.set(http::field::content_type, "application/json");
     res.keep_alive(req.keep_alive());
     res.body() = json{{"error", true}, {"message", message},
-                      {"status_code", static_cast&lt;int&gt;(status)}}.dump();
+                      {"status_code", static_cast<int>(status)}}.dump();
     res.prepare_payload();
     return res;
 }
@@ -337,3 +337,4 @@ DistributedTxnApiHandler::stateToString(sharding::TransactionState state) {
 }
 
 } // namespace themis::server
+

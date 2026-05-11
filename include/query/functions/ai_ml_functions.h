@@ -76,7 +76,7 @@ public:
             auto opts = args[4].as_object();
             if (opts.count("vectorWeight")) vectorWeight = opts["vectorWeight"].as_number();
             if (opts.count("textWeight")) textWeight = opts["textWeight"].as_number();
-            if (opts.count("limit")) limit = static_cast&lt;int&gt;(opts["limit"].as_number());
+            if (opts.count("limit")) limit = static_cast<int>(opts["limit"].as_number());
         }
         
         // Normalize weights
@@ -295,7 +295,7 @@ public:
         if (args.empty()) return JsonValue("");
         
         std::string text = args[0].as_string();
-        int maxLength = args.size() > 1 ? static_cast&lt;int&gt;(args[1].as_number()) : 100;
+        int maxLength = args.size() > 1 ? static_cast<int>(args[1].as_number()) : 100;
         
         // Placeholder: return first N characters
         // In production, this uses a summarization model
@@ -324,3 +324,4 @@ inline void registerAIMLFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themisdb
+

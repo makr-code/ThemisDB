@@ -127,7 +127,7 @@ Result<void> AdaptiveFlushController::add(const TSStore::DataPoint& point) {
         THEMIS_WARN("AdaptiveFlushController backpressure: buffer={}/{} ({}%), blocking producer",
                     buffer_size_.load(std::memory_order_relaxed),
                     config_.buffer_capacity,
-                    static_cast&lt;int&gt;(config_.watermark_ratio * 100));
+                    static_cast<int>(config_.watermark_ratio * 100));
 
         if (config_.metrics) {
             config_.metrics->recordBackpressure(point.metric);
@@ -409,3 +409,4 @@ bool AdaptiveFlushController::isBackpressured() const noexcept {
 }
 
 } // namespace themis
+

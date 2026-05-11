@@ -104,12 +104,12 @@ bool ImageProcessor::initialize(const PluginConfig& config) {
     }
     
     // Load configuration
-    thumbnail_max_width_ = config.get&lt;int&gt;("thumbnail.max_width", 256);
-    thumbnail_max_height_ = config.get&lt;int&gt;("thumbnail.max_height", 256);
+    thumbnail_max_width_ = config.get<int>("thumbnail.max_width", 256);
+    thumbnail_max_height_ = config.get<int>("thumbnail.max_height", 256);
     enable_ocr_ = config.get<bool>("ocr.enabled", true);
     ocr_language_ = config.get<std::string>("ocr.language", "eng");
     enable_color_analysis_ = config.get<bool>("analysis.color.enabled", true);
-    dominant_colors_count_ = config.get&lt;int&gt;("analysis.color.count", 5);
+    dominant_colors_count_ = config.get<int>("analysis.color.count", 5);
     enable_face_detection_ = config.get<bool>("analysis.face_detection", false);
     enable_object_detection_ = config.get<bool>("analysis.object_detection", false);
     
@@ -577,3 +577,4 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
 
 } // namespace content
 } // namespace themis
+

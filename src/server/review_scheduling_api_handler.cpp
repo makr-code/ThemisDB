@@ -283,10 +283,11 @@ http::response<http::string_body> ReviewSchedulingApiHandler::makeErrorResponse(
 ) const {
     nlohmann::json error = {
         {"error", message},
-        {"status", static_cast&lt;int&gt;(status)}
+        {"status", static_cast<int>(status)}
     };
     return makeResponse(status, error.dump(2), req);
 }
 
 } // namespace server
 } // namespace themis
+

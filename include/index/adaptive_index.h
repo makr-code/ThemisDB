@@ -270,7 +270,7 @@ private:
     SelectivityAnalyzer* analyzer_;
 
     // In-memory registry of indexes that already exist.
-    // Key format: "<collection>:&lt;field&gt;"
+    // Key format: "<collection>:<field>"
     mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     
@@ -320,3 +320,4 @@ private:
 };
 
 } // namespace themis
+

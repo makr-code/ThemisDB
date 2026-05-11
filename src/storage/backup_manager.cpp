@@ -925,7 +925,7 @@ Result<std::string> BackupManager::calculateChecksum(const std::string& file_pat
         // Convert to hex string
         std::ostringstream oss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
         
         return Ok(oss.str());
@@ -1110,7 +1110,7 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
     // NONE / GZIP / unsupported: raw copy (no compression library linked).
 #if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
     try {
-        THEMIS_INFO("Compressing {} → {} (type={})", src_path, dest_path, static_cast&lt;int&gt;(type));
+        THEMIS_INFO("Compressing {} → {} (type={})", src_path, dest_path, static_cast<int>(type));
 
         if (type == CompressionType::NONE) {
             fs::copy(src_path, dest_path, fs::copy_options::recursive | fs::copy_options::overwrite_existing, ec);
@@ -1193,7 +1193,7 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
             }
 #endif
             // Fallback for unsupported type with this build
-            THEMIS_WARN("compressPath: compression type {} unsupported in this build; copying {}", static_cast&lt;int&gt;(type), src_entry.string());
+            THEMIS_WARN("compressPath: compression type {} unsupported in this build; copying {}", static_cast<int>(type), src_entry.string());
             fs::copy_file(src_entry, dest_entry, fs::copy_options::overwrite_existing, ec);
             if (ec) { all_ok = false; break; }
         }
@@ -1209,10 +1209,10 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
     std::call_once(s_compress_warn, [type] {
         THEMIS_WARN("BackupManager::compressPath: STUB — files copied without compression "
                     "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
-                    "(This warning is printed once per process.)", static_cast&lt;int&gt;(type));
+                    "(This warning is printed once per process.)", static_cast<int>(type));
     });
     try {
-        THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast&lt;int&gt;(type));
+        THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for compression: {}", ec.message());
@@ -1235,7 +1235,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
     // NONE / GZIP / no library: raw copy fallback.
 #if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
     try {
-        THEMIS_INFO("Decompressing {} to {} (type={})", src_path, dest_path, static_cast&lt;int&gt;(type));
+        THEMIS_INFO("Decompressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
 
         if (type == CompressionType::NONE) {
             fs::copy(src_path, dest_path,
@@ -1368,7 +1368,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
         THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression "
                     "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
                     "(This warning is printed once per process.)",
-                    static_cast&lt;int&gt;(type));
+                    static_cast<int>(type));
     });
     try {
         THEMIS_INFO("Decompressing {} to {}", src_path, dest_path);
@@ -1434,7 +1434,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     std::vector<unsigned char> plain(BUF), cipher(BUF + 16);
     while (ok && in) {
         in.read(reinterpret_cast<char*>(plain.data()), BUF);
-        int rd = static_cast&lt;int&gt;(in.gcount());
+        int rd = static_cast<int>(in.gcount());
         if (rd <= 0) break;
         int outl = 0;
         if (EVP_EncryptUpdate(ctx, cipher.data(), &outl, plain.data(), rd) != 1) {
@@ -1551,7 +1551,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     if (ok) {
         EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, TAG_LEN, tag);
         if (EVP_DecryptUpdate(ctx, plain.data(), &outl,
-                              ciphertext.data(), static_cast&lt;int&gt;(cipher_len)) != 1) {
+                              ciphertext.data(), static_cast<int>(cipher_len)) != 1) {
             ok = false;
         }
     }
@@ -1605,7 +1605,7 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
     //   THEMIS_ENABLE_AZURE:  Azure Storage C++ (github.com/Azure/azure-storage-cpp)
     // Without a flag the upload is a no-op (development/testing only).
     try {
-        THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast&lt;int&gt;(backend));
+        THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast<int>(backend));
         return true;
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
@@ -1640,7 +1640,7 @@ bool BackupManager::downloadFromCloud(const std::string& cloud_path,
     });
     THEMIS_ERROR("downloadFromCloud: cannot download {} (cloud backend {}) — "
                  "no cloud SDK linked. Restore aborted.",
-                 cloud_path, static_cast&lt;int&gt;(backend));
+                 cloud_path, static_cast<int>(backend));
     ec = std::make_error_code(std::errc::not_supported);
     return false;
 }
@@ -2096,7 +2096,7 @@ Result<std::string> BackupManager::scheduleBackup(
     
     THEMIS_INFO("scheduleBackup: cron={}, type={}, storage={}",
                 schedule_cron, backup_type,
-                static_cast&lt;int&gt;(options.storage));
+                static_cast<int>(options.storage));
 
     if (schedule_cron.empty()) {
         return tl::unexpected(Error(
@@ -2175,7 +2175,7 @@ Result<std::string> BackupManager::uploadBackupToCloud(
     
     THEMIS_INFO("uploadBackupToCloud: local={}, cloud={}, storage={}",
                 local_backup_path, cloud_uri,
-                static_cast&lt;int&gt;(options.storage));
+                static_cast<int>(options.storage));
     
     // Validate local backup path exists
     namespace fs = std::filesystem;
@@ -2239,7 +2239,7 @@ Result<void> BackupManager::restoreFromCloud(
     
     THEMIS_INFO("restoreFromCloud: cloud={}, local={}, storage={}",
                 cloud_uri, local_restore_path,
-                static_cast&lt;int&gt;(options.storage));
+                static_cast<int>(options.storage));
 
     if (cloud_uri.empty()) {
         return tl::unexpected(Error(
@@ -2293,7 +2293,7 @@ Result<std::string> BackupManager::createSnapshot(
 
     namespace fs = std::filesystem;
 
-    // Build snapshot directory: <db_path>/../snapshots/&lt;name&gt;_<YYYYMMDD_HHMMSS>
+    // Build snapshot directory: <db_path>/../snapshots/<name>_<YYYYMMDD_HHMMSS>
     const std::string& db_path = db_wrapper_->getConfig().db_path;
     std::string ts = getTimestamp();
     fs::path snap_dir = fs::path(db_path).parent_path() / "snapshots" /
@@ -2452,3 +2452,4 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
 }
 
 } // namespace themis
+

@@ -782,7 +782,7 @@ void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
         LoopPhase phase,
         std::function<void(LoopPhase, const LoopResult&)> handler) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->loop_handlers[static_cast&lt;int&gt;(phase)] = std::move(handler);
+    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
 }
 
 ContinuousLearningOrchestrator::LoopResult
@@ -913,8 +913,8 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         impl_->active_loop = LoopPhase::IDLE;
         // Store last result for context serialiser
-        impl_->last_loop_results[static_cast&lt;int&gt;(phase)] = result;
-        auto it = impl_->loop_handlers.find(static_cast&lt;int&gt;(phase));
+        impl_->last_loop_results[static_cast<int>(phase)] = result;
+        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
         if (it != impl_->loop_handlers.end() && it->second) {
             it->second(phase, result);
         }
@@ -935,7 +935,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
 // ============================================================================
 
 bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
-    const auto key = static_cast&lt;int&gt;(phase);
+    const auto key = static_cast<int>(phase);
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->loop_last_trigger.find(key);
@@ -1055,10 +1055,10 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     };
 
     static const std::unordered_map<int, std::string> kPhaseNames{
-        {static_cast&lt;int&gt;(LoopPhase::LOOP_1_HNSW_QUERY),   "LOOP_1_HNSW_QUERY"},
-        {static_cast&lt;int&gt;(LoopPhase::LOOP_2_WORKLOAD),      "LOOP_2_WORKLOAD"},
-        {static_cast&lt;int&gt;(LoopPhase::LOOP_3_SCHEMA_INDEX),  "LOOP_3_SCHEMA_INDEX"},
-        {static_cast&lt;int&gt;(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
+        {static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY),   "LOOP_1_HNSW_QUERY"},
+        {static_cast<int>(LoopPhase::LOOP_2_WORKLOAD),      "LOOP_2_WORKLOAD"},
+        {static_cast<int>(LoopPhase::LOOP_3_SCHEMA_INDEX),  "LOOP_3_SCHEMA_INDEX"},
+        {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
     };
 
     std::ostringstream json;
@@ -1077,7 +1077,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
              << "\"metric_delta\":" << res.metric_delta                 << ","
              << "\"adapter\":\"" << escape_json(res.adapter_version)    << "\"";
         // Loop 1 extra fields
-        if (key == static_cast&lt;int&gt;(LoopPhase::LOOP_1_HNSW_QUERY)
+        if (key == static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY)
                 && !snap.loop1_outcome.query_id.empty()) {
             json << ",\"query_id\":\""    << escape_json(snap.loop1_outcome.query_id) << "\""
                  << ",\"latency_ms\":"    << snap.loop1_outcome.latency_ms
@@ -1167,3 +1167,4 @@ void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
 }
 
 } // namespace themis::rag::learning
+

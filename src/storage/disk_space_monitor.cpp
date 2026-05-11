@@ -367,7 +367,7 @@ void DiskSpaceMonitor::updateSpaceLevel(const SpaceInfo& info) {
 
 void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel new_level) {
     spdlog::warn("Disk space level changed from {} to {}", 
-                static_cast&lt;int&gt;(old_level), static_cast&lt;int&gt;(new_level));
+                static_cast<int>(old_level), static_cast<int>(new_level));
     
     // Update statistics
     switch (new_level) {
@@ -388,7 +388,7 @@ void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel n
     if (config_.enable_alerts && shouldSendAlert()) {
         auto info = current_info_;
         std::ostringstream msg;
-        msg << "Disk space " << static_cast&lt;int&gt;(new_level) << ": "
+        msg << "Disk space " << static_cast<int>(new_level) << ": "
             << disk_utils::formatBytes(info.free_bytes) << " free ("
             << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
         
@@ -562,3 +562,4 @@ std::string getDirectory(const std::string& path) {
 
 } // namespace storage
 } // namespace themis
+

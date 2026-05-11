@@ -118,7 +118,7 @@ std::vector<json> TextProcessor::chunk(
             {"text", text},
             {"seq_num", 0},
             {"start_offset", 0},
-            {"end_offset", static_cast&lt;int&gt;(text.size())},
+            {"end_offset", static_cast<int>(text.size())},
             {"token_count", countTokens(text)}
         };
         chunks.push_back(chunk);
@@ -172,8 +172,8 @@ std::vector<json> TextProcessor::chunk(
         json chunk = {
             {"text", chunk_text},
             {"seq_num", seq_num},
-            {"start_offset", static_cast&lt;int&gt;(start_offset)},
-            {"end_offset", static_cast&lt;int&gt;(end_offset)},
+            {"start_offset", static_cast<int>(start_offset)},
+            {"end_offset", static_cast<int>(end_offset)},
             {"token_count", chunk_tokens}
         };
         chunks.push_back(chunk);
@@ -432,3 +432,4 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string& te
 
 } // namespace content
 } // namespace themis
+

@@ -120,7 +120,7 @@ public:
      */
     std::vector<double> extractTokenProbabilities(
         const std::string& prompt,
-        const std::vector&lt;int&gt;& score_tokens
+        const std::vector<int>& score_tokens
     );
     
     /**
@@ -154,3 +154,4 @@ private:
 };
 
 } // namespace themis::rag::judge
+

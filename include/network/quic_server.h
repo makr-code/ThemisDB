@@ -293,7 +293,7 @@ private:
     std::array<uint8_t, 65536> recv_buf_;
     udp::endpoint               sender_endpoint_;
 
-    // Active QUIC connections keyed by "<addr>:&lt;port&gt;" string.
+    // Active QUIC connections keyed by "<addr>:<port>" string.
     mutable std::mutex                            sessions_mutex_;
     std::unordered_map<std::string, ngtcp2_conn*> sessions_;
 
@@ -417,7 +417,7 @@ public:
     // ── Static helpers ────────────────────────────────────────────────────────
 
     /**
-     * @brief Parse a "quic://&lt;host&gt;:&lt;port&gt;" URL.
+     * @brief Parse a "quic://<host>:<port>" URL.
      * @param[in]  url   URL string to parse.
      * @param[out] host  Extracted hostname (may be empty on failure).
      * @param[out] port  Extracted port (0 on failure).
@@ -450,3 +450,4 @@ private:
 }  // namespace themis
 
 #endif  // THEMIS_ENABLE_HTTP3
+

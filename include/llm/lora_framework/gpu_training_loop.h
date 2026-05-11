@@ -84,7 +84,7 @@ struct GPUTrainingConfig {
     
     // Multi-GPU
     bool use_multi_gpu = false;
-    std::vector&lt;int&gt; gpu_ids;
+    std::vector<int> gpu_ids;
     
     // Optimization
     bool use_fused_kernels = true;
@@ -306,3 +306,4 @@ float computeFusedMSELossGradientGPU(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

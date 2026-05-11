@@ -158,13 +158,21 @@ public:
      * support the same algorithm runs on the CPU.
      *
      * @param start_vertex  Source vertex string ID.
-     * @param config        Traversal configuration.
      * @return TraversalResult or an error (e.g. unknown vertex).
      */
     Result<TraversalResult> bfs(
       const std::string& start_vertex
     );
 
+    /**
+     * @brief GPU-accelerated BFS with configuration.
+     *
+     * Performs level-synchronous BFS with custom configuration.
+     *
+     * @param start_vertex  Source vertex string ID.
+     * @param config        Traversal configuration.
+     * @return TraversalResult or an error (e.g. unknown vertex).
+     */
     Result<TraversalResult> bfs(
       const std::string& start_vertex,
       const Config& config
@@ -173,6 +181,18 @@ public:
     /**
      * @brief GPU-accelerated DFS from a single source vertex.
      *
+     * Iterative DFS with an explicit stack.
+     *
+     * @param start_vertex  Source vertex string ID.
+     * @return TraversalResult or an error (e.g. unknown vertex).
+     */
+    Result<TraversalResult> dfs(
+      const std::string& start_vertex
+    );
+
+    /**
+     * @brief GPU-accelerated DFS with configuration.
+     *
      * Iterative DFS with an explicit stack.  Depth is tracked per stack frame
      * and capped at `config.max_depth`.
      *
@@ -180,10 +200,6 @@ public:
      * @param config        Traversal configuration.
      * @return TraversalResult or an error (e.g. unknown vertex).
      */
-    Result<TraversalResult> dfs(
-      const std::string& start_vertex
-    );
-
     Result<TraversalResult> dfs(
       const std::string& start_vertex,
       const Config& config

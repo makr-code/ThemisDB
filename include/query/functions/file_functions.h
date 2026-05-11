@@ -365,7 +365,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
-        int levels = args.size() > 1 ? args[1].get&lt;int&gt;() : 1;
+        int levels = args.size() > 1 ? args[1].get<int>() : 1;
         
         for (int i = 0; i < levels; ++i) {
             size_t lastSep = path.find_last_of("/\\");
@@ -914,7 +914,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         double bytes = args[0].get<double>();
-        int precision = args.size() > 1 ? args[1].get&lt;int&gt;() : 2;
+        int precision = args.size() > 1 ? args[1].get<int>() : 2;
         
         const char* units[] = {"B", "KB", "MB", "GB", "TB", "PB"};
         int unitIndex = 0;
@@ -1025,4 +1025,5 @@ inline void registerFileFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

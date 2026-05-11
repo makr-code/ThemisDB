@@ -220,7 +220,7 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     auto rot = rotateIfNeeded();
     if (!rot.has_value()) return rot;
 
-    // Build line:  &lt;ts&gt; &lt;seq&gt; <event> &lt;key&gt; [<extra>]\n
+    // Build line:  <ts> <seq> <event> <key> [<extra>]\n
     std::ostringstream oss;
     oss << currentTimestamp() << ' '
         << std::setw(12) << std::setfill('0') << next_seq_ << ' '
@@ -297,3 +297,4 @@ Result<void> StorageAuditLogger::flush() {
 }
 
 } // namespace themis
+

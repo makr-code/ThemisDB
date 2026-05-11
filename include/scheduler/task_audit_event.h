@@ -171,7 +171,7 @@ struct TaskAuditEvent {
     bool success = false;                                // Execution success/failure
     std::optional<std::string> error_message;            // Error message (if failed)
     std::optional<std::string> error_type;               // Error type/category
-    std::optional&lt;int&gt; retry_count;                      // Retry attempt number
+    std::optional<int> retry_count;                      // Retry attempt number
     
     // Resource usage
     TaskResourceUsage resource_usage;                    // Resource consumption metrics
@@ -292,3 +292,4 @@ TaskEventType taskEventTypeFromString(const std::string& s);
 
 } // namespace scheduler
 } // namespace themis
+

@@ -126,7 +126,7 @@ public:
                   << " of " << config.worldSize << std::endl;
         
         // Set device for this rank
-        if (!config.deviceIds.empty() && config.rank < static_cast&lt;int&gt;(config.deviceIds.size())) {
+        if (!config.deviceIds.empty() && config.rank < static_cast<int>(config.deviceIds.size())) {
             HIP_CHECK(hipSetDevice(config.deviceIds[config.rank]));
         } else {
             HIP_CHECK(hipSetDevice(config.rank));
@@ -282,7 +282,7 @@ int RCCLVectorBackend::getWorldSize() const {
     return pImpl->config.worldSize;
 }
 
-std::vector&lt;int&gt; RCCLVectorBackend::getDeviceIds() const {
+std::vector<int> RCCLVectorBackend::getDeviceIds() const {
     return pImpl->config.deviceIds;
 }
 
@@ -568,7 +568,7 @@ std::string RCCLVectorBackend::getRCCLVersionString() {
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
-bool RCCLVectorBackend::checkXGMISupport(const std::vector&lt;int&gt;& deviceIds) {
+bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
     if (deviceIds.size() < 2) return false;
     
     // Check if P2P is available between devices (simplified XGMI check)
@@ -615,7 +615,7 @@ void RCCLVectorBackend::shutdown() {}
 bool RCCLVectorBackend::isInitialized() const { return false; }
 int RCCLVectorBackend::getRank() const { return 0; }
 int RCCLVectorBackend::getWorldSize() const { return 1; }
-std::vector&lt;int&gt; RCCLVectorBackend::getDeviceIds() const { return {}; }
+std::vector<int> RCCLVectorBackend::getDeviceIds() const { return {}; }
 bool RCCLVectorBackend::isP2PEnabled() const { return false; }
 bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
                                   ReductionOp op, void* stream) {
@@ -644,9 +644,10 @@ void RCCLVectorBackend::resetStatistics() {}
 bool RCCLVectorBackend::isRCCLAvailable() { return false; }
 int RCCLVectorBackend::getRCCLVersion() { return 0; }
 std::string RCCLVectorBackend::getRCCLVersionString() { return "Not available"; }
-bool RCCLVectorBackend::checkXGMISupport(const std::vector&lt;int&gt;&) { return false; }
+bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>&) { return false; }
 
 #endif // THEMIS_ENABLE_RCCL
 
 } // namespace acceleration
 } // namespace themis
+

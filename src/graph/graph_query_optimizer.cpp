@@ -1525,7 +1525,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     backward_distances[std::string(target_vertex)] = 0;
     
     std::optional<std::string> meeting_point;
-    int best_distance = std::numeric_limits&lt;int&gt;::max();
+    int best_distance = std::numeric_limits<int>::max();
     
     // [GQ-1] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
     // loop had no timeout check, causing indefinite blocking on dense or cyclic graphs.
@@ -2365,7 +2365,7 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     std::string_view target,
     const QueryConstraints& constraints) const {
     
-    std::string key = std::to_string(static_cast&lt;int&gt;(pattern)) + ":" +
+    std::string key = std::to_string(static_cast<int>(pattern)) + ":" +
                      std::string(start) + ":" + std::string(target);
     
     if (constraints.max_depth.has_value()) {
@@ -2426,7 +2426,7 @@ std::string GraphQueryOptimizer::generateStructuralCacheKey(
     // Structural key: captures pattern + all constraint parameters that affect
     // plan selection, but omits specific vertex IDs.  Two queries sharing the
     // same structural key will receive an identical OptimizationPlan.
-    std::string key = "struct:" + std::to_string(static_cast&lt;int&gt;(pattern));
+    std::string key = "struct:" + std::to_string(static_cast<int>(pattern));
 
     if (depth_hint.has_value()) {
         key += ":depth=" + std::to_string(depth_hint.value());
@@ -2932,3 +2932,4 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
 
 } // namespace graph
 } // namespace themis
+

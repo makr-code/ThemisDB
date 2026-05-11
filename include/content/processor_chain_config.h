@@ -179,9 +179,9 @@ public:
                 if (v.contains("enabled") && v["enabled"].is_boolean())
                     s.enabled = v["enabled"].get<bool>();
                 if (v.contains("max_retries") && v["max_retries"].is_number_integer())
-                    s.max_retries = v["max_retries"].get&lt;int&gt;();
+                    s.max_retries = v["max_retries"].get<int>();
                 if (v.contains("retry_delay_ms") && v["retry_delay_ms"].is_number_integer())
-                    s.retry_delay_ms = v["retry_delay_ms"].get&lt;int&gt;();
+                    s.retry_delay_ms = v["retry_delay_ms"].get<int>();
                 if (v.contains("continue_on_error") && v["continue_on_error"].is_boolean())
                     s.continue_on_error = v["continue_on_error"].get<bool>();
             }
@@ -313,3 +313,4 @@ private:
 
 } // namespace content
 } // namespace themis
+

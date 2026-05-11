@@ -156,7 +156,7 @@ public:
         int64_t expiration_date = 0;               // When rule expires
         int grace_period_days = 7;                 // Days before automatic disable
         bool auto_disable_enabled = true;          // Whether to auto-disable on expiration
-        std::vector&lt;int&gt; warning_days = {30, 14, 7}; // Days before expiration to warn
+        std::vector<int> warning_days = {30, 14, 7}; // Days before expiration to warn
         
         nlohmann::json toJson() const;
         static ExpirationConfig fromJson(const nlohmann::json& j);
@@ -285,3 +285,4 @@ private:
 
 } // namespace governance
 } // namespace themis
+

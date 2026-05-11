@@ -217,7 +217,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             oss << "themis_";
             for (size_t i = 0; i < sizeof(randomBytes); ++i) {
                 oss << std::hex << std::setw(2) << std::setfill('0') 
-                    << static_cast&lt;int&gt;(randomBytes[i]);
+                    << static_cast<int>(randomBytes[i]);
             }
             oss << ".tmp";
             std::string uniqueName = oss.str();
@@ -551,3 +551,4 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
 
 } // namespace updates
 } // namespace themis
+

@@ -77,7 +77,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     // Initialize logger
     auto logLevel = ILogger::levelFromString(config.logLevel);
     utils::Logger::init(config.logFile, static_cast<utils::Logger::Level>(
-        static_cast&lt;int&gt;(logLevel)));
+        static_cast<int>(logLevel)));
     std::unique_ptr<ILogger> logger;
     if (config.loggerAdapter == "noop") {
         logger = std::make_unique<NoOpLogger>();
@@ -471,3 +471,4 @@ void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
 } // namespace concerns
 } // namespace core
 } // namespace themis
+

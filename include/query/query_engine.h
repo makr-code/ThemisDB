@@ -722,7 +722,7 @@ public:
      *
      * Scans all keys in the underlying RocksDB and returns the unique
      * collection or table names extracted from the key schema prefix
-     * (e.g. keys of the form `doc:&lt;name&gt;:<pk>` or `rel:&lt;name&gt;:<pk>`).
+     * (e.g. keys of the form `doc:<name>:<pk>` or `rel:<name>:<pk>`).
      *
      * Returns an empty vector when the engine was constructed with the DI
      * constructor and no legacy RocksDB instance is available.
@@ -840,3 +840,4 @@ struct QueryEngine::EvaluationContext {
 };
 
 } // namespace themis
+

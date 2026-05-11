@@ -85,7 +85,7 @@ nlohmann::json KeysApiHandler::listKeys() {
         
         return {
             {"items", items},
-            {"total", static_cast&lt;int&gt;(items.size())}
+            {"total", static_cast<int>(items.size())}
         };
         
     } catch (const std::exception& ex) {
@@ -143,3 +143,4 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
 }
 
 }} // namespace themis::server
+

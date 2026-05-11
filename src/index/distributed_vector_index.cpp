@@ -298,7 +298,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
                   return a.distance < b.distance;
               });
 
-    if (static_cast&lt;int&gt;(merged.size()) > k) {
+    if (static_cast<int>(merged.size()) > k) {
         merged.resize(static_cast<size_t>(k));
     }
     return merged;
@@ -363,3 +363,4 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
 
 } // namespace index
 } // namespace themis
+

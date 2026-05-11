@@ -75,14 +75,14 @@ namespace conversion {
      * @throws ConversionException if value exceeds int range
      */
     inline int safe_size_to_int(size_t value) {
-        if (value > static_cast<size_t>(std::numeric_limits&lt;int&gt;::max())) {
+        if (value > static_cast<size_t>(std::numeric_limits<int>::max())) {
             std::string msg = "Overflow: size_t value " + std::to_string(value) + 
                             " exceeds int max (" + 
-                            std::to_string(std::numeric_limits&lt;int&gt;::max()) + ")";
+                            std::to_string(std::numeric_limits<int>::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
             throw ConversionException(msg);
         }
-        return static_cast&lt;int&gt;(value);
+        return static_cast<int>(value);
     }
 
     /**
@@ -111,14 +111,14 @@ namespace conversion {
      * @throws ConversionException if value exceeds int range
      */
     inline int safe_uint64_to_int(uint64_t value) {
-        if (value > static_cast<uint64_t>(std::numeric_limits&lt;int&gt;::max())) {
+        if (value > static_cast<uint64_t>(std::numeric_limits<int>::max())) {
             std::string msg = "Overflow: uint64_t value " + std::to_string(value) + 
                             " exceeds int max (" + 
-                            std::to_string(std::numeric_limits&lt;int&gt;::max()) + ")";
+                            std::to_string(std::numeric_limits<int>::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
             throw ConversionException(msg);
         }
-        return static_cast&lt;int&gt;(value);
+        return static_cast<int>(value);
     }
 
     /**
@@ -185,12 +185,12 @@ namespace conversion {
      * @param value Source value
      * @return Converted value or std::nullopt on overflow
      */
-    inline std::optional&lt;int&gt; try_size_to_int(size_t value) noexcept {
-        if (value > static_cast<size_t>(std::numeric_limits&lt;int&gt;::max())) {
+    inline std::optional<int> try_size_to_int(size_t value) noexcept {
+        if (value > static_cast<size_t>(std::numeric_limits<int>::max())) {
             spdlog::warn("Type conversion: size_t {} exceeds int max", value);
             return std::nullopt;
         }
-        return static_cast&lt;int&gt;(value);
+        return static_cast<int>(value);
     }
 
     /**
@@ -315,7 +315,7 @@ namespace conversion {
      * @return true if index is valid (non-negative and within bounds)
      * 
      * @par Example
-     *   std::vector&lt;int&gt; vec = {1, 2, 3};
+     *   std::vector<int> vec = {1, 2, 3};
      *   int index = -1;
      *   if (is_valid_index(index, vec.size())) {
      *       // Safe to access vec[index]
@@ -365,3 +365,4 @@ namespace conversion {
 
 } // namespace utils
 } // namespace themis
+

@@ -57,7 +57,7 @@ void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
     user_history.push_back(interaction);
 
     THEMIS_DEBUG("PersonalizedRanker: recorded {} interaction for user '{}' on doc '{}'",
-                 static_cast&lt;int&gt;(interaction.type),
+                 static_cast<int>(interaction.type),
                  interaction.user_id,
                  interaction.document_id);
 }
@@ -170,3 +170,4 @@ void PersonalizedRanker::clear() {
 }
 
 } // namespace themis
+

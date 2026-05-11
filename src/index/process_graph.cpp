@@ -974,7 +974,7 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
                 edge.from_node = from;
                 edge.to_node = entity.getFieldAsString("_to").value_or("");
                 edge.is_default = entity.getFieldAsBool("is_default").value_or(false);
-                edge.priority = static_cast&lt;int&gt;(entity.getFieldAsInt("priority").value_or(0));
+                edge.priority = static_cast<int>(entity.getFieldAsInt("priority").value_or(0));
                 auto cond = entity.getFieldAsString("condition");
                 if (cond) edge.condition_expression = *cond;
                 outgoing.push_back(edge);
@@ -1827,7 +1827,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
         // Parse required count
         auto reqCount = entity.getFieldAsInt("required_count");
         if (reqCount) {
-            hyperedge.required_count = static_cast&lt;int&gt;(*reqCount);
+            hyperedge.required_count = static_cast<int>(*reqCount);
         }
         
         // Parse activated sources (runtime state)
@@ -2562,9 +2562,9 @@ ProcessGraphManager::detectAnomalies(
                     ar.anomaly_type  = "duration_outlier";
                     ar.anomaly_score = std::min(1.0f, static_cast<float>(zScore / 10.0));
                     ar.description   = "Token at '" + ti.currentNode +
-                                       "' is running " + std::to_string(static_cast&lt;int&gt;(zScore)) +
+                                       "' is running " + std::to_string(static_cast<int>(zScore)) +
                                        " stddevs above mean (" +
-                                       std::to_string(static_cast&lt;int&gt;(bl.mean)) + " ms)";
+                                       std::to_string(static_cast<int>(bl.mean)) + " ms)";
                     result.push_back(std::move(ar));
                 }
             }
@@ -3317,3 +3317,4 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
+

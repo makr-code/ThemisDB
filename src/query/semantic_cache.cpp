@@ -423,10 +423,10 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     }
     
     auto hitOpt = entity.getFieldAsInt("hit_count");
-    if (hitOpt.has_value()) entry.hit_count = static_cast&lt;int&gt;(*hitOpt);
+    if (hitOpt.has_value()) entry.hit_count = static_cast<int>(*hitOpt);
     
     auto sizeOpt = entity.getFieldAsInt("result_size");
-    if (sizeOpt.has_value()) entry.result_size = static_cast&lt;int&gt;(*sizeOpt);
+    if (sizeOpt.has_value()) entry.result_size = static_cast<int>(*sizeOpt);
     
     return entry;
 }
@@ -564,3 +564,4 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
 }
 
 } // namespace themis
+

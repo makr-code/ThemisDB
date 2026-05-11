@@ -209,7 +209,7 @@ static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
 static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
     if (!u) return 0;
     auto* pass = static_cast<std::string*>(u);
-    int len = static_cast&lt;int&gt;(pass->size());
+    int len = static_cast<int>(pass->size());
     if (len > size) len = size;
     std::memcpy(buf, pass->data(), len);
     return len;
@@ -407,7 +407,7 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
 // Extracts the serial number from a PEM-encoded certificate string.
 // Returns empty string on failure.
 static std::string serial_from_cert_pem(const std::string& cert_pem) {
-    BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), static_cast&lt;int&gt;(cert_pem.size())));
+    BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
     if (!bio) return {};
     X509Ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     if (!cert) return {};
@@ -874,3 +874,4 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
 
 } // namespace utils
 } // namespace themis
+

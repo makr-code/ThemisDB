@@ -72,15 +72,15 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
         try {
             llm::LlamaWrapper::Config wrapper_cfg;
             if (config.contains("n_gpu_layers") && config["n_gpu_layers"].is_number())
-                wrapper_cfg.n_gpu_layers = config["n_gpu_layers"].get&lt;int&gt;();
+                wrapper_cfg.n_gpu_layers = config["n_gpu_layers"].get<int>();
             if (config.contains("n_ctx") && config["n_ctx"].is_number())
-                wrapper_cfg.n_ctx = config["n_ctx"].get&lt;int&gt;();
+                wrapper_cfg.n_ctx = config["n_ctx"].get<int>();
             else if (config.contains("context_length") && config["context_length"].is_number())
-                wrapper_cfg.n_ctx = static_cast&lt;int&gt;(config["context_length"].get<size_t>());
+                wrapper_cfg.n_ctx = static_cast<int>(config["context_length"].get<size_t>());
             if (config.contains("n_batch") && config["n_batch"].is_number())
-                wrapper_cfg.n_batch = config["n_batch"].get&lt;int&gt;();
+                wrapper_cfg.n_batch = config["n_batch"].get<int>();
             if (config.contains("n_threads") && config["n_threads"].is_number())
-                wrapper_cfg.n_threads = config["n_threads"].get&lt;int&gt;();
+                wrapper_cfg.n_threads = config["n_threads"].get<int>();
             // Disable the response cache to avoid an unconditional RocksDB
             // initialisation during startup (matches LlamaWrapper default comment).
             wrapper_cfg.enable_response_cache = false;
@@ -309,7 +309,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         }
         response.text             = text;
         response.success          = true;
-        response.tokens_generated = static_cast&lt;int&gt;(text.size() / 4 + 1);
+        response.tokens_generated = static_cast<int>(text.size() / 4 + 1);
         response.trace_id         = request.trace_id;
         response.span_id          = request.span_id;
         return response;
@@ -526,3 +526,4 @@ void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
 #endif
+

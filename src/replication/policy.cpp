@@ -145,12 +145,12 @@ ReplicationPolicy::validatePolicy(const Policy& policy) const
 
     const auto replicas   = manager_->getReplicas();
     const int  healthy    = countHealthy(replicas);
-    const int  total      = static_cast&lt;int&gt;(replicas.size());
+    const int  total      = static_cast<int>(replicas.size());
     const auto datacenters = collectDatacenters(replicas);
-    const int  dc_count   = static_cast&lt;int&gt;(datacenters.size());
+    const int  dc_count   = static_cast<int>(datacenters.size());
 
     // 1. Minimum replicas
-    if (healthy < static_cast&lt;int&gt;(policy.min_replicas)) {
+    if (healthy < static_cast<int>(policy.min_replicas)) {
         result.is_valid = false;
         result.violations.push_back(
             "Requires at least " + std::to_string(policy.min_replicas) +
@@ -159,14 +159,14 @@ ReplicationPolicy::validatePolicy(const Policy& policy) const
     }
 
     // 2. Desired replicas (warning, not a hard violation)
-    if (healthy < static_cast&lt;int&gt;(policy.desired_replicas)) {
+    if (healthy < static_cast<int>(policy.desired_replicas)) {
         result.recommendations.push_back(
             "Desired " + std::to_string(policy.desired_replicas) +
             " replicas; only " + std::to_string(healthy) + " are available.");
     }
 
     // 3. Minimum datacenters
-    if (dc_count < static_cast&lt;int&gt;(policy.min_datacenters)) {
+    if (dc_count < static_cast<int>(policy.min_datacenters)) {
         result.is_valid = false;
         result.violations.push_back(
             "Requires replicas in at least " +
@@ -184,7 +184,7 @@ ReplicationPolicy::validatePolicy(const Policy& policy) const
     }
 
     // 5. Write quorum feasibility
-    if (static_cast&lt;int&gt;(policy.write_quorum) > healthy) {
+    if (static_cast<int>(policy.write_quorum) > healthy) {
         result.is_valid = false;
         result.violations.push_back(
             "write_quorum=" + std::to_string(policy.write_quorum) +
@@ -212,3 +212,4 @@ ReplicationPolicy::validatePolicy(const Policy& policy) const
 
 } // namespace replication
 } // namespace themisdb
+

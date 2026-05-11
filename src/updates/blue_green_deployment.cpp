@@ -244,9 +244,9 @@ void BlueGreenDeployment::reportError() {
                 if (rate > config_.error_rate_threshold) {
                     trigger_rollback = true;
                     reason = "error rate " +
-                             std::to_string(static_cast&lt;int&gt;(rate * 100)) +
+                             std::to_string(static_cast<int>(rate * 100)) +
                              "% exceeds threshold " +
-                             std::to_string(static_cast&lt;int&gt;(
+                             std::to_string(static_cast<int>(
                                  config_.error_rate_threshold * 100)) +
                              "%";
                 }
@@ -336,3 +336,4 @@ void BlueGreenDeployment::setRollbackCallback(RollbackCallback cb) {
 
 } // namespace updates
 } // namespace themis
+

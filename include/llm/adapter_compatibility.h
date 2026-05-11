@@ -183,9 +183,9 @@ private:
     
     // Helper: Parse version string
     struct VersionParts {
-        std::optional&lt;int&gt; major;
-        std::optional&lt;int&gt; minor;
-        std::optional&lt;int&gt; patch;
+        std::optional<int> major;
+        std::optional<int> minor;
+        std::optional<int> patch;
         std::string variant;  // e.g., "instruct", "chat"
     };
     
@@ -242,3 +242,4 @@ public:
 
 } // namespace llm
 } // namespace themis
+

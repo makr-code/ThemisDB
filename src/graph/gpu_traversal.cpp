@@ -79,7 +79,7 @@ bool runBFSCuda(
     const std::vector<uint8_t>& forbidden_mask,
     const themis::graph::GPUGraphTraversal::Config& config,
     themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector&lt;int&gt;& out_distances);
+    std::vector<int>& out_distances);
 
 bool runDFSCuda(
     const std::vector<uint32_t>& row_offsets,
@@ -88,7 +88,7 @@ bool runDFSCuda(
     const std::vector<uint8_t>& forbidden_mask,
     const themis::graph::GPUGraphTraversal::Config& config,
     themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector&lt;int&gt;& out_order);
+    std::vector<int>& out_order);
 } // namespace cuda_impl
 #endif
 
@@ -101,7 +101,7 @@ bool runBFSCudaIfAvailable(
     [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
     [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
     [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
-    [[maybe_unused]] std::vector&lt;int&gt;& out_distances) {
+    [[maybe_unused]] std::vector<int>& out_distances) {
 
 #if defined(THEMIS_ENABLE_CUDA)
     return cuda_impl::runBFSCuda(
@@ -118,7 +118,7 @@ bool runDFSCudaIfAvailable(
     [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
     [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
     [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
-    [[maybe_unused]] std::vector&lt;int&gt;& out_order) {
+    [[maybe_unused]] std::vector<int>& out_order) {
 
 #if defined(THEMIS_ENABLE_CUDA)
     return cuda_impl::runDFSCuda(
@@ -266,7 +266,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(
     }
 
     const uint32_t n = static_cast<uint32_t>(vertex_count_);
-    std::vector&lt;int&gt; dist(n, -1);
+    std::vector<int> dist(n, -1);
     dist[start_id] = 0;
 
     TraversalResult result;
@@ -282,7 +282,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(
         vertex_count_ >= config.min_vertices_for_gpu;
 
     if (can_use_gpu) {
-        std::vector&lt;int&gt; gpu_dist;
+        std::vector<int> gpu_dist;
         if (runBFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_dist)) {
             result.used_cpu_fallback = false;
 
@@ -383,7 +383,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(
     }
 
     const uint32_t n = static_cast<uint32_t>(vertex_count_);
-    std::vector&lt;int&gt; disc_order(n, -1);
+    std::vector<int> disc_order(n, -1);
 
     std::vector<uint8_t> forbidden_mask(n, 0);
     for (uint32_t id : forbidden_ids) {
@@ -398,7 +398,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(
     result.used_cpu_fallback = true;
 
     if (can_use_gpu) {
-        std::vector&lt;int&gt; gpu_order;
+        std::vector<int> gpu_order;
         if (runDFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_order)) {
             result.used_cpu_fallback = false;
 
@@ -536,3 +536,4 @@ Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(
 
 } // namespace graph
 } // namespace themis
+

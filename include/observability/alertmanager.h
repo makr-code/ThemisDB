@@ -201,7 +201,7 @@ private:
 
     // Send a JSON payload to the Alertmanager with retry logic.
     // Returns the HTTP status code on success or an Error on final failure.
-    Result&lt;int&gt; postWithRetry(const std::string& path, const std::string& json_body);
+    Result<int> postWithRetry(const std::string& path, const std::string& json_body);
 };
 
 /**
@@ -349,3 +349,4 @@ private:
 
 } // namespace observability
 } // namespace themis
+

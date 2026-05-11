@@ -404,7 +404,7 @@ void AQLQueryValidator::checkUnknownFields(
         }
     }
 
-    // Extract <var>.&lt;field&gt; accesses
+    // Extract <var>.<field> accesses
     static const std::regex field_access_re(
         R"(\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*))",
         std::regex::icase
@@ -465,3 +465,4 @@ ValidationResult AQLQueryValidator::validate(
 
 } // namespace aql
 } // namespace themis
+

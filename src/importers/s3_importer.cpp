@@ -153,7 +153,7 @@ bool S3Importer::initialize(const std::string& config) {
             s3_config_.request_timeout_ms =
                 cfg["request_timeout_ms"].get<long>();
         if (cfg.contains("max_retries"))
-            s3_config_.max_retries = cfg["max_retries"].get&lt;int&gt;();
+            s3_config_.max_retries = cfg["max_retries"].get<int>();
 
         // Flat-file settings forwarded to FlatFileImporter.
         json flat_cfg = json::object();
@@ -688,3 +688,4 @@ themis_plugin_destroy_s3_importer(themis::plugins::IThemisPlugin* plugin) {
 }
 
 } // extern "C"
+

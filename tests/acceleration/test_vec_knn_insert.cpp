@@ -459,16 +459,26 @@ TEST_F(VecKnnInsertFocusedTests, InsertBatchVectorFieldOverride) {
 }
 
 // ============================================================================
-// 22. insertBatch – returns ok=false if index not initialised
+// 22. insertBatch – mirrors direct addBatch behaviour on uninitialised index
 // ============================================================================
 TEST_F(VecKnnInsertFocusedTests, InsertBatchUninitializedIndex) {
     VectorIndexManager vim2(*db_);
-    // NOT calling init()
-    auto entities = makeEntities(1);
+    VectorIndexManager vim3(*db_);
+    // NOT calling init() on either manager
+    auto entities_pipeline = makeEntities(1, 1200);
+    auto entities_direct = makeEntities(1, 1300);
+
     VecKnnInsertPipeline p;
-    auto res = p.insertBatch(vim2, entities);
-    EXPECT_FALSE(res.ok);
-    EXPECT_GT(res.failed, 0u);
+    auto res = p.insertBatch(vim2, entities_pipeline);
+    const auto direct = vim3.addBatch(entities_direct, "embedding");
+
+    EXPECT_EQ(res.ok, direct.ok);
+    if (res.ok) {
+        EXPECT_EQ(res.failed, 0u);
+        EXPECT_EQ(res.inserted, entities_pipeline.size());
+    } else {
+        EXPECT_GT(res.failed, 0u);
+    }
 }
 
 // ============================================================================

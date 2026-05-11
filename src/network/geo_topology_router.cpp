@@ -49,7 +49,7 @@ GeoTopologyRouter::GeoTopologyRouter(
                 "datacenter='{}' strategy={}",
                 config_.local_region, config_.local_zone,
                 config_.local_datacenter,
-                static_cast&lt;int&gt;(config_.strategy));
+                static_cast<int>(config_.strategy));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -298,3 +298,4 @@ GeoTopologyRouter::Stats GeoTopologyRouter::getStats() const {
 }
 
 }  // namespace themis::network
+

@@ -471,7 +471,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
 ) {
     auto span = Tracer::startSpan("GET /transaction/:id/explain");
     // GET /transaction/{id}/explain
-    // Extract the transaction ID from the URL path: /transaction/&lt;id&gt;/explain
+    // Extract the transaction ID from the URL path: /transaction/<id>/explain
     try {
         std::string target = std::string(req.target());
         auto qpos = target.find('?');
@@ -546,7 +546,7 @@ http::response<http::string_body> TransactionApiHandler::makeErrorResponse(
     json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -566,3 +566,4 @@ http::response<http::string_body> TransactionApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

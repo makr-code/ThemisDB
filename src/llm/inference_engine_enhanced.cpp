@@ -627,7 +627,7 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         // Compute real embedding for embedding-based similarity lookup
         std::vector<float> embedding = computeEmbeddingForCache(prompt);
 
-        std::vector&lt;int&gt; tokens = estimateTokenSequence(prompt);
+        std::vector<int> tokens = estimateTokenSequence(prompt);
 
         // Use the prompt text as the cache key so that HNSW fuzzy matching can
         // locate this entry when a semantically similar (but not identical) prompt
@@ -1414,7 +1414,7 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
 
             InferenceResponse response;
             response.text = cached->generated_text;
-            response.tokens_prompt = static_cast&lt;int&gt;(cached->token_ids.size());
+            response.tokens_prompt = static_cast<int>(cached->token_ids.size());
             response.cache_hit = true;
 
             return response;
@@ -1436,7 +1436,7 @@ void InferenceEngineEnhanced::updateCache(
     // Compute real embedding for future similarity-based lookups
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
 
-    std::vector&lt;int&gt; tokens = estimateTokenSequence(request.prompt);
+    std::vector<int> tokens = estimateTokenSequence(request.prompt);
 
     // KV cache tensors would be extracted from the model state in a full implementation
     std::vector<float> kv_cache;
@@ -1478,14 +1478,14 @@ std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::
 }
 
 // static
-std::vector&lt;int&gt; InferenceEngineEnhanced::estimateTokenSequence(const std::string& text) {
+std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::string& text) {
     // Lightweight approximation: ~4 UTF-8 characters per token (BPE heuristic).
     // The ILLMPlugin interface does not expose a standalone tokenize() method
     // at this abstraction level, so an exact token count is not available here.
     // Sequential IDs (0, 1, 2, …) are used as placeholder token identifiers;
     // the prefix cache uses them only for the token_ids.size() field.
     const size_t estimated_count = std::max<size_t>(1, text.size() / 4);
-    std::vector&lt;int&gt; tokens(estimated_count);
+    std::vector<int> tokens(estimated_count);
     std::iota(tokens.begin(), tokens.end(), 0);
     return tokens;
 }
@@ -1756,7 +1756,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         try {
             const nlohmann::json body = {
                 {"prompt",     request.prompt},
-                {"max_tokens", static_cast&lt;int&gt;(K)},
+                {"max_tokens", static_cast<int>(K)},
                 {"model_id",   config_.speculative_draft_model_id}
             };
             const auto result = remote_exec->post(
@@ -1788,8 +1788,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             draft_result.vocab_size = vocab_size;
             for (size_t i = 0; i < K; ++i) {
                 const int tid = (i < remote_text.size())
-                    ? (static_cast&lt;int&gt;(static_cast<unsigned char>(remote_text[i])) %
-                       static_cast&lt;int&gt;(vocab_size))
+                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
+                       static_cast<int>(vocab_size))
                     : 0;
                 draft_result.tokens.push_back(tid);
                 std::vector<float> row(vocab_size, kBaseline);
@@ -1875,8 +1875,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                 const auto tgt_resp = target_plugin->generate(one_tok_req);
                 if (!tgt_resp.text.empty()) {
                     target_pred_token =
-                        static_cast&lt;int&gt;(static_cast<unsigned char>(tgt_resp.text[0])) %
-                        static_cast&lt;int&gt;(vocab_size);
+                        static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
+                        static_cast<int>(vocab_size);
                 }
             } catch (const std::exception&) {
                 // Non-fatal: keep target_pred_token = 0.
@@ -1886,7 +1886,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         auto make_target_row = [&](int peak_token) {
             std::vector<float> row(vocab_size, kTargetBaseline);
             row[static_cast<size_t>(
-                std::max(0, peak_token) % static_cast&lt;int&gt;(vocab_size))] = kTargetPeak;
+                std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
             return row;
         };
 
@@ -1896,7 +1896,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         }
         // Bonus position: use a token shifted by 1 to distinguish from verification.
         target_logit_matrix[K] = make_target_row(
-            (target_pred_token + 1) % static_cast&lt;int&gt;(vocab_size));
+            (target_pred_token + 1) % static_cast<int>(vocab_size));
     }
 
     // ── Acceptance / rejection loop ───────────────────────────────────────
@@ -2047,3 +2047,4 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
+

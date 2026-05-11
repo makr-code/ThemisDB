@@ -122,7 +122,7 @@ static std::string normaliseUrl(const std::string& url) {
 }
 
 /// Extracts plain text from an HTML body by stripping tags.
-/// Handles basic entity decoding for &amp; &lt; &gt; &quot; &apos;
+/// Handles basic entity decoding for &amp; < > &quot; &apos;
 static std::string htmlToText(const std::string& html) {
     std::string text;
     text.reserve(html.size() / 2);
@@ -165,8 +165,8 @@ static std::string htmlToText(const std::string& html) {
         // Basic entity decoding
         if (c == '&') {
             if (i + 4 < html.size() && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "&lt;")   { text += '<'; i += 3; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "&gt;")   { text += '>'; i += 3; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
             if (i + 5 < html.size() && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
             if (i + 5 < html.size() && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
         }
@@ -606,7 +606,7 @@ private:
         curl_easy_cleanup(curl);
 
         if (res != CURLE_OK) return {0, {}};
-        return {static_cast&lt;int&gt;(http_code), std::move(response_body)};
+        return {static_cast<int>(http_code), std::move(response_body)};
 #else
         return {0, {}};
 #endif
@@ -661,3 +661,4 @@ void WebCrawlerConnector::setHttpFetchForTesting(HttpFetchFn fn) {
 
 } // namespace ingestion
 } // namespace themis
+

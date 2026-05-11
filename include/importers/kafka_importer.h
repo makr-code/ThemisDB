@@ -82,7 +82,7 @@ namespace importers {
  * - Credentials (`sasl_username`, `sasl_password`) are never written to log
  *   messages, error strings, or checkpoint files.
  * - The sanitised connection identifier used in observability output is
- *   `kafka://<broker-list>/&lt;topic&gt;` (no credentials).
+ *   `kafka://<broker-list>/<topic>` (no credentials).
  *
  * ### Example (fluent build + streaming callback)
  * @code
@@ -185,7 +185,7 @@ public:
     /**
      * @brief Return an empty schema (Kafka topics have no fixed schema).
      *
-     * Returns `{"type": "kafka", "topic": "&lt;topic&gt;", "schema": null}`.
+     * Returns `{"type": "kafka", "topic": "<topic>", "schema": null}`.
      */
     json getSourceSchema(const std::string& source_path) override;
 
@@ -330,3 +330,4 @@ private:
 
 } // namespace importers
 } // namespace themis
+

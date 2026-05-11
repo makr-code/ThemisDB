@@ -366,7 +366,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     const uint32_t mask = (1u << bits) - 1u;
 
     const int64_t qw_cols = (out_features + vpw - 1) / vpw;   // packed cols in qweight/qzeros
-    const int     n_groups = static_cast&lt;int&gt;((in_features + group_size - 1) / group_size);
+    const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
 
     const auto* qw = static_cast<const uint32_t*>(qweight_packed);
     const auto* qz = static_cast<const uint32_t*>(qzeros_packed);
@@ -378,11 +378,11 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     std::vector<float> out_f(static_cast<size_t>(in_features * out_features));
 
     for (int64_t i = 0; i < in_features; ++i) {
-        const int g = static_cast&lt;int&gt;(i / group_size);
+        const int g = static_cast<int>(i / group_size);
 
         for (int64_t j = 0; j < out_features; ++j) {
             const int64_t pc = j / vpw;        // packed column in qweight/qzeros
-            const int     b  = static_cast&lt;int&gt;(j % vpw);  // bit offset
+            const int     b  = static_cast<int>(j % vpw);  // bit offset
 
             // Unpack weight
             const uint32_t w_packed = qw[static_cast<size_t>(i * qw_cols + pc)];
@@ -430,7 +430,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     const uint32_t mask = (1u << bits) - 1u;
 
     const int64_t qz_cols = (out_features + vpw - 1) / vpw;
-    const int     n_groups = static_cast&lt;int&gt;((in_features + group_size - 1) / group_size);
+    const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
 
     const auto* qw = static_cast<const uint32_t*>(qweight_packed);
     const auto* qz = static_cast<const uint32_t*>(qzeros_packed);
@@ -443,8 +443,8 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
 
     for (int64_t i = 0; i < in_features; ++i) {
         const int64_t r = i / vpw;   // packed row in qweight
-        const int     b = static_cast&lt;int&gt;(i % vpw); // bit offset within packed row
-        const int     g = static_cast&lt;int&gt;(i / group_size);
+        const int     b = static_cast<int>(i % vpw); // bit offset within packed row
+        const int     g = static_cast<int>(i / group_size);
 
         for (int64_t j = 0; j < out_features; ++j) {
             // Unpack weight
@@ -453,7 +453,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
 
             // Unpack zero-point
             const int64_t pc = j / vpw;    // packed col in qzeros
-            const int     bz = static_cast&lt;int&gt;(j % vpw);
+            const int     bz = static_cast<int>(j % vpw);
             const uint32_t z_packed = qz[static_cast<size_t>(g * qz_cols + pc)];
             const float z = static_cast<float>((z_packed >> (bz * bits)) & mask);
 
@@ -487,9 +487,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("w_bit"))     bits       = qcfg["w_bit"].get&lt;int&gt;();
-                if (qcfg.contains("bits"))      bits       = qcfg["bits"].get&lt;int&gt;();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get&lt;int&gt;();
+                if (qcfg.contains("w_bit"))     bits       = qcfg["w_bit"].get<int>();
+                if (qcfg.contains("bits"))      bits       = qcfg["bits"].get<int>();
+                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
             }
         }
     }
@@ -628,8 +628,8 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("bits"))       bits       = qcfg["bits"].get&lt;int&gt;();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get&lt;int&gt;();
+                if (qcfg.contains("bits"))       bits       = qcfg["bits"].get<int>();
+                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
             }
         }
     }
@@ -734,3 +734,4 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
 
 } // namespace llm
 } // namespace themis
+

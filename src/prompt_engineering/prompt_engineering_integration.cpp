@@ -494,7 +494,7 @@ void PromptEngineeringIntegration::afterExecution(
                 reflection_result.final_response,
                 FeedbackType::USER_POSITIVE,
                 "Reflection tuning improved quality by " +
-                    std::to_string(static_cast&lt;int&gt;(
+                    std::to_string(static_cast<int>(
                         reflection_result.quality_improvement * 100)) + "%",
                 static_cast<float>(reflection_result.quality_improvement));
         }
@@ -666,3 +666,4 @@ std::string PromptEngineeringIntegration::generateExecutionId() {
 
 } // namespace prompt_engineering
 } // namespace themis
+

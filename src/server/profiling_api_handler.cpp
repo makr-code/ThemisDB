@@ -272,7 +272,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
                 config.profile_all_queries = qp["profile_all_queries"];
             if (qp.contains("slow_query_threshold_ms")) 
                 config.slow_query_threshold = 
-                    std::chrono::milliseconds(qp["slow_query_threshold_ms"].get&lt;int&gt;());
+                    std::chrono::milliseconds(qp["slow_query_threshold_ms"].get<int>());
             
             query_profiler_->set_config(config);
         }
@@ -285,7 +285,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             if (sp.contains("enabled")) config.enabled = sp["enabled"];
             if (sp.contains("slow_op_threshold_ms")) 
                 config.slow_op_threshold = 
-                    std::chrono::milliseconds(sp["slow_op_threshold_ms"].get&lt;int&gt;());
+                    std::chrono::milliseconds(sp["slow_op_threshold_ms"].get<int>());
             
             storage_profiler_->set_config(config);
         }
@@ -297,7 +297,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             
             if (an.contains("slow_query_threshold_ms"))
                 config.slow_query_threshold = 
-                    std::chrono::milliseconds(an["slow_query_threshold_ms"].get&lt;int&gt;());
+                    std::chrono::milliseconds(an["slow_query_threshold_ms"].get<int>());
             if (an.contains("cache_hit_rate_threshold"))
                 config.cache_hit_rate_threshold = an["cache_hit_rate_threshold"];
             
@@ -362,3 +362,4 @@ int ProfilingApiHandler::get_query_param_int(const std::string& target,
 
 } // namespace server
 } // namespace themis
+

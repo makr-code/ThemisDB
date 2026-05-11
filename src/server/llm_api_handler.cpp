@@ -129,7 +129,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
-            "Valid Bearer Token required. Include 'Authorization: Bearer &lt;token&gt;' header."
+            "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
     
@@ -223,7 +223,7 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         }
         
         if (body->contains("max_tokens")) {
-            max_tokens = json_value_to&lt;int&gt;(body->at("max_tokens"));
+            max_tokens = json_value_to<int>(body->at("max_tokens"));
         }
         
         if (body->contains("temperature")) {
@@ -294,7 +294,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         }
         
         if (body->contains("top_k")) {
-            top_k = json_value_to&lt;int&gt;(body->at("top_k"));
+            top_k = json_value_to<int>(body->at("top_k"));
         }
         
         if (body->contains("lora_adapter")) {
@@ -341,7 +341,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         json response_data = {
             {"text", llm_response.text},
             {"query", query},
-            {"documents_retrieved", static_cast&lt;int&gt;(rag_context.documents.size())},
+            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
             {"tokens_generated", llm_response.tokens_generated},
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}
@@ -403,7 +403,7 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         json response_data = {
             {"embedding", embedding_vector},
             {"model", model_id.empty() ? "default" : model_id},
-            {"dimensions", static_cast&lt;int&gt;(embedding.size())}
+            {"dimensions", static_cast<int>(embedding.size())}
         };
         
         return createJsonResponse(response_data);
@@ -558,7 +558,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
         sse_body += "event: done\ndata: {\"done\":true}\n\n";
     } catch (const aql::LLMException& e) {
         json err_event = {{"error", true}, {"message", std::string(e.what())},
-                          {"code", static_cast&lt;int&gt;(e.getErrorCode())}};
+                          {"code", static_cast<int>(e.getErrorCode())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
     } catch (const std::exception& e) {
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
@@ -594,7 +594,7 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
         
         json response_data = {
             {"models", models},
-            {"total", static_cast&lt;int&gt;(models.size())}
+            {"total", static_cast<int>(models.size())}
         };
         
         return createJsonResponse(response_data);
@@ -805,7 +805,7 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
         
         json response_data = {
             {"loras", loras},
-            {"total", static_cast&lt;int&gt;(loras.size())}
+            {"total", static_cast<int>(loras.size())}
         };
         
         return createJsonResponse(response_data);
@@ -1067,7 +1067,7 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
         error_obj["details"] = std::string(details);
     }
     
-    error_obj["status"] = static_cast&lt;int&gt;(status);
+    error_obj["status"] = static_cast<int>(status);
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -1734,3 +1734,4 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
 }
 
 } // namespace themis::server
+

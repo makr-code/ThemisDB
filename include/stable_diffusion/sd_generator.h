@@ -306,8 +306,8 @@ public:
             throw std::runtime_error("SDCppGenerator: txt2img returned null image");
         }
 
-        out_w    = static_cast&lt;int&gt;(images[0].width);
-        out_h    = static_cast&lt;int&gt;(images[0].height);
+        out_w    = static_cast<int>(images[0].width);
+        out_h    = static_cast<int>(images[0].height);
         out_seed = static_cast<uint64_t>(actual_seed);
 
         const size_t n = static_cast<size_t>(out_w) * out_h * images[0].channel;
@@ -369,8 +369,8 @@ public:
             throw std::runtime_error("SDCppGenerator: img2img returned null image");
         }
 
-        out_w    = static_cast&lt;int&gt;(images[0].width);
-        out_h    = static_cast&lt;int&gt;(images[0].height);
+        out_w    = static_cast<int>(images[0].width);
+        out_h    = static_cast<int>(images[0].height);
         out_seed = static_cast<uint64_t>(actual_seed);
 
         const size_t n = static_cast<size_t>(out_w) * out_h * images[0].channel;

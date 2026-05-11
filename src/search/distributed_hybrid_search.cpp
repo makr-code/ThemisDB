@@ -432,10 +432,10 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
             r.hybrid_score = item["hybrid_score"].get<double>();
         }
         if (item.contains("bm25_rank") && item["bm25_rank"].is_number()) {
-            r.bm25_rank = item["bm25_rank"].get&lt;int&gt;();
+            r.bm25_rank = item["bm25_rank"].get<int>();
         }
         if (item.contains("vector_rank") && item["vector_rank"].is_number()) {
-            r.vector_rank = item["vector_rank"].get&lt;int&gt;();
+            r.vector_rank = item["vector_rank"].get<int>();
         }
         if (item.contains("content") && item["content"].is_string()) {
             r.content = item["content"].get<std::string>();
@@ -447,3 +447,4 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
 }
 
 } // namespace themis
+

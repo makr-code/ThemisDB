@@ -216,7 +216,7 @@ private:
      * @param tokens Token IDs
      * @return Embedding vector
      */
-    std::vector<float> extractEmbeddingFromTokens(const std::vector&lt;int&gt;& tokens);
+    std::vector<float> extractEmbeddingFromTokens(const std::vector<int>& tokens);
     
     /**
      * @brief Evict old cache entries if needed
@@ -241,3 +241,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

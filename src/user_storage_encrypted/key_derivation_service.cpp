@@ -85,12 +85,12 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
     std::vector<uint8_t> out(out_len, 0);
     const int rc = PKCS5_PBKDF2_HMAC(
         reinterpret_cast<const char*>(password.data()),
-        static_cast&lt;int&gt;(password.size()),
+        static_cast<int>(password.size()),
         salt.data(),
-        static_cast&lt;int&gt;(salt.size()),
-        static_cast&lt;int&gt;(kPbkdf2FallbackIterations),
+        static_cast<int>(salt.size()),
+        static_cast<int>(kPbkdf2FallbackIterations),
         EVP_sha256(),
-        static_cast&lt;int&gt;(out_len),
+        static_cast<int>(out_len),
         out.data());
     if (rc != 1) {
         // PKCS5_PBKDF2_HMAC only fails on invalid arguments (e.g. null EVP_MD);
@@ -359,3 +359,4 @@ std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
 } // namespace user_storage
 } // namespace plugins
 } // namespace themis
+

@@ -49,7 +49,7 @@ namespace server {
 {
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
-    RAND_bytes(buf, static_cast&lt;int&gt;(sizeof(buf)));
+    RAND_bytes(buf, static_cast<int>(sizeof(buf)));
     std::ostringstream oss;
     oss << "saml_";
     for (unsigned char b : buf) {
@@ -313,3 +313,4 @@ void SamlAuthProvider::evictExpiredPendingRequests()
 
 } // namespace server
 } // namespace themis
+

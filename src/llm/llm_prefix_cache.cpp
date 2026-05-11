@@ -69,7 +69,7 @@ public:
     }
     
     void put(const std::string& prefix,
-             const std::vector&lt;int&gt;& tokens,
+             const std::vector<int>& tokens,
              const std::vector<float>& embedding,
              const std::vector<float>& precomputed_kv,
              const std::string& generated_text = {}) {
@@ -322,7 +322,7 @@ LLMPrefixCache::LLMPrefixCache(const std::string& cache_name, const Config& conf
 LLMPrefixCache::~LLMPrefixCache() = default;
 
 void LLMPrefixCache::put(const std::string& prefix,
-                          const std::vector&lt;int&gt;& tokens,
+                          const std::vector<int>& tokens,
                           const std::vector<float>& embedding,
                           const std::vector<float>& precomputed_kv,
                           const std::string& generated_text) {
@@ -357,3 +357,4 @@ PrefixCacheStatistics LLMPrefixCache::getStatistics() const {
 
 } // namespace llm
 } // namespace themis
+

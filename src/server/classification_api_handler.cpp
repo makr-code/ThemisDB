@@ -72,7 +72,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
         
         return {
             {"items", items},
-            {"total", static_cast&lt;int&gt;(items.size())}
+            {"total", static_cast<int>(items.size())}
         };
         
     } catch (const std::exception& ex) {
@@ -138,7 +138,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
             {"classification", classification},
             {"confidence", findings.empty() ? 1.0 : 0.95},
             {"detected_entities", detected_entities},
-            {"entity_count", static_cast&lt;int&gt;(findings.size())}
+            {"entity_count", static_cast<int>(findings.size())}
         };
         
     } catch (const std::exception& ex) {
@@ -152,3 +152,4 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
 }
 
 }} // namespace themis::server
+

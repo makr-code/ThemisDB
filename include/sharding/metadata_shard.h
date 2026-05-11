@@ -76,7 +76,7 @@ struct MetadataEntry {
             {"key", key},
             {"value", value},
             {"version", version},
-            {"partition", static_cast&lt;int&gt;(partition)},
+            {"partition", static_cast<int>(partition)},
             {"created_at", std::chrono::duration_cast<std::chrono::milliseconds>(
                 created_at.time_since_epoch()).count()},
             {"updated_at", std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -371,3 +371,4 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
+

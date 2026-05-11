@@ -327,7 +327,7 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
 
     // Step 3: Merge – average values that agree with resolved sign
     std::vector<float> merged_dW(N, 0.0f);
-    std::vector&lt;int&gt;   count(N, 0);
+    std::vector<int>   count(N, 0);
 
     for (size_t ai = 0; ai < adapters.size(); ++ai) {
         for (size_t k = 0; k < N; ++k) {
@@ -412,3 +412,4 @@ MergeResult LoRAAdapterMerger::mergeTIESAll(
 
 } // namespace training
 } // namespace themis
+

@@ -61,7 +61,7 @@ bool LogSearchEngine::matchesQuery(const LogEntry& entry,
                                     const LogSearchQuery& query) const
 {
     // Level filter
-    if (static_cast&lt;int&gt;(entry.level) < static_cast&lt;int&gt;(query.min_level)) {
+    if (static_cast<int>(entry.level) < static_cast<int>(query.min_level)) {
         return false;
     }
 
@@ -182,3 +182,4 @@ std::vector<std::string> LogSearchEngine::distinctFieldValues(
 
 } // namespace observability
 } // namespace themis
+

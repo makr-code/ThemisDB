@@ -86,7 +86,7 @@ struct ServerlessFunction {
  * - `filter`       – keep only listed top-level fields.
  *   Required: `"keep": ["field1", "field2"]`
  * - `enrich`       – add metadata fields to the output.
- *   Required: `"add": { "&lt;key&gt;": "<literal_value>" }`
+ *   Required: `"add": { "<key>": "<literal_value>" }`
  * - `validate`     – assert that required fields are present.
  *   Required: `"required": ["field1", "field2"]`
  *
@@ -186,3 +186,4 @@ private:
 
 } // namespace server
 } // namespace themis
+

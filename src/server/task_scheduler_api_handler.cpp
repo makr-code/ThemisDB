@@ -408,7 +408,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
     html += ".toast.ok{border-left:4px solid #22c55e}\n";
     html += ".toast.err{border-left:4px solid #ef4444}\n";
     html += "#refresh-indicator{font-size:.75rem;color:#64748b;margin-left:auto}\n";
-    html += "</style>\n</head>\n&lt;body&gt;\n";
+    html += "</style>\n</head>\n<body>\n";
 
     html += "<header>\n";
     html += "  <h1>&#x23F2; Task Scheduler</h1>\n";
@@ -562,7 +562,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
     html += "}\n";
     html += "\n";
     html += "function escHtml(s) {\n";
-    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');\n";
+    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'&quot;');\n";
     html += "}\n";
     html += "\n";
     html += "async function loadAll() {\n";
@@ -1003,3 +1003,4 @@ json TaskSchedulerApiHandler::importFromKubernetesCronJob(const json& request) {
 
 } // namespace server
 } // namespace themis
+

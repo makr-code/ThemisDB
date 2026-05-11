@@ -115,7 +115,7 @@ bool GeoProcessor::initialize(const PluginConfig& config) {
     
     // Load configuration
     default_crs_ = config.get<std::string>("crs.default", "EPSG:4326");
-    max_features_ = config.get&lt;int&gt;("limits.max_features", 100000);
+    max_features_ = config.get<int>("limits.max_features", 100000);
     simplify_geometry_ = config.get<bool>("simplify.enabled", false);
     simplify_tolerance_ = config.get<double>("simplify.tolerance", 0.0001);
     generate_centroid_ = config.get<bool>("analysis.centroid", true);
@@ -296,7 +296,7 @@ std::vector<ContentChunk> GeoProcessor::chunk(
         }
         
         chunk.text = text.str();
-        chunk.sequence = static_cast&lt;int&gt;(i / coords_per_chunk);
+        chunk.sequence = static_cast<int>(i / coords_per_chunk);
         chunk.token_count = countTokens(chunk.text);
         chunk.metadata["start_index"] = i;
         chunk.metadata["end_index"] = end;
@@ -922,3 +922,4 @@ THEMIS_CONTENT_PLUGIN(GeoProcessor)
 
 } // namespace content
 } // namespace themis
+

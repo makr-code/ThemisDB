@@ -117,8 +117,8 @@ public:
      * Produces one SSE chunk in the OpenAI streaming format:
      * @code
      *   data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk",
-     *           "created":&lt;ts&gt;,"model":"<model>",
-     *           "choices":[{"index":0,"delta":{"content":"&lt;token&gt;"},
+     *           "created":<ts>,"model":"<model>",
+     *           "choices":[{"index":0,"delta":{"content":"<token>"},
      *                       "finish_reason":null}]}\n\n
      * @endcode
      *
@@ -140,7 +140,7 @@ public:
      * Signals to the client that token generation is complete:
      * @code
      *   data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk",
-     *           "created":&lt;ts&gt;,"model":"<model>",
+     *           "created":<ts>,"model":"<model>",
      *           "choices":[{"index":0,"delta":{},
      *                       "finish_reason":"stop"}]}\n\n
      * @endcode
@@ -204,3 +204,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

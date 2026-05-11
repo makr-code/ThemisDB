@@ -43,9 +43,9 @@ namespace gpu {
  * - themis_gpu_dealloc_total           (counter)
  * - themis_gpu_fallback_total          (counter, reason=oom|circuit_open|device_unavailable)
  * - themis_gpu_circuit_open_total      (counter)
- * - themis_gpu_temperature_celsius     (gauge, device=&lt;id&gt;)
- * - themis_gpu_power_draw_watts        (gauge, device=&lt;id&gt;)
- * - themis_gpu_power_limit_watts       (gauge, device=&lt;id&gt;)
+ * - themis_gpu_temperature_celsius     (gauge, device=<id>)
+ * - themis_gpu_power_draw_watts        (gauge, device=<id>)
+ * - themis_gpu_power_limit_watts       (gauge, device=<id>)
  *
  * Thread safety: all methods are protected by an internal mutex.
  */
@@ -213,3 +213,4 @@ private:
 
 } // namespace gpu
 } // namespace themis
+

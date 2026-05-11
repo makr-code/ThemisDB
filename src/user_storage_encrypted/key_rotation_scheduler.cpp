@@ -145,7 +145,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
                 }
                 if (j.contains("interval_days")) {
                     impl_->schedules[level].interval_days =
-                        j["interval_days"].get&lt;int&gt;();
+                        j["interval_days"].get<int>();
                 }
             } catch (...) {
                 // Corrupted state; proceed with current time.
@@ -294,7 +294,7 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
             it->second.last_check_ms = j["last_check_ms"].get<int64_t>();
         }
         if (j.contains("interval_days")) {
-            it->second.interval_days = j["interval_days"].get&lt;int&gt;();
+            it->second.interval_days = j["interval_days"].get<int>();
         }
     } catch (...) {
         // Ignore corrupted persisted state.
@@ -304,3 +304,4 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
 } // namespace user_storage
 } // namespace plugins
 } // namespace themis
+

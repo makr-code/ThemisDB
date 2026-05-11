@@ -48,8 +48,8 @@ static std::string unescapeXml(std::string_view s) {
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
         if      (ent == "&amp;")  out += '&';
-        else if (ent == "&lt;")   out += '<';
-        else if (ent == "&gt;")   out += '>';
+        else if (ent == "<")   out += '<';
+        else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
         else if (ent == "&apos;") out += '\'';
         else                      out += std::string(ent);
@@ -524,3 +524,4 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
 
 } // namespace process
 } // namespace themis
+

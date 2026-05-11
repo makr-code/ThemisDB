@@ -39,10 +39,10 @@ BlockTable::~BlockTable() {
     releaseBlocks();
 }
 
-std::vector&lt;int&gt; BlockTable::allocateBlocks(size_t num_blocks) {
+std::vector<int> BlockTable::allocateBlocks(size_t num_blocks) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector&lt;int&gt; new_blocks;
+    std::vector<int> new_blocks;
     new_blocks.reserve(num_blocks);
     
     for (size_t i = 0; i < num_blocks; ++i) {
@@ -109,7 +109,7 @@ void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_leng
     }
 }
 
-std::vector&lt;int&gt; BlockTable::getBlockMapping() const {
+std::vector<int> BlockTable::getBlockMapping() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return block_ids_;
 }
@@ -134,3 +134,4 @@ BlockTable::Stats BlockTable::getStats() const {
 
 } // namespace llm
 } // namespace themis
+

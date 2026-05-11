@@ -37,7 +37,7 @@ static std::string bytesToHex(const std::vector<uint8_t>& v) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (auto b : v) {
-        oss << std::setw(2) << static_cast&lt;int&gt;(b);
+        oss << std::setw(2) << static_cast<int>(b);
     }
     return oss.str();
 }
@@ -400,3 +400,4 @@ std::vector<ConflictSet> ConflictManager::listConflictSets() const {
 }
 
 } // namespace themis
+

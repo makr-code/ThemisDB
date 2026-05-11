@@ -234,8 +234,9 @@ void registerDefaultMaintenanceSetup(
     }
 
     spdlog::info("DatabaseMaintenanceOrchestrator: default schedules registered "
-                 "(all disabled – enable via PATCH /api/v1/maintenance/schedules/&lt;id&gt;)");
+                 "(all disabled – enable via PATCH /api/v1/maintenance/schedules/<id>)");
 }
 
 } // namespace maintenance
 } // namespace themis
+

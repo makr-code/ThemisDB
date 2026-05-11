@@ -261,7 +261,7 @@ enum class ContinuousAggStatus {
  * @brief Named continuous aggregate definition.
  *
  * Analogous to TimescaleDB's:
- *   CREATE MATERIALIZED VIEW &lt;name&gt; WITH (timescaledb.continuous) AS
+ *   CREATE MATERIALIZED VIEW <name> WITH (timescaledb.continuous) AS
  *     SELECT time_bucket(<window>, time_col) bucket,
  *            min(val) AS min, max(val) AS max, avg(val) AS avg,
  *            sum(val) AS sum, count(*) AS count
@@ -443,3 +443,4 @@ private:
 };
 
 } // namespace themis
+

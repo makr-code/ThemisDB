@@ -1030,7 +1030,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_;
-        response.tokens_prompt = static_cast&lt;int&gt;(prompt_tokens.size());
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -1126,7 +1126,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 5. Detokenize generated tokens
         response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = static_cast&lt;int&gt;(generated_tokens.size());
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -2130,7 +2130,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_ + " (speculative)";
-        response.tokens_prompt = static_cast&lt;int&gt;(prompt_tokens.size());
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -2272,7 +2272,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         // 5. Detokenize and finalize response
         response.text = detokenizeInternal(target_context, generated_tokens);
-        response.tokens_generated = static_cast&lt;int&gt;(generated_tokens.size());
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -2368,7 +2368,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_;
-        response.tokens_prompt = static_cast&lt;int&gt;(prompt_tokens.size());
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -2437,7 +2437,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         }
         
         response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = static_cast&lt;int&gt;(generated_tokens.size());
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -2574,7 +2574,7 @@ std::string LlamaWrapper::submitBatchRequest(
     std::string request_id = batch_scheduler_->submitRequest(request, priority, callback);
     
     spdlog::debug("Batch request submitted: {} (priority: {})",
-                  request_id, static_cast&lt;int&gt;(priority));
+                  request_id, static_cast<int>(priority));
     
     return request_id;
 }
@@ -2885,18 +2885,18 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                     llama_batch prefix_batch = llama_batch_get_one(
                         prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
                     if (llama_decode(lctx, prefix_batch) == 0) {
-                        n_past += static_cast&lt;int&gt;(prefix_tokens.size());
+                        n_past += static_cast<int>(prefix_tokens.size());
                     }
                 }
 
                 // Inject each encoded image into the context.
-                int n_batch_size = static_cast&lt;int&gt;(vision_request.max_tokens > 0
+                int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
                                                      ? vision_request.max_tokens : 512);
                 for (auto& emb_vec : image_embeddings) {
                     if (emb_vec.empty()) continue;
                     int n_patches = vision_encoder_->getNumPatches();
                     if (n_patches <= 0) {
-                        n_patches = static_cast&lt;int&gt;(emb_vec.size()) /
+                        n_patches = static_cast<int>(emb_vec.size()) /
                                     vision_encoder_->getEmbeddingDimension();
                     }
                     llava_image_embed embed_data;
@@ -3021,5 +3021,6 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
+
 
 

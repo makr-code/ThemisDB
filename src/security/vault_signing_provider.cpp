@@ -60,7 +60,7 @@ static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
 }
 
 static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
-    std::vector&lt;int&gt; T(256, -1);
+    std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
 
     std::vector<uint8_t> out;
@@ -193,3 +193,4 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 }
 
 } // namespace themis
+

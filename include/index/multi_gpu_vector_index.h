@@ -97,7 +97,7 @@ public:
         
         // Multi-GPU settings
         bool enableMultiGPU = false;
-        std::vector&lt;int&gt; deviceIds;  // List of GPU device IDs to use
+        std::vector<int> deviceIds;  // List of GPU device IDs to use
         PartitionStrategy partitionStrategy = PartitionStrategy::ROUND_ROBIN;
         LoadBalancingMode loadBalancing = LoadBalancingMode::STATIC;
         bool enableP2P = true;  // Enable peer-to-peer transfers
@@ -190,8 +190,8 @@ public:
     
     // Statistics and monitoring
     Statistics getStatistics() const;
-    std::vector&lt;int&gt; getActiveGPUs() const;
-    std::vector&lt;int&gt; getFailedGPUs() const;
+    std::vector<int> getActiveGPUs() const;
+    std::vector<int> getFailedGPUs() const;
     
     // Configuration
     void setPartitionStrategy(PartitionStrategy strategy);
@@ -213,3 +213,4 @@ private:
 
 } // namespace index
 } // namespace themis
+

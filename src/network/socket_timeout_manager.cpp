@@ -161,7 +161,7 @@ bool SocketTimeoutManager::configureTCPKeepalive(socket_t socket) {
     
     // Linux/Unix-specific keepalive settings
     #ifdef TCP_KEEPIDLE
-    int idle_time = static_cast&lt;int&gt;(config_.keepalive_interval.count() / 1000);
+    int idle_time = static_cast<int>(config_.keepalive_interval.count() / 1000);
     setsockopt(socket, IPPROTO_TCP, TCP_KEEPIDLE, &idle_time, sizeof(idle_time));
     #endif
     
@@ -239,7 +239,7 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
     pfd.fd = server_socket;
     pfd.events = POLLIN;
     
-    int result = poll(&pfd, 1, static_cast&lt;int&gt;(timeout.count()));
+    int result = poll(&pfd, 1, static_cast<int>(timeout.count()));
     if (result == 0) {
         // Timeout
         stats_.accept_timeouts++;
@@ -279,7 +279,7 @@ ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, siz
     
     // Socket is already configured with SO_RCVTIMEO, so recv() will timeout automatically
 #ifdef _WIN32
-    int bytes = recv(socket, static_cast<char*>(buffer), static_cast&lt;int&gt;(size), 0);
+    int bytes = recv(socket, static_cast<char*>(buffer), static_cast<int>(size), 0);
     if (bytes == SOCKET_ERROR) {
         int error = WSAGetLastError();
         if (error == WSAETIMEDOUT) {
@@ -324,7 +324,7 @@ ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buff
     
     // Socket is already configured with SO_SNDTIMEO, so send() will timeout automatically
 #ifdef _WIN32
-    int bytes = send(socket, static_cast<const char*>(buffer), static_cast&lt;int&gt;(size), 0);
+    int bytes = send(socket, static_cast<const char*>(buffer), static_cast<int>(size), 0);
     if (bytes == SOCKET_ERROR) {
         int error = WSAGetLastError();
         if (error == WSAETIMEDOUT) {
@@ -441,3 +441,4 @@ void SocketTimeoutManager::triggerAlert(SocketHealthState new_state, const std::
 
 } // namespace network
 } // namespace themis
+

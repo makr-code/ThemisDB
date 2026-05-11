@@ -210,7 +210,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
 nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     auto all_entries = readAuditLogs(filter);
     
-    int total_count = static_cast&lt;int&gt;(all_entries.size());
+    int total_count = static_cast<int>(all_entries.size());
     int start_idx = (filter.page - 1) * filter.page_size;
     int end_idx = std::min(start_idx + filter.page_size, total_count);
     
@@ -283,3 +283,4 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
 
 } // namespace server
 } // namespace themis
+

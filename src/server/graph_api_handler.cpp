@@ -82,7 +82,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         span.setAttribute("graph.max_depth", static_cast<int64_t>(max_depth));
 
         // Perform BFS traversal
-        auto [status, visited] = graph_index_->bfs(start_vertex, static_cast&lt;int&gt;(max_depth));
+        auto [status, visited] = graph_index_->bfs(start_vertex, static_cast<int>(max_depth));
 
         if (!status.ok) {
             span.setAttribute("error", "traversal_failed");
@@ -504,14 +504,14 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
         }
 
         const std::string start_vertex = body_json["start_vertex"].get<std::string>();
-        const int max_depth = body_json["max_depth"].get&lt;int&gt;();
+        const int max_depth = body_json["max_depth"].get<int>();
 
         themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
         if (body_json.contains("edge_type")) {
             constraints.edge_type = body_json["edge_type"].get<std::string>();
         }
         if (body_json.contains("max_results")) {
-            constraints.max_results = static_cast<size_t>(body_json["max_results"].get&lt;int&gt;());
+            constraints.max_results = static_cast<size_t>(body_json["max_results"].get<int>());
         }
 
         // The callback stores the latest IncrementalQueryResult by handle so
@@ -799,7 +799,7 @@ parseQueryConstraints(const json& body, const std::string& key = "constraints") 
     }
     const auto& c = body[key];
     if (c.contains("max_depth") && c["max_depth"].is_number_integer()) {
-        qc.max_depth = c["max_depth"].get&lt;int&gt;();
+        qc.max_depth = c["max_depth"].get<int>();
     }
     if (c.contains("max_results") && c["max_results"].is_number_unsigned()) {
         qc.max_results = c["max_results"].get<size_t>();
@@ -968,7 +968,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             // max_depth may appear at top-level or inside constraints
             int k = 2;
             if (body_json.contains("max_depth") && body_json["max_depth"].is_number_integer()) {
-                k = body_json["max_depth"].get&lt;int&gt;();
+                k = body_json["max_depth"].get<int>();
             } else if (qc.max_depth.has_value()) {
                 k = *qc.max_depth;
             }
@@ -1043,10 +1043,10 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             if (body_json.contains("path_constraints") && body_json["path_constraints"].is_object()) {
                 const auto& pco = body_json["path_constraints"];
                 if (pco.contains("min_length") && pco["min_length"].is_number_integer()) {
-                    pc.addMinLength(pco["min_length"].get&lt;int&gt;());
+                    pc.addMinLength(pco["min_length"].get<int>());
                 }
                 if (pco.contains("max_length") && pco["max_length"].is_number_integer()) {
-                    pc.addMaxLength(pco["max_length"].get&lt;int&gt;());
+                    pc.addMaxLength(pco["max_length"].get<int>());
                 }
                 if (pco.contains("forbidden_vertices") && pco["forbidden_vertices"].is_array()) {
                     for (const auto& fv : pco["forbidden_vertices"]) {
@@ -1101,7 +1101,7 @@ http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -1121,3 +1121,4 @@ http::response<http::string_body> GraphApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

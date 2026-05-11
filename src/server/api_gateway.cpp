@@ -263,12 +263,12 @@ nlohmann::json APIGateway::executeFederatedQuery(
     federated_queries_++;
     
     if (!config_.enable_query_federation) {
-        throw Error(static_cast&lt;int&gt;(ErrorCode::FeatureDisabled), 
+        throw Error(static_cast<int>(ErrorCode::FeatureDisabled), 
                    "Query federation is not enabled");
     }
     
     if (!shard_router_) {
-        throw Error(static_cast&lt;int&gt;(ErrorCode::ConfigurationError), 
+        throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
                    "Shard router not configured for query federation");
     }
     
@@ -726,7 +726,7 @@ http::response<http::string_body> APIGateway::makeErrorResponse(
 ) {
     nlohmann::json error_body;
     error_body["error"] = message;
-    error_body["status"] = static_cast&lt;int&gt;(status);
+    error_body["status"] = static_cast<int>(status);
     
     http::response<http::string_body> response{status, req.version()};
     response.set(http::field::content_type, "application/json");
@@ -774,7 +774,7 @@ void APIGateway::recordMetrics(
     std::map<std::string, std::string> labels = {
         {"method", std::string(req.method_string())},
         {"target", target_str},
-        {"status", std::to_string(static_cast&lt;int&gt;(response.result()))}
+        {"status", std::to_string(static_cast<int>(response.result()))}
     };
     
     // This would integrate with actual Prometheus metrics
@@ -1008,3 +1008,4 @@ std::string APIGateway::extractClientIp(
 }
 
 } // namespace themis::server
+

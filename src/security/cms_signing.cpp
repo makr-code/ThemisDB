@@ -38,7 +38,7 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
     SigningResult res;
     res.algorithm = "CMS/DETACHED+SHA256";
 
-    BIO* in = BIO_new_mem_buf(data.data(), static_cast&lt;int&gt;(data.size()));
+    BIO* in = BIO_new_mem_buf(data.data(), static_cast<int>(data.size()));
     if (!in) throw std::runtime_error("BIO_new_mem_buf failed");
 
     CMS_ContentInfo* cms = CMS_sign(cert_.get(), pkey_.get(), nullptr, in, CMS_DETACHED | CMS_BINARY);
@@ -73,14 +73,14 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
 bool CMSSigningService::verify(const std::vector<uint8_t>& data,
                                 const std::vector<uint8_t>& signature,
                                 const std::string& /*key_id*/) {
-    BIO* sig_bio = BIO_new_mem_buf(signature.data(), static_cast&lt;int&gt;(signature.size()));
+    BIO* sig_bio = BIO_new_mem_buf(signature.data(), static_cast<int>(signature.size()));
     if (!sig_bio) return false;
 
     CMS_ContentInfo* cms = d2i_CMS_bio(sig_bio, nullptr);
     BIO_free(sig_bio);
     if (!cms) return false;
 
-    BIO* in = BIO_new_mem_buf(data.data(), static_cast&lt;int&gt;(data.size()));
+    BIO* in = BIO_new_mem_buf(data.data(), static_cast<int>(data.size()));
     if (!in) {
         CMS_ContentInfo_free(cms);
         return false;
@@ -112,3 +112,4 @@ bool CMSSigningService::verify(const std::vector<uint8_t>& data,
 }
 
 } // namespace themis
+

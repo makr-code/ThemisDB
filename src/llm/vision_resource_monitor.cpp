@@ -608,25 +608,25 @@ VisionResourceMonitor::HealthStatus VisionResourceMonitor::getHealthStatus() con
     if (status.memory_utilization_percent > 90.0) {
         status.healthy = false;
         status.status = "unhealthy";
-        status.issues.push_back("Memory utilization critical: " + std::to_string(static_cast&lt;int&gt;(status.memory_utilization_percent)) + "%");
+        status.issues.push_back("Memory utilization critical: " + std::to_string(static_cast<int>(status.memory_utilization_percent)) + "%");
     } else if (status.memory_utilization_percent > 80.0) {
         status.status = "degraded";
-        status.issues.push_back("Memory utilization high: " + std::to_string(static_cast&lt;int&gt;(status.memory_utilization_percent)) + "%");
+        status.issues.push_back("Memory utilization high: " + std::to_string(static_cast<int>(status.memory_utilization_percent)) + "%");
     }
     
     if (status.vram_utilization_percent > 90.0) {
         status.healthy = false;
         status.status = "unhealthy";
-        status.issues.push_back("VRAM utilization critical: " + std::to_string(static_cast&lt;int&gt;(status.vram_utilization_percent)) + "%");
+        status.issues.push_back("VRAM utilization critical: " + std::to_string(static_cast<int>(status.vram_utilization_percent)) + "%");
     } else if (status.vram_utilization_percent > 80.0) {
         status.status = "degraded";
-        status.issues.push_back("VRAM utilization high: " + std::to_string(static_cast&lt;int&gt;(status.vram_utilization_percent)) + "%");
+        status.issues.push_back("VRAM utilization high: " + std::to_string(static_cast<int>(status.vram_utilization_percent)) + "%");
     }
     
     if (status.request_utilization_percent > 95.0) {
         status.healthy = false;
         status.status = "unhealthy";
-        status.issues.push_back("Request capacity critical: " + std::to_string(static_cast&lt;int&gt;(status.request_utilization_percent)) + "%");
+        status.issues.push_back("Request capacity critical: " + std::to_string(static_cast<int>(status.request_utilization_percent)) + "%");
     }
     
     return status;
@@ -745,3 +745,4 @@ RateLimiter* VisionResourceMonitor::getUserRateLimiter(const std::string& user_i
 
 } // namespace llm
 } // namespace themis
+

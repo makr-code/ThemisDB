@@ -125,7 +125,7 @@ void MultiTierReplicationManager::assignTier(const std::string& collection,
     }
 
     THEMIS_INFO("MultiTierReplicationManager: collection '{}' assigned to tier {}",
-                collection, static_cast&lt;int&gt;(tier));
+                collection, static_cast<int>(tier));
 }
 
 void MultiTierReplicationManager::removeTier(const std::string& collection)
@@ -341,7 +341,7 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
                                                    ReplicationTier    old_tier,
                                                    ReplicationTier    new_tier)
 {
-    const bool is_promotion = (static_cast&lt;int&gt;(new_tier) < static_cast&lt;int&gt;(old_tier));
+    const bool is_promotion = (static_cast<int>(new_tier) < static_cast<int>(old_tier));
 
     {
         std::unique_lock<std::shared_mutex> lk(assignments_mutex_);
@@ -366,16 +366,17 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
         total_promotions_.fetch_add(1);
         THEMIS_INFO("MultiTierReplicationManager: collection '{}' promoted {} → {}",
                     collection,
-                    static_cast&lt;int&gt;(old_tier),
-                    static_cast&lt;int&gt;(new_tier));
+                    static_cast<int>(old_tier),
+                    static_cast<int>(new_tier));
     } else {
         total_demotions_.fetch_add(1);
         THEMIS_INFO("MultiTierReplicationManager: collection '{}' demoted {} → {}",
                     collection,
-                    static_cast&lt;int&gt;(old_tier),
-                    static_cast&lt;int&gt;(new_tier));
+                    static_cast<int>(old_tier),
+                    static_cast<int>(new_tier));
     }
 }
 
 } // namespace replication
 } // namespace themisdb
+

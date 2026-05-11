@@ -63,7 +63,7 @@ struct ApiEndpointConfig {
     /// POST body template; {{QUERY}}, {{PAGE}}, {{CURSOR}} are substituted.
     std::string body_template;
 
-    /// Optional query parameter appended to GET requests: ?&lt;search_param&gt;=&lt;query&gt;
+    /// Optional query parameter appended to GET requests: ?<search_param>=<query>
     std::string search_param = "q";
 };
 
@@ -204,3 +204,4 @@ private:
 
 } // namespace scraper
 } // namespace themis
+

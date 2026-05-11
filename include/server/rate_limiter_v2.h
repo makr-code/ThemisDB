@@ -265,7 +265,7 @@ private:
     mutable RedisConnectionPool redis_pool_;
 #endif
     std::atomic<bool> redis_healthy_{false};
-    std::atomic&lt;int&gt;  redis_errors_{0};
+    std::atomic<int>  redis_errors_{0};
 };
 
 /**
@@ -358,3 +358,4 @@ private:
 
 } // namespace server
 } // namespace themis
+

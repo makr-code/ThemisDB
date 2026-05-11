@@ -388,7 +388,7 @@ public:
     /**
      * @brief Clustert ähnliche Varianten (nutzt VectorIndex)
      */
-    std::pair<Status, std::map<int, std::vector&lt;int&gt;>> clusterVariants(
+    std::pair<Status, std::map<int, std::vector<int>>> clusterVariants(
         const EventLog& log,
         int num_clusters = 5
     );
@@ -594,3 +594,4 @@ namespace ProcessMiningFunctions {
 }
 
 } // namespace themis
+

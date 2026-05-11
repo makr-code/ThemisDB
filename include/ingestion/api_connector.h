@@ -40,7 +40,7 @@ namespace ingestion {
  * Supported `SourceConfig::options` keys:
  * | Key                    | Description                                           | Default        |
  * |------------------------|-------------------------------------------------------|----------------|
- * | `api_key`              | Bearer token sent in `Authorization: Bearer &lt;token&gt;`  | (none)         |
+ * | `api_key`              | Bearer token sent in `Authorization: Bearer <token>`  | (none)         |
  * | `page_size`            | Items requested per page                              | `100`          |
  * | `cursor_param`         | Query-parameter name for the page cursor / offset     | `offset`       |
  * | `text_field`           | JSON key whose value is treated as the document text  | `text`         |
@@ -52,7 +52,7 @@ namespace ingestion {
  * where N advances by the number of items received.
  *
  * **Cursor mode**: the first request uses `?limit=M` only; every subsequent
- * request appends `?<cursor_param>=&lt;token&gt;&limit=M` where `&lt;token&gt;` is the
+ * request appends `?<cursor_param>=<token>&limit=M` where `<token>` is the
  * value read from `cursor_response_field` in the previous response.
  * Pagination terminates when the response contains no cursor field or the
  * field value is empty.
@@ -214,3 +214,4 @@ private:
 
 } // namespace ingestion
 } // namespace themis
+

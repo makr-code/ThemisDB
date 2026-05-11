@@ -269,8 +269,8 @@ struct MaintenanceScheduleEntry {
         }
         if (j.contains("enabled"))             e.enabled             = j["enabled"].get<bool>();
         if (j.contains("enforce_window"))      e.enforce_window      = j["enforce_window"].get<bool>();
-        if (j.contains("window_start_hour"))   e.window_start_hour   = j["window_start_hour"].get&lt;int&gt;();
-        if (j.contains("window_end_hour"))     e.window_end_hour     = j["window_end_hour"].get&lt;int&gt;();
+        if (j.contains("window_start_hour"))   e.window_start_hour   = j["window_start_hour"].get<int>();
+        if (j.contains("window_end_hour"))     e.window_end_hour     = j["window_end_hour"].get<int>();
         if (j.contains("halt_on_task_failure"))e.halt_on_task_failure= j["halt_on_task_failure"].get<bool>();
         if (j.contains("lock_ttl_ms"))         e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
         if (j.contains("created_by"))          e.created_by          = j["created_by"].get<std::string>();
@@ -299,8 +299,8 @@ struct MaintenanceScheduleEntry {
         }
         if (patch.contains("enabled"))              enabled              = patch["enabled"].get<bool>();
         if (patch.contains("enforce_window"))       enforce_window       = patch["enforce_window"].get<bool>();
-        if (patch.contains("window_start_hour"))    window_start_hour    = patch["window_start_hour"].get&lt;int&gt;();
-        if (patch.contains("window_end_hour"))      window_end_hour      = patch["window_end_hour"].get&lt;int&gt;();
+        if (patch.contains("window_start_hour"))    window_start_hour    = patch["window_start_hour"].get<int>();
+        if (patch.contains("window_end_hour"))      window_end_hour      = patch["window_end_hour"].get<int>();
         if (patch.contains("halt_on_task_failure")) halt_on_task_failure = patch["halt_on_task_failure"].get<bool>();
         if (patch.contains("lock_ttl_ms"))          lock_ttl_ms          = patch["lock_ttl_ms"].get<int64_t>();
     }
@@ -308,3 +308,4 @@ struct MaintenanceScheduleEntry {
 
 } // namespace maintenance
 } // namespace themis
+

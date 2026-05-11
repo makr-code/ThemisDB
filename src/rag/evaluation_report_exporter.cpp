@@ -71,8 +71,8 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     for (unsigned char c : s) {
         switch (c) {
             case '&':  out += "&amp;";  break;
-            case '<':  out += "&lt;";   break;
-            case '>':  out += "&gt;";   break;
+            case '<':  out += "<";   break;
+            case '>':  out += ">";   break;
             case '"':  out += "&quot;"; break;
             case '\'': out += "&#39;";  break;
             default:
@@ -88,7 +88,7 @@ std::string EvaluationReportExporter::scoreBarHTML(const std::string& label,
                                                    bool is_critical) {
     // Clamp to [0, 1]
     double clamped = std::max(0.0, std::min(1.0, score));
-    int pct        = static_cast&lt;int&gt;(std::round(clamped * 100.0));
+    int pct        = static_cast<int>(std::round(clamped * 100.0));
 
     // Choose colour: red for critical + low score, yellow for mid, green for good
     const char* colour = "#4caf50"; // green
@@ -270,7 +270,7 @@ std::string EvaluationReportExporter::toHTML(const PerQueryReport& report) const
        << ".explanation{white-space:pre-wrap;font-family:monospace;font-size:0.84em;"
           "background:#fafafa;padding:10px;border:1px solid #ddd;border-radius:4px}\n"
        << "</style>\n"
-       << "</head>\n&lt;body&gt;\n";
+       << "</head>\n<body>\n";
 
     // ── header ────────────────────────────────────────────────────────────
     os << "<h1>RAG Evaluation Report";
@@ -420,3 +420,4 @@ std::unique_ptr<EvaluationReportExporter> EvaluationReportExporterFactory::creat
 }
 
 } // namespace themis::rag::judge
+

@@ -595,9 +595,9 @@ struct ParseError {
 /// DDL command type for continuous queries.
 enum class ContinuousQueryDDLType {
     CREATE,    ///< CREATE CONTINUOUS QUERY …
-    DROP,      ///< DROP   CONTINUOUS QUERY &lt;name&gt;
+    DROP,      ///< DROP   CONTINUOUS QUERY NAME
     SHOW,      ///< SHOW   CONTINUOUS QUERIES
-    DESCRIBE   ///< DESCRIBE CONTINUOUS QUERY &lt;name&gt;
+    DESCRIBE   ///< DESCRIBE CONTINUOUS QUERY NAME
 };
 
 /**
@@ -605,13 +605,13 @@ enum class ContinuousQueryDDLType {
  *
  * Produced by AQLParser::parseDDL() for the following surface syntax:
  *
- *   CREATE CONTINUOUS QUERY &lt;name&gt; ON &lt;collection&gt;
- *       WINDOW TIME(&lt;range_ms&gt;, &lt;slide_ms&gt;) | COUNT(&lt;rows&gt;, &lt;slide&gt;) | TUMBLING(&lt;interval_ms&gt;)
- *       RETURN &lt;aql_body&gt;
+ *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
+ *       WINDOW TIME(RANGE_MS, SLIDE_MS) | COUNT(ROWS, SLIDE_ROWS) | TUMBLING(INTERVAL_MS)
+ *       RETURN AQL_BODY
  *
- *   DROP      CONTINUOUS QUERY &lt;name&gt;
+ *   DROP      CONTINUOUS QUERY NAME
  *   SHOW      CONTINUOUS QUERIES
- *   DESCRIBE  CONTINUOUS QUERY &lt;name&gt;
+ *   DESCRIBE  CONTINUOUS QUERY NAME
  */
 struct ContinuousQueryDDL {
     ContinuousQueryDDLType ddl_type{ContinuousQueryDDLType::SHOW};
@@ -622,7 +622,7 @@ struct ContinuousQueryDDL {
     /// Full ContinuousQuerySpec — populated only for CREATE.
     /// Other DDL types leave this default-constructed.
     struct CreateSpec {
-        std::string source_collection;  ///< ON &lt;collection&gt;
+        std::string source_collection;  ///< ON COLLECTION
         std::string window_type;        ///< "TIME" | "COUNT" | "TUMBLING"
         int64_t     range_ms{0};        ///< TIME/TUMBLING: window width ms
         int64_t     slide_ms{0};        ///< TIME: slide interval ms
@@ -746,15 +746,15 @@ public:
      * @brief Parse a Continuous Query DDL statement.
      *
      * Recognises:
-     *   CREATE CONTINUOUS QUERY &lt;name&gt; ON &lt;collection&gt;
-     *       WINDOW TIME(&lt;range_ms&gt;, &lt;slide_ms&gt;) RETURN &lt;aql_body&gt;
-     *   CREATE CONTINUOUS QUERY &lt;name&gt; ON &lt;collection&gt;
-     *       WINDOW COUNT(&lt;rows&gt;, &lt;slide_rows&gt;) RETURN &lt;aql_body&gt;
-     *   CREATE CONTINUOUS QUERY &lt;name&gt; ON &lt;collection&gt;
-     *       WINDOW TUMBLING(&lt;interval_ms&gt;) RETURN &lt;aql_body&gt;
-     *   DROP      CONTINUOUS QUERY &lt;name&gt;
+        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
+        *       WINDOW TIME(RANGE_MS, SLIDE_MS) RETURN AQL_BODY
+        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
+        *       WINDOW COUNT(ROWS, SLIDE_ROWS) RETURN AQL_BODY
+        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
+        *       WINDOW TUMBLING(INTERVAL_MS) RETURN AQL_BODY
+        *   DROP      CONTINUOUS QUERY NAME
      *   SHOW      CONTINUOUS QUERIES
-     *   DESCRIBE  CONTINUOUS QUERY &lt;name&gt;
+        *   DESCRIBE  CONTINUOUS QUERY NAME
      *
      * @param input  The DDL statement string (case-insensitive keywords).
      * @return       Parsed ContinuousQueryDDL node, or an Error.

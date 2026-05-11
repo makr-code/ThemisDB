@@ -186,7 +186,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
             result.status_code = response.status_code;
             result.error = response.error;
             
-            if (retry_count < static_cast&lt;int&gt;(config_.max_retries)) {
+            if (retry_count < static_cast<int>(config_.max_retries)) {
                 // Calculate exponential backoff delay
                 uint32_t delay = config_.retry_delay_ms * (1 << retry_count);
                 delay = std::min(delay, config_.max_retry_delay_ms);
@@ -209,7 +209,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         spdlog::error("SecureTransportClient: {}", result.error);
         
         // Retry on exception
-        if (retry_count < static_cast&lt;int&gt;(config_.max_retries)) {
+        if (retry_count < static_cast<int>(config_.max_retries)) {
             uint32_t delay = config_.retry_delay_ms * (1 << retry_count);
             delay = std::min(delay, config_.max_retry_delay_ms);
             
@@ -224,3 +224,4 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
 }
 
 } // namespace themis::sharding
+

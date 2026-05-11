@@ -65,10 +65,10 @@ float linearCombination(const std::vector<float>& scores,
 }
 
 // RRF: Reciprocal rank fusion
-float reciprocalRankFusion(const std::vector&lt;int&gt;& ranks, float k) {
+float reciprocalRankFusion(const std::vector<int>& ranks, float k) {
     float score = 0.0f;
     for (int rank : ranks) {
-        if (rank != std::numeric_limits&lt;int&gt;::max()) {
+        if (rank != std::numeric_limits<int>::max()) {
             score += 1.0f / (k + rank);
         }
     }
@@ -76,17 +76,17 @@ float reciprocalRankFusion(const std::vector&lt;int&gt;& ranks, float k) {
 }
 
 // Borda count: rank-based voting
-float rankFusion(const std::vector&lt;int&gt;& ranks) {
+float rankFusion(const std::vector<int>& ranks) {
     int max_rank = 0;
     for (int rank : ranks) {
-        if (rank != std::numeric_limits&lt;int&gt;::max() && rank > max_rank) {
+        if (rank != std::numeric_limits<int>::max() && rank > max_rank) {
             max_rank = rank;
         }
     }
     
     float score = 0.0f;
     for (int rank : ranks) {
-        if (rank != std::numeric_limits&lt;int&gt;::max()) {
+        if (rank != std::numeric_limits<int>::max()) {
             score += (max_rank - rank);
         }
     }
@@ -194,7 +194,7 @@ MultiVectorSearch::search(
         
         // Collect scores and ranks from each query
         std::vector<float> scores;
-        std::vector&lt;int&gt; ranks;
+        std::vector<int> ranks;
         scores.reserve(individual_results.size());
         ranks.reserve(individual_results.size());
         
@@ -213,11 +213,11 @@ MultiVectorSearch::search(
                 float score = 1.0f / (1.0f + it->distance);
                 scores.push_back(score);
                 
-                int rank = static_cast&lt;int&gt;(std::distance(results.begin(), it));
+                int rank = static_cast<int>(std::distance(results.begin(), it));
                 ranks.push_back(rank);
             } else {
                 scores.push_back(0.0f);  // Not found
-                ranks.push_back(std::numeric_limits&lt;int&gt;::max());  // Worst rank
+                ranks.push_back(std::numeric_limits<int>::max());  // Worst rank
             }
         }
         
@@ -378,7 +378,7 @@ MultiVectorSearch::hybridSearch(
         result.id = doc_id;
         
         std::vector<float> scores;
-        std::vector&lt;int&gt; ranks;
+        std::vector<int> ranks;
         scores.reserve(2);
         ranks.reserve(2);
         
@@ -391,10 +391,10 @@ MultiVectorSearch::hybridSearch(
         if (vec_it != vector_results.end()) {
             float score = 1.0f / (1.0f + vec_it->distance);
             scores.push_back(score);
-            ranks.push_back(static_cast&lt;int&gt;(std::distance(vector_results.begin(), vec_it)));
+            ranks.push_back(static_cast<int>(std::distance(vector_results.begin(), vec_it)));
         } else {
             scores.push_back(0.0f);
-            ranks.push_back(std::numeric_limits&lt;int&gt;::max());
+            ranks.push_back(std::numeric_limits<int>::max());
         }
         
         // Get keyword score
@@ -405,7 +405,7 @@ MultiVectorSearch::hybridSearch(
             ranks.push_back(0); // Assign best rank
         } else {
             scores.push_back(0.0f);
-            ranks.push_back(std::numeric_limits&lt;int&gt;::max());
+            ranks.push_back(std::numeric_limits<int>::max());
         }
         
         result.individual_scores = scores;
@@ -620,4 +620,5 @@ void MultiVectorSearch::resetStatistics() {
 
 } // namespace vector
 } // namespace themis
+
 

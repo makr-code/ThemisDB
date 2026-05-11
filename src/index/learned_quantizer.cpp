@@ -141,7 +141,7 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
     for (int iter = 0; iter < config_.training_iterations; iter++) {
         // E-step: Assign values to bins and compute centroids
         std::vector<double> centroid_sums(num_bins_, 0.0);
-        std::vector&lt;int&gt; centroid_counts(num_bins_, 0);
+        std::vector<int> centroid_counts(num_bins_, 0);
         
         for (float value : sorted_values) {
             int bin = findBin(value, thresholds);
@@ -295,7 +295,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         
         vector.reserve(dimension_);
         for (int d = 0; d < dimension_; d++) {
-            int bin = static_cast&lt;int&gt;(codes[d]);
+            int bin = static_cast<int>(codes[d]);
             if (bin >= 0 && bin < num_bins_) {
                 vector.push_back(per_dim_centroids_[d][bin]);
             } else {
@@ -332,7 +332,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
                     return {};
                 }
                 
-                int bin = static_cast&lt;int&gt;(codes[code_offset++]);
+                int bin = static_cast<int>(codes[code_offset++]);
                 if (bin >= 0 && bin < num_bins_) {
                     vector[i] = global_centroids_[bin] * scale;
                 } else {
@@ -372,7 +372,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
             return std::numeric_limits<float>::max();
         }
         for (int d = 0; d < dimension_; d++) {
-            int bin = static_cast&lt;int&gt;(codes[d]);
+            int bin = static_cast<int>(codes[d]);
             if (bin < 0 || bin >= num_bins_) {
                 THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Invalid bin {} at dim {}",
                              bin, d);
@@ -405,7 +405,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                     THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data");
                     return std::numeric_limits<float>::max();
                 }
-                int bin = static_cast&lt;int&gt;(codes[code_offset++]);
+                int bin = static_cast<int>(codes[code_offset++]);
                 float reconstructed = (bin >= 0 && bin < num_bins_)
                     ? global_centroids_[bin] * scale
                     : 0.0f;
@@ -425,7 +425,7 @@ int LearnedQuantizer::findBin(float value, const std::vector<float>& thresholds)
     
     // Binary search for the appropriate bin (O(log n) instead of O(n))
     auto it = std::lower_bound(thresholds.begin(), thresholds.end(), value);
-    int bin = static_cast&lt;int&gt;(std::distance(thresholds.begin(), it));
+    int bin = static_cast<int>(std::distance(thresholds.begin(), it));
     
     return std::min(bin, num_bins_ - 1);
 }
@@ -464,3 +464,4 @@ size_t LearnedQuantizer::getMemoryUsage() const {
 }
 
 } // namespace themis
+

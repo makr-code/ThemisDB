@@ -111,7 +111,7 @@ struct Feedback {
         if (j.contains("id")) fb.id = j["id"].get<std::string>();
         if (j.contains("adapter_id")) fb.adapter_id = j["adapter_id"].get<std::string>();
         if (j.contains("user_id")) fb.user_id = j["user_id"].get<std::string>();
-        if (j.contains("rating")) fb.rating = j["rating"].get&lt;int&gt;();
+        if (j.contains("rating")) fb.rating = j["rating"].get<int>();
         if (j.contains("feedback_text")) fb.feedback_text = j["feedback_text"].get<std::string>();
         if (j.contains("prompt")) fb.prompt = j["prompt"].get<std::string>();
         if (j.contains("response")) fb.response = j["response"].get<std::string>();
@@ -163,7 +163,7 @@ struct Feedback {
 struct FeedbackFilter {
     std::optional<std::string> adapter_id;        // Filter by adapter
     std::optional<std::string> user_id;           // Filter by user
-    std::optional&lt;int&gt; min_rating;                // Minimum rating
+    std::optional<int> min_rating;                // Minimum rating
     std::optional<bool> flagged_for_training;     // Filter by training flag
     std::optional<std::string> training_category; // Filter by category
     std::optional<std::chrono::system_clock::time_point> since; // Filter by date
@@ -174,3 +174,4 @@ struct FeedbackFilter {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

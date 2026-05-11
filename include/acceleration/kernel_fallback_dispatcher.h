@@ -43,7 +43,7 @@
 //     the corresponding fallback slot.
 //
 // All dispatch functions return 0 on success.  Errors are returned as
-// static_cast&lt;int&gt;(AccelerationErrorCode::XYZ) following the same convention
+// static_cast<int>(AccelerationErrorCode::XYZ) following the same convention
 // used by the CPU-backend kernel adapters.
 // =============================================================================
 
@@ -90,9 +90,9 @@ struct RetryPolicy {
 ///   - OperationTimeout      (304)
 ///   - DeviceLost            (305)
 inline bool isTransientDispatchError(int rc) noexcept {
-    return rc == static_cast&lt;int&gt;(AccelerationErrorCode::SynchronizationFailed)
-        || rc == static_cast&lt;int&gt;(AccelerationErrorCode::OperationTimeout)
-        || rc == static_cast&lt;int&gt;(AccelerationErrorCode::DeviceLost);
+    return rc == static_cast<int>(AccelerationErrorCode::SynchronizationFailed)
+        || rc == static_cast<int>(AccelerationErrorCode::OperationTimeout)
+        || rc == static_cast<int>(AccelerationErrorCode::DeviceLost);
 }
 
 // ---------------------------------------------------------------------------
@@ -117,7 +117,7 @@ int invokeWithFallback(Fn primary, Fn fallback,
     // ---- Case 1: primary slot is null → delegate immediately ----
     if (!primary) {
         if (!fallback) {
-            return static_cast&lt;int&gt;(AccelerationErrorCode::KernelNotFound);
+            return static_cast<int>(AccelerationErrorCode::KernelNotFound);
         }
         return fallback(args...);
     }
@@ -307,3 +307,4 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+

@@ -407,7 +407,7 @@ public:
         for (const auto& doc : documents) {
             const std::string tag = objectTypeTag_(doc.object_type);
             xml += "  <" + tag + ">\n";
-            xml += "    &lt;id&gt;"           + escapeXML_(doc.id)           + "</id>\n";
+            xml += "    <id>"           + escapeXML_(doc.id)           + "</id>\n";
             xml += "    <aktenzeichen>" + escapeXML_(doc.aktenzeichen) + "</aktenzeichen>\n";
             xml += "    <betreff>"      + escapeXML_(doc.betreff)      + "</betreff>\n";
             if (!doc.author.empty())
@@ -505,8 +505,8 @@ private:
         for (char c : s) {
             switch (c) {
                 case '&':  out += "&amp;";  break;
-                case '<':  out += "&lt;";   break;
-                case '>':  out += "&gt;";   break;
+                case '<':  out += "<";   break;
+                case '>':  out += ">";   break;
                 case '"':  out += "&quot;"; break;
                 case '\'': out += "&apos;"; break;
                 default:   out += c;        break;
@@ -545,3 +545,4 @@ private:
 
 } // namespace document
 } // namespace themis
+

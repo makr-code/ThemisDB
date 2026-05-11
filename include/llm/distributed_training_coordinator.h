@@ -123,7 +123,7 @@ struct DistributedTrainingConfig {
 struct GradientTensor {
     std::string layer_name;                     // "lora_layer_q_proj_A"
     std::vector<float> data;                    // Gradient values
-    std::vector&lt;int&gt; shape;                     // Tensor dimensions
+    std::vector<int> shape;                     // Tensor dimensions
     
     // Metadata
     std::string source_shard;
@@ -468,3 +468,4 @@ public:
 
 } // namespace llm
 } // namespace themis
+

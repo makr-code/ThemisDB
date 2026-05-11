@@ -63,7 +63,7 @@ namespace ingestion {
 
 namespace {
 
-/// Extract the first string value for `"key":"&lt;value&gt;"` from a JSON blob.
+/// Extract the first string value for `"key":"<value>"` from a JSON blob.
 static std::string objStorageJsonExtractString(const std::string& json,
                                                const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
@@ -733,3 +733,4 @@ void ObjectStorageConnector::setObjectFetchProvider(ObjectFetchFn fn) {
 
 } // namespace ingestion
 } // namespace themis
+

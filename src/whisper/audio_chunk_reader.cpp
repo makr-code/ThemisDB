@@ -227,7 +227,7 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     }
 
     // Build the ffmpeg command:
-    //   ffmpeg -loglevel quiet -i &lt;path&gt; -f f32le -ar 16000 -ac 1 pipe:1
+    //   ffmpeg -loglevel quiet -i <path> -f f32le -ar 16000 -ac 1 pipe:1
     const std::string cmd =
         "ffmpeg -loglevel quiet -i " + escaped +
         " -f f32le -ar 16000 -ac 1 pipe:1 2>/dev/null";
@@ -294,3 +294,4 @@ std::vector<float> CompositeAudioChunkReader::readFile(const std::string& path,
 
 } // namespace whisper
 } // namespace themis
+

@@ -87,7 +87,7 @@ std::vector<std::string> OrphanDetector::detectOrphans(
             spdlog::info("OrphanDetector: Transaction {} is orphaned (age {}s, state {})",
                          txn.transaction_id,
                          std::chrono::duration_cast<std::chrono::seconds>(age).count(),
-                         static_cast&lt;int&gt;(txn.state));
+                         static_cast<int>(txn.state));
             orphaned_txns.push_back(txn.transaction_id);
         }
     }
@@ -178,3 +178,4 @@ size_t OrphanDetector::cleanPercolatorLocks(
 }
 
 } // namespace sharding
+

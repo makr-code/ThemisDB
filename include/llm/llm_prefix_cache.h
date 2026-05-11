@@ -38,7 +38,7 @@ namespace llm {
 struct PrefixCacheEntry {
     std::string prefix;
     std::vector<float> embedding;
-    std::vector&lt;int&gt; token_ids;
+    std::vector<int> token_ids;
     size_t usage_count = 0;
     std::chrono::system_clock::time_point last_used;
     
@@ -107,7 +107,7 @@ public:
      * @param generated_text Optional generated response text to return on cache hits
      */
     void put(const std::string& prefix,
-             const std::vector&lt;int&gt;& tokens,
+             const std::vector<int>& tokens,
              const std::vector<float>& embedding,
              const std::vector<float>& precomputed_kv = {},
              const std::string& generated_text = {});
@@ -157,3 +157,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

@@ -356,7 +356,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::makeErrorRespon
 ) const {
     nlohmann::json error = {
         {"error", message},
-        {"status", static_cast&lt;int&gt;(status)}
+        {"status", static_cast<int>(status)}
     };
     return makeResponse(status, error.dump(2), req);
 }
@@ -391,3 +391,4 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
+

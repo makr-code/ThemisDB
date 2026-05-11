@@ -463,8 +463,8 @@ void RocksDBWrapper::configureOptions() {
 
         // Apply multi-queue background thread recommendation
         uint32_t recommended_threads = nvme_manager_->recommendedBackgroundThreads();
-        if (config_.max_background_jobs < static_cast&lt;int&gt;(recommended_threads)) {
-            options_->max_background_jobs = static_cast&lt;int&gt;(recommended_threads);
+        if (config_.max_background_jobs < static_cast<int>(recommended_threads)) {
+            options_->max_background_jobs = static_cast<int>(recommended_threads);
         }
         THEMIS_INFO("NVMe optimizations active: direct_reads={} direct_flush={} "
                     "bg_threads={}",
@@ -927,8 +927,8 @@ bool RocksDBWrapper::putBatch(const std::vector<KeyValuePair>& pairs) {
 // ============================================================================
 //
 // Internal key scheme:
-//   manifest : "__tmbs_m__:&lt;key&gt;"
-//   chunk N  : "__tmbs_c__:&lt;key&gt;:<6-digit-zero-padded-N>"
+//   manifest : "__tmbs_m__:<key>"
+//   chunk N  : "__tmbs_c__:<key>:<6-digit-zero-padded-N>"
 //
 // Manifest layout (20 bytes, little-endian):
 //   [0..3]   uint32_t  num_chunks   – total number of chunks
@@ -1022,7 +1022,7 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
         static_cast<uint32_t>((total_size + chunk_size - 1) / chunk_size);
     const int num_threads =
         std::max(1, std::min(config_.blob_streaming_threads,
-                             static_cast&lt;int&gt;(num_chunks)));
+                             static_cast<int>(num_chunks)));
 
     // ── Phase 1: Parallel chunk encoding ─────────────────────────────────────
     // Each chunk is copied (and can be compressed in a future enhancement) by
@@ -2769,3 +2769,4 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
+

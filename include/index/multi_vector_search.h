@@ -108,7 +108,7 @@ public:
         std::string id;
         float fused_score = 0.0f;              // Final combined score
         std::vector<float> individual_scores;   // Scores per query vector
-        std::vector&lt;int&gt; individual_ranks;      // Ranks per query vector
+        std::vector<int> individual_ranks;      // Ranks per query vector
         std::unordered_map<std::string, float> field_scores; // Scores per field
     };
 
@@ -211,3 +211,4 @@ private:
 
 } // namespace vector
 } // namespace themis
+

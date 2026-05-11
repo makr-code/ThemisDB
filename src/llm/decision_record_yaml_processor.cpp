@@ -159,7 +159,7 @@ std::string DecisionRecordYamlProcessor::toYaml(const DecisionRecord& r) const {
         out << YAML::Key << "lora" << YAML::Value << YAML::BeginMap;
         if (r.lora_round)     { out << YAML::Key << "round"          << YAML::Value << *r.lora_round; }
         if (r.epsilon_spent)  { out << YAML::Key << "epsilon_spent"  << YAML::Value << *r.epsilon_spent; }
-        if (r.participants)   { out << YAML::Key << "participants"   << YAML::Value << static_cast&lt;int&gt;(*r.participants); }
+        if (r.participants)   { out << YAML::Key << "participants"   << YAML::Value << static_cast<int>(*r.participants); }
         if (r.accuracy_delta) { out << YAML::Key << "accuracy_delta" << YAML::Value << *r.accuracy_delta; }
         out << YAML::EndMap;
     }
@@ -307,3 +307,4 @@ std::string DecisionRecordYamlProcessor::formatTimestamp(
 
 } // namespace llm
 } // namespace themis
+

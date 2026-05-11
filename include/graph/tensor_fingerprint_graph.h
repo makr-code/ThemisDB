@@ -180,7 +180,7 @@ struct FingerprintGraphConfig {
  * @brief Directed similarity graph over TT-compressed tensors.
  *
  * Nodes are identified by a string `tensor_id` (typically
- * `"<tenant>/<collection>/&lt;field&gt;@<version>"`).  Edges are added
+ * `"<tenant>/<collection>/<field>@<version>"`).  Edges are added
  * automatically when fingerprint similarity exceeds `similarity_threshold`.
  *
  * ### Thread safety
@@ -414,3 +414,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

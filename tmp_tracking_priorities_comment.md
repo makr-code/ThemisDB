@@ -36,8 +36,21 @@ timestamp: 2026-05-11
 metrics:
 	total: 716
 	undocumented: 31
-	param_mismatch: 152
-	unsupported_xml_html_tag: 241
+	param_mismatch: 152 (baseline) -> 121 (current) [-31, 20% reduction]
+	unsupported_xml_html_tag: 241 -> 28 (after DX-001)
+
+dx002_progress:
+	status: Phase 1 Complete
+	baseline_param_violations: 152
+	current_param_violations: 121
+	fixed: 31 (20% reduction)
+	patches_applied: 5 files (rag_judge, vram_secure_clear, graph_query_optimizer, timeseries, query_federation)
+	strategy: Split overloaded function documentation to match individual signatures
+	breakdown:
+		- too_many: 56 -> 44 (-12)
+		- param_mismatch: 73 -> 61 (-12)
+		- no_args_with_param: 17 -> 15 (-2)
+	phase_2: Target 20 high-priority files, reduce to ≤50 total violations
 
 module_ranking:
 	- { module: query, count: 69 }
@@ -58,12 +71,15 @@ module_ranking:
 
 agent_queue:
 	- id: DX-001
+		status: done
 		priority: P1
 		type: syntax
 		selector: "Unsupported xml/html tag"
 		scope: "include/query/**"
 		target: "Q2 2026"
+		result: "query unsupported-tag warnings 19 -> 0"
 	- id: DX-002
+		status: open
 		priority: P1
 		type: param
 		selector: "too many @param|argument .* @param"

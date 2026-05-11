@@ -2353,7 +2353,7 @@ void PostgreSQLImporter::writeQuarantineRow(const std::string& quarantine_file,
         {"row",   raw_row},
         {"error", {
             {"code",     static_cast<uint32_t>(error.code)},
-            {"severity", static_cast&lt;int&gt;(error.severity)},
+            {"severity", static_cast<int>(error.severity)},
             {"message",  error.message},
             {"location", error.location}
         }}
@@ -2468,4 +2468,5 @@ extern "C" {
         delete plugin;
     }
 }
+
 

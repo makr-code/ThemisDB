@@ -497,7 +497,7 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
         GraphIndexManager::Status status;
         if (max_depth != 10U) {
             GraphIndexManager::PathConstraints constraints;
-            constraints.max_edge_count = static_cast&lt;int&gt;(max_depth);
+            constraints.max_edge_count = static_cast<int>(max_depth);
             std::tie(status, path_result) =
                 graph_index_->dijkstraWithConstraints(
                     source_id, target_id, constraints);
@@ -642,7 +642,7 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         //   • no labels    -> unfiltered BFS
         //   • single label -> BFS filtered by that edge type
         //   • multi-label  -> run one BFS per label and merge with deduplication
-        const int depth = static_cast&lt;int&gt;(max_depth);
+        const int depth = static_cast<int>(max_depth);
         std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
 
@@ -1763,3 +1763,4 @@ std::vector<Scalar> ThemisDBPreparedStatement::build_positional_params() const {
 }
 
 } // namespace chimera
+

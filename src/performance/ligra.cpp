@@ -180,11 +180,11 @@ Frontier LigraProcessor::process_edges(
     return next_frontier;
 }
 
-std::vector&lt;int&gt; LigraProcessor::parallel_bfs(
+std::vector<int> LigraProcessor::parallel_bfs(
     NodeID start_vertex,
     const std::vector<std::vector<NodeID>>& adj_list
 ) {
-    std::vector&lt;int&gt; distances(num_vertices_, -1);
+    std::vector<int> distances(num_vertices_, -1);
     distances[start_vertex] = 0;
     
     Frontier current(num_vertices_);
@@ -277,3 +277,4 @@ bool WorkStealingQueue::empty() const {
 
 } // namespace performance
 } // namespace themis
+

@@ -45,7 +45,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
 }
 
 static std::vector<uint8_t> base64_decode(const std::string& encoded) {
-    std::vector&lt;int&gt; T(256, -1);
+    std::vector<int> T(256, -1);
     const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     for (int i=0;i<64;i++) T[(unsigned char)b64_chars[i]] = i;
     std::vector<uint8_t> out;
@@ -481,3 +481,4 @@ nlohmann::json PkiApiHandler::getStatus() {
 }
 
 }} // namespace themis::server
+

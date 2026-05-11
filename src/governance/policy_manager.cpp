@@ -80,11 +80,11 @@ PolicyRule PolicyRule::fromJson(const nlohmann::json& j) {
     if (j.contains("require_signature")) rule.require_signature = j["require_signature"].get<bool>();
     if (j.contains("allow_export")) rule.allow_export = j["allow_export"].get<bool>();
     if (j.contains("allow_cache")) rule.allow_cache = j["allow_cache"].get<bool>();
-    if (j.contains("retention_days")) rule.retention_days = j["retention_days"].get&lt;int&gt;();
+    if (j.contains("retention_days")) rule.retention_days = j["retention_days"].get<int>();
     if (j.contains("redaction_level")) rule.redaction_level = j["redaction_level"].get<std::string>();
     if (j.contains("audit_access")) rule.audit_access = j["audit_access"].get<bool>();
     if (j.contains("audit_changes")) rule.audit_changes = j["audit_changes"].get<bool>();
-    if (j.contains("priority")) rule.priority = j["priority"].get&lt;int&gt;();
+    if (j.contains("priority")) rule.priority = j["priority"].get<int>();
     if (j.contains("created_by")) rule.created_by = j["created_by"].get<std::string>();
     if (j.contains("created_at")) rule.created_at = j["created_at"].get<int64_t>();
     if (j.contains("updated_at")) rule.updated_at = j["updated_at"].get<int64_t>();
@@ -178,11 +178,11 @@ bool PolicyManager::loadRules(const std::string& path) {
                 if (rule_node["require_signature"]) rule.require_signature = rule_node["require_signature"].as<bool>();
                 if (rule_node["allow_export"]) rule.allow_export = rule_node["allow_export"].as<bool>();
                 if (rule_node["allow_cache"]) rule.allow_cache = rule_node["allow_cache"].as<bool>();
-                if (rule_node["retention_days"]) rule.retention_days = rule_node["retention_days"].as&lt;int&gt;();
+                if (rule_node["retention_days"]) rule.retention_days = rule_node["retention_days"].as<int>();
                 if (rule_node["redaction_level"]) rule.redaction_level = rule_node["redaction_level"].as<std::string>();
                 if (rule_node["audit_access"]) rule.audit_access = rule_node["audit_access"].as<bool>();
                 if (rule_node["audit_changes"]) rule.audit_changes = rule_node["audit_changes"].as<bool>();
-                if (rule_node["priority"]) rule.priority = rule_node["priority"].as&lt;int&gt;();
+                if (rule_node["priority"]) rule.priority = rule_node["priority"].as<int>();
                 if (rule_node["created_by"]) rule.created_by = rule_node["created_by"].as<std::string>();
                 if (rule_node["created_at"]) rule.created_at = rule_node["created_at"].as<int64_t>();
                 if (rule_node["updated_at"]) rule.updated_at = rule_node["updated_at"].as<int64_t>();
@@ -419,7 +419,7 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
 PolicyManager::PolicyStats PolicyManager::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     PolicyStats stats;
-    stats.total_rules = static_cast&lt;int&gt;(rules_.size());
+    stats.total_rules = static_cast<int>(rules_.size());
     
     for (const auto& [id, rule] : rules_) {
         if (rule.enabled) {
@@ -758,3 +758,4 @@ std::string PolicyManager::activePolicyVersion() const {
 
 } // namespace governance
 } // namespace themis
+

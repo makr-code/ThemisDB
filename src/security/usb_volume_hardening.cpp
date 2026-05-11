@@ -117,7 +117,7 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < digest_len; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(digest[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -344,3 +344,4 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
 
 } // namespace security
 } // namespace themis
+

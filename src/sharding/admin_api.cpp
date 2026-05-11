@@ -163,7 +163,7 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
 
     // Parse the PEM certificate from the caller-supplied string.
     BIO* bio = BIO_new_mem_buf(operator_cert.data(),
-                               static_cast&lt;int&gt;(operator_cert.size()));
+                               static_cast<int>(operator_cert.size()));
     if (!bio) return false;
 
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
@@ -305,7 +305,7 @@ nlohmann::json AdminAPI::buildRepairHealthJson() const {
 
     nlohmann::json shards = nlohmann::json::array();
     for (const auto& r : reports) {
-        int status_idx = static_cast&lt;int&gt;(r.status);
+        int status_idx = static_cast<int>(r.status);
         nlohmann::json shard_entry;
         shard_entry["shard_id"] = r.shard_id;
         shard_entry["status"] = kStatusStr[status_idx];
@@ -371,3 +371,4 @@ nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
 
 } // namespace sharding
 } // namespace themis
+

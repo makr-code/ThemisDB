@@ -151,7 +151,7 @@ public:
                             // Validate blob reference type before casting
                             auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
                             // Valid range: 0 (INLINE) to 7 (CUSTOM)
-                            if (blob_type_value < 0 || blob_type_value > static_cast&lt;int&gt;(storage::BlobStorageType::CUSTOM)) {
+                            if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
                                 spdlog::warn("Invalid blob storage type {} for adapter {}, skipping blob deletion", 
                                            blob_type_value, adapter_id);
                             } else {
@@ -674,7 +674,7 @@ private:
                         weights.data.size() / (1024 * 1024));
             
             auto blob_ref = config_.blob_manager->put(adapter_id, weights.data);
-            fields["blob_ref_type"] = Value(static_cast<int64_t>(static_cast&lt;int&gt;(blob_ref.type)));
+            fields["blob_ref_type"] = Value(static_cast<int64_t>(static_cast<int>(blob_ref.type)));
             fields["blob_ref_path"] = Value(blob_ref.uri);
         } else {
             // Small adapters stored inline
@@ -759,7 +759,7 @@ private:
                 // Validate blob reference type before casting
                 auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
                 // Valid range: 0 (INLINE) to 7 (CUSTOM)
-                if (blob_type_value < 0 || blob_type_value > static_cast&lt;int&gt;(storage::BlobStorageType::CUSTOM)) {
+                if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
                     spdlog::error("Invalid blob storage type {} for adapter {}, cannot load", 
                                blob_type_value, adapter_id);
                     return std::nullopt;
@@ -808,7 +808,7 @@ private:
         metadata.version = entity.getFieldAsString("version").value_or("v1");
         metadata.base_model = entity.getFieldAsString("base_model").value_or("");
         metadata.description = entity.getFieldAsString("description").value_or("");
-        metadata.training_samples = static_cast&lt;int&gt;(entity.getFieldAsInt("training_samples").value_or(0));
+        metadata.training_samples = static_cast<int>(entity.getFieldAsInt("training_samples").value_or(0));
         metadata.validation_accuracy = static_cast<float>(entity.getFieldAsDouble("validation_accuracy").value_or(0.0));
         
         return metadata;
@@ -954,3 +954,4 @@ json LoRAStorageService::getStats() const {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

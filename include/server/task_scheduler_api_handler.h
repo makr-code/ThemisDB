@@ -151,7 +151,7 @@ public:
      *                       success (bool), event_type (string),
      *                       trigger_type (string), user_id (string),
      *                       start_time_ms (int64), end_time_ms (int64)
-     * @return JSON object { "items": [...], "total": &lt;int&gt; } where "total" is the
+     * @return JSON object { "items": [...], "total": <int> } where "total" is the
      *         total count of all matching records (regardless of limit/offset),
      *         bounded by the audit manager's max_query_results setting.
      *         Use limit/offset parameters to paginate through results.
@@ -250,3 +250,4 @@ private:
 
 } // namespace server
 } // namespace themis
+

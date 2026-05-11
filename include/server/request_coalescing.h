@@ -209,7 +209,7 @@ private:
     /**
      * @brief Build the coalescing key for a request.
      *
-     * For GET/HEAD the key is "<METHOD>|&lt;path&gt;" (query-string excluded so that
+     * For GET/HEAD the key is "<METHOD>|<path>" (query-string excluded so that
      * minor query variations still share the same backend call).
      */
     static std::string makeKey(const http::request<http::string_body>& req);
@@ -237,3 +237,4 @@ private:
 };
 
 } // namespace themis::server
+

@@ -567,7 +567,7 @@ std::string PerformanceAnalyzer::generate_html_header() const {
         h1, h2, h3 { color: #333; }
     </style>
 </head>
-&lt;body&gt;
+<body>
 )";
 }
 
@@ -606,3 +606,4 @@ std::string PerformanceAnalyzer::generate_html_issue_section(const PerformanceIs
 
 } // namespace observability
 } // namespace themis
+

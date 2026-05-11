@@ -214,9 +214,9 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     if (config_.enable_keepalive) {
         // Convert seconds to milliseconds safely
         args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 
-                    static_cast&lt;int&gt;(std::min<int64_t>(config_.keepalive_time.count() * 1000, INT_MAX)));
+                    static_cast<int>(std::min<int64_t>(config_.keepalive_time.count() * 1000, INT_MAX)));
         args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 
-                    static_cast&lt;int&gt;(std::min<int64_t>(config_.keepalive_timeout.count() * 1000, INT_MAX)));
+                    static_cast<int>(std::min<int64_t>(config_.keepalive_timeout.count() * 1000, INT_MAX)));
         args.SetInt(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
     }
     
@@ -225,7 +225,7 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     
     // Set connection timeout
     args.SetInt(GRPC_ARG_MIN_RECONNECT_BACKOFF_MS, 
-                static_cast&lt;int&gt;(config_.connect_timeout.count() * 1000));
+                static_cast<int>(config_.connect_timeout.count() * 1000));
     
     // Use insecure credentials if none provided
     if (!credentials) {

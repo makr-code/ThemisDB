@@ -46,7 +46,7 @@ PrometheusExporter::~PrometheusExporter() = default;
 void PrometheusExporter::registerMetric(const MetricDefinition& def) {
     std::lock_guard<std::mutex> lock(mutex_);
     registered_metrics_[def.name] = def;
-    spdlog::debug("Metric registered: {} (type: {})", def.name, static_cast&lt;int&gt;(def.type));
+    spdlog::debug("Metric registered: {} (type: {})", def.name, static_cast<int>(def.type));
 }
 
 void PrometheusExporter::incrementCounter(const std::string& name,
@@ -1538,7 +1538,7 @@ void MetricsServer::handlePost(const std::string& path,
         }
     } else if (path == config_.admin_simulate_path) {
         // POST /admin/prompt/simulate — dry-run policy check + tokenization.
-        // Body: JSON {"prompt":"<text>","model_id":"&lt;optional&gt;"}
+        // Body: JSON {"prompt":"<text>","model_id":"<optional>"}
         if (simulate_cb_) {
             response = simulate_cb_(body);
         } else {
@@ -1574,3 +1574,4 @@ void MetricsServer::handleDelete(const std::string& path,
 } // namespace monitoring
 } // namespace llm
 } // namespace themis
+

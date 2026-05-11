@@ -128,11 +128,11 @@ public:
      *   "has_suitable_device": <bool>,
      *   "devices": [
      *     {
-     *       "index": &lt;int&gt;,
+     *       "index": <int>,
      *       "name": "<string>",
      *       "backend": "<string>",
-     *       "total_vram_mb": &lt;uint64&gt;,
-     *       "free_vram_mb": &lt;uint64&gt;,
+     *       "total_vram_mb": <uint64>,
+     *       "free_vram_mb": <uint64>,
      *       "compute_capability": "<major>.<minor>",
      *       "is_healthy": <bool>,
      *       "suitable_for_geo": <bool>,
@@ -173,3 +173,4 @@ private:
 
 } // namespace geo
 } // namespace themis
+

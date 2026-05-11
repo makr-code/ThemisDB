@@ -128,7 +128,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     
     spdlog::debug("Request submitted: {} (priority: {}, tokens: ~{})",
                   scheduled->request_id,
-                  static_cast&lt;int&gt;(priority),
+                  static_cast<int>(priority),
                   scheduled->total_prompt_tokens);
     
     // Wake up scheduler
@@ -189,7 +189,7 @@ bool ContinuousBatchScheduler::reprioritizeRequest(
     it->second->priority = new_priority;
     
     spdlog::debug("Request {} reprioritized to {}",
-                  request_id, static_cast&lt;int&gt;(new_priority));
+                  request_id, static_cast<int>(new_priority));
     
     return true;
 }
@@ -691,3 +691,4 @@ std::string ContinuousBatchScheduler::generateRequestId() {
 
 } // namespace llm
 } // namespace themis
+

@@ -334,7 +334,7 @@ json PmVariantsFunction::execute(
 
     const EventLog log = parseEventLog(args[0]);
     const int top_n = (args.size() >= 2 && args[1].is_number_integer())
-                      ? args[1].get&lt;int&gt;() : 20;
+                      ? args[1].get<int>() : 20;
 
     auto [status, variants] = pm->analyzeVariants(log, top_n);
     if (!status.ok) {
@@ -528,4 +528,5 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

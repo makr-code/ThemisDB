@@ -522,7 +522,7 @@ bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
     int sum = 0;
     bool alternate = false;
     
-    for (int i = static_cast&lt;int&gt;(digits.length()) - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(digits.length()) - 1; i >= 0; --i) {
         int digit = digits[i] - '0';
         
         if (alternate) {
@@ -546,3 +546,4 @@ std::unique_ptr<IPIIDetectionEngine> createRegexEngine() {
 
 } // namespace utils
 } // namespace themis
+

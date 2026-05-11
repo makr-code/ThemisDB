@@ -72,7 +72,7 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     A_->requires_grad = true;
     
     spdlog::debug("GPULoRALayer created: in_dim={}, out_dim={}, rank={}, scaling={}, device={}, fused={}, flash={}",
-                  in_dim_, out_dim_, rank_, scaling_, static_cast&lt;int&gt;(device.type), 
+                  in_dim_, out_dim_, rank_, scaling_, static_cast<int>(device.type), 
                   use_fused_kernels_, use_flash_lora_);
 }
 
@@ -424,7 +424,7 @@ void GPULoRALayer::to(const Device& target_device) {
     // Update device
     device_ = target_device;
     
-    spdlog::debug("GPULoRALayer moved to device: {}", static_cast&lt;int&gt;(device_.type));
+    spdlog::debug("GPULoRALayer moved to device: {}", static_cast<int>(device_.type));
 }
 
 // ============================================================================
@@ -626,3 +626,4 @@ GPUTensor GPULoRATrainer::compute_mse_grad(const GPUTensor& output, const GPUTen
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

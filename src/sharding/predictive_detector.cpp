@@ -514,7 +514,7 @@ void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
     }
     
     std::string message = "HIGH RISK: Shard " + prediction.shard_id +
-                         " has " + std::to_string(static_cast&lt;int&gt;(prediction.failure_probability * 100)) +
+                         " has " + std::to_string(static_cast<int>(prediction.failure_probability * 100)) +
                          "% failure probability in next " +
                          std::to_string(prediction.predicted_days_to_failure) + " days";
     
@@ -540,3 +540,4 @@ void PredictiveFailureDetector::resetStats() {
 
 } // namespace sharding
 } // namespace themisdb
+

@@ -68,7 +68,7 @@ public:
     struct Block {
         int block_id;
         void* device_ptr = nullptr;
-        std::atomic&lt;int&gt; ref_count;
+        std::atomic<int> ref_count;
         bool is_pinned;
         uint64_t parent_sequence_id;  // For CoW tracking
         
@@ -103,7 +103,7 @@ public:
      */
     struct BlockTable {
         uint64_t sequence_id;
-        std::vector&lt;int&gt; block_ids;
+        std::vector<int> block_ids;
         size_t num_tokens;
         bool is_prefix_cached;
     };
@@ -167,7 +167,7 @@ public:
      * @param num_blocks Number of blocks to allocate
      * @return Vector of allocated block IDs
      */
-    std::vector&lt;int&gt; allocateBlocks(size_t num_blocks);
+    std::vector<int> allocateBlocks(size_t num_blocks);
 
     /**
      * @brief Free blocks for a sequence
@@ -176,7 +176,7 @@ public:
      * 
      * @param block_ids Block IDs to free
      */
-    void freeBlocks(const std::vector&lt;int&gt;& block_ids);
+    void freeBlocks(const std::vector<int>& block_ids);
 
     /**
      * @brief Enable prefix caching (Copy-on-Write)
@@ -317,7 +317,7 @@ private:
     
     // Block management
     std::vector<Block> blocks_;
-    std::vector&lt;int&gt; free_block_ids_;
+    std::vector<int> free_block_ids_;
     
     // Sequence to block table mapping
     std::unordered_map<uint64_t, BlockTable> sequence_tables_;
@@ -348,3 +348,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

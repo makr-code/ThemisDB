@@ -128,7 +128,7 @@ static std::string computeFileHash(const std::string& path) {
     std::ostringstream oss;
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast&lt;int&gt;(hash[i]);
+            << static_cast<int>(hash[i]);
     }
     return oss.str();
 }
@@ -538,3 +538,4 @@ int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 
 } // namespace plugins
 } // namespace themis
+

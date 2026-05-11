@@ -205,7 +205,7 @@ SupportLevel FaithfulnessEvaluator::checkEntailment(
         SupportLevel support = impl_->checkNLIEntailment(claim, doc_content);
         
         // Keep the best (highest) support level found
-        if (static_cast&lt;int&gt;(support) > static_cast&lt;int&gt;(best_support)) {
+        if (static_cast<int>(support) > static_cast<int>(best_support)) {
             best_support = support;
         }
         
@@ -353,3 +353,4 @@ FaithfulnessResult FaithfulnessEvaluator::evaluate(
 }
 
 } // namespace themis::rag::judge
+

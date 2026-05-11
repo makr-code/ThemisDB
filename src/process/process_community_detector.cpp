@@ -48,12 +48,12 @@ Graph buildGraph(const json& normalized) {
         const std::string id = n.value("id", "");
         if (id.empty()) continue;
         if (g.node_index.find(id) == g.node_index.end()) {
-            g.node_index[id] = static_cast&lt;int&gt;(g.node_ids.size());
+            g.node_index[id] = static_cast<int>(g.node_ids.size());
             g.node_ids.push_back(id);
         }
     }
 
-    const int n = static_cast&lt;int&gt;(g.node_ids.size());
+    const int n = static_cast<int>(g.node_ids.size());
     g.adj.resize(n);
     g.degree.assign(n, 0.f);
 
@@ -86,7 +86,7 @@ Graph buildGraph(const json& normalized) {
 /// Simplified: ΔQ = (k_u_in / m) − (Σ(tot) * k_u / (2m)^2) * resolution
 float modularityGain(
     int u,
-    const std::unordered_set&lt;int&gt;& community_nodes,
+    const std::unordered_set<int>& community_nodes,
     const Graph& g,
     float resolution)
 {
@@ -107,18 +107,18 @@ float modularityGain(
 /// Run one phase of Louvain: iterate nodes and move each to the neighbouring
 /// community with the best modularity gain. Returns true if any node moved.
 bool louvainPhase(
-    std::vector&lt;int&gt;& assignment,         // node → community label
+    std::vector<int>& assignment,         // node → community label
     const Graph& g,
     float resolution)
 {
-    const int n = static_cast&lt;int&gt;(g.node_ids.size());
+    const int n = static_cast<int>(g.node_ids.size());
     bool improved = false;
 
     for (int u = 0; u < n; ++u) {
         const int current_comm = assignment[u];
 
         // Collect all neighbouring communities
-        std::unordered_map<int, std::unordered_set&lt;int&gt;> comm_nodes;
+        std::unordered_map<int, std::unordered_set<int>> comm_nodes;
         for (int i = 0; i < n; ++i) {
             comm_nodes[assignment[i]].insert(i);
         }
@@ -127,7 +127,7 @@ bool louvainPhase(
         int best_comm = current_comm;
 
         // Evaluate each neighbouring community
-        std::unordered_set&lt;int&gt; visited_comms;
+        std::unordered_set<int> visited_comms;
         for (const auto& [v, _] : g.adj[u]) {
             const int nc = assignment[v];
             if (!visited_comms.insert(nc).second) continue;
@@ -175,7 +175,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     Graph g = buildGraph(normalized);
-    const int n = static_cast&lt;int&gt;(g.node_ids.size());
+    const int n = static_cast<int>(g.node_ids.size());
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
@@ -188,7 +188,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     // Initialise: each node in its own community (community label = node index)
-    std::vector&lt;int&gt; assignment(n);
+    std::vector<int> assignment(n);
     std::iota(assignment.begin(), assignment.end(), 0);
 
     // Phase 1: iterate until no improvement
@@ -227,7 +227,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
             }
         }
         if (sg.total_weight > 0.f) {
-            std::vector&lt;int&gt; sg_assign(comm_count);
+            std::vector<int> sg_assign(comm_count);
             std::iota(sg_assign.begin(), sg_assign.end(), 0);
             for (int iter = 0; iter < kMaxIterations; ++iter) {
                 if (!louvainPhase(sg_assign, sg, resolution)) break;
@@ -238,7 +238,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     // Collect communities
-    std::unordered_map<int, std::vector&lt;int&gt;> comm_map;
+    std::unordered_map<int, std::vector<int>> comm_map;
     for (int u = 0; u < n; ++u) {
         comm_map[assignment[u]].push_back(u);
     }
@@ -260,7 +260,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         // Compute local modularity contribution
         float sum_in = 0.f;
         float sum_tot = 0.f;
-        std::unordered_set&lt;int&gt; member_set(members.begin(), members.end());
+        std::unordered_set<int> member_set(members.begin(), members.end());
         for (int u : members) {
             sum_tot += g.degree[u];
             for (int v : members) {
@@ -275,7 +275,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
 
         // Label: first 3 node names joined with "; "
         std::ostringstream label_ss;
-        const int label_count = std::min(static_cast&lt;int&gt;(pc.node_ids.size()), 3);
+        const int label_count = std::min(static_cast<int>(pc.node_ids.size()), 3);
         for (int i = 0; i < label_count; ++i) {
             if (i > 0) label_ss << "; ";
             auto nit = node_names.find(pc.node_ids[i]);
@@ -317,7 +317,7 @@ std::string ProcessCommunityDetector::generateReport(
     const bool german = (language == "de");
     std::ostringstream oss;
 
-    const int n = static_cast&lt;int&gt;(community.node_ids.size());
+    const int n = static_cast<int>(community.node_ids.size());
 
     if (german) {
         oss << "Gemeinschaft '" << community.community_id << "': "
@@ -418,3 +418,4 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::loadCommunities(
 
 } // namespace process
 } // namespace themis
+

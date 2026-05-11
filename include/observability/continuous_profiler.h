@@ -130,7 +130,7 @@ struct ContinuousProfilerConfig {
  * ### pprof Compatibility
  * Snapshots use the folded-stacks text format:
  * ```
- * frame1;frame2;frame3 &lt;count&gt;
+ * frame1;frame2;frame3 <count>
  * ```
  * Load with:
  * ```
@@ -228,3 +228,4 @@ private:
 
 } // namespace observability
 } // namespace themis
+

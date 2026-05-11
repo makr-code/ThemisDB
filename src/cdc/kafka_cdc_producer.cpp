@@ -184,7 +184,7 @@ void KafkaCDCProducer::stop() {
     if (producer_) {
         // Flush remaining queued messages before destruction.
         RdKafka::ErrorCode rc = producer_->flush(
-            static_cast&lt;int&gt;(config_.flush_timeout_ms));
+            static_cast<int>(config_.flush_timeout_ms));
         if (rc != RdKafka::ERR_NO_ERROR) {
             THEMIS_WARN("KafkaCDCProducer: flush timed out ({}); {} message(s) may not have been delivered",
                         RdKafka::err2str(rc),
@@ -334,7 +334,7 @@ void KafkaCDCProducer::pollingThread() {
 
         // Give librdkafka time to service delivery reports.
         if (producer_) {
-            producer_->poll(static_cast&lt;int&gt;(config_.poll_interval_ms));
+            producer_->poll(static_cast<int>(config_.poll_interval_ms));
         }
 
         if (events.empty()) {
@@ -360,3 +360,4 @@ KafkaProducerStats KafkaCDCProducer::getStats() const {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_KAFKA
+

@@ -185,7 +185,7 @@ http::response<http::string_body> CacheApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast&lt;int&gt;(status)}
+        {"status_code", static_cast<int>(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -205,3 +205,4 @@ http::response<http::string_body> CacheApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

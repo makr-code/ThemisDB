@@ -842,7 +842,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int n = args[0].get&lt;int&gt;();
+        int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_ZEROS: Dimension must be non-negative");
         }
@@ -874,7 +874,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int n = args[0].get&lt;int&gt;();
+        int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_ONES: Dimension must be non-negative");
         }
@@ -908,7 +908,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int n = args[0].get&lt;int&gt;();
+        int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_RANDOM: Dimension must be non-negative");
         }
@@ -956,11 +956,11 @@ public:
         vector_helpers::validateVector(args[0], "VECTOR_SLICE");
         
         auto vec = vector_helpers::toVector(args[0]);
-        int start = args[1].get&lt;int&gt;();
-        int end = args.size() > 2 && !args[2].is_null() ? args[2].get&lt;int&gt;() : static_cast&lt;int&gt;(vec.size());
+        int start = args[1].get<int>();
+        int end = args.size() > 2 && !args[2].is_null() ? args[2].get<int>() : static_cast<int>(vec.size());
         
         if (start < 0) start = 0;
-        if (end > static_cast&lt;int&gt;(vec.size())) end = static_cast&lt;int&gt;(vec.size());
+        if (end > static_cast<int>(vec.size())) end = static_cast<int>(vec.size());
         if (start >= end) return nlohmann::json::array();
         
         std::vector<double> result(vec.begin() + start, vec.begin() + end);
@@ -1055,4 +1055,5 @@ inline void registerVectorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

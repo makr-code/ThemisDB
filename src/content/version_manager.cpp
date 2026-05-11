@@ -41,7 +41,7 @@ std::string VersionManager::computeHash(const std::string& data) {
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast&lt;int&gt;(digest[i]);
+            << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -247,3 +247,4 @@ bool VersionManager::deleteVersion(const std::string& content_id, int version_nu
 
 } // namespace content
 } // namespace themis
+

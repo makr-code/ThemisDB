@@ -169,7 +169,7 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) fail("ivlen");
     if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) != 1) fail("key/iv");
     if (EVP_EncryptUpdate(ctx, ct.data(), &len,
-                          plaintext.data(), static_cast&lt;int&gt;(plaintext.size())) != 1) fail("update");
+                          plaintext.data(), static_cast<int>(plaintext.size())) != 1) fail("update");
     ct_len = len;
     if (EVP_EncryptFinal_ex(ctx, ct.data() + len, &len) != 1) fail("final");
     ct_len += len;
@@ -212,7 +212,7 @@ static std::vector<uint8_t> aes256gcm_decrypt(
     if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) fail("ivlen");
     if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) != 1) fail("key/iv");
     if (EVP_DecryptUpdate(ctx, pt.data(), &len,
-                          ciphertext.data(), static_cast&lt;int&gt;(ciphertext.size())) != 1) fail("update");
+                          ciphertext.data(), static_cast<int>(ciphertext.size())) != 1) fail("update");
     pt_len = len;
     // Set expected tag
     if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16,
@@ -423,7 +423,7 @@ KyberKEM::KyberKEM(SecurityLevel level)
     : level_(level), impl_(std::make_unique<Impl>())
 {
     THEMIS_INFO("KyberKEM: initialized (KYBER_SIM, level={})",
-                static_cast&lt;int&gt;(level_));
+                static_cast<int>(level_));
 }
 
 KyberKEM::~KyberKEM() = default;
@@ -507,7 +507,7 @@ DilithiumSigner::DilithiumSigner(SecurityLevel level)
     : level_(level), impl_(std::make_unique<Impl>())
 {
     THEMIS_INFO("DilithiumSigner: initialized (DILITHIUM_SIM, level={})",
-                static_cast&lt;int&gt;(level_));
+                static_cast<int>(level_));
 }
 
 DilithiumSigner::~DilithiumSigner() = default;
@@ -559,7 +559,7 @@ PostQuantumKeyProvider::PostQuantumKeyProvider(
         throw std::invalid_argument(
             "PostQuantumKeyProvider: classical_provider must not be null");
     }
-    THEMIS_INFO("PostQuantumKeyProvider: initialized, mode={}", static_cast&lt;int&gt;(mode_));
+    THEMIS_INFO("PostQuantumKeyProvider: initialized, mode={}", static_cast<int>(mode_));
 }
 
 PostQuantumKeyProvider::~PostQuantumKeyProvider() = default;
@@ -708,7 +708,7 @@ HybridEncryption::HybridEncryption(std::shared_ptr<KeyProvider> key_provider,
     , mode_(mode)
     , kyber_(KyberKEM::SecurityLevel::KYBER_1024)
 {
-    THEMIS_INFO("HybridEncryption: initialized, mode={}", static_cast&lt;int&gt;(mode_));
+    THEMIS_INFO("HybridEncryption: initialized, mode={}", static_cast<int>(mode_));
 }
 
 HybridEncryption::~HybridEncryption() = default;
@@ -1021,7 +1021,7 @@ SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
     kp.secret_key.resize(sec_len);
     EVP_PKEY_free(pkey);
     THEMIS_DEBUG("SphincsPlus::generateKeyPair (SPHINCSPLUS_SIM variant={}) pub={}B sec={}B",
-                 static_cast&lt;int&gt;(variant_), pub_len, sec_len);
+                 static_cast<int>(variant_), pub_len, sec_len);
     return kp;
 }
 
@@ -1125,3 +1125,4 @@ void SphincsPlus::setVerifyFn(SphincsPlus::VerifyFn fn) {
 
 } // namespace security
 } // namespace themis
+

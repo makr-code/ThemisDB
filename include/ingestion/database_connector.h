@@ -34,7 +34,7 @@ namespace ingestion {
  *
  * Fetches rows from a relational database table or SQL query and ingests them
  * as documents into ThemisDB.  The connector accepts JDBC-style connection
- * strings (`jdbc:<subprotocol>://&lt;host&gt;:&lt;port&gt;/<database>`) and maps them to
+ * strings (`jdbc:<subprotocol>://<host>:<port>/<database>`) and maps them to
  * the appropriate ODBC Data Source Name or driver-specific connection string.
  *
  * When `THEMIS_ENABLE_ODBC` is defined at compile time, the ODBC API
@@ -62,7 +62,7 @@ namespace ingestion {
  *   `jdbc:sqlite:/path/to/file.db`
  *
  * The connector parses the URL and constructs an ODBC connection string of
- * the form: `DRIVER={<driver>};SERVER=&lt;host&gt;;PORT=&lt;port&gt;;DATABASE=<db>;
+ * the form: `DRIVER={<driver>};SERVER=<host>;PORT=<port>;DATABASE=<db>;
  * UID=<user>;PWD=<password>;TIMEOUT=<timeout_s>`
  *
  * Each fetched row is serialized as a JSON object
@@ -181,3 +181,4 @@ private:
 
 } // namespace ingestion
 } // namespace themis
+

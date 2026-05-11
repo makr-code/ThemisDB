@@ -39,7 +39,7 @@ std::string FilesystemBlobBackend::computeSHA256(const std::vector<uint8_t>& dat
     std::stringstream ss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0')
-           << static_cast&lt;int&gt;(hash[i]);
+           << static_cast<int>(hash[i]);
     }
     return ss.str();
 }
@@ -165,3 +165,4 @@ bool FilesystemBlobBackend::isAvailable() const {
 
 } // namespace storage
 } // namespace themis
+

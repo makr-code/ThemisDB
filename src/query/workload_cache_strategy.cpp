@@ -230,8 +230,8 @@ WorkloadType WorkloadCacheStrategy::detectWorkload() {
     
     if (detected != current_workload_.load()) {
         THEMIS_INFO("Workload type changed: {} -> {}", 
-                   static_cast&lt;int&gt;(current_workload_.load()),
-                   static_cast&lt;int&gt;(detected));
+                   static_cast<int>(current_workload_.load()),
+                   static_cast<int>(detected));
         current_workload_.store(detected);
         stats_.detected_type = detected;
     }
@@ -514,3 +514,4 @@ bool WorkloadCacheStrategy::shouldRunDetection() const {
 
 } // namespace query
 } // namespace themis
+

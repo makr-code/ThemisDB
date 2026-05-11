@@ -21,7 +21,7 @@ namespace llm {
 // ── VectorHash ──────────────────────────────────────────────────────
 
 size_t LookupDecoder::VectorHash::operator()(
-    const std::vector&lt;int&gt;& v) const noexcept
+    const std::vector<int>& v) const noexcept
 {
     // FNV-1a inspired combine: fast, low-collision for token-ID sequences.
     size_t seed = v.size();
@@ -51,22 +51,22 @@ LookupDecoder::LookupDecoder(const Config& config) : config_(config) {
 
 // ── Index construction ───────────────────────────────────────────────
 
-void LookupDecoder::buildFromPrompt(const std::vector&lt;int&gt;& tokens) {
+void LookupDecoder::buildFromPrompt(const std::vector<int>& tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
     index_.clear();
     insertion_order_.clear();
     indexTokens(tokens);
 }
 
-void LookupDecoder::updateFromTokens(const std::vector&lt;int&gt;& new_tokens) {
+void LookupDecoder::updateFromTokens(const std::vector<int>& new_tokens) {
     if (new_tokens.empty()) return;
     std::lock_guard<std::mutex> lock(mutex_);
     indexTokens(new_tokens);
 }
 
 void LookupDecoder::loadStaticNgrams(
-    const std::unordered_map<std::vector&lt;int&gt;,
-                             std::vector&lt;int&gt;,
+    const std::unordered_map<std::vector<int>,
+                             std::vector<int>,
                              VectorHash>& ngrams)
 {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -74,7 +74,7 @@ void LookupDecoder::loadStaticNgrams(
         if (key.size() >= config_.ngram_min &&
             key.size() <= config_.ngram_max &&
             !cont.empty()) {
-            std::vector&lt;int&gt; trimmed(
+            std::vector<int> trimmed(
                 cont.begin(),
                 cont.begin() + static_cast<ptrdiff_t>(
                     std::min(cont.size(), config_.max_draft_tokens)));
@@ -91,8 +91,8 @@ void LookupDecoder::clear() {
 
 // ── Draft proposal ───────────────────────────────────────────────────
 
-std::vector&lt;int&gt; LookupDecoder::proposeDraftTokens(
-    const std::vector&lt;int&gt;& context_tokens,
+std::vector<int> LookupDecoder::proposeDraftTokens(
+    const std::vector<int>& context_tokens,
     size_t                  max_draft
 ) const
 {
@@ -111,14 +111,14 @@ std::vector&lt;int&gt; LookupDecoder::proposeDraftTokens(
         if (context_tokens.size() < n) continue;
 
         // Extract the last `n` tokens as query key.
-        std::vector&lt;int&gt; key(
+        std::vector<int> key(
             context_tokens.end() - static_cast<ptrdiff_t>(n),
             context_tokens.end());
 
         auto it = index_.find(key);
         if (it != index_.end() && !it->second.empty()) {
             const auto& cont = it->second;
-            std::vector&lt;int&gt; draft(
+            std::vector<int> draft(
                 cont.begin(),
                 cont.begin() + static_cast<ptrdiff_t>(
                     std::min(cont.size(), max_draft)));
@@ -144,8 +144,8 @@ void LookupDecoder::resetStats() {
 
 // ── Internal helpers ─────────────────────────────────────────────────
 
-void LookupDecoder::insertEntry(std::vector&lt;int&gt; key,
-                                 std::vector&lt;int&gt; continuation)
+void LookupDecoder::insertEntry(std::vector<int> key,
+                                 std::vector<int> continuation)
 {
     // Evict oldest entry if at capacity.
     if (index_.size() >= config_.max_index_entries &&
@@ -161,20 +161,20 @@ void LookupDecoder::insertEntry(std::vector&lt;int&gt; key,
     index_[key] = std::move(continuation);
 }
 
-void LookupDecoder::indexTokens(const std::vector&lt;int&gt;& tokens) {
+void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
     // Slide a window of size [ngram_min..ngram_max] across the token sequence.
     // For each window: key = first n tokens, continuation = tokens after the key.
     for (size_t n = config_.ngram_min; n <= config_.ngram_max; ++n) {
         if (tokens.size() <= n) continue;  // need at least one continuation token
 
         for (size_t start = 0; start + n < tokens.size(); ++start) {
-            std::vector&lt;int&gt; key(tokens.begin() + static_cast<ptrdiff_t>(start),
+            std::vector<int> key(tokens.begin() + static_cast<ptrdiff_t>(start),
                                  tokens.begin() + static_cast<ptrdiff_t>(start + n));
             // Continuation: up to max_draft_tokens tokens following the key.
             const size_t cont_start = start + n;
             const size_t cont_end =
                 std::min(cont_start + config_.max_draft_tokens, tokens.size());
-            std::vector&lt;int&gt; cont(tokens.begin() + static_cast<ptrdiff_t>(cont_start),
+            std::vector<int> cont(tokens.begin() + static_cast<ptrdiff_t>(cont_start),
                                   tokens.begin() + static_cast<ptrdiff_t>(cont_end));
             if (!cont.empty()) {
                 insertEntry(std::move(key), std::move(cont));
@@ -185,3 +185,4 @@ void LookupDecoder::indexTokens(const std::vector&lt;int&gt;& tokens) {
 
 } // namespace llm
 } // namespace themis
+

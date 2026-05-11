@@ -261,7 +261,7 @@ http::response<http::string_body> HotReloadApiHandler::createErrorResponse(
 ) {
     json error_json;
     error_json["error"] = message;
-    error_json["status"] = static_cast&lt;int&gt;(status);
+    error_json["status"] = static_cast<int>(status);
     
     return createJsonResponse(status, error_json, req);
 }
@@ -281,3 +281,4 @@ std::string HotReloadApiHandler::extractPathParam(const std::string& path, const
 
 } // namespace server
 } // namespace themis
+

@@ -56,14 +56,14 @@ void PagedBlockManager::initializeFreeList() {
     }
 }
 
-std::vector&lt;int&gt; PagedBlockManager::allocateBlocks(int num_blocks) {
-    std::vector&lt;int&gt; allocated_ids;
+std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
+    std::vector<int> allocated_ids;
     allocated_ids.reserve(num_blocks);
     
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
     // Check if enough free blocks
-    if (static_cast&lt;int&gt;(free_list_.size()) < num_blocks) {
+    if (static_cast<int>(free_list_.size()) < num_blocks) {
         return {};  // Allocation failed
     }
     
@@ -91,7 +91,7 @@ int PagedBlockManager::allocate() {
     return blocks.empty() ? -1 : blocks.front();
 }
 
-void PagedBlockManager::freeBlocks(const std::vector&lt;int&gt;& block_ids) {
+void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
     for (int block_id : block_ids) {
@@ -139,7 +139,7 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
     // Count free blocks
     {
         std::lock_guard<std::mutex> lock(free_list_mutex_);
-        stats.num_free_blocks = static_cast&lt;int&gt;(free_list_.size());
+        stats.num_free_blocks = static_cast<int>(free_list_.size());
     }
     
     stats.num_allocated_blocks = stats.num_blocks - stats.num_free_blocks;
@@ -160,7 +160,7 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
 
 int PagedBlockManager::getNumFreeBlocks() const {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
-    return static_cast&lt;int&gt;(free_list_.size());
+    return static_cast<int>(free_list_.size());
 }
 
 void PagedBlockManager::reset() {
@@ -176,3 +176,4 @@ void PagedBlockManager::reset() {
 
 } // namespace llm
 } // namespace themis
+

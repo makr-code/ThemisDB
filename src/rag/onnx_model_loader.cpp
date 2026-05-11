@@ -237,7 +237,7 @@ std::string ONNXModelLoader::computeChecksum(const std::string& file_path) {
     
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     
     return oss.str();
@@ -327,3 +327,4 @@ std::vector<ONNXModelInfo> NLIModelFactory::getAllSupportedModels() {
 }
 
 } // namespace themis::rag::judge
+

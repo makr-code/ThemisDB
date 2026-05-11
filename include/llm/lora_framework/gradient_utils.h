@@ -50,7 +50,7 @@ struct GradientClippingConfig {
     
     json toJSON() const {
         return json{
-            {"method", static_cast&lt;int&gt;(method)},
+            {"method", static_cast<int>(method)},
             {"max_norm", max_norm},
             {"clip_value", clip_value},
             {"adaptive", adaptive}
@@ -59,7 +59,7 @@ struct GradientClippingConfig {
     
     static GradientClippingConfig fromJSON(const json& j) {
         GradientClippingConfig config;
-        if (j.contains("method")) config.method = static_cast<ClippingMethod>(j["method"].get&lt;int&gt;());
+        if (j.contains("method")) config.method = static_cast<ClippingMethod>(j["method"].get<int>());
         if (j.contains("max_norm")) config.max_norm = j["max_norm"];
         if (j.contains("clip_value")) config.clip_value = j["clip_value"];
         if (j.contains("adaptive")) config.adaptive = j["adaptive"];
@@ -254,3 +254,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

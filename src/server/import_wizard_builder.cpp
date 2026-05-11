@@ -121,7 +121,7 @@ std::string buildImportWizardHtml() {
     html += "details>summary{cursor:pointer;color:#8888bb;font-size:0.82rem;"
             "margin-top:18px;user-select:none}\n";
     html += "details>summary:hover{color:#00d4ff}\n";
-    html += "</style>\n</head>\n&lt;body&gt;\n";
+    html += "</style>\n</head>\n<body>\n";
 
     // ---- Page header ----
     html += "<div class=\"card\">\n";
@@ -316,7 +316,7 @@ std::string buildImportWizardHtml() {
 
     // escHtml
     html += "function escHtml(s){\n";
-    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n";
+    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>');\n";
     html += "}\n";
 
     // buildOptions
@@ -465,3 +465,4 @@ std::string buildImportWizardHtml() {
 
 } // namespace server
 } // namespace themis
+

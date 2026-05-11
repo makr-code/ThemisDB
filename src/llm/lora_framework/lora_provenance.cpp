@@ -75,7 +75,7 @@ static std::string digestToHex(const unsigned char digest[SHA256_DIGEST_LENGTH])
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        oss << std::setw(2) << static_cast&lt;int&gt;(digest[i]);
+        oss << std::setw(2) << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -556,3 +556,4 @@ std::string LoRAProvenanceManager::sha256File(const std::string& path) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

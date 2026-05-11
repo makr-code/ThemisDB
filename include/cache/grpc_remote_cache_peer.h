@@ -34,7 +34,7 @@
 //
 // RPC method: /themis.cache.v1.CacheInvalidation/Invalidate
 // Request payload (JSON):
-//   { "type": "invalidate",         "key": "&lt;key&gt;",      "tenant_id": "<tid>" }
+//   { "type": "invalidate",         "key": "<key>",      "tenant_id": "<tid>" }
 //   { "type": "invalidate_tenant",  "key": "",           "tenant_id": "<tid>" }
 //
 // This class is guarded by THEMIS_ENABLE_GRPC.
@@ -265,3 +265,4 @@ private:
 }  // namespace themis
 
 #endif  // THEMIS_ENABLE_GRPC
+

@@ -120,8 +120,8 @@ private:
     struct PriorityCompare {
         bool operator()(const std::shared_ptr<Task>& a,
                         const std::shared_ptr<Task>& b) const {
-            return static_cast&lt;int&gt;(a->getPriority()) <
-                   static_cast&lt;int&gt;(b->getPriority());
+            return static_cast<int>(a->getPriority()) <
+                   static_cast<int>(b->getPriority());
         }
     };
     
@@ -219,3 +219,4 @@ private:
 ThreadPoolManager& getThreadPoolManager();
 
 } // namespace themis::utils
+

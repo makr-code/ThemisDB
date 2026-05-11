@@ -98,7 +98,7 @@ public:
      * Uses GPUConfig::simulateAllocation() against the current live
      * allocation counter.
      *
-     * Input JSON (optional, for logging): { "bytes": &lt;uint64&gt;, "tag": "..." }
+     * Input JSON (optional, for logging): { "bytes": <uint64>, "tag": "..." }
      * Returns JSON: { "accepted": true/false, "reason": "..." }
      */
     std::string simulateJson(uint64_t bytes) const;
@@ -140,3 +140,4 @@ private:
 
 } // namespace gpu
 } // namespace themis
+

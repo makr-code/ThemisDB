@@ -85,7 +85,7 @@ struct MetadataChangeEvent {
 
     json toJSON() const {
         json j;
-        j["change_type"] = static_cast&lt;int&gt;(change_type);
+        j["change_type"] = static_cast<int>(change_type);
         j["table_name"]  = table_name;
         if (actor)  j["actor"]  = *actor;
         if (detail) j["detail"] = *detail;
@@ -205,3 +205,4 @@ private:
 
 } // namespace metadata
 } // namespace themis
+

@@ -99,9 +99,9 @@ llama_token NucleusSampling::sample(
     }
 
     // Select top-k candidates
-    std::vector&lt;int&gt; indices(scores.size());
+    std::vector<int> indices(scores.size());
     std::iota(indices.begin(), indices.end(), 0);
-    const int k = std::max(1, std::min(top_k_, static_cast&lt;int&gt;(n_vocab)));
+    const int k = std::max(1, std::min(top_k_, static_cast<int>(n_vocab)));
     std::partial_sort(indices.begin(), indices.begin() + k, indices.end(),
         [&](int a, int b) { return scores[a] > scores[b]; });
 
@@ -121,13 +121,13 @@ llama_token NucleusSampling::sample(
     for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
 
     // Sort by probability desc for nucleus filtering
-    std::vector&lt;int&gt; order(indices.size());
+    std::vector<int> order(indices.size());
     std::iota(order.begin(), order.end(), 0);
     std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
 
     // Keep smallest set with cumulative prob >= top_p_
     float cum = 0.0f;
-    std::vector&lt;int&gt; nucleus;
+    std::vector<int> nucleus;
     for (int oi : order) {
         nucleus.push_back(indices[oi]);
         cum += probs[oi];
@@ -151,7 +151,7 @@ llama_token NucleusSampling::sample(
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::discrete_distribution&lt;int&gt; dist(nuc_probs.begin(), nuc_probs.end());
+    std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());
     int chosen = nucleus[dist(gen)];
 
     spdlog::debug("NucleusSampling selected token: {}", chosen);
@@ -188,9 +188,9 @@ llama_token MirostatSampling::sample(
     for (auto& s : scores) s /= temp;
 
     // Basic top-k/top-p sampling (reuse logic similar to nucleus)
-    std::vector&lt;int&gt; indices(scores.size());
+    std::vector<int> indices(scores.size());
     std::iota(indices.begin(), indices.end(), 0);
-    const int k = std::max(1, std::min(top_k, static_cast&lt;int&gt;(n_vocab)));
+    const int k = std::max(1, std::min(top_k, static_cast<int>(n_vocab)));
     std::partial_sort(indices.begin(), indices.begin() + k, indices.end(),
         [&](int a, int b) { return scores[a] > scores[b]; });
     indices.resize(k);
@@ -205,10 +205,10 @@ llama_token MirostatSampling::sample(
     for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
 
     // Nucleus filter
-    std::vector&lt;int&gt; order(indices.size());
+    std::vector<int> order(indices.size());
     std::iota(order.begin(), order.end(), 0);
     std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
-    float cum = 0.0f; std::vector&lt;int&gt; nucleus;
+    float cum = 0.0f; std::vector<int> nucleus;
     for (int oi : order) { nucleus.push_back(indices[oi]); cum += probs[oi]; if (cum >= top_p) break; }
     if (nucleus.empty()) nucleus.push_back(indices[order.front()]);
     std::vector<float> nuc_probs; nuc_probs.reserve(nucleus.size()); float nuc_sum = 0.0f;
@@ -216,7 +216,7 @@ llama_token MirostatSampling::sample(
     for (auto& p : nuc_probs) p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
 
     std::random_device rd; std::mt19937 gen(rd());
-    std::discrete_distribution&lt;int&gt; dist(nuc_probs.begin(), nuc_probs.end());
+    std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());
     int chosen = nucleus[dist(gen)];
     spdlog::debug("MirostatSampling selected token: {}", chosen);
     return static_cast<llama_token>(chosen);
@@ -252,3 +252,4 @@ std::unique_ptr<ISamplingStrategy> SamplingStrategyFactory::create(
 
 } // namespace llm
 } // namespace themis
+

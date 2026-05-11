@@ -246,10 +246,14 @@ struct RAGTestCase {
 class RAGJudge {
 public:
     /**
+     * @brief Default constructor for judge
+     */
+    RAGJudge();
+    
+    /**
      * @brief Construct judge with configuration
      * @param config Evaluation configuration
      */
-    RAGJudge();
     explicit RAGJudge(const RAGJudgeConfig& config);
     
     /**
@@ -262,7 +266,6 @@ public:
      * @param query User query
      * @param documents Retrieved documents
      * @param generated_answer Generated answer to evaluate
-     * @param config Optional override configuration
      * @return Evaluation result with scores and analysis
      */
     EvaluationResult evaluate(
@@ -270,6 +273,15 @@ public:
         const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer
     );
+    
+    /**
+     * @brief Evaluate a single RAG output with custom configuration
+     * @param query User query
+     * @param documents Retrieved documents
+     * @param generated_answer Generated answer to evaluate
+     * @param config Optional override configuration
+     * @return Evaluation result with scores and analysis
+     */
     EvaluationResult evaluate(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,

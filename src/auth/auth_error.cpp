@@ -50,7 +50,7 @@ AuthError::AuthError(
 nlohmann::json AuthError::toPublicJSON() const {
     nlohmann::json j;
     j["error"] = {
-        {"code", static_cast&lt;int&gt;(code_)},
+        {"code", static_cast<int>(code_)},
         {"message", public_message_},
         {"request_id", request_id_},
         {"timestamp", std::chrono::duration_cast<std::chrono::seconds>(
@@ -73,7 +73,7 @@ nlohmann::json AuthError::toInternalJSON() const {
 void AuthError::logError() const {
     utils::Logger::error(
         "[AUTH_ERROR] Code: {}, RequestID: {}, Internal: {}, Public: {}",
-        static_cast&lt;int&gt;(code_),
+        static_cast<int>(code_),
         request_id_,
         internal_message_,
         public_message_
@@ -596,3 +596,4 @@ void registerAuthErrors() {
 
 } // namespace auth
 } // namespace themis
+

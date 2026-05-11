@@ -116,15 +116,15 @@ std::string hmacPseudonym(const std::string& key, const std::string& value) {
     unsigned int  digest_len = SHA256_DIGEST_LENGTH;
 
     HMAC(EVP_sha256(),
-         key.data(),  static_cast&lt;int&gt;(key.size()),
+         key.data(),  static_cast<int>(key.size()),
          reinterpret_cast<const unsigned char*>(value.data()),
-         static_cast&lt;int&gt;(value.size()),
+         static_cast<int>(value.size()),
          digest, &digest_len);
 
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 4; ++i) { // 4 bytes → 8 hex chars
-        oss << std::setw(2) << static_cast&lt;int&gt;(digest[i]);
+        oss << std::setw(2) << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -203,3 +203,4 @@ void PIIStreamPseudonymizer::reset() {
 
 } // namespace utils
 } // namespace themis
+

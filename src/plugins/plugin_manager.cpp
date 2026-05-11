@@ -126,7 +126,7 @@ std::string PluginManager::calculateFileHash(const std::string& path) {
     
     std::stringstream ss;
     for (unsigned int i = 0; i < hashLen; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     
     return ss.str();
@@ -293,7 +293,7 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         
         // Parse type (string form and legacy integer form)
         if (j.contains("type") && j["type"].is_number_integer()) {
-            manifest.type = static_cast<PluginType>(j["type"].get&lt;int&gt;());
+            manifest.type = static_cast<PluginType>(j["type"].get<int>());
         } else {
             std::string type_str = j.value("type", "custom");
             if (type_str == "compute_backend") {
@@ -404,7 +404,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     legacy.description = j.value("description", "");
 
                     if (j.contains("type") && j["type"].is_number_integer()) {
-                        legacy.type = static_cast<PluginType>(j["type"].get&lt;int&gt;());
+                        legacy.type = static_cast<PluginType>(j["type"].get<int>());
                     } else {
                         std::string type_str = j.value("type", "custom");
                         if (type_str == "compute_backend") legacy.type = PluginType::COMPUTE_BACKEND;
@@ -1597,3 +1597,4 @@ std::string PluginManager::installationInstructions() {
 
 } // namespace plugins
 } // namespace themis
+

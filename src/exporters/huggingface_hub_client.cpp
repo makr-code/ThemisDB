@@ -259,7 +259,7 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
     if (res != CURLE_OK) {
         return {0, std::string("CURL error: ") + curl_easy_strerror(res)};
     }
-    return {static_cast&lt;int&gt;(http_code), response};
+    return {static_cast<int>(http_code), response};
 #endif
 }
 
@@ -319,7 +319,7 @@ int HuggingFaceHubClient::httpPutBytes(
     if (retry_after_out) {
         *retry_after_out = extractRetryAfterHeader(raw_headers);
     }
-    return static_cast&lt;int&gt;(http_code);
+    return static_cast<int>(http_code);
 #endif
 }
 
@@ -781,3 +781,4 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 }
 
 } // namespace themis::exporters
+

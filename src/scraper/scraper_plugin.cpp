@@ -469,7 +469,7 @@ void ScraperPlugin::runApiLoop(
 
     for (const auto& query : queries) {
         const auto results = api_client_->fetchAll(cfg, query);
-        stats_.api_pages_fetched += static_cast&lt;int&gt;(results.size());
+        stats_.api_pages_fetched += static_cast<int>(results.size());
         for (const auto& r : results) {
             if (!policy.isAllowed(r.url) && r.url != endpoint_url) continue;
             ++stats_.docs_scraped;
@@ -596,3 +596,4 @@ ScraperRunStats ScraperPlugin::scrape() {
 
 } // namespace scraper
 } // namespace themis
+

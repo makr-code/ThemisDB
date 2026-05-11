@@ -79,15 +79,15 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
 
         if (cpu_hot || storage_hot) {
             if (cpu_hot) {
-                proposal.reason = "CPU " + std::to_string(static_cast&lt;int&gt;(load.cpu_usage_percent)) + "%";
+                proposal.reason = "CPU " + std::to_string(static_cast<int>(load.cpu_usage_percent)) + "%";
             }
             if (storage_hot) {
                 if (!proposal.reason.empty()) proposal.reason += ", ";
-                proposal.reason += "storage " + std::to_string(static_cast&lt;int&gt;(load.storage_usage_percent)) + "%";
+                proposal.reason += "storage " + std::to_string(static_cast<int>(load.storage_usage_percent)) + "%";
             }
             proposal.reason = "Reactive split: " + proposal.reason +
                               " exceeds " +
-                              std::to_string(static_cast&lt;int&gt;(config_.cpu_split_threshold * 100)) + "% threshold";
+                              std::to_string(static_cast<int>(config_.cpu_split_threshold * 100)) + "% threshold";
             proposal.current_load_percent   = std::max(load.cpu_usage_percent, load.storage_usage_percent);
             proposal.predicted_load_percent = proposal.current_load_percent;
             proposal.is_predictive          = false;
@@ -100,10 +100,10 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
             auto forecast = detector_->forecastLoad(shard_id, config_.forecast_horizon);
             if (forecast && forecast->predicted_composite_load >= config_.predictive_load_threshold) {
                 proposal.reason = "Predictive split: forecast composite load " +
-                                  std::to_string(static_cast&lt;int&gt;(forecast->predicted_composite_load)) +
+                                  std::to_string(static_cast<int>(forecast->predicted_composite_load)) +
                                   "/100 in " + std::to_string(config_.forecast_horizon.count()) +
                                   " min (threshold " +
-                                  std::to_string(static_cast&lt;int&gt;(config_.predictive_load_threshold)) + ")";
+                                  std::to_string(static_cast<int>(config_.predictive_load_threshold)) + ")";
                 // Report the last observed composite load as current_load_percent so
                 // the caller can distinguish current vs. forecasted load in logging.
                 proposal.current_load_percent   = forecast->predicted_composite_load
@@ -127,9 +127,9 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
                 if (pred.failure_probability >= config_.failure_probability_threshold) {
                     proposal.reason = "ML-based predictive split: PredictiveFailureDetector "
                                       "failure probability " +
-                                      std::to_string(static_cast&lt;int&gt;(pred.failure_probability * 100)) +
+                                      std::to_string(static_cast<int>(pred.failure_probability * 100)) +
                                       "% >= threshold " +
-                                      std::to_string(static_cast&lt;int&gt;(
+                                      std::to_string(static_cast<int>(
                                           config_.failure_probability_threshold * 100)) + "%";
                     proposal.current_load_percent   = load.cpu_usage_percent;
                     proposal.predicted_load_percent = static_cast<double>(pred.failure_probability) * 100.0;
@@ -481,7 +481,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     std::vector<unsigned char> b64_buf(b64_len);
     
     int encoded_len = EVP_EncodeBlock(b64_buf.data(), signature.data(), 
-                                       static_cast&lt;int&gt;(signature.size()));
+                                       static_cast<int>(signature.size()));
     
     std::string sig_b64;
     if (encoded_len > 0) {
@@ -844,3 +844,4 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
 
 } // namespace sharding
 } // namespace themis
+

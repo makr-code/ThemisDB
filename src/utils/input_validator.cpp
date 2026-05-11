@@ -445,8 +445,8 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
     for (char c : tmp) {
         switch (c) {
             case '&':  result += "&amp;";  break;
-            case '<':  result += "&lt;";   break;
-            case '>':  result += "&gt;";   break;
+            case '<':  result += "<";   break;
+            case '>':  result += ">";   break;
             case '"':  result += "&quot;"; break;
             case '\'': result += "&#x27;"; break;
             case '/':  result += "&#x2F;"; break;
@@ -688,3 +688,4 @@ bool InputValidator::validateHeaderValue(const std::string& value) const {
 
 } // namespace utils
 } // namespace themis
+

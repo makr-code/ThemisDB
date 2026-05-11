@@ -53,14 +53,14 @@ static GapContext parseGapContext(const YAML::Node& n) {
 
 static CrawlOptions parseCrawlOptions(const YAML::Node& n) {
     CrawlOptions o;
-    if (n["max_depth"])        o.max_depth        = n["max_depth"].as&lt;int&gt;();
-    if (n["max_pages"])        o.max_pages        = n["max_pages"].as&lt;int&gt;();
+    if (n["max_depth"])        o.max_depth        = n["max_depth"].as<int>();
+    if (n["max_pages"])        o.max_pages        = n["max_pages"].as<int>();
     if (n["user_agent"])       o.user_agent       = n["user_agent"].as<std::string>();
     if (n["respect_robots"])   o.respect_robots   = n["respect_robots"].as<bool>();
     if (n["same_domain_only"]) o.same_domain_only = n["same_domain_only"].as<bool>();
-    if (n["request_delay_ms"]) o.request_delay_ms = n["request_delay_ms"].as&lt;int&gt;();
+    if (n["request_delay_ms"]) o.request_delay_ms = n["request_delay_ms"].as<int>();
     if (n["js_renderer_cmd"])  o.js_renderer_cmd  = n["js_renderer_cmd"].as<std::string>();
-    if (n["js_timeout_ms"])    o.js_timeout_ms    = n["js_timeout_ms"].as&lt;int&gt;();
+    if (n["js_timeout_ms"])    o.js_timeout_ms    = n["js_timeout_ms"].as<int>();
     if (n["render_mode"]) {
         const std::string rm = n["render_mode"].as<std::string>();
         if      (rm == "js_rendered")  o.render_mode = ScraperRenderMode::JS_RENDERED;
@@ -74,8 +74,8 @@ static CrawlOptions parseCrawlOptions(const YAML::Node& n) {
 static SearchOptions parseSearchOptions(const YAML::Node& n) {
     SearchOptions o;
     if (n["enabled"])              o.enabled              = n["enabled"].as<bool>();
-    if (n["max_result_pages"])     o.max_result_pages     = n["max_result_pages"].as&lt;int&gt;();
-    if (n["results_per_page"])     o.results_per_page     = n["results_per_page"].as&lt;int&gt;();
+    if (n["max_result_pages"])     o.max_result_pages     = n["max_result_pages"].as<int>();
+    if (n["results_per_page"])     o.results_per_page     = n["results_per_page"].as<int>();
     if (n["result_list_selector"]) o.result_list_selector = n["result_list_selector"].as<std::string>();
     if (n["queries"] && n["queries"].IsSequence()) {
         for (const auto& q : n["queries"])
@@ -90,7 +90,7 @@ static ApiOptions parseApiOptions(const YAML::Node& n) {
     if (n["page_param"])      o.page_param      = n["page_param"].as<std::string>();
     if (n["cursor_field"])    o.cursor_field    = n["cursor_field"].as<std::string>();
     if (n["results_field"])   o.results_field   = n["results_field"].as<std::string>();
-    if (n["max_pages"])       o.max_pages       = n["max_pages"].as&lt;int&gt;();
+    if (n["max_pages"])       o.max_pages       = n["max_pages"].as<int>();
     if (n["body_template"])   o.body_template   = n["body_template"].as<std::string>();
     if (n["headers"] && n["headers"].IsMap()) {
         for (const auto& kv : n["headers"])
@@ -239,3 +239,4 @@ bool UrlPolicy::isAllowed(const std::string& url) const {
 
 } // namespace scraper
 } // namespace themis
+

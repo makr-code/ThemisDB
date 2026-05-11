@@ -147,7 +147,7 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
     }
 
     THEMIS_INFO("ToT solve: strategy={}, max_depth={}, branching={}",
-                static_cast&lt;int&gt;(config_.strategy),
+                static_cast<int>(config_.strategy),
                 config_.max_depth,
                 config_.branching_factor);
 
@@ -190,7 +190,7 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(const std::string& problem)
             std::ostringstream msg;
             msg << "BFS depth=" << node.depth
                 << " score=" << score
-                << " verdict=" << static_cast&lt;int&gt;(verdict)
+                << " verdict=" << static_cast<int>(verdict)
                 << " thought=\"" << node.thought.substr(0, 40) << "\"";
             result.log.push_back(msg.str());
         }
@@ -245,7 +245,7 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
 
     auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);
     // Push in reverse so we pop highest-index first (matches BFS order)
-    for (int i = static_cast&lt;int&gt;(root_thoughts.size()) - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(root_thoughts.size()) - 1; i >= 0; --i) {
         frontier.push(makeNode(root_thoughts[i], {}, 0));
     }
 
@@ -288,7 +288,7 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
             std::vector<std::string> child_path = node.path;
             child_path.push_back(node.thought);
             auto children = generator_->generate(problem, child_path, config_.branching_factor);
-            for (int i = static_cast&lt;int&gt;(children.size()) - 1; i >= 0; --i) {
+            for (int i = static_cast<int>(children.size()) - 1; i >= 0; --i) {
                 frontier.push(makeNode(children[i], child_path, node.depth + 1));
             }
         }
@@ -489,3 +489,4 @@ std::string TreeOfThoughtsBuilder::buildSynthesisPrompt(
 
 } // namespace prompt_engineering
 } // namespace themis
+

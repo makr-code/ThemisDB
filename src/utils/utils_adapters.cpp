@@ -244,7 +244,7 @@ std::string HKDFKeyCacheAdapter::ikmHash(const std::vector<uint8_t>& ikm) {
     std::ostringstream oss;
     for (unsigned char byte : digest) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast&lt;int&gt;(byte);
+            << static_cast<int>(byte);
     }
     return oss.str();
 }
@@ -434,3 +434,4 @@ void SequentialUtilsPipeline::shutdown() noexcept {
 
 } // namespace utils
 } // namespace themis
+

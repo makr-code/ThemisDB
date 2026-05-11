@@ -42,7 +42,7 @@ struct SearchForm {
     std::string action_url;    ///< Resolved absolute action URL
     std::string method;        ///< "GET" or "POST" (normalised to upper-case)
     std::string input_name;    ///< name= attribute of the primary search input
-    std::map<std::string, std::string> hidden_fields; ///< Hidden &lt;input&gt; fields
+    std::map<std::string, std::string> hidden_fields; ///< Hidden <input> fields
     std::string enctype;       ///< Form enctype (default: application/x-www-form-urlencoded)
 };
 
@@ -108,7 +108,7 @@ public:
      *  1. JSON-LD / microdata structured data
      *  2. Common CSS patterns: ol.results li, ul.results li,
      *     div.result, article.result, .search-result, [data-result]
-     *  3. Generic list fallback: largest &lt;ul&gt;/&lt;ol&gt; by item count
+     *  3. Generic list fallback: largest <ul>/<ol> by item count
      *
      * For openjur.de the relevant container is `.result-list > li`.
      *
@@ -235,7 +235,7 @@ public:
         const std::string& /*base_url*/,
         const std::string& /*selector*/ = "") const override {
         ++call_count_;
-        if (page_index_ < static_cast&lt;int&gt;(injected_pages_.size())) {
+        if (page_index_ < static_cast<int>(injected_pages_.size())) {
             return injected_pages_[page_index_++];
         }
         return {};
@@ -265,3 +265,4 @@ private:
 
 } // namespace scraper
 } // namespace themis
+

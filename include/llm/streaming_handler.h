@@ -67,7 +67,7 @@ public:
      *
      * Produces a JSON payload embedded in the SSE wire format:
      * @code
-     *   data: {"id":"<request_id>","token":"&lt;token&gt;","index":&lt;idx&gt;,"done":false}\n\n
+     *   data: {"id":"<request_id>","token":"<token>","index":<idx>,"done":false}\n\n
      * @endcode
      *
      * When @p done is true, the token field is empty and `"done":true` is set
@@ -142,3 +142,4 @@ public:
 
 } // namespace llm
 } // namespace themis
+

@@ -205,7 +205,7 @@ private:
     mutable std::mutex mutex_;
     
     // Current adapted efSearch
-    std::atomic&lt;int&gt; current_ef_search_;
+    std::atomic<int> current_ef_search_;
     
     // Statistics (using mutex for double atomicity in C++17)
     std::vector<QueryStats> recent_queries_;
@@ -308,3 +308,4 @@ public:
 
 } // namespace index
 } // namespace themis
+

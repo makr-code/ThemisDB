@@ -524,15 +524,15 @@ std::vector<float> CUDAVectorBackend::computeDistances(
                 static_cast<const float*>(d_queries.get()),
                 static_cast<const float*>(d_vectors.get()),
                 static_cast<float*>(d_distances.get()),
-                static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                static_cast&lt;int&gt;(dim), stream);
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
         } else {
             launchCosineDistanceKernel(
                 static_cast<const float*>(d_queries.get()),
                 static_cast<const float*>(d_vectors.get()),
                 static_cast<float*>(d_distances.get()),
-                static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                static_cast&lt;int&gt;(dim), stream);
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
         }
 
         std::vector<float> distances(numQueries * numVectors);
@@ -660,15 +660,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
                 static_cast<const float*>(d_queries.get()),
                 static_cast<const float*>(d_vectors.get()),
                 static_cast<float*>(d_distances.get()),
-                static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                static_cast&lt;int&gt;(dim), stream);
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
         } else {
             launchCosineDistanceKernel(
                 static_cast<const float*>(d_queries.get()),
                 static_cast<const float*>(d_vectors.get()),
                 static_cast<float*>(d_distances.get()),
-                static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                static_cast&lt;int&gt;(dim), stream);
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
         }
 
         // Step 2: Extract top-k
@@ -676,10 +676,10 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
             static_cast<const float*>(d_distances.get()),
             static_cast<int*>(d_topkIndices.get()),
             static_cast<float*>(d_topkDistances.get()),
-            static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-            static_cast&lt;int&gt;(effectiveK), stream);
+            static_cast<int>(numQueries), static_cast<int>(numVectors),
+            static_cast<int>(effectiveK), stream);
 
-        std::vector&lt;int&gt;   topkIndices  (numQueries * effectiveK);
+        std::vector<int>   topkIndices  (numQueries * effectiveK);
         std::vector<float> topkDistances(numQueries * effectiveK);
 
         d_topkIndices  .copyTo(topkIndices.data(),   topkIdxSize,  stream);
@@ -870,10 +870,10 @@ CUDAVectorBackend::batchKnnSearchWithGraph(
     const size_t topkDistSize = numQueries * effectiveK * sizeof(float);
 
     const QueryShape shape{
-        static_cast&lt;int&gt;(numQueries),
-        static_cast&lt;int&gt;(numVectors),
-        static_cast&lt;int&gt;(dim),
-        static_cast&lt;int&gt;(effectiveK),
+        static_cast<int>(numQueries),
+        static_cast<int>(numVectors),
+        static_cast<int>(dim),
+        static_cast<int>(effectiveK),
         metric
     };
 
@@ -946,24 +946,24 @@ CUDAVectorBackend::batchKnnSearchWithGraph(
                         static_cast<const float*>(newEntry.d_queries.get()),
                         static_cast<const float*>(newEntry.d_vectors.get()),
                         static_cast<float*>(newEntry.d_distances.get()),
-                        static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                        static_cast&lt;int&gt;(dim), captureStream);
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
                     break;
                 case DistanceMetric::INNER_PRODUCT:
                     launchInnerProductKernel(
                         static_cast<const float*>(newEntry.d_queries.get()),
                         static_cast<const float*>(newEntry.d_vectors.get()),
                         static_cast<float*>(newEntry.d_distances.get()),
-                        static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                        static_cast&lt;int&gt;(dim), captureStream);
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
                     break;
                 default: // DistanceMetric::L2
                     launchL2DistanceKernel(
                         static_cast<const float*>(newEntry.d_queries.get()),
                         static_cast<const float*>(newEntry.d_vectors.get()),
                         static_cast<float*>(newEntry.d_distances.get()),
-                        static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                        static_cast&lt;int&gt;(dim), captureStream);
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
                     break;
             }
 
@@ -972,8 +972,8 @@ CUDAVectorBackend::batchKnnSearchWithGraph(
                 static_cast<const float*>(newEntry.d_distances.get()),
                 static_cast<int*>(newEntry.d_topkIndices.get()),
                 static_cast<float*>(newEntry.d_topkDistances.get()),
-                static_cast&lt;int&gt;(numQueries), static_cast&lt;int&gt;(numVectors),
-                static_cast&lt;int&gt;(effectiveK), captureStream);
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(effectiveK), captureStream);
 
             // End capture
             cudaError_t endErr = cudaStreamEndCapture(captureStream, &newEntry.graph);
@@ -1037,7 +1037,7 @@ CUDAVectorBackend::batchKnnSearchWithGraph(
         }
 
         // D2H: copy results from pre-allocated buffers back to host
-        std::vector&lt;int&gt;   topkIndices  (numQueries * effectiveK);
+        std::vector<int>   topkIndices  (numQueries * effectiveK);
         std::vector<float> topkDistances(numQueries * effectiveK);
 
         cudaMemcpyAsync(topkIndices.data(),
@@ -1413,9 +1413,9 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(
     }
 
     const GraphBFSShape shape{
-        static_cast&lt;int&gt;(numVertices),
-        static_cast&lt;int&gt;(numStarts),
-        static_cast&lt;int&gt;(maxDepth)
+        static_cast<int>(numVertices),
+        static_cast<int>(numStarts),
+        static_cast<int>(maxDepth)
     };
 
     const size_t adjSize    = numVertices * numVertices * sizeof(uint32_t);
@@ -1495,8 +1495,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(
                 static_cast<uint32_t*>(newEntry.d_frontier_b.get()),
                 static_cast<uint32_t*>(newEntry.d_visited.get()),
                 static_cast<uint32_t*>(newEntry.d_depths.get()),
-                static_cast&lt;int&gt;(numVertices),
-                static_cast&lt;int&gt;(numStarts),
+                static_cast<int>(numVertices),
+                static_cast<int>(numStarts),
                 captureStream);
 
             // Capture: maxDepth expand kernels, alternating frontier buffers
@@ -1515,8 +1515,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(
                     frontier_out,
                     static_cast<uint32_t*>(newEntry.d_visited.get()),
                     static_cast<uint32_t*>(newEntry.d_depths.get()),
-                    static_cast&lt;int&gt;(numVertices),
-                    static_cast&lt;int&gt;(numStarts),
+                    static_cast<int>(numVertices),
+                    static_cast<int>(numStarts),
                     d + 1,
                     captureStream);
             }
@@ -1524,8 +1524,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(
             // Capture: gather kernel
             launchGraphBFSGatherKernel(
                 static_cast<const uint32_t*>(newEntry.d_visited.get()),
-                static_cast&lt;int&gt;(numVertices),
-                static_cast&lt;int&gt;(numStarts),
+                static_cast<int>(numVertices),
+                static_cast<int>(numStarts),
                 static_cast<uint32_t*>(newEntry.d_result_vertices.get()),
                 static_cast<int*>(newEntry.d_result_sizes.get()),
                 captureStream);
@@ -1587,7 +1587,7 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(
         }
 
         std::vector<uint32_t> h_result_vertices(numStarts * numVertices);
-        std::vector&lt;int&gt;      h_result_sizes(numStarts);
+        std::vector<int>      h_result_sizes(numStarts);
 
         cudaMemcpyAsync(h_result_vertices.data(),
                         entry->d_result_vertices.get(), resultsSz,
@@ -1669,8 +1669,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(
     }
 
     const GraphSPShape shape{
-        static_cast&lt;int&gt;(numVertices),
-        static_cast&lt;int&gt;(numPairs)
+        static_cast<int>(numVertices),
+        static_cast<int>(numPairs)
     };
 
     const size_t adjSize  = numVertices * numVertices * sizeof(uint32_t);
@@ -1740,8 +1740,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(
                 static_cast<const uint32_t*>(newEntry.d_startVertices.get()),
                 static_cast<float*>(newEntry.d_distances.get()),
                 static_cast<int*>(newEntry.d_predecessors.get()),
-                static_cast&lt;int&gt;(numVertices),
-                static_cast&lt;int&gt;(numPairs),
+                static_cast<int>(numVertices),
+                static_cast<int>(numPairs),
                 captureStream);
 
             // Capture: numVertices-1 relaxation passes (Bellman-Ford guarantee)
@@ -1751,8 +1751,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(
                     static_cast<const float*>(newEntry.d_weights.get()),
                     static_cast<float*>(newEntry.d_distances.get()),
                     static_cast<int*>(newEntry.d_predecessors.get()),
-                    static_cast&lt;int&gt;(numVertices),
-                    static_cast&lt;int&gt;(numPairs),
+                    static_cast<int>(numVertices),
+                    static_cast<int>(numPairs),
                     captureStream);
             }
 
@@ -1813,7 +1813,7 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(
         }
 
         std::vector<float> h_distances(numPairs * numVertices);
-        std::vector&lt;int&gt;   h_predecessors(numPairs * numVertices);
+        std::vector<int>   h_predecessors(numPairs * numVertices);
 
         cudaMemcpyAsync(h_distances.data(), entry->d_distances.get(),
                         distSize, cudaMemcpyDeviceToHost, mainStream);
@@ -2055,7 +2055,7 @@ std::vector<float> CUDAGeoBackend::batchDistances(
             static_cast<const double*>(d_lats2.get()),
             static_cast<const double*>(d_lons2.get()),
             static_cast<float*>(d_distances.get()),
-            static_cast&lt;int&gt;(count),
+            static_cast<int>(count),
             formula,
             stream);
 
@@ -2150,9 +2150,9 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(
         const int rc = launchGeoContainmentKernel(
             static_cast<const double*>(d_pointLats.get()),
             static_cast<const double*>(d_pointLons.get()),
-            static_cast&lt;int&gt;(numPoints),
+            static_cast<int>(numPoints),
             static_cast<const double*>(d_polyCoords.get()),
-            static_cast&lt;int&gt;(numPolygonVertices),
+            static_cast<int>(numPolygonVertices),
             static_cast<uint8_t*>(d_results.get()),
             stream);
 
@@ -2351,3 +2351,4 @@ MatrixKernelDispatch CUDAMatrixBackend::populateMatrixDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
+

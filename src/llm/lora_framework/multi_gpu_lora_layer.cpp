@@ -67,7 +67,7 @@ void MultiGPULoRALayer::initialize_backend(CommBackend backend) {
             backend = CommBackend::CUSTOM;
         }
         spdlog::info("Auto-selected communication backend: {}", 
-                    static_cast&lt;int&gt;(backend));
+                    static_cast<int>(backend));
     }
     
     backend_type_ = backend;
@@ -301,3 +301,4 @@ std::vector<GPULoRALayer*> MultiGPULoRALayer::get_layers() {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

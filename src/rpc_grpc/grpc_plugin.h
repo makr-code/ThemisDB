@@ -105,7 +105,7 @@ public:
      * @brief Return the admin server address if multi-port binding is active.
      *
      * If `extra_config["admin_port"]` was set before `start()`, returns
-     * `"&lt;host&gt;:<admin_port>"`.  Returns an empty string when no admin port
+     * `"<host>:<admin_port>"`.  Returns an empty string when no admin port
      * is bound.
      */
     std::string getAdminAddress() const;
@@ -290,3 +290,4 @@ private:
 } // namespace rpc
 } // namespace plugins
 } // namespace themis
+

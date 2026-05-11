@@ -187,7 +187,7 @@ public:
         // ── Store depth hint in extra ──────────────────────────────────────
         int depth = 1;
         if (cfg.config.contains("max_depth") && cfg.config["max_depth"].is_number()) {
-            depth = cfg.config["max_depth"].get&lt;int&gt;();
+            depth = cfg.config["max_depth"].get<int>();
         }
         ctx.extra["decompress.depth"] = std::to_string(depth);
 
@@ -237,3 +237,4 @@ std::shared_ptr<IIngestionStep> createDecompressStep() {
 } // namespace builtin
 } // namespace ingestion
 } // namespace themis
+

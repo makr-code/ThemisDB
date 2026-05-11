@@ -73,8 +73,8 @@ std::string unescapeXml(std::string_view s) {
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
         if      (ent == "&amp;")  out += '&';
-        else if (ent == "&lt;")   out += '<';
-        else if (ent == "&gt;")   out += '>';
+        else if (ent == "<")   out += '<';
+        else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
         else if (ent == "&apos;") out += '\'';
         else                      out += std::string(ent); // unknown – keep as-is
@@ -273,8 +273,8 @@ std::string BpmnSerializer::escapeXml_(std::string_view s) {
     for (char c : s) {
         switch (c) {
             case '&':  out += "&amp;";  break;
-            case '<':  out += "&lt;";   break;
-            case '>':  out += "&gt;";   break;
+            case '<':  out += "<";   break;
+            case '>':  out += ">";   break;
             case '"':  out += "&quot;"; break;
             case '\'': out += "&apos;"; break;
             default:   out += c;        break;
@@ -824,3 +824,4 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
 
 } // namespace process
 } // namespace themis
+

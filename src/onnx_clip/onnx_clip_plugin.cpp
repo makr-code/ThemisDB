@@ -311,7 +311,7 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     impl_->model_name = config.get<std::string>("model.name", "clip-vit-base-patch32");
-    impl_->embedding_dim = config.get&lt;int&gt;("model.embedding_dim", 512);
+    impl_->embedding_dim = config.get<int>("model.embedding_dim", 512);
     if (impl_->embedding_dim <= 0) {
         impl_->embedding_dim = 512;
     }
@@ -325,7 +325,7 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
 
     // CPU backend is memory-bound; cap at 16 by default.
     const int cpu_default = (impl_->backend == BackendType::CPU) ? 16 : 64;
-    const int cfg_max = config.get&lt;int&gt;("max_batch_size", cpu_default);
+    const int cfg_max = config.get<int>("max_batch_size", cpu_default);
     impl_->max_batch_size = std::max(1, cfg_max);
 
     // Model integrity check: if expected_model_sha256 is set, verify the file hash.
@@ -552,3 +552,4 @@ void ONNXClipPlugin::warmup() {
 } // namespace image
 } // namespace plugins
 } // namespace themis
+

@@ -462,7 +462,7 @@ HoltWintersParams fitHoltWinters(const std::vector<double>& y,
     HoltWintersParams p{alpha, beta, gamma, 0.0, 0.0, {}, m, multiplicative, 0.0};
 
     // Need at least 2 full seasons for seasonal initialisation
-    bool has_season = (m >= 2) && (static_cast&lt;int&gt;(n) >= 2 * m);
+    bool has_season = (m >= 2) && (static_cast<int>(n) >= 2 * m);
 
     if (!has_season) {
         // Fall back to Holt's (linear trend, no seasonality)
@@ -485,9 +485,9 @@ HoltWintersParams fitHoltWinters(const std::vector<double>& y,
     }
 
     // Seasonal initialisation: average of first m seasons
-    int im = static_cast&lt;int&gt;(m);
+    int im = static_cast<int>(m);
     std::vector<double> season_avgs;
-    int num_complete = static_cast&lt;int&gt;(n) / im;
+    int num_complete = static_cast<int>(n) / im;
     season_avgs.reserve(static_cast<size_t>(num_complete));
     for (int s = 0; s < num_complete; ++s) {
         double avg = 0.0;
@@ -521,7 +521,7 @@ HoltWintersParams fitHoltWinters(const std::vector<double>& y,
     double ss = 0.0;
     size_t forecast_count = 0;
     for (size_t i = 0; i < n; ++i) {
-        int si = static_cast&lt;int&gt;(i) % im;
+        int si = static_cast<int>(i) % im;
         double pred = multiplicative ? (L + T) * S[static_cast<size_t>(si)]
                                      : (L + T) + S[static_cast<size_t>(si)];
         double res = y[i] - pred;
@@ -619,7 +619,7 @@ ArimaParams fitARIMA(const std::vector<double>& y, int p, int d, int q) {
     for (double& v : yc) v -= params.mean_diff;
 
     // AR coefficients via Yule-Walker
-    int actual_p = std::min(p, static_cast&lt;int&gt;(yc.size()) - 1);
+    int actual_p = std::min(p, static_cast<int>(yc.size()) - 1);
     if (actual_p > 0) params.ar_coeffs = yuleWalker(yc, actual_p);
     else              params.ar_coeffs = {};
 
@@ -634,7 +634,7 @@ ArimaParams fitARIMA(const std::vector<double>& y, int p, int d, int q) {
     }
 
     // Simple MA(q) coefficients: regress residuals on lagged residuals (OLS)
-    int actual_q = std::min(q, static_cast&lt;int&gt;(n) - static_cast&lt;int&gt;(ap) - 1);
+    int actual_q = std::min(q, static_cast<int>(n) - static_cast<int>(ap) - 1);
     if (actual_q > 0 && n > ap + static_cast<size_t>(actual_q)) {
         // MA via iterative regression (simplified: one OLS pass)
         std::vector<double> ma_phi(static_cast<size_t>(actual_q), 0.0);
@@ -716,7 +716,7 @@ static std::vector<double> seasonalDiff(const std::vector<double>& y, int D, int
     if (D == 0 || m < 1) return y;
     std::vector<double> yd = y;
     for (int iter = 0; iter < D; ++iter) {
-        if (static_cast&lt;int&gt;(yd.size()) <= m) break;
+        if (static_cast<int>(yd.size()) <= m) break;
         std::vector<double> tmp(yd.size() - static_cast<size_t>(m));
         for (size_t i = static_cast<size_t>(m); i < yd.size(); ++i)
             tmp[i - static_cast<size_t>(m)] = yd[i] - yd[i - static_cast<size_t>(m)];
@@ -762,7 +762,7 @@ SARIMAParams fitSARIMA(const std::vector<double>& y,
     for (double& v : yc) v -= params.mean_diff;
 
     // --- build AR lag set: lags 1..p  plus seasonal lags m, 2m..P*m --------
-    std::vector&lt;int&gt; ar_lags;
+    std::vector<int> ar_lags;
     for (int i = 1; i <= p; ++i) ar_lags.push_back(i);
     for (int i = 1; i <= P; ++i) ar_lags.push_back(i * params.m);
     // remove duplicates
@@ -771,12 +771,12 @@ SARIMAParams fitSARIMA(const std::vector<double>& y,
 
     // Build OLS design matrix for AR via Yule-Walker generalisation
     // (simple OLS regression of yc[t] on yc[t-lag] for lag in ar_lags)
-    int total_ar = static_cast&lt;int&gt;(ar_lags.size());
+    int total_ar = static_cast<int>(ar_lags.size());
     size_t n = yc.size();
     int max_lag = ar_lags.empty() ? 0 : ar_lags.back();
-    if (max_lag < 1 || static_cast&lt;int&gt;(n) <= max_lag + 1) {
+    if (max_lag < 1 || static_cast<int>(n) <= max_lag + 1) {
         // fall back to plain AR(p) via Yule-Walker
-        int actual_p = std::min(p, static_cast&lt;int&gt;(n) - 1);
+        int actual_p = std::min(p, static_cast<int>(n) - 1);
         if (actual_p > 0) params.ar_coeffs = yuleWalker(yc, actual_p);
     } else {
         // Normal-equation (X'X)^{-1} X'y for the AR lag design
@@ -845,7 +845,7 @@ SARIMAParams fitSARIMA(const std::vector<double>& y,
     }
 
     // --- MA lags: lags 1..q plus seasonal lags m..Q*m ----------------------
-    std::vector&lt;int&gt; ma_lags;
+    std::vector<int> ma_lags;
     for (int i = 1; i <= q; ++i) ma_lags.push_back(i);
     for (int i = 1; i <= Q; ++i) ma_lags.push_back(i * params.m);
     std::sort(ma_lags.begin(), ma_lags.end());
@@ -895,7 +895,7 @@ SARIMAParams fitSARIMA(const std::vector<double>& y,
 
     // --- seasonal buffer: last m original values (needed for prediction) ----
     int sbuf_size = params.m;
-    if (static_cast&lt;int&gt;(y.size()) >= sbuf_size)
+    if (static_cast<int>(y.size()) >= sbuf_size)
         params.seasonal_buffer.assign(y.end() - static_cast<ptrdiff_t>(sbuf_size), y.end());
     else
         params.seasonal_buffer = y;
@@ -937,9 +937,9 @@ std::vector<double> predictSARIMA(const SARIMAParams& p, int steps) {
         // Seasonal integration (D=1): pred_val += seas_buf[k % m]
         // (We approximate by adding back the seasonal value from the buffer)
         if (p.D >= 1 && m >= 2 && !seas_buf.empty()) {
-            int si = static_cast&lt;int&gt;(seas_buf.size()) - m + (k % m);
+            int si = static_cast<int>(seas_buf.size()) - m + (k % m);
             if (si < 0) si = 0;
-            if (si >= static_cast&lt;int&gt;(seas_buf.size())) si = static_cast&lt;int&gt;(seas_buf.size()) - 1;
+            if (si >= static_cast<int>(seas_buf.size())) si = static_cast<int>(seas_buf.size()) - 1;
             pred_val += seas_buf[static_cast<size_t>(si)];
         }
 
@@ -1003,7 +1003,7 @@ static double prophetFourier(double t_days, double period,
                              const std::vector<double>& coeffs)
 {
     double s = 0.0;
-    int order = static_cast&lt;int&gt;(coeffs.size()) / 2;
+    int order = static_cast<int>(coeffs.size()) / 2;
     for (int n = 1; n <= order; ++n) {
         double freq = 2.0 * 3.14159265358979323846 * static_cast<double>(n) * t_days / period;
         s += coeffs[static_cast<size_t>(2 * n - 2)] * std::cos(freq);
@@ -1047,7 +1047,7 @@ ProphetParams fitProphet(const std::vector<double>& y,
 
     // ---- Changepoint detection: evenly-spaced within first 80% of series ----
     double cp_range = cfg.prophet_changepoint_range;
-    int n_cps = std::max(0, std::min(25, static_cast&lt;int&gt;(n) / 4));
+    int n_cps = std::max(0, std::min(25, static_cast<int>(n) / 4));
     p.changepoints_t.resize(static_cast<size_t>(n_cps));
     for (int i = 0; i < n_cps; ++i)
         p.changepoints_t[static_cast<size_t>(i)] =
@@ -1154,7 +1154,7 @@ ProphetParams fitProphet(const std::vector<double>& y,
                 beta[row] -= f * beta[col];
             }
         }
-        for (int row = static_cast&lt;int&gt;(nc) - 1; row >= 0; --row) {
+        for (int row = static_cast<int>(nc) - 1; row >= 0; --row) {
             double diag = XtX[static_cast<size_t>(row) * nc + static_cast<size_t>(row)];
             if (std::abs(diag) < 1e-15) { beta[static_cast<size_t>(row)] = 0.0; continue; }
             for (size_t c = static_cast<size_t>(row) + 1; c < nc; ++c)
@@ -1405,7 +1405,7 @@ struct ForecastModel::Impl {
         bool has_season = (m >= 2) && !S.empty();
         // Use train_ts.size() so this also works after deserialization
         size_t n = train_ts.empty() ? train_y.size() : train_ts.size();
-        int train_n = static_cast&lt;int&gt;(n);
+        int train_n = static_cast<int>(n);
 
         for (int k = 1; k <= steps; ++k) {
             double val;
@@ -1621,7 +1621,7 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     impl_->fitted = true;
 
     // In-sample RMSE
-    auto preds = impl_->predict(static_cast&lt;int&gt;(impl_->train_y.size()) - 1);
+    auto preds = impl_->predict(static_cast<int>(impl_->train_y.size()) - 1);
     double ss = 0.0;
     for (size_t i = 0; i < preds.size(); ++i) {
         double err = impl_->train_y[i + 1] - preds[i];
@@ -1771,7 +1771,7 @@ void ForecastModel::update(double new_value) {
         auto& hp = impl_->hw_p;
         int m = hp.m;
         bool has_season = (m >= 2) && !hp.S.empty();
-        int n_prev = static_cast&lt;int&gt;(impl_->train_y.size()) - 1; // index before this obs
+        int n_prev = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
 
         double L_prev = hp.L;
         double T_prev = hp.T;
@@ -1833,7 +1833,7 @@ ForecastMetrics ForecastModel::evaluate(const TimeSeries& test_ts) const {
         throw std::runtime_error("ForecastModel: call fit() before evaluate()");
     if (test_ts.empty()) return {};
 
-    int steps = static_cast&lt;int&gt;(test_ts.size());
+    int steps = static_cast<int>(test_ts.size());
     auto preds = impl_->predict(steps);
     return computeMetrics(test_ts.values(), preds);
 }
@@ -1857,13 +1857,13 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
 
     // Trend: centred moving average of window = min(seasonality, n/3)
     int m = (impl_->config.seasonality >= 2) ? impl_->config.seasonality
-                                              : static_cast&lt;int&gt;(std::max(size_t{3}, n / 5));
-    m = std::min(m, static_cast&lt;int&gt;(n) - 1);
+                                              : static_cast<int>(std::max(size_t{3}, n / 5));
+    m = std::min(m, static_cast<int>(n) - 1);
     for (size_t i = 0; i < n; ++i) {
-        int lo = static_cast&lt;int&gt;(i) - m / 2;
-        int hi = static_cast&lt;int&gt;(i) + m / 2;
+        int lo = static_cast<int>(i) - m / 2;
+        int hi = static_cast<int>(i) + m / 2;
         lo = std::max(lo, 0);
-        hi = std::min(hi, static_cast&lt;int&gt;(n) - 1);
+        hi = std::min(hi, static_cast<int>(n) - 1);
         double acc = 0.0;
         for (int j = lo; j <= hi; ++j) acc += y[static_cast<size_t>(j)];
         dr.trend[i] = acc / static_cast<double>(hi - lo + 1);
@@ -1873,9 +1873,9 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
     if (impl_->config.seasonality >= 2) {
         int period = impl_->config.seasonality;
         std::vector<double> season_acc(static_cast<size_t>(period), 0.0);
-        std::vector&lt;int&gt;    season_cnt(static_cast<size_t>(period), 0);
+        std::vector<int>    season_cnt(static_cast<size_t>(period), 0);
         for (size_t i = 0; i < n; ++i) {
-            int si = static_cast&lt;int&gt;(i) % period;
+            int si = static_cast<int>(i) % period;
             double base = dr.trend[i];
             season_acc[static_cast<size_t>(si)] += multiplicative
                 ? (base != 0.0 ? y[i] / base : 1.0)
@@ -1883,7 +1883,7 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
             ++season_cnt[static_cast<size_t>(si)];
         }
         for (size_t i = 0; i < n; ++i) {
-            int si = static_cast&lt;int&gt;(i) % period;
+            int si = static_cast<int>(i) % period;
             dr.seasonal[i] = (season_cnt[static_cast<size_t>(si)] > 0)
                 ? season_acc[static_cast<size_t>(si)] / static_cast<double>(season_cnt[static_cast<size_t>(si)])
                 : (multiplicative ? 1.0 : 0.0);
@@ -1906,7 +1906,7 @@ std::string ForecastModel::serialize() const {
     // std::fixed is intentionally NOT used here so integers (e.g. timestamps) and
     // small fractions both serialise without unnecessary padding.
     oss << std::setprecision(std::numeric_limits<double>::max_digits10);
-    oss << "method=" << static_cast&lt;int&gt;(impl_->method) << "\n";
+    oss << "method=" << static_cast<int>(impl_->method) << "\n";
     oss << "fitted=" << (impl_->fitted ? 1 : 0) << "\n";
     oss << "alpha=" << impl_->config.alpha << "\n";
     oss << "beta=" << impl_->config.beta << "\n";
@@ -2178,3 +2178,4 @@ const ForecastConfig& ForecastModel::config() const noexcept {
 
 } // namespace analytics
 } // namespace themisdb
+

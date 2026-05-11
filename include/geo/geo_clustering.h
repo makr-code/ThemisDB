@@ -48,7 +48,7 @@ static constexpr int kDbscanUnclassified = -2;
  */
 struct GeoClusterResult {
     /// Cluster label for each input point, parallel to the input vector.
-    std::vector&lt;int&gt; labels;
+    std::vector<int> labels;
     /// Number of distinct clusters found (excludes DBSCAN noise).
     int num_clusters{0};
 };
@@ -166,3 +166,4 @@ GeoClusterResult kmeansCluster(
 
 } // namespace geo
 } // namespace themis
+

@@ -756,7 +756,7 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
         cublasHandle_t blas_handle = nullptr;
         try {
             if (cublasCreate(&blas_handle) == CUBLAS_STATUS_SUCCESS) {
-                const int n = static_cast&lt;int&gt;(a.size());
+                const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: cublasSdot ---
@@ -897,7 +897,7 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
         hipblasHandle_t blas_handle = nullptr;
         try {
             if (hipblasCreate(&blas_handle) == HIPBLAS_STATUS_SUCCESS) {
-                const int n = static_cast&lt;int&gt;(a.size());
+                const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: hipblasSdot ---
@@ -1231,3 +1231,4 @@ void GPUQueryAccelerator::resetStats() {
 
 } // namespace gpu
 } // namespace themis
+

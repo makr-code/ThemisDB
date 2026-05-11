@@ -159,7 +159,7 @@ public:
      * @param token_ids Vector of token IDs
      * @return Flattened embedding matrix [num_tokens * hidden_dim]
      */
-    std::vector<float> getTokenEmbeddings(const std::vector&lt;int&gt;& token_ids) const;
+    std::vector<float> getTokenEmbeddings(const std::vector<int>& token_ids) const;
     
     /**
      * @brief Get pointer to full embedding matrix (read-only)
@@ -341,3 +341,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

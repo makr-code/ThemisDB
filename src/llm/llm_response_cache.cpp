@@ -102,7 +102,7 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
             // Initialize HNSW index for prompt embeddings
             auto status = vector_index_->init(
                 cache_name_,                           // objectName
-                static_cast&lt;int&gt;(config_.embedding_dim), // dimension
+                static_cast<int>(config_.embedding_dim), // dimension
                 VectorIndexManager::Metric::COSINE,    // metric
                 16,                                    // M
                 200,                                   // efConstruction
@@ -415,7 +415,7 @@ void LLMResponseCache::clear() {
         vector_index_->shutdown();
         vector_index_->init(
             cache_name_,
-            static_cast&lt;int&gt;(config_.embedding_dim),
+            static_cast<int>(config_.embedding_dim),
             VectorIndexManager::Metric::COSINE,
             16, 200, 64
         );
@@ -584,3 +584,4 @@ bool LLMResponseCache::isExpired(const CachedEntry& entry) const {
 
 } // namespace llm
 } // namespace themis
+

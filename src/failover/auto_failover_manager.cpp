@@ -172,7 +172,7 @@ std::vector<std::string> AutoFailoverManager::getFailingNodes() const {
     std::vector<std::string> failing_nodes;
 
     for (const auto& [node_id, failures] : consecutive_failures_) {
-        if (failures >= static_cast&lt;int&gt;(config_.consecutive_failures_before_action)) {
+        if (failures >= static_cast<int>(config_.consecutive_failures_before_action)) {
             failing_nodes.push_back(node_id);
         }
     }
@@ -614,8 +614,8 @@ void AutoFailoverManager::transitionState(FailoverOrchestratorState new_state) {
 
     if (current_state != new_state) {
         spdlog::debug("Failover state transition: {} -> {}",
-                      static_cast&lt;int&gt;(current_state),
-                      static_cast&lt;int&gt;(new_state));
+                      static_cast<int>(current_state),
+                      static_cast<int>(new_state));
     }
 }
 
@@ -668,3 +668,4 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
 
 }  // namespace failover
 }  // namespace themis
+

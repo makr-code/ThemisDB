@@ -48,8 +48,8 @@ std::string unescapeAml(std::string_view s) {
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
         if      (ent == "&amp;")  out += '&';
-        else if (ent == "&lt;")   out += '<';
-        else if (ent == "&gt;")   out += '>';
+        else if (ent == "<")   out += '<';
+        else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
         else if (ent == "&apos;") out += '\'';
         else if (ent.size() > 2 && ent[1] == '#') {
@@ -602,3 +602,4 @@ EpkArisXmlImporter::importAllAml(std::string_view aml_xml)
 
 } // namespace process
 } // namespace themis
+

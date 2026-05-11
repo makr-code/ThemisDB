@@ -159,7 +159,7 @@ json EthicsGetArgumentsFunction::execute(
     // Requires the ethics_ai plugin to populate the collection.
     [[maybe_unused]] const std::string& philosophy = args[0];
     [[maybe_unused]] const json& types = args.size() > 1 ? args[1] : json::array();
-    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get&lt;int&gt;() : 20;
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 20;
     
     // F-028: throw so the AQL runtime surfaces a real error instead of
     // returning a silent empty array that callers cannot distinguish from
@@ -186,7 +186,7 @@ json EthicsFindSimilarDilemmasFunction::execute(
     // Requires the ethics_ai plugin + vector index on the ethics_dilemmas collection.
     [[maybe_unused]] const std::string& query_text = args[0];
     [[maybe_unused]] double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
-    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get&lt;int&gt;() : 10;
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 10;
     
     // F-028: throw instead of silent empty array.
     // Implement via vector similarity search on ethics_dilemmas collection
@@ -206,7 +206,7 @@ json EthicsTraverseChainFunction::execute(
     //     RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
     // Requires the ethics_ai plugin to create the ethics_arguments_graph.
     [[maybe_unused]] const std::string& start_id = args[0];
-    [[maybe_unused]] int max_depth = args.size() > 1 ? args[1].get&lt;int&gt;() : 5;
+    [[maybe_unused]] int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
     
     // F-028: throw instead of silent empty array.
     // Implement via graph traversal on ethics_arguments_graph
@@ -340,3 +340,4 @@ ethics_evaluation_score_avg 0.0
 } // namespace functions
 } // namespace query
 } // namespace themis
+

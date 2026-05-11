@@ -42,10 +42,10 @@ namespace themis {
 /// - Graph ID: Prefix to isolate multiple graphs (default: "default")
 /// 
 /// Key Schemas:
-/// - Label Index: label:&lt;graph_id&gt;:&lt;label&gt;:&lt;pk&gt; -> (empty)
-/// - Type Index: type:&lt;graph_id&gt;:&lt;type&gt;:&lt;edge_id&gt; -> (empty)
-/// - Graph Outdex: graph:out:&lt;graph_id&gt;:&lt;from_pk&gt;:&lt;edge_id&gt; -> &lt;to_pk&gt;
-/// - Graph Indeg: graph:in:&lt;graph_id&gt;:&lt;to_pk&gt;:&lt;edge_id&gt; -> &lt;from_pk&gt;
+/// - Label Index: label:<graph_id>:<label>:<pk> -> (empty)
+/// - Type Index: type:<graph_id>:<type>:<edge_id> -> (empty)
+/// - Graph Outdex: graph:out:<graph_id>:<from_pk>:<edge_id> -> <to_pk>
+/// - Graph Indeg: graph:in:<graph_id>:<to_pk>:<edge_id> -> <from_pk>
 /// 
 /// Performance:
 /// - Label queries: O(N_label) via prefix scan
@@ -310,3 +310,4 @@ private:
 };
 
 } // namespace themis
+

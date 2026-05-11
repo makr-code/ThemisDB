@@ -92,7 +92,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
         (e = hipMalloc(&d_lons, pts_sz))  != hipSuccess ||
         (e = hipMalloc(&d_poly, poly_sz)) != hipSuccess ||
         (e = hipMalloc(&d_res,  out_sz))  != hipSuccess) {
-        res.error_code = static_cast&lt;int&gt;(e);
+        res.error_code = static_cast<int>(e);
         hipFree(d_lats); hipFree(d_lons);
         hipFree(d_poly); hipFree(d_res);
         return res;
@@ -103,7 +103,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
         (e = hipMemcpy(d_lons, point_lons,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||
         (e = hipMemcpy(d_poly, polygon_coords, poly_sz, hipMemcpyHostToDevice)) != hipSuccess ||
         (e = hipMemset(d_res, 0, out_sz))                                        != hipSuccess) {
-        res.error_code = static_cast&lt;int&gt;(e);
+        res.error_code = static_cast<int>(e);
         hipFree(d_lats); hipFree(d_lons);
         hipFree(d_poly); hipFree(d_res);
         return res;
@@ -123,11 +123,11 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
             if (e == hipSuccess) {
                 res.dispatched = true;
             } else {
-                res.error_code = static_cast&lt;int&gt;(e);
+                res.error_code = static_cast<int>(e);
                 res.mask.clear();
             }
         } else {
-            res.error_code = static_cast&lt;int&gt;(e);
+            res.error_code = static_cast<int>(e);
         }
     } else {
         res.error_code = rc;
@@ -172,7 +172,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
         (e = hipMalloc(&d_lats2, coord_sz)) != hipSuccess ||
         (e = hipMalloc(&d_lons2, coord_sz)) != hipSuccess ||
         (e = hipMalloc(&d_out,   out_sz))   != hipSuccess) {
-        res.error_code = static_cast&lt;int&gt;(e);
+        res.error_code = static_cast<int>(e);
         hipFree(d_lats1); hipFree(d_lons1);
         hipFree(d_lats2); hipFree(d_lons2);
         hipFree(d_out);
@@ -184,7 +184,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
         (e = hipMemcpy(d_lats2, lats2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
         (e = hipMemcpy(d_lons2, lons2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
         (e = hipMemset(d_out, 0, out_sz))                                 != hipSuccess) {
-        res.error_code = static_cast&lt;int&gt;(e);
+        res.error_code = static_cast<int>(e);
         hipFree(d_lats1); hipFree(d_lons1);
         hipFree(d_lats2); hipFree(d_lons2);
         hipFree(d_out);
@@ -204,11 +204,11 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
             if (e == hipSuccess) {
                 res.dispatched = true;
             } else {
-                res.error_code = static_cast&lt;int&gt;(e);
+                res.error_code = static_cast<int>(e);
                 res.distances_km.clear();
             }
         } else {
-            res.error_code = static_cast&lt;int&gt;(e);
+            res.error_code = static_cast<int>(e);
         }
     } else {
         res.error_code = rc;
@@ -222,3 +222,4 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
 
 } // namespace geo
 } // namespace themis
+

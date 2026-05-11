@@ -116,7 +116,7 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
     } else {
         // Generate new LEK
         std::vector<uint8_t> lek(32); // 256-bit AES key
-        if (RAND_bytes(lek.data(), static_cast&lt;int&gt;(lek.size())) != 1) {
+        if (RAND_bytes(lek.data(), static_cast<int>(lek.size())) != 1) {
             throw std::runtime_error("Failed to generate random LEK");
         }
         
@@ -373,3 +373,4 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
 
 } // namespace utils
 } // namespace themis
+

@@ -23,7 +23,7 @@
 // detects the HTTP prefix, performs the Beast WebSocket handshake, and then
 // processes ThemisDB messages carried over WebSocket frames.
 //
-// Text frames  → JSON messages: {"id":"&lt;req&gt;","type":"ping|get|put|delete|query","payload":{...}}
+// Text frames  → JSON messages: {"id":"<req>","type":"ping|get|put|delete|query","payload":{...}}
 // Binary frames→ raw ThemisDB wire-protocol frames (same format as TCP path)
 
 #pragma once
@@ -211,3 +211,4 @@ private:
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+

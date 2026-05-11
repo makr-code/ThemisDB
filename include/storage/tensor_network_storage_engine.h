@@ -22,8 +22,8 @@
  *
  * ### Key schema
  * ```
- * __ttn__:<tenant>:<collection>:&lt;field&gt;:meta:<version>   → QuantizedTrain header
- * __ttn__:<tenant>:<collection>:&lt;field&gt;:G<k>:<version>   → QuantizedCore k bytes
+ * __ttn__:<tenant>:<collection>:<field>:meta:<version>   → QuantizedTrain header
+ * __ttn__:<tenant>:<collection>:<field>:G<k>:<version>   → QuantizedCore k bytes
  * ```
  * The `__ttn__` prefix namespaces tensor-network keys away from regular data.
  *
@@ -364,7 +364,7 @@ public:
     /**
      * @brief Store an opaque byte blob under a named metadata key.
      *
-     * The key is namespaced to `__tfgmeta__:&lt;key&gt;` so it cannot collide
+     * The key is namespaced to `__tfgmeta__:<key>` so it cannot collide
      * with regular tensor keys.  Used by TensorDeduplicationManager to
      * persist the fingerprint graph snapshot between process restarts.
      *
@@ -441,3 +441,4 @@ private:
 
 } // namespace storage
 } // namespace themis
+

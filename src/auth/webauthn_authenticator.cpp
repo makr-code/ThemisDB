@@ -86,7 +86,7 @@ static size_t cborReadArg(const std::vector<uint8_t>& d, size_t pos, uint64_t& o
         pos += 8; return pos;
     }
     throw std::runtime_error("CBOR: unsupported additional info " +
-                             std::to_string(static_cast&lt;int&gt;(info)));
+                             std::to_string(static_cast<int>(info)));
 }
 
 /// Skip one CBOR item, returning the new position.
@@ -778,7 +778,7 @@ void WebAuthnAuthenticator::fillRandomBytes(unsigned char* buf, std::size_t len)
         rand_bytes_fn_(buf, len);
         return;
     }
-    if (RAND_bytes(buf, static_cast&lt;int&gt;(len)) != 1) {
+    if (RAND_bytes(buf, static_cast<int>(len)) != 1) {
         THROW_AUTH_ERROR(AuthErrorCode::AUTH_INTERNAL_ERROR,
                          "WebAuthn internal error",
                          "RAND_bytes failed");
@@ -988,9 +988,9 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t>& cose_key_bytes)
             throw std::runtime_error("RSA COSE key missing modulus or exponent");
 
         BIGNUM* n = BN_bin2bn(fields.neg1_bytes.data(),
-                              static_cast&lt;int&gt;(fields.neg1_bytes.size()), nullptr);
+                              static_cast<int>(fields.neg1_bytes.size()), nullptr);
         BIGNUM* e = BN_bin2bn(fields.neg2_bytes.data(),
-                              static_cast&lt;int&gt;(fields.neg2_bytes.size()), nullptr);
+                              static_cast<int>(fields.neg2_bytes.size()), nullptr);
         if (!n || !e) { BN_free(n); BN_free(e); throw std::runtime_error("BN_bin2bn failed"); }
 
         OSSL_PARAM_BLD* bld = OSSL_PARAM_BLD_new();
@@ -1085,3 +1085,4 @@ void WebAuthnAuthenticator::verifySignature(
 
 } // namespace auth
 } // namespace themis
+

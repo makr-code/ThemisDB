@@ -124,7 +124,7 @@ std::vector<DeviceInfo> EnumerateCUDA() {
                 if (nvmlDeviceGetMaxMIGDeviceCount(nvml_dev,
                                                     &max_instances) == NVML_SUCCESS
                     && max_instances > 0) {
-                    d.mig_max_instances = static_cast&lt;int&gt;(max_instances);
+                    d.mig_max_instances = static_cast<int>(max_instances);
                 }
             }
 #endif  // THEMIS_ENABLE_NVML
@@ -254,3 +254,4 @@ bool DeviceDiscovery::HasGPU() {
 
 } // namespace gpu
 } // namespace themis
+

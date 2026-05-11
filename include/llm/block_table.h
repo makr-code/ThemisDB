@@ -46,7 +46,7 @@ public:
     ~BlockTable();
 
     // Allocate blocks for this sequence
-    std::vector&lt;int&gt; allocateBlocks(size_t num_blocks);
+    std::vector<int> allocateBlocks(size_t num_blocks);
     
     // Release all blocks for this sequence
     void releaseBlocks();
@@ -55,7 +55,7 @@ public:
     void sharePrefix(uint64_t parent_sequence_id, size_t prefix_length);
     
     // Get block mapping for attention computation
-    std::vector&lt;int&gt; getBlockMapping() const;
+    std::vector<int> getBlockMapping() const;
     
     // Get number of tokens stored
     size_t getNumTokens() const;
@@ -74,7 +74,7 @@ private:
     uint64_t sequence_id_;
     Config config_;
     
-    std::vector&lt;int&gt; block_ids_;          // Physical block IDs
+    std::vector<int> block_ids_;          // Physical block IDs
     std::vector<bool> is_shared_;         // Which blocks are shared via CoW
     std::unordered_map<int, int> ref_counts_;  // Reference counts for shared blocks
     
@@ -83,3 +83,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

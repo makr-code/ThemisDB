@@ -74,7 +74,7 @@ struct MergedFlameGraph {
      *
      * Each line has the form:
      * ```
-     * frame1;frame2;frame3 &lt;count&gt;
+     * frame1;frame2;frame3 <count>
      * ```
      * Lines are sorted by stack string for deterministic output.
      */
@@ -225,3 +225,4 @@ private:
 
 } // namespace observability
 } // namespace themis
+

@@ -176,7 +176,7 @@ void GeoIndexHooks::onEntityPut(
     } else if (j.contains("geom_blob") && j["geom_blob"].is_array()) {
         // Geometry as binary array
         for (auto& byte : j["geom_blob"]) {
-            geom_blob.push_back(static_cast<uint8_t>(byte.get&lt;int&gt;()));
+            geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));
         }
         found_geometry = true;
     } else if (j.contains("location")) {
@@ -320,7 +320,7 @@ bool GeoIndexHooks::onEntityPutAtomic(
             found_geometry = true;
         } else if (j.contains("geom_blob") && j["geom_blob"].is_array()) {
             for (auto& byte : j["geom_blob"]) {
-                geom_blob.push_back(static_cast<uint8_t>(byte.get&lt;int&gt;()));
+                geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));
             }
             found_geometry = true;
         } else if (j.contains("location")) {
@@ -540,7 +540,7 @@ void GeoIndexHooks::onEntityDelete(
             found_geometry = true;
         } else if (j.contains("geom_blob") && j["geom_blob"].is_array()) {
             for (auto& byte : j["geom_blob"]) {
-                geom_blob.push_back(static_cast<uint8_t>(byte.get&lt;int&gt;()));
+                geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));
             }
             found_geometry = true;
         }
@@ -570,3 +570,4 @@ void GeoIndexHooks::onEntityDelete(
 
 } // namespace api
 } // namespace themis
+

@@ -119,10 +119,16 @@ public:
     /**
      * @brief Generate text using the LLM
      * @param prompt The prompt to send to the LLM
-     * @param options Generation options
      * @return Generated text
      */
     static std::string generate(const std::string& prompt);
+    
+    /**
+     * @brief Generate text using the LLM with custom options
+     * @param prompt The prompt to send to the LLM
+     * @param options Generation options
+     * @return Generated text
+     */
     static std::string generate(
         const std::string& prompt,
         const LLMGenerationOptions& options
@@ -132,13 +138,20 @@ public:
      * @brief Generate multiple samples for self-consistency
      * @param prompt The prompt to send to the LLM
      * @param num_samples Number of samples to generate
-     * @param options Generation options
      * @return Vector of generated texts
      */
     static std::vector<std::string> generateMultipleSamples(
         const std::string& prompt,
         size_t num_samples
     );
+    
+    /**
+     * @brief Generate multiple samples with custom options
+     * @param prompt The prompt to send to the LLM
+     * @param num_samples Number of samples to generate
+     * @param options Generation options
+     * @return Vector of generated texts
+     */
     static std::vector<std::string> generateMultipleSamples(
         const std::string& prompt,
         size_t num_samples,

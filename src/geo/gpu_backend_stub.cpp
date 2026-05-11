@@ -648,8 +648,8 @@ private:
         }
 
         return kernel_dispatcher_.dispatchContainment(
-            lats.data(), lons.data(), static_cast&lt;int&gt;(n),
-            poly_coords.data(), static_cast&lt;int&gt;(poly_ring.size()));
+            lats.data(), lons.data(), static_cast<int>(n),
+            poly_coords.data(), static_cast<int>(poly_ring.size()));
     }
 
     /// Record batch latency atomics; called at the end of batchIntersects().
@@ -720,3 +720,4 @@ std::string getGeoDeviceReportJson() {
 static int g_force_gpu_backend_registration = (getGpuSpatialBackendInstance(), 0);
 
 } } // namespace themis::geo
+

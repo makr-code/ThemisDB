@@ -89,8 +89,8 @@ bool CADProcessor::initialize(const PluginConfig& config) {
     }
     
     // Load configuration
-    thumbnail_width_ = config.get&lt;int&gt;("thumbnail.width", 512);
-    thumbnail_height_ = config.get&lt;int&gt;("thumbnail.height", 512);
+    thumbnail_width_ = config.get<int>("thumbnail.width", 512);
+    thumbnail_height_ = config.get<int>("thumbnail.height", 512);
     extract_bom_ = config.get<bool>("analysis.bill_of_materials", true);
     calculate_volume_ = config.get<bool>("analysis.volume", true);
     calculate_surface_area_ = config.get<bool>("analysis.surface_area", true);
@@ -283,7 +283,7 @@ std::vector<ContentChunk> CADProcessor::chunk(
         }
         
         chunk.text = text.str();
-        chunk.sequence = static_cast&lt;int&gt;(i);
+        chunk.sequence = static_cast<int>(i);
         chunk.token_count = countTokens(chunk.text);
         chunk.metadata["part_id"] = cad.part_ids[i];
         
@@ -512,3 +512,4 @@ THEMIS_CONTENT_PLUGIN(CADProcessor)
 
 } // namespace content
 } // namespace themis
+

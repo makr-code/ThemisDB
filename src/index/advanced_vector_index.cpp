@@ -67,7 +67,7 @@ AdvancedVectorIndex::AdvancedVectorIndex(size_t dimension, const Config& config)
     
     THEMIS_INFO("AdvancedVectorIndex created: dim={}, nlist={}, nprobe={}, pq_m={}, type={}",
                 dimension_, config_.nlist, config_.nprobe, config_.pq_m, 
-                static_cast&lt;int&gt;(config_.index_type));
+                static_cast<int>(config_.index_type));
     
     initializeIndex();
 }
@@ -138,7 +138,7 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(static_cast&lt;int&gt;(dimension_), 32);
+                auto* hnsw = new faiss::IndexHNSWFlat(static_cast<int>(dimension_), 32);
                 idx = hnsw;
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
@@ -634,9 +634,10 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
     }
     
     THEMIS_INFO("Generated workload-optimized config: workload={}, nlist={}, nprobe={}, pq_m={}",
-                static_cast&lt;int&gt;(workload), config.nlist, config.nprobe, config.pq_m);
+                static_cast<int>(workload), config.nlist, config.nprobe, config.pq_m);
     
     return config;
 }
 
 } // namespace themis
+

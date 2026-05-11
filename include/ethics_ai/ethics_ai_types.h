@@ -114,7 +114,7 @@ struct PhilosophyThesis {
 
     /// Discourse rounds (1–5) in which this thesis is fully injected.
     /// Empty = active in all rounds (default, backward compatible).
-    std::vector&lt;int&gt; activation_rounds;
+    std::vector<int> activation_rounds;
 
     /// Per-round-role priority weights.  Key = role name (e.g. "PRO",
     /// "REBUTTAL", "SYNTHESIS"), value = weight in [0, 1].  Higher weight
@@ -303,3 +303,4 @@ struct EpisodicMemoryEntry {
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
+

@@ -68,13 +68,13 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     // Validate Bearer Token (JWT) authentication for all endpoints.
     // Cross-shard calls to /api/v1/lora/receive are now authenticated via
-    // Authorization: Bearer &lt;token&gt; forwarded by SecureTransportClient, so
+    // Authorization: Bearer <token> forwarded by SecureTransportClient, so
     // no special bypass is required.
     if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
-            "Valid Bearer Token required. Include 'Authorization: Bearer &lt;token&gt;' header."
+            "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
     
@@ -1028,7 +1028,7 @@ http::response<http::string_body> LoRAApiHandler::createErrorResponse(
         error_obj["details"] = std::string(details);
     }
     
-    error_obj["status"] = static_cast&lt;int&gt;(status);
+    error_obj["status"] = static_cast<int>(status);
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -1452,3 +1452,4 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
 }
 
 } // namespace themis::server
+

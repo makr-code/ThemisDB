@@ -555,7 +555,7 @@ bool PluginSecurityVerifier::verifySignature(const std::string& filePath,
     
     // Step 2: Load X.509 certificate from PEM string
     BIO* bio = BIO_new_mem_buf(signature.signingCertificate.data(), 
-                                static_cast&lt;int&gt;(signature.signingCertificate.size()));
+                                static_cast<int>(signature.signingCertificate.size()));
     if (!bio) {
         return false;
     }
@@ -628,7 +628,7 @@ bool PluginSecurityVerifier::verifyCertificateChain(const std::string& certifica
     }
     
     // Create BIO from certificate PEM string
-    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast&lt;int&gt;(certificate.size()));
+    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }
@@ -707,7 +707,7 @@ bool PluginSecurityVerifier::checkCRL(const std::string& certificate) {
     }
 
     // Load certificate
-    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast&lt;int&gt;(certificate.size()));
+    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }
@@ -891,7 +891,7 @@ bool PluginSecurityVerifier::checkOCSP(const std::string& certificate) {
     }
 
     // Load certificate
-    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast&lt;int&gt;(certificate.size()));
+    BIO* bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }
@@ -1994,7 +1994,7 @@ bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(
 ) {
     // Convert UTF-8 string to wide string for Windows API
     int wide_len = MultiByteToWideChar(CP_UTF8, 0, plugin_path.c_str(), 
-                                       static_cast&lt;int&gt;(plugin_path.length()), 
+                                       static_cast<int>(plugin_path.length()), 
                                        nullptr, 0);
     if (wide_len == 0) {
         result.error_message = "Failed to convert path to wide string";
@@ -2003,7 +2003,7 @@ bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(
     
     std::wstring wide_path(wide_len, L'\0');
     MultiByteToWideChar(CP_UTF8, 0, plugin_path.c_str(), 
-                       static_cast&lt;int&gt;(plugin_path.length()), 
+                       static_cast<int>(plugin_path.length()), 
                        &wide_path[0], wide_len);
     
     // Setup WINTRUST_FILE_INFO structure
@@ -2086,7 +2086,7 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
 
     if (status != errSecSuccess) {
         result.error_message = "Failed to create SecStaticCode (OSStatus " +
-                               std::to_string(static_cast&lt;int&gt;(status)) + ")";
+                               std::to_string(static_cast<int>(status)) + ")";
         return false;
     }
 
@@ -2098,7 +2098,7 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
         return true;
     } else {
         result.error_message = "macOS code signature verification failed (OSStatus " +
-                               std::to_string(static_cast&lt;int&gt;(status)) + ")";
+                               std::to_string(static_cast<int>(status)) + ")";
         return false;
     }
 }
@@ -2336,3 +2336,4 @@ void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy& po
 
 } // namespace acceleration
 } // namespace themis
+

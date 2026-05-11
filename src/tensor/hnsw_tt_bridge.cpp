@@ -344,7 +344,7 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
         results.push_back({ cid, 1.0f - sim, tn });
     }
 
-    int actual_k = std::min(k, static_cast&lt;int&gt;(results.size()));
+    int actual_k = std::min(k, static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + actual_k,
                       results.end(),
@@ -659,3 +659,4 @@ float HnswTTBridge::ttNormFromTrain(const storage::TTTrain& T) {
 
 } // namespace tensor
 } // namespace themis
+

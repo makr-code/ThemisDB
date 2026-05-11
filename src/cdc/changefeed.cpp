@@ -389,7 +389,7 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     }
     
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
-                 event.sequence, static_cast&lt;int&gt;(event.type), event.key);
+                 event.sequence, static_cast<int>(event.type), event.key);
     
     notifySubscribers(event);
 
@@ -1183,3 +1183,4 @@ void Changefeed::SubscriptionHandle::cancel() noexcept
 }
 
 } // namespace themis
+

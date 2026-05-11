@@ -1093,7 +1093,7 @@ void WireProtocolServer::Session::handleHello() {
 
 void WireProtocolServer::Session::handleAuthRequest() {
     // Token-based authentication.
-    // Expected payload (JSON): {"token": "<bearer-token>", "username": "&lt;optional&gt;"}
+    // Expected payload (JSON): {"token": "<bearer-token>", "username": "<optional>"}
     // On success sets authenticated_ = true and records the username.
     // When Config::require_auth is false, any non-empty token (or no token) is accepted.
     try {
@@ -1179,7 +1179,7 @@ void WireProtocolServer::Session::handleGet() {
             return;
         }
 
-        // Keys are stored as "<collection>:&lt;key&gt;" in RocksDB.
+        // Keys are stored as "<collection>:<key>" in RocksDB.
         std::string storage_key = collection + ":" + key;
         auto result = server_->storage_->get(storage_key);
 
@@ -2618,4 +2618,5 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
+
 

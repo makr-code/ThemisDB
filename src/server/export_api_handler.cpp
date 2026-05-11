@@ -474,7 +474,7 @@ bool ExportApiHandler::validateAdminToken(
     
     std::string auth_str(auth_header.data(), auth_header.size());
     
-    // Check for "Bearer &lt;token&gt;" format
+    // Check for "Bearer <token>" format
     if (auth_str.find("Bearer ") != 0) {
         return false;
     }
@@ -522,3 +522,4 @@ http::response<http::string_body> ExportApiHandler::errorResponse(
 
 } // namespace server
 } // namespace themis
+

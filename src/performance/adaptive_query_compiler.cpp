@@ -843,7 +843,7 @@ private:
 
         // Generate IR / assembly for debugging
         IRGenOptions ir_opts;
-        ir_opts.opt_level            = static_cast&lt;int&gt;(cfg.optimization);
+        ir_opts.opt_level            = static_cast<int>(cfg.optimization);
         ir_opts.enable_vectorization = cfg.enable_vectorization;
         ir_opts.enable_prefetch      = cfg.enable_prefetch;
         ir_opts.enable_inlining      = cfg.enable_inlining;
@@ -1182,3 +1182,4 @@ AdaptiveQueryCompiler::config() const noexcept {
 
 }  // namespace performance
 }  // namespace themis
+

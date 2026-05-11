@@ -149,7 +149,7 @@ ExponentialHistogramResult AdvancedMetrics::getExponentialHistogram(
     const double log_scale = std::log(data.scale);
     std::map<int, uint64_t> bucket_counts;
     for (double v : data.values) {
-        int idx = static_cast&lt;int&gt;(std::floor(std::log(v) / log_scale));
+        int idx = static_cast<int>(std::floor(std::log(v) / log_scale));
         bucket_counts[idx]++;
     }
 
@@ -296,3 +296,4 @@ void AdvancedMetrics::reset() {
 
 }  // namespace observability
 }  // namespace themis
+

@@ -333,9 +333,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
             uint64_t xorv = 0;
             if (different) {
                 if (br.eof()) { parse_error = true; break; }
-                int leading    = static_cast&lt;int&gt;(br.readBits(6));
+                int leading    = static_cast<int>(br.readBits(6));
                 if (br.eof()) { parse_error = true; break; }
-                int significant = static_cast&lt;int&gt;(br.readBits(6));
+                int significant = static_cast<int>(br.readBits(6));
                 if (significant == 0) significant = 64;
                 if (leading + significant > 64) { parse_error = true; break; }
                 if (br.eof() && significant > 0) { parse_error = true; break; }
@@ -387,3 +387,4 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 }
 
 } // namespace themis
+

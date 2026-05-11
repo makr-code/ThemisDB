@@ -527,7 +527,7 @@ ValidationReport PolicyValidator::validateRuleset() const {
     report.effectiveness_metrics = calculateEffectiveness();
     
     // Calculate summary
-    report.total_issues = static_cast&lt;int&gt;(report.conflicts.size() + report.violations.size());
+    report.total_issues = static_cast<int>(report.conflicts.size() + report.violations.size());
     
     for (const auto& c : report.conflicts) {
         if (c.severity == "critical" || c.severity == "high") {
@@ -657,3 +657,4 @@ double PolicyValidator::calculateValidationScore(const ValidationReport& report)
 
 } // namespace governance
 } // namespace themis
+
