@@ -159,6 +159,8 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
         expected[i] = (g.values[i] - vmin) / range;
     }
 
+    // Hilbert traversal may permute index order vs. row-major source layout.
+    // We verify value-distribution fidelity after ordering-independent sort.
     auto sorted_recon = recon;
     auto sorted_expected = expected;
     std::sort(sorted_recon.begin(), sorted_recon.end());

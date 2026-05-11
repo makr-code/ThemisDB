@@ -68,6 +68,8 @@ namespace {
 }
 
 [[nodiscard]] bool lessOrEqualJson(const nlohmann::json& lhs, const nlohmann::json& rhs) {
+    // Mixed-type fallback uses lexicographic string comparison to keep range
+    // scans deterministic for heterogeneous key payloads.
     if (lhs.type() != rhs.type()) {
         return lhs.dump() <= rhs.dump();
     }

@@ -33,10 +33,14 @@ namespace {
 constexpr std::size_t kMinPatchExtent = 1;
 constexpr std::size_t kMaxPatchExtent = 4;
 
+// Round up to the next power-of-two side length.
+// v=0 and v=1 both map to 1.
 [[nodiscard]] std::size_t nextPowerOfTwo(std::size_t v) {
     return v <= 1 ? 1 : std::bit_ceil(v);
 }
 
+// Hilbert helper rotation/reflection step.
+// rx/ry are quadrant bits derived from the Hilbert index.
 void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx, std::size_t ry) {
     if (ry == 0) {
         if (rx == 1) {
@@ -47,6 +51,7 @@ void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx
     }
 }
 
+// Convert a Hilbert distance d into (x,y) coordinates on an n x n grid.
 [[nodiscard]] std::pair<std::size_t, std::size_t> hilbertIndexToXY(std::size_t n, std::size_t d) {
     std::size_t x = 0;
     std::size_t y = 0;

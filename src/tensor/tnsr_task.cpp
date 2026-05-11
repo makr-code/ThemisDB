@@ -23,6 +23,8 @@ namespace tensor {
 
 namespace {
 
+// Process-wide callback storage intentionally shared across TNSRTask instances.
+// Tests and embedding callers should set/clear explicitly per scenario.
 std::mutex g_reroute_serialize_fn_mu;
 TNSRTask::RerouteSerializeFn g_reroute_serialize_fn;
 
