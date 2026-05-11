@@ -35,7 +35,7 @@ constexpr std::size_t kMaxPatchExtent = 4;
 
 // Round up to the next power-of-two side length.
 // v=0 and v=1 both map to 1.
-[[nodiscard]] std::size_t nextPowerOfTwo(std::size_t v) {
+[[nodiscard]] std::size_t roundUpPowerOfTwo(std::size_t v) {
     return v <= 1 ? 1 : std::bit_ceil(v);
 }
 
@@ -227,7 +227,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
     tt_cfg.eps      = cfg.eps;
     tt_cfg.max_rank = cfg.max_rank;
 
-    const std::size_t hilbert_side = nextPowerOfTwo(std::max(grid.rows, grid.cols));
+    const std::size_t hilbert_side = roundUpPowerOfTwo(std::max(grid.rows, grid.cols));
     std::vector<float> hilbert_ordered(hilbert_side * hilbert_side, 0.0f);
     for (std::size_t d = 0; d < hilbert_ordered.size(); ++d) {
         const auto [x, y] = hilbertIndexToXY(hilbert_side, d);

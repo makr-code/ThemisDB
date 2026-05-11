@@ -233,9 +233,13 @@ struct TensorRouter::Impl {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
                 if (template_topology_apply_fn) {
-                    const bool applied = template_topology_apply_fn(hint.domain_tag, *tmpl);
-                    if (applied) {
-                        return TensorRouteDecision::LIFT;
+                    try {
+                        const bool applied = template_topology_apply_fn(hint.domain_tag, *tmpl);
+                        if (applied) {
+                            return TensorRouteDecision::LIFT;
+                        }
+                    } catch (const std::exception&) {
+                        // Fall through to heuristic path when callback application fails.
                     }
                 }
             }

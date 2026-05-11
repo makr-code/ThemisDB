@@ -203,11 +203,22 @@ TEST(TensorRouterRoute, TemplateCatalogAccessor) {
     EXPECT_FALSE(router.hasTemplateTopologyApplyFn());
 
     auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    catalog->registerTemplate("template-check", g);
     router.setTemplateCatalog(catalog);
     EXPECT_EQ(router.templateCatalog().get(), catalog.get());
+    std::atomic<int> calls{0};
     router.setTemplateTopologyApplyFn(
-        [](const std::string&, const themis::tensor::TensorNetworkGraph&) { return true; });
+        [&calls](const std::string&, const themis::tensor::TensorNetworkGraph&) {
+            ++calls;
+            return true;
+        });
     EXPECT_TRUE(router.hasTemplateTopologyApplyFn());
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "template-check";
+    (void)router.route(constantData(64), {8, 8}, hint);
+    EXPECT_GE(calls.load(), 1);
     router.clearTemplateTopologyApplyFn();
     EXPECT_FALSE(router.hasTemplateTopologyApplyFn());
 }
