@@ -136,19 +136,6 @@ private:
     std::vector<std::unique_ptr<boost::asio::ip::udp::socket>> senders_;
 };
 
-[[nodiscard]] bool isBenchTrackedOpcodeByte(uint8_t opcode_byte) {
-    switch (opcode_byte) {
-        case static_cast<uint8_t>(themis::wire::OpCode::OP_GET):
-        case static_cast<uint8_t>(themis::wire::OpCode::OP_PUT):
-        case static_cast<uint8_t>(themis::wire::OpCode::OP_QUERY_AQL):
-        case static_cast<uint8_t>(themis::wire::OpCode::OP_PING):
-        case static_cast<uint8_t>(themis::wire::OpCode::OP_OK):
-            return true;
-        default:
-            return false;
-    }
-}
-
 constexpr std::size_t decodedLengthFromBase64Length(std::size_t encoded_len,
                                                     std::size_t padding_chars) {
     return (encoded_len / 4) * 3 - padding_chars;
@@ -296,23 +283,27 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
             lcg_state = lcg_state * kOpcodeLcgMultiplier + kOpcodeLcgIncrement;
             const std::size_t opcode_index =
                 (static_cast<std::uint64_t>(lcg_state) * opcodes.size()) >> 32;
-            auto opcode = opcodes[opcode_index];
+            uint8_t opcode_byte = static_cast<uint8_t>(opcodes[opcode_index]);
             if (socket_harness) {
-                const auto dispatched_opcode =
-                    socket_harness->dispatch(static_cast<uint8_t>(opcode),
-                                             static_cast<std::size_t>(session));
-                if (!isBenchTrackedOpcodeByte(dispatched_opcode)) {
-                    ++counters[kOtherCounter];
-                    continue;
-                }
-                opcode = static_cast<themis::wire::OpCode>(dispatched_opcode);
+                opcode_byte = socket_harness->dispatch(opcode_byte,
+                                                       static_cast<std::size_t>(session));
             }
-            switch (opcode) {
-                case themis::wire::OpCode::OP_GET:       ++counters[kGetCounter]; break;
-                case themis::wire::OpCode::OP_PUT:       ++counters[kPutCounter]; break;
-                case themis::wire::OpCode::OP_QUERY_AQL: ++counters[kQueryCounter]; break;
-                case themis::wire::OpCode::OP_PING:      ++counters[kPingCounter]; break;
-                default:                                 ++counters[kOtherCounter]; break;
+            switch (opcode_byte) {
+                case static_cast<uint8_t>(themis::wire::OpCode::OP_GET):
+                    ++counters[kGetCounter];
+                    break;
+                case static_cast<uint8_t>(themis::wire::OpCode::OP_PUT):
+                    ++counters[kPutCounter];
+                    break;
+                case static_cast<uint8_t>(themis::wire::OpCode::OP_QUERY_AQL):
+                    ++counters[kQueryCounter];
+                    break;
+                case static_cast<uint8_t>(themis::wire::OpCode::OP_PING):
+                    ++counters[kPingCounter];
+                    break;
+                default:
+                    ++counters[kOtherCounter];
+                    break;
             }
         }
         benchmark::DoNotOptimize(counters.data());
