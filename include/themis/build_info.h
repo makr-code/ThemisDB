@@ -35,7 +35,6 @@
 #include <map>
 #include <utility>
 #include <functional>
-#include <mutex>
 #include "themis/edition.h"
 #include "themis/export.h"
 

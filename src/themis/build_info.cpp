@@ -568,7 +568,7 @@ BuildConfiguration getBuildConfiguration() {
     // report the actual HSM KEK state (stub vs. injected hardware backend).
     // Default (no bridge set): report not-compiled-in with stub annotation.
     {
-        bool is_real = false;
+        bool is_real_hsm = false;
         std::string desc = "Hardware Security Module integration (software stub – dev only)";
         HsmModuleStatusFn fn_copy;
         {
@@ -577,8 +577,8 @@ BuildConfiguration getBuildConfiguration() {
         }
         if (fn_copy) {
             try {
-                auto [real, bridge_desc] = fn_copy();
-                is_real = real;
+                auto [hsm_active, bridge_desc] = fn_copy();
+                is_real_hsm = hsm_active;
                 desc = bridge_desc;
             } catch (...) {
                 // Bridge failure → keep static defaults
@@ -586,8 +586,8 @@ BuildConfiguration getBuildConfiguration() {
         }
         config.modules.push_back({
             "HSM PKCS#11",
-            is_real,
-            is_real,
+            is_real_hsm,
+            is_real_hsm,
             desc
         });
     }

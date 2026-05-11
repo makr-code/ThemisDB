@@ -242,14 +242,21 @@ TEST(BuildManifest, ExportToInvalidPathReturnsFalse) {
 
 // ===== HSM Module Status Bridge Tests (STUB #95) =====
 
+namespace {
+/// Helper: find the "HSM PKCS#11" module entry in a BuildConfiguration.
+auto findHsmModule(const BuildConfiguration& cfg) {
+    return std::find_if(cfg.modules.begin(), cfg.modules.end(),
+                        [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+}
+} // namespace
+
 TEST(HsmModuleStatus, DefaultStubBuildReportsNotCompiledIn) {
     // BI-HSM-01: Without THEMIS_ENABLE_HSM_REAL and without a bridge set,
     // "HSM PKCS#11" must be reported with compiled_in=false.
     clearHsmModuleStatusFn();
 
     auto cfg = getBuildConfiguration();
-    auto it = std::find_if(cfg.modules.begin(), cfg.modules.end(),
-                           [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+    auto it = findHsmModule(cfg);
     ASSERT_NE(it, cfg.modules.end()) << "HSM PKCS#11 module must be present";
 
 #ifndef THEMIS_ENABLE_HSM_REAL
@@ -273,13 +280,13 @@ TEST(HsmModuleStatus, BridgeInjectsRealHsmStatus) {
     GTEST_SKIP() << "Bridge is only active in stub builds";
 #endif
 
-    setHsmModuleStatusFn([]() -> std::pair<bool, std::string> {
-        return {true, "HSM PKCS#11 (hardware-backed – test bridge)"};
+    setHsmModuleStatusFn([]() {
+        return std::make_pair(true,
+                              std::string("HSM PKCS#11 (hardware-backed – test bridge)"));
     });
 
     auto cfg = getBuildConfiguration();
-    auto it = std::find_if(cfg.modules.begin(), cfg.modules.end(),
-                           [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+    auto it = findHsmModule(cfg);
     ASSERT_NE(it, cfg.modules.end());
     EXPECT_TRUE(it->compiled_in)
         << "Bridge returning true must make the module appear compiled_in";
@@ -298,13 +305,12 @@ TEST(HsmModuleStatus, ClearBridgeRevertsToStubDefaults) {
 #endif
 
     // First: inject a real-HSM-like bridge.
-    setHsmModuleStatusFn([]() -> std::pair<bool, std::string> {
-        return {true, "bridge active"};
+    setHsmModuleStatusFn([]() {
+        return std::make_pair(true, std::string("bridge active"));
     });
     {
         auto cfg = getBuildConfiguration();
-        auto it = std::find_if(cfg.modules.begin(), cfg.modules.end(),
-                               [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+        auto it = findHsmModule(cfg);
         ASSERT_NE(it, cfg.modules.end());
         EXPECT_TRUE(it->compiled_in) << "Bridge must take effect";
     }
@@ -314,8 +320,7 @@ TEST(HsmModuleStatus, ClearBridgeRevertsToStubDefaults) {
 
     {
         auto cfg = getBuildConfiguration();
-        auto it = std::find_if(cfg.modules.begin(), cfg.modules.end(),
-                               [](const ModuleInfo& m){ return m.name == "HSM PKCS#11"; });
+        auto it = findHsmModule(cfg);
         ASSERT_NE(it, cfg.modules.end());
         EXPECT_FALSE(it->compiled_in)
             << "After clearHsmModuleStatusFn() the module must revert to stub default";
