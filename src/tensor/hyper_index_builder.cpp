@@ -223,16 +223,16 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     // FK-graph-aware assignment) before co-occurrence counting.
 
     std::vector<float> count_tensor(total_elements, 0.0f);
+    BucketAssignmentFn bucket_assignment_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
+        // Snapshot callback once per build to avoid per-row lock contention.
+        bucket_assignment_fn = g_bucket_assignment_fn;
+    }
 
     for (std::size_t row_idx = 0; row_idx < rows.size(); ++row_idx) {
         const auto& row = rows[row_idx];
         auto buckets = bucketiseRow(row, schema, bucket_count);
-
-        BucketAssignmentFn bucket_assignment_fn;
-        {
-            std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
-            bucket_assignment_fn = g_bucket_assignment_fn;
-        }
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
@@ -241,14 +241,16 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
                 throw std::runtime_error(
                     "bucket assignment bridge returned " +
                     std::to_string(assigned.size()) +
-                    " buckets, expected " + std::to_string(schema.size()));
+                    " buckets, expected " + std::to_string(schema.size()) +
+                    " at row " + std::to_string(row_idx));
             }
             for (std::size_t k = 0; k < assigned.size(); ++k) {
                 if (assigned[k] >= bucket_count) {
                     throw std::runtime_error(
                         "bucket assignment bridge returned out-of-range bucket " +
                         std::to_string(assigned[k]) + " at mode " + std::to_string(k) +
-                        ", bucket_count=" + std::to_string(bucket_count));
+                        ", bucket_count=" + std::to_string(bucket_count) +
+                        ", row=" + std::to_string(row_idx));
                 }
             }
             buckets = std::move(assigned);

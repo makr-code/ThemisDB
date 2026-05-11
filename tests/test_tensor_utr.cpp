@@ -43,6 +43,7 @@
 #include "tensor/hyper_index_builder.h"
 #include "storage/tensor_train_decomposer.h"
 
+#include <atomic>
 #include <gtest/gtest.h>
 #include <cmath>
 #include <numeric>
@@ -316,14 +317,14 @@ TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeAccessor) {
 TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeIsInvoked) {
     using namespace themis::tensor;
 
-    std::size_t call_count = 0;
+    std::atomic<std::size_t> call_count{0};
     HyperIndexBuilder::setBucketAssignmentFn(
         [&call_count](const std::string& tenant_id,
                       const std::vector<ColumnSchema>& schema,
                       const TableRow&,
                       std::size_t,
                       const std::vector<std::size_t>& buckets) {
-            ++call_count;
+            call_count.fetch_add(1, std::memory_order_relaxed);
             EXPECT_EQ(tenant_id, "tenant_a");
             EXPECT_EQ(schema.size(), 2u);
             return buckets;
@@ -333,7 +334,7 @@ TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeIsInvoked) {
     HyperIndexBuilder::clearBucketAssignmentFn();
 
     EXPECT_EQ(hi.total_rows, 50u);
-    EXPECT_EQ(call_count, hi.total_rows);
+    EXPECT_EQ(call_count.load(std::memory_order_relaxed), hi.total_rows);
 }
 
 TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeRejectsInvalidSize) {
