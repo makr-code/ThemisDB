@@ -147,6 +147,9 @@ Or use secrets management:
 ### Step 5: Verify Configuration
 
 ```bash
+# Without HSM config and without explicit stub opt-in, startup now fails closed
+# and prints an HSM startup policy error.
+
 # Test mode (development) - requires explicit opt-in for stub
 export THEMIS_ALLOW_HSM_STUB=1
 ./themis_server --config config/development.yaml
@@ -161,6 +164,7 @@ export THEMIS_PRODUCTION_MODE=1
 Production environments are now protected by security gating:
 - ✅ Real HSM: Works normally
 - ❌ Stub HSM without opt-in: **FAILS** with error
+- ❌ Missing HSM config without opt-in: **FAILS** with error
 - ⚠️ Stub HSM with opt-in: Works but logs ERROR warnings
 
 **Environment Variables:**

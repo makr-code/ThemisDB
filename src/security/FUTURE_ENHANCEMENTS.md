@@ -443,7 +443,7 @@ Replace the in-memory AES-256-GCM stub KEK in `HSMProvider` with a production-gr
 ### Implementation Notes
 
 - The PKCS#11 wrapper lives in `hsm_provider_pkcs11.cpp`; compiled only when `-DTHEMIS_ENABLE_HSM_REAL=ON`.
-- The stub path in `hsm_provider.cpp` must not be changed; it remains the dev/CI fallback.
+- The stub path in `hsm_provider.cpp` remains the dev/CI fallback, but server startup must require explicit stub opt-in (`THEMIS_ALLOW_HSM_STUB=1` or `--allow-stub-hsm`) instead of silently selecting it on missing HSM config.
 - The `EncryptDataFn`/`DecryptDataFn` bridges allow tests to inject a SoftHSM2-backed implementation without requiring `-DTHEMIS_ENABLE_HSM_REAL=ON`.
 
 ### Test Strategy
