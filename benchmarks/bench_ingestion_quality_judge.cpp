@@ -112,6 +112,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <memory>
 #include <thread>
 #include <string>
@@ -137,6 +138,8 @@ namespace {
 loadScriptedResponsesFromFile(const std::string& file_path) {
     std::ifstream input(file_path);
     if (!input.is_open()) {
+        std::cerr << "bench_ingestion_quality_judge: could not open "
+                  << "THEMIS_BENCH_QJ_RESPONSE_FILE=" << file_path << '\n';
         return {};
     }
     std::ostringstream buffer;
@@ -147,6 +150,9 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
     }
 
     std::vector<std::string> responses;
+    // Response blocks are separated by a standalone delimiter line:
+    //   ---
+    // i.e. newline + "---" + newline (`\n---\n`) in the serialized fixture.
     static constexpr const char* kSeparator = "\n---\n";
     std::string::size_type start = 0;
     while (start <= content.size()) {
@@ -191,7 +197,10 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
     try {
         const auto parsed = std::stoll(raw_value);
         return std::chrono::microseconds{parsed < 0 ? 0 : parsed};
-    } catch (...) {
+    } catch (const std::exception& e) {
+        std::cerr << "bench_ingestion_quality_judge: invalid "
+                  << "THEMIS_BENCH_QJ_BACKEND_LATENCY_US=" << raw_value
+                  << " (" << e.what() << ")\n";
         return std::chrono::microseconds{0};
     }
 }
@@ -235,7 +244,7 @@ public:
         if (latency_.count() > 0) {
             std::this_thread::sleep_for(latency_);
         }
-        const auto index = call_index_.fetch_add(1, std::memory_order_relaxed);
+        const auto index = call_index_.fetch_add(1);
         return responses_[index % responses_.size()];
     }
 
