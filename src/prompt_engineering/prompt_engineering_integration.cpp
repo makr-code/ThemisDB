@@ -494,7 +494,7 @@ void PromptEngineeringIntegration::afterExecution(
                 reflection_result.final_response,
                 FeedbackType::USER_POSITIVE,
                 "Reflection tuning improved quality by " +
-                    std::to_string(static_cast<int>(
+                    std::to_string(static_cast&lt;int&gt;(
                         reflection_result.quality_improvement * 100)) + "%",
                 static_cast<float>(reflection_result.quality_improvement));
         }

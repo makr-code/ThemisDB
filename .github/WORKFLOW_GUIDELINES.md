@@ -15,8 +15,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/08-maintenance_root-docs-hygiene.yml`
 - `.github/workflows/08-maintenance_src-include-docs-align.yml`
 - `.github/workflows/08-maintenance_docs-orphan-check.yml`
-- `.github/workflows/08-maintenance_code-maturity.yml`
-- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+- `.github/workflows/08-maintenance_code-maturity.yml`- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
 - `.github/workflows/sbom-ci.yml`
 - `.github/workflows/security-dast-ci.yml`
 - `.github/workflows/soc2-evidence-ci.yml`

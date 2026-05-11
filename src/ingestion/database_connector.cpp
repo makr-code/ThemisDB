@@ -62,7 +62,7 @@ struct JdbcUrl {
     std::string raw; ///< original location string
 };
 
-/// Parse `jdbc:<sub>://<host>:<port>/<db>` or `jdbc:<sub>://<host>/<db>`.
+/// Parse `jdbc:<sub>://&lt;host&gt;:&lt;port&gt;/<db>` or `jdbc:<sub>://&lt;host&gt;/<db>`.
 /// SQLite: `jdbc:sqlite:/path/to/file.db`
 static JdbcUrl parseJdbcUrl(const std::string& url) {
     JdbcUrl result;

@@ -98,7 +98,7 @@ json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     span.setStatus(true);
     json arr = json::array();
     for (auto& e : schedules) arr.push_back(scheduleToResponse(e));
-    return {{"schedules", arr}, {"count", static_cast<int>(schedules.size())}};
+    return {{"schedules", arr}, {"count", static_cast&lt;int&gt;(schedules.size())}};
 }
 
 json MaintenanceApiHandler::getSchedule(const std::string& id) {
@@ -154,7 +154,7 @@ json MaintenanceApiHandler::listJobs(bool active_only) {
     auto jobs = orchestrator_->listJobs(active_only);
     json arr = json::array();
     for (auto& j : jobs) arr.push_back(jobToResponse(j));
-    return {{"jobs", arr}, {"count", static_cast<int>(jobs.size())}};
+    return {{"jobs", arr}, {"count", static_cast&lt;int&gt;(jobs.size())}};
 }
 
 json MaintenanceApiHandler::getJob(const std::string& id) {
@@ -208,7 +208,7 @@ json MaintenanceApiHandler::listTaskHandlers() {
     for (const auto& [task_type, handler_name] : handlers) {
         arr.push_back({{"task_type", task_type}, {"handler", handler_name}});
     }
-    return {{"task_handlers", arr}, {"count", static_cast<int>(handlers.size())}};
+    return {{"task_handlers", arr}, {"count", static_cast&lt;int&gt;(handlers.size())}};
 }
 
 } // namespace server

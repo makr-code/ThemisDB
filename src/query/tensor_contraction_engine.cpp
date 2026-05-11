@@ -345,7 +345,7 @@ TTTrain TensorContractionEngine::contractModes(
     auto toFlat = [](const std::vector<std::size_t>& idx,
                      const std::vector<std::size_t>& shape) -> std::size_t {
         std::size_t off = 0, stride = 1;
-        for (int k = static_cast<int>(shape.size()) - 1; k >= 0; --k) {
+        for (int k = static_cast&lt;int&gt;(shape.size()) - 1; k >= 0; --k) {
             off    += idx[static_cast<std::size_t>(k)] * stride;
             stride *= shape[static_cast<std::size_t>(k)];
         }
@@ -374,7 +374,7 @@ TTTrain TensorContractionEngine::contractModes(
     for (std::size_t flat_a = 0; flat_a < total_a; ++flat_a) {
         // Decode flat_a into idx_a.
         std::size_t tmp = flat_a;
-        for (int k = static_cast<int>(sha.size()) - 1; k >= 0; --k) {
+        for (int k = static_cast&lt;int&gt;(sha.size()) - 1; k >= 0; --k) {
             idx_a[static_cast<std::size_t>(k)] = tmp % sha[static_cast<std::size_t>(k)];
             tmp /= sha[static_cast<std::size_t>(k)];
         }
@@ -392,7 +392,7 @@ TTTrain TensorContractionEngine::contractModes(
         for (std::size_t fb = 0; fb < total_free_b; ++fb) {
             // Decode fb into free_b_idx.
             std::size_t tt = fb;
-            for (int ki = static_cast<int>(free_b.size()) - 1; ki >= 0; --ki) {
+            for (int ki = static_cast&lt;int&gt;(free_b.size()) - 1; ki >= 0; --ki) {
                 std::size_t ki_sz = static_cast<std::size_t>(ki);
                 free_b_idx[ki_sz] = tt % shb[free_b[ki_sz]];
                 tt /= shb[free_b[ki_sz]];

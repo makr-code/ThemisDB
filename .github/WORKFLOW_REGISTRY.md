@@ -34,8 +34,7 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 - `.github/workflows/08-maintenance_docs-orphan-check.yml`
   — Orphan/Broken-Reference-Pruefung fuer `docs/de` und `docs/en`
 - `.github/workflows/08-maintenance_code-maturity.yml`
-  — Code-Maturity-Analyse via `analyze_code_maturity.py`; check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei
-- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+  — Code-Maturity-Analyse via `analyze_code_maturity.py`; check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
 - `.github/workflows/security-dast-ci.yml`
   — OWASP-ZAP-basierter DAST-Sicherheitscheck fuer API-Pfade
@@ -80,5 +79,4 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 
 ## Stand
 - Aktive Workflows im Verzeichnis `.github/workflows/`: 16
-- Deaktivierte Workflows in `.github/no_workflows/`: 23
-- Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
+- Deaktivierte Workflows in `.github/no_workflows/`: 23- Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

@@ -26,7 +26,7 @@
  *
  * Extracts plain text from HTML documents with boilerplate removal.
  * Strips navigation, headers, footers, scripts, and styles.
- * Extracts metadata from <title> and <meta> tags.
+ * Extracts metadata from &lt;title&gt; and &lt;meta&gt; tags.
  *
  * Pure C++ implementation — no external HTML parsing library required.
  *
@@ -46,10 +46,10 @@ namespace content {
  * @brief HTML Content Processor
  *
  * Handles HTML documents:
- * - Boilerplate removal (<nav>, <header>, <footer>, <aside>, <script>, <style>, <form>)
+ * - Boilerplate removal (&lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;, &lt;script&gt;, &lt;style&gt;, &lt;form&gt;)
  * - Plain text extraction preserving semantic structure (headings, paragraphs)
- * - Metadata extraction (<title>, <meta name="description"/"keywords"/"author">)
- * - HTML entity decoding (&amp;, &lt;, &gt;, &quot;, &#NNN;, &#xHH;)
+ * - Metadata extraction (&lt;title&gt;, &lt;meta name="description"/"keywords"/"author"&gt;)
+ * - HTML entity decoding (`&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#NNN;`, `&#xHH;`)
  * - Chunking by paragraph / heading boundary
  */
 class HtmlProcessor : public IContentProcessor {
@@ -58,9 +58,9 @@ public:
      * @brief Configuration for HTML processing
      */
     struct Config {
-        /// Remove <nav>, <header>, <footer>, <aside>, <form> boilerplate blocks
+         /// Remove &lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;, &lt;form&gt; boilerplate blocks
         bool remove_boilerplate = true;
-        /// Strip <script> and <style> elements and their content
+         /// Strip &lt;script&gt; and &lt;style&gt; elements and their content
         bool remove_scripts_styles = true;
         /// Decode HTML entities in extracted text
         bool decode_entities = true;
@@ -127,7 +127,7 @@ public:
     /**
      * @brief Remove boilerplate HTML blocks
      *
-     * Strips the full content of <nav>, <header>, <footer>, <aside>, and <form>
+      * Strips the full content of &lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;, and &lt;form&gt;
      * elements (including nested tags) from @p html.
      *
      * @param html  Raw HTML string
@@ -136,7 +136,7 @@ public:
     static std::string removeBoilerplate(const std::string& html);
 
     /**
-     * @brief Remove <script> and <style> elements and their content
+      * @brief Remove &lt;script&gt; and &lt;style&gt; elements and their content
      *
      * @param html  Raw HTML string
      * @return HTML with script/style elements removed
@@ -161,8 +161,8 @@ public:
     /**
      * @brief Decode common HTML entities
      *
-     * Handles named entities (&amp; &lt; &gt; &quot; &apos; &nbsp;),
-     * decimal references (&#NNN;), and hex references (&#xHH;).
+      * Handles named entities (`&amp;` `&lt;` `&gt;` `&quot;` `&apos;` `&nbsp;`),
+      * decimal references (`&#NNN;`), and hex references (`&#xHH;`).
      *
      * @param text  Text that may contain HTML entities
      * @return Decoded text
@@ -170,7 +170,7 @@ public:
     static std::string decodeEntities(const std::string& text);
 
     /**
-     * @brief Extract <title> and <meta> tag values from an HTML document
+      * @brief Extract &lt;title&gt; and &lt;meta&gt; tag values from an HTML document
      *
      * @param html  Raw HTML string
      * @return JSON object with keys: title, description, keywords, author

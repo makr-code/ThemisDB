@@ -45,13 +45,13 @@ ApiKeyMgmtHandler::ApiKeyMgmtHandler(std::shared_ptr<AuthMiddleware> auth)
 std::string ApiKeyMgmtHandler::generateToken() {
     // 32 random bytes → 64 hex chars; prefixed with "themis_"
     unsigned char buf[32];
-    if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
+    if (RAND_bytes(buf, static_cast&lt;int&gt;(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for API token");
     }
     std::ostringstream oss;
     oss << "themis_";
     for (auto b : buf) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -59,13 +59,13 @@ std::string ApiKeyMgmtHandler::generateToken() {
 std::string ApiKeyMgmtHandler::generateKeyId() {
     // 8 random bytes → 16 hex chars; prefixed with "key_"
     unsigned char buf[8];
-    if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
+    if (RAND_bytes(buf, static_cast&lt;int&gt;(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for key ID");
     }
     std::ostringstream oss;
     oss << "key_";
     for (auto b : buf) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -190,7 +190,7 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
             items.push_back(recordToJson(rec));
         }
         THEMIS_INFO("API Key list: {} keys", items.size());
-        return {{"items", items}, {"total", static_cast<int>(items.size())}};
+        return {{"items", items}, {"total", static_cast&lt;int&gt;(items.size())}};
     } catch (const std::exception& ex) {
         THEMIS_ERROR("ApiKeyMgmtHandler::listKeys failed: {}", ex.what());
         return {{"error", "Internal Server Error"}, {"message", ex.what()}, {"status_code", 500}};

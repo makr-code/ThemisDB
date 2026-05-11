@@ -69,7 +69,7 @@ bool LLMGrpcService::validateBearerToken(grpc::ServerContext* context) {
         std::vector<unsigned char> buf(s.size());
         int len = EVP_DecodeBlock(buf.data(),
             reinterpret_cast<const unsigned char*>(s.data()),
-            static_cast<int>(s.size()));
+            static_cast&lt;int&gt;(s.size()));
         if (len < 0) return "";
         return std::string(buf.begin(), buf.begin() + len);
     };

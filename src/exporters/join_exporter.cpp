@@ -222,7 +222,7 @@ ExportStats JoinExporter::exportEntities(
             stats.failed_entities++;
             stats.errors.push_back(
                 "Entity " + left_entity.getPrimaryKey() + ": [" +
-                std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
+                std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + "] " + e.what()
             );
             metrics_->recordError("exporter_exception");
 
@@ -304,7 +304,7 @@ BaseEntity JoinExporter::mergeEntities(
         }
     } else {
         // Honour explicit output_fields list (with optional "src_name:alias" syntax).
-        // Qualified source names "left.<field>" / "right.<field>" are used to resolve
+        // Qualified source names "left.&lt;field&gt;" / "right.&lt;field&gt;" are used to resolve
         // ambiguous names that exist in both collections.
         for (const auto& spec : config_.output_fields) {
             // Split "original:alias"
@@ -316,7 +316,7 @@ BaseEntity JoinExporter::mergeEntities(
                                               ? spec.substr(colon_pos + 1)
                                               : spec;
 
-            // Resolve "left.<field>" / "right.<field>" qualifiers.
+            // Resolve "left.&lt;field&gt;" / "right.&lt;field&gt;" qualifiers.
             if (src_name.rfind("left.", 0) == 0) {
                 const std::string field = src_name.substr(5);
                 auto it = left_fields.find(field);

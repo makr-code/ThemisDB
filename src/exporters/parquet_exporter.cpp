@@ -910,7 +910,7 @@ ExportStats ParquetExporter::exportFallback(
     std::ofstream ofs(options.output_path, std::ios::binary);
     if (!ofs.is_open()) {
         auto err_code = std::to_string(
-            static_cast<int>(errors::ErrorCode::ERR_EXPORT_IO_ERROR));
+            static_cast&lt;int&gt;(errors::ErrorCode::ERR_EXPORT_IO_ERROR));
         stats.errors.push_back(err_code + ": Cannot open output file: " +
                                options.output_path);
         stats.failed_entities += row_count;

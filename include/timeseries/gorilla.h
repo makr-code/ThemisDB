@@ -38,7 +38,7 @@ namespace themis {
  *  - Timestamps: delta-of-delta encoding with ZigZag + varint
  *  - Values: XOR of IEEE-754 double bit patterns with leading/trailing zero optimization
  * 
- * @sources
+ * Sources:
  * - Algorithm: Gorilla Time Series Compression
  * - Paper: Pelkonen, T., Franklin, S., et al. (2015)
  *          "Gorilla: A Fast, Scalable, In-Memory Time Series Database"

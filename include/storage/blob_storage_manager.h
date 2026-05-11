@@ -146,7 +146,7 @@ public:
         
         if (!backend) {
             throw std::runtime_error(
-                "Backend not registered for type: " + std::to_string(static_cast<int>(ref.type))
+                "Backend not registered for type: " + std::to_string(static_cast&lt;int&gt;(ref.type))
             );
         }
         

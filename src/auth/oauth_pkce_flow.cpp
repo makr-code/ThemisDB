@@ -390,7 +390,7 @@ void OAuthPKCEFlow::fillRandomBytes(unsigned char* buf, std::size_t len) {
         rand_bytes_fn_(buf, len);
         return;
     }
-    if (RAND_bytes(buf, static_cast<int>(len)) != 1) {
+    if (RAND_bytes(buf, static_cast&lt;int&gt;(len)) != 1) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INTERNAL_ERROR,
             "Failed to generate secure random bytes",
@@ -468,7 +468,7 @@ std::string OAuthPKCEFlow::urlEncode(const std::string& value) {
     if (!curl) return value;
 
     char* encoded = curl_easy_escape(curl, value.c_str(),
-                                     static_cast<int>(value.size()));
+                                     static_cast&lt;int&gt;(value.size()));
     std::string result;
     if (encoded) {
         result = encoded;

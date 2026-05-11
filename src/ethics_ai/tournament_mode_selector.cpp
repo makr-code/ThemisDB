@@ -15,7 +15,7 @@ namespace ethics {
 
 int TournamentModeSelector::countTokens(const std::string& text) noexcept
 {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast&lt;int&gt;((text.size() + 3) / 4);
 }
 
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument& arg)
@@ -115,7 +115,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     } else {
         // TOURNAMENT mode: top N primaries get full, rest get headlines
         const int n_primary = std::max(0, config.primary_opponent_count);
-        for (int i = 0; i < static_cast<int>(ordered_schools.size()); ++i) {
+        for (int i = 0; i < static_cast&lt;int&gt;(ordered_schools.size()); ++i) {
             const auto& school = ordered_schools[static_cast<std::size_t>(i)];
             const auto& arg = opponent_arguments[school_to_arg_index.at(school)];
             if (i < n_primary) {

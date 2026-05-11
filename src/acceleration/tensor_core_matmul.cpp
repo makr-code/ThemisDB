@@ -97,9 +97,9 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
     if (!params.A || !params.B || !params.C) return 1;
     if (params.M == 0 || params.K == 0 || params.N == 0) return 1;
 
-    const int M = static_cast<int>(params.M);
-    const int K = static_cast<int>(params.K);
-    const int N = static_cast<int>(params.N);
+    const int M = static_cast&lt;int&gt;(params.M);
+    const int K = static_cast&lt;int&gt;(params.K);
+    const int N = static_cast&lt;int&gt;(params.N);
 
 #ifdef THEMIS_ENABLE_CUDA
     cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);

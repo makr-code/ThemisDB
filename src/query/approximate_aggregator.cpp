@@ -76,7 +76,7 @@ ApproximateCountDistinct::ApproximateCountDistinct(int precision)
 void ApproximateCountDistinct::add(const nlohmann::json& value) {
     const uint64_t h = hashValue(value);
     // Use the top `precision_` bits as the register index.
-    const int idx = static_cast<int>(h >> (64 - precision_));
+    const int idx = static_cast&lt;int&gt;(h >> (64 - precision_));
     // Remaining bits determine the rho value.
     const uint64_t w = (h << precision_) | ((1ULL << precision_) - 1);
     const uint8_t r  = rho(w);
@@ -145,7 +145,7 @@ void ApproximatePercentile::add(const nlohmann::json& value) {
     total_weight_ += 1.0;
 
     // Compress when we have many centroids to keep memory bounded.
-    if (static_cast<int>(centroids_.size()) > compression_ * 10) {
+    if (static_cast&lt;int&gt;(centroids_.size()) > compression_ * 10) {
         compress();
     }
 }

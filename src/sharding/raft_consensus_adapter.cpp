@@ -611,7 +611,7 @@ nlohmann::json RaftConsensusAdapter::getStatus() const {
         {"node_id",           node_id_},
         {"is_leader",         isLeader()},
         {"leader_id",         stats.current_leader},
-        {"state",             static_cast<int>(stats.state)},
+        {"state",             static_cast&lt;int&gt;(stats.state)},
         {"current_term",      stats.current_term},
         {"cluster_size",      stats.cluster_size},
         {"reachable_nodes",   stats.reachable_nodes},

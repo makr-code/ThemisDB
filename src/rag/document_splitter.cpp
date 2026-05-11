@@ -338,7 +338,7 @@ DocumentSplitter::DocumentSplitter()
     THEMIS_INFO("DocumentSplitter created (chunk_size={}, overlap={}, strategy={})",
                 impl_->config.chunk_size,
                 impl_->config.overlap,
-                static_cast<int>(impl_->config.strategy));
+                static_cast&lt;int&gt;(impl_->config.strategy));
 }
 
 DocumentSplitter::DocumentSplitter(const DocumentSplitterConfig& config)
@@ -348,7 +348,7 @@ DocumentSplitter::DocumentSplitter(const DocumentSplitterConfig& config)
     THEMIS_INFO("DocumentSplitter created (chunk_size={}, overlap={}, strategy={})",
                 config.chunk_size,
                 config.overlap,
-                static_cast<int>(config.strategy));
+                static_cast&lt;int&gt;(config.strategy));
 }
 
 DocumentSplitter::~DocumentSplitter() = default;

@@ -281,8 +281,8 @@ bool TieredStorageManager::migrateKey(const std::string& key,
     if (!existsInTier(key, from)) {
         THEMIS_WARN("TieredStorage: migrateKey({}, {} -> {}): key not found in source",
                     key,
-                    static_cast<int>(from),
-                    static_cast<int>(to));
+                    static_cast&lt;int&gt;(from),
+                    static_cast&lt;int&gt;(to));
         return false;
     }
     std::string value = readFromTier(key, from);
@@ -298,7 +298,7 @@ bool TieredStorageManager::migrateKey(const std::string& key,
     // Write to destination (copy-then-delete for crash safety)
     if (!writeToTier(key, value, to)) {
         THEMIS_ERROR("TieredStorage: migrateKey({}) failed to write to destination tier {}",
-                     key, static_cast<int>(to));
+                     key, static_cast&lt;int&gt;(to));
         stat_migration_errors_++;
         return false;
     }
@@ -311,7 +311,7 @@ bool TieredStorageManager::migrateKey(const std::string& key,
 
     tracker_.setTier(key, to);
     THEMIS_DEBUG("TieredStorage: migrated key '{}' {} -> {}", key,
-                 static_cast<int>(from), static_cast<int>(to));
+                 static_cast&lt;int&gt;(from), static_cast&lt;int&gt;(to));
     return true;
 }
 

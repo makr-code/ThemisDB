@@ -94,14 +94,14 @@ double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     return static_cast<double>(diffs[mid]);
 }
 
-std::vector<int> MLAnomalyDetector::dbscanLabels(
+std::vector&lt;int&gt; MLAnomalyDetector::dbscanLabels(
     const std::vector<double>& values) const
 {
     // Simple 1-D DBSCAN implementation sufficient for unit-scale test cases.
     const int UNVISITED = 0;
     const int NOISE     = -1;
     int label           = 0;
-    std::vector<int> labels(values.size(), UNVISITED);
+    std::vector&lt;int&gt; labels(values.size(), UNVISITED);
 
     auto regionQuery = [&](size_t idx) {
         std::vector<size_t> neighbours;
@@ -277,7 +277,7 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
     auto fcfg = cfg_.forecast_config;
     if (cfg_.forecast_backend == ForecastBackend::PROPHET) {
         if (cfg_.seasonality_period > 0 && fcfg.seasonality == 0) {
-            fcfg.seasonality = static_cast<int>(cfg_.seasonality_period);
+            fcfg.seasonality = static_cast&lt;int&gt;(cfg_.seasonality_period);
         }
         if (fcfg.alpha == 0.0) fcfg.alpha = 0.3;
         if (fcfg.beta == 0.0)  fcfg.beta  = 0.1;
@@ -323,7 +323,7 @@ ForecastSeries MLAnomalyDetector::forecast(std::chrono::hours horizon) const {
     }
     double interval_ms = medianIntervalMs(training_series_);
     if (interval_ms <= 0.0) interval_ms = 1000.0;
-    int steps = static_cast<int>(std::max<int64_t>(
+    int steps = static_cast&lt;int&gt;(std::max<int64_t>(
         1, static_cast<int64_t>(
             std::llround(static_cast<double>(horizon.count()) * 3600.0 * 1000.0 / interval_ms))));
 
@@ -349,7 +349,7 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
     if (pts.empty()) return results;
 
     // Forecast expected values for the same horizon.
-    auto forecast_points = forecast_model_.predict(static_cast<int>(pts.size()));
+    auto forecast_points = forecast_model_.predict(static_cast&lt;int&gt;(pts.size()));
     std::vector<double> values;
     values.reserve(pts.size());
     for (const auto& p : pts) values.push_back(p.value);

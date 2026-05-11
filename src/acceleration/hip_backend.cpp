@@ -1010,7 +1010,7 @@ std::vector<float> HIPGeoBackend::batchDistances(
 
         const int rc = hip_launchGeoDistanceKernel(
             d_lats1, d_lons1, d_lats2, d_lons2,
-            d_distances, static_cast<int>(count),
+            d_distances, static_cast&lt;int&gt;(count),
             formula, static_cast<void*>(stream));
 
         if (rc != 0) {
@@ -1076,8 +1076,8 @@ std::vector<bool> HIPGeoBackend::batchPointInPolygon(
         HIP_CHECK_THROW(hipMemcpyAsync(d_polygon_coords, polygonCoords, polyBytes,  hipMemcpyHostToDevice, stream));
 
         const int rc = hip_launchGeoContainmentKernel(
-            d_point_lats, d_point_lons, static_cast<int>(numPoints),
-            d_polygon_coords, static_cast<int>(numPolygonVertices),
+            d_point_lats, d_point_lons, static_cast&lt;int&gt;(numPoints),
+            d_polygon_coords, static_cast&lt;int&gt;(numPolygonVertices),
             d_results, static_cast<void*>(stream));
 
         if (rc != 0) {

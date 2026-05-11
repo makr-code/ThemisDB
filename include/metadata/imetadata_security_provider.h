@@ -87,7 +87,7 @@ public:
                                   std::string_view  resource)
         : std::runtime_error(
               "Metadata access denied: principal='" + std::string(principal) +
-              "' operation=" + std::to_string(static_cast<int>(op)) +
+              "' operation=" + std::to_string(static_cast&lt;int&gt;(op)) +
               " resource='" + std::string(resource) + "'")
         , principal_(principal)
         , operation_(op)

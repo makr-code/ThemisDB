@@ -478,7 +478,7 @@ struct DHDNToETRS89Params {
  * @brief Determine UTM zone from longitude
  */
 inline int getUTMZone(double lon) {
-    return static_cast<int>((lon + 180.0) / 6.0) + 1;
+    return static_cast&lt;int&gt;((lon + 180.0) / 6.0) + 1;
 }
 
 /**
@@ -529,8 +529,8 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
-        int fromSrid = args[1].get<int>();
-        int toSrid = args[2].get<int>();
+        int fromSrid = args[1].get&lt;int&gt;();
+        int toSrid = args[2].get&lt;int&gt;();
         
         if (fromSrid == toSrid) {
             return geom; // No transformation needed
@@ -735,7 +735,7 @@ public:
             return 4326;
         } else {
             // Set SRID
-            int srid = args[1].get<int>();
+            int srid = args[1].get&lt;int&gt;();
             nlohmann::json result = geom;
             result["crs"] = {
                 {"type", "name"},
@@ -772,7 +772,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json result = args[0];
-        int srid = args[1].get<int>();
+        int srid = args[1].get&lt;int&gt;();
         result["crs"] = {
             {"type", "name"},
             {"properties", {
@@ -834,7 +834,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int zone = args[0].get<int>();
+        int zone = args[0].get&lt;int&gt;();
         std::string hemisphere = args.size() > 1 ? args[1].get<std::string>() : "N";
         std::string ellipsoid = args.size() > 2 ? args[2].get<std::string>() : "WGS84";
         
@@ -867,7 +867,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int epsg = args[0].get<int>();
+        int epsg = args[0].get&lt;int&gt;();
         const auto& db = crs::getEPSGDatabase();
         
         auto it = db.find(epsg);
@@ -900,7 +900,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int epsg = args[0].get<int>();
+        int epsg = args[0].get&lt;int&gt;();
         const auto& db = crs::getEPSGDatabase();
         
         auto it = db.find(epsg);
@@ -933,7 +933,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        int epsg = args[0].get<int>();
+        int epsg = args[0].get&lt;int&gt;();
         const auto& db = crs::getEPSGDatabase();
         
         auto it = db.find(epsg);
@@ -971,7 +971,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         double easting = args[0].get<double>();
         double northing = args[1].get<double>();
-        int zone = args[2].get<int>();
+        int zone = args[2].get&lt;int&gt;();
         std::string hemisphere = args.size() > 3 ? args[3].get<std::string>() : "N";
         
         bool isNorth = (hemisphere == "N" || hemisphere == "n");

@@ -535,7 +535,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             documents.insert(documents.end(), result.documents.begin(), result.documents.end());
             
             // Update progress
-            job.processed_items = static_cast<int>(documents.size());
+            job.processed_items = static_cast&lt;int&gt;(documents.size());
             if (job.total_items > 0) {
                 job.progress = static_cast<float>(job.processed_items) / job.total_items;
             }
@@ -561,7 +561,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
         plugin->saveToCache(dataset_name, split, documents);
     }
     
-    job.total_items = static_cast<int>(documents.size());
+    job.total_items = static_cast&lt;int&gt;(documents.size());
     
     // Ingest documents into ContentManager
     for (size_t i = 0; i < documents.size(); ++i) {
@@ -584,7 +584,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             THEMIS_WARN("Error importing document {}: {}", i, e.what());
         }
         
-        job.processed_items = static_cast<int>(i + 1);
+        job.processed_items = static_cast&lt;int&gt;(i + 1);
         job.progress = static_cast<float>(i + 1) / documents.size();
     }
     
@@ -655,7 +655,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
         {"chunk_type", "text"},
         {"text", text_content},
         {"start_offset", 0},
-        {"end_offset", static_cast<int>(text_content.size())},
+        {"end_offset", static_cast&lt;int&gt;(text_content.size())},
         {"created_at", std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count()}

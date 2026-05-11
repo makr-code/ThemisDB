@@ -41,7 +41,7 @@ public:
      * @param num_gpus Number of GPUs to use (0 = use all available)
      * @param gpu_ids Specific GPU IDs to use (empty = use first N GPUs)
      */
-    explicit MultiGPUContext(int num_gpus = 0, const std::vector<int>& gpu_ids = {});
+    explicit MultiGPUContext(int num_gpus = 0, const std::vector&lt;int&gt;& gpu_ids = {});
     
     ~MultiGPUContext() = default;
     
@@ -54,7 +54,7 @@ public:
     /**
      * @brief Get number of GPUs in context
      */
-    int num_gpus() const { return static_cast<int>(devices_.size()); }
+    int num_gpus() const { return static_cast&lt;int&gt;(devices_.size()); }
     
     /**
      * @brief Get world size (same as num_gpus for data parallelism)
@@ -98,7 +98,7 @@ private:
     DeviceType gpu_type_;
     bool is_homogeneous_;
     
-    void detect_gpus(int num_gpus, const std::vector<int>& gpu_ids);
+    void detect_gpus(int num_gpus, const std::vector&lt;int&gt;& gpu_ids);
 };
 
 /**

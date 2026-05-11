@@ -155,7 +155,7 @@ struct NVMeIOResult {
  *  - ZNS zone management helpers (reset, finish, query zone state).
  *  - Helper to build the recommended RocksDB Direct I/O flags for the device.
  *
- * @thread_safety
+ * Thread-safety:
  *  - detectCapabilities() is safe to call concurrently from any thread;
  *    results are computed at most once and cached via std::call_once.
  *  - submitRead / submitWrite / pollCompletions operate on a shared io_uring

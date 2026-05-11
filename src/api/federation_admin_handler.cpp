@@ -36,7 +36,7 @@ nlohmann::json FederationAdminHandler::getRagStats() const {
     }
     const auto& cfg = merger_->config();
     return {{"available",       true},
-            {"merge_strategy",  static_cast<int>(cfg.strategy)},
+            {"merge_strategy",  static_cast&lt;int&gt;(cfg.strategy)},
             {"top_k",           cfg.top_k},
             {"deduplicate",     cfg.deduplicate},
             {"rrf_constant",    cfg.rrf_constant}};

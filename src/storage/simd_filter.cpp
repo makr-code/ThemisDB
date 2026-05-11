@@ -66,7 +66,7 @@ namespace storage {
 // ============================================================================
 
 SIMDLevel detectSIMDLevel() noexcept {
-    static std::atomic<int> cached{-1};
+    static std::atomic&lt;int&gt; cached{-1};
     int v = cached.load(std::memory_order_relaxed);
     if (v >= 0) {
         return static_cast<SIMDLevel>(v);
@@ -109,7 +109,7 @@ SIMDLevel detectSIMDLevel() noexcept {
     }
 #endif
 
-    cached.store(static_cast<int>(level), std::memory_order_relaxed);
+    cached.store(static_cast&lt;int&gt;(level), std::memory_order_relaxed);
     return level;
 }
 
@@ -124,7 +124,7 @@ inline int themis_ctz(unsigned int x) noexcept {
 #if defined(_MSC_VER)
     unsigned long idx = 0;
     _BitScanForward(&idx, x);
-    return static_cast<int>(idx);
+    return static_cast&lt;int&gt;(idx);
 #else
     return __builtin_ctz(x);
 #endif
@@ -365,14 +365,14 @@ static inline int neon_movemask_u32(uint32x4_t mask) noexcept {
     uint32x2_t lo = vget_low_u32(bits);
     uint32x2_t hi = vget_high_u32(bits);
     uint32x2_t pair = vorr_u32(lo, vshl_u32(hi, vdup_n_s32(2)));
-    return static_cast<int>(vget_lane_u32(vpadd_u32(pair, pair), 0));
+    return static_cast&lt;int&gt;(vget_lane_u32(vpadd_u32(pair, pair), 0));
 }
 
 // Helper: collapse a uint64x2 predicate mask into a 2-bit integer.
 static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
     uint64_t lo = vgetq_lane_u64(mask, 0) & 1u;
     uint64_t hi = vgetq_lane_u64(mask, 1) & 1u;
-    return static_cast<int>(lo | (hi << 1));
+    return static_cast&lt;int&gt;(lo | (hi << 1));
 }
 
 // ── int32 (4 lanes) ──────────────────────────────────────────────────────────

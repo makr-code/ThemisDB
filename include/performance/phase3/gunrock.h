@@ -47,7 +47,7 @@ public:
     void load_graph(const std::vector<std::vector<NodeID>>& adj_list);
     
     // GPU-accelerated BFS
-    std::vector<int> gpu_bfs(NodeID start_vertex);
+    std::vector&lt;int&gt; gpu_bfs(NodeID start_vertex);
     
     // GPU-accelerated PageRank
     std::vector<double> gpu_pagerank(int num_iterations = 10, double damping = 0.85);

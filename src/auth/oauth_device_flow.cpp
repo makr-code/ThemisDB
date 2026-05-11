@@ -483,7 +483,7 @@ std::string OAuthDeviceFlow::urlEncode(const std::string& value) {
     if (!curl) return value;
 
     char* encoded = curl_easy_escape(curl, value.c_str(),
-                                     static_cast<int>(value.size()));
+                                     static_cast&lt;int&gt;(value.size()));
     std::string result;
     if (encoded) {
         result = encoded;

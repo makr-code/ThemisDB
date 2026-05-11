@@ -67,10 +67,10 @@ GPUUtilizationMonitor::GPUUtilizationMonitor(const Device& device)
     
     if (is_available_) {
         spdlog::info("GPUUtilizationMonitor initialized for device type {}", 
-                     static_cast<int>(device_.type));
+                     static_cast&lt;int&gt;(device_.type));
     } else {
         spdlog::warn("GPUUtilizationMonitor: Monitoring not available for device type {}", 
-                     static_cast<int>(device_.type));
+                     static_cast&lt;int&gt;(device_.type));
     }
     
     // Reserve space for metrics history
@@ -138,28 +138,28 @@ std::vector<std::string> GPUUtilizationMonitor::getOptimizationRecommendations()
     
     if (metrics.gpu_utilization_pct < 70.0f) {
         recommendations.push_back(
-            "Low GPU utilization (" + std::to_string(static_cast<int>(metrics.gpu_utilization_pct)) + 
+            "Low GPU utilization (" + std::to_string(static_cast&lt;int&gt;(metrics.gpu_utilization_pct)) + 
             "%): Consider increasing batch size"
         );
     }
     
     if (metrics.memory_utilization_pct < 60.0f) {
         recommendations.push_back(
-            "Low memory utilization (" + std::to_string(static_cast<int>(metrics.memory_utilization_pct)) + 
+            "Low memory utilization (" + std::to_string(static_cast&lt;int&gt;(metrics.memory_utilization_pct)) + 
             "%): Can increase sequence length or batch size"
         );
     }
     
     if (metrics.sm_occupancy_pct > 0.0f && metrics.sm_occupancy_pct < 50.0f) {
         recommendations.push_back(
-            "Low SM occupancy (" + std::to_string(static_cast<int>(metrics.sm_occupancy_pct)) + 
+            "Low SM occupancy (" + std::to_string(static_cast&lt;int&gt;(metrics.sm_occupancy_pct)) + 
             "%): Kernel launch configuration may be suboptimal"
         );
     }
     
     if (metrics.gpu_utilization_pct > 95.0f) {
         recommendations.push_back(
-            "Excellent GPU utilization (" + std::to_string(static_cast<int>(metrics.gpu_utilization_pct)) + 
+            "Excellent GPU utilization (" + std::to_string(static_cast&lt;int&gt;(metrics.gpu_utilization_pct)) + 
             "%): GPU is well utilized"
         );
     }
@@ -203,7 +203,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics(size_t n
 
 std::string GPUUtilizationMonitor::getDeviceInfo() const {
     return "GPU Device " + std::to_string(device_.device_id) + 
-           " (Type: " + std::to_string(static_cast<int>(device_.type)) + ")";
+           " (Type: " + std::to_string(static_cast&lt;int&gt;(device_.type)) + ")";
 }
 
 // NVML (NVIDIA) implementation

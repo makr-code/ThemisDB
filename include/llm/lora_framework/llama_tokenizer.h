@@ -72,7 +72,7 @@ public:
      * @param add_eos Add end-of-sequence token
      * @return Vector of token IDs
      */
-    std::vector<int> encode(const std::string& text, 
+    std::vector&lt;int&gt; encode(const std::string& text, 
                            bool add_bos = true, 
                            bool add_eos = false) override;
     
@@ -81,7 +81,7 @@ public:
      * @param tokens Token IDs
      * @return Decoded text
      */
-    std::string decode(const std::vector<int>& tokens) override;
+    std::string decode(const std::vector&lt;int&gt;& tokens) override;
     
     /**
      * @brief Get vocabulary size

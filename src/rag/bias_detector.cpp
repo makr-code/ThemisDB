@@ -85,8 +85,8 @@ BiasDetectionResult BiasDetector::detectPositionBias(
     }
     
     double expected = total_decisions / 2.0;
-    std::vector<int> observed = {first_position_wins, second_position_wins};
-    std::vector<int> expected_counts = {static_cast<int>(expected), static_cast<int>(expected)};
+    std::vector&lt;int&gt; observed = {first_position_wins, second_position_wins};
+    std::vector&lt;int&gt; expected_counts = {static_cast&lt;int&gt;(expected), static_cast&lt;int&gt;(expected)};
     
     double chi_square = calculateChiSquare(observed, expected_counts);
     result.p_value = calculatePValue(chi_square, 1); // 1 degree of freedom
@@ -107,7 +107,7 @@ BiasDetectionResult BiasDetector::detectPositionBias(
         std::string preferred_position = (first_position_rate > 0.5) ? "first" : "second";
         result.description = "Significant position bias detected: preference for " + 
                             preferred_position + " position (" + 
-                            std::to_string(static_cast<int>(result.bias_magnitude * 100)) + "%)";
+                            std::to_string(static_cast&lt;int&gt;(result.bias_magnitude * 100)) + "%)";
         THEMIS_WARN("Position bias detected: {}", result.description);
     } else {
         result.description = "No significant position bias detected";
@@ -287,8 +287,8 @@ double BiasDetector::calculatePValue(double correlation, size_t sample_size) {
 }
 
 double BiasDetector::calculateChiSquare(
-    const std::vector<int>& observed,
-    const std::vector<int>& expected
+    const std::vector&lt;int&gt;& observed,
+    const std::vector&lt;int&gt;& expected
 ) {
     if (observed.size() != expected.size()) {
         return 0.0;

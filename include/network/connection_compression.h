@@ -55,7 +55,7 @@ inline std::vector<uint8_t> compressLZ4(
     const std::vector<uint8_t>& data, uint32_t min_size = 256)
 {
     if (data.size() < min_size) return {};
-    const int src_size = static_cast<int>(data.size());
+    const int src_size = static_cast&lt;int&gt;(data.size());
     const int bound    = LZ4_compressBound(src_size);
     if (bound <= 0) return {};
 
@@ -81,7 +81,7 @@ inline std::vector<uint8_t> decompressLZ4(const std::vector<uint8_t>& data)
     if (data.size() < 4) return {};
     uint32_t orig_le = 0;
     std::memcpy(&orig_le, data.data(), 4);
-    const int orig_size = static_cast<int>(orig_le);
+    const int orig_size = static_cast&lt;int&gt;(orig_le);
     if (orig_size <= 0 ||
         static_cast<size_t>(orig_size) > wire::V2_MAX_PAYLOAD) return {};
 
@@ -89,7 +89,7 @@ inline std::vector<uint8_t> decompressLZ4(const std::vector<uint8_t>& data)
     const int result = LZ4_decompress_safe(
         reinterpret_cast<const char*>(data.data() + 4),
         reinterpret_cast<char*>(out.data()),
-        static_cast<int>(data.size() - 4),
+        static_cast&lt;int&gt;(data.size() - 4),
         orig_size);
     if (result != orig_size) return {};
     return out;

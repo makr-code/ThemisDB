@@ -28,9 +28,9 @@ namespace imggen {
 SDConfig SDConfig::fromJson(const json& j) {
     SDConfig cfg;
     if (j.contains("model_path"))            cfg.model_path            = j["model_path"].get<std::string>();
-    if (j.contains("width"))                 cfg.width                 = j["width"].get<int>();
-    if (j.contains("height"))                cfg.height                = j["height"].get<int>();
-    if (j.contains("steps"))                 cfg.steps                 = j["steps"].get<int>();
+    if (j.contains("width"))                 cfg.width                 = j["width"].get&lt;int&gt;();
+    if (j.contains("height"))                cfg.height                = j["height"].get&lt;int&gt;();
+    if (j.contains("steps"))                 cfg.steps                 = j["steps"].get&lt;int&gt;();
     if (j.contains("cfg_scale"))             cfg.cfg_scale             = j["cfg_scale"].get<float>();
     if (j.contains("sampler"))               cfg.sampler               = j["sampler"].get<std::string>();
     if (j.contains("seed"))                  cfg.seed                  = j["seed"].get<int64_t>();

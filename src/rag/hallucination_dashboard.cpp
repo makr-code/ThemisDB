@@ -176,9 +176,9 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
         alert.window_size   = snap.window_size;
         alert.timestamp     = std::chrono::system_clock::now();
         alert.message       = "CRITICAL: hallucination rate " +
-                              std::to_string(static_cast<int>(snap.hallucination_rate * 100)) +
+                              std::to_string(static_cast&lt;int&gt;(snap.hallucination_rate * 100)) +
                               "% exceeds critical threshold " +
-                              std::to_string(static_cast<int>(config_.alert_threshold_critical * 100)) + "%";
+                              std::to_string(static_cast&lt;int&gt;(config_.alert_threshold_critical * 100)) + "%";
         snap.active_alerts.push_back(std::move(alert));
         snap.alert_triggered = true;
     } else if (snap.hallucination_rate >= config_.alert_threshold_warning) {
@@ -189,9 +189,9 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
         alert.window_size   = snap.window_size;
         alert.timestamp     = std::chrono::system_clock::now();
         alert.message       = "WARNING: hallucination rate " +
-                              std::to_string(static_cast<int>(snap.hallucination_rate * 100)) +
+                              std::to_string(static_cast&lt;int&gt;(snap.hallucination_rate * 100)) +
                               "% exceeds warning threshold " +
-                              std::to_string(static_cast<int>(config_.alert_threshold_warning * 100)) + "%";
+                              std::to_string(static_cast&lt;int&gt;(config_.alert_threshold_warning * 100)) + "%";
         snap.active_alerts.push_back(std::move(alert));
         snap.alert_triggered = true;
     } else if (snap.hallucination_rate >= config_.alert_threshold_info) {
@@ -202,9 +202,9 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
         alert.window_size   = snap.window_size;
         alert.timestamp     = std::chrono::system_clock::now();
         alert.message       = "INFO: hallucination rate " +
-                              std::to_string(static_cast<int>(snap.hallucination_rate * 100)) +
+                              std::to_string(static_cast&lt;int&gt;(snap.hallucination_rate * 100)) +
                               "% exceeds info threshold " +
-                              std::to_string(static_cast<int>(config_.alert_threshold_info * 100)) + "%";
+                              std::to_string(static_cast&lt;int&gt;(config_.alert_threshold_info * 100)) + "%";
         snap.active_alerts.push_back(std::move(alert));
         snap.alert_triggered = true;
     }

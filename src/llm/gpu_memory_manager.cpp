@@ -364,7 +364,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         double bytes_mb = static_cast<double>(bytes) / (1024.0 * 1024.0);
         double available_mb = static_cast<double>(config_.max_vram_bytes - total_vram_used_) / (1024.0 * 1024.0);
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
-                      static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
+                      static_cast&lt;int&gt;(errors::ErrorCode::ERR_LLM_GPU_OOM), 
                       bytes_mb, available_mb);
         return nullptr;
     }
@@ -1210,7 +1210,7 @@ size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
     return used < config_.max_vram_bytes ? (config_.max_vram_bytes - used) : 0;
 }
 
-std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
+std::vector&lt;int&gt; GPUMemoryManager::getAvailableGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return available_gpus_;
 }
@@ -1598,10 +1598,10 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
     return least_loaded_gpu;
 }
 
-std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
+std::vector&lt;int&gt; GPUMemoryManager::getHealthyGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<int> healthy_gpus;
+    std::vector&lt;int&gt; healthy_gpus;
     for (int gpu_id : available_gpus_) {
         auto it = gpu_health_status_.find(gpu_id);
         if (it != gpu_health_status_.end() && it->second) {

@@ -226,7 +226,7 @@ static bool pgSendFeedback(PGconn* conn,
     pgEncodeBE64(reply + 17, apply_lsn);
     pgEncodeBE64(reply + 25, static_cast<uint64_t>(pgTimestampNow())); // sendTime
     reply[sizeof(reply) - 1] = 0;                                      // no reply requested
-    return PQputCopyData(conn, reply, static_cast<int>(sizeof(reply))) == 1;
+    return PQputCopyData(conn, reply, static_cast&lt;int&gt;(sizeof(reply))) == 1;
 }
 
 /// Build a connection string that includes `replication=database`.

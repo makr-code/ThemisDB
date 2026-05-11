@@ -516,11 +516,11 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
 namespace {
 int levenshtein(const std::string& s1, const std::string& s2) {
     const size_t m = s1.size(), n = s2.size();
-    if (m == 0) return static_cast<int>(n);
-    if (n == 0) return static_cast<int>(m);
-    std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
-    for (size_t i = 0; i <= m; ++i) dp[i][0] = static_cast<int>(i);
-    for (size_t j = 0; j <= n; ++j) dp[0][j] = static_cast<int>(j);
+    if (m == 0) return static_cast&lt;int&gt;(n);
+    if (n == 0) return static_cast&lt;int&gt;(m);
+    std::vector<std::vector&lt;int&gt;> dp(m + 1, std::vector&lt;int&gt;(n + 1));
+    for (size_t i = 0; i <= m; ++i) dp[i][0] = static_cast&lt;int&gt;(i);
+    for (size_t j = 0; j <= n; ++j) dp[0][j] = static_cast&lt;int&gt;(j);
     for (size_t i = 1; i <= m; ++i)
         for (size_t j = 1; j <= n; ++j) {
             int cost      = (s1[i - 1] == s2[j - 1]) ? 0 : 1;

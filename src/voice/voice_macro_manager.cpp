@@ -81,7 +81,7 @@ int64_t macroNowMs() {
 
 json stepToJson(const MacroStep& step) {
     json j;
-    j["type"] = static_cast<int>(step.type);
+    j["type"] = static_cast&lt;int&gt;(step.type);
     j["action"] = step.action;
     json params = json::object();
     for (const auto& kv : step.parameters) {
@@ -136,7 +136,7 @@ json macroInfoToJson(const MacroInfo& m) {
     opts["required_permissions"]  = m.options.required_permissions;
     opts["max_execution_time_ms"] = m.options.max_execution_time_ms;
     opts["log_execution"]         = m.options.log_execution;
-    opts["priority"]              = static_cast<int>(m.options.priority);
+    opts["priority"]              = static_cast&lt;int&gt;(m.options.priority);
     j["options"] = opts;
 
     return j;
@@ -235,7 +235,7 @@ StepResult executeStep(int index,
         case StepType::CONDITION:
         case StepType::LOOP:
         default:
-            result.output  = "Step type not yet supported: " + std::to_string(static_cast<int>(step.type));
+            result.output  = "Step type not yet supported: " + std::to_string(static_cast&lt;int&gt;(step.type));
             result.success = false;
             result.error_message = result.output;
             break;
@@ -393,7 +393,7 @@ MacroResult VoiceMacroManager::executeMacro(
     std::string combined_output;
     bool all_ok = true;
 
-    for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {
+    for (int i = 0; i < static_cast&lt;int&gt;(info.steps.size()); ++i) {
         auto sr = executeStep(i, info.steps[static_cast<size_t>(i)], parameters);
         if (!combined_output.empty()) combined_output += '\n';
         combined_output += sr.output;

@@ -116,7 +116,7 @@ struct ShardMetrics {
     std::atomic<uint64_t> transaction_conflicts{0};
     
     // Health status
-    std::atomic<int> health_status{static_cast<int>(HealthStatus::HEALTHY)};
+    std::atomic&lt;int&gt; health_status{static_cast&lt;int&gt;(HealthStatus::HEALTHY)};
     
     // Timestamps
     std::chrono::system_clock::time_point start_time;
@@ -158,7 +158,7 @@ struct ShardMetrics {
      * @brief Set health status
      */
     void setHealthStatus(HealthStatus status) {
-        health_status.store(static_cast<int>(status));
+        health_status.store(static_cast&lt;int&gt;(status));
     }
     
     /**

@@ -135,7 +135,7 @@ public:
      * When set, every successful `rebalance()` call that performs at least one
      * adapter migration emits a `LORA_RANK_ADJUSTMENT` decision record written
      * asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_RANK_ADJUSTMENT_<id>.yaml`.
+     * `logs/decisions/YYYY-MM-DD/&lt;ts&gt;_LORA_RANK_ADJUSTMENT_&lt;id&gt;.yaml`.
      *
      * @param processor  Shared processor instance (may be nullptr to disable).
      */

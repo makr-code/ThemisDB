@@ -46,7 +46,7 @@ class RocksDBWrapper;
  * - Automatic TTL cleanup via RocksDB (v1.1.0 feature)
  * - Time-based partitioning for efficient queries
  * 
- * @sources
+ * Sources:
  * - Concept inspired by: TimescaleDB Hypertables
  * - Project: TimescaleDB - https://github.com/timescale/timescaledb
  * - License: Timescale License (Apache 2.0 compatible for Community Edition)

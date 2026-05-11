@@ -71,7 +71,7 @@ public:
         if (!backend) {
             int dims = 768;
             if (cfg.config.contains("dims") && cfg.config["dims"].is_number_integer()) {
-                dims = cfg.config["dims"].get<int>();
+                dims = cfg.config["dims"].get&lt;int&gt;();
             }
             fallback  = std::make_shared<NullEmbeddingBackend>(dims);
             backend   = fallback.get();

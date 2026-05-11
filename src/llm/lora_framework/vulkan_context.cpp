@@ -266,7 +266,7 @@ bool VulkanContext::select_physical_device(int device_id) {
     vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
     
     // If device_id is specified and valid, use it
-    if (device_id >= 0 && device_id < static_cast<int>(device_count)) {
+    if (device_id >= 0 && device_id < static_cast&lt;int&gt;(device_count)) {
         physical_device_ = devices[device_id];
     } else {
         // Otherwise, prefer discrete GPU

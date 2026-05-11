@@ -45,7 +45,7 @@ namespace index {
  * - Better latency/recall trade-offs
  * - Workload-specific optimization: +20-35% throughput improvement
  * 
- * @sources
+ * Sources:
  * - Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md
  * - Research: docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md
  * - HNSW Paper: Malkov & Yashunin (2018)
@@ -205,7 +205,7 @@ private:
     mutable std::mutex mutex_;
     
     // Current adapted efSearch
-    std::atomic<int> current_ef_search_;
+    std::atomic&lt;int&gt; current_ef_search_;
     
     // Statistics (using mutex for double atomicity in C++17)
     std::vector<QueryStats> recent_queries_;

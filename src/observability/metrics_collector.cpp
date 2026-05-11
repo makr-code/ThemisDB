@@ -397,7 +397,7 @@ std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
     if (exemplar.trace_id.empty()) return "";
 
     // Emit in Prometheus OpenMetrics exemplar format:
-    // # {traceID="<id>"} <value> <unix_seconds_with_millis>
+    // # {traceID="&lt;id&gt;"} &lt;value&gt; <unix_seconds_with_millis>
     auto ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                      exemplar.timestamp.time_since_epoch())
                      .count();

@@ -155,13 +155,13 @@ public:
     // -------------------------------------------------------------------------
     // Multi-tenancy index isolation (RocksDB key-prefix based)
     //
-    // Each tenant's indexes are stored under the prefix "tenant:<id>:<name>" so
+    // Each tenant's indexes are stored under the prefix "tenant:&lt;id&gt;:&lt;name&gt;" so
     // that data from different tenants is never accessible across boundaries.
     // -------------------------------------------------------------------------
 
     /// @brief Build the tenant-scoped RocksDB key prefix for an index.
     ///
-    /// Format: "tenant:<tenant_id>:<index_name>"
+    /// Format: "tenant:&lt;tenant_id&gt;:&lt;index_name&gt;"
     ///
     /// @param tenant_id  Non-empty tenant identifier
     /// @param index_name Logical index name within the tenant namespace
@@ -208,7 +208,7 @@ public:
 
     /// @brief List all index names registered for a specific tenant.
     ///
-    /// Returns logical names (without the "tenant:<id>:" prefix).
+    /// Returns logical names (without the "tenant:&lt;id&gt;:" prefix).
     std::vector<std::string> listIndexes(std::string_view tenant_id) const;
 
     /// @brief Return the type of an index scoped to a specific tenant.

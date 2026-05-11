@@ -92,7 +92,7 @@ std::string LlamaModelHandle::model_type() const {
     int written = llama_model_desc(model_.get(), buf, sizeof(buf));
     
     // Ensure null termination
-    if (written >= 0 && written < static_cast<int>(sizeof(buf))) {
+    if (written >= 0 && written < static_cast&lt;int&gt;(sizeof(buf))) {
         buf[written] = '\0';
     } else {
         buf[sizeof(buf) - 1] = '\0';
@@ -380,7 +380,7 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
         return -1;  // Use all layers
     }
     
-    int optimal_layers = static_cast<int>(available_vram / estimated_layer_size);
+    int optimal_layers = static_cast&lt;int&gt;(available_vram / estimated_layer_size);
     
     // Sanity checks
     if (optimal_layers < 0) {

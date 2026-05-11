@@ -90,7 +90,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
     LoRAHyperparameters params;
     
     if (config.contains("rank")) {
-        params.rank = config["rank"].get<int>();
+        params.rank = config["rank"].get&lt;int&gt;();
     }
     if (config.contains("alpha")) {
         params.alpha = config["alpha"].get<float>();
@@ -99,10 +99,10 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.learning_rate = config["learning_rate"].get<float>();
     }
     if (config.contains("num_epochs")) {
-        params.num_epochs = config["num_epochs"].get<int>();
+        params.num_epochs = config["num_epochs"].get&lt;int&gt;();
     }
     if (config.contains("batch_size")) {
-        params.batch_size = config["batch_size"].get<int>();
+        params.batch_size = config["batch_size"].get&lt;int&gt;();
     }
     if (config.contains("dropout")) {
         params.dropout = config["dropout"].get<float>();
@@ -333,7 +333,7 @@ nlohmann::json LoraSimilarFunction::execute(
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
-        int k = args[1].get<int>();
+        int k = args[1].get&lt;int&gt;();
         double threshold = args.size() > 2 ? args[2].get<double>() : 0.0;
         
         // Get orchestrator
@@ -469,7 +469,7 @@ nlohmann::json LoraPathFunction::execute(
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
-        int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
+        int max_depth = args.size() > 2 ? args[2].get&lt;int&gt;() : 5;
         (void)max_depth;
         
         // Build adaptation path
@@ -666,7 +666,7 @@ nlohmann::json LoraRecommendFunction::execute(
             if (accuracy <= 0.0) accuracy = 0.5;  // Unknown accuracy — use conservative default.
 
             // Estimate latency: base 20 ms + 0.5 ms per rank unit.
-            int estimated_latency = 20 + static_cast<int>(adapter.hyperparameters.rank) / 2;
+            int estimated_latency = 20 + static_cast&lt;int&gt;(adapter.hyperparameters.rank) / 2;
             int latency = estimated_latency;
             
             if (accuracy >= min_accuracy && latency <= max_latency_ms) {
@@ -743,7 +743,7 @@ nlohmann::json LoraLineageFunction::execute(
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
-        int depth = args.size() > 1 ? args[1].get<int>() : 10;
+        int depth = args.size() > 1 ? args[1].get&lt;int&gt;() : 10;
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
@@ -761,7 +761,7 @@ nlohmann::json LoraLineageFunction::execute(
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();
-            auto created = now - std::chrono::days(static_cast<int>(versions.size() - i));
+            auto created = now - std::chrono::days(static_cast&lt;int&gt;(versions.size() - i));
             version["created"] = timePointToString(created);
             
             lineage.push_back(version);
@@ -855,7 +855,7 @@ nlohmann::json LoraAuditLogFunction::execute(
 ) const {
     try {
         const std::string adapter_id = args[0].get<std::string>();
-        const int limit = (args.size() > 1) ? std::max(0, args[1].get<int>()) : 100;
+        const int limit = (args.size() > 1) ? std::max(0, args[1].get&lt;int&gt;()) : 100;
 
         auto orchestrator = getLoRAOrchestrator();
         const auto entries = orchestrator->getInferenceAuditLog(adapter_id);

@@ -97,7 +97,7 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
     key += ':';
     key += std::to_string(line);
     key += ':';
-    key += std::to_string(static_cast<int>(level));
+    key += std::to_string(static_cast&lt;int&gt;(level));
 
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     auto it = buckets_.find(key);

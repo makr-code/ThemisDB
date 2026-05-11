@@ -150,7 +150,7 @@ public:
      *  1. Validate the relative path (rejects traversal attempts).
      *  2. Verify that the installed base file matches base_hash.
      *  3. Locate the pre-downloaded patch at
-     *     <download_directory>/<path>.patch  (caller is responsible for
+     *     <download_directory>/&lt;path&gt;.patch  (caller is responsible for
      *     fetching patches via the utils HTTP client before calling this).
      *  4. Apply the patch algorithm to produce the target file.
      *  5. Verify the reconstructed file against target_hash and target_size.

@@ -314,7 +314,7 @@ struct SchemaMigration::Impl {
         }
 
         LOG_INFO("SchemaMigration [{}]: rolling back from phase {}",
-                 version_, static_cast<int>(phase_));
+                 version_, static_cast&lt;int&gt;(phase_));
 
         // Replay undo log in reverse order.
         bool undo_ok = true;

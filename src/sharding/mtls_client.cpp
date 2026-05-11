@@ -170,7 +170,7 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             // Set SNI (Server Name Indication)
             if (!SSL_set_tlsext_host_name(stream.native_handle(), host.c_str())) {
                 throw beast::system_error(
-                    beast::error_code(static_cast<int>(::ERR_get_error()),
+                    beast::error_code(static_cast&lt;int&gt;(::ERR_get_error()),
                                      net::error::get_ssl_category()),
                     "Failed to set SNI"
                 );

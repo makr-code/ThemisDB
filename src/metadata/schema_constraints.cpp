@@ -406,7 +406,7 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
         return (l == std::string::npos) ? std::string{} : s.substr(l, r - l + 1);
     };
 
-    // Attempt simple numeric comparison pattern: "<col> <op> <num>"
+    // Attempt simple numeric comparison pattern: "&lt;col&gt; &lt;op&gt; <num>"
     static const std::vector<std::string> ops = {">=", "<=", ">", "<", "="};
     for (const auto& op : ops) {
         auto pos = expr.find(op);

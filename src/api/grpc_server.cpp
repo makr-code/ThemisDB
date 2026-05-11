@@ -104,7 +104,7 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
         try {
             YAML::Node node = YAML::LoadFile(kGrpcNetworkingConfigPath);
             if (node["grpc"] && node["grpc"]["max_message_size_mb"]) {
-                const int mb = node["grpc"]["max_message_size_mb"].as<int>();
+                const int mb = node["grpc"]["max_message_size_mb"].as&lt;int&gt;();
                 if (mb > 0 && mb <= kMaxMessageSizeMbLimit) {
                     config_.max_message_size_bytes = mb * 1024 * 1024;
                     THEMIS_INFO("GrpcApiServer: max_message_size_bytes overridden to " +

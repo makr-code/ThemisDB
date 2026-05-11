@@ -190,7 +190,7 @@ http::response<http::string_body> UpdateApiHandler::createErrorResponse(
 ) {
     json error_json;
     error_json["error"] = message;
-    error_json["status"] = static_cast<int>(status);
+    error_json["status"] = static_cast&lt;int&gt;(status);
     
     return createJsonResponse(status, error_json, req);
 }

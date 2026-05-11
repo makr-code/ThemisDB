@@ -571,9 +571,9 @@ std::vector<json> HtmlProcessor::chunk(
                 std::vector<std::string> tokens;
                 std::string tok;
                 while (iss >> tok) tokens.push_back(tok);
-                int take = std::min(overlap, static_cast<int>(tokens.size()));
-                for (int i = static_cast<int>(tokens.size()) - take;
-                     i < static_cast<int>(tokens.size()); ++i) {
+                int take = std::min(overlap, static_cast&lt;int&gt;(tokens.size()));
+                for (int i = static_cast&lt;int&gt;(tokens.size()) - take;
+                     i < static_cast&lt;int&gt;(tokens.size()); ++i) {
                     if (!overlap_text.empty()) overlap_text += ' ';
                     overlap_text += tokens[i];
                 }
@@ -609,7 +609,7 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
         for (int seed = 0; seed < 3; ++seed) {
             size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);
             for (int d = 0; d < 10; ++d) {
-                int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73) % DIM);
+                int dim = static_cast&lt;int&gt;((combined + static_cast<size_t>(d) * 73) % DIM);
                 float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 float phase  = static_cast<float>((combined + static_cast<size_t>(dim)) % 360)
                                * 3.14159f / 180.0f;

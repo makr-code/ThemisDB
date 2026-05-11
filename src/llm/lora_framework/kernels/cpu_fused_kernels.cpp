@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-/**
+/*
  * @file cpu_fused_kernels.cpp
  * @brief CPU reference implementation of fused LoRA kernels
  * 
@@ -43,7 +43,7 @@ namespace lora {
 namespace cpu {
 namespace fused {
 
-/**
+/*
  * @brief CPU fused LoRA forward pass: Y = (X @ B^T @ A^T) * scaling
  * 
  * This is the reference implementation that computes the entire LoRA path
@@ -98,7 +98,7 @@ void cpu_fused_lora_forward(
     }
 }
 
-/**
+/*
  * @brief CPU fused LoRA backward pass
  * 
  * Computes all gradients in a single function:

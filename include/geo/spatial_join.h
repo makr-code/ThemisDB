@@ -151,11 +151,7 @@ std::vector<SpatialJoinPair> spatialJoin(
 
 /**
  * @brief Compute the Haversine geodesic distance between two WGS84 points.
- *
- * @param lon1  Longitude of point 1 in degrees (WGS84).
- * @param lat1  Latitude  of point 1 in degrees (WGS84).
- * @param lon2  Longitude of point 2 in degrees (WGS84).
- * @param lat2  Latitude  of point 2 in degrees (WGS84).
+ *        See geo/geo_math.h for the canonical implementation.
  * @return Distance in metres.
  */
 double haversineDistanceM(double lon1, double lat1,

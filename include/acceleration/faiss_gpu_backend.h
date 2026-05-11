@@ -69,7 +69,7 @@ namespace acceleration {
  *               use when low-latency single-query search is needed without a GPU
  *               at query time — same IVectorBackend interface)
  *
- * @sources
+ * Sources:
  * - Library: FAISS (Facebook AI Similarity Search)
  * - Repository: https://github.com/facebookresearch/faiss
  * - License: MIT

@@ -143,7 +143,7 @@ void StreamWriter::initCompression() {
     if (ZSTD_isError(init_result)) {
         ZSTD_freeCStream(cstream);
         throw ExportIOException("Failed to initialize zstd compression stream",
-                                config_.output_path, static_cast<int>(init_result));
+                                config_.output_path, static_cast&lt;int&gt;(init_result));
     }
     compression_state_ = cstream;
 #else
@@ -171,7 +171,7 @@ void StreamWriter::compressAndWrite(const char* data, size_t size) {
             size_t ret = ZSTD_compressStream(cstream, &out_buf, &in_buf);
             if (ZSTD_isError(ret)) {
                 throw ExportIOException("ZSTD compression stream error", config_.output_path,
-                                        static_cast<int>(ret));
+                                        static_cast&lt;int&gt;(ret));
             }
             if (out_buf.pos > 0) {
                 file_.write(buffer_.data(), out_buf.pos);

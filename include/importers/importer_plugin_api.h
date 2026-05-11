@@ -929,7 +929,7 @@ public:
         if (raw_plugin_->getType() != plugins::PluginType::IMPORTER) {
             last_error_ = std::string("Plugin '") + raw_plugin_->getName()
                         + "' is not an IMPORTER plugin (type="
-                        + std::to_string(static_cast<int>(raw_plugin_->getType())) + ")";
+                        + std::to_string(static_cast&lt;int&gt;(raw_plugin_->getType())) + ")";
             destroy_fn_(raw_plugin_);
             raw_plugin_  = nullptr;
             destroy_fn_  = nullptr;

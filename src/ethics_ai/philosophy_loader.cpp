@@ -168,10 +168,10 @@ Status PhilosophyLoader::loadFromFile(const std::string& filepath) {
                     if (thesis["name"])        pt.name        = thesis["name"].as<std::string>("");
                     if (thesis["description"]) pt.description = thesis["description"].as<std::string>("");
                     if (thesis["token_budget"] && !thesis["token_budget"].IsNull())
-                        pt.token_budget = thesis["token_budget"].as<int>(-1);
+                        pt.token_budget = thesis["token_budget"].as&lt;int&gt;(-1);
                     if (thesis["activation_rounds"] && thesis["activation_rounds"].IsSequence()) {
                         for (const auto& r : thesis["activation_rounds"])
-                            pt.activation_rounds.push_back(r.as<int>());
+                            pt.activation_rounds.push_back(r.as&lt;int&gt;());
                     }
                     if (thesis["round_role_weights"] && thesis["round_role_weights"].IsMap()) {
                         for (const auto& kv : thesis["round_role_weights"])
@@ -194,10 +194,10 @@ Status PhilosophyLoader::loadFromFile(const std::string& filepath) {
                     if (thesis["name"])        pt.name        = thesis["name"].as<std::string>("");
                     if (thesis["description"]) pt.description = thesis["description"].as<std::string>("");
                     if (thesis["token_budget"] && !thesis["token_budget"].IsNull())
-                        pt.token_budget = thesis["token_budget"].as<int>(-1);
+                        pt.token_budget = thesis["token_budget"].as&lt;int&gt;(-1);
                     if (thesis["activation_rounds"] && thesis["activation_rounds"].IsSequence()) {
                         for (const auto& r : thesis["activation_rounds"])
-                            pt.activation_rounds.push_back(r.as<int>());
+                            pt.activation_rounds.push_back(r.as&lt;int&gt;());
                     }
                     if (thesis["round_role_weights"] && thesis["round_role_weights"].IsMap()) {
                         for (const auto& kv : thesis["round_role_weights"])

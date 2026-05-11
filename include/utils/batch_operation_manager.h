@@ -46,7 +46,7 @@ namespace utils {
  * - Reduced write amplification in LSM-tree storage
  * - Better CPU cache utilization through batching
  * 
- * @sources
+ * Sources:
  * - Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md
  * - Quick Wins: docs/de/performance/OPTIMIZATION_QUICK_WINS.md
  * 

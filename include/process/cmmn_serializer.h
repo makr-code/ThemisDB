@@ -62,7 +62,7 @@ public:
     struct ImportResult {
         bool ok{false};
         std::string message;
-        std::string case_id;      ///< Extracted from <case id=…>
+        std::string case_id;      ///< Extracted from &lt;case id=…&gt;
         std::string case_name;
         std::vector<ProcessNodeInfo> nodes;
         std::vector<ProcessEdgeInfo> edges;
@@ -92,8 +92,8 @@ public:
      * CASE_TASK, STAGE, MILESTONE, CASE_PLAN) are exported.  EPK nodes and
      * pure BPMN gateways are skipped.
      *
-     * @param case_id    The CMMN <case id=…> attribute value.
-     * @param case_name  The CMMN <case name=…> attribute value.
+     * @param case_id    The CMMN &lt;case id=…&gt; attribute value.
+     * @param case_name  The CMMN &lt;case name=…&gt; attribute value.
      * @param nodes      Process nodes to export.
      * @param edges      Edges (used to emit sentry/onPart where applicable).
      * @return Well-formed CMMN 1.1 XML string.

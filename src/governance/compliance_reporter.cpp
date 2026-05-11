@@ -73,7 +73,7 @@ static std::string buildComplianceReportHTML(const ComplianceReport& report) {
          << ".gap-critical{color:#c0392b;} .gap-high{color:#e74c3c;}"
          << ".gap-medium{color:#f39c12;} .gap-low{color:#27ae60;}"
          << "@media print{body{margin:15px;}}"
-         << "</style></head><body>";
+         << "</style></head>&lt;body&gt;";
 
     html << "<h1>ThemisDB Compliance Report</h1>";
     html << "<p><strong>Report ID:</strong> " << report.report_id << "</p>";
@@ -164,21 +164,21 @@ static std::string buildComplianceReportPDF(const ComplianceReport& report) {
 
     double y = PAGE_H - MARGIN;
     page_streams.back() += "BT\n";
-    page_streams.back() += "/F1 " + std::to_string(static_cast<int>(TITLE_SIZE)) + " Tf\n";
-    page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                           std::to_string(static_cast<int>(y)) + " Td\n";
+    page_streams.back() += "/F1 " + std::to_string(static_cast&lt;int&gt;(TITLE_SIZE)) + " Tf\n";
+    page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                           std::to_string(static_cast&lt;int&gt;(y)) + " Td\n";
     page_streams.back() += "(" + reporter_escapePDFString(title) + ") Tj\n";
     y -= TITLE_SIZE * 1.8;
 
     page_streams.back() += "ET\n";
-    page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                           std::to_string(static_cast<int>(y + 4)) +
-                           " " + std::to_string(static_cast<int>(PAGE_W - MARGIN * 2)) +
+    page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                           std::to_string(static_cast&lt;int&gt;(y + 4)) +
+                           " " + std::to_string(static_cast&lt;int&gt;(PAGE_W - MARGIN * 2)) +
                            " 1 re f\n";
     y -= LINE_H;
 
     page_streams.back() += "BT\n";
-    page_streams.back() += "/F2 " + std::to_string(static_cast<int>(BODY_SIZE)) + " Tf\n";
+    page_streams.back() += "/F2 " + std::to_string(static_cast&lt;int&gt;(BODY_SIZE)) + " Tf\n";
 
     for (const auto& line : lines) {
         if (y < MARGIN) {
@@ -187,10 +187,10 @@ static std::string buildComplianceReportPDF(const ComplianceReport& report) {
             y = PAGE_H - MARGIN;
             page_streams.back() += "BT\n";
             page_streams.back() += "/F2 " +
-                std::to_string(static_cast<int>(BODY_SIZE)) + " Tf\n";
+                std::to_string(static_cast&lt;int&gt;(BODY_SIZE)) + " Tf\n";
         }
-        page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                               std::to_string(static_cast<int>(y)) + " Td\n";
+        page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                               std::to_string(static_cast&lt;int&gt;(y)) + " Td\n";
         std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + reporter_escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
@@ -203,7 +203,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport& report) {
     pdf += "%PDF-1.4\n";
     pdf += "%\xE2\xE3\xCF\xD3\n";
 
-    int P = static_cast<int>(page_streams.size());
+    int P = static_cast&lt;int&gt;(page_streams.size());
     int base_page   = 3;
     int base_stream = base_page + P;
     int font_f1_id  = base_stream + P;
@@ -251,8 +251,8 @@ static std::string buildComplianceReportPDF(const ComplianceReport& report) {
         int stream_id = base_stream + i;
         appendObj(page_id,
             "<< /Type /Page /Parent 2 0 R"
-            " /MediaBox [0 0 " + std::to_string(static_cast<int>(PAGE_W)) +
-            " " + std::to_string(static_cast<int>(PAGE_H)) + "]"
+            " /MediaBox [0 0 " + std::to_string(static_cast&lt;int&gt;(PAGE_W)) +
+            " " + std::to_string(static_cast&lt;int&gt;(PAGE_H)) + "]"
             " /Contents " + std::to_string(stream_id) + " 0 R"
             " /Resources << /Font " + font_res + " >> >>");
     }
@@ -384,7 +384,7 @@ CoverageAnalysis ComplianceReporter::analyzeCoverage(
     const std::vector<std::string>& resources
 ) const {
     CoverageAnalysis analysis;
-    analysis.total_resources_analyzed = static_cast<int>(resources.size());
+    analysis.total_resources_analyzed = static_cast&lt;int&gt;(resources.size());
     
     auto rules = policy_manager_->listRules();
     
@@ -726,7 +726,7 @@ nlohmann::json ComplianceReporter::generateCcpaReport(
     j["framework"]   = "CCPA/CPRA";
 
     THEMIS_INFO("CCPA compliance report generated: {} subjects, {} opt-outs",
-        j["total_subjects"].get<int64_t>(), j["opted_out_of_sale"].get<int>());
+        j["total_subjects"].get<int64_t>(), j["opted_out_of_sale"].get&lt;int&gt;());
 
     return j;
 }

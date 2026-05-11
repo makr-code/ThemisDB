@@ -63,7 +63,7 @@ struct CoherenceEvaluator::Impl {
         while (stream >> word) {
             word_count++;
             // Rough syllable estimation
-            syllable_count += std::max(1, static_cast<int>(word.length() / 3));
+            syllable_count += std::max(1, static_cast&lt;int&gt;(word.length() / 3));
         }
         
         if (word_count == 0) return 0.5;

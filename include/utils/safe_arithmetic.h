@@ -101,7 +101,7 @@ inline std::optional<size_t> safe_sub(size_t a, size_t b) noexcept {
  * @code
  * int count = 10;
  * if (auto size = safe_int_to_size(count)) {
- *     std::vector<int> vec(*size);  // Safe
+ *     std::vector&lt;int&gt; vec(*size);  // Safe
  * }
  * @endcode
  */
@@ -140,7 +140,7 @@ inline std::optional<size_t> safe_int64_to_size(int64_t value) noexcept {
  * @return true if index is valid (0 <= index < size)
  * 
  * @code
- * std::vector<int> vec = {1, 2, 3};
+ * std::vector&lt;int&gt; vec = {1, 2, 3};
  * int idx = get_index();
  * if (in_range(idx, vec.size())) {
  *     process(vec[idx]);  // Safe
@@ -172,7 +172,7 @@ inline bool in_range(int64_t index, size_t size) noexcept {
  * @return int value if within INT_MAX, std::nullopt on overflow
  * 
  * @code
- * std::vector<int> data = get_data();
+ * std::vector&lt;int&gt; data = get_data();
  * if (auto count = safe_size_to_int(data.size())) {
  *     legacy_api(*count);  // Safe
  * } else {
@@ -180,11 +180,11 @@ inline bool in_range(int64_t index, size_t size) noexcept {
  * }
  * @endcode
  */
-inline std::optional<int> safe_size_to_int(size_t value) noexcept {
+inline std::optional&lt;int&gt; safe_size_to_int(size_t value) noexcept {
     if (value > static_cast<size_t>(INT_MAX)) {
         return std::nullopt;
     }
-    return static_cast<int>(value);
+    return static_cast&lt;int&gt;(value);
 }
 
 /**
@@ -198,7 +198,7 @@ inline std::optional<int> safe_size_to_int(size_t value) noexcept {
  * 
  * @code
  * int count = -1;
- * std::vector<int> vec = {1, 2, 3};
+ * std::vector&lt;int&gt; vec = {1, 2, 3};
  * if (safe_less_than(count, vec.size())) {
  *     // This is TRUE - correctly handles negative
  * }
@@ -250,7 +250,7 @@ inline bool safe_greater_than(int signed_val, size_t unsigned_val) noexcept {
  * @return true if iteration completed, false if start_index invalid
  * 
  * @code
- * std::vector<int> data = {1, 2, 3, 4, 5};
+ * std::vector&lt;int&gt; data = {1, 2, 3, 4, 5};
  * safe_iterate(data, 2, [&](size_t i) {
  *     process(data[i]);
  * });

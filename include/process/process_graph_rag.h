@@ -338,7 +338,7 @@ public:
      * @brief Find similar past Verwaltungsvorgänge (for precedent / reference).
      *
      * Uses cosine similarity over stored instance embeddings
-     * (key prefix @c proc:inst_emb:<id>) if available, and falls back to
+     * (key prefix @c proc:inst_emb:&lt;id&gt;) if available, and falls back to
      * variable-based Jaccard similarity otherwise.
      */
     struct SimilarCase {

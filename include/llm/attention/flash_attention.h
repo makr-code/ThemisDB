@@ -50,7 +50,7 @@ enum class Status {
 struct Tensor {
     float* data = nullptr;
     size_t size = 0;
-    std::vector<int> shape;  // [batch, seq_len, num_heads, head_dim]
+    std::vector&lt;int&gt; shape;  // [batch, seq_len, num_heads, head_dim]
     
     bool isValid() const {
         return data != nullptr && size > 0 && !shape.empty();

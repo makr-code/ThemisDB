@@ -50,7 +50,7 @@ using Value = std::variant<
 /// - Fast field extraction: simdjson on-demand parsing for index updates
 /// - Multi-model support: Flexible schema-less document model
 /// 
-/// @sources
+/// Sources:
 /// - Concept: Unified Multi-Model Storage with Canonical Entity Pattern
 /// - Origin: ThemisDB Original Design
 /// - Design Philosophy: "One canonical storage, multiple projection layers"

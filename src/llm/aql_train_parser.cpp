@@ -22,9 +22,9 @@
  * @brief Implementation of the AQL TRAIN statement parser.
  *
  * Provides parsing for:
- *   TRAIN ADAPTER <id> FROM <collection> [WHERE ...] [USING ...] [DISTRIBUTED] WITH {...}
- *   DEPLOY ADAPTER <id> TO SHARD <shard> [, ...] [WITH strategy = '...']
- *   VERIFY ADAPTER <id> [CHECK signature, manifest, ...]
+ *   TRAIN ADAPTER &lt;id&gt; FROM &lt;collection&gt; [WHERE ...] [USING ...] [DISTRIBUTED] WITH {...}
+ *   DEPLOY ADAPTER &lt;id&gt; TO SHARD &lt;shard&gt; [, ...] [WITH strategy = '...']
+ *   VERIFY ADAPTER &lt;id&gt; [CHECK signature, manifest, ...]
  *   LIST ADAPTERS [WHERE ...] [ORDER BY ...] [LIMIT n]
  */
 
@@ -119,8 +119,8 @@ nlohmann::json TrainStatementConfig::toJSON() const {
     j["random_seed"]        = random_seed;
     j["custom_metadata"]    = custom_metadata;
     // Quantization & size
-    j["quantization_type"]  = static_cast<int>(quantization_type);
-    j["size_mode"]          = static_cast<int>(size_mode);
+    j["quantization_type"]  = static_cast&lt;int&gt;(quantization_type);
+    j["size_mode"]          = static_cast&lt;int&gt;(size_mode);
     // Base TrainingConfig fields
     j["dataset_name"]       = dataset_name;
     j["epochs"]             = epochs;
@@ -145,8 +145,8 @@ TrainStatementConfig TrainStatementConfig::fromJSON(const nlohmann::json& j) {
     if (j.contains("shuffle"))           cfg.shuffle            = j["shuffle"];
     if (j.contains("random_seed"))       cfg.random_seed        = j["random_seed"];
     if (j.contains("custom_metadata"))   cfg.custom_metadata    = j["custom_metadata"].get<std::map<std::string,std::string>>();
-    if (j.contains("quantization_type")) cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get<int>());
-    if (j.contains("size_mode"))         cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get<int>());
+    if (j.contains("quantization_type")) cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get&lt;int&gt;());
+    if (j.contains("size_mode"))         cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get&lt;int&gt;());
     // Base
     if (j.contains("dataset_name"))      cfg.dataset_name       = j["dataset_name"];
     if (j.contains("epochs"))            cfg.epochs             = j["epochs"];
@@ -620,7 +620,7 @@ AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string&
     if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) return cfg;
     cfg.enabled = true;
 
-    // COORDINATOR '<shard>'
+    // COORDINATOR '&lt;shard&gt;'
     {
         static const std::regex coord_re(R"(COORDINATOR\s+'([^']+)')", std::regex_constants::icase);
         std::smatch m;
@@ -670,7 +670,7 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     auto stmt = std::make_shared<TrainAdapterStmt>();
 
     // ── adapter_id ──────────────────────────────────────────────────────────
-    // Syntax: TRAIN ADAPTER <id> FROM ...
+    // Syntax: TRAIN ADAPTER &lt;id&gt; FROM ...
     {
         static const std::regex id_re(
             R"(TRAIN\s+ADAPTER\s+['"]?(\S+?)['"]?\s+FROM)",
@@ -678,7 +678,7 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
         std::smatch m;
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
-                "AQLTrainParser: expected 'TRAIN ADAPTER <id> FROM' in: " + aql);
+                "AQLTrainParser: expected 'TRAIN ADAPTER &lt;id&gt; FROM' in: " + aql);
         }
         stmt->adapter_id = stripQuotes(m[1].str());
     }
@@ -737,7 +737,7 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
 ) {
     auto stmt = std::make_shared<DeployAdapterStmt>();
 
-    // DEPLOY ADAPTER <id> TO SHARD '<shard>' ...
+    // DEPLOY ADAPTER &lt;id&gt; TO SHARD '&lt;shard&gt;' ...
     {
         static const std::regex id_re(
             R"(DEPLOY\s+ADAPTER\s+['"]?(\S+?)['"]?\s+TO)",
@@ -745,7 +745,7 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
         std::smatch m;
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
-                "AQLTrainParser: expected 'DEPLOY ADAPTER <id> TO' in: " + aql);
+                "AQLTrainParser: expected 'DEPLOY ADAPTER &lt;id&gt; TO' in: " + aql);
         }
         stmt->adapter_id = stripQuotes(m[1].str());
     }
@@ -791,7 +791,7 @@ std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
         std::smatch m;
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
-                "AQLTrainParser: expected 'VERIFY ADAPTER <id>' in: " + aql);
+                "AQLTrainParser: expected 'VERIFY ADAPTER &lt;id&gt;' in: " + aql);
         }
         stmt->adapter_id = stripQuotes(m[1].str());
     }

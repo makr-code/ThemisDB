@@ -43,7 +43,7 @@ inline int setSockOptInt(int fd, int level, int optname, const int* value) {
 #ifdef _WIN32
     return ::setsockopt(static_cast<SOCKET>(fd), level, optname,
                         reinterpret_cast<const char*>(value),
-                        static_cast<int>(sizeof(*value)));
+                        static_cast&lt;int&gt;(sizeof(*value)));
 #else
     return ::setsockopt(fd, level, optname, value, sizeof(*value));
 #endif
@@ -188,7 +188,7 @@ ssize_t WireProtocolBatcher::flush() {
         item.iov_len = iov_[i].iov_len;
         posix_iov.push_back(item);
     }
-    written = ::writev(fd_, posix_iov.data(), static_cast<int>(posix_iov.size()));
+    written = ::writev(fd_, posix_iov.data(), static_cast&lt;int&gt;(posix_iov.size()));
 #endif
 
     if (written >= 0) {

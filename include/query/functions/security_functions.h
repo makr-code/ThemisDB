@@ -62,8 +62,8 @@ namespace functions {
  * 
  * Uses RFC 5322 simplified regex pattern.
  * 
- * @example IS_EMAIL("user@example.com") → true
- * @example IS_EMAIL("invalid") → false
+ * - Example: IS_EMAIL("user@example.com") → true
+ * - Example: IS_EMAIL("invalid") → false
  */
 class IsEmailFunction : public IFunction {
 public:
@@ -99,8 +99,8 @@ public:
  * 
  * Supports http, https, ftp protocols.
  * 
- * @example IS_URL("https://example.com/path") → true
- * @example IS_URL("not-a-url") → false
+ * - Example: IS_URL("https://example.com/path") → true
+ * - Example: IS_URL("not-a-url") → false
  */
 class IsUrlFunction : public IFunction {
 public:
@@ -133,8 +133,8 @@ public:
 /**
  * @brief IS_UUID(str) - Validate UUID format (v1-v5)
  * 
- * @example IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
- * @example IS_UUID("not-a-uuid") → false
+ * - Example: IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
+ * - Example: IS_UUID("not-a-uuid") → false
  */
 class IsUuidFunction : public IFunction {
 public:
@@ -169,8 +169,8 @@ public:
  * @param str IP address to validate
  * @param version Optional: 4 for IPv4, 6 for IPv6, omit for both
  * 
- * @example IS_IP("192.168.1.1") → true
- * @example IS_IP("::1", 6) → true
+ * - Example: IS_IP("192.168.1.1") → true
+ * - Example: IS_IP("::1", 6) → true
  */
 class IsIpFunction : public IFunction {
 public:
@@ -193,7 +193,7 @@ public:
         if (!args[0].is_string()) return false;
         
         std::string ip = args[0].get<std::string>();
-        int version = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
+        int version = args.size() > 1 && args[1].is_number() ? args[1].get&lt;int&gt;() : 0;
         
         // IPv4 pattern
         static const std::regex ipv4Pattern(
@@ -218,8 +218,8 @@ public:
 /**
  * @brief IS_PHONE(str, countryCode?) - Validate phone number format
  * 
- * @example IS_PHONE("+49 123 456789") → true
- * @example IS_PHONE("0123456789", "DE") → true
+ * - Example: IS_PHONE("+49 123 456789") → true
+ * - Example: IS_PHONE("0123456789", "DE") → true
  */
 class IsPhoneFunction : public IFunction {
 public:
@@ -265,7 +265,7 @@ public:
 /**
  * @brief IS_IBAN(str) - Validate IBAN format with checksum
  * 
- * @example IS_IBAN("DE89370400440532013000") → true
+ * - Example: IS_IBAN("DE89370400440532013000") → true
  */
 class IsIbanFunction : public IFunction {
 public:
@@ -324,7 +324,7 @@ public:
 /**
  * @brief IS_CREDIT_CARD(str) - Validate credit card number (Luhn algorithm)
  * 
- * @example IS_CREDIT_CARD("4532015112830366") → true
+ * - Example: IS_CREDIT_CARD("4532015112830366") → true
  */
 class IsCreditCardFunction : public IFunction {
 public:
@@ -361,7 +361,7 @@ public:
         // Luhn algorithm
         int sum = 0;
         bool alternate = false;
-        for (int i = static_cast<int>(cleaned.length()) - 1; i >= 0; --i) {
+        for (int i = static_cast&lt;int&gt;(cleaned.length()) - 1; i >= 0; --i) {
             int digit = cleaned[i] - '0';
             if (alternate) {
                 digit *= 2;
@@ -387,7 +387,7 @@ public:
  * @param str String to sanitize
  * @param type Type of sanitization: "html", "sql", "json", "filename" (default: "html")
  * 
- * @example SANITIZE("<script>alert('xss')</script>", "html") → "&lt;script&gt;..."
+ * - Example: SANITIZE("<script>alert('xss')</script>", "html") → "&lt;script&gt;..."
  */
 class SanitizeFunction : public IFunction {
 public:
@@ -497,7 +497,7 @@ private:
  * @param str String to check
  * @param type Type: "sql", "xss", "path", "cmd" (default: all)
  * 
- * @example HAS_INJECTION("1'; DROP TABLE users--", "sql") → true
+ * - Example: HAS_INJECTION("1'; DROP TABLE users--", "sql") → true
  */
 class HasInjectionFunction : public IFunction {
 public:
@@ -592,8 +592,8 @@ public:
  * @param end Characters to show at end (default: 0)
  * @param char Masking character (default: '*')
  * 
- * @example MASK("1234567890", 0, 4) → "******7890"
- * @example MASK("secret", 1, 1, '#') → "s####t"
+ * - Example: MASK("1234567890", 0, 4) → "******7890"
+ * - Example: MASK("secret", 1, 1, '#') → "s####t"
  */
 class MaskFunction : public IFunction {
 public:
@@ -618,12 +618,12 @@ public:
         if (!args[0].is_string()) return args[0].dump();
         
         std::string str = args[0].get<std::string>();
-        int start = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
-        int end = args.size() > 2 && args[2].is_number() ? args[2].get<int>() : 0;
+        int start = args.size() > 1 && args[1].is_number() ? args[1].get&lt;int&gt;() : 0;
+        int end = args.size() > 2 && args[2].is_number() ? args[2].get&lt;int&gt;() : 0;
         char maskChar = args.size() > 3 && args[3].is_string() && !args[3].get<std::string>().empty() 
                         ? args[3].get<std::string>()[0] : '*';
         
-        int len = static_cast<int>(str.length());
+        int len = static_cast&lt;int&gt;(str.length());
         if (start + end >= len) {
             return str; // Nothing to mask
         }
@@ -645,7 +645,7 @@ public:
 /**
  * @brief MASK_EMAIL(email) - Mask email address
  * 
- * @example MASK_EMAIL("john.doe@example.com") → "j******e@e*****e.com"
+ * - Example: MASK_EMAIL("john.doe@example.com") → "j******e@e*****e.com"
  */
 class MaskEmailFunction : public IFunction {
 public:
@@ -704,7 +704,7 @@ public:
 /**
  * @brief MASK_CREDIT_CARD(card) - Mask credit card number (show last 4 digits)
  * 
- * @example MASK_CREDIT_CARD("4532015112830366") → "************0366"
+ * - Example: MASK_CREDIT_CARD("4532015112830366") → "************0366"
  */
 class MaskCreditCardFunction : public IFunction {
 public:
@@ -744,7 +744,7 @@ public:
 /**
  * @brief MASK_IBAN(iban) - Mask IBAN (show country code and last 4 chars)
  * 
- * @example MASK_IBAN("DE89370400440532013000") → "DE**************3000"
+ * - Example: MASK_IBAN("DE89370400440532013000") → "DE**************3000"
  */
 class MaskIbanFunction : public IFunction {
 public:
@@ -790,7 +790,7 @@ public:
  * @param str String to hash
  * @param algorithm "fnv1a" (default), "djb2"
  * 
- * @example HASH("password") → "af63bd4c..."
+ * - Example: HASH("password") → "af63bd4c..."
  */
 class HashFunction : public IFunction {
 public:

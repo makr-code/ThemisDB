@@ -422,7 +422,7 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 	
 	double expanded = 1.0; // start node
 	for (size_t d = 1; d <= in.maxDepth; ++d) {
-		double increment = std::pow(in.branchingFactor, static_cast<int>(d));
+		double increment = std::pow(in.branchingFactor, static_cast&lt;int&gt;(d));
 		
 		// Check for overflow before adding
 		if (expanded + increment > MAX_EXPANDED) {
@@ -557,7 +557,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 			plan.preferred_cpu_affinity = placement.cpu_affinity;
 		} else {
 			for (size_t i = 0; i < std::min(plan.recommended_parallelism, size_t(8)); ++i) {
-				plan.preferred_cpu_affinity.push_back(static_cast<int>(i));
+				plan.preferred_cpu_affinity.push_back(static_cast&lt;int&gt;(i));
 			}
 		}
 		
@@ -805,14 +805,14 @@ QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 		// Adaptive ef_search based on k and dataset size
 		// Formula: ef_search = max(k, k * log2(dataset_size / 1000))
 		double log_factor = std::log2(static_cast<double>(dataset_size) / 1000.0);
-		plan.recommended_ef_search = static_cast<int>(
+		plan.recommended_ef_search = static_cast&lt;int&gt;(
 			std::max(static_cast<double>(k), k * std::max(1.0, log_factor)));
 		
 		// Adjust for recall target
 		if (target_recall > 0.97) {
-			plan.recommended_ef_search = static_cast<int>(plan.recommended_ef_search * 1.5);
+			plan.recommended_ef_search = static_cast&lt;int&gt;(plan.recommended_ef_search * 1.5);
 		} else if (target_recall < 0.93) {
-			plan.recommended_ef_search = static_cast<int>(plan.recommended_ef_search * 0.7);
+			plan.recommended_ef_search = static_cast&lt;int&gt;(plan.recommended_ef_search * 0.7);
 		}
 		
 		// Cap ef_search at reasonable bounds
@@ -824,7 +824,7 @@ QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 		
 	} else if (dataset_size > 1000) {
 		plan.index_type = "ivf";
-		plan.recommended_ef_search = static_cast<int>(k * 2);
+		plan.recommended_ef_search = static_cast&lt;int&gt;(k * 2);
 		plan.recommended_k_overfetch = k;
 		plan.use_prefiltering = false;
 		

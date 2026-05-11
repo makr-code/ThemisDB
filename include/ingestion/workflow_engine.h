@@ -133,8 +133,8 @@ struct StepPluginManifest {
  * Built-in steps are registered at startup by `WorkflowEngine`.  Dynamic
  * steps (`.so` / `.dll`) are loaded on demand via `loadStepPlugin()`.
  *
- * Naming convention: `builtin.<name>` for bundled steps,
- * `<vendor>.<name>` for third-party plugins.
+ * Naming convention: `builtin.&lt;name&gt;` for bundled steps,
+ * `<vendor>.&lt;name&gt;` for third-party plugins.
  */
 class StepRegistry {
 public:

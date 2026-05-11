@@ -103,7 +103,7 @@ LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig& config)
     spdlog::info("LDAPConnectionPool: initialised pool (server={}, min_idle={}, "
                  "max_size={}, pre-connected={})",
                  config_.server_url, config_.min_idle, config_.max_size,
-                 static_cast<int>(idle_.size()));
+                 static_cast&lt;int&gt;(idle_.size()));
 #else
     spdlog::warn("LDAPConnectionPool: LDAP support not compiled in — pool disabled");
 #endif
@@ -213,7 +213,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
         if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
             spdlog::warn("LDAPConnectionPool::checkout: timeout waiting for "
                          "connection (active={}, idle={})",
-                         active_count_.load(), static_cast<int>(idle_.size()));
+                         active_count_.load(), static_cast&lt;int&gt;(idle_.size()));
             return nullptr;
         }
         // Woken — retry from the top.
@@ -233,7 +233,7 @@ void LDAPConnectionPool::returnConnection(LDAP* handle, bool stale)
         std::lock_guard<std::mutex> lock(mutex_);
         --active_count_;
 
-        if (!closing_ && !stale && static_cast<int>(idle_.size()) < config_.max_size) {
+        if (!closing_ && !stale && static_cast&lt;int&gt;(idle_.size()) < config_.max_size) {
             idle_.push_back(handle);
             cv_.notify_one();
             return;
@@ -418,7 +418,7 @@ int LDAPConnectionPool::poolSize() const noexcept
 int LDAPConnectionPool::idleConnections() const noexcept
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(idle_.size());
+    return static_cast&lt;int&gt;(idle_.size());
 }
 
 int LDAPConnectionPool::activeConnections() const noexcept

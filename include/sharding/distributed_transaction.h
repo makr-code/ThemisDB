@@ -228,7 +228,7 @@ public:
      *
      * Injects a shard_id → network-address mapping so that
      * beginTransaction() can populate participant endpoints with real
-     * addresses instead of the placeholder "shard://<id>" URIs.
+     * addresses instead of the placeholder "shard://&lt;id&gt;" URIs.
      *
      * @param map Map of shard_id to gRPC address (e.g. "host:port")
      */

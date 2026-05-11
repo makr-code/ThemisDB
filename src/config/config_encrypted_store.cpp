@@ -308,7 +308,7 @@ void ConfigEncryptedStore::deserialize(const std::string& json_str) {
 
 std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
     std::vector<uint8_t> key(32);
-    if (RAND_bytes(key.data(), static_cast<int>(key.size())) != 1) {
+    if (RAND_bytes(key.data(), static_cast&lt;int&gt;(key.size())) != 1) {
         throw ConfigEncryptionException("generateKey: RAND_bytes failed");
     }
     return key;
@@ -316,7 +316,7 @@ std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
 
 std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(iv.size())) != 1) {
         throw ConfigEncryptionException("generateIV: RAND_bytes failed");
     }
     return iv;
@@ -352,7 +352,7 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(
     }
 
     const auto* pt = reinterpret_cast<const unsigned char*>(plaintext.data());
-    const int   pt_len = static_cast<int>(plaintext.size());
+    const int   pt_len = static_cast&lt;int&gt;(plaintext.size());
 
     std::vector<uint8_t> ciphertext(plaintext.size());
     int len = 0;
@@ -410,7 +410,7 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(
     int len = 0;
     if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len,
                           ciphertext.data(),
-                          static_cast<int>(ciphertext.size())) != 1) {
+                          static_cast&lt;int&gt;(ciphertext.size())) != 1) {
         throw ConfigEncryptionException("aesGcmDecrypt: EVP_DecryptUpdate failed");
     }
 

@@ -42,11 +42,11 @@ class RocksDBWrapper;
  * - Async mode: 2-5x faster than sync
  * - No-sync mode: 10-50x faster (benchmark only!)
  * 
- * @sources
+ * Sources:
  * - PERFORMANCE_TIPS.md: Batch Operations section
  * - benchmarks/BATCH_INSERT_PERFORMANCE_RESULTS.md
  * 
- * @thread_safety Thread-safe: Multiple threads can use the same instance
+ * Thread-safety: Thread-safe: Multiple threads can use the same instance
  */
 class BatchWriteOptimizer {
 public:

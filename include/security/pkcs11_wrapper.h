@@ -146,7 +146,7 @@ public:
  * @endcode
  */
 inline std::error_code makePkcs11Error(CK_RV rv) noexcept {
-    return {static_cast<int>(rv), Pkcs11Category::instance()};
+    return {static_cast&lt;int&gt;(rv), Pkcs11Category::instance()};
 }
 
 // =============================================================================

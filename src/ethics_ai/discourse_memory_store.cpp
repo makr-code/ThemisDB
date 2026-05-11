@@ -14,7 +14,7 @@ namespace ethics {
 
 int DiscourseMemoryStore::countTokens(const std::string& text) noexcept
 {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast&lt;int&gt;((text.size() + 3) / 4);
 }
 
 std::string DiscourseMemoryStore::compressPosition(
@@ -53,7 +53,7 @@ void DiscourseMemoryStore::storeEpisode(const DiscourseRoundOutput& output)
     std::lock_guard<std::mutex> lock(mutex_);
     auto& buf = episodes_[entry.school_id];
     buf.push_back(std::move(entry));
-    if (static_cast<int>(buf.size()) > config_.max_episodes_per_school) {
+    if (static_cast&lt;int&gt;(buf.size()) > config_.max_episodes_per_school) {
         buf.erase(buf.begin()); // evict oldest
     }
 }
@@ -71,7 +71,7 @@ void DiscourseMemoryStore::storeEpisode(const EpisodicMemoryEntry& entry)
     std::lock_guard<std::mutex> lock(mutex_);
     auto& buf = episodes_[compressed.school_id];
     buf.push_back(std::move(compressed));
-    if (static_cast<int>(buf.size()) > config_.max_episodes_per_school) {
+    if (static_cast&lt;int&gt;(buf.size()) > config_.max_episodes_per_school) {
         buf.erase(buf.begin()); // evict oldest
     }
 }
@@ -91,14 +91,14 @@ std::vector<EpisodicMemoryEntry> DiscourseMemoryStore::getEpisodesForSchool(
     }
 
     const auto& buf = it->second;
-    const int count = std::min(max_episodes, static_cast<int>(buf.size()));
+    const int count = std::min(max_episodes, static_cast&lt;int&gt;(buf.size()));
     if (count <= 0) return {};
 
     // Return newest-first (reverse of the ring buffer which stores oldest→newest)
     std::vector<EpisodicMemoryEntry> result;
     result.reserve(static_cast<std::size_t>(count));
-    for (int i = static_cast<int>(buf.size()) - 1;
-         i >= static_cast<int>(buf.size()) - count; --i) {
+    for (int i = static_cast&lt;int&gt;(buf.size()) - 1;
+         i >= static_cast&lt;int&gt;(buf.size()) - count; --i) {
         result.push_back(buf[static_cast<std::size_t>(i)]);
     }
     return result;

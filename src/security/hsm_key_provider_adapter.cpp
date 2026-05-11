@@ -355,7 +355,7 @@ bool HSMKeyProviderAdapter::isHSMReady() const {
 std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
     std::vector<uint8_t> dek(32); // 256 bits for AES-256
     
-    if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
+    if (RAND_bytes(dek.data(), static_cast&lt;int&gt;(dek.size())) != 1) {
         unsigned long err = ERR_get_error();
         char err_buf[256];
         ERR_error_string_n(err, err_buf, sizeof(err_buf));

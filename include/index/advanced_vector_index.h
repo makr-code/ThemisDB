@@ -42,7 +42,7 @@ namespace themis {
  * - Memory-constrained deployments
  * - Workload-optimized configurations (OLTP, Analytics, RAG)
  * 
- * @sources
+ * Sources:
  * - Based on: FAISS (Facebook AI Similarity Search)
  * - Library: https://github.com/facebookresearch/faiss
  * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019). 

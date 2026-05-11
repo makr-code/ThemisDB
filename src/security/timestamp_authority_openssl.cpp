@@ -578,7 +578,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     }
     
     // Parse TSA certificate
-    BIO* bio = BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size()));
+    BIO* bio = BIO_new_mem_buf(tsa_cert.data(), static_cast&lt;int&gt;(tsa_cert.size()));
     if (!bio) {
         validation_errors_.push_back("Failed to create BIO for certificate");
         return false;

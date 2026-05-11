@@ -68,7 +68,7 @@ std::string SimplePromptCompressor::joinWords(
 SimplePromptCompressor::SimplePromptCompressor() {
     // Default GPT-2 approximation: 1 token ≈ 4 characters.
     token_estimator_ = [](const std::string& text) -> int {
-        const int estimate = static_cast<int>(text.size()) / 4;
+        const int estimate = static_cast&lt;int&gt;(text.size()) / 4;
         return (estimate < 1 && !text.empty()) ? 1 : estimate;
     };
 
@@ -159,11 +159,11 @@ std::string SimplePromptCompressor::truncateHead(const std::string& prompt,
     // on the final string to be precise.
     // Approximation: average word length ≈ 5 chars → ~1.25 tokens/word.
     const int target_words =
-        static_cast<int>(budget * 4.0 / 5.0);  // chars / avg_word_len
+        static_cast&lt;int&gt;(budget * 4.0 / 5.0);  // chars / avg_word_len
 
-    if (static_cast<int>(words.size()) <= target_words) return prompt;
+    if (static_cast&lt;int&gt;(words.size()) <= target_words) return prompt;
 
-    const int skip = static_cast<int>(words.size()) - target_words;
+    const int skip = static_cast&lt;int&gt;(words.size()) - target_words;
     std::vector<std::string> kept(words.begin() + skip, words.end());
     return joinWords(kept);
 }
@@ -177,8 +177,8 @@ std::string SimplePromptCompressor::truncateTail(const std::string& prompt,
     const auto words = splitWords(prompt);
     if (words.empty()) return prompt;
 
-    const int target_words = static_cast<int>(budget * 4.0 / 5.0);
-    if (static_cast<int>(words.size()) <= target_words) return prompt;
+    const int target_words = static_cast&lt;int&gt;(budget * 4.0 / 5.0);
+    if (static_cast&lt;int&gt;(words.size()) <= target_words) return prompt;
 
     std::vector<std::string> kept(words.begin(),
                                    words.begin() + target_words);
@@ -199,7 +199,7 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
     // Identify system-prompt block (first paragraph if preserve_system).
     const size_t sys_end   = preserve_system ? 1 : 0;
     const size_t tail_start =
-        (static_cast<int>(paragraphs.size()) > preserve_turns)
+        (static_cast&lt;int&gt;(paragraphs.size()) > preserve_turns)
         ? paragraphs.size() - static_cast<size_t>(preserve_turns)
         : 0;
 
@@ -240,7 +240,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     const size_t sys_end    = preserve_system ? 1 : 0;
     const size_t tail_start =
-        (static_cast<int>(paragraphs.size()) > preserve_turns)
+        (static_cast&lt;int&gt;(paragraphs.size()) > preserve_turns)
         ? paragraphs.size() - static_cast<size_t>(preserve_turns)
         : 0;
 
@@ -303,7 +303,7 @@ CompressionResult SimplePromptCompressor::compress(
 
     // Enforce max_compression_ratio: floor of tokens that may be dropped.
     const int max_drop =
-        static_cast<int>(result.original_token_count * config.max_compression_ratio);
+        static_cast&lt;int&gt;(result.original_token_count * config.max_compression_ratio);
     const int effective_budget =
         std::max(1, result.original_token_count - max_drop);
     const int budget = std::max(config.target_token_budget, effective_budget);

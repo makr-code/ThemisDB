@@ -63,7 +63,7 @@ OcelExporter::OcelExporter(
 
 /*static*/ std::string OcelExporter::toIso8601_(int64_t epoch_ms) {
     const std::time_t sec = static_cast<std::time_t>(epoch_ms / 1000);
-    const int         ms  = static_cast<int>(epoch_ms % 1000);
+    const int         ms  = static_cast&lt;int&gt;(epoch_ms % 1000);
     std::tm tm_val{};
 #if defined(_WIN32)
     gmtime_s(&tm_val, &sec);

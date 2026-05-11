@@ -236,7 +236,7 @@ static std::string runExternalConverter(const std::string& cmd) {
     if (!pipe) return "";
     std::string result;
     std::array<char, 4096> buf;
-    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
+    while (std::fgets(buf.data(), static_cast&lt;int&gt;(buf.size()), pipe) != nullptr) {
         result += buf.data();
     }
 #if defined(_WIN32)

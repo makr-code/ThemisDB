@@ -70,7 +70,7 @@ std::vector<CaptionCue> VoiceAccessibility::generateCaptions(
         }
         cue.text = timed_segments[i].second;
         cue.speaker = speaker;
-        cue.sequence = static_cast<int>(i + 1);
+        cue.sequence = static_cast&lt;int&gt;(i + 1);
         cue.confidence = 1.0f;
         cues.push_back(std::move(cue));
     }
@@ -208,9 +208,9 @@ std::string VoiceAccessibility::formatAsPlainText(
         if (opts.include_timestamps) {
             // Format as [HH:MM:SS]
             int64_t total_s = cue.start_ms / 1000;
-            int hh = static_cast<int>(total_s / 3600);
-            int mm = static_cast<int>((total_s % 3600) / 60);
-            int ss_val = static_cast<int>(total_s % 60);
+            int hh = static_cast&lt;int&gt;(total_s / 3600);
+            int mm = static_cast&lt;int&gt;((total_s % 3600) / 60);
+            int ss_val = static_cast&lt;int&gt;(total_s % 60);
             ss << "[";
             ss << std::setfill('0') << std::setw(2) << hh << ":"
                << std::setw(2) << mm << ":"
@@ -236,7 +236,7 @@ std::string VoiceAccessibility::formatAsHTML(
     if (!opts.title.empty()) {
         ss << "<title>" << opts.title << "</title>";
     }
-    ss << "</head>\n<body>\n";
+    ss << "</head>\n&lt;body&gt;\n";
     ss << "<article lang=\"" << opts.language << "\">\n";
 
     auto sorted = mergeSortCues(cues);
@@ -299,17 +299,17 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSortCues(const std::vector<Capt
         if (i + 1 < sorted.size() && sorted[i].end_ms > sorted[i + 1].start_ms) {
             sorted[i].end_ms = sorted[i + 1].start_ms;
         }
-        sorted[i].sequence = static_cast<int>(i + 1);
+        sorted[i].sequence = static_cast&lt;int&gt;(i + 1);
     }
     return sorted;
 }
 
 std::string VoiceAccessibility::formatTimestamp(int64_t ms, bool vtt_style) const {
     int64_t total_ms = ms < 0 ? 0 : ms;
-    int hh = static_cast<int>(total_ms / 3600000);
-    int mm = static_cast<int>((total_ms % 3600000) / 60000);
-    int ss = static_cast<int>((total_ms % 60000) / 1000);
-    int frac = static_cast<int>(total_ms % 1000);
+    int hh = static_cast&lt;int&gt;(total_ms / 3600000);
+    int mm = static_cast&lt;int&gt;((total_ms % 3600000) / 60000);
+    int ss = static_cast&lt;int&gt;((total_ms % 60000) / 1000);
+    int frac = static_cast&lt;int&gt;(total_ms % 1000);
 
     char sep = vtt_style ? '.' : ',';
     std::ostringstream out;
@@ -341,7 +341,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
             continue;
         }
 
-        int parts = static_cast<int>((duration + style_.max_duration_ms - 1) / style_.max_duration_ms);
+        int parts = static_cast&lt;int&gt;((duration + style_.max_duration_ms - 1) / style_.max_duration_ms);
         size_t words_per_part = (words.size() + static_cast<size_t>(parts) - 1) / static_cast<size_t>(parts);
         int64_t ms_per_part = duration / parts;
 
@@ -360,7 +360,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
                 txt << words[w];
             }
             sub.text = txt.str();
-            sub.sequence = static_cast<int>(result.size() + 1);
+            sub.sequence = static_cast&lt;int&gt;(result.size() + 1);
             result.push_back(sub);
         }
     }
@@ -388,13 +388,13 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<Ca
 
     // Renumber sequences
     for (size_t i = 0; i < result.size(); ++i) {
-        result[i].sequence = static_cast<int>(i + 1);
+        result[i].sequence = static_cast&lt;int&gt;(i + 1);
     }
     return result;
 }
 
 std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars) const {
-    if (static_cast<int>(text.size()) <= max_chars) return text;
+    if (static_cast&lt;int&gt;(text.size()) <= max_chars) return text;
 
     std::ostringstream wrapped;
     size_t start = 0;

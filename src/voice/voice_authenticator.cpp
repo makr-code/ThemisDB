@@ -82,7 +82,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     if (user_id.empty()) {
         return false;
     }
-    if (static_cast<int>(audio_samples.size()) < config.min_samples) {
+    if (static_cast&lt;int&gt;(audio_samples.size()) < config.min_samples) {
         return false;
     }
 
@@ -116,7 +116,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
         total_quality += quality;
     }
 
-    if (static_cast<int>(feature_vectors.size()) < config.min_samples) {
+    if (static_cast&lt;int&gt;(feature_vectors.size()) < config.min_samples) {
         return false;  // not enough high-quality samples
     }
 
@@ -147,7 +147,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     profile.feature_vector = std::move(mean_fv);
     profile.quality_score  = total_quality / n;
     profile.created_at_ms  = nowMs();
-    profile.num_samples    = static_cast<int>(feature_vectors.size());
+    profile.num_samples    = static_cast&lt;int&gt;(feature_vectors.size());
 
     out_profile_id               = profile.id;
     profiles_[profile.id]        = std::move(profile);
@@ -232,7 +232,7 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
               [](const SpeakerMatch& a, const SpeakerMatch& b) {
                   return a.match_score > b.match_score;
               });
-    for (int i = 0; i < static_cast<int>(result.matches.size()); ++i) {
+    for (int i = 0; i < static_cast&lt;int&gt;(result.matches.size()); ++i) {
         result.matches[static_cast<size_t>(i)].rank = i + 1;
     }
 

@@ -131,7 +131,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 
     // Entry point: node 0 at the top layer
     int32_t entry = 0;
-    int num_layers = static_cast<int>(layers.size());
+    int num_layers = static_cast&lt;int&gt;(layers.size());
 
     // Traverse upper layers with ef=1
     for (int layer = num_layers - 1; layer > 0; --layer) {

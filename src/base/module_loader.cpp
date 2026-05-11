@@ -1175,7 +1175,7 @@ bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage ne
     }
     
     it->second.currentStage = newStage;
-    spdlog::debug("Module {} stage updated to {}", moduleName, static_cast<int>(newStage));
+    spdlog::debug("Module {} stage updated to {}", moduleName, static_cast&lt;int&gt;(newStage));
     return true;
 }
 
@@ -1332,14 +1332,14 @@ bool ModuleLoader::verifyAuthenticodeSignature(const std::string& modulePath,
                                                std::string& signerInfo) const {
     // Convert UTF-8 path to wide string for Windows API
     int wideLen = MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
-                                      static_cast<int>(modulePath.size()), nullptr, 0);
+                                      static_cast&lt;int&gt;(modulePath.size()), nullptr, 0);
     if (wideLen == 0) {
         spdlog::error("verifyAuthenticodeSignature: path conversion failed for: {}", modulePath);
         return false;
     }
     std::wstring widePath(wideLen, L'\0');
     MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
-                        static_cast<int>(modulePath.size()), &widePath[0], wideLen);
+                        static_cast&lt;int&gt;(modulePath.size()), &widePath[0], wideLen);
 
     WINTRUST_FILE_INFO fileInfo = {};
     fileInfo.cbStruct      = sizeof(WINTRUST_FILE_INFO);

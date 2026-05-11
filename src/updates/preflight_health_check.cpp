@@ -89,8 +89,8 @@ uint64_t defaultMemoryProvider() {
 }
 
 /// Parse a dot-separated version string into a vector of integers.
-std::vector<int> parseVersion(const std::string& v) {
-    std::vector<int> parts;
+std::vector&lt;int&gt; parseVersion(const std::string& v) {
+    std::vector&lt;int&gt; parts;
     std::istringstream ss(v);
     std::string token;
     while (std::getline(ss, token, '.')) {

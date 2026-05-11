@@ -44,13 +44,13 @@ bool ContentError::isRetryable() const {
 }
 
 bool ContentError::isClientError() const {
-    int c = static_cast<int>(code);
+    int c = static_cast&lt;int&gt;(code);
     // Validation, rate limiting, and authorization errors
     return (c >= 1000 && c < 1200) || (c >= 1400 && c < 1500);
 }
 
 bool ContentError::isServerError() const {
-    int c = static_cast<int>(code);
+    int c = static_cast&lt;int&gt;(code);
     // Processing, storage, resource, and internal errors
     return (c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) ||
            (c >= 1300 && c < 1400) ||
@@ -124,7 +124,7 @@ int ContentError::getHttpStatus() const {
 
 json ContentError::toJson() const {
     json j;
-    j["code"] = static_cast<int>(code);
+    j["code"] = static_cast&lt;int&gt;(code);
     j["error"] = errorCodeToString(code);
     j["message"] = message;
     
@@ -163,7 +163,7 @@ ContentError ContentError::fromJson(const json& j) {
     ContentError err;
     
     if (j.contains("code") && j["code"].is_number()) {
-        err.code = static_cast<ContentErrorCode>(j["code"].get<int>());
+        err.code = static_cast<ContentErrorCode>(j["code"].get&lt;int&gt;());
     }
     
     if (j.contains("message") && j["message"].is_string()) {
@@ -305,7 +305,7 @@ std::string errorCodeToString(ContentErrorCode code) {
 }
 
 std::string errorCodeCategory(ContentErrorCode code) {
-    int c = static_cast<int>(code);
+    int c = static_cast&lt;int&gt;(code);
     
     if (c == 0) return "success";
     if (c >= 1000 && c < 1100) return "validation";
@@ -412,12 +412,12 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
 }
 
 bool isSecurityError(ContentErrorCode code) {
-    int c = static_cast<int>(code);
+    int c = static_cast&lt;int&gt;(code);
     return c >= 1200 && c < 1300;
 }
 
 bool isValidationError(ContentErrorCode code) {
-    int c = static_cast<int>(code);
+    int c = static_cast&lt;int&gt;(code);
     return c >= 1000 && c < 1100;
 }
 

@@ -81,7 +81,7 @@ bool PromptTemplateManager::loadTemplate(EvaluationDimension dimension, const st
     templates_[dimension] = buffer.str();
     
     THEMIS_DEBUG("Loaded template for dimension {} from {}", 
-                 static_cast<int>(dimension), filepath);
+                 static_cast&lt;int&gt;(dimension), filepath);
     return true;
 }
 
@@ -91,7 +91,7 @@ std::string PromptTemplateManager::generatePrompt(
 ) const {
     auto it = templates_.find(dimension);
     if (it == templates_.end()) {
-        THEMIS_ERROR("No template found for dimension {}", static_cast<int>(dimension));
+        THEMIS_ERROR("No template found for dimension {}", static_cast&lt;int&gt;(dimension));
         return "";
     }
     
@@ -117,7 +117,7 @@ void PromptTemplateManager::setFewShotExamples(
 ) {
     few_shot_examples_[dimension] = examples;
     THEMIS_DEBUG("Set {} few-shot examples for dimension {}", 
-                 examples.size(), static_cast<int>(dimension));
+                 examples.size(), static_cast&lt;int&gt;(dimension));
 }
 
 std::string PromptTemplateManager::getTemplate(EvaluationDimension dimension) const {

@@ -87,7 +87,7 @@ std::vector<std::string> OrphanDetector::detectOrphans(
             spdlog::info("OrphanDetector: Transaction {} is orphaned (age {}s, state {})",
                          txn.transaction_id,
                          std::chrono::duration_cast<std::chrono::seconds>(age).count(),
-                         static_cast<int>(txn.state));
+                         static_cast&lt;int&gt;(txn.state));
             orphaned_txns.push_back(txn.transaction_id);
         }
     }

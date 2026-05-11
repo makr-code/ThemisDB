@@ -186,7 +186,7 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     loadModelRegistry();
     
     LOG_INFO("LLM Deployment Plugin initialized (mode: {}, cache: {})", 
-             static_cast<int>(config_.mode), config_.cache_directory);
+             static_cast&lt;int&gt;(config_.mode), config_.cache_directory);
 }
 
 std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& model_id,
@@ -746,7 +746,7 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
             }
             
             if (dep["ollama_timeout_seconds"]) {
-                deployment_config.ollama_timeout_seconds = dep["ollama_timeout_seconds"].as<int>();
+                deployment_config.ollama_timeout_seconds = dep["ollama_timeout_seconds"].as&lt;int&gt;();
             }
             
             if (dep["proxy_url"]) {
@@ -770,7 +770,7 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
             }
             
             if (dep["max_model_age_days"]) {
-                deployment_config.max_model_age_days = dep["max_model_age_days"].as<int>();
+                deployment_config.max_model_age_days = dep["max_model_age_days"].as&lt;int&gt;();
             }
             
             if (dep["sources"]) {
@@ -788,7 +788,7 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
                     }
                     
                     if (src_node["priority"]) {
-                        source.priority = src_node["priority"].as<int>();
+                        source.priority = src_node["priority"].as&lt;int&gt;();
                     }
                     
                     deployment_config.sources.push_back(source);

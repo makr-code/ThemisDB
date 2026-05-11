@@ -332,11 +332,11 @@ private:
 
     static std::vector<unsigned char> base64Decode(const std::string& encoded) {
         // EVP_DecodeBlock output is at most 3*len/4 bytes (may include padding bytes)
-        int max_out = static_cast<int>(encoded.size()) / 4 * 3 + 4;
+        int max_out = static_cast&lt;int&gt;(encoded.size()) / 4 * 3 + 4;
         std::vector<unsigned char> out(static_cast<size_t>(max_out));
         int out_len = EVP_DecodeBlock(out.data(),
                                       reinterpret_cast<const unsigned char*>(encoded.data()),
-                                      static_cast<int>(encoded.size()));
+                                      static_cast&lt;int&gt;(encoded.size()));
         if (out_len < 0) return {};
         // Trim padding bytes (= signs at end of base64 input add null bytes)
         size_t padding = 0;
@@ -418,7 +418,7 @@ private:
         constexpr int ITER = 100000;
         unsigned char dk[DK_LEN];
         if (PKCS5_PBKDF2_HMAC(password.c_str(),
-                               static_cast<int>(password.size()),
+                               static_cast&lt;int&gt;(password.size()),
                                salt, SALT_LEN,
                                ITER,
                                EVP_sha256(),
@@ -429,7 +429,7 @@ private:
             std::ostringstream ss;
             for (int i = 0; i < len; ++i)
                 ss << std::hex << std::setw(2) << std::setfill('0')
-                   << static_cast<int>(data[i]);
+                   << static_cast&lt;int&gt;(data[i]);
             return ss.str();
         };
         return "pbkdf2$" + toHex(salt, SALT_LEN) + "$" + toHex(dk, DK_LEN);
@@ -531,8 +531,8 @@ private:
 
             unsigned char computed_dk[DK_LEN];
             if (PKCS5_PBKDF2_HMAC(password.c_str(),
-                                   static_cast<int>(password.size()),
-                                   salt.data(), static_cast<int>(salt.size()),
+                                   static_cast&lt;int&gt;(password.size()),
+                                   salt.data(), static_cast&lt;int&gt;(salt.size()),
                                    ITER,
                                    EVP_sha256(),
                                    DK_LEN, computed_dk) != 1) {
@@ -554,7 +554,7 @@ private:
         std::ostringstream ss;
         for (unsigned int i = 0; i < hash_len; ++i)
             ss << std::hex << std::setw(2) << std::setfill('0')
-               << static_cast<int>(hash[i]);
+               << static_cast&lt;int&gt;(hash[i]);
 
         return ss.str() == stored_hash;
     }

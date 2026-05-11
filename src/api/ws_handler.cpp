@@ -138,7 +138,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
 
     // ── 3. Extract CDC filter parameters from the query string ───────────────
     // Supported parameters:
-    //   from_sequence=<uint64>   – start delivering events from this sequence
+    //   from_sequence=&lt;uint64&gt;   – start delivering events from this sequence
     //   key_prefix=<string>      – only deliver events whose key starts with
     //                              this prefix (empty = all keys)
 

@@ -483,7 +483,7 @@ public:
      *
      * When set, every `loadAdapter()` call emits a `LOOP_TRIGGER` decision
      * record written asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_LOOP_TRIGGER_<id>.yaml`.
+     * `logs/decisions/YYYY-MM-DD/&lt;ts&gt;_LOOP_TRIGGER_&lt;id&gt;.yaml`.
      *
      * @param processor  Shared processor instance (may be nullptr to disable).
      */

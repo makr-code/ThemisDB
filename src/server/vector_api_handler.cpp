@@ -128,7 +128,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         
         // Validate dimension
         int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0 && static_cast<int>(queryVector.size()) != expectedDim) {
+        if (expectedDim > 0 && static_cast&lt;int&gt;(queryVector.size()) != expectedDim) {
             span.setStatus(false, "Dimension mismatch");
             return makeErrorResponse(http::status::bad_request,
                 "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
@@ -232,7 +232,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
             // Dimension aus dem ersten Element ableiten
             for (const auto& it : body["items"]) {
                 if (it.contains("vector") && it["vector"].is_array()) {
-                    int dim = static_cast<int>(it["vector"].size());
+                    int dim = static_cast&lt;int&gt;(it["vector"].size());
                     if (dim > 0) {
                         auto st = vector_index_->init("vectors", dim, themis::VectorIndexManager::Metric::COSINE);
                         if (!st.ok) {
@@ -309,7 +309,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                     if (!v.is_number()) { vec.clear(); break; }
                     vec.push_back(v.get<float>());
                 }
-                if (vec.empty() || static_cast<int>(vec.size()) != configured_dim) { ++errors; continue; }
+                if (vec.empty() || static_cast&lt;int&gt;(vec.size()) != configured_dim) { ++errors; continue; }
 
                 // Build entity
                 BaseEntity e(pk);
@@ -683,7 +683,7 @@ http::response<http::string_body> VectorApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }

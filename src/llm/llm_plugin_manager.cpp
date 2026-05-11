@@ -221,7 +221,7 @@ LLMPluginManager& LLMPluginManager::instance() {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,
-                         static_cast<int>(ev.strategy),
+                         static_cast&lt;int&gt;(ev.strategy),
                          ev.recovered,
                          ev.bytes_recovered);
         });
@@ -499,8 +499,8 @@ LLMPluginManager::PluginStatistics LLMPluginManager::getStatistics() const {
             stats.throughput = perf["throughput_rps"].get<double>();
         }
     }
-    stats.models_loaded = static_cast<int>(listModels().size());
-    stats.loras_loaded = static_cast<int>(listLoRAs().size());
+    stats.models_loaded = static_cast&lt;int&gt;(listModels().size());
+    stats.loras_loaded = static_cast&lt;int&gt;(listLoRAs().size());
     return stats;
 }
 
@@ -511,8 +511,8 @@ LLMPluginManager::CacheStatistics LLMPluginManager::getCacheStatistics() const {
 
 LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
     HealthStatus health;
-    health.models_loaded = static_cast<int>(listModels().size());
-    health.loras_loaded = static_cast<int>(listLoRAs().size());
+    health.models_loaded = static_cast&lt;int&gt;(listModels().size());
+    health.loras_loaded = static_cast&lt;int&gt;(listLoRAs().size());
 
     const auto vram = vram_allocator_.getStats();
     health.vram_total_bytes           = vram.total_vram_bytes;
@@ -571,16 +571,16 @@ bool createLlamaWrapper(
         
         // Parse basic configuration
         if (config.contains("n_gpu_layers")) {
-            plugin_config.n_gpu_layers = config["n_gpu_layers"].get<int>();
+            plugin_config.n_gpu_layers = config["n_gpu_layers"].get&lt;int&gt;();
         }
         if (config.contains("n_ctx")) {
-            plugin_config.n_ctx = config["n_ctx"].get<int>();
+            plugin_config.n_ctx = config["n_ctx"].get&lt;int&gt;();
         }
         if (config.contains("n_batch")) {
-            plugin_config.n_batch = config["n_batch"].get<int>();
+            plugin_config.n_batch = config["n_batch"].get&lt;int&gt;();
         }
         if (config.contains("n_threads")) {
-            plugin_config.n_threads = config["n_threads"].get<int>();
+            plugin_config.n_threads = config["n_threads"].get&lt;int&gt;();
         }
         if (config.contains("max_vram_mb")) {
             plugin_config.max_vram_mb = config["max_vram_mb"].get<size_t>();
@@ -597,7 +597,7 @@ bool createLlamaWrapper(
             }
             if (ll_cfg.contains("model_ttl_seconds")) {
                 plugin_config.lazy_loader_config.model_ttl = 
-                    std::chrono::seconds(ll_cfg["model_ttl_seconds"].get<int>());
+                    std::chrono::seconds(ll_cfg["model_ttl_seconds"].get&lt;int&gt;());
             }
         }
         
@@ -612,7 +612,7 @@ bool createLlamaWrapper(
             }
             if (ml_cfg.contains("lora_ttl_seconds")) {
                 plugin_config.multi_lora_config.lora_ttl = 
-                    std::chrono::seconds(ml_cfg["lora_ttl_seconds"].get<int>());
+                    std::chrono::seconds(ml_cfg["lora_ttl_seconds"].get&lt;int&gt;());
             }
             if (ml_cfg.contains("enable_multi_lora_batch")) {
                 plugin_config.multi_lora_config.enable_multi_lora_batch = 
@@ -655,7 +655,7 @@ void LLMPluginManager::setCancelSessionCallback(CancelSessionCallback cb)
 void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& server)
 {
     // ── Reload callback ────────────────────────────────────────────────────────
-    // Body format: {"model_id":"<id>","path":"<optional-path>"}
+    // Body format: {"model_id":"&lt;id&gt;","path":"<optional-path>"}
     // When "path" is omitted the model_id is also used as the path (Ollama-style).
     server.setReloadCallback(
         [this](const std::string& body) -> std::string {
@@ -684,7 +684,7 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
         });
 
     // ── Simulate callback ──────────────────────────────────────────────────────
-    // Body format: {"prompt":"<text>","model_id":"<optional>"}
+    // Body format: {"prompt":"<text>","model_id":"&lt;optional&gt;"}
     // Returns estimated token count using the CHAR_HEURISTIC.  When a live
     // tokenizer is wired into context_window_budget.h the heuristic will be
     // replaced automatically without changing this callback.

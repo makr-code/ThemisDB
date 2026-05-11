@@ -45,12 +45,12 @@
  * Name aliases may be used in ranges and lists, e.g. "JAN-MAR", "MON,WED,FRI".
  *
  * Special expressions:
- * - @yearly / @annually  – once a year  ("0 0 1 1 *")
- * - @monthly             – once a month ("0 0 1 * *")
- * - @weekly              – once a week  ("0 0 * * 0")
- * - @daily / @midnight   – once a day   ("0 0 * * *")
- * - @hourly              – once an hour ("0 * * * *")
- * - @reboot              – at startup   (never fires via getNextExecution)
+ * -@@yearly / @@annually  – once a year  ("0 0 1 1 *")
+ * - @@monthly             – once a month ("0 0 1 * *")
+ * - @@weekly              – once a week  ("0 0 * * 0")
+ * - @@daily / @@midnight   – once a day   ("0 0 * * *")
+ * - @@hourly              – once an hour ("0 * * * *")
+ * - @@reboot              – at startup   (never fires via getNextExecution)
  *
  * Timezone support:
  * Use the getNextExecution(from, tz_offset_seconds) overload to schedule
@@ -160,38 +160,38 @@ public:
 private:
     // 5-field constructor (no year constraint)
     CronExpression(const std::string& expression,
-                   std::set<int> minutes,
-                   std::set<int> hours,
-                   std::set<int> days,
-                   std::set<int> months,
-                   std::set<int> weekdays);
+                   std::set&lt;int&gt; minutes,
+                   std::set&lt;int&gt; hours,
+                   std::set&lt;int&gt; days,
+                   std::set&lt;int&gt; months,
+                   std::set&lt;int&gt; weekdays);
 
     // 6-field constructor (with year constraint)
     CronExpression(const std::string& expression,
-                   std::set<int> minutes,
-                   std::set<int> hours,
-                   std::set<int> days,
-                   std::set<int> months,
-                   std::set<int> weekdays,
-                   std::set<int> years);
+                   std::set&lt;int&gt; minutes,
+                   std::set&lt;int&gt; hours,
+                   std::set&lt;int&gt; days,
+                   std::set&lt;int&gt; months,
+                   std::set&lt;int&gt; weekdays,
+                   std::set&lt;int&gt; years);
 
     std::string expression_;
-    std::set<int> minutes_;   // 0-59
-    std::set<int> hours_;     // 0-23
-    std::set<int> days_;      // 1-31
-    std::set<int> months_;    // 1-12
-    std::set<int> weekdays_;  // 0-6 (Sunday=0)
-    std::set<int> years_;     // empty = any year; non-empty = specific years (1970-2199)
+    std::set&lt;int&gt; minutes_;   // 0-59
+    std::set&lt;int&gt; hours_;     // 0-23
+    std::set&lt;int&gt; days_;      // 1-31
+    std::set&lt;int&gt; months_;    // 1-12
+    std::set&lt;int&gt; weekdays_;  // 0-6 (Sunday=0)
+    std::set&lt;int&gt; years_;     // empty = any year; non-empty = specific years (1970-2199)
     
     // Helper methods for parsing
-    static std::optional<std::set<int>> parseField(
+    static std::optional<std::set&lt;int&gt;> parseField(
         const std::string& field, int min_value, int max_value);
-    static std::optional<std::set<int>> parseWildcard(int min_value, int max_value);
-    static std::optional<std::set<int>> parseRange(
+    static std::optional<std::set&lt;int&gt;> parseWildcard(int min_value, int max_value);
+    static std::optional<std::set&lt;int&gt;> parseRange(
         const std::string& range, int min_value, int max_value);
-    static std::optional<std::set<int>> parseList(
+    static std::optional<std::set&lt;int&gt;> parseList(
         const std::string& list, int min_value, int max_value);
-    static std::optional<std::set<int>> parseStep(
+    static std::optional<std::set&lt;int&gt;> parseStep(
         const std::string& step, int min_value, int max_value);
     
     // Helper for next execution calculation

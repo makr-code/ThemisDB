@@ -53,7 +53,7 @@ namespace vector {
  * Supports: Linear Combination, Reciprocal Rank Fusion (RRF), Rank Fusion (Borda),
  * Max/Min/Avg Score fusion, and weight optimization via grid search.
  * 
- * @references
+ * References:
  * - Fox, E. A., & Shaw, J. A. (1994). "Combination of multiple searches" (CombSUM, CombMNZ)
  * - Cormack, G. V., et al. (2009). "Reciprocal rank fusion" (RRF)
  * - Dosovitskiy, A., et al. (2020). "An Image is Worth 16x16 Words" (Multi-modal embeddings)
@@ -108,7 +108,7 @@ public:
         std::string id;
         float fused_score = 0.0f;              // Final combined score
         std::vector<float> individual_scores;   // Scores per query vector
-        std::vector<int> individual_ranks;      // Ranks per query vector
+        std::vector&lt;int&gt; individual_ranks;      // Ranks per query vector
         std::unordered_map<std::string, float> field_scores; // Scores per field
     };
 

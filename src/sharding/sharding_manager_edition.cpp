@@ -60,13 +60,13 @@ size_t ShardingManager::GetNodeCount() const {
 int ShardingManager::GetRemainingNodeCapacity() const {
     std::lock_guard<std::mutex> lock(mutex_);
     int max_nodes = GetMaxShardNodes();
-    int current_nodes = static_cast<int>(shard_nodes_.size());
+    int current_nodes = static_cast&lt;int&gt;(shard_nodes_.size());
     return std::max(0, max_nodes - current_nodes);
 }
 
 void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
     int max_nodes = GetMaxShardNodes();
-    if (static_cast<int>(requested_nodes) > max_nodes) {
+    if (static_cast&lt;int&gt;(requested_nodes) > max_nodes) {
         std::string error = "Requested node count (";
         error += std::to_string(requested_nodes);
         error += ") exceeds edition limit (";
@@ -171,7 +171,7 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
 
     // Find indices of start and end in the all_shards list.
     int start_idx = -1, end_idx = -1;
-    for (int i = 0; i < static_cast<int>(all_shards.size()); ++i) {
+    for (int i = 0; i < static_cast&lt;int&gt;(all_shards.size()); ++i) {
         if (all_shards[i] == start_shard) start_idx = i;
         if (all_shards[i] == end_shard)   end_idx   = i;
     }
@@ -182,7 +182,7 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
     }
 
     std::vector<std::string> result;
-    const int n = static_cast<int>(all_shards.size());
+    const int n = static_cast&lt;int&gt;(all_shards.size());
 
     // Walk clockwise from start_idx to end_idx (inclusive), wrapping around.
     int idx = start_idx;

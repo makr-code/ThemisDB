@@ -351,7 +351,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                     event.error_type = j["error_type"].get<std::string>();
                 }
                 if (j.contains("retry_count") && !j["retry_count"].is_null()) {
-                    event.retry_count = j["retry_count"].get<int>();
+                    event.retry_count = j["retry_count"].get&lt;int&gt;();
                 }
                 
                 if (j.contains("resource_usage")) {
@@ -609,7 +609,7 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
         }
         
         THEMIS_INFO("Exported {} audit events to {} (format={})",
-                   events.size(), output_path, static_cast<int>(format));
+                   events.size(), output_path, static_cast&lt;int&gt;(format));
         
         return events.size();
         

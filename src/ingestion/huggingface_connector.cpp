@@ -98,7 +98,7 @@ static HttpResponse hfHttpGet(const std::string& url,
     } else {
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        r.status_code = static_cast<int>(http_code);
+        r.status_code = static_cast&lt;int&gt;(http_code);
     }
 
     if (headers) curl_slist_free_all(headers);
@@ -177,7 +177,7 @@ static HttpResponse getWithRetry(const std::string& url,
         // Back-off before next attempt
         stats.metrics.retry_count++;
         std::this_thread::sleep_for(
-            std::chrono::milliseconds(static_cast<int>(delay_ms)));
+            std::chrono::milliseconds(static_cast&lt;int&gt;(delay_ms)));
         delay_ms = std::min(delay_ms * retry_cfg.backoff_factor,
                             retry_cfg.max_delay_ms);
     }
@@ -230,7 +230,7 @@ static HttpResponse hfHttpPost(const std::string& url,
     } else {
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        r.status_code = static_cast<int>(http_code);
+        r.status_code = static_cast&lt;int&gt;(http_code);
     }
 
     if (headers) curl_slist_free_all(headers);

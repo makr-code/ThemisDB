@@ -76,7 +76,7 @@ ProcessLinkType processLinkTypeFromString(std::string_view s);
 /**
  * @brief Descriptor of a data object attached to a process instance.
  *
- * Stored in RocksDB under the key prefix @c proc:attach:<instance_id>:<object_id>.
+ * Stored in RocksDB under the key prefix @c proc:attach:&lt;instance_id&gt;:&lt;object_id&gt;.
  *
  * The @c metadata field carries link-specific properties, e.g.:
  * @code{.json}
@@ -84,7 +84,7 @@ ProcessLinkType processLinkTypeFromString(std::string_view s);
  * @endcode
  */
 struct ProcessAttachment {
-    std::string id;                  ///< "attach:<instance_id>:<object_id>"
+    std::string id;                  ///< "attach:&lt;instance_id&gt;:&lt;object_id&gt;"
     std::string instance_id;         ///< Process instance the object is attached to
     std::string object_id;           ///< ID of the attached object
     std::string object_collection;   ///< Collection name: "documents", "metadata", "cases", …
@@ -106,7 +106,7 @@ struct ProcessAttachment {
  * @brief Typed relationship between two process entities (instance↔instance or
  *        model↔model).
  *
- * Stored under @c proc:link:<source_id>:<target_id>:<link_type_str>.
+ * Stored under @c proc:link:&lt;source_id&gt;:&lt;target_id&gt;:&lt;link_type_str&gt;.
  */
 struct ProcessLink {
     std::string link_id;
@@ -131,9 +131,9 @@ struct ProcessLink {
  * All data is persisted in the supplied @c RocksDBWrapper instance.
  *
  * Key-prefix scheme:
- * - Attachments  : @c proc:attach:<instance_id>:<object_id>
- * - Links        : @c proc:link:<source_id>:<target_id>:<link_type_str>
- * - Required docs: @c proc:req_doc:<model_id>:<node_id>:<doc_type>
+ * - Attachments  : @c proc:attach:&lt;instance_id&gt;:&lt;object_id&gt;
+ * - Links        : @c proc:link:&lt;source_id&gt;:&lt;target_id&gt;:&lt;link_type_str&gt;
+ * - Required docs: @c proc:req_doc:&lt;model_id&gt;:&lt;node_id&gt;:&lt;doc_type&gt;
  */
 class ProcessLinker {
 public:
@@ -278,7 +278,7 @@ private:
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
     /// Reverse-lookup key for findInstancesWithObject():
-    ///   proc:obj_idx:<object_id>:<collection>:<instance_id>
+    ///   proc:obj_idx:&lt;object_id&gt;:&lt;collection&gt;:&lt;instance_id&gt;
     std::string makeObjIdxKey_(std::string_view object_id,
                                std::string_view collection,
                                std::string_view instance_id) const;

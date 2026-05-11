@@ -37,7 +37,7 @@ MixedPrecisionTrainer::MixedPrecisionTrainer(const MixedPrecisionConfig& config)
       total_steps_(0) {
     
     spdlog::info("MixedPrecisionTrainer initialized:");
-    spdlog::info("  Mode: {}", static_cast<int>(config_.mode));
+    spdlog::info("  Mode: {}", static_cast&lt;int&gt;(config_.mode));
     spdlog::info("  Initial loss scale: {}", current_loss_scale_);
     spdlog::info("  Dynamic scaling: {}", config_.dynamic_loss_scaling);
 }
@@ -160,7 +160,7 @@ void MixedPrecisionTrainer::update_loss_scale(bool had_overflow) {
 
 json MixedPrecisionTrainer::get_stats() const {
     return json{
-        {"precision_mode", static_cast<int>(config_.mode)},
+        {"precision_mode", static_cast&lt;int&gt;(config_.mode)},
         {"current_loss_scale", current_loss_scale_},
         {"total_steps", total_steps_},
         {"total_overflows", total_overflows_},

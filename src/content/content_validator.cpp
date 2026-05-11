@@ -54,13 +54,13 @@ ContentValidationConfig ContentValidationConfig::fromJson(const json& j) {
     if (j.contains("max_content_size")) config.max_content_size = j["max_content_size"];
     if (j.contains("max_text_length")) config.max_text_length = j["max_text_length"];
     if (j.contains("max_processing_time_seconds"))
-        config.max_processing_time = std::chrono::seconds(j["max_processing_time_seconds"].get<int>());
+        config.max_processing_time = std::chrono::seconds(j["max_processing_time_seconds"].get&lt;int&gt;());
     if (j.contains("extraction_timeout_seconds"))
-        config.extraction_timeout = std::chrono::seconds(j["extraction_timeout_seconds"].get<int>());
+        config.extraction_timeout = std::chrono::seconds(j["extraction_timeout_seconds"].get&lt;int&gt;());
     if (j.contains("chunking_timeout_seconds"))
-        config.chunking_timeout = std::chrono::seconds(j["chunking_timeout_seconds"].get<int>());
+        config.chunking_timeout = std::chrono::seconds(j["chunking_timeout_seconds"].get&lt;int&gt;());
     if (j.contains("embedding_timeout_seconds"))
-        config.embedding_timeout = std::chrono::seconds(j["embedding_timeout_seconds"].get<int>());
+        config.embedding_timeout = std::chrono::seconds(j["embedding_timeout_seconds"].get&lt;int&gt;());
     if (j.contains("enforce_mime_type_validation")) config.enforce_mime_type_validation = j["enforce_mime_type_validation"];
     if (j.contains("enforce_format_verification")) config.enforce_format_verification = j["enforce_format_verification"];
     if (j.contains("check_file_magic_bytes")) config.check_file_magic_bytes = j["check_file_magic_bytes"];
@@ -80,7 +80,7 @@ ContentValidationConfig ContentValidationConfig::fromJson(const json& j) {
 json ContentValidationResult::toJson() const {
     json j = error.toJson();
     j["mime_type"] = mime_type;
-    j["category"] = static_cast<int>(category);
+    j["category"] = static_cast&lt;int&gt;(category);
     j["content_size"] = content_size;
     j["validation_time_ms"] = validation_time.count();
     j["mime_validated"] = mime_validated;

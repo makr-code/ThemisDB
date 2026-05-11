@@ -72,7 +72,7 @@ struct MetadataWALEntry {
         entry.type = static_cast<WALEntryType>(type);
         entry.timestamp = timestamp;
         entry.data = {
-            {"partition", static_cast<int>(partition)},
+            {"partition", static_cast&lt;int&gt;(partition)},
             {"key", key},
             {"value", value},
             {"version", version}
@@ -89,7 +89,7 @@ struct MetadataWALEntry {
         metadata_entry.type = static_cast<MetadataWALEntryType>(entry.type);
         metadata_entry.timestamp = entry.timestamp;
         metadata_entry.partition = static_cast<MetadataPartitionKey>(
-            entry.data["partition"].get<int>());
+            entry.data["partition"].get&lt;int&gt;());
         metadata_entry.key = entry.data["key"].get<std::string>();
         metadata_entry.value = entry.data["value"];
         metadata_entry.version = entry.data["version"].get<uint64_t>();

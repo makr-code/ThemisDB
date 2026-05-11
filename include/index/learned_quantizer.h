@@ -37,7 +37,7 @@ namespace themis {
  * 
  * @deprecated NOT USED IN PRODUCTION CODE. Research implementation for vector compression studies.
  * 
- * @sources
+ * Sources:
  * - Algorithm: Learned Quantization / Adaptive Quantization
  * - Paper: Chen, X., et al. (2021).
  *          "Learned Quantization for High-Dimensional Vector Search"

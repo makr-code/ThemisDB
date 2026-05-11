@@ -182,9 +182,9 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
                      std::ceil(static_cast<double>(current_cache_size_mb) * 1.5)));
         rec.recommended_cache_size_mb = std::max(new_cache, config_.min_cache_size_mb);
 
-        reason_stream << "Predicted utilization " << static_cast<int>(util * 100.0)
+        reason_stream << "Predicted utilization " << static_cast&lt;int&gt;(util * 100.0)
                       << "% exceeds scale-up threshold "
-                      << static_cast<int>(config_.scale_up_threshold * 100.0) << "%";
+                      << static_cast&lt;int&gt;(config_.scale_up_threshold * 100.0) << "%";
 
     } else if (util <= config_.scale_down_threshold) {
         rec.direction = ScaleDirection::DOWN;
@@ -201,13 +201,13 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
                      std::floor(static_cast<double>(current_cache_size_mb) * 0.75)));
         rec.recommended_cache_size_mb = new_cache;
 
-        reason_stream << "Predicted utilization " << static_cast<int>(util * 100.0)
+        reason_stream << "Predicted utilization " << static_cast&lt;int&gt;(util * 100.0)
                       << "% is below scale-down threshold "
-                      << static_cast<int>(config_.scale_down_threshold * 100.0) << "%";
+                      << static_cast&lt;int&gt;(config_.scale_down_threshold * 100.0) << "%";
 
     } else {
         rec.direction = ScaleDirection::NONE;
-        reason_stream << "Predicted utilization " << static_cast<int>(util * 100.0)
+        reason_stream << "Predicted utilization " << static_cast&lt;int&gt;(util * 100.0)
                       << "% is within acceptable range";
     }
 

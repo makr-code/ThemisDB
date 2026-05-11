@@ -155,7 +155,7 @@ public:
     );
     
     // Parallel BFS example using Ligra
-    std::vector<int> parallel_bfs(
+    std::vector&lt;int&gt; parallel_bfs(
         NodeID start_vertex,
         const std::vector<std::vector<NodeID>>& adj_list
     );

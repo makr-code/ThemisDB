@@ -104,7 +104,7 @@ std::string PaxosSnapshot::calculateChecksum() const {
     // Convert to hex string
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
     }
     
     return oss.str();
@@ -366,7 +366,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
             if (entry.is_regular_file()) {
                 std::string filename = entry.path().filename().string();
                 
-                // Parse snapshot ID from filename (format: paxos_snapshot_<id>.json)
+                // Parse snapshot ID from filename (format: paxos_snapshot_&lt;id&gt;.json)
                 if (filename.find("paxos_snapshot_") == 0 && filename.ends_with(".json")) {
                     std::string id_str = filename.substr(15, filename.size() - 20);
                     try {

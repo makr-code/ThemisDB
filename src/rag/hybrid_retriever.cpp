@@ -142,7 +142,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
         }
         entry.score.document_id = src.id;
         entry.score.bm25_score  = src.similarity_score;
-        entry.score.bm25_rank   = static_cast<int>(i + 1);
+        entry.score.bm25_rank   = static_cast&lt;int&gt;(i + 1);
 
         const double rrf = 1.0 / (config_.rrf_k + static_cast<double>(i + 1));
         entry.score.hybrid_score += config_.bm25_weight * rrf;
@@ -157,7 +157,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
         }
         entry.score.document_id  = src.id;
         entry.score.vector_score = src.similarity_score;
-        entry.score.vector_rank  = static_cast<int>(i + 1);
+        entry.score.vector_rank  = static_cast&lt;int&gt;(i + 1);
 
         const double rrf = 1.0 / (config_.rrf_k + static_cast<double>(i + 1));
         entry.score.hybrid_score += config_.vector_weight * rrf;
@@ -233,7 +233,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
         if (entry.doc.id.empty()) { entry.doc = src; }
         entry.score.document_id = src.id;
         entry.score.bm25_score  = src.similarity_score;
-        entry.score.bm25_rank   = static_cast<int>(i + 1);
+        entry.score.bm25_rank   = static_cast&lt;int&gt;(i + 1);
         entry.score.hybrid_score += config_.bm25_weight * bm25_raw[i];
     }
 
@@ -243,7 +243,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
         if (entry.doc.id.empty()) { entry.doc = src; }
         entry.score.document_id  = src.id;
         entry.score.vector_score = src.similarity_score;
-        entry.score.vector_rank  = static_cast<int>(i + 1);
+        entry.score.vector_rank  = static_cast&lt;int&gt;(i + 1);
         entry.score.hybrid_score += config_.vector_weight * vec_raw[i];
     }
 

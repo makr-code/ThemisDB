@@ -67,7 +67,7 @@ public:
         
         // Multi-GPU support (v1.4.0)
         bool enable_multi_gpu = false;
-        std::vector<int> gpu_devices;  // GPU device IDs to use
+        std::vector&lt;int&gt; gpu_devices;  // GPU device IDs to use
         bool enable_peer_access = false;  // Enable CUDA peer-to-peer access
     };
     
@@ -102,7 +102,7 @@ public:
     // Multi-GPU memory queries (v1.4.0)
     size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
     size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
-    std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
+    std::vector&lt;int&gt; getAvailableGPUs() const;  // List of available GPU IDs
     bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
     
     // Capacity checks
@@ -167,7 +167,7 @@ public:
     
     // Load balancing queries
     int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
-    std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
+    std::vector&lt;int&gt; getHealthyGPUs() const;  // Returns list of healthy GPUs
     float getAverageGPULoad() const;  // Average utilization across all GPUs
     bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
     
@@ -192,7 +192,7 @@ private:
     // Multi-GPU support (v1.4.0)
     std::unordered_map<int, size_t> per_gpu_vram_used_;  // Per-GPU VRAM tracking
     std::unordered_map<int, bool> gpu_health_status_;    // GPU health tracking
-    std::vector<int> available_gpus_;                    // List of available GPUs
+    std::vector&lt;int&gt; available_gpus_;                    // List of available GPUs
     
     // Enhanced GPU health monitoring
     std::unordered_map<int, GPUHealth> gpu_health_data_;  // Detailed health data per GPU

@@ -222,7 +222,7 @@ using PipelineCallback = std::function<void(const std::string& stage,
  * @endcode
  */
 struct HyperparamSearchConfig {
-    std::vector<int>   rank_candidates;    ///< LoRA rank values to try
+    std::vector&lt;int&gt;   rank_candidates;    ///< LoRA rank values to try
     std::vector<float> lr_candidates;      ///< Learning-rate values to try
     size_t             max_trials         = 9;    ///< Hard cap on number of trials
     double             budget_seconds     = 0.0;  ///< Wall-clock budget (0 = unlimited)

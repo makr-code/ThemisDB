@@ -186,7 +186,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     const std::vector<std::string>& input_columns,
     const json&                 input_context)
 {
-    const int n = static_cast<int>(
+    const int n = static_cast&lt;int&gt;(
         std::min(rule.input_expressions.size(), input_columns.size()));
     for (int i = 0; i < n; ++i) {
         const json& col_value = input_context.contains(input_columns[i])
@@ -351,8 +351,8 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
                 in_input_entry = false;
             } else if (tag_lower == "outputentry" && in_rule) {
                 // Determine which output column this is
-                const int out_idx = static_cast<int>(current_rule.output_values.size());
-                if (out_idx < static_cast<int>(dt.output_columns.size())) {
+                const int out_idx = static_cast&lt;int&gt;(current_rule.output_values.size());
+                if (out_idx < static_cast&lt;int&gt;(dt.output_columns.size())) {
                     current_rule.output_values[dt.output_columns[out_idx]] = current_text;
                 }
                 in_output_entry = false;

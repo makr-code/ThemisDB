@@ -52,7 +52,7 @@ using Sha256Digest = std::string;
  * after creation.
  */
 struct SnapshotMeta {
-    SnapshotId  id;              ///< "snap:<uuid>"
+    SnapshotId  id;              ///< "snap:&lt;uuid&gt;"
     std::string project_id;      ///< Owning project UUID
     std::string description;     ///< Human-readable label
     int64_t     created_at = 0;  ///< Unix timestamp (seconds)
@@ -75,9 +75,9 @@ struct SnapshotMeta {
  *
  * Key RocksDB layout
  * ──────────────────
- *  snap:<uuid>              → SnapshotMeta JSON
- *  snap_idx:<project_id>:<uuid> → "" (index for listSnapshots)
- *  snap_data:<uuid>:<doc_id> → DocumentMeta JSON (snapshot content)
+ *  snap:&lt;uuid&gt;              → SnapshotMeta JSON
+ *  snap_idx:&lt;project_id&gt;:&lt;uuid&gt; → "" (index for listSnapshots)
+ *  snap_data:&lt;uuid&gt;:&lt;doc_id&gt; → DocumentMeta JSON (snapshot content)
  */
 class ProjectVersioning {
 public:

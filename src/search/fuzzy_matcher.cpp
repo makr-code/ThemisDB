@@ -138,12 +138,12 @@ FuzzyMatcher::search(const std::string& query,
 
 int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
-    if (la == 0) return static_cast<int>(lb);
-    if (lb == 0) return static_cast<int>(la);
-    std::vector<int> prev(lb + 1), curr(lb + 1);
-    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast<int>(j);
+    if (la == 0) return static_cast&lt;int&gt;(lb);
+    if (lb == 0) return static_cast&lt;int&gt;(la);
+    std::vector&lt;int&gt; prev(lb + 1), curr(lb + 1);
+    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast&lt;int&gt;(j);
     for (size_t i = 1; i <= la; ++i) {
-        curr[0] = static_cast<int>(i);
+        curr[0] = static_cast&lt;int&gt;(i);
         for (size_t j = 1; j <= lb; ++j) {
             int cost = (a[i-1] == b[j-1]) ? 0 : 1;
             curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});

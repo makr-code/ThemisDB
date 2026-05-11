@@ -53,7 +53,7 @@ static uint64_t quicNow() {
 /// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
 static void generateCid(ngtcp2_cid* cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
-    if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {
+    if (RAND_bytes(cid->data, static_cast&lt;int&gt;(cid->datalen)) != 1) {
         // Fallback: zero-fill so the caller gets a deterministic (non-random)
         // CID rather than undefined memory.  The handshake will still fail
         // gracefully if the CID collides with an existing connection.

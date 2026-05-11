@@ -423,7 +423,7 @@ std::string LLMProcessAnalyzer::callLLM(
     // SECURITY: Always use sanitizeApiKey(pImpl->config.api_key) in log
     // messages — never log or expose the raw API key value.
     spdlog::debug("LLM call: provider={}, model={}, key={}",
-                  static_cast<int>(pImpl->config.provider),
+                  static_cast&lt;int&gt;(pImpl->config.provider),
                   pImpl->config.model_name,
                   sanitizeApiKey(pImpl->config.api_key));
 
@@ -559,7 +559,7 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest& request) const {
         std::ostringstream oss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0')
-                << static_cast<int>(hash[i]);
+                << static_cast&lt;int&gt;(hash[i]);
         }
         return oss.str();
     };
@@ -570,7 +570,7 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest& request) const {
     const std::string trace_hash = sha256hex(trace.dump());
     const std::string model_hash = sha256hex(request.ideal_model.dump());
 
-    return std::to_string(static_cast<int>(request.task_type)) + ":" +
+    return std::to_string(static_cast&lt;int&gt;(request.task_type)) + ":" +
            request.domain + ":" + trace_hash + ":" + model_hash;
 }
 

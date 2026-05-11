@@ -467,12 +467,12 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
+    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast&lt;int&gt;(encoded.size()));
     bmem = BIO_push(b64, bmem);
     BIO_set_flags(bmem, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem, output.data(), static_cast<int>(output.size()));
+    int decoded_size = BIO_read(bmem, output.data(), static_cast&lt;int&gt;(output.size()));
     BIO_free_all(bmem);
     
     if (decoded_size < 0) {
@@ -647,7 +647,7 @@ std::string USBAdminAuthenticator::createChallenge() const {
     // Convert to hex string
     std::ostringstream oss;
     for (auto byte : challenge_bytes) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(byte);
     }
     std::string challenge = oss.str();
 
@@ -706,7 +706,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
 
     unsigned char* result = HMAC(
         EVP_sha256(),
-        license_key.data(), static_cast<int>(license_key.size()),
+        license_key.data(), static_cast&lt;int&gt;(license_key.size()),
         reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
         hmac_out, &hmac_len
     );
@@ -719,7 +719,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     // Encode expected response as lowercase hex
     std::ostringstream expected_oss;
     for (unsigned int i = 0; i < hmac_len; ++i) {
-        expected_oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
+        expected_oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hmac_out[i]);
     }
     const std::string expected_response = expected_oss.str();
 

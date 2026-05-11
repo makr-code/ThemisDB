@@ -1436,7 +1436,7 @@ bool IntegrationTestSuite::testHighConcurrency() {
     // Submit 32 concurrent requests from separate threads.
     constexpr int kThreads  = 8;
     constexpr int kPerThread = 4;
-    std::atomic<int> submitted{0};
+    std::atomic&lt;int&gt; submitted{0};
     std::vector<std::thread> threads;
     std::mutex id_mutex;
     std::vector<std::string> all_ids;
@@ -1627,7 +1627,7 @@ std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
         "How does sharding improve database scalability?"
     };
     
-    if (variant < 0 || variant >= static_cast<int>(prompts.size())) {
+    if (variant < 0 || variant >= static_cast&lt;int&gt;(prompts.size())) {
         variant = 0;
     }
     

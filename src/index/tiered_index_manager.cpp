@@ -304,7 +304,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
     const std::string dest_path = pathForTier(name, to);
     const std::string src_path  = pathForTier(name, from);
 
-    const bool is_demotion = (static_cast<int>(to) > static_cast<int>(from));
+    const bool is_demotion = (static_cast&lt;int&gt;(to) > static_cast&lt;int&gt;(from));
 
     if (is_demotion) {
         // Export (serialize) the index to the destination tier path.

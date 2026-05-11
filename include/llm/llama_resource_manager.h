@@ -60,7 +60,7 @@ struct GPUBackendConfig {
     
     // GPU Device Selection
     int primary_gpu_id = 0;
-    std::vector<int> secondary_gpus;  // For Tensor Parallelism
+    std::vector&lt;int&gt; secondary_gpus;  // For Tensor Parallelism
     
     // Memory Management
     bool use_gpu_memory_manager = true;
@@ -204,7 +204,7 @@ public:
     
     // GPU Memory Information
     size_t vram_usage() const { return vram_allocated_; }
-    std::vector<int> gpu_devices() const { return gpu_devices_; }
+    std::vector&lt;int&gt; gpu_devices() const { return gpu_devices_; }
     
     // Memory Transfer (for Multi-GPU)
     bool transferToGPU(int target_gpu_id);
@@ -223,7 +223,7 @@ private:
     
     // GPU Memory Management
     std::shared_ptr<GPUMemoryManager> gpu_memory_manager_;
-    std::vector<int> gpu_devices_;
+    std::vector&lt;int&gt; gpu_devices_;
     size_t vram_allocated_ = 0;
     
     // Helper methods

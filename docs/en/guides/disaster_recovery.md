@@ -1281,7 +1281,6 @@ curl http://localhost:8080/api/v1/snapshots/tags | jq '.[] | .tag_name'
 #### Full DR Test Script
 
 ```bash
-#!/bin/bash
 # DR Test Script
 set -e
 

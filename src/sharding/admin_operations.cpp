@@ -44,7 +44,7 @@ AdminOperations::AdminOperations(const Config& config)
     
     if (config_.enable_health_checks) {
         HealthCheckSystem::Config health_config;
-        health_config.check_interval_ms = static_cast<int>(config_.health_check_interval.count() * 1000);
+        health_config.check_interval_ms = static_cast&lt;int&gt;(config_.health_check_interval.count() * 1000);
         health_check_ = std::make_unique<HealthCheckSystem>(health_config);
     }
 }
@@ -225,7 +225,7 @@ nlohmann::json AdminOperations::getRebalanceStatus(
     // Approximate progress based on elapsed time vs estimated total duration
     int64_t elapsed_s = std::chrono::duration_cast<std::chrono::seconds>(
         now - op.started_at).count();
-    int progress = static_cast<int>(
+    int progress = static_cast&lt;int&gt;(
         std::min<int64_t>(99, elapsed_s * 100 / kRebalanceEstimatedDurationSeconds));
 
     return {

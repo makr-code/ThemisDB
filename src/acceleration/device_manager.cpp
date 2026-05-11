@@ -214,7 +214,7 @@ void DeviceManager::logDeviceInfo() {
     for (const auto& d : devices) {
         std::cout << "  [" << (d.is_healthy ? "OK" : "!!") << "] "
                   << d.name
-                  << "  backend=" << static_cast<int>(d.backend_type)
+                  << "  backend=" << static_cast&lt;int&gt;(d.backend_type)
                   << "  vram_free=" << (d.free_vram_bytes / (1024ULL * 1024ULL)) << " MB"
                   << "  sm=" << d.compute_major << "." << d.compute_minor
                   << "  fp16=" << (d.supports_fp16 ? "yes" : "no")
@@ -223,7 +223,7 @@ void DeviceManager::logDeviceInfo() {
     }
 
     std::cout << "[acceleration] Best device: " << best.name
-              << " (backend=" << static_cast<int>(best.backend_type) << ")"
+              << " (backend=" << static_cast&lt;int&gt;(best.backend_type) << ")"
               << std::endl;
 }
 

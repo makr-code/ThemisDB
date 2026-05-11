@@ -629,7 +629,7 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
                     signature.resize(((sig_len + 2) / 3) * 4 + 1);
                     int out_len = EVP_EncodeBlock(
                         reinterpret_cast<unsigned char*>(signature.data()),
-                        sig.data(), static_cast<int>(sig_len)
+                        sig.data(), static_cast&lt;int&gt;(sig_len)
                     );
                     signature.resize(out_len);
                 }
@@ -700,7 +700,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
     const int decoded_len = EVP_DecodeBlock(
         sig.data(),
         reinterpret_cast<const unsigned char*>(b64.data()),
-        static_cast<int>(b64.size())
+        static_cast&lt;int&gt;(b64.size())
     );
     if (decoded_len <= 0) {
         EVP_PKEY_free(pkey);
@@ -711,7 +711,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
     // EVP_DecodeBlock pads to a multiple of 3 — strip trailing padding bytes.
     int sig_len = decoded_len;
     const size_t pad = std::count(b64.rbegin(), b64.rbegin() + 2, '=');
-    sig_len -= static_cast<int>(pad);
+    sig_len -= static_cast&lt;int&gt;(pad);
 
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     bool valid = false;

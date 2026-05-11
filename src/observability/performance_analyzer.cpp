@@ -567,7 +567,7 @@ std::string PerformanceAnalyzer::generate_html_header() const {
         h1, h2, h3 { color: #333; }
     </style>
 </head>
-<body>
+&lt;body&gt;
 )";
 }
 

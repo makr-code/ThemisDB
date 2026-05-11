@@ -491,7 +491,7 @@ std::string IndexSuggestionEngine::generateReason(
     
     if (stats.selectivity > 0.7) {
         reason += "High selectivity (" + 
-                 std::to_string(static_cast<int>(stats.selectivity * 100)) + 
+                 std::to_string(static_cast&lt;int&gt;(stats.selectivity * 100)) + 
                  "%) makes " + index_type + " index very effective.";
     } else if (stats.selectivity > 0.3) {
         reason += "Moderate selectivity suggests " + index_type + " index would help.";
@@ -586,9 +586,9 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         // Add cache-aware information to reason
         if (cache_aware_stats.estimated_l3_cache_fit_ratio < 1.0) {
             suggestion.reason += " NOTE: Index size exceeds L3 cache (" +
-                                std::to_string(static_cast<int>(cache_aware_stats.estimated_l3_cache_fit_ratio * 100)) +
+                                std::to_string(static_cast&lt;int&gt;(cache_aware_stats.estimated_l3_cache_fit_ratio * 100)) +
                                 "% fits), expect " +
-                                std::to_string(static_cast<int>(cache_aware_stats.estimated_cache_miss_rate * 100)) +
+                                std::to_string(static_cast&lt;int&gt;(cache_aware_stats.estimated_cache_miss_rate * 100)) +
                                 "% cache miss rate.";
         } else {
             suggestion.reason += " Index fits entirely in L3 cache (optimal performance).";

@@ -61,7 +61,7 @@ std::string opensslError() {
 
 // Parse PEM certificate; returns nullptr on failure
 UniqueX509 parsePEM(const std::string& pem) {
-    UniqueBIO bio(BIO_new_mem_buf(pem.data(), static_cast<int>(pem.size())));
+    UniqueBIO bio(BIO_new_mem_buf(pem.data(), static_cast&lt;int&gt;(pem.size())));
     if (!bio) return nullptr;
     return UniqueX509(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
 }
@@ -125,7 +125,7 @@ bool MTLSAuthenticator::initCAStore() {
 
     // Load one or more PEM-encoded CA certs from the concatenated PEM string
     UniqueBIO bio(BIO_new_mem_buf(config_.ca_cert_pem.data(),
-                                  static_cast<int>(config_.ca_cert_pem.size())));
+                                  static_cast&lt;int&gt;(config_.ca_cert_pem.size())));
     if (!bio) return false;
 
     bool loaded_any = false;
@@ -151,7 +151,7 @@ bool MTLSAuthenticator::initCAStore() {
 
 bool MTLSAuthenticator::initCRL() {
     UniqueBIO bio(BIO_new_mem_buf(config_.crl_pem.data(),
-                                  static_cast<int>(config_.crl_pem.size())));
+                                  static_cast&lt;int&gt;(config_.crl_pem.size())));
     if (!bio) return false;
 
     impl_->crl.reset(PEM_read_bio_X509_CRL(bio.get(), nullptr, nullptr, nullptr));
@@ -310,7 +310,7 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string& cert_pem) {
 MTLSClaims MTLSAuthenticator::authenticateDER(const std::vector<uint8_t>& cert_der) {
     // Convert DER to PEM
     UniqueBIO der_bio(BIO_new_mem_buf(cert_der.data(),
-                                      static_cast<int>(cert_der.size())));
+                                      static_cast&lt;int&gt;(cert_der.size())));
     if (!der_bio) {
         throw AuthException(AuthError(
             AuthErrorCode::MTLS_CERT_INVALID,
@@ -463,7 +463,7 @@ std::string MTLSAuthenticator::computeFingerprint(void* x509_ptr) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
-        oss << std::setw(2) << static_cast<int>(digest[i]);
+        oss << std::setw(2) << static_cast&lt;int&gt;(digest[i]);
     }
     return oss.str();
 }
@@ -495,17 +495,17 @@ std::vector<std::string> MTLSAuthenticator::extractSANs(void* x509_ptr, int san_
             const int            len  = ASN1_STRING_length(gn->d.iPAddress);
             if (data && len == 4) {
                 std::ostringstream oss;
-                oss << static_cast<int>(data[0]) << '.'
-                    << static_cast<int>(data[1]) << '.'
-                    << static_cast<int>(data[2]) << '.'
-                    << static_cast<int>(data[3]);
+                oss << static_cast&lt;int&gt;(data[0]) << '.'
+                    << static_cast&lt;int&gt;(data[1]) << '.'
+                    << static_cast&lt;int&gt;(data[2]) << '.'
+                    << static_cast&lt;int&gt;(data[3]);
                 result.push_back(oss.str());
             } else if (data && len == 16) {
                 std::ostringstream oss;
                 oss << std::hex;
                 for (int b = 0; b < 16; b += 2) {
                     if (b > 0) oss << ':';
-                    oss << static_cast<int>(data[b]) * 256 + static_cast<int>(data[b + 1]);
+                    oss << static_cast&lt;int&gt;(data[b]) * 256 + static_cast&lt;int&gt;(data[b + 1]);
                 }
                 result.push_back(oss.str());
             }

@@ -86,7 +86,7 @@ public:
      * @brief Persist one `TensorCoreRecord`.
      *
      * The `serialized_train` bytes are stored under the structured key:
-     * `__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>`
+     * `__ttcore__:&lt;tenant_id&gt;:<source_file_id>:<chunk_id>`
      *
      * @param record     Pre-computed TT-core record.
      * @param tenant_id  Tenant scope; must be non-empty and free of '/' and '\\0'.
@@ -149,7 +149,7 @@ public:
     /**
      * @brief Build the storage key for a TT-core record.
      *
-     * Format: `__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>`
+     * Format: `__ttcore__:&lt;tenant_id&gt;:<source_file_id>:<chunk_id>`
      *
      * @throws std::invalid_argument when any argument is empty or contains '/'.
      */

@@ -84,7 +84,7 @@ EmbeddingCache::EmbeddingCache(const Config& config)
             // Initialize HNSW index with cache namespace
             auto status = impl_->vector_index->init(
                 "embedding_cache",
-                static_cast<int>(config_.embedding_dim),
+                static_cast&lt;int&gt;(config_.embedding_dim),
                 impl_->metric,
                 16,   // M
                 200,  // efConstruction
@@ -380,7 +380,7 @@ void EmbeddingCache::clear() {
         impl_->vector_index->shutdown();
         auto status = impl_->vector_index->init(
             "embedding_cache",
-            static_cast<int>(config_.embedding_dim),
+            static_cast&lt;int&gt;(config_.embedding_dim),
             VectorIndexManager::Metric::COSINE,
             16, 200, 64
         );

@@ -479,7 +479,7 @@ http::response<http::string_body> EthicsApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     
     http::response<http::string_body> res{status, req.version()};

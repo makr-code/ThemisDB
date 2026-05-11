@@ -570,7 +570,7 @@ std::string computeAdapterHash(const std::vector<uint8_t>& weights) {
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
-            << static_cast<int>(hash[i]);
+            << static_cast&lt;int&gt;(hash[i]);
     }
     
     return oss.str();

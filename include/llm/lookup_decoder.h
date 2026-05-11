@@ -74,7 +74,7 @@ public:
     // ── Hash helper (public for unit-testing) ────────────────────────
 
     struct VectorHash {
-        size_t operator()(const std::vector<int>& v) const noexcept;
+        size_t operator()(const std::vector&lt;int&gt;& v) const noexcept;
     };
 
     // ── Configuration ────────────────────────────────────────────────
@@ -122,7 +122,7 @@ public:
      *
      * @param tokens  Token ID sequence (prompt).
      */
-    void buildFromPrompt(const std::vector<int>& tokens);
+    void buildFromPrompt(const std::vector&lt;int&gt;& tokens);
 
     /**
      * @brief Incrementally update the index with newly generated tokens.
@@ -132,7 +132,7 @@ public:
      *
      * @param new_tokens  Freshly decoded/accepted token IDs to ingest.
      */
-    void updateFromTokens(const std::vector<int>& new_tokens);
+    void updateFromTokens(const std::vector&lt;int&gt;& new_tokens);
 
     /**
      * @brief Load a pre-built static n-gram table.
@@ -146,8 +146,8 @@ public:
      * @param ngrams  External n-gram → continuation map.
      */
     void loadStaticNgrams(
-        const std::unordered_map<std::vector<int>,
-                                 std::vector<int>,
+        const std::unordered_map<std::vector&lt;int&gt;,
+                                 std::vector&lt;int&gt;,
                                  VectorHash>& ngrams);
 
     /**
@@ -168,8 +168,8 @@ public:
      * @param max_draft       Maximum number of draft tokens to return.
      * @return                Draft token IDs (empty if no n-gram matches).
      */
-    std::vector<int> proposeDraftTokens(
-        const std::vector<int>& context_tokens,
+    std::vector&lt;int&gt; proposeDraftTokens(
+        const std::vector&lt;int&gt;& context_tokens,
         size_t                  max_draft = 0
     ) const;
 
@@ -183,22 +183,22 @@ private:
 
     // n-gram index: key = n-gram token IDs, value = continuation tokens.
     // Guarded by mutex_ so build/update/propose are thread-safe.
-    using NGramMap = std::unordered_map<std::vector<int>, std::vector<int>, VectorHash>;
+    using NGramMap = std::unordered_map<std::vector&lt;int&gt;, std::vector&lt;int&gt;, VectorHash>;
     NGramMap index_;
     mutable std::mutex mutex_;
 
     // Insertion-order tracking for eviction (oldest-first).
-    std::vector<std::vector<int>> insertion_order_;
+    std::vector<std::vector&lt;int&gt;> insertion_order_;
 
     mutable Stats stats_;
 
     // Internal helpers
 
     /// Insert a single n-gram → continuation entry, evicting if over capacity.
-    void insertEntry(std::vector<int> key, std::vector<int> continuation);
+    void insertEntry(std::vector&lt;int&gt; key, std::vector&lt;int&gt; continuation);
 
     /// Add all n-grams formed by a token window to the index.
-    void indexTokens(const std::vector<int>& tokens);
+    void indexTokens(const std::vector&lt;int&gt;& tokens);
 };
 
 } // namespace llm

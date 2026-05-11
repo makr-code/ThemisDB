@@ -181,7 +181,7 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
                 filters.push_back(std::move(child));
             } else {
                 if (hasType(child, "scan") && scan_index < 0) {
-                    scan_index = static_cast<int>(others.size());
+                    scan_index = static_cast&lt;int&gt;(others.size());
                 }
                 others.push_back(std::move(child));
             }

@@ -217,7 +217,7 @@ AdaptiveVRAMAllocator::calculateDualModelAllocation(
     if (plan.fits_in_vram) {
         ss << "✓ Dual-model allocation fits in available VRAM. ";
         ss << "Target: " << (target_plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";
-        ss << "Draft (INT" << (draft_precision < 1.0f ? 4 : static_cast<int>(draft_precision * 8))
+        ss << "Draft (INT" << (draft_precision < 1.0f ? 4 : static_cast&lt;int&gt;(draft_precision * 8))
            << "): " << (draft_weights / (1024.0 * 1024 * 1024)) << " GB, ";
         ss << "KV Cache: "
            << ((plan.kv_cache_static + plan.kv_cache_dynamic) / (1024.0 * 1024 * 1024)) << " GB, ";

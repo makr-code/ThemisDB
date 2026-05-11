@@ -52,7 +52,7 @@ std::string urlEncode(const std::string& s) {
             out << '%'
                 << std::hex << std::uppercase
                 << std::setw(2) << std::setfill('0')
-                << static_cast<int>(c);
+                << static_cast&lt;int&gt;(c);
         }
     }
     return out.str();
@@ -409,7 +409,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
         item.snippet = extractText(li.first_child().value());
         if (item.snippet.size() > 300) item.snippet = item.snippet.substr(0, 300) + "…";
 
-        // Date: look for <time> or elements with "date"/"datum" class
+        // Date: look for &lt;time&gt; or elements with "date"/"datum" class
         for (const auto& t : li.select_nodes(".//*[self::time or contains(@class,'date') or contains(@class,'datum')]")) {
             item.date = toLower(t.node().attribute("datetime").as_string());
             if (item.date.empty()) item.date = extractText(t.node().first_child().value());
