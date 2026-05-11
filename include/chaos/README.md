@@ -1,20 +1,38 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
 # include chaos module
 
-Public header surface for chaos engineering fault injection.
+Public header surface for in-process chaos/fault injection.
 
-## Header
+## Header Entry-Point
+
 - `include/chaos/chaos_framework.h`
 
-## Exposed API
-- Fault model types (`FaultType`, `FaultSpec`, `ActiveFault`)
+## Public API
+
+### Types
+
+- `FaultType`
+- `FaultSpec`
+- `ActiveFault`
+- `ChaosScheduleEntry`
+- `WakeStrategy`
+- `ChaosSchedulerConfig`
+
+### Classes
+
 - `FaultInjector`
+  - `injectFault`, `recoverFault`, `isFaultActive`
+  - `getActiveFaults`, `activeFaultCount`, `clearAllFaults`
+  - `registerEventCallback`
 - `ChaosScheduler`
+  - `schedule`, `scheduleIn`
+  - `start`, `stop`, `isRunning`
+  - `pendingCount`, `clearPending`
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the module headers to your include path:
+Headers are included with ThemisDB. Ensure your target can include the project include directory:
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
@@ -22,10 +40,31 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 
 ## Usage
 
-Include the relevant headers from this module:
-
 ```cpp
-#include "chaos/module_header.h"
+#include "chaos/chaos_framework.h"
+
+themis::chaos::FaultInjector injector;
+injector.injectFault({themis::chaos::FaultType::NODE_FAILURE, "node-1"});
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+## Configuration Notes
+
+- `FaultSpec::duration = 0ms` creates a permanent fault until recovery.
+- `FaultSpec::probability` must be within `[0.0, 1.0]`.
+- `ChaosSchedulerConfig::tick_interval` controls wake/check cadence.
+- `ChaosSchedulerConfig::wake_strategy` controls polling vs condvar wakeups.
+
+## Limits
+
+- Header APIs model logical fault state only; they do not perform real infrastructure sabotage.
+- Scheduler state and fault registry are process-local and non-persistent.
+
+## Related Docs
+
+- Module implementation overview: [`../../src/chaos/README.md`](../../src/chaos/README.md)
+- Architecture: [`../../src/chaos/ARCHITECTURE.md`](../../src/chaos/ARCHITECTURE.md)
+- Security: [`../../src/chaos/SECURITY.md`](../../src/chaos/SECURITY.md)
+- Audit: [`../../src/chaos/AUDIT.md`](../../src/chaos/AUDIT.md)
+- Roadmap: [`../../src/chaos/ROADMAP.md`](../../src/chaos/ROADMAP.md)
+- Future enhancements: [`../../src/chaos/FUTURE_ENHANCEMENTS.md`](../../src/chaos/FUTURE_ENHANCEMENTS.md)
+- Performance expectations: [`../../src/chaos/PERFORMANCE_EXPECTATIONS.md`](../../src/chaos/PERFORMANCE_EXPECTATIONS.md)
