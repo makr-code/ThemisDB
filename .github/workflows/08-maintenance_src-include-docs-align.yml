@@ -25,9 +25,7 @@ on:
   push:
     branches: [develop, main]
     paths:
-      - 'src/*'
       - 'src/*/**'
-      - 'include/*'
       - 'include/*/**'
       - 'docs/de/**'
       - 'scripts/src-include-docs-align.py'
@@ -35,9 +33,7 @@ on:
   pull_request:
     branches: [develop, main]
     paths:
-      - 'src/*'
       - 'src/*/**'
-      - 'include/*'
       - 'include/*/**'
       - 'docs/de/**'
       - 'scripts/src-include-docs-align.py'

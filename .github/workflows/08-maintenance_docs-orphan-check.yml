@@ -15,17 +15,11 @@ on:
   push:
     branches: [develop, main]
     paths:
-      - 'src/*'
       - 'src/*/**'
-      - 'include/*'
       - 'include/*/**'
-      - 'examples/*'
       - 'examples/*/**'
-      - 'tools/*'
       - 'tools/*/**'
-      - 'benchmarks/*'
       - 'benchmarks/*/**'
-      - 'tests/*'
       - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
@@ -35,17 +29,11 @@ on:
   pull_request:
     branches: [develop, main]
     paths:
-      - 'src/*'
       - 'src/*/**'
-      - 'include/*'
       - 'include/*/**'
-      - 'examples/*'
       - 'examples/*/**'
-      - 'tools/*'
       - 'tools/*/**'
-      - 'benchmarks/*'
       - 'benchmarks/*/**'
-      - 'tests/*'
       - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
