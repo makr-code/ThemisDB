@@ -86,7 +86,9 @@ public:
 struct QTTrain {
     std::vector<std::size_t> bit_depths;
     std::vector<std::size_t> grid_sizes;
+    std::vector<std::size_t> padded_grid_sizes;
     std::vector<std::size_t> quantics_mode_sizes;
+    std::size_t original_element_count = 0;
     storage::TTTrain         tt_train;
 
     [[nodiscard]] storage::TTTrain toTTTrain() const { return tt_train; }
@@ -128,16 +130,20 @@ public:
      * physical dimension into a sequence of quantics factors, and decomposes
      * the tensor again in the reshaped layout.
      *
-     * Factorisation strategy (STUB #254 fallback):
-     * - powers of two become repeated `2` modes
-     * - non-power-of-two dimensions are decomposed into repeated `2` modes
-     *   plus a final residual factor (e.g. `12 -> {2, 2, 3}`)
-     *
-     * This exposes latent low-rank structure to later Hiss/QTT phases while
-     * preserving the exact dense element count.
+      * Factorisation strategy:
+      * - powers of two become repeated `2` modes
+      * - non-power-of-two dimensions are padded with trailing zeros (appended
+      *   in flattened lexicographic element order after the original dense payload)
+      *   to the next power of
+      *   two and decomposed into pure-binary quantics modes; `QTTrain` records
+      *   both the original and padded physical extents plus the original element
+      *   count so callers can distinguish valid payload from padding
+      *
+      * This exposes latent low-rank structure to later Hiss/QTT phases while
+      * preserving the exact dense element count.
      *
      * When a `QuanticsFn` bridge is installed via `setQuanticsFn()`, the
-     * bridge is called instead of the residual-factor path.
+     * bridge is called instead of the built-in padded-binary path.
      */
     [[nodiscard]] static QTTrain
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);

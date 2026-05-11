@@ -101,6 +101,7 @@ name: "Shared · Changelog Update"
 # ---------------------------------------------------------------------------
 
 on:
+  workflow_dispatch: {}
   workflow_call:
     inputs:
       entry-title:
@@ -172,6 +173,9 @@ on:
       changed:
         description: "'true' if a new entry was inserted; 'false' if idempotency key already present"
         value: ${{ jobs.update.outputs.changed }}
+
+permissions:
+  contents: write
 
 jobs:
   update:

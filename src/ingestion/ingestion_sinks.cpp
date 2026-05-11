@@ -21,16 +21,71 @@
  */
 
 #include "ingestion/ingestion_sinks.h"
+#include "index/graph_index.h"
+#include "index/vector_index.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
 #include <algorithm>
+#include <chrono>
+#include <limits>
 #include <nlohmann/json.hpp>
 #include <sstream>
-#include <chrono>
 #include <stdexcept>
 
 namespace themis {
 namespace ingestion {
 
 using json = nlohmann::json;
+
+namespace {
+
+themis::BaseEntity toStorageNode(const BaseEntity& node) {
+    themis::BaseEntity::FieldMap fields;
+    fields["id"] = node.id;
+    fields["entity_type"] = static_cast<int64_t>(node.entity_type);
+    fields["source_file_id"] = node.source_file_id;
+    fields["source_text_ref"] = node.source_text_ref;
+    fields["text"] = node.text;
+    if (!node.embeddings.empty()) {
+        fields["embedding"] = node.embeddings;
+    }
+    for (const auto& [key, value] : node.properties) {
+        fields["prop." + key] = value;
+    }
+    fields["provenance.step_name"] = node.provenance.step_name;
+    fields["provenance.plugin_name"] = node.provenance.plugin_name;
+    fields["provenance.confidence"] = node.provenance.confidence;
+    fields["provenance.extracted_at"] = node.provenance.extracted_at;
+    return themis::BaseEntity::fromFields(node.id, fields);
+}
+
+themis::BaseEntity toStorageEdge(const EntityRelation& edge) {
+    const auto relation_tag = std::to_string(static_cast<int>(edge.relation_type));
+    const auto edge_id = edge.from_id + "->" + edge.to_id + ":" + relation_tag;
+    themis::BaseEntity::FieldMap fields;
+    fields["id"] = edge_id;
+    fields["_from"] = edge.from_id;
+    fields["_to"] = edge.to_id;
+    fields["_type"] = relation_tag;
+    for (const auto& [key, value] : edge.properties) {
+        fields[key] = value;
+    }
+    return themis::BaseEntity::fromFields(edge_id, fields);
+}
+
+themis::BaseEntity toVectorEntity(const VectorRecord& record) {
+    themis::BaseEntity::FieldMap fields;
+    fields["chunk_id"] = record.chunk_id;
+    fields["source_file_id"] = record.source_file_id;
+    fields["text_snippet"] = record.text_snippet;
+    fields["embedding"] = record.embedding;
+    for (const auto& [key, value] : record.metadata) {
+        fields["metadata." + key] = value;
+    }
+    return themis::BaseEntity::fromFields(record.chunk_id, fields);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IGraphWriter — default write() implementation
@@ -335,6 +390,138 @@ Result<std::string> DocumentStoreSinkAdapter::writeDocument(
 std::size_t DocumentStoreSinkAdapter::documentCount() const {
     std::lock_guard<std::mutex> lk(mtx_);
     return count_;
+}
+
+GraphStoreSinkAdapter::GraphStoreSinkAdapter(
+    std::shared_ptr<themis::RocksDBWrapper> db,
+    std::shared_ptr<themis::GraphIndexManager> graph_index,
+    std::string node_key_prefix)
+    : db_(std::move(db))
+    , graph_index_(std::move(graph_index))
+    , node_key_prefix_(std::move(node_key_prefix)) {
+    if (!db_) {
+        throw std::invalid_argument("GraphStoreSinkAdapter: db must not be null");
+    }
+    if (!graph_index_) {
+        throw std::invalid_argument("GraphStoreSinkAdapter: graph_index must not be null");
+    }
+}
+
+Result<void> GraphStoreSinkAdapter::writeEntities(const std::vector<BaseEntity>& nodes) {
+    std::lock_guard<std::mutex> lock(mtx_);
+    for (const auto& node : nodes) {
+        const auto storage_node = toStorageNode(node);
+        if (!db_->put(node_key_prefix_ + node.id, storage_node.serialize())) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                      "failed to persist graph node '" + node.id + "'"));
+        }
+        written_node_ids_.insert(node.id);
+    }
+    return {};
+}
+
+Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelation>& edges) {
+    std::lock_guard<std::mutex> lock(mtx_);
+    for (const auto& edge : edges) {
+        const auto status = graph_index_->addEdge(toStorageEdge(edge));
+        if (!status.ok) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                      "failed to persist edge '" + edge.from_id + "->" + edge.to_id +
+                      "': " + status.message));
+        }
+    }
+    return {};
+}
+
+std::size_t GraphStoreSinkAdapter::nodeCount() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return written_node_ids_.size();
+}
+
+std::size_t GraphStoreSinkAdapter::edgeCount() const {
+    return graph_index_->getTopologyEdgeCount();
+}
+
+VectorIndexSinkAdapter::VectorIndexSinkAdapter(
+    std::shared_ptr<themis::VectorIndexManager> vector_index,
+    std::string object_name,
+    std::size_t dimension,
+    std::string vector_field)
+    : vector_index_(std::move(vector_index))
+    , object_name_(std::move(object_name))
+    , dimension_(dimension)
+    , vector_field_(std::move(vector_field)) {
+    if (!vector_index_) {
+        throw std::invalid_argument("VectorIndexSinkAdapter: vector_index must not be null");
+    }
+    if (object_name_.empty()) {
+        throw std::invalid_argument("VectorIndexSinkAdapter: object_name must not be empty");
+    }
+    if (dimension_ == 0) {
+        throw std::invalid_argument("VectorIndexSinkAdapter: dimension must be > 0");
+    }
+}
+
+Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
+    // ensureInitialized() is const because lazy initialization is logically
+    // const from the caller's perspective: the observable state of the adapter
+    // (the data it can write) does not change.  Only the internal `initialized_`
+    // flag and the vector index registration are mutated, both of which are
+    // declared `mutable` in the header to allow this pattern.
+    std::lock_guard<std::mutex> lock(mtx_);
+    if (initialized_) {
+        return {};
+    }
+    if (dimension_ > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        return tl::make_unexpected(
+            Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
+                  "vector dimension exceeds VectorIndexManager int range"));
+    }
+    const auto status = vector_index_->init(
+        object_name_,
+        static_cast<int>(dimension_),
+        themis::VectorIndexManager::Metric::COSINE);
+    if (!status.ok) {
+        return tl::make_unexpected(
+            Error(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED, status.message));
+    }
+    initialized_ = true;
+    return {};
+}
+
+Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord>& records) {
+    auto init_result = ensureInitialized();
+    if (!init_result) {
+        return init_result;
+    }
+
+    std::lock_guard<std::mutex> lock(mtx_);
+    for (const auto& record : records) {
+        if (record.embedding.size() != dimension_) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
+                      "chunk '" + record.chunk_id + "' embedding dimension mismatch"));
+        }
+        const auto status = vector_index_->addEntity(toVectorEntity(record), vector_field_);
+        if (!status.ok) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_INDEX_CREATION_FAILED, status.message));
+        }
+        last_written_records_[record.chunk_id] = record;
+    }
+    return {};
+}
+
+std::size_t VectorIndexSinkAdapter::vectorCount() const {
+    return vector_index_->getVectorCount();
+}
+
+const VectorRecord* VectorIndexSinkAdapter::findByChunkId(const std::string& chunk_id) const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    const auto it = last_written_records_.find(chunk_id);
+    return it != last_written_records_.end() ? &it->second : nullptr;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

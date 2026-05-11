@@ -713,3 +713,39 @@ TEST(LlamaCppPluginFocusedTests, Q4_EmbedFn_UsedEvenWithoutModel) {
     EXPECT_TRUE(result.empty())
         << "embed() returns empty without a loaded model regardless of embed_fn_";
 }
+
+TEST(LlamaCppPluginFocusedTests, R1_GenerateFn_InjectedFnCalled) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    bool called = false;
+    plugin.setGenerateFn([&](const InferenceRequest& request) {
+        called = true;
+        EXPECT_EQ(request.prompt, "bridge");
+        InferenceResponse response;
+        response.success = true;
+        response.text = "bridged";
+        return response;
+    });
+
+    InferenceRequest request;
+    request.prompt = "bridge";
+    const auto response = plugin.generate(request);
+    EXPECT_TRUE(called);
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(response.text, "bridged");
+}
+
+TEST(LlamaCppPluginFocusedTests, R2_GenerateFn_ExceptionFailsClosed) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+    plugin.setGenerateFn([](const InferenceRequest&) -> InferenceResponse {
+        throw std::runtime_error("boom");
+    });
+
+    InferenceRequest request;
+    request.prompt = "bridge";
+    const auto response = plugin.generate(request);
+    EXPECT_FALSE(response.success);
+    EXPECT_NE(response.error_message.find("bridge failed"), std::string::npos);
+}

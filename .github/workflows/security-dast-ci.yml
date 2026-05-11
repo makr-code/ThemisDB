@@ -17,9 +17,13 @@ on:
       - '.github/workflows/security-dast-ci.yml'
       - 'scripts/zap-context.xml'
   pull_request:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/server/**'
       - 'src/auth/**'
+      - 'src/governance/**'
       - '.github/workflows/security-dast-ci.yml'
   schedule:
     # Weekly on Sunday 02:00 UTC
@@ -29,6 +33,9 @@ on:
 concurrency:
   group: dast-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────

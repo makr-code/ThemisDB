@@ -1900,7 +1900,7 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
 #         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 #         (from test_build_info.cpp, Issue #2470)
 add_test(NAME BuildInfoTests
-    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
 set_tests_properties(BuildInfoTests PROPERTIES
     LABELS "build;info;module;availability;themis;unit"
     TIMEOUT 60
@@ -7379,6 +7379,40 @@ endif()
 # Each target links only the analytics source(s) it exercises, enabling fast
 # iteration without recompiling the full themis_core library.
 # ============================================================================
+
+# ExpertSystemEngine + KnowledgeBase focused tests (STUB #272 YAML bridge)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_expert_system_engine.cpp")
+    message(STATUS "Adding focused ExpertSystemEngine + KnowledgeBase tests")
+
+    add_executable(test_expert_system_focused
+        analytics/test_expert_system_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/expert_system_engine.cpp
+    )
+
+    target_include_directories(test_expert_system_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_expert_system_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_expert_system_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ExpertSystemFocusedTests COMMAND test_expert_system_focused)
+
+    set_tests_properties(ExpertSystemFocusedTests PROPERTIES
+        LABELS "analytics;expert-system;knowledge-base;yaml-bridge;stub272;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ExpertSystem: KB CRUD, YAML parser bridge injection (STUB #272), forward/backward chaining")
+endif()
 
 # Anomaly Detection focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
@@ -27944,6 +27978,8 @@ _tensor_focused_test(test_tensor_router)
 # Phase 7: Unified Tensor Representation (UTR) — multi-modal converters
 _tensor_focused_test(test_tensor_utr)
 
+# AdaLoraTTBridge Phase 3+4 bridge injection (STUB #271)
+_tensor_focused_test(test_adalora_tt_bridge)
 # =========================================================================
 # Phase 8: TensorFingerprintGraph + TensorDeduplicationManager (TFG/TDM tests)
 # TFG-01..TFG-28  +  TDM-01..TDM-25

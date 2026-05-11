@@ -17,6 +17,10 @@
 #include "distributed_knowledge/federated_rag_merger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <optional>
 #include <random>
 #include <string>
 #include <vector>
@@ -28,6 +32,9 @@ using namespace themis::distributed_knowledge;
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+constexpr uint64_t kDefaultFixtureRound = 1;
+constexpr size_t kDefaultFixtureSampleCount = 100;
 
 /// Build a gradient with `num_keys` numeric fields.
 EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
@@ -41,6 +48,84 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
         g.data["key_" + std::to_string(k)] = 0.001 * static_cast<double>(k);
     }
     return g;
+}
+
+/// Load benchmark gradients from JSON fixture.
+///
+/// Supported fixture formats:
+///  1. Top-level array of gradient objects.
+///  2. Object containing `gradients` array.
+///
+/// Each gradient object can provide:
+///  - `shard_id` (string, optional; defaults to `fixture-shard-<index>`)
+///  - `round` (number, optional; defaults to 1)
+///  - `sample_count` (number, optional; defaults to 100)
+///  - `data` (object, required for a usable entry)
+///
+/// Returns `std::nullopt` when the file cannot be opened, parsed, or no valid
+/// gradient entries are present.
+[[nodiscard]] std::optional<std::vector<EncryptedGradient>>
+loadGradientFixture(const std::string& fixture_path) {
+    std::ifstream input(fixture_path);
+    if (!input.is_open()) {
+        std::cerr << "Failed to open gradient fixture: " << fixture_path << '\n';
+        return std::nullopt;
+    }
+
+    nlohmann::json root;
+    try {
+        input >> root;
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to parse gradient fixture JSON (" << fixture_path
+                  << "): " << e.what() << '\n';
+        return std::nullopt;
+    }
+
+    const auto* entries = &root;
+    if (root.is_object() && root.contains("gradients")) {
+        entries = &root["gradients"];
+    }
+    if (!entries->is_array()) {
+        std::cerr << "Invalid gradient fixture schema (" << fixture_path
+                  << "): expected top-level array or object with `gradients` array.\n";
+        return std::nullopt;
+    }
+
+    std::vector<EncryptedGradient> gradients;
+    gradients.reserve(entries->size());
+    size_t skipped_entries = 0;
+
+    for (size_t i = 0; i < entries->size(); ++i) {
+        const auto& entry = (*entries)[i];
+        if (!entry.is_object()) {
+            ++skipped_entries;
+            continue;
+        }
+
+        std::string shard_id = "fixture-shard-" + std::to_string(i);
+        if (entry.contains("shard_id") && entry["shard_id"].is_string()) {
+            shard_id = entry["shard_id"].get<std::string>();
+        }
+        nlohmann::json gradient_data = entry.value("data", nlohmann::json::object());
+        if (!gradient_data.is_object()) {
+            ++skipped_entries;
+            continue;
+        }
+
+        EncryptedGradient g;
+        g.shard_id = shard_id;
+        g.round = entry.value("round", kDefaultFixtureRound);
+        g.sample_count = entry.value("sample_count", kDefaultFixtureSampleCount);
+        g.data = std::move(gradient_data);
+        gradients.push_back(std::move(g));
+    }
+
+    if (gradients.empty()) {
+        std::cerr << "Gradient fixture contains no usable entries (" << fixture_path
+                  << "); skipped " << skipped_entries << " invalid entries.\n";
+        return std::nullopt;
+    }
+    return gradients;
 }
 
 /// Build a shard result with `num_docs` documents.
@@ -78,16 +163,17 @@ FeedbackSummary makeSummary(size_t index) {
 // BM_TriggerAggregation_N64: target ≤ 500 ms (p99)
 // ─────────────────────────────────────────────────────────────────────────────
 
-// STUB/SIMULATION NOTE:
-// Purpose: In-process benchmark using synthetic gradient data.
-// Activation: THEMIS_BENCHMARK_BUILD=1
-// Production Delta: Real production gradients will be larger (LoRA adapters)
-//                   and may arrive over network; this measures CPU-side only.
+// SIMULATION NOTE:
+// Purpose: Benchmark can replay real LoRA-style gradients from fixture JSON.
+// Activation: Set THEMIS_BENCH_LORA_GRADIENT_FIXTURE=/abs/path/to/gradients.json.
+// Production Delta: Aggregation still runs in-process; transfer/network latency
+//                   is excluded by design and benchmark measures CPU-side cost.
 // Removal Plan: N/A — benchmark file is permanent.
 
 static void BM_TriggerAggregation_N64(benchmark::State& state) {
     const size_t num_shards = static_cast<size_t>(state.range(0));
     const size_t num_keys   = static_cast<size_t>(state.range(1));
+    const char* fixture_env = std::getenv("THEMIS_BENCH_LORA_GRADIENT_FIXTURE");
 
     FederationConfig cfg;
     cfg.min_participants = num_shards;
@@ -95,11 +181,29 @@ static void BM_TriggerAggregation_N64(benchmark::State& state) {
     cfg.dp_delta         = 1e-5;
     cfg.dp_sensitivity   = 1.0;
 
+    std::vector<EncryptedGradient> prepared_gradients;
+    bool using_fixture = false;
+    if (fixture_env && fixture_env[0] != '\0') {
+        auto loaded = loadGradientFixture(fixture_env);
+        if (!loaded) {
+            state.SkipWithError("Invalid THEMIS_BENCH_LORA_GRADIENT_FIXTURE payload");
+            return;
+        }
+        prepared_gradients = std::move(*loaded);
+        using_fixture = true;
+    } else {
+        prepared_gradients.reserve(num_shards);
+        for (size_t i = 0; i < num_shards; ++i) {
+            prepared_gradients.push_back(
+                makeGradN("shard-" + std::to_string(i), 1, num_keys));
+        }
+    }
+
     for (auto _ : state) {
         state.PauseTiming();
         LoRAFederationCoordinator coord(cfg);
-        for (size_t i = 0; i < num_shards; ++i) {
-            coord.submitGradient(makeGradN("shard-" + std::to_string(i), 1, num_keys));
+        for (const auto& gradient : prepared_gradients) {
+            coord.submitGradient(gradient);
         }
         state.ResumeTiming();
 
@@ -108,7 +212,8 @@ static void BM_TriggerAggregation_N64(benchmark::State& state) {
     }
 
     state.SetLabel("shards=" + std::to_string(num_shards) +
-                   " keys=" + std::to_string(num_keys));
+                   " keys=" + std::to_string(num_keys) +
+                   " source=" + std::string(using_fixture ? "fixture" : "synthetic"));
 }
 
 BENCHMARK(BM_TriggerAggregation_N64)

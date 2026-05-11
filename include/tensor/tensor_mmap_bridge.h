@@ -181,12 +181,45 @@ private:
     [[nodiscard]] static std::unique_ptr<TensorMmapBridge>
     buildFromTrain(const storage::TTTrain& train);
 
+    // ─── Bridge injection API (STUB #270) ────────────────────────────────────
+
+    /**
+     * @brief Injectable SST page-map function (STUB #270).
+     *
+     * Signature: `void* fn(std::size_t bytes, std::size_t core_idx)`.
+     *
+     * When set, `buildFromTrain()` calls this function for each TT-core
+     * before falling back to `MAP_ANONYMOUS + memcpy`.  The function should
+     * return a pointer to a readable memory region of exactly `bytes` bytes
+     * that is pre-populated with the core's float data (e.g. via MAP_SHARED
+     * on a RocksDB SST file page).  Returning `nullptr` triggers the fallback
+     * for that core only.
+     *
+     * The bridge does NOT call `munmap` / `VirtualFree` on regions returned
+     * by this function (ownership remains with the caller of the fn).
+     * To signal that a region should be freed by the bridge destructor via
+     * the normal `freeRegion()` path, return the value from `allocRegion()`.
+     * For zero-copy MAP_SHARED regions the caller must unmap them separately.
+     *
+     * Thread-safety: set/clear are mutex-guarded; `buildFromTrain()` acquires
+     * the lock once per call to snapshot the fn.
+     */
+    using SstMapFn = std::function<void*(std::size_t bytes, std::size_t core_idx)>;
+
+    /** @brief Inject the SST page-map backend (STUB #270). Thread-safe. */
+    static void setSstMapFn(SstMapFn fn);
+    /** @brief Clear the SST page-map backend. Falls back to MAP_ANONYMOUS+memcpy. */
+    static void clearSstMapFn();
+
     // ---- internal region tracking ----
 
     struct Region {
-        void*       ptr    = nullptr;
-        std::size_t bytes  = 0;
-        bool        locked = false;
+        void*       ptr             = nullptr;
+        std::size_t bytes           = 0;
+        bool        locked          = false;
+        /// When true, the region was provided by SstMapFn (caller owns the mapping);
+        /// the bridge destructor must NOT call freeRegion() on this pointer.
+        bool        externally_owned = false;
     };
 
     std::vector<Region>        regions_;

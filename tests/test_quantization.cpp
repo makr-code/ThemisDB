@@ -111,6 +111,22 @@ TEST_F(QuantizationTest, NF4_QuantizationError) {
     EXPECT_LT(error, 0.05f) << "Quantization error too high: " << error;
 }
 
+TEST_F(QuantizationTest, NF4_DebugLogSinkReceivesMessages) {
+    std::vector<std::string> messages;
+    quantization::setDebugLogFn([&](const std::string& message) {
+        messages.push_back(message);
+    });
+
+    auto input = generate_random_data(64);
+    QuantizedTensor quantized(QuantizationType::NF4, {input.size()}, 64);
+    quantization::quantize_nf4(input, quantized);
+
+    quantization::setDebugLogFn(nullptr);
+
+    ASSERT_FALSE(messages.empty());
+    EXPECT_NE(messages.front().find("Quantizing to NF4"), std::string::npos);
+}
+
 TEST_F(QuantizationTest, NF4_MemoryReduction) {
     // Test that NF4 reduces memory usage by ~8x
     size_t num_elements = 1024;

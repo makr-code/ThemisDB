@@ -72,7 +72,7 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 ```
 
 > HTTP/REST requests are handled entirely by `src/server/http_server.cpp`; the
-> `src/api/http_server.cpp` stub is not compiled and exists only for historical reference.
+> legacy `src/api/http_server.cpp` placeholder has been removed.
 
 ---
 

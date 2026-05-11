@@ -228,10 +228,6 @@ struct TensorRouter::Impl {
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
 
-        // Domain template catalog promotion (STUB #253):
-        // A matching template means an optimised TN structure is known.
-        // If a topology-apply bridge is installed and succeeds, promote to LIFT.
-        // Otherwise fall back to legacy direct promotion.
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
@@ -252,10 +248,6 @@ struct TensorRouter::Impl {
                             ex.what());
                         // Fail-closed to heuristic path on bridge exception.
                     }
-                    // Bridge installed but failed: do NOT force LIFT.
-                } else {
-                    // Legacy compatibility path when no bridge is installed.
-                    return TensorRouteDecision::LIFT;
                 }
             }
         }
@@ -413,11 +405,6 @@ void TensorRouter::setTemplateCatalog(
     impl_->template_catalog = std::move(catalog);
 }
 
-std::shared_ptr<tensor::TemplateCatalog>
-TensorRouter::templateCatalog() const noexcept {
-    return impl_->template_catalog;
-}
-
 void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
     std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     impl_->template_topology_apply_fn = std::move(fn);
@@ -426,6 +413,16 @@ void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
 void TensorRouter::clearTemplateTopologyApplyFn() {
     std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     impl_->template_topology_apply_fn = nullptr;
+}
+
+bool TensorRouter::hasTemplateTopologyApplyFn() const {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
+    return static_cast<bool>(impl_->template_topology_apply_fn);
+}
+
+std::shared_ptr<tensor::TemplateCatalog>
+TensorRouter::templateCatalog() const noexcept {
+    return impl_->template_catalog;
 }
 
 TensorRouter::TemplateTopologyApplyFn TensorRouter::getTemplateTopologyApplyFn() const {

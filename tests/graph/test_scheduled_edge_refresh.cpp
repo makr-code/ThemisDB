@@ -58,6 +58,7 @@
 #include <chrono>
 #include <filesystem>
 #include <mutex>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -75,8 +76,22 @@ using namespace themis::graph;
 class ScheduledEdgeRefreshTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_scheduled_edge_refresh_test";
-        fs::remove_all(test_db_path_);
+        const auto* testInfo = ::testing::UnitTest::GetInstance()->current_test_info();
+        const auto nowTicks = std::chrono::steady_clock::now().time_since_epoch().count();
+
+        std::ostringstream pathBuilder;
+        pathBuilder << "./data/themis_scheduled_edge_refresh_test_"
+                    << std::this_thread::get_id() << "_"
+                    << nowTicks;
+        if (testInfo != nullptr) {
+            pathBuilder << "_" << testInfo->test_suite_name() << "_" << testInfo->name();
+        }
+
+        test_db_path_ = pathBuilder.str();
+
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
+        fs::create_directories(test_db_path_, ec);
 
         RocksDBWrapper::Config config;
         config.db_path             = test_db_path_;
@@ -92,7 +107,8 @@ protected:
     void TearDown() override {
         graph_mgr_.reset();
         db_.reset();
-        fs::remove_all(test_db_path_);
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────

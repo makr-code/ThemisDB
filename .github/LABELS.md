@@ -47,12 +47,16 @@ These labels are part of the official CI reporting standard for nightly AI quali
 
 ### Copilot Dispatcher Labels
 
-These labels are managed by the [Copilot Issue Dispatcher](.github/copilot-dispatcher.md) automation.
+These labels are managed by the [Copilot Issue Dispatcher](copilot-dispatcher.md) automation.
 
 #### Issue Labels
 
 - **`queue/copilot`**: Issue is eligible for Copilot delegation. The dispatcher removes it after posting the delegation comment.
 - **`copilot/delegated`**: Set by the dispatcher after the delegation comment is posted and prevents re-delegation on subsequent runs.
+
+#### Pull Request Labels
+
+- **`ai-generated`**: Marks pull requests with AI-generated or AI-assisted implementation content and enables stricter human review.
 
 ## Migration Map from Old Labels to New Standardized Schema
 

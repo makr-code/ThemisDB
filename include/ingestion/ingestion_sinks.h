@@ -33,8 +33,13 @@
 #include <memory>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
+class RocksDBWrapper;
+class GraphIndexManager;
+class VectorIndexManager;
+
 namespace ingestion {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -250,15 +255,17 @@ private:
 // Purpose: Provide a fully functional but non-persistent IDocWriter for unit
 //   tests and dry-run ingestion scenarios; also used by DocumentStoreSinkAdapter
 //   tests when no real IDocumentStore is wired.
-// Activation: Explicitly instantiated by test code.
+// Activation: Explicitly instantiated by test code or dry-run callers.
 // Production Delta: Data exists only in process memory, serialised as JSON
 //   snapshots.  No schema evolution, no versioning, no encryption support.
 // Removal Plan: Not removed — retained as the canonical test double.
+//   Production persistence is provided by DocumentStoreSinkAdapter below.
 
 /**
- * @brief Thread-safe in-memory `IDocWriter` implementation.
+ * @brief Thread-safe in-memory `IDocWriter` implementation for tests/dry-runs.
  *
  * Stores `BaseEntitySet` snapshots serialised to JSON.
+ * For production persistence use `DocumentStoreSinkAdapter`.
  */
 class InMemoryDocWriter : public IDocWriter {
 public:
@@ -343,6 +350,57 @@ private:
 
     /// Serialise a `BaseEntitySet` to a JSON body for the document store.
     static nlohmann::json serialise(const BaseEntitySet& es);
+};
+
+/**
+ * @brief Production `IGraphWriter` backed by RocksDB + GraphIndexManager.
+ *
+ * Nodes are persisted as canonical `BaseEntity` blobs under a configurable key
+ * prefix; edges are upserted through `GraphIndexManager`.
+ */
+class GraphStoreSinkAdapter : public IGraphWriter {
+public:
+    GraphStoreSinkAdapter(std::shared_ptr<themis::RocksDBWrapper> db,
+                          std::shared_ptr<themis::GraphIndexManager> graph_index,
+                          std::string node_key_prefix = "ingestion:graph:node:");
+
+    Result<void> writeEntities(const std::vector<BaseEntity>& nodes) override;
+    Result<void> writeRelations(const std::vector<EntityRelation>& edges) override;
+    std::size_t nodeCount() const override;
+    std::size_t edgeCount() const override;
+
+private:
+    std::shared_ptr<themis::RocksDBWrapper> db_;
+    std::shared_ptr<themis::GraphIndexManager> graph_index_;
+    std::string node_key_prefix_;
+    mutable std::mutex mtx_;
+    std::unordered_set<std::string> written_node_ids_;
+};
+
+/**
+ * @brief Production `IVectorWriter` backed by `VectorIndexManager`.
+ */
+class VectorIndexSinkAdapter : public IVectorWriter {
+public:
+    VectorIndexSinkAdapter(std::shared_ptr<themis::VectorIndexManager> vector_index,
+                           std::string object_name,
+                           std::size_t dimension,
+                           std::string vector_field = "embedding");
+
+    Result<void> writeVectors(const std::vector<VectorRecord>& records) override;
+    std::size_t vectorCount() const override;
+    const VectorRecord* findByChunkId(const std::string& chunk_id) const override;
+
+private:
+    Result<void> ensureInitialized() const;
+
+    std::shared_ptr<themis::VectorIndexManager> vector_index_;
+    std::string object_name_;
+    std::size_t dimension_;
+    std::string vector_field_;
+    mutable std::mutex mtx_;
+    mutable bool initialized_{false};
+    std::unordered_map<std::string, VectorRecord> last_written_records_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

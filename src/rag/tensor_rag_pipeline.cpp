@@ -34,21 +34,43 @@
  *            before passing it to the TT-core index is the caller's
  *            responsibility until Phase 3-C wires the embedding backend.
  *
- * STUB/SIMULATION NOTE:
+ * STUB/SIMULATION NOTE (stub #261):
  * Purpose: RAGDecision::flare_query is a plain text string (space-joined tokens).
  *          A fully integrated pipeline would embed this string using the same
- *          text encoder as the TT-core index and return a float-vector query.
- * Activation: Always (no embedding backend wired in TensorRAGPipeline).
+ *          text encoder as the TT-core index and return a float-vector query in
+ *          RAGDecision::flare_query_embedding.
+ * Activation: Always when no EmbeddingQueryFn is injected via setEmbeddingQueryFn().
  * Production Delta: Callers receive a raw text query; semantic TT-cosine
- *                   similarity requires the caller to embed it first.
- * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend; replace
- *               flare_query with flare_query_embedding (std::vector<float>).
+ *                   similarity requires the caller to embed it first unless
+ *                   setEmbeddingQueryFn() is called.
+ * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend via
+ *               setEmbeddingQueryFn(); flare_query_embedding is then populated
+ *               automatically and callers can drop their own embedding step.
  */
 
 #include "rag/tensor_rag_pipeline.h"
 
+#include <cstdio>
+#include <mutex>
+
 namespace themis {
 namespace rag {
+
+// ============================================================================
+// EmbeddingQueryFn injection bridge (STUB #261)
+// ============================================================================
+
+static std::mutex& pipelineEmbedFnMutex() { static std::mutex m; return m; }
+static TensorRAGPipeline::EmbeddingQueryFn& pipelineEmbedFnStorage() {
+    static TensorRAGPipeline::EmbeddingQueryFn fn;
+    return fn;
+}
+
+/*static*/
+void TensorRAGPipeline::setEmbeddingQueryFn(EmbeddingQueryFn fn) {
+    std::lock_guard<std::mutex> lk(pipelineEmbedFnMutex());
+    pipelineEmbedFnStorage() = std::move(fn);
+}
 
 // ============================================================================
 // Construction
@@ -96,6 +118,26 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
             flare_fired             = true;
             decision.flare_triggered = true;
             decision.flare_query     = flare_.buildQuery();
+            // Populate embedding vector when a backend is wired (STUB #261).
+            {
+                std::lock_guard<std::mutex> lk(pipelineEmbedFnMutex());
+                const auto& efn = pipelineEmbedFnStorage();
+                if (efn) {
+                    try {
+                        decision.flare_query_embedding = efn(decision.flare_query);
+                    } catch (...) {
+                        // Fail-closed: embedding fn threw; leave embedding empty.
+                        // Distinct from "no fn wired" — the backend is registered but
+                        // failed at runtime. Operators should diagnose the root cause.
+                        std::fprintf(stderr,
+                            "[ThemisDB][WARN] TensorRAGPipeline::step: EmbeddingQueryFn "
+                            "threw for FLARE query (len=%zu); embedding left empty "
+                            "(fail-closed).\n",
+                            decision.flare_query.size());
+                        decision.flare_query_embedding.clear();
+                    }
+                }
+            }
             ++stats_.flare_triggers;
         }
     }

@@ -114,6 +114,17 @@ public:
     void setEmbedFn(EmbedFn fn);
 
     /**
+     * @brief Inject a custom generation backend for stub/test environments.
+     *
+     * When set, `generate()` delegates to @p fn before using the built-in
+     * fail-closed stub path. This allows non-llama.cpp builds to forward text
+     * generation into an external backend while preserving the existing error
+     * response when no callback is configured.
+     */
+    using GenerateFn = std::function<llm::InferenceResponse(const llm::InferenceRequest&)>;
+    void setGenerateFn(GenerateFn fn);
+
+    /**
      * @brief Streaming generation convenience wrapper.
      *
      * Calls generate() with the given request, injecting @p token_callback into
@@ -164,6 +175,7 @@ private:
 
 /// Injected embedding backend (Stub #200 injection API).
     EmbedFn embed_fn_;
+    GenerateFn generate_fn_;
 
 #ifdef THEMIS_LLM_ENABLED
     /// Real llama.cpp inference backend, created when a non-empty model path is

@@ -48,11 +48,11 @@
 //      When absent, default system allocator is used; mimalloc 20–40 % memory
 //      improvement and reduced fragmentation are unavailable.
 //
-//   6. HSM stub provider (lines ~870–941):
-//      When `hsm.provider = stub` in config (or no HSM config found), an in-process
-//      software-only stub HSM is used.  Master encryption keys are NOT hardware-
-//      protected.  A WARNING banner is emitted every 5 minutes.  Do NOT use in
-//      production.
+//   6. HSM startup policy (lines ~990–1105):
+//      A real HSM (`hsm.provider = pkcs11`) is now required unless operators
+//      explicitly opt in to the development stub via `--allow-stub-hsm` or
+//      `THEMIS_ALLOW_HSM_STUB=1`. Missing/invalid HSM config and HSM init
+//      failures abort startup.
 //
 //   7. `THEMIS_HYPERSCALER_EDITION` / `THEMIS_ENTERPRISE_EDITION` (lines ~590–628):
 //      When absent, hyperscaler and enterprise-specific startup steps are skipped.
@@ -61,9 +61,10 @@
 //      When absent, geo spatial backend type logged as "disabled" or "CPU fallback".
 //
 // Activation: All conditions above are evaluated at compile time; the relevant
-//   features are simply absent rather than returning errors to callers.
-// Production Delta: Without the required build flags, the server starts in a
-//   degraded mode.  Minimum viable production build requires at least:
+//   features are absent in the binary image.
+// Production Delta: Startup fails closed in production mode when required build
+//   flags are missing unless `--allow-degraded-build` is set explicitly.
+//   Minimum viable production build requires at least:
 //   `-DTHEMIS_ENABLE_HTTP_SERVER=1 -DTHEMIS_ENABLE_GRPC=1 -DTHEMIS_HAS_PROMETHEUS=1
 //    -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC=1` and a real HSM provider.
 // Removal Plan: Each stub block maps to a specific feature activation; see the
@@ -128,6 +129,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "security/hsm_provider.h"
+#include "security/hsm_startup_policy.h"
 #include "security/hsm_security_checker.h"
 #include "security/hsm_security_metrics.h"
 #include "sharding/metrics_registry.h"
@@ -158,6 +160,7 @@
 #include <thread>
 #include <atomic>
 #include <functional>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 #ifndef _WIN32
@@ -236,6 +239,7 @@ void print_usage(std::ostream& out, const char* prog) {
         << "  --threads N          Number of worker threads (default: auto)\n"
         << "  --config FILE        Load server/storage config from JSON or YAML file\n"
         << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
+        << "  --allow-degraded-build  Allow startup with missing production build features\n"
         << "  --version, -v        Show version information and exit\n"
         << "  --build-info         Show build configuration details and exit\n"
         << "  --license-info       Show embedded license information and exit\n"
@@ -355,6 +359,69 @@ bool parse_server_command_line(int argc,
     }
 
     return true;
+}
+
+[[nodiscard]] bool has_allow_degraded_build_flag(int argc, char* argv[]) {
+    for (int index = 1; index < argc; ++index) {
+        if (std::string_view{argv[index]} == "--allow-degraded-build") {
+            return true;
+        }
+    }
+    return false;
+}
+
+[[nodiscard]] std::vector<std::string> collect_missing_production_build_flags() {
+    std::vector<std::string> missing;
+#ifndef THEMIS_ENABLE_HTTP_SERVER
+    missing.emplace_back("THEMIS_ENABLE_HTTP_SERVER");
+#endif
+#ifndef THEMIS_ENABLE_GRPC
+    missing.emplace_back("THEMIS_ENABLE_GRPC");
+#endif
+#ifndef THEMIS_HAS_PROMETHEUS
+    missing.emplace_back("THEMIS_HAS_PROMETHEUS");
+#endif
+#ifndef THEMIS_ENABLE_LLM
+    missing.emplace_back("THEMIS_ENABLE_LLM");
+#endif
+#ifndef THEMIS_ENABLE_MIMALLOC
+    missing.emplace_back("THEMIS_ENABLE_MIMALLOC");
+#endif
+    return missing;
+}
+
+[[nodiscard]] bool validate_production_build_capabilities(int argc, char* argv[]) {
+    const auto missing = collect_missing_production_build_flags();
+    if (missing.empty()) {
+        return true;
+    }
+
+    std::ostringstream missing_joined;
+    for (size_t i = 0; i < missing.size(); ++i) {
+        if (i > 0) {
+            missing_joined << ", ";
+        }
+        missing_joined << missing[i];
+    }
+
+    const bool allow_degraded_build = has_allow_degraded_build_flag(argc, argv);
+    const bool production_mode = themis::security::HSMSecurityChecker::isProductionMode();
+    if (!production_mode) {
+        THEMIS_WARN("Build capability warning (development mode): missing production build flags: {}",
+                    missing_joined.str());
+        return true;
+    }
+
+    if (allow_degraded_build) {
+        THEMIS_WARN("Production startup override active (--allow-degraded-build); missing build flags: {}",
+                    missing_joined.str());
+        return true;
+    }
+
+    THEMIS_CRITICAL("Critical build capability failure: missing required production build flags: {}",
+                    missing_joined.str());
+    THEMIS_CRITICAL("Override for development/emergency only: --allow-degraded-build");
+    return false;
 }
 
 } // namespace
@@ -616,6 +683,11 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         return 0;
+    }
+
+    if (!validate_production_build_capabilities(argc, argv)) {
+        THEMIS_CRITICAL("Server startup aborted due to missing production build capabilities");
+        return 1;
     }
     
     // Display build configuration and edition information (startup logging)
@@ -917,6 +989,8 @@ int main(int argc, char* argv[]) {
         themis::security::HSMConfig hsm_config;
         bool hsm_config_loaded = false;
         
+        std::optional<json> resolved_security_cfg;
+
         // Try to load from security.yaml first (try new path, then legacy)
         for (const auto& security_config_path : {
                 std::string("./config/core/security.yaml"),
@@ -926,64 +1000,40 @@ int main(int argc, char* argv[]) {
                 std::string("/etc/themisdb/security.yaml")}) {
             auto sec_cfg = load_config(security_config_path);
             if (sec_cfg && sec_cfg->contains("hsm")) {
-                const auto& hsm = (*sec_cfg)["hsm"];
-                if (hsm.contains("provider")) {
-                    std::string provider = hsm["provider"].get<std::string>();
-                    // STUB/SIMULATION NOTE (main_server.cpp HSM provider selection):
-                    // Purpose: Recognise "stub" as a valid HSM provider name in the security
-                    //          config so the server starts cleanly in dev/CI environments
-                    //          where no real PKCS#11 device or library is present.
-                    // Activation: security.yaml sets `hsm.provider: stub` (or no security
-                    //          config at all).  "stub" maps to an empty library_path which
-                    //          causes HSMProvider to load the software-only stub backend.
-                    // Production Delta: No hardware key protection; all crypto uses the
-                    //          in-memory software AES-256-GCM KEK from the HSM stub.
-                    //          The server will also log a WARN on startup.
-                    // Removal Plan: Set `hsm.provider: pkcs11` with a valid library path in
-                    //          the production security config.  See
-                    //          docs/deployment/security_hardening.md §HSM Configuration.
-                    // For now, we support stub and pkcs11
-                    // stub provider means empty library_path
-                    if (provider == "stub") {
-                        hsm_config.library_path = "";  // Empty = stub provider
-                    } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
-                        const auto& pkcs11 = hsm["pkcs11"];
-                        hsm_config.library_path = pkcs11.value("library_path", std::string());
-                        hsm_config.slot_id = pkcs11.value("slot_id", 0);
-                        hsm_config.pin = pkcs11.value("pin", std::string());
-                        hsm_config.token_label = pkcs11.value("token_label", std::string());
-                        hsm_config.key_label = pkcs11.value("key_label", std::string("themis-signing-key"));
-                    }
-                    hsm_config_loaded = true;
-                    THEMIS_INFO("HSM configuration loaded from {}", security_config_path);
-                    break;
-                }
+                resolved_security_cfg = sec_cfg;
+                hsm_config_loaded = true;
+                THEMIS_INFO("HSM configuration loaded from {}", security_config_path);
+                break;
             }
         }
         
         // Fall back to main config if security.yaml not found
         if (!hsm_config_loaded && cfg && cfg->contains("hsm")) {
-            const auto& hsm = (*cfg)["hsm"];
-            if (hsm.contains("provider")) {
-                std::string provider = hsm["provider"].get<std::string>();
-                if (provider == "stub") {
-                    hsm_config.library_path = "";
-                } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
-                    const auto& pkcs11 = hsm["pkcs11"];
-                    hsm_config.library_path = pkcs11.value("library_path", std::string());
-                    hsm_config.slot_id = pkcs11.value("slot_id", 0);
-                    hsm_config.pin = pkcs11.value("pin", std::string());
-                }
-                hsm_config_loaded = true;
-                THEMIS_INFO("HSM configuration loaded from main config");
-            }
+            hsm_config_loaded = true;
+            THEMIS_INFO("HSM configuration loaded from main config");
+        }
+
+        const auto hsm_policy = themis::security::resolveHSMStartupPolicy(
+            resolved_security_cfg, cfg, argc, argv);
+        if (!hsm_policy.ok()) {
+            THEMIS_CRITICAL("HSM startup policy rejected configuration: {}", hsm_policy.error);
+            THEMIS_CRITICAL("See docs/security/HSM_PRODUCTION_SETUP.md for supported HSM configuration.");
+            return 1;
+        }
+        hsm_config = hsm_policy.config;
+
+        if (hsm_policy.explicit_stub_opt_in) {
+            THEMIS_WARN("HSM startup uses explicit development stub opt-in via {}",
+                        hsm_policy.config_source);
         }
         
-        // Create HSM provider (defaults to stub if no config)
+        // Create HSM provider (real PKCS#11 or explicitly opted-in stub only)
         g_hsm_provider = std::make_shared<themis::security::HSMProvider>(hsm_config);
         
         if (!g_hsm_provider->initialize()) {
-            THEMIS_WARN("HSM provider initialization failed, using stub provider");
+            THEMIS_CRITICAL("HSM provider initialization failed: {}",
+                            g_hsm_provider->getLastError());
+            return 1;
         }
         
         // Display HSM status
@@ -994,8 +1044,7 @@ int main(int argc, char* argv[]) {
         
         // Perform startup security validation
         if (g_hsm_provider->isStubProvider()) {
-            // Check if --allow-stub-hsm flag is present
-            bool allow_stub = themis::security::HSMSecurityChecker::hasAllowStubFlag(argc, argv);
+            const bool allow_stub = themis::security::isHSMStubOptInEnabled(argc, argv);
             
             if (!allow_stub) {
                 // Display startup warning banner

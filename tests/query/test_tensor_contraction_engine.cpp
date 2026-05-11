@@ -23,6 +23,8 @@
  *   TCE-18  AQL TENSOR_COMPRESS returns {data, shape, compression_ratio}
  *   TCE-19  AQL TENSOR_INFO returns metadata fields
  *   TCE-20  AQL TENSOR_SIMILARITY with missing args throws
+ *   TCE-21  AQL tensor functions resolve tensor field paths from FunctionContext
+ *   TCE-22  AQL tensor functions reject unknown tensor field paths
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -261,4 +263,45 @@ TEST_F(TensorAQLFunctionTest, TCE20_TensorSimilarityMissingArgThrows) {
     FunctionContext ctx;
     // The registry validates required arg count and throws std::runtime_error
     EXPECT_THROW(reg.call("TENSOR_SIMILARITY", {sample_arg_}, ctx), std::runtime_error);
+}
+
+// TCE-21
+TEST_F(TensorAQLFunctionTest, TCE21_TensorFunctionsResolveFieldPathsFromContext) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    ctx.setCurrentDocument(json{
+        {"doc", json{
+            {"lhs", sample_arg_},
+            {"rhs", sample_arg_}
+        }}
+    });
+    ctx.setVariable("var_tensor", sample_arg_);
+
+    const auto sim = reg.call("TENSOR_SIMILARITY",
+                              {json("doc.lhs"), json("doc.rhs")},
+                              ctx);
+    const auto norm = reg.call("TENSOR_NORM",
+                               {json("var_tensor")},
+                               ctx);
+    const auto pointer_norm = reg.call("TENSOR_NORM",
+                                       {json("/doc/lhs")},
+                                       ctx);
+
+    ASSERT_TRUE(sim.is_number());
+    ASSERT_TRUE(norm.is_number());
+    ASSERT_TRUE(pointer_norm.is_number());
+    EXPECT_GE(sim.get<double>(), -1.0);
+    EXPECT_LE(sim.get<double>(), 1.0);
+    EXPECT_GT(norm.get<double>(), 0.0);
+    EXPECT_GT(pointer_norm.get<double>(), 0.0);
+}
+
+TEST_F(TensorAQLFunctionTest, TCE22_TensorFunctionsRejectUnknownFieldPath) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    ctx.setCurrentDocument(json{{"doc", json{{"lhs", sample_arg_}}}});
+
+    EXPECT_THROW(
+        reg.call("TENSOR_NORM", {json("doc.missing_tensor")}, ctx),
+        std::invalid_argument);
 }

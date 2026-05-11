@@ -87,6 +87,7 @@
 #include "rag/targ_retrieval.h"
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -195,11 +196,21 @@ struct RAGDecision {
      * Populated only when `flare_triggered = true`.
      * Contains the masked partial-output window (per FlareConfig).
      *
-     * @note This is a text query (STUB #168).  Embedding it before passing to
+     * @note This is a text query (STUB #261).  Embedding it before passing to
      *       the TT-core index is the caller's responsibility until Phase 3-C
-     *       wires the embedding backend into FlareRetrieval.
+     *       wires the embedding backend into TensorRAGPipeline via
+     *       `setEmbeddingQueryFn()`.
      */
     std::string flare_query;
+
+    /**
+     * @brief Embedding vector for `flare_query`.
+     *
+     * Populated only when `flare_triggered = true` AND an `EmbeddingQueryFn`
+     * has been injected via `TensorRAGPipeline::setEmbeddingQueryFn()`.
+     * Empty otherwise.  Pass directly to `tensor_index.searchFlat()`.
+     */
+    std::vector<float> flare_query_embedding;
 
     // ─── TARG details ─────────────────────────────────────────────────────
 
@@ -238,6 +249,30 @@ public:
      * @param cfg  Pipeline configuration.
      */
     explicit TensorRAGPipeline(TensorRAGPipelineConfig cfg = {});
+
+    // ─── Embedding injection bridge (STUB #261) ───────────────────────────
+
+    /**
+     * @brief Callable type for a text-to-embedding backend.
+     *
+     * Signature: `std::vector<float> embed(const std::string& text)`
+     *
+     * When set via `setEmbeddingQueryFn()`, `step()` will populate
+     * `RAGDecision::flare_query_embedding` whenever FLARE triggers.
+     * The fn must be thread-safe; it is called under no internal lock.
+     */
+    using EmbeddingQueryFn = std::function<std::vector<float>(const std::string&)>;
+
+    /**
+     * @brief Inject an embedding backend (thread-safe, process-global).
+     *
+     * Once set, `step()` will call @p fn on the FLARE query string and
+     * store the result in `RAGDecision::flare_query_embedding`.
+     * Pass a null fn to revert to the no-embedding fallback.
+     *
+     * @param fn  Embedding function, e.g. wrapping a quantised SBERT encoder.
+     */
+    static void setEmbeddingQueryFn(EmbeddingQueryFn fn);
 
     // ─── Primary API ─────────────────────────────────────────────────────
 

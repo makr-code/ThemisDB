@@ -7,7 +7,7 @@
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the API module (`src/api/` and `include/api/`), which exposes ThemisDB over HTTP (stub in `src/api/http_server.cpp`; live implementation in `src/server/http_server.cpp`), GraphQL (`graphql.cpp` + `graphql_ws_handler.cpp`), WebSocket CDC streaming (`ws_handler.cpp`), gRPC (`grpc_server.cpp` + `themisdb_grpc_service.cpp`), geospatial index hooks (`geo_index_hooks.cpp`), request tracing (`tracing_middleware.cpp`), and OTLP span export (`otlp_exporter.cpp`). Supporting header-only components in `include/api/` — `rate_limiter.h`, `audit_logger.h`, `graphql_cache.h`, `persisted_queries.h`, `websocket_handler.h`, `grpc_bridge.h` — are equally in scope. Enhancements to AQL execution, storage engines, or authentication internals are out of scope; only the API surface, transport layer, and middleware pipeline are covered here.
+This document covers implementation-specific future enhancements for the API module (`src/api/` and `include/api/`), which exposes ThemisDB over HTTP (live implementation in `src/server/http_server.cpp`), GraphQL (`graphql.cpp` + `graphql_ws_handler.cpp`), WebSocket CDC streaming (`ws_handler.cpp`), gRPC (`grpc_server.cpp` + `themisdb_grpc_service.cpp`), geospatial index hooks (`geo_index_hooks.cpp`), request tracing (`tracing_middleware.cpp`), and OTLP span export (`otlp_exporter.cpp`). Supporting header-only components in `include/api/` — `rate_limiter.h`, `audit_logger.h`, `graphql_cache.h`, `persisted_queries.h`, `websocket_handler.h`, `grpc_bridge.h` — are equally in scope. Enhancements to AQL execution, storage engines, or authentication internals are out of scope; only the API surface, transport layer, and middleware pipeline are covered here.
 
 ## Design Constraints
 
@@ -367,14 +367,13 @@ if (!config_.tls_enabled) {
 
 ## Legacy HTTP Server Stub Removal (Target: v1.3.0 — cleanup)
 
-**Stub:** `src/api/http_server.cpp` — deprecated legacy placeholder TU; entire namespace body intentionally empty  
-**Risk:** Build targets that still include this file waste compile time; any future code added here will silently have no effect.
+**Status:** **RESOLVED 2026-05-11** — `src/api/http_server.cpp` removed from source tree after confirming no CMake target compiles it.  
+**Historical risk (resolved):** Build targets that still include this file waste compile time; any future code added there would silently have no effect.
 
 ### Scope
-- Confirm no CMake target still compiles `src/api/http_server.cpp`.
-- Remove the file from CMakeLists.txt source lists.
-- Keep the file in version history (do not `git rm` permanently) for audit reference.
+- [x] Confirm no CMake target still compiles `src/api/http_server.cpp`.
+- [x] Remove the file from active source tree and keep it in git history for audit reference.
 
 ### Test Strategy
 - CI build succeeds after removing `src/api/http_server.cpp` from all CMake targets.
-- No linker errors: no symbol defined here is referenced elsewhere.
+- No linker errors: no symbol defined there is referenced elsewhere.

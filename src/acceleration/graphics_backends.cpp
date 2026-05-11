@@ -24,6 +24,23 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// Public interface
+#include "acceleration/graphics_backends.h"
+#include "acceleration/shader_integrity.h"
+
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <utility>
+#include <vector>
+
 /*
  * Acceleration module — Vulkan and OpenGL Compute Backends
  * =========================================================

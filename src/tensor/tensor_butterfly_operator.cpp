@@ -47,6 +47,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -112,6 +113,66 @@ void whtTransform(float* data, std::size_t n) {
 
 } // anonymous namespace
 
+namespace {
+std::mutex& fourierTransformFnMutex() { static std::mutex m; return m; }
+TensorButterflyOperator::FourierTransformFn& fourierTransformFnStorage() {
+    static TensorButterflyOperator::FourierTransformFn fn;
+    return fn;
+}
+
+// STUB #268 — RADON bridge storage
+std::mutex& radonTransformFnMutex() { static std::mutex m; return m; }
+TensorButterflyOperator::RadonTransformFn& radonTransformFnStorage() {
+    static TensorButterflyOperator::RadonTransformFn fn;
+    return fn;
+}
+
+// STUB #268 — GREENS_FUNCTION bridge storage
+std::mutex& greensTransformFnMutex() { static std::mutex m; return m; }
+TensorButterflyOperator::GreensTransformFn& greensTransformFnStorage() {
+    static TensorButterflyOperator::GreensTransformFn fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void TensorButterflyOperator::setFourierTransformFn(FourierTransformFn fn) {
+    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+    fourierTransformFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorButterflyOperator::clearFourierTransformFn() {
+    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+    fourierTransformFnStorage() = {};
+}
+
+// STUB #268 — RADON bridge
+/*static*/
+void TensorButterflyOperator::setRadonTransformFn(RadonTransformFn fn) {
+    std::lock_guard<std::mutex> lk(radonTransformFnMutex());
+    radonTransformFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorButterflyOperator::clearRadonTransformFn() {
+    std::lock_guard<std::mutex> lk(radonTransformFnMutex());
+    radonTransformFnStorage() = {};
+}
+
+// STUB #268 — GREENS_FUNCTION bridge
+/*static*/
+void TensorButterflyOperator::setGreensTransformFn(GreensTransformFn fn) {
+    std::lock_guard<std::mutex> lk(greensTransformFnMutex());
+    greensTransformFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorButterflyOperator::clearGreensTransformFn() {
+    std::lock_guard<std::mutex> lk(greensTransformFnMutex());
+    greensTransformFnStorage() = {};
+}
+
 // ============================================================================
 // TensorButterflyOperator — private constructor
 // ============================================================================
@@ -142,15 +203,36 @@ TensorButterflyOperator::build(OperatorType                      type,
     }
 
     // STUB/SIMULATION NOTE (TBO-02):
-    // Purpose: RADON and GREENS_FUNCTION are declared but not implemented.
-    // Activation: When build() is called with these types.
-    // Production Delta: build() throws; production path constructs operator
-    //                   cores using integration-scheme-specific routines.
-    // Removal Plan: Q3 2027.
-    if (type == OperatorType::RADON || type == OperatorType::GREENS_FUNCTION) {
-        throw std::logic_error(
-            "TensorButterflyOperator::build: RADON and GREENS_FUNCTION "
-            "operators are not yet implemented (STUB #171 — Q3 2027).");
+    // Purpose: RADON and GREENS_FUNCTION are declared but not implemented natively.
+    // Activation: When build() is called with these types and no bridge fn is set.
+    // Production Delta: build() throws when no fn injected; with an injected fn
+    //   build() succeeds and apply() delegates each mode fiber to the fn.
+    // Removal Plan: Q3 2027 — implement native integration-scheme routines.
+    if (type == OperatorType::RADON) {
+        RadonTransformFn fn_check;
+        {
+            std::lock_guard<std::mutex> lk(radonTransformFnMutex());
+            fn_check = radonTransformFnStorage();
+        }
+        if (!fn_check) {
+            throw std::logic_error(
+                "TensorButterflyOperator::build: RADON operator not yet "
+                "implemented — inject a RadonTransformFn via setRadonTransformFn() "
+                "to enable this operator type (STUB #268 — Q3 2027).");
+        }
+    }
+    if (type == OperatorType::GREENS_FUNCTION) {
+        GreensTransformFn fn_check;
+        {
+            std::lock_guard<std::mutex> lk(greensTransformFnMutex());
+            fn_check = greensTransformFnStorage();
+        }
+        if (!fn_check) {
+            throw std::logic_error(
+                "TensorButterflyOperator::build: GREENS_FUNCTION operator not yet "
+                "implemented — inject a GreensTransformFn via setGreensTransformFn() "
+                "to enable this operator type (STUB #268 — Q3 2027).");
+        }
     }
 
     // Validate grid_shape for FOURIER (WHT requires power-of-2 mode sizes).
@@ -177,12 +259,64 @@ TensorButterflyOperator::build(OperatorType                      type,
 
 storage::TTTrain
 TensorButterflyOperator::apply(const storage::TTTrain& data) const {
+    // For RADON/GREENS_FUNCTION, delegate to the injected per-fiber backend
+    // (STUB #268): if no fn was set, build() already prevented construction
+    // of the operator, so we only reach here when a fn is available.
+    //
+    // `result` is an intentional value-copy of `data` (mutated in-place).
+    auto applyFiberFn = [](const std::function<void(std::vector<float>&)>& fn,
+                           storage::TTTrain result) {
+        for (std::size_t k = 0; k < result.cores.size(); ++k) {
+            auto& core        = result.cores[k];
+            const std::size_t r_left  = core.r_left;
+            const std::size_t n_k     = core.n;
+            const std::size_t r_right = core.r_right;
+            std::vector<float> fiber(n_k);
+            for (std::size_t al = 0; al < r_left; ++al) {
+                for (std::size_t ar = 0; ar < r_right; ++ar) {
+                    for (std::size_t i = 0; i < n_k; ++i)
+                        fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];
+                    fn(fiber);
+                    for (std::size_t i = 0; i < n_k; ++i)
+                        core.data[al * n_k * r_right + i * r_right + ar] = fiber[i];
+                }
+            }
+        }
+        return result;
+    };
+
+    if (cfg_.type == OperatorType::RADON) {
+        RadonTransformFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(radonTransformFnMutex());
+            fn_copy = radonTransformFnStorage();
+        }
+        if (!fn_copy) {
+            throw std::logic_error(
+                "TensorButterflyOperator::apply: RADON bridge fn cleared after build() "
+                "(STUB #268 — Q3 2027).");
+        }
+        return applyFiberFn(fn_copy, data);
+    }
+    if (cfg_.type == OperatorType::GREENS_FUNCTION) {
+        GreensTransformFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(greensTransformFnMutex());
+            fn_copy = greensTransformFnStorage();
+        }
+        if (!fn_copy) {
+            throw std::logic_error(
+                "TensorButterflyOperator::apply: GREENS_FUNCTION bridge fn cleared after build() "
+                "(STUB #268 — Q3 2027).");
+        }
+        return applyFiberFn(fn_copy, data);
+    }
+
+    // FOURIER path (original code below)
     if (cfg_.type != OperatorType::FOURIER) {
-        // STUB #171 guard (should never reach here after build() check,
-        // but defend against objects constructed via other paths).
         throw std::logic_error(
             "TensorButterflyOperator::apply: operator type not implemented "
-            "(STUB #171 — Q3 2027).");
+            "(STUB #268 — Q3 2027).");
     }
 
     // Validate shape compatibility
@@ -230,8 +364,18 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
                     fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];
                 }
 
-                // Apply butterfly WHT transform in-place.
-                whtTransform(fiber.data(), n_k);
+                // Apply injected FOURIER backend when available (STUB #267),
+                // otherwise use the built-in WHT proxy.
+                FourierTransformFn fn_copy;
+                {
+                    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+                    fn_copy = fourierTransformFnStorage();
+                }
+                if (fn_copy) {
+                    fn_copy(fiber);
+                } else {
+                    whtTransform(fiber.data(), n_k);
+                }
 
                 // Scatter back
                 for (std::size_t i = 0; i < n_k; ++i) {

@@ -56,8 +56,15 @@
  *   src/acceleration/ARCHITECTURE.md           — Section 8 (Security Considerations)
  */
 
+// Public interface
+#include "acceleration/shader_integrity.h"
+
 // SHA-256 via OpenSSL (consistent with plugin_security.cpp)
 #include <openssl/evp.h>
+
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 
 namespace themis {
 namespace acceleration {

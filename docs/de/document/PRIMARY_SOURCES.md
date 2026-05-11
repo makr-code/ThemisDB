@@ -1,39 +1,29 @@
-[docs](../../index.md) > [de](../index.md) > [document](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-11
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/document/ARCHITECTURE.md`
-- `include/document/AUDIT.md`
-- `include/document/CHANGELOG.md`
-- `include/document/FUTURE_ENHANCEMENTS.md`
 - `include/document/README.md`
-- `include/document/ROADMAP.md`
-- `include/document/SECURITY.md`
+- `src/document/README.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `document`
+- Kontext: Manuell konsolidierter Index der aktuell vorhandenen Primärdokumente des Moduls `document`
 
 ---
 
 # Primary Sources — `document`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`document`** aus den erkannten Quellverzeichnissen des Moduls.
+Dieser Index listet die primären Markdown-Dokumente des Moduls **`document`**.
 
 ## Primäre Markdown-Dateien
 
-### `include/document/`
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/document/README.md`](../../../include/document/README.md) |
+| `README.md` | [`src/document/README.md`](../../../src/document/README.md) |
+
+## Verwandte modulübergreifende Quellen
 
 | Datei | Pfad |
 |-------|------|
-| `ARCHITECTURE.md` | [`include/document/ARCHITECTURE.md`](../../../include/document/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/document/AUDIT.md`](../../../include/document/AUDIT.md) |
-| `CHANGELOG.md` | [`include/document/CHANGELOG.md`](../../../include/document/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/document/FUTURE_ENHANCEMENTS.md`](../../../include/document/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/document/README.md`](../../../include/document/README.md) |
-| `ROADMAP.md` | [`include/document/ROADMAP.md`](../../../include/document/ROADMAP.md) |
-| `SECURITY.md` | [`include/document/SECURITY.md`](../../../include/document/SECURITY.md) |
-
----
-
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+| `ROADMAP.md` | [`src/ROADMAP.md`](../../../src/ROADMAP.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/FUTURE_ENHANCEMENTS.md`](../../../src/FUTURE_ENHANCEMENTS.md) |

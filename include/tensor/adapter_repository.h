@@ -57,6 +57,7 @@
 
 #include <chrono>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <shared_mutex>
@@ -139,6 +140,24 @@ struct AdapterMetadata {
  */
 class AdapterRepository {
 public:
+    /**
+     * @brief Injectable mmap-style adapter loader (STUB #265 bridge).
+     */
+    using MmapLoadFn = std::function<GgmlCoreDescriptor(
+        const std::string& tenant_id,
+        const std::string& domain,
+        const std::string& base_model_id,
+        const std::string& adapter_key,
+        const std::shared_ptr<storage::ITensorStorageBackend>& backend)>;
+
+    /**
+     * @brief Injectable exact-similarity backend (STUB #266 bridge).
+     */
+    using ExactSimilarityFn = std::function<std::vector<SimilarityResult>(
+        const std::string& query_key,
+        std::size_t k,
+        const std::shared_ptr<storage::ITensorStorageBackend>& backend)>;
+
     /**
      * @brief Construct a repository backed by the given storage backend.
      *
@@ -266,6 +285,18 @@ public:
     };
 
     [[nodiscard]] RepositoryStats stats() const noexcept;
+
+    // ─── Bridge injection API (STUB #265 / #266) ────────────────────────────
+
+    /** @brief Inject a mmap-style loader backend for loadAdapter(). */
+    static void setMmapLoadFn(MmapLoadFn fn);
+    /** @brief Remove a previously injected mmap-style loader backend. */
+    static void clearMmapLoadFn();
+
+    /** @brief Inject an exact similarity backend for findSimilarAdapters(). */
+    static void setExactSimilarityFn(ExactSimilarityFn fn);
+    /** @brief Remove a previously injected exact similarity backend. */
+    static void clearExactSimilarityFn();
 
 private:
     /// Build the RocksDB key for a given (domain, base_model_id) pair.

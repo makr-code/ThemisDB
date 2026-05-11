@@ -22,16 +22,12 @@
 namespace themis {
 namespace tensor {
 
-// ============================================================================
-// Static bridge slots — STUB #252 (RerouteSerializeFn)
-// ============================================================================
-
 namespace {
-    std::mutex                      g_reroute_serialize_mtx;
-    TNSRTask::RerouteSerializeFn    g_reroute_serialize_fn;
+std::mutex                   g_reroute_serialize_mtx;
+TNSRTask::RerouteSerializeFn g_reroute_serialize_fn;
 } // namespace
 
-void TNSRTask::setRerouteSerializeFn(TNSRTask::RerouteSerializeFn fn) {
+void TNSRTask::setRerouteSerializeFn(RerouteSerializeFn fn) {
     std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
     g_reroute_serialize_fn = std::move(fn);
 }
@@ -50,15 +46,17 @@ TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
 // TNSRTask — construction
 // ============================================================================
 
-TNSRTask::TNSRTask(
-    std::shared_ptr<storage::TensorNetworkStorageEngine> engine,
-    storage::TensorTrainDecomposer decomposer)
-    : engine_(std::move(engine))
-    , decomposer_(std::move(decomposer))
-{
+TNSRTask::TNSRTask(std::shared_ptr<storage::TensorNetworkStorageEngine> engine,
+                   storage::TensorTrainDecomposer                       decomposer)
+    : engine_(std::move(engine)), decomposer_(std::move(decomposer)) {
     if (!engine_) {
         throw std::invalid_argument("TNSRTask: engine must not be null");
     }
+}
+
+bool TNSRTask::hasRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_mtx);
+    return static_cast<bool>(g_reroute_serialize_fn);
 }
 
 // ============================================================================
@@ -150,22 +148,21 @@ TNSRReport TNSRTask::run(
                 }
                 ++topo_changes_this_key;
             }
-            report.topology_changes += topo_changes_this_key;
-
-            // STUB #252 bridge: call injected re-serialization fn when set.
             if (topo_changes_this_key > 0) {
-                TNSRTask::RerouteSerializeFn serialize_fn;
-                {
-                    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
-                    serialize_fn = g_reroute_serialize_fn;
-                }
+                const auto serialize_fn = getRerouteSerializeFn();
                 if (serialize_fn) {
-                    const bool ok = serialize_fn(*engine_, field_key, tng, recompressed);
-                    if (!ok) {
+                    try {
+                        if (!serialize_fn(*engine_, field_key, tng, recompressed)) {
+                            ++report.error_count;
+                            continue;
+                        }
+                    } catch (const std::exception&) {
                         ++report.error_count;
+                        continue;
                     }
                 }
             }
+            report.topology_changes += topo_changes_this_key;
         }
 
         // ── 5. Decide whether to write back ────────────────────────────────
