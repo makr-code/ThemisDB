@@ -141,6 +141,21 @@ PatternResult LoRAPatternClassifier::automlFallback(
     const std::vector<DataPoint>& events,
     const std::string& adapter_id) const {
 
+    // Reserve for a typical compact event payload (~8 mixed fields/event).
+    constexpr std::size_t kExpectedFieldsPerEvent = 8;
+    constexpr double kHighVarianceThreshold = 0.60;
+    constexpr double kTrendThreshold = 0.80;
+    // Weighted blend tuned to keep fallback stable while still reacting to
+    // signal quality. Coverage gets the highest weight to prefer richer events.
+    constexpr double kPriorWeight = 0.20;
+    constexpr double kCoverageWeight = 0.25;
+    constexpr double kTemporalWeight = 0.20;
+    constexpr double kDispersionWeight = 0.20;
+    constexpr double kMagnitudeWeight = 0.15;
+    // Keep confidence bounded away from hard 0/1 for conservative fallback use.
+    constexpr double kMinFallbackConfidence = 0.05;
+    constexpr double kMaxFallbackConfidence = 0.99;
+
     const auto clamp01 = [](double v) {
         return std::max(0.0, std::min(1.0, v));
     };
@@ -160,7 +175,7 @@ PatternResult LoRAPatternClassifier::automlFallback(
     std::size_t total_fields = 0;
     std::size_t numeric_fields = 0;
     std::vector<double> numeric_values;
-    numeric_values.reserve(events.size() * 8);
+    numeric_values.reserve(events.size() * kExpectedFieldsPerEvent);
     int monotonic_steps = 0;
     int step_count = 0;
     for (std::size_t i = 0; i < events.size(); ++i) {
@@ -215,9 +230,9 @@ PatternResult LoRAPatternClassifier::automlFallback(
         dispersion_score = clamp01(stddev / (1.0 + stddev));
 
         if (inferred_label == "unknown") {
-            if (dispersion_score >= 0.60) {
+            if (dispersion_score >= kHighVarianceThreshold) {
                 inferred_label = "high_variance_pattern";
-            } else if (temporal_score >= 0.80) {
+            } else if (temporal_score >= kTrendThreshold) {
                 inferred_label = "trend_pattern";
             } else {
                 inferred_label = "stable_pattern";
@@ -226,12 +241,13 @@ PatternResult LoRAPatternClassifier::automlFallback(
     }
 
     double confidence =
-        0.20 * prior_conf +
-        0.25 * coverage_score +
-        0.20 * temporal_score +
-        0.20 * dispersion_score +
-        0.15 * magnitude_score;
-    confidence = std::max(0.05, std::min(0.99, confidence));
+        kPriorWeight * prior_conf +
+        kCoverageWeight * coverage_score +
+        kTemporalWeight * temporal_score +
+        kDispersionWeight * dispersion_score +
+        kMagnitudeWeight * magnitude_score;
+    confidence = std::max(kMinFallbackConfidence,
+                          std::min(kMaxFallbackConfidence, confidence));
 
     PatternResult result;
     result.label        = inferred_label;

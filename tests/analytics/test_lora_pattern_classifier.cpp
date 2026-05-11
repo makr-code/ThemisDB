@@ -249,10 +249,11 @@ TEST(LoRAPatternClassifierTest, LPC16_FallbackConfidenceAdaptsToEventSignal) {
 
     EXPECT_TRUE(low.used_fallback);
     EXPECT_TRUE(high.used_fallback);
+    EXPECT_EQ(low.label, "anomaly");
+    EXPECT_EQ(high.label, "anomaly");
     EXPECT_GE(low.confidence, 0.0);
     EXPECT_LE(low.confidence, 1.0);
     EXPECT_GE(high.confidence, 0.0);
     EXPECT_LE(high.confidence, 1.0);
-    EXPECT_NE(low.confidence, high.confidence);
     EXPECT_GT(high.confidence, low.confidence);
 }
