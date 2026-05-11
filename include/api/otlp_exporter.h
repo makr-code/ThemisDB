@@ -69,7 +69,7 @@ struct OtlpExporterConfig {
     std::string tls_client_cert;
     std::string tls_client_key;
 
-    // Optional Bearer token; placed in `Authorization: Bearer <token>`.
+    // Optional Bearer token; placed in `Authorization: Bearer &lt;token&gt;`.
     std::string auth_header;
 
     // Extra static HTTP headers sent with every export request.

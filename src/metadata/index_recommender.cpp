@@ -183,7 +183,7 @@ std::vector<IndexRecommendation> IndexRecommender::recommend(
                 std::to_string(ca.filter_count) + " filter(s) and " +
                 std::to_string(ca.sort_count)   + " sort(s); " +
                 "average selectivity " +
-                std::to_string(static_cast<int>((1.0 - ca.avg_selectivity) * 100)) +
+                std::to_string(static_cast&lt;int&gt;((1.0 - ca.avg_selectivity) * 100)) +
                 "% (higher = more selective).";
             recs.push_back(std::move(rec));
 

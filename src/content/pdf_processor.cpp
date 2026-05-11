@@ -216,8 +216,8 @@ ExtractionResult PDFProcessor::extract(
             json page_obj;
             page_obj["page"] = i + 1;
             page_obj["text"] = page_text;
-            page_obj["width"] = static_cast<int>(rect.width());
-            page_obj["height"] = static_cast<int>(rect.height());
+            page_obj["width"] = static_cast&lt;int&gt;(rect.width());
+            page_obj["height"] = static_cast&lt;int&gt;(rect.height());
             page_obj["rotation"] = page->orientation() * 90;
             pages_array.push_back(std::move(page_obj));
         }
@@ -244,7 +244,7 @@ ExtractionResult PDFProcessor::extract(
     std::regex page_regex("/Type\\s*/Page[^s]");
     auto pages_begin = std::sregex_iterator(blob.begin(), blob.end(), page_regex);
     auto pages_end = std::sregex_iterator();
-    int page_count = static_cast<int>(std::distance(pages_begin, pages_end));
+    int page_count = static_cast&lt;int&gt;(std::distance(pages_begin, pages_end));
     result.metadata["page_count"] = page_count;
     
     // Try to extract text from BT/ET blocks
@@ -377,8 +377,8 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::
         
         // Get dimensions
         poppler::rectf rect = page->page_rect();
-        info.width = static_cast<int>(rect.width());
-        info.height = static_cast<int>(rect.height());
+        info.width = static_cast&lt;int&gt;(rect.width());
+        info.height = static_cast&lt;int&gt;(rect.height());
         info.rotation = page->orientation() * 90;
         
         pages.push_back(std::move(info));
@@ -597,7 +597,7 @@ std::vector<float> PDFProcessor::generateEmbedding(const std::string& chunk_data
                                     ^ (i * 31u)
                                     ^ (static_cast<size_t>(seed) * 97u);
             for (int d = 0; d < 10; ++d) {
-                const int dim = static_cast<int>(
+                const int dim = static_cast&lt;int&gt;(
                     (combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
                 const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 const float phase  = static_cast<float>(

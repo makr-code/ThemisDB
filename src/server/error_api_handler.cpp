@@ -84,8 +84,8 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
         int code = std::stoi(req.params["code"].get<std::string>());
         auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
         
-        if (static_cast<int>(metadata.code) == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN) && 
-            code != static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
+        if (static_cast&lt;int&gt;(metadata.code) == static_cast&lt;int&gt;(errors::ErrorCode::ERR_UNKNOWN) && 
+            code != static_cast&lt;int&gt;(errors::ErrorCode::ERR_UNKNOWN)) {
             // Error not found
             res.status_code = 404;
             res.setJSON({

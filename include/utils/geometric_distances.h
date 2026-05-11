@@ -40,7 +40,7 @@
  * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | ✅ migrated → `geo::haversine_km` |
  * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | ✅ migrated → `geo::haversine_m` |
  * | `GeoAccelerationBridge::haversineKm` | geo_acceleration_bridge.cpp | ✅ migrated → `geo::haversine_km` |
- * | `haversineDistanceM()` (geo/*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
+ * | `haversineDistanceM()` (geo/\*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
  *
  * ### Consolidation status
  * - All acceleration, index, and geo files fully migrated (v1.9.0)
@@ -103,7 +103,7 @@ using ::themis::geo::haversine_km;
  * @brief Haversine great-circle distance in **metres**.
  *
  * Thin wrapper over haversine_km(); use this when the rest of the call-site
- * operates in metres (e.g. the geo/*.cpp clustering code that previously used
+ * operates in metres (e.g. the geo/\*.cpp clustering code that previously used
  * file-local `haversineDistanceM()`).
  *
  * @return Great-circle distance in metres (always ≥ 0).

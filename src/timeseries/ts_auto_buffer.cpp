@@ -386,7 +386,7 @@ void TSAutoBuffer::flushThread() {
             if (config_.metrics) {
                 auto now = std::chrono::steady_clock::now();
                 auto overdue_threshold =
-                    config_.flush_interval * static_cast<int>(config_.overdue_flush_multiplier);
+                    config_.flush_interval * static_cast&lt;int&gt;(config_.overdue_flush_multiplier);
                 std::lock_guard<std::mutex> buf_lock(buffers_mutex_);
                 for (const auto& [key, buf] : buffers_) {
                     if (buf.points.empty()) continue;

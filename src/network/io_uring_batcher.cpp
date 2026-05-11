@@ -54,11 +54,11 @@
 
 // Thin wrappers around io_uring syscalls (not in glibc < 2.36).
 static int io_uring_setup(unsigned entries, struct io_uring_params* p) {
-    return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
+    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_setup, entries, p));
 }
 static int io_uring_enter(int fd, unsigned to_submit, unsigned min_complete,
                            unsigned flags, sigset_t* sig) {
-    return static_cast<int>(::syscall(__NR_io_uring_enter, fd,
+    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_enter, fd,
                                       to_submit, min_complete, flags, sig,
                                       _NSIG / 8));
 }

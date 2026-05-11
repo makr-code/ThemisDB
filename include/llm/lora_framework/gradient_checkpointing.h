@@ -227,7 +227,7 @@ private:
     CheckpointConfig config_;
     std::unordered_map<int, CheckpointData> checkpoints_;
     std::unordered_map<int, LayerType> layer_types_;
-    std::unordered_set<int> custom_checkpoints_;
+    std::unordered_set&lt;int&gt; custom_checkpoints_;
     mutable CheckpointStats stats_;
     
     /**

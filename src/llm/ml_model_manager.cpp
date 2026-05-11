@@ -74,7 +74,7 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     
     models_[config.model_id] = std::move(entry);
     
-    THEMIS_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast<int>(config.type)) + ")");
+    THEMIS_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast&lt;int&gt;(config.type)) + ")");
     
     return Ok(true);
 }
@@ -287,14 +287,14 @@ std::vector<std::string> MLModelManager::listModels(const json& filter) const {
         
         if (filter.contains("type")) {
             int type_filter = filter["type"];
-            if (static_cast<int>(entry->config.type) != type_filter) {
+            if (static_cast&lt;int&gt;(entry->config.type) != type_filter) {
                 matches = false;
             }
         }
         
         if (filter.contains("status")) {
             int status_filter = filter["status"];
-            if (static_cast<int>(entry->status) != status_filter) {
+            if (static_cast&lt;int&gt;(entry->status) != status_filter) {
                 matches = false;
             }
         }
@@ -362,7 +362,7 @@ json MLModelManager::getModelMetrics(const std::string& model_id) const {
     
     json metrics;
     metrics["model_id"] = model_id;
-    metrics["status"] = static_cast<int>(entry->status);
+    metrics["status"] = static_cast&lt;int&gt;(entry->status);
     metrics["num_instances"] = entry->instances.size();
     
     size_t total_requests = 0;

@@ -496,7 +496,7 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
 
         // Update latency cache using the time info from curl (not exposed
         // here without a cluster_id reference; callers handle latency tracking)
-        status_code = static_cast<int>(http_code);
+        status_code = static_cast&lt;int&gt;(http_code);
     }
 
     curl_slist_free_all(headers);

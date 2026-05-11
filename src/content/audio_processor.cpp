@@ -94,7 +94,7 @@ bool AudioProcessor::initialize(const PluginConfig& config) {
     transcription_model_ = config.get<std::string>("transcription.model", "whisper-small");
     transcription_language_ = config.get<std::string>("transcription.language", "auto");
     extract_waveform_ = config.get<bool>("waveform.enabled", false);
-    waveform_samples_ = config.get<int>("waveform.samples", 1000);
+    waveform_samples_ = config.get&lt;int&gt;("waveform.samples", 1000);
     
     // Initialize STTProcessor when transcription is enabled
     if (enable_transcription_) {
@@ -386,17 +386,17 @@ static void parseWavMetadata(const std::vector<uint8_t>& blob, MediaExtractionDa
                 uint32_t byte_rate       = readLE32(blob, pos + 16); // already computed in header
                 uint16_t bits_per_sample = readLE16(blob, pos + 22);
 
-                data.channels    = static_cast<int>(num_channels);
-                data.sample_rate = static_cast<int>(sample_rate);
+                data.channels    = static_cast&lt;int&gt;(num_channels);
+                data.sample_rate = static_cast&lt;int&gt;(sample_rate);
                 wav_byte_rate    = byte_rate;
 
                 // Derive bitrate (bits per second / 1000)
                 if (byte_rate > 0) {
-                    data.bitrate_kbps = static_cast<int>(
+                    data.bitrate_kbps = static_cast&lt;int&gt;(
                         static_cast<uint64_t>(byte_rate) * 8 / 1000
                     );
                 } else if (sample_rate > 0 && num_channels > 0 && bits_per_sample > 0) {
-                    data.bitrate_kbps = static_cast<int>(
+                    data.bitrate_kbps = static_cast&lt;int&gt;(
                         static_cast<uint64_t>(sample_rate) * num_channels * bits_per_sample / 1000
                     );
                 }
@@ -478,9 +478,9 @@ static void parseFlacMetadata(const std::vector<uint8_t>& blob, MediaExtractionD
         (static_cast<uint64_t>(blob[si + 16]) << 8)  |
         static_cast<uint64_t>(blob[si + 17]);
 
-    data.sample_rate = static_cast<int>(sample_rate);
-    data.channels    = static_cast<int>(channels_minus1) + 1;
-    int bits_per_sample = static_cast<int>(bps_minus1) + 1;
+    data.sample_rate = static_cast&lt;int&gt;(sample_rate);
+    data.channels    = static_cast&lt;int&gt;(channels_minus1) + 1;
+    int bits_per_sample = static_cast&lt;int&gt;(bps_minus1) + 1;
 
     if (sample_rate > 0 && total_samples > 0) {
         data.duration_ms = static_cast<int64_t>(total_samples) * 1000 / sample_rate;
@@ -488,12 +488,12 @@ static void parseFlacMetadata(const std::vector<uint8_t>& blob, MediaExtractionD
 
     // Approximate bitrate: file_size_bits / duration_seconds
     if (data.duration_ms > 0) {
-        data.bitrate_kbps = static_cast<int>(
+        data.bitrate_kbps = static_cast&lt;int&gt;(
             (static_cast<uint64_t>(blob.size()) * 8) / (data.duration_ms)
         );
     } else if (sample_rate > 0 && data.channels > 0 && bits_per_sample > 0) {
         // Estimate from lossless parameters
-        data.bitrate_kbps = static_cast<int>(
+        data.bitrate_kbps = static_cast&lt;int&gt;(
             (static_cast<uint64_t>(sample_rate) * data.channels * bits_per_sample) / 1000
         );
     }
@@ -618,8 +618,8 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t>& blob, MediaExtrac
     // Offset +16: bitrate_maximum (4 bytes LE, signed)
     // Offset +20: bitrate_nominal (4 bytes LE, signed)
     size_t base = vorbis_id_offset;
-    data.channels    = static_cast<int>(blob[base + 11]);
-    data.sample_rate = static_cast<int>(readLE32(blob, base + 12));
+    data.channels    = static_cast&lt;int&gt;(blob[base + 11]);
+    data.sample_rate = static_cast&lt;int&gt;(readLE32(blob, base + 12));
 
     int32_t bitrate_nominal = static_cast<int32_t>(readLE32(blob, base + 20));
     if (bitrate_nominal > 0) {

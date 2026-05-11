@@ -139,7 +139,7 @@ static std::string extractTenantFromKey(const std::string& key) {
  * @brief Extract the bare SHA-256 fingerprint from a (possibly tenant-scoped) cache key.
  *
  * - For plain fingerprints: returns the key unchanged.
- * - For tenant-scoped keys ("tenant:<id>:<fingerprint>"): returns only the fingerprint part.
+ * - For tenant-scoped keys ("tenant:&lt;id&gt;:<fingerprint>"): returns only the fingerprint part.
  *
  * This is needed by exportSnapshot() so the exported log records always carry
  * a bare 64-char hex key that warmupFromLog() can re-import correctly.
@@ -503,7 +503,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
             if (isExpired(created_at_ms, ttl_seconds)) continue;
 
             int ttl_remaining_s = ttl_seconds
-                - static_cast<int>((now_ms - created_at_ms) / 1000);
+                - static_cast&lt;int&gt;((now_ms - created_at_ms) / 1000);
             if (ttl_remaining_s <= 0) continue;
 
             std::string value_json = entry->result.dump();
@@ -513,7 +513,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
             // Bug fix: always export the bare SHA-256 fingerprint, not the
             // tenant-scoped cache key.  warmupFromLog() validates the key with
             // isValidSha256Key() which requires a 64-char hex string; exporting
-            // "tenant:<id>:<fp>" would cause those entries to be silently
+            // "tenant:&lt;id&gt;:<fp>" would cause those entries to be silently
             // skipped on re-import.
             rec["key"] = extractFingerprintFromKey(key);
             rec["value_b64"] = value_b64;
@@ -534,7 +534,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) continue;
 
             int ttl_remaining_s = entry.ttl_seconds
-                - static_cast<int>((now_ms - entry.created_at_ms) / 1000);
+                - static_cast&lt;int&gt;((now_ms - entry.created_at_ms) / 1000);
             if (ttl_remaining_s <= 0) continue;
 
             auto decompressed = utils::zstd_decompress(entry.compressed_result);

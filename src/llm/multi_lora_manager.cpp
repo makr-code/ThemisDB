@@ -665,7 +665,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
                     wall_end - wall_start).count()) / 1000.0f;
 
             response.text             = std::move(generated_text);
-            response.tokens_generated = static_cast<int>(generated.size());
+            response.tokens_generated = static_cast&lt;int&gt;(generated.size());
             response.latency_ms       = static_cast<int64_t>(latency_ms);
             response.inference_time_ms = latency_ms;
             response.tokens_per_second = latency_ms > 0.0f
@@ -1242,7 +1242,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                                                        : std::numeric_limits<float>::quiet_NaN();
                             } else {
                                 weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1u << 10u)),
-                                                                             static_cast<int>(e) - 25);
+                                                                             static_cast&lt;int&gt;(e) - 25);
                             }
                         }
                     } else {
@@ -1590,7 +1590,7 @@ void MultiLoRAManager::setMultiGPUConfig(const MultiGPUConfig& config) {
     spdlog::info("Multi-GPU configuration updated: {} GPUs", config.devices.size());
 }
 
-std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_id) const {
+std::vector&lt;int&gt; MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = loras_.find(lora_id);
@@ -1626,8 +1626,8 @@ size_t MultiLoRAManager::balanceGPULoad() {
     size_t avg_usage = total_usage / gpu_vram_usage_.size();
     
     // Find GPUs that exceed threshold
-    std::vector<int> overloaded_gpus;
-    std::vector<int> underloaded_gpus;
+    std::vector&lt;int&gt; overloaded_gpus;
+    std::vector&lt;int&gt; underloaded_gpus;
     
     for (const auto& [gpu_id, usage] : gpu_vram_usage_) {
         float usage_ratio = static_cast<float>(usage) / config_.multi_gpu.max_vram_per_gpu_mb;
@@ -1938,14 +1938,14 @@ bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
 #endif
 }
 
-std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
+std::vector&lt;int&gt; MultiLoRAManager::getAvailableGPUs() const {
     // Already locked by caller
     
     if (!config_.multi_gpu.enabled) {
         return {0};
     }
     
-    std::vector<int> available;
+    std::vector&lt;int&gt; available;
     for (int gpu_id : config_.multi_gpu.devices) {
         if (isGPUHealthy(gpu_id)) {
             available.push_back(gpu_id);
@@ -2547,7 +2547,7 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     }
     
     // Find unhealthy GPUs with LoRAs
-    std::vector<int> unhealthy_gpus;
+    std::vector&lt;int&gt; unhealthy_gpus;
     for (const auto& [gpu_id, is_healthy] : gpu_health_status_) {
         if (!is_healthy) {
             unhealthy_gpus.push_back(gpu_id);
@@ -2559,7 +2559,7 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     }
     
     // Find healthy target GPU
-    std::vector<int> healthy_gpus = getAvailableGPUs();
+    std::vector&lt;int&gt; healthy_gpus = getAvailableGPUs();
     if (healthy_gpus.empty()) {
         spdlog::error("No healthy GPUs available for migration");
         return 0;

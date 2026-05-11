@@ -200,11 +200,11 @@ std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
 
     if (ctx.confidence < 0.4) {
         out << "Your self-reported confidence is low ("
-            << static_cast<int>(ctx.confidence * 100)
+            << static_cast&lt;int&gt;(ctx.confidence * 100)
             << "%). Be extra critical of unverified claims in the response.\n";
     } else if (ctx.confidence > 0.9) {
         out << "Your self-reported confidence is high ("
-            << static_cast<int>(ctx.confidence * 100)
+            << static_cast&lt;int&gt;(ctx.confidence * 100)
             << "%). Check for potential overconfidence that may mask inaccuracies.\n";
     }
 
@@ -572,7 +572,7 @@ ReflectionResult ReflectionTuner::tuneFromPrompt(const std::string& prompt) {
 ReflectionResult ReflectionTuner::tune(const std::string& prompt,
                                         const std::string& initial_response) {
     ReflectionResult result;
-    result.metadata["strategy"]       = static_cast<int>(config_.strategy);
+    result.metadata["strategy"]       = static_cast&lt;int&gt;(config_.strategy);
     result.metadata["max_iterations"] = config_.max_iterations;
     result.metadata["provider"]       =
         provider_ ? provider_->name() : std::string("fallback");

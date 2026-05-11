@@ -56,7 +56,7 @@ struct DistributedConfig {
     
     json toJSON() const {
         return json{
-            {"backend", static_cast<int>(backend)},
+            {"backend", static_cast&lt;int&gt;(backend)},
             {"world_size", world_size},
             {"rank", rank},
             {"master_addr", master_addr},
@@ -68,7 +68,7 @@ struct DistributedConfig {
     
     static DistributedConfig fromJSON(const json& j) {
         DistributedConfig config;
-        if (j.contains("backend")) config.backend = static_cast<DistributedBackend>(j["backend"].get<int>());
+        if (j.contains("backend")) config.backend = static_cast<DistributedBackend>(j["backend"].get&lt;int&gt;());
         if (j.contains("world_size")) config.world_size = j["world_size"];
         if (j.contains("rank")) config.rank = j["rank"];
         if (j.contains("master_addr")) config.master_addr = j["master_addr"];

@@ -29,7 +29,7 @@
  *
  * ## Design Goals
  * - Each tenant gets its own cardinality budget enforced independently.
- * - Metric names are automatically prefixed: `themis_<tenant_id>_<metric>`.
+ * - Metric names are automatically prefixed: `themis_&lt;tenant_id&gt;_<metric>`.
  * - Label sets are scoped to the tenant; a label key/value from tenant A
  *   can never inflate the cardinality count of tenant B.
  * - Thread-safe: all methods acquire an internal shared/unique mutex.
@@ -117,7 +117,7 @@ struct TenantMetricsStats {
  *
  * Internally each tenant owns an independent set of counters, gauges and
  * histogram samples.  Prometheus export prefixes every metric name with
- * `themis_<tenant_id>_` and automatically injects `tenant_id="<id>"` into
+ * `themis_&lt;tenant_id&gt;_` and automatically injects `tenant_id="&lt;id&gt;"` into
  * every label set, so per-tenant and cross-tenant aggregations are both
  * possible from a single scrape endpoint.
  *
@@ -200,8 +200,8 @@ public:
     /**
      * @brief Export Prometheus text-format metrics for a single tenant.
      *
-     * Every metric name is prefixed with `themis_<tenant_id>_` and every
-     * label set includes `tenant_id="<id>"`.
+     * Every metric name is prefixed with `themis_&lt;tenant_id&gt;_` and every
+     * label set includes `tenant_id="&lt;id&gt;"`.
      *
      * @returns Prometheus text or an empty string if the tenant is unknown.
      */

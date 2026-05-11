@@ -192,7 +192,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
 
     // Generate a random 12-byte IV.
     std::vector<uint8_t> iv(IV_LEN);
-    if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
+    if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(IV_LEN)) != 1) {
         OPENSSL_cleanse(dek.data(), dek.size());
         throw std::runtime_error(
             "ExportEncryption: failed to generate random IV");
@@ -218,7 +218,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
             throw std::runtime_error("ExportEncryption: EncryptInit failed");
         }
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN,
-                                 static_cast<int>(IV_LEN), nullptr) != 1) {
+                                 static_cast&lt;int&gt;(IV_LEN), nullptr) != 1) {
             throw std::runtime_error("ExportEncryption: set IV length failed");
         }
         if (EVP_EncryptInit_ex(ctx, nullptr, nullptr,
@@ -231,7 +231,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
         if (!aad.empty() &&
             EVP_EncryptUpdate(ctx, nullptr, &out_len,
                               aad.data(),
-                              static_cast<int>(aad.size())) != 1) {
+                              static_cast&lt;int&gt;(aad.size())) != 1) {
             throw std::runtime_error("ExportEncryption: AAD feed failed");
         }
 
@@ -244,7 +244,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
             }
             if (EVP_EncryptUpdate(ctx, ciphertext.data(), &out_len,
                                   plaintext.data(),
-                                  static_cast<int>(plaintext.size())) != 1) {
+                                  static_cast&lt;int&gt;(plaintext.size())) != 1) {
                 throw std::runtime_error("ExportEncryption: EncryptUpdate failed");
             }
         }
@@ -256,7 +256,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
         // For GCM with no padding, final_len is always 0.
 
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG,
-                                 static_cast<int>(TAG_LEN),
+                                 static_cast&lt;int&gt;(TAG_LEN),
                                  tag.data()) != 1) {
             throw std::runtime_error("ExportEncryption: get tag failed");
         }
@@ -405,7 +405,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t>& container) const {
             throw std::runtime_error("ExportEncryption: DecryptInit failed");
         }
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN,
-                                 static_cast<int>(IV_LEN), nullptr) != 1) {
+                                 static_cast&lt;int&gt;(IV_LEN), nullptr) != 1) {
             throw std::runtime_error("ExportEncryption: set IV length failed");
         }
         if (EVP_DecryptInit_ex(ctx, nullptr, nullptr,
@@ -418,7 +418,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t>& container) const {
         if (!aad.empty() &&
             EVP_DecryptUpdate(ctx, nullptr, &out_len,
                               aad.data(),
-                              static_cast<int>(aad.size())) != 1) {
+                              static_cast&lt;int&gt;(aad.size())) != 1) {
             throw std::runtime_error("ExportEncryption: AAD feed failed");
         }
 
@@ -431,14 +431,14 @@ ExportEncryption::decrypt(const std::vector<uint8_t>& container) const {
             }
             if (EVP_DecryptUpdate(ctx, plaintext.data(), &out_len,
                                   ct_ptr,
-                                  static_cast<int>(ct_len)) != 1) {
+                                  static_cast&lt;int&gt;(ct_len)) != 1) {
                 throw std::runtime_error("ExportEncryption: DecryptUpdate failed");
             }
         }
 
         // Set expected tag before finalising.
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG,
-                                 static_cast<int>(TAG_LEN),
+                                 static_cast&lt;int&gt;(TAG_LEN),
                                  const_cast<uint8_t*>(tag.data())) != 1) {
             throw std::runtime_error("ExportEncryption: set tag failed");
         }
@@ -652,13 +652,13 @@ std::vector<uint8_t> ExportEncryptor::deriveDataKey(const std::vector<uint8_t>& 
 
 std::string ExportEncryptor::generateJobId() {
     uint8_t buf[8];
-    if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
+    if (RAND_bytes(buf, static_cast&lt;int&gt;(sizeof(buf))) != 1) {
         throw EncryptionException("Failed to generate random job ID");
     }
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (uint8_t b : buf) {
-        oss << std::setw(2) << static_cast<int>(b);
+        oss << std::setw(2) << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -840,7 +840,7 @@ size_t ExportEncryptor::encryptFile(const std::string& input_path,
         const auto* aad_ptr =
             reinterpret_cast<const unsigned char*>(effective_job_id.data());
         if (EVP_EncryptUpdate(ctx, nullptr, &aad_out, aad_ptr,
-                               static_cast<int>(effective_job_id.size())) != 1) {
+                               static_cast&lt;int&gt;(effective_job_id.size())) != 1) {
             cleanup_ctx();
             throw EncryptionException("Failed to set GCM AAD (job_id)");
         }
@@ -859,7 +859,7 @@ size_t ExportEncryptor::encryptFile(const std::string& input_path,
         int ct_len = 0;
         if (EVP_EncryptUpdate(ctx, cipher_buf.data(), &ct_len,
                                plain_buf.data(),
-                               static_cast<int>(bytes_read)) != 1) {
+                               static_cast&lt;int&gt;(bytes_read)) != 1) {
             cleanup_ctx();
             throw EncryptionException("EVP_EncryptUpdate failed during streaming");
         }
@@ -1010,7 +1010,7 @@ size_t ExportEncryptor::decryptFile(const std::string& input_path,
         int aad_out = 0;
         const auto* aad_ptr = reinterpret_cast<const unsigned char*>(job_id.data());
         if (EVP_DecryptUpdate(ctx, nullptr, &aad_out, aad_ptr,
-                               static_cast<int>(job_id.size())) != 1) {
+                               static_cast&lt;int&gt;(job_id.size())) != 1) {
             cleanup_ctx();
             throw DecryptionException("Failed to set GCM AAD (job_id)");
         }
@@ -1033,7 +1033,7 @@ size_t ExportEncryptor::decryptFile(const std::string& input_path,
         int pt_len = 0;
         if (EVP_DecryptUpdate(ctx, plain_buf.data(), &pt_len,
                                cipher_buf.data(),
-                               static_cast<int>(bytes_read)) != 1) {
+                               static_cast&lt;int&gt;(bytes_read)) != 1) {
             cleanup_ctx();
             throw DecryptionException("EVP_DecryptUpdate failed during streaming");
         }

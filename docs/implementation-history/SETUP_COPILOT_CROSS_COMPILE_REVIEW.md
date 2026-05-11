@@ -161,7 +161,7 @@ Beim Schreiben von Code:
 
 **[RULE_1_forbidden_headers]** Line 42: Forbidden platform-specific header: windows.h
 ```c++
-#include <windows.h>
+\#include <windows.h>
 ```
 💡 Use cross-platform alternative from vcpkg or C++20 standard
 
@@ -302,4 +302,3 @@ Nach Setup sollte Folgendes funktionieren:
 **Erstellt:** 2026-01-15  
 **Version:** 1.0  
 **Maintainer:** ThemisDB Team
-

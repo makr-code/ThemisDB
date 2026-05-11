@@ -39,7 +39,7 @@ GradientCheckpointer::GradientCheckpointer(const CheckpointConfig& config)
     stats_.total_layers = config_.total_layers;
     
     spdlog::info("GradientCheckpointer initialized:");
-    spdlog::info("  Strategy: {}", static_cast<int>(config_.strategy));
+    spdlog::info("  Strategy: {}", static_cast&lt;int&gt;(config_.strategy));
     spdlog::info("  Total layers: {}", config_.total_layers);
     
     if (config_.strategy == CheckpointStrategy::UNIFORM) {
@@ -236,7 +236,7 @@ int GradientCheckpointer::calculateSqrtNInterval() const {
     }
     
     // Checkpoint every √n layers
-    int interval = static_cast<int>(std::sqrt(config_.total_layers));
+    int interval = static_cast&lt;int&gt;(std::sqrt(config_.total_layers));
     
     // Ensure at least 1 (avoid divide by zero)
     return std::max(1, interval);

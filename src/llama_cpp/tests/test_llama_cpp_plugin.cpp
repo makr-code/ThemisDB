@@ -534,8 +534,8 @@ TEST(LlamaCppPluginFocusedTests, P1_ConcurrentGenerateNoRaceOrDeadlock) {
     LlamaCppPlugin plugin;
     plugin.loadModel("", {});  // stub mode
 
-    std::atomic<int> success_count{0};
-    std::atomic<int> failure_count{0};
+    std::atomic&lt;int&gt; success_count{0};
+    std::atomic&lt;int&gt; failure_count{0};
 
     auto worker = [&]() {
         for (int i = 0; i < kPerThread; ++i) {
@@ -571,7 +571,7 @@ TEST(LlamaCppPluginFocusedTests, P2_ConcurrentGenerateBatchCorrectResponseCount)
     LlamaCppPlugin plugin;
     plugin.loadModel("", {});
 
-    std::atomic<int> wrong_size_count{0};
+    std::atomic&lt;int&gt; wrong_size_count{0};
 
     auto worker = [&]() {
         std::vector<InferenceRequest> batch;
@@ -582,7 +582,7 @@ TEST(LlamaCppPluginFocusedTests, P2_ConcurrentGenerateBatchCorrectResponseCount)
             batch.push_back(req);
         }
         const auto results = plugin.generateBatch(batch);
-        if (static_cast<int>(results.size()) != kBatchSize) {
+        if (static_cast&lt;int&gt;(results.size()) != kBatchSize) {
             ++wrong_size_count;
         }
     };
@@ -608,7 +608,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
 
     // Half the threads load LoRA adapters; the other half call generate().
     // No deadlock or crash is expected.
-    std::atomic<int> generate_ok{0};
+    std::atomic&lt;int&gt; generate_ok{0};
 
     auto lora_writer = [&](int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";

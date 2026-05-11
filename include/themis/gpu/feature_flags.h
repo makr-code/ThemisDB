@@ -153,7 +153,7 @@ private:
     // Only entries that were explicitly set via enable()/disable() appear here.
     std::unordered_map<int, bool> overrides_;
 
-    static int key(Feature f) noexcept { return static_cast<int>(f); }
+    static int key(Feature f) noexcept { return static_cast&lt;int&gt;(f); }
 
     void initDefaults();
     static bool editionDefaultFor(Feature f);

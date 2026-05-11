@@ -216,7 +216,7 @@ ReplicationObserver::calculateHealthScore() const
         if (r.health_status == HealthStatus::FAILED)   ++failed;
         else if (r.health_status == HealthStatus::DEGRADED) ++degraded;
     }
-    const int total = static_cast<int>(replicas.size());
+    const int total = static_cast&lt;int&gt;(replicas.size());
     // Each failed replica costs 30 points; each degraded costs 10
     score.availability_score = std::max(0,
         100 - (failed * 30) - (degraded * 10));
@@ -237,7 +237,7 @@ ReplicationObserver::calculateHealthScore() const
                                std::to_string(config_.critical_lag_threshold_ms) + "ms");
     } else if (max_lag_ms > config_.high_lag_threshold_ms) {
         score.lag_score = std::max(0,
-            100 - static_cast<int>(
+            100 - static_cast&lt;int&gt;(
                 80.0 * (max_lag_ms - config_.high_lag_threshold_ms) /
                 (config_.critical_lag_threshold_ms - config_.high_lag_threshold_ms)));
         score.issues.push_back("Max replication lag " + std::to_string(max_lag_ms) + "ms is elevated");

@@ -39,7 +39,7 @@ namespace pointer {
  * @return T* The same pointer (guaranteed non-null)
  * @throws std::runtime_error if ptr is nullptr
  * 
- * @example
+ * @par Example
  * SomeType* ptr = get_pointer();
  * auto* validated = require_non_null(ptr, "get_pointer returned null");
  * validated->method(); // Safe - guaranteed non-null
@@ -60,7 +60,7 @@ T* require_non_null(T* ptr, const char* message = "Null pointer") {
  * @param ptr Pointer to convert
  * @return std::optional<T*> Optional containing pointer or nullopt
  * 
- * @example
+ * @par Example
  * SomeType* ptr = get_pointer();
  * if (auto opt = as_optional(ptr)) {
  *     (*opt)->method(); // Safe usage
@@ -80,7 +80,7 @@ std::optional<T*> as_optional(T* ptr) noexcept {
  * @param func Function to invoke on dereferenced pointer
  * @return std::optional with result, or nullopt if ptr is null
  * 
- * @example
+ * @par Example
  * SomeType* ptr = get_pointer();
  * auto result = safe_invoke(ptr, [](SomeType& obj) {
  *     return obj.compute();
@@ -117,7 +117,7 @@ auto safe_invoke(T* ptr, Func&& func)
  * @return std::unique_ptr with custom deleter
  * @throws std::runtime_error if ptr is nullptr
  * 
- * @example
+ * @par Example
  * auto file_ptr = wrap_c_ptr(fopen("file.txt", "r"), [](FILE* f) {
  *     if (f) fclose(f);
  * });
@@ -140,7 +140,7 @@ std::unique_ptr<T, Deleter> wrap_c_ptr(T* ptr, Deleter deleter) {
  * @param base Base pointer to cast
  * @return std::optional<Derived*> Optional containing casted pointer or nullopt
  * 
- * @example
+ * @par Example
  * Base* base = get_base();
  * if (auto derived = safe_dynamic_cast<Derived>(base)) {
  *     (*derived)->derived_method();
@@ -165,7 +165,7 @@ std::optional<Derived*> safe_dynamic_cast(Base* base) noexcept {
  * @param message Warning message if lock fails
  * @return std::optional<std::shared_ptr<T>> Locked shared_ptr or nullopt
  * 
- * @example
+ * @par Example
  * std::weak_ptr<Resource> weak = get_weak();
  * if (auto shared = safe_lock(weak, "Resource expired")) {
  *     (*shared)->use();
@@ -193,7 +193,7 @@ std::optional<std::shared_ptr<T>> safe_lock(
  * @param key Key or index
  * @return std::optional with value or nullopt if not found
  * 
- * @example
+ * @par Example
  * std::map<std::string, int> map;
  * if (auto val = safe_at(map, "key")) {
  *     // Use val.value()

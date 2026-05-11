@@ -155,7 +155,7 @@ bool DirectXContext::create_device() {
         }
         
         // Try to create device
-        if (static_cast<int>(i) == adapter_id_) {
+        if (static_cast&lt;int&gt;(i) == adapter_id_) {
             HRESULT hr = D3D12CreateDevice(
                 temp_adapter.Get(),
                 D3D_FEATURE_LEVEL_12_0,

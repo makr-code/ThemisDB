@@ -393,7 +393,7 @@ public:
                                   const std::string& doc_key,
                                   Timestamp sys_start);
 
-    /** Prefix for all versions of (table_name, doc_key): `<table>\x01<key>\x01` */
+    /** Prefix for all versions of (table_name, doc_key): `<table>\x01&lt;key&gt;\x01` */
     static std::string keyPrefix(const std::string& table_name,
                                   const std::string& doc_key);
 

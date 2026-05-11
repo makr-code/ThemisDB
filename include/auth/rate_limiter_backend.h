@@ -142,10 +142,10 @@ private:
  * Uses a single Lua script executed atomically on the Redis server to maintain
  * a sorted-set sliding window per key, avoiding any TOCTOU race:
  *
- *   1. ZREMRANGEBYSCORE <key> -inf <window_start_us>   -- prune expired entries
- *   2. ZADD <key> <now_us> <unique_member>             -- record this request
- *   3. EXPIRE <key> <window_seconds + 1>               -- bound storage lifetime
- *   4. return ZCARD <key>                              -- count in window
+ *   1. ZREMRANGEBYSCORE &lt;key&gt; -inf &lt;window_start_us&gt;   -- prune expired entries
+ *   2. ZADD &lt;key&gt; &lt;now_us&gt; &lt;unique_member&gt;             -- record this request
+ *   3. EXPIRE &lt;key&gt; &lt;window_seconds + 1&gt;               -- bound storage lifetime
+ *   4. return ZCARD &lt;key&gt;                              -- count in window
  *
  * Because Redis executes Lua scripts atomically (single-threaded), step 1-4 form
  * an indivisible unit — no concurrent request can observe a partial state.

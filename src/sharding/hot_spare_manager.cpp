@@ -176,7 +176,7 @@ void HotSpareManager::removeSpare(const std::string& shard_id) {
     if (it->second.state == SpareState::ACTIVE || 
         it->second.state == SpareState::REBUILDING) {
         spdlog::error("Cannot remove spare shard {} in state {}", 
-                     shard_id, static_cast<int>(it->second.state));
+                     shard_id, static_cast&lt;int&gt;(it->second.state));
         return;
     }
     
@@ -375,7 +375,7 @@ void HotSpareManager::triggerRebuild(const std::string& spare_shard_id) {
     
     if (it->second.state != SpareState::ACTIVE) {
         spdlog::error("Cannot trigger rebuild for spare {} in state {}", 
-                     spare_shard_id, static_cast<int>(it->second.state));
+                     spare_shard_id, static_cast&lt;int&gt;(it->second.state));
         return;
     }
     

@@ -245,7 +245,7 @@ public:
     /**
      * @brief POST /api/v1/observability/alerts/{id}/silence
      * Silences the named alert for a configurable duration.
-     * Body: { "duration_minutes": <int> }  (default: 60)
+     * Body: { "duration_minutes": &lt;int&gt; }  (default: 60)
      * @param req HTTP request (path contains alert_id)
      * @return HTTP 200 on success, 400/404 on error
      */

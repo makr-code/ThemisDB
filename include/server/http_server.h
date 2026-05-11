@@ -535,7 +535,7 @@ public:
 
     /**
      * @brief Attach an MCP server instance to enable the AI Safety Layer
-     *        HILG approval endpoints (`/v1/ai/*`).
+     *        HILG approval endpoints (`/v1/ai/\*`).
      *
      * The pointer must remain valid for the lifetime of the HttpServer.
      * Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md

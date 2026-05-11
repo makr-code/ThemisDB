@@ -364,28 +364,28 @@ std::vector<std::string> SelfAwareness::detectAnomalies(const Snapshot& snapshot
     // CPU anomalies
     if (snapshot.health.cpu_usage_percent >= config_.cpu_critical_threshold) {
         anomalies.push_back("CRITICAL: CPU usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.cpu_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.cpu_usage_percent * 100)) + "%");
     } else if (snapshot.health.cpu_usage_percent >= config_.cpu_warning_threshold) {
         anomalies.push_back("WARNING: CPU usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.cpu_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.cpu_usage_percent * 100)) + "%");
     }
     
     // Memory anomalies
     if (snapshot.health.memory_usage_percent >= config_.memory_critical_threshold) {
         anomalies.push_back("CRITICAL: Memory usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.memory_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.memory_usage_percent * 100)) + "%");
     } else if (snapshot.health.memory_usage_percent >= config_.memory_warning_threshold) {
         anomalies.push_back("WARNING: Memory usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.memory_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.memory_usage_percent * 100)) + "%");
     }
     
     // Disk anomalies
     if (snapshot.health.disk_usage_percent >= config_.disk_critical_threshold) {
         anomalies.push_back("CRITICAL: Disk usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.disk_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.disk_usage_percent * 100)) + "%");
     } else if (snapshot.health.disk_usage_percent >= config_.disk_warning_threshold) {
         anomalies.push_back("WARNING: Disk usage at " + 
-            std::to_string(static_cast<int>(snapshot.health.disk_usage_percent * 100)) + "%");
+            std::to_string(static_cast&lt;int&gt;(snapshot.health.disk_usage_percent * 100)) + "%");
     }
     
     // Capability anomalies
@@ -398,7 +398,7 @@ std::vector<std::string> SelfAwareness::detectAnomalies(const Snapshot& snapshot
     if (snapshot.performance.total_queries > 100 &&
         snapshot.performance.avg_query_time_ms > 5000) {
         anomalies.push_back("WARNING: High average query time: " + 
-            std::to_string(static_cast<int>(snapshot.performance.avg_query_time_ms)) + "ms");
+            std::to_string(static_cast&lt;int&gt;(snapshot.performance.avg_query_time_ms)) + "ms");
     }
     
     return anomalies;
@@ -451,8 +451,8 @@ nlohmann::json SelfAwareness::compareWithPrevious() const {
     
     // Compare capabilities
     comparison["capabilities"]["shard_count_change"] = 
-        static_cast<int>(current.capabilities.total_shards) - 
-        static_cast<int>(previous.capabilities.total_shards);
+        static_cast&lt;int&gt;(current.capabilities.total_shards) - 
+        static_cast&lt;int&gt;(previous.capabilities.total_shards);
     comparison["capabilities"]["document_count_change"] = 
         static_cast<int64_t>(current.capabilities.total_documents) - 
         static_cast<int64_t>(previous.capabilities.total_documents);
@@ -620,7 +620,7 @@ void SelfAwareness::loadSnapshots() {
                 // Restore timestamp from JSON (stored as ctime string)
                 if (j.contains("timestamp")) {
                     // best-effort: timestamp_epoch_ms is stored in filename
-                    auto fname = path.stem().string(); // "snapshot_<ms>"
+                    auto fname = path.stem().string(); // "snapshot_&lt;ms&gt;"
                     auto sep = fname.rfind('_');
                     if (sep != std::string::npos) {
                         try {

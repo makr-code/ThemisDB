@@ -70,7 +70,7 @@ namespace themis {
  * Remote shards are queried via HTTP POST to `Config::search_endpoint`
  * (default: `/api/v1/search/hybrid`).  The request body is a JSON object:
  * ```json
- * { "query": "<text>", "k": <int>, "vector_query": [<float>, ...] }
+ * { "query": "<text>", "k": &lt;int&gt;, "vector_query": [<float>, ...] }
  * ```
  * The response must be a JSON array of result objects, each with fields
  * `document_id`, `bm25_score`, `vector_score`, `hybrid_score`, `bm25_rank`,

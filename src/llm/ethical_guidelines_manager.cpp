@@ -93,7 +93,7 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
                 principle.name = p["name"].as<std::string>();
                 principle.description = p["description"].as<std::string>();
                 if (p["description_en"]) principle.description_en = p["description_en"].as<std::string>();
-                principle.priority = p["priority"].as<int>();
+                principle.priority = p["priority"].as&lt;int&gt;();
                 principles_.push_back(principle);
             }
         }

@@ -309,7 +309,7 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
         {"node_id", node_id_},
         {"is_coordinator", isLeader()},
         {"coordinator_id", stats.current_leader},
-        {"state", static_cast<int>(stats.state)},
+        {"state", static_cast&lt;int&gt;(stats.state)},
         {"commit_index", stats.commit_index},
         {"cluster_size", stats.cluster_size},
         {"total_operations", stats.total_operations},

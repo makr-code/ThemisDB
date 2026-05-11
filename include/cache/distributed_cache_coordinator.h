@@ -42,9 +42,9 @@
  * loop re-establishes connections at configurable intervals.
  *
  * Message encoding: JSON objects sent as the Redis message payload.
- *   Entry PUT:   {"type":"ENTRY_PUT","key":"<fp>","tenant_id":"<id>",
+ *   Entry PUT:   {"type":"ENTRY_PUT","key":"<fp>","tenant_id":"&lt;id&gt;",
  *                 "ttl_seconds":<n>,"result":{...}}
- *   Invalidate:  {"type":"INVALIDATE","key":"<pattern>","tenant_id":"<id>"}
+ *   Invalidate:  {"type":"INVALIDATE","key":"&lt;pattern&gt;","tenant_id":"&lt;id&gt;"}
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0

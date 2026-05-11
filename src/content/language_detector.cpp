@@ -163,7 +163,7 @@ std::string toLower(std::string_view text) {
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {
         lower += static_cast<char>(
-            (c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c
+            (c < 128) ? static_cast<char>(std::tolower(static_cast&lt;int&gt;(c))) : c
         );
     }
     lower += ' '; // sentinel: ensure last word gets a trailing space

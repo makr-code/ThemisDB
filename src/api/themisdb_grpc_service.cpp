@@ -77,7 +77,7 @@ inline std::string aqlEscape(const std::string& raw) {
     return aqlEscapeLiteral(raw);
 }
 
-/// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
+/// Validate a collection name used as an AQL identifier (FOR doc IN &lt;name&gt;).
 /// Delegates to the shared header implementation.
 inline bool isValidCollectionName(const std::string& name) {
     return isValidAqlIdentifier(name);

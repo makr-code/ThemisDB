@@ -47,7 +47,7 @@ namespace utils {
  * - Reduced connection establishment overhead
  * - Better resource utilization under high concurrency
  * 
- * @sources
+ * Sources:
  * - Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md
  * - Quick Wins: docs/de/performance/OPTIMIZATION_QUICK_WINS.md
  */

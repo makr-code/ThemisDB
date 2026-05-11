@@ -27,7 +27,7 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids) 
+MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector&lt;int&gt;& gpu_ids) 
     : gpu_type_(DeviceType::CPU), is_homogeneous_(true) {
     
     detect_gpus(num_gpus, gpu_ids);
@@ -46,7 +46,7 @@ MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids)
     }
 }
 
-void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids) {
+void MultiGPUContext::detect_gpus(int num_gpus, const std::vector&lt;int&gt;& gpu_ids) {
     devices_.clear();
     
     // If specific GPU IDs are provided, use them
@@ -178,7 +178,7 @@ void MultiGPUContext::synchronize_all() const {
 
 GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
     GPUTopology topology;
-    topology.num_gpus = static_cast<int>(devices.size());
+    topology.num_gpus = static_cast&lt;int&gt;(devices.size());
     
     if (topology.num_gpus == 0) {
         return topology;

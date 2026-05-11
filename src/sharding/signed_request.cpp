@@ -55,7 +55,7 @@ namespace {
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
         auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
-        BIO_write(bio.get(), data, static_cast<int>(len));
+        BIO_write(bio.get(), data, static_cast&lt;int&gt;(len));
         BIO_flush(bio.get());
         
         BUF_MEM* buffer_ptr;
@@ -68,7 +68,7 @@ namespace {
     
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
-        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast&lt;int&gt;(encoded.size()));
         if (!bmem) return std::nullopt;
         BIO* b64 = BIO_new(BIO_f_base64());
         if (!b64) { BIO_free(bmem); return std::nullopt; }
@@ -76,7 +76,7 @@ namespace {
         auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
         std::vector<unsigned char> decoded(encoded.size());
-        int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
+        int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast&lt;int&gt;(decoded.size()));
         
         if (decoded_len < 0) {
             return std::nullopt;
@@ -421,7 +421,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     }
 
     // Step 2: Parse the certificate and extract the public key.
-    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
+    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast&lt;int&gt;(cert_pem.size()));
     if (!bio) return false;
     auto cert = utils::read_x509_from_bio(bio.get());
     if (!cert) return false;

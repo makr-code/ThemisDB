@@ -47,7 +47,7 @@ MultiGPUMemoryCoordinator::MultiGPUMemoryCoordinator()
 
 MultiGPUMemoryCoordinator::~MultiGPUMemoryCoordinator() = default;
 
-bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
+bool MultiGPUMemoryCoordinator::initialize(const std::vector&lt;int&gt;& gpu_ids) {
     if (gpu_ids.empty()) {
         spdlog::error("MultiGPUMemoryCoordinator: No GPU IDs provided");
         return false;
@@ -194,13 +194,13 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
 
 MultiGPUMemoryCoordinator::DistributionPlan 
 MultiGPUMemoryCoordinator::distributeModelWeights(
-    const std::vector<int>& gpu_ids,
+    const std::vector&lt;int&gt;& gpu_ids,
     size_t model_size_bytes
 ) {
     DistributionPlan plan;
     plan.strategy = DistributionStrategy::TENSOR_PARALLEL;
     plan.gpu_ids = gpu_ids;
-    plan.tensor_parallel_size = static_cast<int>(gpu_ids.size());
+    plan.tensor_parallel_size = static_cast&lt;int&gt;(gpu_ids.size());
     plan.pipeline_parallel_size = 1;
     
     // Split model evenly across GPUs (tensor parallelism)
@@ -225,7 +225,7 @@ MultiGPUMemoryCoordinator::distributeModelWeights(
 
 MultiGPUMemoryCoordinator::DistributionPlan 
 MultiGPUMemoryCoordinator::distributeLayers(
-    const std::vector<int>& gpu_ids,
+    const std::vector&lt;int&gt;& gpu_ids,
     size_t num_layers,
     size_t layer_size_bytes
 ) {
@@ -233,7 +233,7 @@ MultiGPUMemoryCoordinator::distributeLayers(
     plan.strategy = DistributionStrategy::PIPELINE_PARALLEL;
     plan.gpu_ids = gpu_ids;
     plan.tensor_parallel_size = 1;
-    plan.pipeline_parallel_size = static_cast<int>(gpu_ids.size());
+    plan.pipeline_parallel_size = static_cast&lt;int&gt;(gpu_ids.size());
     
     // Distribute layers across GPUs
     size_t layers_per_gpu = num_layers / gpu_ids.size();
@@ -241,11 +241,11 @@ MultiGPUMemoryCoordinator::distributeLayers(
     
     size_t current_layer = 0;
     for (size_t i = 0; i < gpu_ids.size(); ++i) {
-        std::vector<int> gpu_layers;
+        std::vector&lt;int&gt; gpu_layers;
         size_t num_layers_this_gpu = layers_per_gpu + (i < remaining_layers ? 1 : 0);
         
         for (size_t j = 0; j < num_layers_this_gpu; ++j) {
-            gpu_layers.push_back(static_cast<int>(current_layer++));
+            gpu_layers.push_back(static_cast&lt;int&gt;(current_layer++));
         }
         
         plan.layer_assignments.push_back(gpu_layers);
@@ -266,7 +266,7 @@ MultiGPUMemoryCoordinator::distributeLayers(
 
 MultiGPUMemoryCoordinator::DistributionPlan 
 MultiGPUMemoryCoordinator::balanceInferenceLoad(
-    const std::vector<int>& gpu_ids,
+    const std::vector&lt;int&gt;& gpu_ids,
     size_t total_batch_size
 ) {
     DistributionPlan plan;
@@ -301,7 +301,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
             batch_for_gpu = total_batch_size - assigned;  // Give remainder to last GPU
         }
         
-        plan.batch_assignments.push_back(static_cast<int>(batch_for_gpu));
+        plan.batch_assignments.push_back(static_cast&lt;int&gt;(batch_for_gpu));
         assigned += batch_for_gpu;
     }
     
@@ -311,7 +311,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
     return plan;
 }
 
-bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
+bool MultiGPUMemoryCoordinator::enableP2P(const std::vector&lt;int&gt;& gpu_ids) {
     if (gpu_ids.size() < 2) {
         spdlog::warn("MultiGPUMemoryCoordinator::enableP2P: Need at least 2 GPUs");
         return false;

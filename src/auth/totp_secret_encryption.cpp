@@ -78,7 +78,7 @@ std::string base64Encode(const std::vector<uint8_t>& data) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data.data(), static_cast<int>(data.size()));
+    BIO_write(bio, data.data(), static_cast&lt;int&gt;(data.size()));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -95,13 +95,13 @@ std::vector<uint8_t> base64Decode(const std::string& input) {
     if (input.empty()) return {};
     
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.length()));
+    BIO* bio = BIO_new_mem_buf(input.data(), static_cast&lt;int&gt;(input.length()));
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> result(input.length());
-    int len = BIO_read(bio, result.data(), static_cast<int>(result.size()));
+    int len = BIO_read(bio, result.data(), static_cast&lt;int&gt;(result.size()));
     
     BIO_free_all(bio);
     
@@ -206,7 +206,7 @@ TOTPSecretEncryption::encrypt(const std::string& plaintext_secret) {
         
         int len;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, 
-                             plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+                             plaintext.data(), static_cast&lt;int&gt;(plaintext.size())) != 1) {
             throw std::runtime_error("Encryption failed");
         }
         
@@ -223,7 +223,7 @@ TOTPSecretEncryption::encrypt(const std::string& plaintext_secret) {
         // Get authentication tag
         result.tag.resize(impl_->config.tag_size);
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 
-                               static_cast<int>(impl_->config.tag_size), result.tag.data()) != 1) {
+                               static_cast&lt;int&gt;(impl_->config.tag_size), result.tag.data()) != 1) {
             throw std::runtime_error("Failed to get authentication tag");
         }
         
@@ -259,7 +259,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret& encrypted) {
         
         int len;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                             encrypted.ciphertext.data(), static_cast<int>(encrypted.ciphertext.size())) != 1) {
+                             encrypted.ciphertext.data(), static_cast&lt;int&gt;(encrypted.ciphertext.size())) != 1) {
             throw std::runtime_error("Decryption failed");
         }
         
@@ -267,7 +267,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret& encrypted) {
         
         // Set authentication tag
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG,
-                               static_cast<int>(encrypted.tag.size()), 
+                               static_cast&lt;int&gt;(encrypted.tag.size()), 
                                const_cast<uint8_t*>(encrypted.tag.data())) != 1) {
             throw std::runtime_error("Failed to set authentication tag");
         }
@@ -330,12 +330,12 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
     // Use PBKDF2-HMAC-SHA256
     if (PKCS5_PBKDF2_HMAC(
             reinterpret_cast<const char*>(impl_->config.master_key.data()),
-            static_cast<int>(impl_->config.master_key.size()),
+            static_cast&lt;int&gt;(impl_->config.master_key.size()),
             salt.data(),
-            static_cast<int>(salt.size()),
+            static_cast&lt;int&gt;(salt.size()),
             impl_->config.pbkdf2_iterations,
             EVP_sha256(),
-            static_cast<int>(derived_key.size()),
+            static_cast&lt;int&gt;(derived_key.size()),
             derived_key.data()) != 1) {
         throw std::runtime_error("Key derivation failed");
     }
@@ -346,7 +346,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
 std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
     std::vector<uint8_t> bytes(size);
     
-    if (RAND_bytes(bytes.data(), static_cast<int>(size)) != 1) {
+    if (RAND_bytes(bytes.data(), static_cast&lt;int&gt;(size)) != 1) {
         throw std::runtime_error("Random number generation failed");
     }
     
@@ -388,7 +388,7 @@ TOTPSecretRotationManager::rotateSecret(
     // Add new secret
     SecretVersion new_version;
     new_version.secret = new_secret;
-    new_version.version = static_cast<int>(secrets.size()) + 1;
+    new_version.version = static_cast&lt;int&gt;(secrets.size()) + 1;
     new_version.created_at = now;
     new_version.is_active = true;
     

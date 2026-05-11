@@ -133,7 +133,7 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
     
     try {
         std::lock_guard<std::mutex> lock(mutex_);
-        // Prefix scan over collection namespace: "<collection_name>:<id>"
+        // Prefix scan over collection namespace: "<collection_name>:&lt;id&gt;"
         const std::string prefix = config_.collection_name + ":";
         size_t skipped = 0;
         

@@ -38,7 +38,7 @@ using json = nlohmann::json;
  * @brief Document Metadata
  * 
  * Stores metadata about uploaded documents.
- * Primary Key: doc:<uuid>
+ * Primary Key: doc:&lt;uuid&gt;
  */
 struct DocumentMeta {
     std::string id;              // Document UUID (without "doc:" prefix)
@@ -61,7 +61,7 @@ struct DocumentMeta {
  * @brief Chunk Metadata
  * 
  * Represents a text chunk from a document with embedding.
- * Primary Key: chunk:<uuid>
+ * Primary Key: chunk:&lt;uuid&gt;
  */
 struct ChunkMeta {
     std::string id;              // Chunk UUID (without "chunk:" prefix)

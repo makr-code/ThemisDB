@@ -51,7 +51,7 @@ namespace themis {
  * 
  * MVP Scope:
  * - Filter edges by timestamp in traversal
- * - AQL extension: FILTER e.valid_from <= @t AND e.valid_to >= @t
+ * - AQL extension: FILTER e.valid_from <= @@t AND e.valid_to >= @@t
  * - No automatic expiration (handled by queries)
  */
 

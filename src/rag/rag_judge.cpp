@@ -104,7 +104,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
                    "This may lead to unexpected scoring behavior.");
     }
     
-    THEMIS_INFO("RAG Judge initialized with mode: {}", static_cast<int>(config.mode));
+    THEMIS_INFO("RAG Judge initialized with mode: {}", static_cast&lt;int&gt;(config.mode));
     // Initialize prompt template manager
     impl_->template_manager = PromptTemplateManager::createDefault();
     
@@ -154,7 +154,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     impl_->bias_detector = std::make_unique<BiasDetector>();
     
     THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
-                static_cast<int>(config.mode), config.judge_model);
+                static_cast&lt;int&gt;(config.mode), config.judge_model);
 }
 
 RAGJudge::~RAGJudge() = default;
@@ -1047,7 +1047,7 @@ double RAGJudge::calculateTermOverlap(
             ++overlap;
         }
     }
-    int total = static_cast<int>(std::max(terms1.size(), terms2.size()));
+    int total = static_cast&lt;int&gt;(std::max(terms1.size(), terms2.size()));
     return static_cast<double>(overlap) / total;
 }
 
@@ -1387,7 +1387,7 @@ double calculateCohensKappa(
     static constexpr double kBinWidth = 1.0 / kBins;
 
     auto toBin = [](double score) -> int {
-        int bin = static_cast<int>(score / kBinWidth);
+        int bin = static_cast&lt;int&gt;(score / kBinWidth);
         return std::min(bin, kBins - 1);
     };
 
@@ -1445,7 +1445,7 @@ double calculateCalibrationError(
     const size_t n = predictions.size();
     for (size_t i = 0; i < n; ++i) {
         double conf = std::max(0.0, std::min(1.0, predictions[i]));
-        int b = static_cast<int>(conf / kBinWidth);
+        int b = static_cast&lt;int&gt;(conf / kBinWidth);
         b = std::min(b, kBins - 1);
         bins[b].sum_conf  += conf;
         bins[b].sum_truth += ground_truth[i];

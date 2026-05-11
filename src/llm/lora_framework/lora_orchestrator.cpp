@@ -135,8 +135,8 @@ json LoRAOrchestrator::JobInfo::toJSON() const {
     j["adapter_id"] = adapter_id;
     j["progress"] = progress;
     j["error_message"] = error_message;
-    j["type"] = static_cast<int>(type);
-    j["status"] = static_cast<int>(status);
+    j["type"] = static_cast&lt;int&gt;(type);
+    j["status"] = static_cast&lt;int&gt;(status);
     j["started_at"] = std::chrono::duration_cast<std::chrono::seconds>(started_at.time_since_epoch()).count();
     j["updated_at"] = std::chrono::duration_cast<std::chrono::seconds>(updated_at.time_since_epoch()).count();
     j["metadata"] = metadata;
@@ -153,7 +153,7 @@ std::string LoRAOrchestrator::createAdapter(
 
     AdapterInfo info = makeAdapterInfo(adapter_id, version);
     info.hyperparameters = hyperparameters.value_or(LoRAHyperparameters{});
-    info.metadata.training_samples = static_cast<int>(training_data.samples.size());
+    info.metadata.training_samples = static_cast&lt;int&gt;(training_data.samples.size());
     impl_->adapters[adapter_id] = info;
     impl_->versions[adapter_id].push_back(version);
 
@@ -265,7 +265,7 @@ std::string LoRAOrchestrator::updateAdapter(
     }
 
     AdapterInfo& info = impl_->adapters[adapter_id];
-    info.metadata.training_samples += static_cast<int>(training_data.samples.size());
+    info.metadata.training_samples += static_cast&lt;int&gt;(training_data.samples.size());
     info.metadata.updated_at = Clock::now();
 
     JobInfo job;

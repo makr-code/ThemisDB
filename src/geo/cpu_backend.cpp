@@ -513,7 +513,7 @@ public:
                 return result;
             }
             THEMIS_WARN("CPU stBuffer: unsupported geometry type {}",
-                        static_cast<int>(geom.type));
+                        static_cast&lt;int&gt;(geom.type));
         } catch (const std::exception& e) {
             THEMIS_WARN("CPU stBuffer error: {}", e.what());
         }
@@ -689,8 +689,8 @@ private:
                 if (!B[ib].is_isect || B[ib].link >= 0) continue;
                 if (std::abs(A[ia].x - B[ib].x) < kCpuEpsilon &&
                     std::abs(A[ia].y - B[ib].y) < kCpuEpsilon) {
-                    A[ia].link = static_cast<int>(ib);
-                    B[ib].link = static_cast<int>(ia);
+                    A[ia].link = static_cast&lt;int&gt;(ib);
+                    B[ib].link = static_cast&lt;int&gt;(ia);
                     break;
                 }
             }
@@ -729,8 +729,8 @@ private:
     // Returns an empty vector if no suitable start vertex is found.
     static std::vector<Coordinate> ghTraverseUnion(
             std::vector<GHVert>& A, std::vector<GHVert>& B) {
-        const int na = static_cast<int>(A.size());
-        const int nb = static_cast<int>(B.size());
+        const int na = static_cast&lt;int&gt;(A.size());
+        const int nb = static_cast&lt;int&gt;(B.size());
         int start_a = -1;
         for (int i = 0; i < na; ++i) {
             if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }
@@ -785,8 +785,8 @@ private:
     // intersection.  Returns an empty vector if none is found.
     static std::vector<Coordinate> ghTraverseDiff(
             std::vector<GHVert>& A, std::vector<GHVert>& B) {
-        const int na = static_cast<int>(A.size());
-        const int nb = static_cast<int>(B.size());
+        const int na = static_cast&lt;int&gt;(A.size());
+        const int nb = static_cast&lt;int&gt;(B.size());
         int start_a = -1;
         for (int i = 0; i < na; ++i) {
             if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }

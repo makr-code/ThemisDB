@@ -31,7 +31,7 @@ namespace sharding {
 
 // Helper function to create cache key
 static std::string makeCacheKey(MetadataPartitionKey partition, const std::string& key) {
-    return std::to_string(static_cast<int>(partition)) + ":" + key;
+    return std::to_string(static_cast&lt;int&gt;(partition)) + ":" + key;
 }
 
 MetadataShard::MetadataShard(
@@ -338,13 +338,13 @@ nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) 
     auto partition_it = storage_.find(partition);
     if (partition_it == storage_.end()) {
         return {
-            {"partition", static_cast<int>(partition)},
+            {"partition", static_cast&lt;int&gt;(partition)},
             {"entry_count", 0}
         };
     }
     
     return {
-        {"partition", static_cast<int>(partition)},
+        {"partition", static_cast&lt;int&gt;(partition)},
         {"entry_count", partition_it->second.size()}
     };
 }
@@ -437,7 +437,7 @@ bool MetadataShard::applyChange(
     // Create log entry for consensus
     nlohmann::json log_data = {
         {"operation", operation},
-        {"partition", static_cast<int>(partition)},
+        {"partition", static_cast&lt;int&gt;(partition)},
         {"key", key},
         {"value", value}
     };
@@ -447,7 +447,7 @@ bool MetadataShard::applyChange(
     if (!log_index.has_value()) {
         spdlog::warn("MetadataShard::applyChange: consensus propose failed "
                      "(op={}, partition={}, key={})",
-                     operation, static_cast<int>(partition), key);
+                     operation, static_cast&lt;int&gt;(partition), key);
         return false;
     }
 
@@ -455,7 +455,7 @@ bool MetadataShard::applyChange(
     if (!consensus_->waitForCommit(*log_index, kCommitTimeout)) {
         spdlog::warn("MetadataShard::applyChange: consensus commit timeout "
                      "(op={}, partition={}, key={}, log_index={})",
-                     operation, static_cast<int>(partition), key, *log_index);
+                     operation, static_cast&lt;int&gt;(partition), key, *log_index);
         return false;
     }
 

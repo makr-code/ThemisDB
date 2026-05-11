@@ -53,7 +53,7 @@ ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
     result = maxScore(result, checkUnusualResource(state, event));
 
     // Track peak threat level for the session.
-    if (static_cast<int>(result.level) > static_cast<int>(state.peak_level)) {
+    if (static_cast&lt;int&gt;(result.level) > static_cast&lt;int&gt;(state.peak_level)) {
         state.peak_level = result.level;
     }
 
@@ -195,8 +195,8 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
 
 ThreatScore BehavioralAnomalyDetector::maxScore(const ThreatScore& a,
                                                   const ThreatScore& b) {
-    if (static_cast<int>(b.level) > static_cast<int>(a.level)) return b;
-    if (static_cast<int>(b.level) == static_cast<int>(a.level) && b.score > a.score) return b;
+    if (static_cast&lt;int&gt;(b.level) > static_cast&lt;int&gt;(a.level)) return b;
+    if (static_cast&lt;int&gt;(b.level) == static_cast&lt;int&gt;(a.level) && b.score > a.score) return b;
     return a;
 }
 

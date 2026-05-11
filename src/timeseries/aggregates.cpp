@@ -105,7 +105,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::resample(
     auto result = aggregate(timestamps, values, count, window, func);
     
     THEMIS_INFO("Resampled {} points to {} interval (func={})",
-                count, new_interval_seconds, static_cast<int>(func));
+                count, new_interval_seconds, static_cast&lt;int&gt;(func));
     
     return result;
 }

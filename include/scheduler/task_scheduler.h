@@ -119,7 +119,7 @@ struct ScheduledTask {
     // CDC Event-based trigger configuration
     struct CDCTrigger {
         std::string key_prefix;               // Key prefix filter (e.g., "users:")
-        std::set<int> event_types;            // Event types (0=PUT, 1=DELETE, etc.)
+        std::set&lt;int&gt; event_types;            // Event types (0=PUT, 1=DELETE, etc.)
         std::optional<std::string> condition; // Optional AQL filter
         uint32_t debounce_ms = 0;            // Event debouncing in ms
     } cdc_trigger;

@@ -673,7 +673,7 @@ __global__ void embedding_lookup_kernel(
         int token_id = __float2int_rn(token_ids[idx]);
         
         // Bounds check
-        if (token_id >= 0 && token_id < static_cast<int>(vocab_size)) {
+        if (token_id >= 0 && token_id < static_cast&lt;int&gt;(vocab_size)) {
             // Calculate pointers
             const float* src = embedding_weights + token_id * hidden_dim;
             float* dst = output + idx * hidden_dim;

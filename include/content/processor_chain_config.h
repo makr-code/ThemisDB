@@ -179,9 +179,9 @@ public:
                 if (v.contains("enabled") && v["enabled"].is_boolean())
                     s.enabled = v["enabled"].get<bool>();
                 if (v.contains("max_retries") && v["max_retries"].is_number_integer())
-                    s.max_retries = v["max_retries"].get<int>();
+                    s.max_retries = v["max_retries"].get&lt;int&gt;();
                 if (v.contains("retry_delay_ms") && v["retry_delay_ms"].is_number_integer())
-                    s.retry_delay_ms = v["retry_delay_ms"].get<int>();
+                    s.retry_delay_ms = v["retry_delay_ms"].get&lt;int&gt;();
                 if (v.contains("continue_on_error") && v["continue_on_error"].is_boolean())
                     s.continue_on_error = v["continue_on_error"].get<bool>();
             }

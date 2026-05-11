@@ -33,7 +33,7 @@ namespace importers {
  * @brief Apollo Federation v2 GraphQL schema generation from PostgreSQL.
  *
  * Converts relational schemas to federated GraphQL SDL (Schema Definition
- * Language), emitting @key, @shareable, and @requires directives for
+ * Language), emitting \@key, \@shareable, and \@requires directives for
  * multi-subgraph gateway setups.
  *
  * Standard: Apollo Federation v2 (GraphQL)
@@ -50,14 +50,14 @@ public:
          *        given table schemas.
          *
          * The generator:
-         *  - Maps each table to a GraphQL type with @key(fields: "<pk>")
+         *  - Maps each table to a GraphQL type with \@key(fields: "<pk>")
          *  - Emits scalar overrides for semantic types (UUID, DateTime, …)
-         *  - Adds @relationship annotations on FK columns
+         *  - Adds \@relationship annotations on FK columns
          *  - Wraps list fields as non-null arrays where appropriate
          *
          * @param schemas          Table schemas to convert.
          * @param service_name     Name of this subgraph service.
-         * @param external_entities  Types owned by other subgraphs (@external).
+         * @param external_entities  Types owned by other subgraphs (\@external).
          * @return Apollo Federation v2 SDL string.
          */
         std::string generateFederatedSchema(

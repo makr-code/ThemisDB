@@ -124,8 +124,8 @@ public:
                         for (int d = 0; d < head_dim; ++d) {
                             const int qi = idx(b, h, i, d);
                             const int kj = idx(b, h, j, d);
-                            if (qi < static_cast<int>(Q.size) &&
-                                kj < static_cast<int>(K.size)) {
+                            if (qi < static_cast&lt;int&gt;(Q.size) &&
+                                kj < static_cast&lt;int&gt;(K.size)) {
                                 dot += Q.data[qi] * K.data[kj];
                             }
                         }
@@ -148,11 +148,11 @@ public:
                     // Weighted sum of V.
                     for (int d = 0; d < head_dim; ++d) {
                         const int oi = idx(b, h, i, d);
-                        if (oi >= static_cast<int>(O.size)) continue;
+                        if (oi >= static_cast&lt;int&gt;(O.size)) continue;
                         float out = 0.0f;
                         for (int j = 0; j < seq_len; ++j) {
                             const int vj = idx(b, h, j, d);
-                            if (vj < static_cast<int>(V.size)) {
+                            if (vj < static_cast&lt;int&gt;(V.size)) {
                                 out += scores[j] * V.data[vj];
                             }
                         }
@@ -210,19 +210,19 @@ public:
                 for (int i = 0; i < seq_len; ++i) {
                     for (int d = 0; d < head_dim; ++d) {
                         const int pos = idx(b, h, i, d);
-                        if (pos >= static_cast<int>(dO.size)) continue;
+                        if (pos >= static_cast&lt;int&gt;(dO.size)) continue;
                         const float grad = dO.data[pos];
 
                         // dQ: scaled gradient from dO
-                        if (pos < static_cast<int>(dQ.size)) {
+                        if (pos < static_cast&lt;int&gt;(dQ.size)) {
                             dQ.data[pos] += scale * grad;
                         }
                         // dK: same approximation
-                        if (pos < static_cast<int>(dK.size)) {
+                        if (pos < static_cast&lt;int&gt;(dK.size)) {
                             dK.data[pos] += scale * grad;
                         }
                         // dV: uniform average of dO gradients along seq dim
-                        if (pos < static_cast<int>(dV.size)) {
+                        if (pos < static_cast&lt;int&gt;(dV.size)) {
                             dV.data[pos] += inv_seq * grad;
                         }
                     }

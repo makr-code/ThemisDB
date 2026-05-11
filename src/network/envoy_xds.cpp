@@ -232,7 +232,7 @@ bool EnvoyXdsClient::start() {
 
     THEMIS_INFO("[xDS] client started; control plane: {}:{}",
                 config_.control_plane_host,
-                static_cast<int>(config_.control_plane_port));
+                static_cast&lt;int&gt;(config_.control_plane_port));
     return true;
 }
 
@@ -647,7 +647,7 @@ std::string EnvoyXdsClient::httpPost(const std::string& path,
         http::read(stream, buf, res);
 
         if (out_status_code) {
-            *out_status_code = static_cast<int>(res.result_int());
+            *out_status_code = static_cast&lt;int&gt;(res.result_int());
         }
 
         beast::error_code ec;
@@ -657,13 +657,13 @@ std::string EnvoyXdsClient::httpPost(const std::string& path,
             return res.body();
         }
         THEMIS_DEBUG("[xDS] control plane returned HTTP {} for {}",
-                     static_cast<int>(res.result_int()), path);
+                     static_cast&lt;int&gt;(res.result_int()), path);
         return {};
 
     } catch (const std::exception& ex) {
         THEMIS_WARN("[xDS] HTTP POST to {}:{}{} failed: {}",
                     config_.control_plane_host,
-                    static_cast<int>(config_.control_plane_port),
+                    static_cast&lt;int&gt;(config_.control_plane_port),
                     path, ex.what());
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.connect_errors;

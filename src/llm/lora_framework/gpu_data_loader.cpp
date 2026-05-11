@@ -50,7 +50,7 @@ GPUDataLoader::GPUDataLoader(
     spdlog::info("GPUDataLoader initialized:");
     spdlog::info("  Batch size: {}", config_.batch_size);
     spdlog::info("  Max sequence length: {}", config_.max_sequence_length);
-    spdlog::info("  Target device: {}", static_cast<int>(config_.target_device.type));
+    spdlog::info("  Target device: {}", static_cast&lt;int&gt;(config_.target_device.type));
     spdlog::info("  Async loading: {}", config_.async_loading);
     spdlog::info("  Prefetch batches: {}", config_.prefetch_batches);
 }
@@ -275,7 +275,7 @@ GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     batch.seq_len = config_.max_sequence_length;
     
     // Tokenize samples
-    std::vector<std::vector<int>> tokenized_samples;
+    std::vector<std::vector&lt;int&gt;> tokenized_samples;
     tokenized_samples.reserve(actual_batch_size);
     
     for (size_t i = start_idx; i < end_idx; ++i) {
@@ -330,7 +330,7 @@ GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     return batch;
 }
 
-std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& sample) {
+std::vector&lt;int&gt; GPUDataLoader::tokenizeSample(const InstructionDataSample& sample) {
     // Format sample as instruction-following template
     std::string formatted = "### Instruction:\n" + sample.instruction;
     

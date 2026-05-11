@@ -25,7 +25,7 @@ void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
 // ---------------------------------------------------------------------------
 
 int PriorRoundCompressor::countTokens(const std::string& text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast&lt;int&gt;((text.size() + 3) / 4);
 }
 
 std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(
@@ -435,7 +435,7 @@ std::string PriorRoundCompressor::buildPriorContext(
     std::ostringstream out;
     int accumulated_tokens = 0;
 
-    for (int i = 0; i < static_cast<int>(all_rounds.size()); ++i) {
+    for (int i = 0; i < static_cast&lt;int&gt;(all_rounds.size()); ++i) {
         const int round_number = i + 1;  // 1-based
         const int rounds_ago = current_round - round_number;
 

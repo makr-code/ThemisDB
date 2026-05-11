@@ -77,7 +77,7 @@ size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
 /*static*/ std::string OAuth2Provider::generateState()
 {
     unsigned char buf[16]{};
-    RAND_bytes(buf, static_cast<int>(sizeof(buf)));
+    RAND_bytes(buf, static_cast&lt;int&gt;(sizeof(buf)));
     std::ostringstream oss;
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0')

@@ -467,7 +467,7 @@ void LeaseManager::persistToWal(const LeaseRecord& rec) {
                 .count();
         };
         wal << rec.key << '|' << rec.holder << '|' << rec.epoch << '|'
-            << rec.generation << '|' << static_cast<int>(rec.state) << '|'
+            << rec.generation << '|' << static_cast&lt;int&gt;(rec.state) << '|'
             << since_epoch(rec.acquired_at) << '|' << since_epoch(rec.expires_at)
             << '\n';
     } catch (const std::exception& ex) {

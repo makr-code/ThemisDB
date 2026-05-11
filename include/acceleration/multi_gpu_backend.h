@@ -91,7 +91,7 @@ public:
         int numDevices = 2;
 
         /// Explicit GPU device IDs.  When empty, IDs 0 .. numDevices-1 are used.
-        std::vector<int> deviceIds;
+        std::vector&lt;int&gt; deviceIds;
 
         /// Minimum GPUs required for isAvailable() to return true.
         int minDevices = 2;

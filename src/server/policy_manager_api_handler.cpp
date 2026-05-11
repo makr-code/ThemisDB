@@ -348,7 +348,7 @@ http::response<http::string_body> PolicyManagerApiHandler::makeErrorResponse(
 ) {
     nlohmann::json error_json = {
         {"error", message},
-        {"status", static_cast<int>(status)}
+        {"status", static_cast&lt;int&gt;(status)}
     };
     
     http::response<http::string_body> res{status, req.version()};

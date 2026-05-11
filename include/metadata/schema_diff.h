@@ -89,7 +89,7 @@ struct ColumnDiff {
      * @code
      * {
      *   "diff_type":   "ADDED" | "REMOVED" | "TYPE_CHANGED" | ...,
-     *   "column_name": "<name>",
+     *   "column_name": "&lt;name&gt;",
      *   "old_value":   "<string>" | null,
      *   "new_value":   "<string>" | null
      * }
@@ -101,7 +101,7 @@ struct ColumnDiff {
             "NULLABILITY_CHANGED", "INDEX_CHANGED"
         };
         json j;
-        j["diff_type"]   = kTypeNames[static_cast<int>(diff_type)];
+        j["diff_type"]   = kTypeNames[static_cast&lt;int&gt;(diff_type)];
         j["column_name"] = column_name;
         j["old_value"]   = old_value.has_value()
                                ? json(old_value.value())
@@ -140,14 +140,14 @@ struct IndexDiff {
      * @code
      * {
      *   "diff_type":  "ADDED" | "REMOVED" | "CHANGED",
-     *   "index_name": "<name>"
+     *   "index_name": "&lt;name&gt;"
      * }
      * @endcode
      */
     json toJSON() const {
         static const char* kTypeNames[] = { "ADDED", "REMOVED", "CHANGED" };
         json j;
-        j["diff_type"]  = kTypeNames[static_cast<int>(diff_type)];
+        j["diff_type"]  = kTypeNames[static_cast&lt;int&gt;(diff_type)];
         j["index_name"] = index_name;
         return j;
     }
@@ -209,7 +209,7 @@ struct SchemaDiff {
      * Schema:
      * @code
      * {
-     *   "table_name":    "<name>",
+     *   "table_name":    "&lt;name&gt;",
      *   "column_diffs":  [ ... ],
      *   "index_diffs":   [ ... ],
      *   "summary": {

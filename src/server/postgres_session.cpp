@@ -808,7 +808,7 @@ void PostgresSession::handleCopyDone() {
                 doc["col" + std::to_string(i)] = fields[i];
             }
 
-            // Build AQL: INSERT <doc> INTO <table>
+            // Build AQL: INSERT &lt;doc&gt; INTO <table>
             std::string aql = "INSERT " + doc.dump() + " INTO " + copyTableName_;
             try {
                 query::AQLParser parser;

@@ -77,7 +77,7 @@ std::pair<int, std::string> default_http_post(
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    return {static_cast<int>(http_code), response_body};
+    return {static_cast&lt;int&gt;(http_code), response_body};
 }
 
 } // anonymous namespace
@@ -156,7 +156,7 @@ std::string OAuthTokenManager::getAccessToken() {
         int attempt = 0;
         while ((code == 429 || code == 503) && attempt < kMaxRetries) {
             const int backoff_base = kBaseBackoffMs * (1 << attempt);
-            std::uniform_int_distribution<int> jitter(0, backoff_base / 2);
+            std::uniform_int_distribution&lt;int&gt; jitter(0, backoff_base / 2);
             const int sleep_ms = backoff_base + jitter(rng);
             THEMIS_WARN("OAuthTokenManager: HTTP {} — backing off {}ms (attempt {}/{})",
                         code, sleep_ms, attempt + 1, kMaxRetries);
@@ -197,7 +197,7 @@ void OAuthTokenManager::refreshToken() {
     int attempt = 0;
     while ((code == 429 || code == 503) && attempt < kMaxRetries) {
         const int backoff_base = kBaseBackoffMs * (1 << attempt);
-        std::uniform_int_distribution<int> jitter(0, backoff_base / 2);
+        std::uniform_int_distribution&lt;int&gt; jitter(0, backoff_base / 2);
         const int sleep_ms = backoff_base + jitter(rng);
         THEMIS_WARN("OAuthTokenManager: HTTP {} — backing off {}ms (attempt {}/{})",
                     code, sleep_ms, attempt + 1, kMaxRetries);

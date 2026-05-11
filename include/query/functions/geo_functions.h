@@ -43,7 +43,7 @@ namespace functions {
  * 
  * Provides OGC-compatible spatial functions using GeoJSON format.
  * 
- * @sources
+ * Sources:
  * - Standards: OGC Simple Features Specification
  *   URL: https://www.ogc.org/standards/sfa
  * - GeoJSON: RFC 7946
@@ -1185,7 +1185,7 @@ public:
         const double distance_m = args[1].get<double>();
         // Truncation is intentional: arc_points must be a whole number of vertices.
         const int arc_points = (args.size() >= 3 && args[2].is_number())
-                               ? static_cast<int>(args[2].get<double>())
+                               ? static_cast&lt;int&gt;(args[2].get<double>())
                                : 36;
         const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
         const std::string json_str = EWKBParser::toGeoJSON(result);

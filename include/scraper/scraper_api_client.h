@@ -41,7 +41,7 @@ namespace scraper {
  * Used for:
  *  - Government REST APIs (e.g. Bundesanzeiger, EUR-Lex REST)
  *  - JS-build API endpoints (webpack-dev-server, Vite, Next.js)
- *  - React SPA backends that expose /api/* routes
+ *  - React SPA backends that expose /api/\* routes
  */
 struct ApiEndpointConfig {
     std::string url;
@@ -63,7 +63,7 @@ struct ApiEndpointConfig {
     /// POST body template; {{QUERY}}, {{PAGE}}, {{CURSOR}} are substituted.
     std::string body_template;
 
-    /// Optional query parameter appended to GET requests: ?<search_param>=<query>
+    /// Optional query parameter appended to GET requests: ?&lt;search_param&gt;=&lt;query&gt;
     std::string search_param = "q";
 };
 

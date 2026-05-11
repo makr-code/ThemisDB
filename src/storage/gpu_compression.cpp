@@ -513,7 +513,7 @@ public:
 
         if (status != nvcompSuccess || e != cudaSuccess) {
             spdlog::error("[gpu_compress] batch compress failed: nvcomp={} cuda={}",
-                          static_cast<int>(status), cudaGetErrorString(e));
+                          static_cast&lt;int&gt;(status), cudaGetErrorString(e));
             free_all();
             return results;
         }
@@ -726,7 +726,7 @@ private:
             result.data.clear();
             result.error_message = "nvCOMP compress failed";
             spdlog::error("[gpu_compress] nvcomp_compress_chunked failed (algo={})",
-                          static_cast<int>(algo));
+                          static_cast&lt;int&gt;(algo));
         }
 
         free_all();
@@ -864,7 +864,7 @@ private:
 
         if (status != nvcompSuccess || e != cudaSuccess) {
             spdlog::error("[gpu_compress] nvcomp decompress failed: nvcomp={} cuda={}",
-                          static_cast<int>(status), cudaGetErrorString(e));
+                          static_cast&lt;int&gt;(status), cudaGetErrorString(e));
             free_all(); return {};
         }
 
@@ -1360,14 +1360,14 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
     res.original_size = size;
     res.used_gpu      = false;
 
-    if (size > static_cast<size_t>(std::numeric_limits<int>::max())) {
+    if (size > static_cast<size_t>(std::numeric_limits&lt;int&gt;::max())) {
         res.error_message = "LZ4: input too large";
         res.data.assign(data, data + size);
         res.compression_ratio = 1.0f;
         return res;
     }
 
-    int max_compressed = LZ4_compressBound(static_cast<int>(size));
+    int max_compressed = LZ4_compressBound(static_cast&lt;int&gt;(size));
     if (max_compressed <= 0) {
         res.error_message = "LZ4_compressBound returned <= 0";
         res.data.assign(data, data + size);
@@ -1384,7 +1384,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
     int compressed_bytes = LZ4_compress_default(
         reinterpret_cast<const char*>(data),
         reinterpret_cast<char*>(res.data.data() + kLz4HeaderSize),
-        static_cast<int>(size),
+        static_cast&lt;int&gt;(size),
         max_compressed);
 
     if (compressed_bytes > 0) {
@@ -1423,8 +1423,8 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     int decompressed = LZ4_decompress_safe(
         reinterpret_cast<const char*>(data.data() + kLz4HeaderSize),
         reinterpret_cast<char*>(result.data()),
-        static_cast<int>(data.size() - kLz4HeaderSize),
-        static_cast<int>(expected_size));
+        static_cast&lt;int&gt;(data.size() - kLz4HeaderSize),
+        static_cast&lt;int&gt;(expected_size));
 
     if (decompressed < 0) {
         spdlog::error("[gpu_compress] LZ4_decompress_safe failed ({})", decompressed);
@@ -1508,8 +1508,8 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 int r = LZ4_decompress_safe(
                     reinterpret_cast<const char*>(chunk_vec.data()),
                     reinterpret_cast<char*>(decompressed_chunk.data()),
-                    static_cast<int>(cs),
-                    static_cast<int>(max_out));
+                    static_cast&lt;int&gt;(cs),
+                    static_cast&lt;int&gt;(max_out));
                 if (r < 0) {
                     spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
                                   "lz4 chunk[{}] failed ({})", i, r);

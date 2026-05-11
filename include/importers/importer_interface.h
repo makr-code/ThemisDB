@@ -122,7 +122,7 @@ struct ImportError {
     json toJson() const {
         return json{
             {"code",     static_cast<uint32_t>(code)},
-            {"severity", static_cast<int>(severity)},
+            {"severity", static_cast&lt;int&gt;(severity)},
             {"message",  message},
             {"location", location}
         };
@@ -596,7 +596,7 @@ struct ImportOptions {
             {"quarantine_file", quarantine_file},
             {"delta_hash_file", delta_hash_file},
             {"delta_key_columns", delta_key_columns},
-            {"conflict_strategy", static_cast<int>(conflict_strategy)},
+            {"conflict_strategy", static_cast&lt;int&gt;(conflict_strategy)},
             {"conflict_key_columns", conflict_key_columns},
             {"protected_fields", protected_fields},
             {"merge_depth", merge_depth},

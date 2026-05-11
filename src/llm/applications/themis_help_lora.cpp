@@ -332,7 +332,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
-            static_cast<int>(impl_->feedback_buffer.size()),
+            static_cast&lt;int&gt;(impl_->feedback_buffer.size()),
             0.0f,
             0.0f,
             {{"source", "user_feedback"}}
@@ -346,7 +346,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
             sample.input = item.question;
             sample.output = item.correction.empty() ? item.answer : item.correction;
             sample.metadata = {{"user_id", item.user_id},
-                               {"feedback_type", static_cast<int>(item.feedback_type)}};
+                               {"feedback_type", static_cast&lt;int&gt;(item.feedback_type)}};
             training_data.samples.push_back(std::move(sample));
         }
         TrainingResult train_result = impl_->training_service->trainOnTheFly(
@@ -372,7 +372,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
-            static_cast<int>(num_samples),
+            static_cast&lt;int&gt;(num_samples),
             train_result.final_loss,
             0.0f,
             {
@@ -407,7 +407,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
-            static_cast<int>(impl_->feedback_buffer.size()),
+            static_cast&lt;int&gt;(impl_->feedback_buffer.size()),
             0.0f,
             0.0f,
             {

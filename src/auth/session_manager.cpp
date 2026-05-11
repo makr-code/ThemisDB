@@ -51,7 +51,7 @@ std::string hashSessionId(const std::string& session_id) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (unsigned char b : digest) {
-        oss << std::setw(2) << static_cast<int>(b);
+        oss << std::setw(2) << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -83,7 +83,7 @@ std::string SessionManager::generateSessionId() {
     oss << "sess_";
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(b);
+            << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -255,7 +255,7 @@ int SessionManager::terminateAllOtherSessions(
 
     THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')",
                 to_erase.size(), user_id, keep_session_id);
-    return static_cast<int>(to_erase.size());
+    return static_cast&lt;int&gt;(to_erase.size());
 }
 
 // ---------------------------------------------------------------------------

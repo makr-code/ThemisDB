@@ -15,20 +15,25 @@
 ## 2. Include Dependencies Analysis
 
 ### training_service_registry.h includes:
+```cpp
 #pragma once
 #include <memory>
 #include <mutex>
 #include <string>
+```
 
 ### training_service_registry.cpp includes:
+```cpp
 #include "llm/lora_framework/training_service_registry.h"
 #include "sharding/shard_router.h"
 #include "sharding/shard_topology.h"
 #include <spdlog/spdlog.h>
+```
 
 ## 3. Forward Declaration Verification
 
 ### Declared in training_service_registry.h:
+```cpp
 namespace themis {
 namespace sharding {
     class ShardRouter;
@@ -37,6 +42,7 @@ namespace sharding {
 namespace themis {
 namespace llm {
 namespace lora {
+```
 
 ### Verified Dependencies Exist:
 ShardRouter header: 1 file(s)
@@ -136,4 +142,3 @@ Required runtime dependencies:
 - spdlog ✓ (already in project)
 - nlohmann/json ✓ (already in project)
 - C++20 compiler ✓ (GCC 13.3+ or Clang 16+)
-

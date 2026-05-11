@@ -550,7 +550,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(
 
 // ---------------------------------------------------------------------------
 // Rewrite: DOCUMENT(collection, key)
-//          → (FOR _doc IN <collection> FILTER _doc._key == <key> LIMIT 1 RETURN _doc)
+//          → (FOR _doc IN <collection> FILTER _doc._key == &lt;key&gt; LIMIT 1 RETURN _doc)
 // All two-argument occurrences are rewritten in a single pass.
 // ---------------------------------------------------------------------------
 
@@ -580,7 +580,7 @@ std::string AQLMigrationAssistant::rewriteDocument(
                 MigrationIssue::Severity::WARNING,
                 "DOCUMENT(id) single-argument form is not directly supported in ThemisDB",
                 "Split the document handle into collection and key, then use: "
-                "FOR _doc IN <collection> FILTER _doc._key == <key> LIMIT 1 RETURN _doc"
+                "FOR _doc IN <collection> FILTER _doc._key == &lt;key&gt; LIMIT 1 RETURN _doc"
             });
             // Don't rewrite; advance past this call so subsequent ones are still found
             cursor = paren_pos + 1;
@@ -689,7 +689,7 @@ void AQLMigrationAssistant::detectTypeCheckFunctions(
             MigrationIssue::Severity::INFO,
             fn + "() is an ArangoDB-specific type-check function",
             "ThemisDB uses TYPENAME(expr) for runtime type introspection. "
-            "Replace " + fn + "(x) with TYPENAME(x) == '<type>' as appropriate."
+            "Replace " + fn + "(x) with TYPENAME(x) == '&lt;type&gt;' as appropriate."
         });
     }
 }

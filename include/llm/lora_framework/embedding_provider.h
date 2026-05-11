@@ -216,7 +216,7 @@ private:
      * @param tokens Token IDs
      * @return Embedding vector
      */
-    std::vector<float> extractEmbeddingFromTokens(const std::vector<int>& tokens);
+    std::vector<float> extractEmbeddingFromTokens(const std::vector&lt;int&gt;& tokens);
     
     /**
      * @brief Evict old cache entries if needed

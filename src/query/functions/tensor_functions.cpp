@@ -329,7 +329,7 @@ public:
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
-        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get&lt;int&gt;()) : 0u;
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
         auto recon  = comp.reconstruct();
         return json{
@@ -543,7 +543,7 @@ public:
         for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
 
         auto max_rank = (args.size() > 2)
-            ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+            ? static_cast<std::size_t>(args[2].get&lt;int&gt;()) : 0u;
         double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;

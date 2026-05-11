@@ -38,7 +38,7 @@
 #  include <fcntl.h>
 #  include <cerrno>
 #  include <cstring>
-#  include <map>
+#  include &lt;map&gt;
 #elif defined(__APPLE__)
 #  include <sys/types.h>
 #  include <sys/event.h>
@@ -48,7 +48,7 @@
 #  include <unistd.h>
 #  include <cerrno>
 #  include <cstring>
-#  include <map>
+#  include &lt;map&gt;
 #elif defined(_WIN32)
 #  ifndef WIN32_LEAN_AND_MEAN
 #    define WIN32_LEAN_AND_MEAN
@@ -291,7 +291,7 @@ void ConfigFileWatcher::watchLoopInotify() {
                 auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - last_event_time_);
                 auto remaining = debounce_ - elapsed;
-                timeout_ms = static_cast<int>(
+                timeout_ms = static_cast&lt;int&gt;(
                     std::max(std::chrono::milliseconds(0), remaining).count());
             }
         }
@@ -482,11 +482,11 @@ void ConfigFileWatcher::watchLoopKqueue() {
 
         for (int i = 0; i < n; ++i) {
             // Stop pipe triggered
-            if (static_cast<int>(events[i].ident) == pipe_read_fd_) {
+            if (static_cast&lt;int&gt;(events[i].ident) == pipe_read_fd_) {
                 goto done;
             }
 
-            auto it = fd_to_path.find(static_cast<int>(events[i].ident));
+            auto it = fd_to_path.find(static_cast&lt;int&gt;(events[i].ident));
             if (it == fd_to_path.end()) continue;
 
             const std::string& path = it->second;
@@ -642,12 +642,12 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
                 // Convert wide filename to narrow
                 int len = WideCharToMultiByte(CP_UTF8, 0,
                                               info->FileName,
-                                              static_cast<int>(info->FileNameLength / sizeof(WCHAR)),
+                                              static_cast&lt;int&gt;(info->FileNameLength / sizeof(WCHAR)),
                                               nullptr, 0, nullptr, nullptr);
                 std::string filename(static_cast<size_t>(len), '\0');
                 WideCharToMultiByte(CP_UTF8, 0,
                                     info->FileName,
-                                    static_cast<int>(info->FileNameLength / sizeof(WCHAR)),
+                                    static_cast&lt;int&gt;(info->FileNameLength / sizeof(WCHAR)),
                                     filename.data(), len, nullptr, nullptr);
 
                 if (isWatchedExtension(filename)) {

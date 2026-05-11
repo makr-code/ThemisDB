@@ -272,7 +272,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
         const auto& row = rows[i];
         if (!row.is_object()) continue;
         for (const auto& [key, _] : row.items()) {
-            if (col_index.emplace(key, static_cast<int>(col_names.size())).second) {
+            if (col_index.emplace(key, static_cast&lt;int&gt;(col_names.size())).second) {
                 col_names.push_back(key);
             }
         }

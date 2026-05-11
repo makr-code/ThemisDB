@@ -126,9 +126,9 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
             vision_config->resource_limits_.max_concurrent_requests = limits["max_concurrent_requests"].as<size_t>(16);
             vision_config->resource_limits_.max_concurrent_models = limits["max_concurrent_models"].as<size_t>(4);
             vision_config->resource_limits_.max_queue_size = limits["max_queue_size"].as<size_t>(100);
-            vision_config->resource_limits_.max_inference_time = std::chrono::seconds(limits["max_inference_time_seconds"].as<int>(60));
-            vision_config->resource_limits_.max_model_load_time = std::chrono::seconds(limits["max_model_load_time_seconds"].as<int>(120));
-            vision_config->resource_limits_.request_timeout = std::chrono::seconds(limits["request_timeout_seconds"].as<int>(90));
+            vision_config->resource_limits_.max_inference_time = std::chrono::seconds(limits["max_inference_time_seconds"].as&lt;int&gt;(60));
+            vision_config->resource_limits_.max_model_load_time = std::chrono::seconds(limits["max_model_load_time_seconds"].as&lt;int&gt;(120));
+            vision_config->resource_limits_.request_timeout = std::chrono::seconds(limits["request_timeout_seconds"].as&lt;int&gt;(90));
         }
         
         // Load rate limiting
@@ -176,12 +176,12 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 vision_config->monitoring_config_.track_error_rate = metrics["track_error_rate"].as<bool>(true);
                 vision_config->monitoring_config_.track_resource_usage = metrics["track_resource_usage"].as<bool>(true);
                 vision_config->monitoring_config_.track_model_usage = metrics["track_model_usage"].as<bool>(true);
-                vision_config->monitoring_config_.collect_interval = std::chrono::seconds(metrics["collect_interval_seconds"].as<int>(10));
+                vision_config->monitoring_config_.collect_interval = std::chrono::seconds(metrics["collect_interval_seconds"].as&lt;int&gt;(10));
                 
                 if (metrics["prometheus"]) {
                     auto prometheus = metrics["prometheus"];
                     vision_config->monitoring_config_.prometheus.enabled = prometheus["enabled"].as<bool>(true);
-                    vision_config->monitoring_config_.prometheus.port = prometheus["port"].as<int>(9092);
+                    vision_config->monitoring_config_.prometheus.port = prometheus["port"].as&lt;int&gt;(9092);
                     vision_config->monitoring_config_.prometheus.path = prometheus["path"].as<std::string>("/metrics");
                     vision_config->monitoring_config_.prometheus.namespace_prefix = prometheus["namespace"].as<std::string>("themisdb_vision");
                 }
@@ -200,7 +200,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 if (audit["storage"]) {
                     auto storage = audit["storage"];
                     vision_config->monitoring_config_.audit.storage_type = storage["type"].as<std::string>("database");
-                    vision_config->monitoring_config_.audit.retention_days = storage["retention_days"].as<int>(90);
+                    vision_config->monitoring_config_.audit.retention_days = storage["retention_days"].as&lt;int&gt;(90);
                 }
                 
                 vision_config->monitoring_config_.audit.compliance_mode = audit["compliance_mode"].as<std::string>("standard");
@@ -221,8 +221,8 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 if (validation["max_image_resolution"]) {
                     auto res = validation["max_image_resolution"];
                     vision_config->security_config_.validation.max_image_resolution = {
-                        res[0].as<int>(4096),
-                        res[1].as<int>(4096)
+                        res[0].as&lt;int&gt;(4096),
+                        res[1].as&lt;int&gt;(4096)
                     };
                 }
                 
@@ -251,8 +251,8 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 vision_config->security_config_.sandboxing.allow_file_write = sandboxing["allow_file_write"].as<bool>(false);
                 vision_config->security_config_.sandboxing.allow_network = sandboxing["allow_network"].as<bool>(false);
                 vision_config->security_config_.sandboxing.sandbox_memory_mb = sandboxing["sandbox_memory_mb"].as<size_t>(4096);
-                vision_config->security_config_.sandboxing.sandbox_cpu_cores = sandboxing["sandbox_cpu_cores"].as<int>(2);
-                vision_config->security_config_.sandboxing.sandbox_timeout = std::chrono::seconds(sandboxing["sandbox_timeout_seconds"].as<int>(120));
+                vision_config->security_config_.sandboxing.sandbox_cpu_cores = sandboxing["sandbox_cpu_cores"].as&lt;int&gt;(2);
+                vision_config->security_config_.sandboxing.sandbox_timeout = std::chrono::seconds(sandboxing["sandbox_timeout_seconds"].as&lt;int&gt;(120));
             }
             
             // Model verification
@@ -303,10 +303,10 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 if (error_handling["retry"]) {
                     auto retry = error_handling["retry"];
                     vision_config->pipeline_config_.error_handling.retry_enabled = retry["enabled"].as<bool>(true);
-                    vision_config->pipeline_config_.error_handling.max_retry_attempts = retry["max_attempts"].as<int>(3);
+                    vision_config->pipeline_config_.error_handling.max_retry_attempts = retry["max_attempts"].as&lt;int&gt;(3);
                     vision_config->pipeline_config_.error_handling.backoff_strategy = retry["backoff_strategy"].as<std::string>("exponential");
-                    vision_config->pipeline_config_.error_handling.initial_delay = std::chrono::milliseconds(retry["initial_delay_ms"].as<int>(100));
-                    vision_config->pipeline_config_.error_handling.max_delay = std::chrono::milliseconds(retry["max_delay_ms"].as<int>(5000));
+                    vision_config->pipeline_config_.error_handling.initial_delay = std::chrono::milliseconds(retry["initial_delay_ms"].as&lt;int&gt;(100));
+                    vision_config->pipeline_config_.error_handling.max_delay = std::chrono::milliseconds(retry["max_delay_ms"].as&lt;int&gt;(5000));
                 }
                 
                 if (error_handling["fallback"]) {
@@ -325,7 +325,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 vision_config->pipeline_config_.preprocessing.normalize = preprocessing["normalize"].as<bool>(true);
                 vision_config->pipeline_config_.preprocessing.augmentation = preprocessing["augmentation"].as<bool>(false);
                 vision_config->pipeline_config_.preprocessing.cache_preprocessed = preprocessing["cache_preprocessed"].as<bool>(true);
-                vision_config->pipeline_config_.preprocessing.cache_ttl = std::chrono::seconds(preprocessing["cache_ttl_seconds"].as<int>(3600));
+                vision_config->pipeline_config_.preprocessing.cache_ttl = std::chrono::seconds(preprocessing["cache_ttl_seconds"].as&lt;int&gt;(3600));
             }
             
             // Postprocessing
@@ -337,7 +337,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
                 vision_config->pipeline_config_.postprocessing.include_timings = postprocessing["include_timings"].as<bool>(true);
                 vision_config->pipeline_config_.postprocessing.include_confidence_scores = postprocessing["include_confidence_scores"].as<bool>(true);
                 vision_config->pipeline_config_.postprocessing.min_confidence_threshold = postprocessing["min_confidence_threshold"].as<float>(0.5f);
-                vision_config->pipeline_config_.postprocessing.max_results = postprocessing["max_results"].as<int>(10);
+                vision_config->pipeline_config_.postprocessing.max_results = postprocessing["max_results"].as&lt;int&gt;(10);
             }
         }
         
@@ -360,7 +360,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
         
         spdlog::info("Vision configuration loaded successfully from {}", config_path);
         spdlog::info("  - API Version: {}", vision_config->api_version_);
-        spdlog::info("  - Stability Level: {}", static_cast<int>(vision_config->api_stability_));
+        spdlog::info("  - Stability Level: {}", static_cast&lt;int&gt;(vision_config->api_stability_));
         spdlog::info("  - License Enforcement: {}", vision_config->enforce_licenses_ ? "enabled" : "disabled");
         spdlog::info("  - Monitoring: {}", vision_config->monitoring_config_.enabled ? "enabled" : "disabled");
         spdlog::info("  - Sandboxing: {}", vision_config->security_config_.sandboxing.enabled ? "enabled" : "disabled");
@@ -421,7 +421,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
             } else {
                 spdlog::warn("VisionConfig::loadFromJson: non-string entry in "
                              "'allowed_licenses' (type={}) — entry skipped",
-                             static_cast<int>(lic.type()));
+                             static_cast&lt;int&gt;(lic.type()));
             }
         }
     }
@@ -478,7 +478,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
             get_str(audit,  "compliance_mode",  vision_config->monitoring_config_.audit.compliance_mode);
             if (audit.contains("retention_days") && audit["retention_days"].is_number_integer()) {
                 vision_config->monitoring_config_.audit.retention_days =
-                    audit["retention_days"].get<int>();
+                    audit["retention_days"].get&lt;int&gt;();
             }
         }
     }
@@ -517,7 +517,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
             } else {
                 spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
                              "feature flag '{}' (type={}) — flag skipped",
-                             key, static_cast<int>(val.type()));
+                             key, static_cast&lt;int&gt;(val.type()));
             }
         }
     }
@@ -530,14 +530,14 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
             } else {
                 spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
                              "experimental feature '{}' (type={}) — entry skipped",
-                             key, static_cast<int>(val.type()));
+                             key, static_cast&lt;int&gt;(val.type()));
             }
         }
     }
 
     spdlog::info("VisionConfig loaded from JSON (api_version={}, stability={})",
                  vision_config->api_version_,
-                 static_cast<int>(vision_config->api_stability_));
+                 static_cast&lt;int&gt;(vision_config->api_stability_));
 
     return vision_config;
 }

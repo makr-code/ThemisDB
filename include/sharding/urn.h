@@ -42,7 +42,7 @@ namespace themis::sharding {
  * - Multi-tenancy: Namespaces isolate tenants
  * - Cross-model queries: URN-based routing across all data models
  * 
- * @sources
+ * Sources:
  * - Concept: VCC-URN (Virtual Content Container - Uniform Resource Name)
  * - Origin: ThemisDB Original Design
  * - Purpose: Unified addressing scheme for multi-model database with sharding support

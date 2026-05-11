@@ -107,7 +107,7 @@ static std::vector<uint8_t> buildGpuAdjacency(
     cudaMemcpy(d_lats, lats.data(), coord_sz, cudaMemcpyHostToDevice);
     cudaMemset(d_adj, 0, adj_sz);
 
-    const int ni = static_cast<int>(n);
+    const int ni = static_cast&lt;int&gt;(n);
     const dim3 block(16, 16);
     const dim3 grid((ni + 15) / 16, (ni + 15) / 16);
     cuda_haversine_adjacency_kernel<<<grid, block>>>(d_lons, d_lats, d_adj, ni, epsilon_m);
@@ -399,7 +399,7 @@ GeoClusterResult kmeansCluster(
     // Try to build a FAISS GPU index on the centroids and query with all points.
     // We scope this attempt so any failure jumps cleanly to the CPU path.
     bool gpu_assignment_ok = false;
-    std::vector<int> gpu_labels(valid_n, 0);
+    std::vector&lt;int&gt; gpu_labels(valid_n, 0);
 
     if (gpu_cfg.use_gpu) {
         do { // pseudo-loop for easy break-on-failure
@@ -480,7 +480,7 @@ GeoClusterResult kmeansCluster(
     // Lloyd iterations
     // -----------------------------------------------------------------
 
-    std::vector<int>    cluster_labels(valid_n, 0);
+    std::vector&lt;int&gt;    cluster_labels(valid_n, 0);
     std::vector<double> centroid_sum_lon(config.k, 0.0);
     std::vector<double> centroid_sum_lat(config.k, 0.0);
     std::vector<std::size_t> centroid_count(config.k, 0);
@@ -497,7 +497,7 @@ GeoClusterResult kmeansCluster(
                     centroids[c].lon, centroids[c].lat);
                 if (dist < best_dist) {
                     best_dist = dist;
-                    best_c    = static_cast<int>(c);
+                    best_c    = static_cast&lt;int&gt;(c);
                 }
             }
             cluster_labels[vi] = best_c;
@@ -537,7 +537,7 @@ GeoClusterResult kmeansCluster(
     for (std::size_t vi = 0; vi < valid_n; ++vi) {
         result.labels[valid_idx[vi]] = cluster_labels[vi];
     }
-    result.num_clusters = static_cast<int>(config.k);
+    result.num_clusters = static_cast&lt;int&gt;(config.k);
     return result;
 }
 

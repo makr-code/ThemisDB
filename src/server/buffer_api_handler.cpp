@@ -441,7 +441,7 @@ http::response<http::string_body> BufferAPIHandler::makeErrorResponse(
 {
     json body = {
         {"error", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, body, req);
 }

@@ -190,8 +190,8 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string& blob,
         l_int32 xres = pixGetXRes(pix);
         l_int32 yres = pixGetYRes(pix);
         // Prefer x-resolution; fall back to y-resolution when x is unset
-        int current_dpi = (xres > 0) ? static_cast<int>(xres)
-                                      : static_cast<int>(yres);
+        int current_dpi = (xres > 0) ? static_cast&lt;int&gt;(xres)
+                                      : static_cast&lt;int&gt;(yres);
 
         if (preprocess_info) {
             preprocess_info->original_dpi = current_dpi;
@@ -316,7 +316,7 @@ ExtractionResult OcrProcessor::extract(
 
         if (config_.extract_metadata) {
             result.metadata["ocr_language"] = config_.language;
-            result.metadata["ocr_text_length"] = static_cast<int>(result.text.size());
+            result.metadata["ocr_text_length"] = static_cast&lt;int&gt;(result.text.size());
             result.metadata["content_ocr_text"] = result.text;
             result.metadata["mime_type"] = content_type.mime_type;
             result.metadata["ocr_input_dpi"]  = preprocess_info.original_dpi;
@@ -475,7 +475,7 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string& chunk_data
         for (int seed = 0; seed < 3; ++seed) {
             size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);
             for (int d = 0; d < 10; ++d) {
-                int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73) % DIM);
+                int dim = static_cast&lt;int&gt;((combined + static_cast<size_t>(d) * 73) % DIM);
                 float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 float phase  = static_cast<float>((combined + static_cast<size_t>(dim)) % 360)
                                * 3.14159265359f / 180.0f;

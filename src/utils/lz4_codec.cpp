@@ -57,7 +57,7 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
             fmt::format("LZ4 input size {} exceeds LZ4_MAX_INPUT_SIZE", size));
     }
 
-    const int src_size = static_cast<int>(size);
+    const int src_size = static_cast&lt;int&gt;(size);
     const int bound    = LZ4_compressBound(src_size);
     if (bound <= 0) {
         return Err<std::vector<uint8_t>>(
@@ -126,8 +126,8 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     const int result = LZ4_decompress_safe(
         reinterpret_cast<const char*>(compressed.data()),
         reinterpret_cast<char*>(output.data()),
-        static_cast<int>(compressed.size()),
-        static_cast<int>(original_size));
+        static_cast&lt;int&gt;(compressed.size()),
+        static_cast&lt;int&gt;(original_size));
 
     if (result < 0) {
         return Err<std::vector<uint8_t>>(
@@ -169,7 +169,7 @@ size_t lz4_compress_bound(size_t input_size) {
 #ifdef THEMIS_HAS_LZ4
     if (input_size == 0 || input_size > lz4_compression::MAX_INPUT_SIZE) return 0;
     if (input_size > static_cast<size_t>(LZ4_MAX_INPUT_SIZE)) return 0;
-    const int bound = LZ4_compressBound(static_cast<int>(input_size));
+    const int bound = LZ4_compressBound(static_cast&lt;int&gt;(input_size));
     return bound > 0 ? static_cast<size_t>(bound) : 0;
 #else
     (void)input_size;

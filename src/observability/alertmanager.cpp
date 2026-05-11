@@ -153,7 +153,7 @@ void DefaultAlertmanager::ensureHttpPool() {
     http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_cfg);
 }
 
-Result<int> DefaultAlertmanager::postWithRetry(const std::string& path,
+Result&lt;int&gt; DefaultAlertmanager::postWithRetry(const std::string& path,
                                                const std::string& json_body) {
     ensureHttpPool();
 

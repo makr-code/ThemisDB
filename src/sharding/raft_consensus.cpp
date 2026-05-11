@@ -121,7 +121,7 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
     auto self = this;
     std::thread([self, captured_entry, cb, promise]() {
         int acks = 1;  // Leader counts as one acknowledgment
-        int required = static_cast<int>(self->raft_state_.getQuorumSize());
+        int required = static_cast&lt;int&gt;(self->raft_state_.getQuorumSize());
 
         if (cb) {
             for (const auto& member : self->raft_state_.getClusterMembers()) {

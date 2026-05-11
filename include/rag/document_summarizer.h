@@ -89,7 +89,7 @@ struct DocumentSummarizerConfig {
     /// Minimum sentence length (characters) to be eligible for extraction.
     size_t min_sentence_chars = 20;
 
-    /// Whether to prepend a "[Source: <id>]" tag to each per-document
+    /// Whether to prepend a "[Source: &lt;id&gt;]" tag to each per-document
     /// summary in the combined output.
     bool include_source_attribution = true;
 

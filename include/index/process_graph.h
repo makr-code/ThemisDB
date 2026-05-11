@@ -288,7 +288,7 @@ struct ProcessNodeInfo {
     // Execution properties
     bool is_async = false;      // Asynchronous execution
     bool is_multi_instance = false;  // Loop/parallel execution
-    std::optional<int> loop_cardinality;
+    std::optional&lt;int&gt; loop_cardinality;
     
     // Timing
     std::optional<std::chrono::milliseconds> timeout;
@@ -326,7 +326,7 @@ struct ProcessNodeInfo {
     struct DsgvoAnnotation {
         std::string data_category;       ///< "personal", "sensitive", "anonymised"
         std::string legal_basis;         ///< e.g. "Art. 6(1)(e) DSGVO"
-        std::optional<int> retention_days;
+        std::optional&lt;int&gt; retention_days;
         bool requires_consent{false};
     };
     std::optional<DsgvoAnnotation> dsgvo_annotation; ///< BPMN-S DSGVO annotation (null if not annotated)
@@ -408,7 +408,7 @@ struct Hyperedge {
     SyncType sync_type = SyncType::AND_JOIN;
     
     // For N_OF_M_JOIN
-    std::optional<int> required_count;
+    std::optional&lt;int&gt; required_count;
     
     // Execution state
     std::unordered_set<std::string> activated_sources;
@@ -906,7 +906,7 @@ public:
     struct MultiModelQuery {
         // Graph constraints
         std::optional<std::string> start_node;
-        std::optional<int> max_depth;
+        std::optional&lt;int&gt; max_depth;
         std::vector<std::string> edge_types;
         
         // Relational constraints

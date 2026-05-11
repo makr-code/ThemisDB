@@ -136,7 +136,7 @@ struct MetadataSnapshot {
      * Schema:
      * @code
      * {
-     *   "snapshot_id": "<id>",
+     *   "snapshot_id": "&lt;id&gt;",
      *   "created_at":  "<ISO-8601>",
      *   "author":      "<string>",
      *   "description": "<string>",

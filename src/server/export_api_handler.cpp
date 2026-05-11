@@ -474,7 +474,7 @@ bool ExportApiHandler::validateAdminToken(
     
     std::string auth_str(auth_header.data(), auth_header.size());
     
-    // Check for "Bearer <token>" format
+    // Check for "Bearer &lt;token&gt;" format
     if (auth_str.find("Bearer ") != 0) {
         return false;
     }

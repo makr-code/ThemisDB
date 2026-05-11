@@ -65,7 +65,7 @@ public:
     struct ImportResult {
         bool ok{false};
         std::string message;
-        std::string process_id;     ///< Extracted from the BPMN <process id=…>
+        std::string process_id;     ///< Extracted from the BPMN &lt;process id=…&gt;
         std::string process_name;
         std::vector<ProcessNodeInfo> nodes;
         std::vector<ProcessEdgeInfo> edges;
@@ -96,8 +96,8 @@ public:
     /**
      * @brief Export a list of process nodes and edges to BPMN 2.0 XML.
      *
-     * @param process_id    The BPMN <process id=…> attribute value.
-     * @param process_name  The BPMN <process name=…> attribute value.
+     * @param process_id    The BPMN &lt;process id=…&gt; attribute value.
+     * @param process_name  The BPMN &lt;process name=…&gt; attribute value.
      * @param nodes         Ordered list of process nodes.
      * @param edges         List of connecting edges.
      * @return Well-formed BPMN 2.0 XML string.

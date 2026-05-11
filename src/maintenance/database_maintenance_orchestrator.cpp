@@ -617,7 +617,7 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
     int enabled = 0, total = 0;
     {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-        total = static_cast<int>(schedules_.size());
+        total = static_cast&lt;int&gt;(schedules_.size());
         for (auto& [id, e] : schedules_) {
             if (e.enabled) ++enabled;
         }
@@ -647,7 +647,7 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     // Orchestrator counts
     {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-        report.total_schedules = static_cast<int>(schedules_.size());
+        report.total_schedules = static_cast&lt;int&gt;(schedules_.size());
         for (auto& [id, e] : schedules_) {
             if (e.enabled) ++report.enabled_schedules;
         }
@@ -720,7 +720,7 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
         return;
     }
     std::unique_lock<std::shared_mutex> lock(handlers_mutex_);
-    task_handlers_[static_cast<int>(task_type)] = std::move(handler);
+    task_handlers_[static_cast&lt;int&gt;(task_type)] = std::move(handler);
 }
 
 void DatabaseMaintenanceOrchestrator::setDistributedLock(
@@ -1309,7 +1309,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {
                 std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
-                auto it = task_handlers_.find(static_cast<int>(task_type));
+                auto it = task_handlers_.find(static_cast&lt;int&gt;(task_type));
                 if (it != task_handlers_.end()) {
                     handler = it->second;
                 }

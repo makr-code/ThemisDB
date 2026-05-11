@@ -219,7 +219,7 @@ public:
 
     /// POST /api/v1/metadata/constraints/validate/:table
     /// Validate a batch of rows against the table's registered constraints.
-    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
+    /// Body: { "rows": [ { <column>: &lt;value&gt;, … }, … ] }
     http::response<http::string_body> handleBatchConstraintValidation(
         const http::request<http::string_body>& req);
 

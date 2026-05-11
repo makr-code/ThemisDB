@@ -49,18 +49,18 @@
 
 // Thin wrappers around io_uring syscalls not exposed by glibc < 2.36
 static int io_uring_setup(unsigned entries, struct io_uring_params* p) {
-    return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
+    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_setup, entries, p));
 }
 
 static int io_uring_enter(int fd, unsigned to_submit, unsigned min_complete,
                           unsigned flags, sigset_t* sig) {
-    return static_cast<int>(::syscall(__NR_io_uring_enter, fd,
+    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_enter, fd,
                                       to_submit, min_complete, flags, sig, _NSIG / 8));
 }
 
 static int io_uring_register(int fd, unsigned opcode, void* arg,
                               unsigned nr_args) {
-    return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr_args));
+    return static_cast&lt;int&gt;(::syscall(__NR_io_uring_register, fd, opcode, arg, nr_args));
 }
 
 #define IORING_REGISTER_BUFFERS  0
@@ -156,7 +156,7 @@ struct IoUringZeroCopyIO::RingImpl {
     size_t cq_mmap_size{0};
 
     // Registered file descriptors
-    std::vector<int> registered_fds;
+    std::vector&lt;int&gt; registered_fds;
 };
 
 #else  // !__linux__
@@ -451,7 +451,7 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
     if (ret < 0) return -errno;
     fallback_recvs_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(static_cast<uint64_t>(ret), std::memory_order_relaxed);
-    return static_cast<int>(ret);
+    return static_cast&lt;int&gt;(ret);
 }
 
 uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept {

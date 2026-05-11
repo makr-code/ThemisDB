@@ -277,8 +277,8 @@ bool AdapterLoadBalancer::rebalance() {
     avg_load /= healthy_gpus.size();
     
     // Find overloaded and underloaded GPUs
-    std::vector<int> overloaded_gpus;
-    std::vector<int> underloaded_gpus;
+    std::vector&lt;int&gt; overloaded_gpus;
+    std::vector&lt;int&gt; underloaded_gpus;
     
     for (int gpu_id : healthy_gpus) {
         float load = calculateGPULoad(gpu_id);
@@ -342,7 +342,7 @@ bool AdapterLoadBalancer::rebalance() {
     
     spdlog::info("Load rebalancing completed: {} migrations", migrations);
 
-    emitRebalanceRecord(migrations, static_cast<int>(healthy_gpus.size()), avg_load);
+    emitRebalanceRecord(migrations, static_cast&lt;int&gt;(healthy_gpus.size()), avg_load);
 
     return migrations > 0;
 }
@@ -646,7 +646,7 @@ std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) c
     if (it != hot_loading_adapters_.end()) {
         // Hot-load in progress: route to fallback (may be empty = caller uses base model)
         spdlog::debug("AdapterLoadBalancer: '{}' loading, routing to fallback '{}'",
-                      adapter_id, it->second.empty() ? "<base>" : it->second);
+                      adapter_id, it->second.empty() ? "&lt;base&gt;" : it->second);
         return it->second;
     }
     return adapter_id;

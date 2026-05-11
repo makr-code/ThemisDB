@@ -64,7 +64,7 @@ public:
      * @param ttl_seconds Optional TTL in seconds (uses default if not specified)
      */
     void put(const Key& key, const Value& value, 
-             std::optional<int> ttl_seconds = std::nullopt) {
+             std::optional&lt;int&gt; ttl_seconds = std::nullopt) {
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto now = std::chrono::steady_clock::now();

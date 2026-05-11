@@ -136,10 +136,10 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
                     new_cfg.snapshot_dir = snapshot["dir"].as<std::string>(new_cfg.snapshot_dir);
                 }
                 if (snapshot["retention_days"]) {
-                    snapshot_retention_days_ = snapshot["retention_days"].as<int>(snapshot_retention_days_);
+                    snapshot_retention_days_ = snapshot["retention_days"].as&lt;int&gt;(snapshot_retention_days_);
                 }
                 if (snapshot["max_total_size_gb"]) {
-                    snapshot_max_total_gb_ = snapshot["max_total_size_gb"].as<int>(snapshot_max_total_gb_);
+                    snapshot_max_total_gb_ = snapshot["max_total_size_gb"].as&lt;int&gt;(snapshot_max_total_gb_);
                 }
             }
         }
@@ -183,7 +183,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
                 }
                 if (safety["approval_timeout_s"]) {
                     mode_cfg.approval_timeout_s =
-                        safety["approval_timeout_s"].as<int>(mode_cfg.approval_timeout_s);
+                        safety["approval_timeout_s"].as&lt;int&gt;(mode_cfg.approval_timeout_s);
                 }
                 if (safety["auto_snapshot"]) {
                     mode_cfg.auto_snapshot =
@@ -1713,7 +1713,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
         ctx.request_id = args.value("request_id", "");
 
         if (args.contains("max_tokens")) {
-            ctx.max_tokens = args["max_tokens"].get<int>();
+            ctx.max_tokens = args["max_tokens"].get&lt;int&gt;();
         }
         if (args.contains("temperature")) {
             ctx.temperature = args["temperature"].get<float>();
@@ -1999,8 +1999,8 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
             int code = std::stoi(match.str());
             auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
             
-            if (static_cast<int>(metadata.code) != static_cast<int>(errors::ErrorCode::ERR_UNKNOWN) || 
-                code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
+            if (static_cast&lt;int&gt;(metadata.code) != static_cast&lt;int&gt;(errors::ErrorCode::ERR_UNKNOWN) || 
+                code == static_cast&lt;int&gt;(errors::ErrorCode::ERR_UNKNOWN)) {
                 
                 // Manual join for documentation links (fmt::join may not be available in all versions)
                 std::string docs_str;
@@ -2043,7 +2043,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                 const auto& error = results[i];
                 answer += fmt::format(
                     "**[{}] {}**\n{}\n\n**Solution:**\n{}\n\n",
-                    static_cast<int>(error.code),
+                    static_cast&lt;int&gt;(error.code),
                     error.message_template,
                     error.cause,
                     error.solution
@@ -2064,7 +2064,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
             const auto& error = results[i];
             answer += fmt::format(
                 "**[{}] {}**\n{}\n\n",
-                static_cast<int>(error.code),
+                static_cast&lt;int&gt;(error.code),
                 error.message_template,
                 error.cause
             );

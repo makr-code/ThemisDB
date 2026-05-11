@@ -269,7 +269,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
     std::vector<std::pair<std::string, std::string>> new_rules;
 
     // Build one alternative per tool:
-    // call-<name> ::= "{" ws "\"name\"" ws ":" ws "\"<name>\"" ws "," ws "\"arguments\"" ws ":" ws <args-rule> ws "}"
+    // call-&lt;name&gt; ::= "{" ws "\"name\"" ws ":" ws "\"&lt;name&gt;\"" ws "," ws "\"arguments\"" ws ":" ws <args-rule> ws "}"
     std::string root_alternatives;
     for (const auto& tool : tools) {
         if (tool.name.empty()) {

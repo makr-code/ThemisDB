@@ -63,7 +63,7 @@ std::string urlEncodeComponent(const std::string& s) {
             out << '%'
                 << std::hex << std::uppercase
                 << std::setw(2) << std::setfill('0')
-                << static_cast<int>(c);
+                << static_cast&lt;int&gt;(c);
         }
     }
     return out.str();
@@ -236,7 +236,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
         if (cfg.pagination_mode == "page") {
             ++page;
         } else if (cfg.pagination_mode == "offset") {
-            offset += static_cast<int>(batch.size());
+            offset += static_cast&lt;int&gt;(batch.size());
         } else if (cfg.pagination_mode == "cursor") {
             try {
                 const json root = json::parse(response);
@@ -267,8 +267,8 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
         try {
             const json root = json::parse(response);
             if (!cfg.total_field.empty() && root.contains(cfg.total_field)) {
-                const int total = root[cfg.total_field].get<int>();
-                if (static_cast<int>(all.size()) >= total) break;
+                const int total = root[cfg.total_field].get&lt;int&gt;();
+                if (static_cast&lt;int&gt;(all.size()) >= total) break;
             }
         } catch (...) {}
     }

@@ -250,7 +250,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     for (const auto& entry : entries) {
         nlohmann::json entry_json;
         entry_json["lsn"] = entry.lsn.toString();
-        entry_json["type"] = static_cast<int>(entry.type);
+        entry_json["type"] = static_cast&lt;int&gt;(entry.type);
         entry_json["timestamp"] = entry.timestamp;
         entry_json["transaction_id"] = entry.transaction_id;
         entry_json["data"] = entry.data;
@@ -290,7 +290,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
                 }
             }
         } else if (config_.compression == WALShipperConfig::CompressionType::LZ4) {
-            int src_size = static_cast<int>(uncompressed_size);
+            int src_size = static_cast&lt;int&gt;(uncompressed_size);
             int bound = LZ4_compressBound(src_size);
             std::vector<char> lz4_buf(static_cast<size_t>(bound));
             int lz4_size = LZ4_compress_default(
@@ -531,7 +531,7 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
     }
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
     }
     return oss.str();
 }

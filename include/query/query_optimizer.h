@@ -234,7 +234,7 @@ public:
         std::string join_strategy;  // "broadcast", "repartition", "semi_join"
         size_t recommended_parallelism = 1;
         bool enable_numa_awareness = false;
-        std::vector<int> preferred_cpu_affinity;
+        std::vector&lt;int&gt; preferred_cpu_affinity;
     };
     
     DistributedPlan optimizeForDistribution(

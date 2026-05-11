@@ -285,7 +285,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     }
     
     if (metrics_) {
-        metrics_->recordScatterGatherFanout(static_cast<int>(shards.size()));
+        metrics_->recordScatterGatherFanout(static_cast&lt;int&gt;(shards.size()));
     }
     
     // Limit concurrent shard requests
@@ -593,7 +593,7 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         // the hash table with right-side documents.
         //
         // Expected query format:
-        //   "JOIN <left_coll> ON <field> WITH <right_coll> [WHERE ...]"
+        //   "JOIN <left_coll> ON &lt;field&gt; WITH <right_coll> [WHERE ...]"
         // A plain collection name is also accepted as a fallback.
         std::string right_collection;
         {

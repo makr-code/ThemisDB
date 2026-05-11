@@ -41,16 +41,16 @@
  *     model with DPO/PPO.
  *
  * Key classes:
- *  - @ref IAIJudge         — pluggable interface for the AI preference judge.
- *  - @ref HeuristicAIJudge — heuristic judge (no LLM runtime required).
- *  - @ref RLAIFConfig      — all tunable parameters.
- *  - @ref PreferencePair   — a (prompt, chosen, rejected) training example.
- *  - @ref RLAIFTrainer     — main training pipeline orchestrator.
- *  - @ref RLAIFTrainerFactory — convenience factories.
+ *  - `IAIJudge`         — pluggable interface for the AI preference judge.
+ *  - `HeuristicAIJudge` — heuristic judge (no LLM runtime required).
+ *  - `RLAIFConfig`      — all tunable parameters.
+ *  - `PreferencePair`   — a (prompt, chosen, rejected) training example.
+ *  - `RLAIFTrainer`     — main training pipeline orchestrator.
+ *  - `RLAIFTrainerFactory` — convenience factories.
  *
  * Design:
  *  - No LLM runtime dependency in the core path; all LLM calls are routed
- *    through pluggable @ref IAIJudge implementations.
+ *    through pluggable `IAIJudge` implementations.
  *  - Training steps are pure in-memory transformations; persistence is the
  *    caller's responsibility.
  *  - Thread safety: a single RLAIFTrainer instance is NOT thread-safe for

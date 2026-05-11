@@ -120,7 +120,7 @@ std::string FederatedIdentityManager::extractIssuer(const std::string& raw_token
         if (c == '=') break;
         const auto pos = b64_chars.find(static_cast<char>(c));
         if (pos == std::string::npos) continue;
-        val = (val << 6) + static_cast<int>(pos);
+        val = (val << 6) + static_cast&lt;int&gt;(pos);
         bits += 6;
         if (bits >= 0) {
             decoded.push_back(static_cast<char>((val >> bits) & 0xFF));
@@ -312,7 +312,7 @@ std::string FederatedIdentityManager::buildFormBody(
 
         char* enc_key = curl_easy_escape(
             curl, params[i].first.c_str(),
-            static_cast<int>(params[i].first.size()));
+            static_cast&lt;int&gt;(params[i].first.size()));
         if (!enc_key) {
             curl_easy_cleanup(curl);
             throw std::runtime_error(
@@ -325,7 +325,7 @@ std::string FederatedIdentityManager::buildFormBody(
 
         char* enc_val = curl_easy_escape(
             curl, params[i].second.c_str(),
-            static_cast<int>(params[i].second.size()));
+            static_cast&lt;int&gt;(params[i].second.size()));
         if (!enc_val) {
             curl_easy_cleanup(curl);
             throw std::runtime_error(

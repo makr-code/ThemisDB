@@ -386,7 +386,7 @@ void PluginHealthMonitor::handleUnhealthyPlugin(MonitoredPlugin& plugin) {
 
     THEMIS_WARN("PluginHealthMonitor: plugin '{}' is unhealthy (status: {}, consecutive failures: {})",
                 plugin.name,
-                static_cast<int>(plugin.last_diagnostics.status),
+                static_cast&lt;int&gt;(plugin.last_diagnostics.status),
                 plugin.consecutive_failures);
 
     emitEvent({
@@ -565,7 +565,7 @@ std::chrono::seconds PluginHealthMonitor::calculateBackoff(uint32_t attempt_coun
     }
 
     if (config_.backoff_strategy == "linear") {
-        auto duration = config_.initial_backoff * static_cast<int>(attempt_count);
+        auto duration = config_.initial_backoff * static_cast&lt;int&gt;(attempt_count);
         return std::min(duration, config_.max_backoff);
     }
 

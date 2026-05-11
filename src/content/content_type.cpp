@@ -34,7 +34,7 @@ namespace content {
 json ContentType::toJson() const {
     json j = {
         {"mime_type", mime_type},
-        {"category", static_cast<int>(category)},
+        {"category", static_cast&lt;int&gt;(category)},
         {"extensions", extensions},
         {"supports_text_extraction", supports_text_extraction},
         {"supports_embedding", supports_embedding},
@@ -55,7 +55,7 @@ json ContentType::toJson() const {
 ContentType ContentType::fromJson(const json& j) {
     auto parseCategory = [](const json& value) -> ContentCategory {
         if (value.is_number_integer()) {
-            return static_cast<ContentCategory>(value.get<int>());
+            return static_cast<ContentCategory>(value.get&lt;int&gt;());
         }
         if (value.is_string()) {
             std::string category = value.get<std::string>();

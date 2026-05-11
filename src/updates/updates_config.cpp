@@ -65,7 +65,7 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             auto checker = config["updates"]["checker"];
             result.checker.enabled = checker["enabled"].as<bool>(false);
             result.checker.check_interval = std::chrono::seconds(
-                checker["check_interval_seconds"].as<int>(3600)
+                checker["check_interval_seconds"].as&lt;int&gt;(3600)
             );
             result.checker.github_owner = checker["github_owner"].as<std::string>("makr-code");
             result.checker.github_repo = checker["github_repo"].as<std::string>("ThemisDB");
@@ -86,7 +86,7 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             result.auto_update.critical_only = auto_update["critical_only"].as<bool>(true);
             result.auto_update.require_approval = auto_update["require_approval"].as<bool>(true);
             result.auto_update.approval_timeout = std::chrono::seconds(
-                auto_update["approval_timeout_seconds"].as<int>(300)
+                auto_update["approval_timeout_seconds"].as&lt;int&gt;(300)
             );
             result.auto_update.scheduled = auto_update["scheduled"].as<bool>(false);
             result.auto_update.schedule_time = auto_update["schedule_time"].as<std::string>("02:00");
@@ -108,10 +108,10 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             result.hot_reload.install_directory = hot_reload["install_directory"].as<std::string>(".");
             result.hot_reload.verify_signatures = hot_reload["verify_signatures"].as<bool>(true);
             result.hot_reload.create_backup = hot_reload["create_backup"].as<bool>(true);
-            result.hot_reload.keep_rollback_points = hot_reload["keep_rollback_points"].as<int>(3);
-            result.hot_reload.download_timeout_seconds = hot_reload["download_timeout_seconds"].as<int>(300);
-            result.hot_reload.max_retries = hot_reload["max_retries"].as<int>(3);
-            result.hot_reload.retry_delay_seconds = hot_reload["retry_delay_seconds"].as<int>(5);
+            result.hot_reload.keep_rollback_points = hot_reload["keep_rollback_points"].as&lt;int&gt;(3);
+            result.hot_reload.download_timeout_seconds = hot_reload["download_timeout_seconds"].as&lt;int&gt;(300);
+            result.hot_reload.max_retries = hot_reload["max_retries"].as&lt;int&gt;(3);
+            result.hot_reload.retry_delay_seconds = hot_reload["retry_delay_seconds"].as&lt;int&gt;(5);
         }
         
         // Load notification settings
@@ -146,7 +146,7 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
                 for (const auto& s : canary_yaml["stages"]) {
                     UpdatesConfig::CanaryConfig::Stage stage;
                     stage.percentage = s["percentage"].as<double>(1.0);
-                    stage.observation_seconds = s["observation_seconds"].as<int>(0);
+                    stage.observation_seconds = s["observation_seconds"].as&lt;int&gt;(0);
                     result.canary.stages.push_back(stage);
                 }
             }
@@ -161,7 +161,7 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
                 tel["endpoint_url"].as<std::string>(
                     "https://api.themisdb.org/telemetry.php");
             result.telemetry.send_interval_seconds =
-                std::max(86400, tel["send_interval_seconds"].as<int>(86400));
+                std::max(86400, tel["send_interval_seconds"].as&lt;int&gt;(86400));
             result.telemetry.include_cpu_model =
                 tel["include_cpu_model"].as<bool>(true);
             result.telemetry.include_cpu_cores =
@@ -173,9 +173,9 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             result.telemetry.include_arch =
                 tel["include_arch"].as<bool>(true);
             result.telemetry.http_timeout_seconds =
-                tel["http_timeout_seconds"].as<int>(10);
+                tel["http_timeout_seconds"].as&lt;int&gt;(10);
             result.telemetry.max_retries =
-                tel["max_retries"].as<int>(2);
+                tel["max_retries"].as&lt;int&gt;(2);
         }
         
         LOG_INFO("Loaded updates configuration from {}", yaml_path);

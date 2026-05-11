@@ -85,7 +85,7 @@ nlohmann::json KeysApiHandler::listKeys() {
         
         return {
             {"items", items},
-            {"total", static_cast<int>(items.size())}
+            {"total", static_cast&lt;int&gt;(items.size())}
         };
         
     } catch (const std::exception& ex) {

@@ -129,7 +129,7 @@ struct SlotDefinition {
         };
         return {
             {"name",          name},
-            {"type",          kTypeNames[static_cast<int>(type)]},
+            {"type",          kTypeNames[static_cast&lt;int&gt;(type)]},
             {"required",      required},
             {"default_value", default_value}
         };

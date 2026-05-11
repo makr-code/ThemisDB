@@ -273,7 +273,7 @@ void EventTrigger::listenerLoop() {
                 if (shouldDebounce()) {
                     events_debounced_++;
                     THEMIS_DEBUG("Event debounced (key={}, type={})",
-                                event.key, static_cast<int>(event.type));
+                                event.key, static_cast&lt;int&gt;(event.type));
                     continue;
                 }
                 
@@ -293,7 +293,7 @@ void EventTrigger::listenerLoop() {
 
                 triggers_fired_++;
                 THEMIS_DEBUG("EventTrigger fired (key={}, type={}, sequence={})",
-                            event.key, static_cast<int>(event.type), event.sequence);
+                            event.key, static_cast&lt;int&gt;(event.type), event.sequence);
                 
                 try {
                     callback_(event);

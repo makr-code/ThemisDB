@@ -248,8 +248,8 @@ void SystemMemoryPressureMonitor::trigger_callbacks(PressureLevel current_level)
     {
         std::lock_guard<std::mutex> lock(callbacks_mutex_);
         for (const auto& entry : callbacks_) {
-            if (static_cast<int>(current_level) >=
-                static_cast<int>(entry.trigger_level)) {
+            if (static_cast&lt;int&gt;(current_level) >=
+                static_cast&lt;int&gt;(entry.trigger_level)) {
                 to_call.push_back(entry.callback);
             }
         }

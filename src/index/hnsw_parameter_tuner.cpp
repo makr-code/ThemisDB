@@ -60,7 +60,7 @@ int HnswParameterTuner::getOptimalEfSearch(size_t k, size_t dataset_size) const 
     int ef = current_ef_search_.load();
     
     // Scale with k (efSearch should be >= k)
-    ef = std::max(ef, static_cast<int>(k));
+    ef = std::max(ef, static_cast&lt;int&gt;(k));
     
     // Scale with dataset size if enabled
     if (config_.scale_with_dataset) {
@@ -194,30 +194,30 @@ int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M,
     if (dataset_size < 10000) {
         // Small datasets: keep base value
     } else if (dataset_size < 100000) {
-        base_ef = static_cast<int>(base_ef * 1.5);
+        base_ef = static_cast&lt;int&gt;(base_ef * 1.5);
     } else if (dataset_size < 1000000) {
-        base_ef = static_cast<int>(base_ef * 2.0);
+        base_ef = static_cast&lt;int&gt;(base_ef * 2.0);
     } else {
-        base_ef = static_cast<int>(base_ef * 3.0);
+        base_ef = static_cast&lt;int&gt;(base_ef * 3.0);
     }
     
     // Workload-specific adjustments
     switch (workload) {
         case WorkloadType::OLTP:
             // OLTP: Prioritize insert speed, reduce ef_construction
-            return static_cast<int>(base_ef * 0.7);
+            return static_cast&lt;int&gt;(base_ef * 0.7);
             
         case WorkloadType::ANALYTICS:
             // Analytics: Maximize index quality for better query performance
-            return static_cast<int>(base_ef * 1.3);
+            return static_cast&lt;int&gt;(base_ef * 1.3);
             
         case WorkloadType::RAG:
             // RAG: High-quality index for accurate retrieval
-            return static_cast<int>(base_ef * 1.2);
+            return static_cast&lt;int&gt;(base_ef * 1.2);
             
         case WorkloadType::BATCH_INSERT:
             // Batch insert: Fast construction, can rebuild later if needed
-            return static_cast<int>(base_ef * 0.6);
+            return static_cast&lt;int&gt;(base_ef * 0.6);
             
         case WorkloadType::MIXED:
         default:
@@ -254,17 +254,17 @@ void HnswParameterTuner::adapt() {
     // If latency is too high, decrease efSearch
     if (avg_latency > config_.target_latency.count()) {
         new_ef = std::max(config_.ef_search_min, 
-                         static_cast<int>(current_ef * 0.9));
+                         static_cast&lt;int&gt;(current_ef * 0.9));
     }
     // If recall is too low (and we have recall data), increase efSearch
     else if (recall_samples > 0 && avg_recall < config_.target_recall) {
         new_ef = std::min(config_.ef_search_max, 
-                         static_cast<int>(current_ef * 1.1));
+                         static_cast&lt;int&gt;(current_ef * 1.1));
     }
     // If both latency and recall are good, try to optimize (reduce efSearch slightly)
     else if (recall_samples > 0 && avg_recall > config_.target_recall + 0.02) {
         new_ef = std::max(config_.ef_search_min, 
-                         static_cast<int>(current_ef * 0.95));
+                         static_cast&lt;int&gt;(current_ef * 0.95));
     }
     
     if (new_ef != current_ef) {
@@ -314,7 +314,7 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
     }
     
     // Clamp to configured range
-    int ef = static_cast<int>(base_ef);
+    int ef = static_cast&lt;int&gt;(base_ef);
     return std::clamp(ef, config_.ef_search_min, config_.ef_search_max);
 }
 

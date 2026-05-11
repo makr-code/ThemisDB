@@ -132,7 +132,7 @@ public:
         }
 
         // partial sort — only need top k
-        int actual_k = std::min(k, static_cast<int>(results.size()));
+        int actual_k = std::min(k, static_cast&lt;int&gt;(results.size()));
         std::partial_sort(results.begin(),
                           results.begin() + actual_k,
                           results.end(),
@@ -211,7 +211,7 @@ public:
     //       float data[n_floats] (4 bytes each)
     //
     // Phase 2 (Q4 2026) will layer a RocksDB key-value representation
-    // `__ttidx__:<name>:<id>:G<k>` on top of or instead of this format.
+    // `__ttidx__:&lt;name&gt;:&lt;id&gt;:G<k>` on top of or instead of this format.
     // -----------------------------------------------------------------------
 
     static constexpr char kMagic[11] = "THEMIS_TTI";  // 10 chars + '\0'

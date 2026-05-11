@@ -114,7 +114,7 @@ static bool isCgroupV2Available() {
     if (::stat("/sys/fs/cgroup/cgroup.controllers", &st) != 0) {
         return false;
     }
-    // A writable root means we can create /sys/fs/cgroup/themis/<id>/.
+    // A writable root means we can create /sys/fs/cgroup/themis/&lt;id&gt;/.
     return ::access("/sys/fs/cgroup", W_OK) == 0;
 }
 

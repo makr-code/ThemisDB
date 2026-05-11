@@ -59,7 +59,7 @@ class PrometheusMetrics;
  * Used for anti-entropy and conflict resolution in the gossip protocol.
  * Based on Lamport's logical clocks and vector clocks.
  * 
- * @sources
+ * Sources:
  * - Paper: Lamport, L. (1978). "Time, clocks, and the ordering of events in a distributed system"
  * - Paper: Fidge, C. J. (1988). "Timestamps in message-passing systems that preserve partial ordering"
  * - Implementation: Inspired by Apache Cassandra and Amazon Dynamo
@@ -201,7 +201,7 @@ struct GossipConfigManagerConfig {
  * - Periodic gossip rounds with peer selection
  * - Prometheus metrics integration
  * 
- * @sources
+ * Sources:
  * - YARN Architecture: NodeManager heartbeat and resource tracking
  * - Dynamo: Vector clocks and anti-entropy
  * - Cassandra: Gossip protocol implementation

@@ -163,7 +163,7 @@ static std::vector<YamlEntry> parseYamlSection(
         const std::string& raw = lines[i];
         // count leading spaces
         int indent = 0;
-        while (indent < static_cast<int>(raw.size()) && raw[indent] == ' ')
+        while (indent < static_cast&lt;int&gt;(raw.size()) && raw[indent] == ' ')
             ++indent;
         std::string line = trimYaml(raw);
         if (line.empty() || line[0] == '#') { ++i; continue; }
@@ -531,7 +531,7 @@ bool OntologyManager::parseYaml(const std::string& text) {
         while (look < lines.size()) {
             std::string l = lines[look];
             int ind = 0;
-            while (ind < static_cast<int>(l.size()) && l[ind] == ' ') ++ind;
+            while (ind < static_cast&lt;int&gt;(l.size()) && l[ind] == ' ') ++ind;
             std::string lt = trimYaml(l);
             if (!lt.empty() && lt[0] != '#') { entry_indent = ind; break; }
             ++look;

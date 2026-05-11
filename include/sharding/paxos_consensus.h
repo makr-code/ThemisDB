@@ -102,7 +102,7 @@ struct PaxosInstance {
  * - Quorum-based agreement
  * - Persistent state management
  * 
- * @sources
+ * Sources:
  * - Lamport, L. (1998). "The Part-Time Parliament"
  * - Lamport, L. (2001). "Paxos Made Simple"
  * - van Renesse, R. & Altinbuken, D. (2015). "Paxos Made Moderately Complex"

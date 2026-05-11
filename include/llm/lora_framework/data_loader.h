@@ -39,8 +39,8 @@ struct InstructionDataSample {
     std::string output;          // Expected response
     
     // Tokenized versions (populated by tokenizer)
-    std::vector<int> input_ids;
-    std::vector<int> label_ids;
+    std::vector&lt;int&gt; input_ids;
+    std::vector&lt;int&gt; label_ids;
     
     // Get full prompt (instruction + input if present)
     std::string getFullPrompt() const {
@@ -55,8 +55,8 @@ struct InstructionDataSample {
  * @brief Batch of training samples
  */
 struct TrainingBatch {
-    std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
-    std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
+    std::vector<std::vector&lt;int&gt;> input_ids;      // [batch_size, seq_len]
+    std::vector<std::vector&lt;int&gt;> label_ids;      // [batch_size, seq_len]
     std::vector<size_t> sequence_lengths;         // Actual lengths before padding
     int batch_size;
     int max_sequence_length;
@@ -90,7 +90,7 @@ public:
      * @param add_eos Add end-of-sequence token
      * @return Vector of token IDs
      */
-    [[nodiscard]] virtual std::vector<int> encode(const std::string& text, 
+    [[nodiscard]] virtual std::vector&lt;int&gt; encode(const std::string& text, 
                                     bool add_bos = true, 
                                     bool add_eos = false) = 0;
     
@@ -99,7 +99,7 @@ public:
      * @param tokens Token IDs
      * @return Decoded text
      */
-    [[nodiscard]] virtual std::string decode(const std::vector<int>& tokens) = 0;
+    [[nodiscard]] virtual std::string decode(const std::vector&lt;int&gt;& tokens) = 0;
     
     /**
      * @brief Get vocabulary size
@@ -134,11 +134,11 @@ public:
     SimpleTokenizer(int vocab_size = 32000);
     ~SimpleTokenizer() override = default;
     
-    std::vector<int> encode(const std::string& text, 
+    std::vector&lt;int&gt; encode(const std::string& text, 
                            bool add_bos = true, 
                            bool add_eos = false) override;
     
-    std::string decode(const std::vector<int>& tokens) override;
+    std::string decode(const std::vector&lt;int&gt;& tokens) override;
     
     int vocab_size() const override { return vocab_size_; }
     int bos_token_id() const override { return 1; }
@@ -148,8 +148,8 @@ public:
 private:
     int vocab_size_;
     // Simple character-level tokenization for testing
-    std::vector<int> char_to_token(const std::string& text);
-    std::string token_to_char(const std::vector<int>& tokens);
+    std::vector&lt;int&gt; char_to_token(const std::string& text);
+    std::string token_to_char(const std::vector&lt;int&gt;& tokens);
 };
 
 /**

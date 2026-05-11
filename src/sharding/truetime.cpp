@@ -332,7 +332,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         ).count();
         
         // Send request
-        if (sendto(sockfd, reinterpret_cast<const char*>(&packet), static_cast<int>(sizeof(packet)), 0,
+        if (sendto(sockfd, reinterpret_cast<const char*>(&packet), static_cast&lt;int&gt;(sizeof(packet)), 0,
                    reinterpret_cast<struct sockaddr*>(&serv_addr), sizeof(serv_addr)) < 0) {
             return false;
         }
@@ -340,7 +340,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         // Receive response
 #ifdef _WIN32
         int len = sizeof(serv_addr);
-        int n = recvfrom(sockfd, reinterpret_cast<char*>(&packet), static_cast<int>(sizeof(packet)), 0,
+        int n = recvfrom(sockfd, reinterpret_cast<char*>(&packet), static_cast&lt;int&gt;(sizeof(packet)), 0,
                          reinterpret_cast<struct sockaddr*>(&serv_addr), &len);
 #else
         socklen_t len = sizeof(serv_addr);
@@ -357,7 +357,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         // Socket will be automatically closed by SocketGuard destructor
         
 #ifdef _WIN32
-        if (n < static_cast<int>(sizeof(packet))) {
+        if (n < static_cast&lt;int&gt;(sizeof(packet))) {
             return false;
         }
 #else

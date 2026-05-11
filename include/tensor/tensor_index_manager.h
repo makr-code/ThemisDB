@@ -29,7 +29,7 @@
  * ## Multi-tenancy
  *
  * Each index is namespaced by `tenant_id`; key format:
- *   `__ttmgr__:<tenant_id>:<collection>:<field>`
+ *   `__ttmgr__:&lt;tenant_id&gt;:<collection>:&lt;field&gt;`
  *
  * ## Thread safety
  *

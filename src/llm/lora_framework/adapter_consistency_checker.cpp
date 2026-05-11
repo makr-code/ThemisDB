@@ -56,7 +56,7 @@ public:
         
         std::stringstream ss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
         }
         return ss.str();
     }
@@ -91,7 +91,7 @@ public:
 
         // When a PEM public key is provided, use Ed25519 / RSA EVP verification.
         if (!public_key.empty()) {
-            BIO* bio = BIO_new_mem_buf(public_key.data(), static_cast<int>(public_key.size()));
+            BIO* bio = BIO_new_mem_buf(public_key.data(), static_cast&lt;int&gt;(public_key.size()));
             if (!bio) return false;
             EVP_PKEY* pkey = PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr);
             BIO_free(bio);

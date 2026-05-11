@@ -81,7 +81,7 @@ SAMLAuthenticator::~SAMLAuthenticator() {
 
 void SAMLAuthenticator::loadIdPCertificate() {
     BIO* bio = BIO_new_mem_buf(config_.idp_certificate_pem.data(),
-                               static_cast<int>(config_.idp_certificate_pem.size()));
+                               static_cast&lt;int&gt;(config_.idp_certificate_pem.size()));
     if (!bio) {
         throw std::runtime_error("SAML: Failed to create BIO for IdP certificate");
     }
@@ -208,7 +208,7 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string& input) 
     }
     BIO_push(b64_bio, mem_bio);
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(b64_bio, compressed.data(), static_cast<int>(compressed.size()));
+    BIO_write(b64_bio, compressed.data(), static_cast&lt;int&gt;(compressed.size()));
     BIO_flush(b64_bio);
 
     BUF_MEM* buf_ptr{};
@@ -225,7 +225,7 @@ std::string SAMLAuthenticator::urlEncode(const std::string& input) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             oss << c;
         } else {
-            oss << '%' << std::setw(2) << std::setfill('0') << static_cast<int>(c);
+            oss << '%' << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(c);
         }
     }
     return oss.str();
@@ -255,7 +255,7 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_sta
 
 std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string& input) {
     BIO* b64_bio = BIO_new(BIO_f_base64());
-    BIO* mem_bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.size()));
+    BIO* mem_bio = BIO_new_mem_buf(input.data(), static_cast&lt;int&gt;(input.size()));
     if (!b64_bio || !mem_bio) {
         BIO_free(b64_bio);
         BIO_free(mem_bio);
@@ -265,7 +265,7 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string& input) {
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> decoded(input.size());
-    int len = BIO_read(b64_bio, decoded.data(), static_cast<int>(decoded.size()));
+    int len = BIO_read(b64_bio, decoded.data(), static_cast&lt;int&gt;(decoded.size()));
     BIO_free_all(b64_bio);
 
     if (len < 0) return {};
@@ -611,7 +611,7 @@ std::string SAMLAuthenticator::decryptAssertion(
     // Step 3: Load SP private key from the secure loader
     // ----------------------------------------------------------------
     BIO* key_bio = BIO_new_mem_buf(sp_key_pem.data(),
-                                   static_cast<int>(sp_key_pem.size()));
+                                   static_cast&lt;int&gt;(sp_key_pem.size()));
     if (!key_bio) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
                          "Assertion decryption failed",
@@ -755,7 +755,7 @@ std::string SAMLAuthenticator::decryptAssertion(
 
     const uint8_t* iv         = encrypted_data_bytes.data();
     const uint8_t* ciphertext = encrypted_data_bytes.data() + iv_len;
-    const int      ct_len     = static_cast<int>(encrypted_data_bytes.size() - iv_len);
+    const int      ct_len     = static_cast&lt;int&gt;(encrypted_data_bytes.size() - iv_len);
 
     EVP_CIPHER_CTX* aes_ctx = EVP_CIPHER_CTX_new();
     if (!aes_ctx) {

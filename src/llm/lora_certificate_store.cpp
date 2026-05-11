@@ -200,7 +200,7 @@ bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
     if (cert_pem.empty() || fingerprint.empty()) return false;
 
     BIO* bio = BIO_new_mem_buf(cert_pem.data(),
-                               static_cast<int>(cert_pem.size()));
+                               static_cast&lt;int&gt;(cert_pem.size()));
     if (!bio) return false;
 
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);

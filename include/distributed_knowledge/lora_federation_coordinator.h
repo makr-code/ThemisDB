@@ -314,7 +314,7 @@ public:
      *
      * When set, every successful federated aggregation round emits a
      * `FEDERATED_ROUND` decision record that is written asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_FEDERATED_ROUND_<id>.yaml`.
+     * `logs/decisions/YYYY-MM-DD/&lt;ts&gt;_FEDERATED_ROUND_&lt;id&gt;.yaml`.
      *
      * This is intentionally decoupled from the core aggregation path: the
      * processor runs on its own background thread and the coordinator does not

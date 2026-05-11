@@ -310,11 +310,11 @@ public:
         // Calculate interval
         std::chrono::milliseconds interval(60000); // Default: 1 minute
         if (config.contains("interval_hours")) {
-            interval = std::chrono::hours(config["interval_hours"].get<int>());
+            interval = std::chrono::hours(config["interval_hours"].get&lt;int&gt;());
         } else if (config.contains("interval_minutes")) {
-            interval = std::chrono::minutes(config["interval_minutes"].get<int>());
+            interval = std::chrono::minutes(config["interval_minutes"].get&lt;int&gt;());
         } else if (config.contains("interval_seconds")) {
-            interval = std::chrono::seconds(config["interval_seconds"].get<int>());
+            interval = std::chrono::seconds(config["interval_seconds"].get&lt;int&gt;());
         }
         
         // TODO: Get TaskScheduler instance from context and register task

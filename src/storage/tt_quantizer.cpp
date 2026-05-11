@@ -193,7 +193,7 @@ QuantizedCore TTQuantizer::quantizeINT8(const TTCore& core) const {
     qc.data.resize(nelems);
     for (std::size_t i = 0; i < nelems; ++i) {
         float q = core.data[i] / qc.scale;
-        int   qi = static_cast<int>(std::round(q));
+        int   qi = static_cast&lt;int&gt;(std::round(q));
         qi = std::max(-128, std::min(127, qi));
         qc.data[i] = static_cast<uint8_t>(static_cast<int8_t>(qi));
     }

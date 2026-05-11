@@ -149,7 +149,7 @@ struct LoRAVectorEmbedding {
             {"embedding", embedding},
             {"embedding_model", embedding_model},
             {"source_text", source_text},
-            {"source", static_cast<int>(source)},
+            {"source", static_cast&lt;int&gt;(source)},
             {"dimensions", embedding.size()}
         };
     }

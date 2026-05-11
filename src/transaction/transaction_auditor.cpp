@@ -145,7 +145,7 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
         {"user_id",     rec.user_id},
         {"session_id",  rec.session_id},
         {"timestamp",   ts_stream.str()},
-        {"isolation",   static_cast<int>(rec.isolation)},
+        {"isolation",   static_cast&lt;int&gt;(rec.isolation)},
         {"result",      result_str()},
         {"duration_us", rec.duration_us},
         {"operations",  std::move(ops)}

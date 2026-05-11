@@ -475,7 +475,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::makeErrorResponse
 ) {
     nlohmann::json error;
     error["error"] = message;
-    error["status"] = static_cast<int>(status);
+    error["status"] = static_cast&lt;int&gt;(status);
 
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::content_type, "application/json");

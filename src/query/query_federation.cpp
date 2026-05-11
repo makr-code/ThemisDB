@@ -572,7 +572,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     // ── Shard-key predicate ───────────────────────────────────────────────────
     // Extracts well-known AQL patterns using regex (not a full AQL AST parser).
     // Recognised forms:
-    //   POINT:  FILTER <var>._key == "<value>"  (double or single quotes)
+    //   POINT:  FILTER <var>._key == "&lt;value&gt;"  (double or single quotes)
     //   RANGE:  FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
     //
     // Known limitations (fall back to scatter-gather):
@@ -669,7 +669,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     }
 
     // ---- Shard-key predicate extraction ----------------------------------------
-    // Point-lookup:  FILTER <var>._key == "<value>"
+    // Point-lookup:  FILTER <var>._key == "&lt;value&gt;"
     // Range:         FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
     //
     // The patterns are intentionally simple (no full AQL parser); they cover the

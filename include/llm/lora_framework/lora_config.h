@@ -318,7 +318,7 @@ struct LoRAConfig {
         if (j.contains("hyperparameters")) config.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
         if (j.contains("enable_cache")) config.enable_cache = j["enable_cache"];
         if (j.contains("max_cache_size")) config.max_cache_size = j["max_cache_size"];
-        if (j.contains("cache_ttl")) config.cache_ttl = std::chrono::seconds(j["cache_ttl"].get<int>());
+        if (j.contains("cache_ttl")) config.cache_ttl = std::chrono::seconds(j["cache_ttl"].get&lt;int&gt;());
         if (j.contains("storage_backend")) config.storage_backend = j["storage_backend"];
         if (j.contains("storage_path")) config.storage_path = j["storage_path"];
         if (j.contains("enable_versioning")) config.enable_versioning = j["enable_versioning"];

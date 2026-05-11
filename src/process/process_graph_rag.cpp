@@ -363,7 +363,7 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
         std::string nid = n.value("id", "");
         if (!nid.empty()) node_ids.push_back(nid);
     }
-    const int N = static_cast<int>(node_ids.size());
+    const int N = static_cast&lt;int&gt;(node_ids.size());
     if (N == 0) return {};
 
     std::unordered_map<std::string, int> node_index;
@@ -372,7 +372,7 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
 
     // Build column-stochastic transition matrix stored as sparse out-degree lists
     // transition[from] = [(to, weight)]  (uniform weight over out-edges)
-    std::vector<std::vector<int>> out_neighbors(N);
+    std::vector<std::vector&lt;int&gt;> out_neighbors(N);
     for (const auto& e : normalized_graph["edges"]) {
         std::string from = e.value("from", "");
         std::string to   = e.value("to", "");
@@ -732,7 +732,7 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
 
     // Attachment count
     auto atts = linker_.getAttachments(instance_id);
-    summary["attachments_count"] = static_cast<int>(atts.size());
+    summary["attachments_count"] = static_cast&lt;int&gt;(atts.size());
 
     // Compliance tags
     json ctags = json::array();
@@ -902,7 +902,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     const std::string emb_prefix = "proc:inst_emb:";
 
     db_.scanPrefix(emb_prefix, [&](std::string_view key, std::string_view value) -> bool {
-        // Extract instance id from key: "proc:inst_emb:<id>"
+        // Extract instance id from key: "proc:inst_emb:&lt;id&gt;"
         std::string scan_iid = std::string(key).substr(emb_prefix.size());
         if (scan_iid == std::string(instance_id)) return true; // skip self
 
@@ -991,7 +991,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
               [](const SimilarCase& a, const SimilarCase& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(candidates.size()) > k) {
+    if (static_cast&lt;int&gt;(candidates.size()) > k) {
         candidates.resize(static_cast<size_t>(k));
     }
 
@@ -1076,7 +1076,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                 auto it = ctx.node_scores.find(nid);
                 if (it != ctx.node_scores.end()) score = it->second;
                 ss << "  [" << nm << "] (" << nid << ")";
-                if (score > 0.f) ss << " relevanz=" << static_cast<int>(score * 100) << "%";
+                if (score > 0.f) ss << " relevanz=" << static_cast&lt;int&gt;(score * 100) << "%";
                 std::string desc = n.value("description", "");
                 if (!desc.empty()) ss << " – " << desc;
                 ss << "\n";
@@ -1091,7 +1091,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                 ss << "  - " << sc.value("name", "?")
                    << " [" << sc.value("outcome", "?") << "]"
                    << " (Ähnlichkeit: "
-                   << static_cast<int>(sc.value("similarity", 0.f) * 100) << "%)\n";
+                   << static_cast&lt;int&gt;(sc.value("similarity", 0.f) * 100) << "%)\n";
             }
         }
 
@@ -1157,7 +1157,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                 ss << "  - " << sc.value("name", "?")
                    << " [" << sc.value("outcome", "?") << "]"
                    << " (similarity: "
-                   << static_cast<int>(sc.value("similarity", 0.f) * 100) << "%)\n";
+                   << static_cast&lt;int&gt;(sc.value("similarity", 0.f) * 100) << "%)\n";
             }
         }
 
@@ -1410,7 +1410,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
                   return a.avg_dwell_ms > b.avg_dwell_ms;
               });
 
-    if (static_cast<int>(result.size()) > top_n)
+    if (static_cast&lt;int&gt;(result.size()) > top_n)
         result.resize(static_cast<size_t>(top_n));
 
     return result;

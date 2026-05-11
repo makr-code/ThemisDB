@@ -341,7 +341,7 @@ private:
 
             THEMIS_INFO("QueryCompiler: specialised key={} in {}us opt={}",
                         key, entry.compilation_time_us,
-                        static_cast<int>(config_.opt_level));
+                        static_cast&lt;int&gt;(config_.opt_level));
 
             // Post-compilation timeout warning (informational only).
             if (entry.compilation_time_us > deadline_ms * 1000) {

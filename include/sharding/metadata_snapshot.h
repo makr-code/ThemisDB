@@ -75,7 +75,7 @@ struct MetadataSnapshot {
         // Serialize partitions
         nlohmann::json partitions_json;
         for (const auto& [partition_key, entries] : partitions) {
-            std::string partition_name = std::to_string(static_cast<int>(partition_key));
+            std::string partition_name = std::to_string(static_cast&lt;int&gt;(partition_key));
             nlohmann::json partition_entries;
             for (const auto& [key, value] : entries) {
                 partition_entries[key] = value;

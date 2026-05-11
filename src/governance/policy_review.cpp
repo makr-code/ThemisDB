@@ -84,7 +84,7 @@ nlohmann::json ReviewScheduler::ReviewSchedule::toJson() const {
 ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const nlohmann::json& j) {
     ReviewSchedule schedule;
     if (j.contains("rule_id")) schedule.rule_id = j["rule_id"].get<std::string>();
-    if (j.contains("review_period_days")) schedule.review_period_days = j["review_period_days"].get<int>();
+    if (j.contains("review_period_days")) schedule.review_period_days = j["review_period_days"].get&lt;int&gt;();
     if (j.contains("last_review_date")) schedule.last_review_date = j["last_review_date"].get<int64_t>();
     if (j.contains("next_review_date")) schedule.next_review_date = j["next_review_date"].get<int64_t>();
     if (j.contains("auto_review_enabled")) schedule.auto_review_enabled = j["auto_review_enabled"].get<bool>();
@@ -499,9 +499,9 @@ PolicyExpiration::ExpirationConfig PolicyExpiration::ExpirationConfig::fromJson(
     ExpirationConfig config;
     if (j.contains("rule_id")) config.rule_id = j["rule_id"].get<std::string>();
     if (j.contains("expiration_date")) config.expiration_date = j["expiration_date"].get<int64_t>();
-    if (j.contains("grace_period_days")) config.grace_period_days = j["grace_period_days"].get<int>();
+    if (j.contains("grace_period_days")) config.grace_period_days = j["grace_period_days"].get&lt;int&gt;();
     if (j.contains("auto_disable_enabled")) config.auto_disable_enabled = j["auto_disable_enabled"].get<bool>();
-    if (j.contains("warning_days")) config.warning_days = j["warning_days"].get<std::vector<int>>();
+    if (j.contains("warning_days")) config.warning_days = j["warning_days"].get<std::vector&lt;int&gt;>();
     return config;
 }
 
@@ -604,7 +604,7 @@ std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpir
         }
         
         int64_t time_until_expiration = config.expiration_date - current_time;
-        int days_until_expiration = static_cast<int>(time_until_expiration / (24 * 60 * 60 * 1000));
+        int days_until_expiration = static_cast&lt;int&gt;(time_until_expiration / (24 * 60 * 60 * 1000));
         
         // Check if we should warn
         for (int warning_days : config.warning_days) {
@@ -763,7 +763,7 @@ NotificationManager::NotificationConfig NotificationManager::NotificationConfig:
     NotificationConfig config;
     if (j.contains("email_enabled")) config.email_enabled = j["email_enabled"].get<bool>();
     if (j.contains("smtp_server")) config.smtp_server = j["smtp_server"].get<std::string>();
-    if (j.contains("smtp_port")) config.smtp_port = j["smtp_port"].get<int>();
+    if (j.contains("smtp_port")) config.smtp_port = j["smtp_port"].get&lt;int&gt;();
     if (j.contains("smtp_username")) config.smtp_username = j["smtp_username"].get<std::string>();
     if (j.contains("smtp_password")) config.smtp_password = j["smtp_password"].get<std::string>();
     if (j.contains("from_email")) config.from_email = j["from_email"].get<std::string>();

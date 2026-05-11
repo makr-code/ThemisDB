@@ -94,7 +94,7 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
 
     nlohmann::json data;
     data["transaction_id"] = transaction_id;
-    data["protocol"] = static_cast<int>(protocol);
+    data["protocol"] = static_cast&lt;int&gt;(protocol);
     data["participants"] = participants;
     entry.data = data;
 
@@ -308,7 +308,7 @@ WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     // Serialize to JSON
     nlohmann::json payload;
     payload["transaction_id"] = txn_entry.transaction_id;
-    payload["protocol"] = static_cast<int>(txn_entry.protocol);
+    payload["protocol"] = static_cast&lt;int&gt;(txn_entry.protocol);
     
     if (!txn_entry.participants.empty()) {
         payload["participants"] = txn_entry.participants;

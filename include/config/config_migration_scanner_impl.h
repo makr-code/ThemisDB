@@ -89,7 +89,7 @@ inline std::string formatTimePoint(
     if (!timestamp.has_value()) return "";
     auto days = std::chrono::floor<std::chrono::days>(*timestamp);
     std::chrono::year_month_day ymd{days};
-    auto y = static_cast<int>(ymd.year());
+    auto y = static_cast&lt;int&gt;(ymd.year());
     auto m = static_cast<unsigned>(ymd.month());
     auto d = static_cast<unsigned>(ymd.day());
     std::ostringstream oss;

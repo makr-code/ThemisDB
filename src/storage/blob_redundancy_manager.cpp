@@ -115,7 +115,7 @@ nlohmann::json location_to_json(const BlobLocation& loc) {
     return {
         {"shard_id",    loc.shard_id},
         {"path",        loc.path},
-        {"tier",        static_cast<int>(loc.tier)},
+        {"tier",        static_cast&lt;int&gt;(loc.tier)},
         {"checksum",    loc.checksum},
         {"size_bytes",  loc.size_bytes},
         {"is_parity",   loc.is_parity},
@@ -147,7 +147,7 @@ nlohmann::json erasure_config_to_json(const ErasureCodingConfig& ec) {
     return {
         {"data_shards",   ec.data_shards},
         {"parity_shards", ec.parity_shards},
-        {"algorithm",     static_cast<int>(ec.algorithm)}
+        {"algorithm",     static_cast&lt;int&gt;(ec.algorithm)}
     };
 }
 
@@ -161,16 +161,16 @@ ErasureCodingConfig erasure_config_from_json(const nlohmann::json& j) {
 
 nlohmann::json blob_config_to_json(const BlobRedundancyConfig& c) {
     return {
-        {"mode",               static_cast<int>(c.mode)},
+        {"mode",               static_cast&lt;int&gt;(c.mode)},
         {"replication_factor", c.replication_factor},
-        {"tier",               static_cast<int>(c.tier)},
+        {"tier",               static_cast&lt;int&gt;(c.tier)},
         {"sync_write",         c.sync_write},
-        {"priority",           static_cast<int>(c.priority)},
+        {"priority",           static_cast&lt;int&gt;(c.priority)},
         {"geo_replicate",      c.geo_replicate},
         {"geo_replicate_async",c.geo_replicate_async},
         {"auto_tier_down",     c.auto_tier_down},
         {"tier_down_after_days",c.tier_down_after_days},
-        {"tier_down_target",   static_cast<int>(c.tier_down_target)},
+        {"tier_down_target",   static_cast&lt;int&gt;(c.tier_down_target)},
         {"archive_after_days", c.archive_after_days},
         {"retention_days",     c.retention_days},
         {"rebuild_on_loss",    c.rebuild_on_loss},
@@ -220,7 +220,7 @@ BlobRedundancyConfig blob_config_from_json(const nlohmann::json& j) {
 std::string BlobMetadata::toJson() const {
     nlohmann::json j;
     j["blob_id"]       = blob_id;
-    j["type"]          = static_cast<int>(type);
+    j["type"]          = static_cast&lt;int&gt;(type);
     j["collection"]    = collection;
     j["document_id"]   = document_id;
     j["total_chunks"]  = total_chunks;
@@ -659,7 +659,7 @@ std::string BlobRedundancyManager::registerBlob(
     }
     
     spdlog::debug("Registered blob: {} (type={}, size={} bytes)",
-                  blob_id, static_cast<int>(type), size_bytes);
+                  blob_id, static_cast&lt;int&gt;(type), size_bytes);
     
     // Queue for redundancy ensuring (async)
     if (config.replication_factor > 1 || config.mode == RedundancyMode::PARITY) {

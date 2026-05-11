@@ -89,7 +89,7 @@ std::vector<DeviceInfo> resolveDevices(const std::vector<DeviceInfo>& devices) {
 // Validate that both indices are within the device list.
 bool devicesValid(int src, int dst, const std::vector<DeviceInfo>& devs) {
     if (src < 0 || dst < 0) return false;
-    const int n = static_cast<int>(devs.size());
+    const int n = static_cast&lt;int&gt;(devs.size());
     return src < n && dst < n && src != dst;
 }
 

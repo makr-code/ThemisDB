@@ -53,7 +53,7 @@ namespace conversion {
      * @return Converted value
      * @throws ConversionException if value exceeds int32_t range
      * 
-     * @example
+     * @par Example
      *   size_t size = 1000;
      *   int32_t count = safe_size_to_int32(size);
      */
@@ -75,14 +75,14 @@ namespace conversion {
      * @throws ConversionException if value exceeds int range
      */
     inline int safe_size_to_int(size_t value) {
-        if (value > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        if (value > static_cast<size_t>(std::numeric_limits&lt;int&gt;::max())) {
             std::string msg = "Overflow: size_t value " + std::to_string(value) + 
                             " exceeds int max (" + 
-                            std::to_string(std::numeric_limits<int>::max()) + ")";
+                            std::to_string(std::numeric_limits&lt;int&gt;::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
             throw ConversionException(msg);
         }
-        return static_cast<int>(value);
+        return static_cast&lt;int&gt;(value);
     }
 
     /**
@@ -111,14 +111,14 @@ namespace conversion {
      * @throws ConversionException if value exceeds int range
      */
     inline int safe_uint64_to_int(uint64_t value) {
-        if (value > static_cast<uint64_t>(std::numeric_limits<int>::max())) {
+        if (value > static_cast<uint64_t>(std::numeric_limits&lt;int&gt;::max())) {
             std::string msg = "Overflow: uint64_t value " + std::to_string(value) + 
                             " exceeds int max (" + 
-                            std::to_string(std::numeric_limits<int>::max()) + ")";
+                            std::to_string(std::numeric_limits&lt;int&gt;::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
             throw ConversionException(msg);
         }
-        return static_cast<int>(value);
+        return static_cast&lt;int&gt;(value);
     }
 
     /**
@@ -185,12 +185,12 @@ namespace conversion {
      * @param value Source value
      * @return Converted value or std::nullopt on overflow
      */
-    inline std::optional<int> try_size_to_int(size_t value) noexcept {
-        if (value > static_cast<size_t>(std::numeric_limits<int>::max())) {
+    inline std::optional&lt;int&gt; try_size_to_int(size_t value) noexcept {
+        if (value > static_cast<size_t>(std::numeric_limits&lt;int&gt;::max())) {
             spdlog::warn("Type conversion: size_t {} exceeds int max", value);
             return std::nullopt;
         }
-        return static_cast<int>(value);
+        return static_cast&lt;int&gt;(value);
     }
 
     /**
@@ -278,7 +278,7 @@ namespace conversion {
      * @return Converted value
      * @throws ConversionException if value is negative
      * 
-     * @example
+     * @par Example
      *   int count = get_count();
      *   size_t size = safe_int_to_size(count);
      */
@@ -314,8 +314,8 @@ namespace conversion {
      * @param size Container size
      * @return true if index is valid (non-negative and within bounds)
      * 
-     * @example
-     *   std::vector<int> vec = {1, 2, 3};
+     * @par Example
+     *   std::vector&lt;int&gt; vec = {1, 2, 3};
      *   int index = -1;
      *   if (is_valid_index(index, vec.size())) {
      *       // Safe to access vec[index]
@@ -332,7 +332,7 @@ namespace conversion {
      * @return Signed difference (a - b)
      * @throws ConversionException if difference exceeds ptrdiff_t range
      * 
-     * @example
+     * @par Example
      *   size_t pos1 = 100;
      *   size_t pos2 = 50;
      *   ptrdiff_t diff = safe_diff(pos1, pos2);  // 50

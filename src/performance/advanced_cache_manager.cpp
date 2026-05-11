@@ -155,7 +155,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     }
 
     [[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());
-    [[maybe_unused]] const auto src_size = static_cast<int>(val.size());
+    [[maybe_unused]] const auto src_size = static_cast&lt;int&gt;(val.size());
     [[maybe_unused]] const auto orig_u32 = static_cast<uint32_t>(val.size());
 
 #ifdef THEMIS_ENABLE_LZ4
@@ -258,9 +258,9 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
         const int decoded = LZ4_decompress_safe(
             &val[5],
             &out[0],
-            static_cast<int>(val.size() - 5),
-            static_cast<int>(orig_size));
-        if (decoded == static_cast<int>(orig_size)) {
+            static_cast&lt;int&gt;(val.size() - 5),
+            static_cast&lt;int&gt;(orig_size));
+        if (decoded == static_cast&lt;int&gt;(orig_size)) {
             return out;
         }
         // Corrupted or truncated data — return raw payload without the tag.

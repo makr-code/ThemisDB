@@ -57,7 +57,7 @@ KnowledgeGapDetector::KnowledgeGapDetector(const KnowledgeGapConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
     THEMIS_INFO("Knowledge Gap Detector initialized with mode: {}", 
-                static_cast<int>(config.mode));
+                static_cast&lt;int&gt;(config.mode));
 }
 
 KnowledgeGapDetector::~KnowledgeGapDetector() = default;
@@ -1417,7 +1417,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     double diversity = calculatePerspectiveDiversity(documents);
     
     // Check if we have minimum required perspectives
-    if (perspectives_found < static_cast<int>(impl_->config.min_ethical_perspectives) ||
+    if (perspectives_found < static_cast&lt;int&gt;(impl_->config.min_ethical_perspectives) ||
         diversity < impl_->config.ethical_diversity_threshold) {
         
         result.gap_detected = true;
@@ -1530,7 +1530,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         }
     }
     
-    return static_cast<int>(found_frameworks.size());
+    return static_cast&lt;int&gt;(found_frameworks.size());
 }
 
 double KnowledgeGapDetector::calculatePerspectiveDiversity(

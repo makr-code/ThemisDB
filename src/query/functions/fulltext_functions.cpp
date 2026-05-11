@@ -142,7 +142,7 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
         return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     };
     
-    while (i < upper.length() && static_cast<int>(result.length()) < maxLen) {
+    while (i < upper.length() && static_cast&lt;int&gt;(result.length()) < maxLen) {
         char c = upper[i];
         char next = (i + 1 < upper.length()) ? upper[i + 1] : '\0';
         
@@ -357,7 +357,7 @@ public:
         if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
-                int raw = lv.get<int>();
+                int raw = lv.get&lt;int&gt;();
                 if (raw > 0) limit = static_cast<size_t>(raw);
             }
         }
@@ -417,7 +417,7 @@ public:
         if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
-                int raw = lv.get<int>();
+                int raw = lv.get&lt;int&gt;();
                 if (raw > 0) limit = static_cast<size_t>(raw);
             }
         }
@@ -475,12 +475,12 @@ public:
         const auto query      = args[2].get<std::string>();
         int maxDistance = 2;
         if (args.size() > 3 && args[3].is_number_integer()) {
-            maxDistance = args[3].get<int>();
+            maxDistance = args[3].get&lt;int&gt;();
             if (maxDistance < 0) maxDistance = 0;
         }
         size_t limit = 1000;
         if (args.size() > 4 && args[4].is_number_integer()) {
-            int raw = args[4].get<int>();
+            int raw = args[4].get&lt;int&gt;();
             if (raw > 0) limit = static_cast<size_t>(raw);
         }
 
@@ -616,7 +616,7 @@ public:
         if (args.size() > 2 && args[2].is_object()) {
             const auto& opts = args[2];
             if (opts.contains("windowSize") && opts["windowSize"].is_number_integer()) {
-                int raw = opts["windowSize"].get<int>();
+                int raw = opts["windowSize"].get&lt;int&gt;();
                 if (raw > 0) windowSize = static_cast<size_t>(raw);
             }
             if (opts.contains("openTag")   && opts["openTag"].is_string())
@@ -682,7 +682,7 @@ public:
         
         std::string s1 = args[0].get<std::string>();
         std::string s2 = args[1].get<std::string>();
-        int n = args.size() > 2 ? args[2].get<int>() : 2;
+        int n = args.size() > 2 ? args[2].get&lt;int&gt;() : 2;
         
         if (s1.empty() || s2.empty()) return 0.0;
         if (n < 1) n = 2;
@@ -701,7 +701,7 @@ public:
             }
         }
         
-        int total = static_cast<int>(ngrams1.size() + ngrams2.size());
+        int total = static_cast&lt;int&gt;(ngrams1.size() + ngrams2.size());
         if (total == 0) return 0.0;
         
         return 2.0 * intersection / total;
@@ -796,7 +796,7 @@ public:
         if (args.empty()) return "";
         
         std::string word = args[0].get<std::string>();
-        int maxLen = args.size() > 1 ? args[1].get<int>() : 6;
+        int maxLen = args.size() > 1 ? args[1].get&lt;int&gt;() : 6;
         
         return metaphone(word, maxLen);
     }

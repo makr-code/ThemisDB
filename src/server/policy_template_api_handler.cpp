@@ -284,7 +284,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::makeErrorResponse(
 ) const {
     nlohmann::json error = {
         {"error", message},
-        {"status", static_cast<int>(status)}
+        {"status", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, error.dump(2), req);
 }

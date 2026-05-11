@@ -55,7 +55,7 @@ public:
         int block_id;
         int physical_address;
         bool is_free;
-        std::vector<int> tokens;
+        std::vector&lt;int&gt; tokens;
         size_t memory_bytes;
         int ref_count = 0;  // For copy-on-write (v1.4.0)
     };
@@ -90,9 +90,9 @@ public:
      * @brief Allocate contiguous blocks
      * 
      * @param num_blocks Number of blocks to allocate
-     * @return std::vector<int> Block IDs (empty if allocation failed)
+     * @return std::vector&lt;int&gt; Block IDs (empty if allocation failed)
      */
-    std::vector<int> allocateBlocks(int num_blocks);
+    std::vector&lt;int&gt; allocateBlocks(int num_blocks);
 
     // Convenience single-block allocate (v1.3.0 callers)
     int allocate();
@@ -102,7 +102,7 @@ public:
      * 
      * @param block_ids Block IDs to free
      */
-    void freeBlocks(const std::vector<int>& block_ids);
+    void freeBlocks(const std::vector&lt;int&gt;& block_ids);
 
     // Convenience single-block free (v1.3.0 callers)
     void deallocate(int block_id);
@@ -161,7 +161,7 @@ private:
     ConcurrentCache<int, Block> blocks_;
     
     // Free list (mutex-protected, low contention)
-    std::queue<int> free_list_;
+    std::queue&lt;int&gt; free_list_;
     mutable std::mutex free_list_mutex_;
     
     /**

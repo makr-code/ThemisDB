@@ -184,7 +184,7 @@ static std::vector<Token> lex(const std::string& src) {
                 auto in_pos = rest.find(" in ");
                 if (in_pos == std::string::npos) {
                     throw PromptTemplateCompileError(
-                        "Invalid for-loop syntax: expected 'for <item> in <list>'");
+                        "Invalid for-loop syntax: expected 'for &lt;item&gt; in &lt;list&gt;'");
                 }
                 std::string item_var = trim(rest.substr(0, in_pos));
                 std::string list_var = trim(rest.substr(in_pos + 4));

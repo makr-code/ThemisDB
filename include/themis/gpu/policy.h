@@ -141,9 +141,9 @@ private:
 
     // caller_id → set of granted capabilities
     std::unordered_map<std::string,
-                       std::unordered_set<int>>  grants_;  // int = enum cast
+                       std::unordered_set&lt;int&gt;>  grants_;  // int = enum cast
 
-    static int cap_to_int(Capability c) { return static_cast<int>(c); }
+    static int cap_to_int(Capability c) { return static_cast&lt;int&gt;(c); }
 
     bool hasCapability(const std::string& id, Capability cap) const;
 };

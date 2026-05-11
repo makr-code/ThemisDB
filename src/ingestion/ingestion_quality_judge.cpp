@@ -107,7 +107,7 @@ constexpr const char* kSystemPreamble =
     "SCORE: <float between 0.00 and 1.00>\n"
     "RATIONALE: <one sentence max 120 chars>\n"
     "MISSING:\n"
-    "- <item> (repeat for each missing item; omit section if none)\n"
+    "- &lt;item&gt; (repeat for each missing item; omit section if none)\n"
     "UNGROUNDED:\n"
     "- <claim> (repeat; omit if none)\n"
     "HINTS:\n"

@@ -98,7 +98,7 @@ public:
     /**
      * Return the shard responsible for a single document key.
      *
-     * The routing key is formed as "<collection>/<key>" and resolved
+     * The routing key is formed as "<collection>/&lt;key&gt;" and resolved
      * via the consistent-hash ring that is kept in sync with the node
      * registry.  Returns an empty string when no nodes are registered.
      *

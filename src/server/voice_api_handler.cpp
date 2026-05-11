@@ -1408,7 +1408,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
 
     voice::EnrollmentConfig enroll_cfg;
     if (body->contains("min_samples")) {
-        const int ms = (*body)["min_samples"].get<int>();
+        const int ms = (*body)["min_samples"].get&lt;int&gt;();
         if (ms < 1 || ms > 100) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",

@@ -53,17 +53,17 @@ namespace themis {
  *
  * Versioned keys are encoded as:
  *
- *     <base_key> '\x00' <8-byte-big-endian-HLC-timestamp>
+ *     &lt;base_key&gt; '\x00' <8-byte-big-endian-HLC-timestamp>
  *
  * The null-byte separator `\x00` terminates the logical key, and the 8-byte
  * big-endian timestamp ensures that RocksDB's bytewise comparator sorts
- * versions in chronological order.  A prefix scan over `<base_key>\x00`
+ * versions in chronological order.  A prefix scan over `&lt;base_key&gt;\x00`
  * therefore traverses all versions of that key from oldest to newest.
  *
  * To find the latest version at-or-before timestamp T:
- *   1. Seek to `<base_key>\x00<T+1_be>` (exclusive upper bound).
+ *   1. Seek to `&lt;base_key&gt;\x00<T+1_be>` (exclusive upper bound).
  *   2. Step one entry backward with Prev().
- *   3. If the resulting key still starts with `<base_key>\x00`, it is the
+ *   3. If the resulting key still starts with `&lt;base_key&gt;\x00`, it is the
  *      answer; otherwise the key has no version at or before T.
  *
  * ## Thread safety
@@ -260,14 +260,14 @@ public:
     /**
      * @brief Build the versioned storage key for @p base_key at @p ts.
      *
-     * Format: `<base_key>'\x00'<8-byte-big-endian-ts>`
+     * Format: `&lt;base_key&gt;'\\0'&lt;8-byte-big-endian-ts&gt;`
      */
     static std::string encodeVersionedKey(std::string_view base_key, HLCTimestamp ts);
 
     /**
      * @brief Build the prefix used to scan all versions of @p base_key.
      *
-     * Format: `<base_key>'\x00'`
+     * Format: `&lt;base_key&gt;'\\0'`
      */
     static std::string encodeVersionPrefix(std::string_view base_key);
 
@@ -276,8 +276,8 @@ public:
      *
      * The timestamp occupies the last 8 bytes of a versioned key.  This function
      * uses a fixed-width offset from the end of the key rather than searching for
-     * the '\x00' separator, because the 8-byte big-endian timestamp can itself
-     * contain '\x00' bytes.
+     * the '\\0' separator, because the 8-byte big-endian timestamp can itself
+     * contain '\\0' bytes.
      *
      * @return The decoded HLCTimestamp, or a zero-valued timestamp if @p key
      *         is shorter than 9 bytes (and therefore cannot be a valid versioned key).

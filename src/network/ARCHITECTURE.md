@@ -75,12 +75,6 @@ bidirectional streaming).
 | `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
 | `service_mesh.cpp` | Istio/Envoy probe server (`THEMIS_ENABLE_SERVICE_MESH`) |
 | `envoy_xds.cpp` | Envoy xDS v3 REST polling client (`THEMIS_ENABLE_SERVICE_MESH`) |
-| `adaptive_circuit_breaker.cpp` | `AdaptiveCircuitBreaker` — CLOSED/OPEN/HALF_OPEN state machine with load-adaptive threshold tuning |
-| `connection_compression.cpp` | `ZstdDictionaryCompressor` — dictionary-trained Zstd compression for wire payloads |
-| `wire_protocol_batch.cpp` | `WireProtocolBatcher` (writev coalescing) + `NagleController` (TCP_CORK/TCP_NOPUSH) + `BatchStats` |
-| `wire_protocol_zero_copy.cpp` | `ZeroCopyFrameBuilder` + `MemoryMappedPayload` (mmap/sendfile) + `ZeroCopyStats` |
-| `udp_server.cpp` | `UDPServer` — fire-and-forget ingestion on port 8768; opcodes: METRIC, LOG, EVENT, BATCH, PING |
-| `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
 | `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent WRITEV SQEs; guarded by `THEMIS_ENABLE_IO_URING` |
 | `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
 | `network_audit_log.cpp` | `NetworkAuditLog` — structured audit log for connection, auth, and rate-limit security events |
@@ -239,8 +233,10 @@ Replication / sharding: connect to peer node
 ## 11. Known Limitations & Future Work
 
 - WebSocket binary frame dispatch is not yet implemented; clients must use text/JSON frames.
-- DPDK kernel-bypass is not implemented; `io_uring` is guarded by `THEMIS_ENABLE_IO_URING`
-  and off by default.
+- DPDK kernel-bypass is implemented behind `THEMIS_ENABLE_DPDK`; deployment requires
+  DPDK runtime/NIC binding and is disabled in default builds.
+- `io_uring` transport and batching paths are guarded by `THEMIS_ENABLE_IO_URING`
+  and disabled in default builds.
 - IPv6 CIDR-based policies are not yet implemented in `ZeroTrustPolicyEnforcer`; IPv6
   clients are accepted but not subject to CIDR-level allow/deny rules.
 - Integration tests combining TLS handshake + WebSocket upgrade are pending (NET-OPEN-02).

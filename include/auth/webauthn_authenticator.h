@@ -118,7 +118,7 @@ public:
         RelyingParty rp;
         User user;
         std::vector<std::string> pub_key_cred_params;  ///< ["ES256", "RS256"]
-        std::optional<int> timeout_ms;
+        std::optional&lt;int&gt; timeout_ms;
         std::string attestation{"none"};  ///< "none" | "indirect" | "direct"
         AuthenticatorSelection authenticator_selection;
         std::vector<std::string> exclude_credentials;  ///< Prevent duplicate registration
@@ -134,7 +134,7 @@ public:
     struct CredentialRequestOptions {
         std::string challenge;  ///< Base64url-encoded 32-byte random challenge
         std::string rp_id;
-        std::optional<int> timeout_ms;
+        std::optional&lt;int&gt; timeout_ms;
         /// "required" | "preferred" | "discouraged"
         std::string user_verification{"preferred"};
         /// Credential IDs to allow (empty = discoverable credential / passkey flow)
