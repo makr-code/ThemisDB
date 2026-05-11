@@ -44,11 +44,23 @@ Copy-Item -Recurse .vscode.example\* .vscode\
 
 ## Platform Note for `cmake.buildDirectory`
 
-The template sets `cmake.buildDirectory` to `build/linux-debug` for Linux preset workflows. On Windows/macOS or custom presets, override this locally in `.vscode/settings.json` (e.g. `linux-debug`, `windows-debug`, `macos-release`):
+The template uses a platform-agnostic build directory pattern:
 
 ```json
 {
-  "cmake.buildDirectory": "${workspaceFolder}/build/linux-debug"
+  "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}"
+}
+```
+
+If you use custom preset names or multiple local configurations, override it in your local `.vscode/settings.json`.
+
+## Note on `cmake.configureOnOpen`
+
+`cmake.configureOnOpen` is enabled in the template for quick onboarding. If you prefer manual configuration, override locally:
+
+```json
+{
+  "cmake.configureOnOpen": false
 }
 ```
 

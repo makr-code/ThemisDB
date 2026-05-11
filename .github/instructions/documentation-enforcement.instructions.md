@@ -9,7 +9,7 @@ Documentation is part of the definition of done.
 
 ## Mandatory Rules
 
-- ALWAYS add or update API-facing documentation for new or changed public interfaces.
+- Always add or update API-facing documentation for new or changed public interfaces.
 - Each documented interface must include: purpose, parameter expectations, return behavior (if applicable), and failure/edge-case behavior.
 - Prefer Doxygen-compatible API comments for in-code public interface docs (`@brief`, `@param`, `@return`, `@throws` as applicable).
 - For templates and constrained APIs, document the semantic requirements and constraints in plain language; include Doxygen tags such as `@tparam`/`@requires` when used in-code.
