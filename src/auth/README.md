@@ -1510,11 +1510,13 @@ export KRB5_KTNAME=/etc/themisdb/test.keytab
 ## Documentation
 
 For more detailed documentation, see:
-- [JWT Validator Implementation](../../docs/src/auth/jwt_validator.cpp.md)
+- [JWT Validator Implementation](./jwt_validator.cpp)
 - [Kerberos Authentication Guide](../../docs/en/security/KERBEROS_AUTHENTICATION.md)
-- [RBAC Authorization](../../docs/rbac_authorization.md)
+- [Auth API Authentication & Authorization Guide](../../docs/security/api_authentication_authorization.md)
 - [Security Hardening](../security/README.md)
-- [API Authentication](../../docs/api/authentication.md)
+- [Public API Headers](../../include/auth/README.md)
+- [Auth Roadmap](./ROADMAP.md)
+- [Auth Future Enhancements](./FUTURE_ENHANCEMENTS.md)
 
 ## Related Modules
 
