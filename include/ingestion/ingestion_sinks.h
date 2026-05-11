@@ -255,15 +255,17 @@ private:
 // Purpose: Provide a fully functional but non-persistent IDocWriter for unit
 //   tests and dry-run ingestion scenarios; also used by DocumentStoreSinkAdapter
 //   tests when no real IDocumentStore is wired.
-// Activation: Explicitly instantiated by test code.
+// Activation: Explicitly instantiated by test code or dry-run callers.
 // Production Delta: Data exists only in process memory, serialised as JSON
 //   snapshots.  No schema evolution, no versioning, no encryption support.
 // Removal Plan: Not removed — retained as the canonical test double.
+//   Production persistence is provided by DocumentStoreSinkAdapter below.
 
 /**
- * @brief Thread-safe in-memory `IDocWriter` implementation.
+ * @brief Thread-safe in-memory `IDocWriter` implementation for tests/dry-runs.
  *
  * Stores `BaseEntitySet` snapshots serialised to JSON.
+ * For production persistence use `DocumentStoreSinkAdapter`.
  */
 class InMemoryDocWriter : public IDocWriter {
 public:
