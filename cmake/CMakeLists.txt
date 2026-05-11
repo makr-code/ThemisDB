@@ -1630,6 +1630,7 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/knowledge_graph_reasoner.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/graph/gpu_traversal_cuda.cu>
     ../src/graph/parallel_traversal.cpp
     ../src/graph/distributed_graph.cpp
     ../src/graph/scheduled_edge_refresh.cpp

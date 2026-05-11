@@ -40,12 +40,11 @@
  * Each `HyperIndexTensor` carries the `tenant_id` from which it was built.
  * `HyperIndexBuilder` never mixes rows from different tenants.
  *
- * ## STUB notes
+ * ## Extension bridge
  *
- * - STUB #255: `HyperIndexBuilder::fromSchema()` — co-occurrence counting uses
- *   uniform bucketing; no FK-graph awareness; latent FK links only visible when
- *   columns are joined in the query (Q4 2028 — integrate FK graph into bucket
- *   assignment + add index-guided TT-cross to propagate FK signals across tables).
+ * `HyperIndexBuilder::BucketAssignmentFn` allows callers to inject FK-aware or
+ * domain-aware bucket assignment per row while retaining the built-in uniform
+ * bucketisation path as fallback.
  */
 
 #pragma once
@@ -54,6 +53,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -137,6 +137,21 @@ struct HyperIndexConfig {
 class HyperIndexBuilder {
 public:
     /**
+     * @brief Optional bridge for FK-aware/custom bucket assignment.
+     *
+     * Inputs include tenant/schema/row index and the default per-column buckets
+     * produced by built-in uniform/category/bool bucketisation.
+     *
+     * Return a per-column bucket vector with the same size as `schema`.
+     */
+    using BucketAssignmentFn = std::function<std::vector<std::size_t>(
+        const std::string&,
+        const std::vector<ColumnSchema>&,
+        const TableRow&,
+        std::size_t,
+        const std::vector<std::size_t>&)>;
+
+    /**
      * @brief Construct a HyperIndexTensor from rows and schema.
      *
      * @param tenant_id  Owning tenant (isolation guarantee).
@@ -146,20 +161,22 @@ public:
      *
      * @throws std::invalid_argument if schema has < 2 columns or rows is empty.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #255):
-     * // Purpose: Expose latent cross-column relationships via TT co-occurrence.
-     * // Activation: Always.
-     * // Production Delta: Uses uniform bucketing without FK-graph weighting;
-     * //   no explicit cross-table join propagation in bucket assignment.
-     * // Removal Plan: Q4 2028 — integrate FK graph into bucket assignment and
-     * //   add index-guided TT-cross for cross-table FK signal propagation.
-     */
+      * @note
+      * Default path uses uniform/category/bool bucketisation.
+      * For FK-aware/custom assignment, install `BucketAssignmentFn`.
+      */
     [[nodiscard]] static HyperIndexTensor fromSchema(
         const std::string&                tenant_id,
         const std::vector<ColumnSchema>&  schema,
         const std::vector<TableRow>&      rows,
         const HyperIndexConfig&           cfg = {});
+
+    /**
+     * @brief Thread-safe bridge management for custom bucket assignment.
+     */
+    static void setBucketAssignmentFn(BucketAssignmentFn fn);
+    static void clearBucketAssignmentFn();
+    [[nodiscard]] static BucketAssignmentFn getBucketAssignmentFn();
 };
 
 } // namespace tensor

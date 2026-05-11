@@ -16,53 +16,47 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
+#include <mutex>
 #include <stdexcept>
 
 namespace themis {
 namespace tensor {
 
 namespace {
-
-// Process-wide callback storage intentionally shared across TNSRTask instances.
-// Tests and embedding callers should set/clear explicitly per scenario.
-std::mutex g_reroute_serialize_fn_mu;
+std::mutex                   g_reroute_serialize_mtx;
 TNSRTask::RerouteSerializeFn g_reroute_serialize_fn;
-
 } // namespace
+
+void TNSRTask::setRerouteSerializeFn(RerouteSerializeFn fn) {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    g_reroute_serialize_fn = std::move(fn);
+}
+
+void TNSRTask::clearRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    g_reroute_serialize_fn = nullptr;
+}
+
+TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    return g_reroute_serialize_fn;
+}
 
 // ============================================================================
 // TNSRTask — construction
 // ============================================================================
 
-TNSRTask::TNSRTask(
-    std::shared_ptr<storage::TensorNetworkStorageEngine> engine,
-    storage::TensorTrainDecomposer decomposer)
-    : engine_(std::move(engine))
-    , decomposer_(std::move(decomposer))
-{
+TNSRTask::TNSRTask(std::shared_ptr<storage::TensorNetworkStorageEngine> engine,
+                   storage::TensorTrainDecomposer                       decomposer)
+    : engine_(std::move(engine)), decomposer_(std::move(decomposer)) {
     if (!engine_) {
         throw std::invalid_argument("TNSRTask: engine must not be null");
     }
 }
 
-void TNSRTask::setRerouteSerializeFn(RerouteSerializeFn fn) {
-    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
-    g_reroute_serialize_fn = std::move(fn);
-}
-
-void TNSRTask::clearRerouteSerializeFn() {
-    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
-    g_reroute_serialize_fn = nullptr;
-}
-
 bool TNSRTask::hasRerouteSerializeFn() {
-    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
+    std::lock_guard<std::mutex> lock(g_reroute_serialize_mtx);
     return static_cast<bool>(g_reroute_serialize_fn);
-}
-
-TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
-    std::lock_guard<std::mutex> lock(g_reroute_serialize_fn_mu);
-    return g_reroute_serialize_fn;
 }
 
 // ============================================================================
@@ -128,9 +122,18 @@ TNSRReport TNSRTask::run(
         if (trivial_topology) {
             ++report.topology_search_skipped_keys;
         } else {
-            // Topology analysis path:
-            // rerouteEdge suggestions are applied to the in-memory graph and can
-            // be projected into a persisted train via setRerouteSerializeFn().
+            // STUB/SIMULATION NOTE (STUB #252):
+            // Purpose: Demonstrate topology analysis (HissStructuralSearchEngine)
+            //          integration; count rerouteEdge calls in the report.
+            // Activation: Non-trivial TT trains only; when no RerouteSerializeFn set.
+            // Production Delta: The TensorNetworkGraph is rebuilt for the
+            //   recompressed train and rerouteEdge changes are counted, but the
+            //   mutated topology is NOT re-serialised to storage unless a
+            //   RerouteSerializeFn bridge is installed.  Bond-dimension
+            //   reduction (recompress) IS always durable.  Topology changes are
+            //   advisory in this release.
+            // Removal Plan: Q3 2028 — map rerouteEdge suggestions to a topology-
+            //   aware contraction and re-serialisation path.
             TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
             std::size_t topo_changes_this_key = 0;
             for (const auto& edge : tng.edges()) {
@@ -145,16 +148,18 @@ TNSRReport TNSRTask::run(
                 }
                 ++topo_changes_this_key;
             }
-            const auto reroute_serialize_fn = getRerouteSerializeFn();
-            if (reroute_serialize_fn && topo_changes_this_key > 0) {
-                try {
-                    if (!reroute_serialize_fn(field_key, tng, recompressed)) {
+            if (topo_changes_this_key > 0) {
+                const auto serialize_fn = getRerouteSerializeFn();
+                if (serialize_fn) {
+                    try {
+                        if (!serialize_fn(*engine_, field_key, tng, recompressed)) {
+                            ++report.error_count;
+                            continue;
+                        }
+                    } catch (const std::exception&) {
                         ++report.error_count;
                         continue;
                     }
-                } catch (const std::exception&) {
-                    ++report.error_count;
-                    continue;
                 }
             }
             report.topology_changes += topo_changes_this_key;

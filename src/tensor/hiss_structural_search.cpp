@@ -15,11 +15,36 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Static bridge slots — STUB #254 (QuanticsFn)
+// ============================================================================
+
+namespace {
+    std::mutex           g_quantics_mtx;
+    HissReshaper::QuanticsFn g_quantics_fn;
+} // namespace
+
+void HissReshaper::setQuanticsFn(HissReshaper::QuanticsFn fn) {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    g_quantics_fn = std::move(fn);
+}
+
+void HissReshaper::clearQuanticsFn() {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    g_quantics_fn = nullptr;
+}
+
+HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
+    std::lock_guard<std::mutex> lk(g_quantics_mtx);
+    return g_quantics_fn;
+}
 
 namespace {
 
@@ -285,6 +310,16 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     std::vector<std::size_t> quantics_mode_sizes;
     bit_depths.reserve(resolved_grid_sizes.size());
     padded_grid_sizes.reserve(resolved_grid_sizes.size());
+
+    QuanticsFn quantics_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_quantics_mtx);
+        quantics_fn = g_quantics_fn;
+    }
+    if (quantics_fn) {
+        return quantics_fn(train, grid_sizes);
+    }
+
     // Pure-binary quantics layout:
     // - every physical dimension is padded to the next power-of-two extent
     // - the reshaped TT uses only size-2 quantics modes

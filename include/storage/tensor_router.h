@@ -221,9 +221,6 @@ struct TensorRoutingPolicy {
  */
 class TensorRouter {
 public:
-    using TemplateTopologyApplyFn = std::function<bool(
-        const std::string&,
-        const tensor::TensorNetworkGraph&)>;
     // -----------------------------------------------------------------------
     // Index-time routing (no data available — heuristic only)
     // -----------------------------------------------------------------------
@@ -332,6 +329,20 @@ public:
     void setPolicy(TensorRoutingPolicy p);
 
     /**
+     * @brief Callback used to apply a matched TemplateCatalog topology.
+     *
+     * @param domain_tag  Domain tag that produced the template hit.
+     * @param graph       Matched template graph.
+     * @param hint        Original route hint.
+     * @return `true` if topology embedding succeeded and LIFT promotion is valid.
+     *         `false` if embedding failed (router falls back to heuristic path).
+     */
+    using TemplateTopologyApplyFn =
+        std::function<bool(const std::string&,
+                           const tensor::TensorNetworkGraph&,
+                           const TensorRouteHint&)>;
+
+    /**
      * @brief Wire a TemplateCatalog for domain-tag-based routing promotion.
      *
      * When a non-null catalog is set, `route()` checks the catalog for a
@@ -339,17 +350,23 @@ public:
      * A catalog hit promotes the routing decision toward LIFT.
      *
      * Passing nullptr disables template-catalog lookups (default).
-     *
-     */
+      */
     void setTemplateCatalog(std::shared_ptr<tensor::TemplateCatalog> catalog);
-    void setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn);
-    void clearTemplateTopologyApplyFn();
-    [[nodiscard]] bool hasTemplateTopologyApplyFn() const;
 
     /**
      * @brief Return the currently wired TemplateCatalog (may be nullptr).
      */
     std::shared_ptr<tensor::TemplateCatalog> templateCatalog() const noexcept;
+
+    /**
+     * @brief Install/remove/read the template-topology embedding callback.
+     *
+     * Thread-safe. The callback is invoked on TemplateCatalog hits.
+     */
+    void setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn);
+    void clearTemplateTopologyApplyFn();
+    [[nodiscard]] bool hasTemplateTopologyApplyFn() const;
+    [[nodiscard]] TemplateTopologyApplyFn getTemplateTopologyApplyFn() const;
 
 private:
     struct Impl;

@@ -21,8 +21,8 @@
 - Engine injection constructor (`ThemisDBAdapter(QueryEngine*, VectorIndexManager*, GraphIndexManager*)`) limits injection surface to trusted callers
 
 ## Known Limitations
-- No rate limiting or connection pooling in `ThemisDBAdapter`; must be enforced at the API layer
-- `Capability::CONNECTION_POOLING` is reported available but not implemented
+- No rate limiting in `ThemisDBAdapter`; must be enforced at the API layer
+- Connection pooling is conditional: `has_capability(CONNECTION_POOLING)` returns `true` only when a pool provider has been injected via `setConnectionPool(std::function<void*()>)`; without injection, pooling is disabled and the capability is not reported
 - No SSL/TLS configuration in the adapter connection interface
 
 ## Incident & Meldung

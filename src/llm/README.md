@@ -158,10 +158,49 @@ if (grammar.isValid()) {
 ## Documentation
 
 For LLM documentation, see:
-- [LLM Architecture](ARCHITECTURE.md)
-- [LLM Roadmap](ROADMAP.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
-- [LLM docs (English)](../../docs/llm/)
+- [Architecture Guide](ARCHITECTURE.md) — component diagrams, engine design, KV-cache and batching internals
+- [Security Guide](SECURITY.md) — threat model, path-injection fixes (F1/F2/F3), LoRA trust model
+- [Audit Report](AUDIT.md) — S0/S1/S2 findings and resolution status
+- [Changelog](CHANGELOG.md) — versioned module history
+- [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) — release-gate benchmark targets (TTFT, LoRA hot-load, batch throughput)
+- [Roadmap](ROADMAP.md) — implementation status and planned work
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md) — long-horizon backlog
+- [Public API Headers](../../include/llm/README.md) — full header listing under `include/llm/`
+- [Primary Sources (EN)](../../docs/en/llm/PRIMARY_SOURCES.md) — canonical source index
+- [Primary Sources (DE)](../../docs/de/llm/PRIMARY_SOURCES.md) — kanonischer Quellenindex
+
+## Configuration Surfaces
+
+### Build-time flags
+
+| Flag | Behavior |
+|---|---|
+| `THEMIS_ENABLE_CUDA` | Enables CUDA kernel fusion (`kernel_fusion.cu`); CPU fallback when not set |
+| `THEMIS_ENABLE_KAFKA` | Not used by llm directly; consumed by downstream modules |
+
+### Runtime configuration knobs
+
+| Surface | Key Fields |
+|---|---|
+| `AsyncInferenceEngine` | Plugin registration, thread pool size, priority queue depth, timeout |
+| `InferenceEngineEnhanced` | Multi-model backends, batch size, KV-cache size, load-balance policy |
+| `ModelRouter` | Regex/tag routing rules, fallback model name |
+| `GGUFLoader` | Model path (must be within trusted directory; see AUDIT.md F1-1 / F2-1) |
+| `AdapterRegistry` | LoRA adapter base path, hot-load callback, `certificate_store` reference |
+| `ActiveVRAMAllocator` | VRAM capacity, LRU eviction threshold, CPU spill ratio |
+| `TokenQuotaManager` | Per-tenant token budget, refill interval |
+| `OpenAICompatAdapter` | Endpoint model-name mapping, streaming mode, function-calling schema |
+
+## Runtime Behavior, Failure Modes, and Limits
+
+- **Path injection** (F1-1/F1-2/F2-1, fixed 2026-04-21): LoRA adapter paths and model IDs must be validated against a trusted directory before passing to libllama. See AUDIT.md and SECURITY.md.
+- **Grammar-constrained generation**: gracefully falls back to unconstrained output when llama.cpp grammar APIs are absent; check `grammar.isValid()` before use.
+- **Kafka** is not a runtime dependency for the llm module.
+- **VRAM OOM**: `ActiveVRAMAllocator` handles OOM via LRU eviction and CPU spilling; callers receive `nullptr` on allocation failure when spill is exhausted.
+- **Speculative decoding**: draft/target model pair must be on the same device; target model must have compatible vocabulary.
+- **Embedded LLM server**: process-internal; not accessible outside the ThemisDB process; no network listener.
+
+## Usage
 
 ## Scientific References
 
@@ -204,6 +243,50 @@ For LLM documentation, see:
 | `DistributedTrainingCoordinator` | `include/llm/distributed_training_coordinator.h` | Distributed fine-tuning coordination |
 
 > For the full list of 172 public headers, see `include/llm/`.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library. See [`../../include/llm/README.md`](../../include/llm/README.md) for the public API.
+
+**Example: async inference with AsyncInferenceEngine**
+
+```cpp
+#include "llm/async_inference_engine.h"
+
+AsyncInferenceEngine engine;
+engine.registerPlugin(my_llm_plugin);
+
+auto handle = engine.submitRequest({
+    .prompt = "Explain paged attention in two sentences.",
+    .max_tokens = 256,
+    .priority = InferencePriority::Normal
+});
+
+// block until result ready
+auto result = handle.get();
+std::cout << result.text;
+```
+
+**Example: grammar-constrained generation**
+
+```cpp
+#include "llm/grammar.h"
+
+Grammar grammar(R"(root ::= "yes" | "no")", "root");
+if (grammar.isValid()) {
+    // grammar APIs available: token sampling constrained to rule
+} else {
+    // falls back to unconstrained sampling
+}
+```
+
+## Troubleshooting
+
+- **LoRA hot-load fails with path error**: ensure the LoRA adapter file is inside the configured trusted directory; see `AdapterRegistry` configuration and AUDIT.md F1-1/F2-1.
+- **Grammar returns `isValid() == false`**: llama.cpp was built without grammar API; regenerate/rebuild llama.cpp.
+- **OOM on VRAM allocation**: reduce batch size or context window; check `ActiveVRAMAllocator` eviction and spill configuration.
+- **OpenAI adapter returns 500**: verify `ModelRouter` routing rules cover the requested model name and that the backend plugin is loaded.
+- **Speculative decoding mismatch**: draft and target models must share vocabulary; use `AdapterCompatibilityValidator` before initializing the pair.
 
 ## Installation
 

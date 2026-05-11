@@ -11,6 +11,9 @@ on:
     tags:
       - 'v*.*.*'
   pull_request:
+    branches:
+      - main
+      - develop
     paths:
       - 'vcpkg.json'
       - 'CMakeLists.txt'
@@ -22,6 +25,15 @@ on:
     # Weekly on Saturday 01:00 UTC
     - cron: '0 1 * * 6'
   workflow_dispatch: {}
+
+concurrency:
+  group: sbom-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  security-events: write
+  id-token: write
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────

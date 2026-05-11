@@ -22,6 +22,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -95,6 +96,33 @@ struct QTTrain {
 
 class HissReshaper {
 public:
+    // -------------------------------------------------------------------------
+    // STUB #254 bridge — pure-binary QTT quantics encoder
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callable type for quantics reshape encoding.
+     *
+     * @param train      Input TT train.
+     * @param grid_sizes Physical dimension sizes (may be empty → use mode_sizes).
+     * @return QTTrain in the quantics layout.
+     *
+     * When installed, replaces the residual-factor fallback entirely.
+     * The callable MUST satisfy the same size/product contracts as
+     * `exposeQuantics()` or it will produce undefined results.
+     */
+    using QuanticsFn = std::function<QTTrain(const storage::TTTrain&        train,
+                                             const std::vector<std::size_t>& grid_sizes)>;
+
+    /// Install a pure-binary QTT encode backend.  Thread-safe.
+    static void setQuanticsFn(QuanticsFn fn);
+
+    /// Remove the quantics backend (fallback: residual-factor factorisation).
+    static void clearQuanticsFn();
+
+    /// Return the currently installed QuanticsFn (empty if none).
+    static QuanticsFn getQuanticsFn();
+
     /**
      * @brief Reinterprets a TT train in a quantics-friendly reshaped mode layout.
      *
@@ -108,11 +136,14 @@ public:
       *   in flattened lexicographic element order after the original dense payload)
       *   to the next power of
       *   two and decomposed into pure-binary quantics modes; `QTTrain` records
-     *   both the original and padded physical extents plus the original element
-     *   count so callers can distinguish valid payload from padding
+      *   both the original and padded physical extents plus the original element
+      *   count so callers can distinguish valid payload from padding
+      *
+      * This exposes latent low-rank structure to later Hiss/QTT phases while
+      * preserving the exact dense element count.
      *
-     * This exposes latent low-rank structure to later Hiss/QTT phases while
-     * preserving the exact dense element count.
+     * When a `QuanticsFn` bridge is installed via `setQuanticsFn()`, the
+     * bridge is called instead of the built-in padded-binary path.
      */
     [[nodiscard]] static QTTrain
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);

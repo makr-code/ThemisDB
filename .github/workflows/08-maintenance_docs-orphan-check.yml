@@ -15,25 +15,26 @@ on:
   push:
     branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'examples/**'
-      - 'tools/**'
-      - 'benchmarks/**'
-      - 'tests/**'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'examples/*/**'
+      - 'tools/*/**'
+      - 'benchmarks/*/**'
+      - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'
       - 'scripts/docs-orphan-check.py'
       - '.github/workflows/08-maintenance_docs-orphan-check.yml'
   pull_request:
+    branches: [develop, main]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'examples/**'
-      - 'tools/**'
-      - 'benchmarks/**'
-      - 'tests/**'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'examples/*/**'
+      - 'tools/*/**'
+      - 'benchmarks/*/**'
+      - 'tests/*/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'
@@ -108,29 +109,31 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
-          echo "## Docs Orphan Check" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Script** | \`scripts/docs-orphan-check.py\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Docs roots** | \`docs/de\`, \`docs/en\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f /tmp/docs-orphan-check.json ]; then
-            CODE=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['code_modules'])" 2>/dev/null || echo "n/a")
-            DIRS=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['module_docs_dirs'])" 2>/dev/null || echo "n/a")
-            ORPHANS=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['orphan_module_dirs'])" 2>/dev/null || echo "n/a")
-            BROKEN=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['broken_primary_references'])" 2>/dev/null || echo "n/a")
-            echo "| **Code modules** | ${CODE} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Module doc dirs** | ${DIRS} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Orphan dirs** | ${ORPHANS} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Broken references** | ${BROKEN} |" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          echo "" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## Docs Orphan Check"
+            echo ""
+            echo "| Parameter | Value |"
+            echo "|-----------|-------|"
+            echo "| **Script** | \`scripts/docs-orphan-check.py\` |"
+            echo "| **Docs roots** | \`docs/de\`, \`docs/en\` |"
+            echo "| **Event** | \`${{ github.event_name }}\` |"
+            echo "| **Branch** | \`${{ github.ref_name }}\` |"
+            if [ -f /tmp/docs-orphan-check.json ]; then
+              CODE=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['code_modules'])" 2>/dev/null || echo "n/a")
+              DIRS=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['module_docs_dirs'])" 2>/dev/null || echo "n/a")
+              ORPHANS=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['orphan_module_dirs'])" 2>/dev/null || echo "n/a")
+              BROKEN=$(python3 -c "import json; d=json.load(open('/tmp/docs-orphan-check.json')); print(d['summary']['broken_primary_references'])" 2>/dev/null || echo "n/a")
+              echo "| **Code modules** | ${CODE} |"
+              echo "| **Module doc dirs** | ${DIRS} |"
+              echo "| **Orphan dirs** | ${ORPHANS} |"
+              echo "| **Broken references** | ${BROKEN} |"
+            fi
+            echo ""
 
-          if [ -f /tmp/docs-orphan-check.txt ]; then
-            echo "**Text Report:**" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-            cat /tmp/docs-orphan-check.txt >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-          fi
+            if [ -f /tmp/docs-orphan-check.txt ]; then
+              echo "**Text Report:**"
+              echo '```'
+              cat /tmp/docs-orphan-check.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

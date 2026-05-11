@@ -6,11 +6,19 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (7)
+## Aktive Workflows (15)
+- `.github/workflows/00-shared_changelog-update.yml`
+- `.github/workflows/00-shared_changelog-backfill.yml`
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
 - `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
+- `.github/workflows/08-maintenance_root-docs-hygiene.yml`
+- `.github/workflows/08-maintenance_src-include-docs-align.yml`
+- `.github/workflows/08-maintenance_docs-orphan-check.yml`
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+- `.github/workflows/sbom-ci.yml`
+- `.github/workflows/security-dast-ci.yml`
+- `.github/workflows/soc2-evidence-ci.yml`
 - `.github/workflows/copilot-ollama-router-ci.yml`
 - `.github/workflows/copilot-regression-guard.yml`
 - `.github/workflows/performance-regression-check.yml`
@@ -73,3 +81,9 @@ gh workflow run "04-release_bootstrap-release-branches.yml" --repo makr-code/The
 - Lokal zuerst linten: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`
 - Danach Dry-Run: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun`
 - Registry, Guidelines und Reaktivierungsbegruendung bei Struktur-Aenderungen immer zusammen aktualisieren.
+
+## PR Governance for AI-Generated Changes
+- Pull Requests labeled `ai-generated` require maintainer review before merge.
+- Copilot PR summary/review support should be enabled in repository settings to assist human review, but does not replace maintainer approval.
+- `ai-generated` PRs should explicitly document validation scope and documentation synchronization status.
+- Auto-merge for `ai-generated` PRs should remain disabled unless a maintainer explicitly authorizes it.

@@ -18,7 +18,9 @@
 ## Findings
 - Implementation is present and non-stub.
 - Core docs (`README`, `ARCHITECTURE`, `ROADMAP`, `FUTURE_ENHANCEMENTS`, `AUDIT`, `SECURITY`) exist in `src/chaos/`.
+- Public include surface is currently one header (`include/chaos/chaos_framework.h`) and one include-level module README.
 - Open feature gap remains for distributed coordination (`src/chaos/ROADMAP.md`, "Cluster-wide distributed chaos coordination").
 
 ## Follow-ups
 - Add distributed orchestration interfaces/implementation once the Q3 2026 roadmap item is started.
+- Define hard performance SLO thresholds once distributed backplane design is finalized (`src/chaos/PERFORMANCE_EXPECTATIONS.md`).

@@ -1,14 +1,8 @@
-[docs](../../index.md) > [de](../index.md) > [cache](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+docs > de > cache > PRIMARY_SOURCES  
 **Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `include/cache/ARCHITECTURE.md`
-- `include/cache/AUDIT.md`
-- `include/cache/CHANGELOG.md`
-- `include/cache/FUTURE_ENHANCEMENTS.md`
 - `include/cache/README.md`
-- `include/cache/ROADMAP.md`
-- `include/cache/SECURITY.md`
 - `src/cache/ARCHITECTURE.md`
 - `src/cache/AUDIT.md`
 - `src/cache/CHANGELOG.md`
@@ -16,6 +10,9 @@
 - `src/cache/README.md`
 - `src/cache/ROADMAP.md`
 - `src/cache/SECURITY.md`
+
+> Hinweis: In `include/cache/` existiert derzeit nur `README.md` als modulbezogene Markdown-Datei.
+> Architektur/Security/Roadmap/Audit/Changelog werden in `src/cache/` gepflegt.
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -33,13 +30,7 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cache`** a
 
 | Datei | Pfad |
 |-------|------|
-| `ARCHITECTURE.md` | [`include/cache/ARCHITECTURE.md`](../../../include/cache/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/cache/AUDIT.md`](../../../include/cache/AUDIT.md) |
-| `CHANGELOG.md` | [`include/cache/CHANGELOG.md`](../../../include/cache/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/cache/FUTURE_ENHANCEMENTS.md`](../../../include/cache/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/cache/README.md`](../../../include/cache/README.md) |
-| `ROADMAP.md` | [`include/cache/ROADMAP.md`](../../../include/cache/ROADMAP.md) |
-| `SECURITY.md` | [`include/cache/SECURITY.md`](../../../include/cache/SECURITY.md) |
 
 ### `src/cache/`
 

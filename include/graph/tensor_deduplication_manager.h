@@ -55,6 +55,12 @@
 #include <unordered_map>
 #include <vector>
 
+// Forward declarations for GraphIndex-backed journal wiring helper.
+// Full definition in <index/graph_index.h>.
+namespace themis {
+class GraphIndexManager;
+} // namespace themis
+
 namespace themis {
 namespace graph {
 
@@ -361,6 +367,41 @@ private:
                                    std::size_t total_bytes_stored,
                                    std::size_t bytes_saved) const;
 };
+
+} // namespace graph
+} // namespace themis
+
+// ============================================================================
+// wireGraphIndexJournalHooks — non-member wiring helper
+// ============================================================================
+
+namespace themis {
+namespace graph {
+
+/**
+ * @brief Wire per-entry journal hooks backed by GraphIndexManager edge storage.
+ *
+ * Each journal entry is stored as one GraphIndex edge from a virtual anchor
+ * node (`"__tfgj_anchor__:<snapshot_key>"`) to the tensor id, with payload
+ * encoded into edge fields.
+ *
+ * This is a durable alternative to the TNSE `putRawMetadata` approach. The
+ * hook contract is identical: per-tensor journal entries are independently
+ * stored and deleted without reading or rewriting the entire monolithic blob.
+ *
+ * ### Typical usage
+ * @code
+ *   wireGraphIndexJournalHooks(tdm, graph_idx, "__tfg_default__");
+ *   tdm.snapshotGraph("__tfg_default__");
+ * @endcode
+ *
+ * @param tdm           Dedup manager to configure.
+ * @param graph_idx     GraphIndexManager used for adjacency-based listing.
+ * @param snapshot_key  Active snapshot key (must match `snapshotGraph` call).
+ */
+void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
+                                 GraphIndexManager&           graph_idx,
+                                 const std::string&           snapshot_key);
 
 } // namespace graph
 } // namespace themis

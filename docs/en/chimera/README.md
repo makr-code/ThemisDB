@@ -45,6 +45,59 @@ Streaming and prepared statements are implemented and covered by dedicated tests
 3. **Research constraints are anchored**
    - Build-flag dependent behavior (`THEMISDB_ENGINE_AVAILABLE`) and capability mismatches are tracked in roadmap/future docs and the missing-implementations report.
 
+## Installation
+
+The chimera module headers are included automatically when linking against the `themis_chimera` CMake target.
+No separate installation is required beyond the standard ThemisDB build:
+
+```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+```
+
+See [`include/chimera/README.md`](../../../include/chimera/README.md) for header-level details.
+
+## Usage
+
+### Simulation mode (unit tests / CI)
+
+```cpp
+#include "chimera/themisdb_adapter.hpp"
+
+chimera::ThemisDBAdapter adapter;           // no live server required
+adapter.connect("themisdb://localhost/test");
+
+// Relational
+adapter.insert_row("users", {{"id", "u1"}, {"name", "Alice"}});
+auto rows = adapter.execute_query("SELECT * FROM users");
+
+// Streaming result set
+auto stream = adapter.execute_query_stream("SELECT * FROM large_table");
+while (stream->has_more()) {
+    auto batch = stream->next_batch(256);
+    // process batch …
+}
+
+// Prepared statement
+auto stmt = adapter.prepare("SELECT * FROM orders WHERE id = @id");
+stmt->bind("id", chimera::Scalar{"o123"});
+auto result = stmt->execute();
+```
+
+### Engine-wired mode (production)
+
+```cpp
+themis::QueryEngine        engine;
+themis::VectorIndexManager vim;
+themis::GraphIndexManager  gim;
+
+chimera::ThemisDBAdapter adapter(&engine, &vim, &gim);
+adapter.connect("themisdb://prod-host:7070/mydb");
+// All operations are delegated to the real ThemisDB back-end.
+```
+
+See [`include/chimera/README.md`](../../../include/chimera/README.md) for the full API reference and more examples.
+
 ## Open items / known risks
 
 - Include-level documentation (`include/chimera/README.md`) has been added — API reference for both header files is now available.

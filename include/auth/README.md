@@ -1153,6 +1153,10 @@ See `../../src/auth/` for the implementation code.
 
 - [Authentication Module README](../../src/auth/README.md) — Comprehensive guide
 - [Architecture Guide](../../src/auth/ARCHITECTURE.md) — Component design and data flows
+- [Security Guide](../../src/auth/SECURITY.md) — Threat model, controls, and limitations
+- [Audit Report](../../src/auth/AUDIT.md) — Build/test/compliance verification snapshot
+- [Changelog](../../src/auth/CHANGELOG.md) — Versioned module change history
+- [Performance Expectations](../../src/auth/PERFORMANCE_EXPECTATIONS.md) — Release-gate performance targets
 - [Roadmap](../../src/auth/ROADMAP.md) — Implementation status and planned features
 - [Future Enhancements](../../src/auth/FUTURE_ENHANCEMENTS.md) — Planned features
 - [Secondary Docs (DE)](../../docs/de/auth/README.md) — German-language overview

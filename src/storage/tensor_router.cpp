@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include <numeric>
 #include <random>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -89,6 +90,7 @@ struct TensorRouter::Impl {
     TensorRoutingPolicy                           policy;
     TensorTrainDecomposer                         decomposer;
     std::shared_ptr<tensor::TemplateCatalog>      template_catalog;
+    mutable std::mutex                            template_apply_mu;
     TemplateTopologyApplyFn                       template_topology_apply_fn;
 
     mutable std::mutex   stats_mu;
@@ -226,20 +228,25 @@ struct TensorRouter::Impl {
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
 
-        // Domain template catalog promotion:
-        // A matching template applies only when the topology callback confirms
-        // that the template graph has been consumed by downstream index wiring.
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
-                if (template_topology_apply_fn) {
+                TemplateTopologyApplyFn apply_fn;
+                {
+                    std::lock_guard<std::mutex> lk(template_apply_mu);
+                    apply_fn = template_topology_apply_fn;
+                }
+                if (apply_fn) {
                     try {
-                        const bool applied = template_topology_apply_fn(hint.domain_tag, *tmpl);
-                        if (applied) {
+                        if (apply_fn(hint.domain_tag, *tmpl, hint)) {
                             return TensorRouteDecision::LIFT;
                         }
-                    } catch (const std::exception&) {
-                        // Fall through to heuristic path when callback application fails.
+                    } catch (const std::exception& ex) {
+                        spdlog::warn(
+                            "TensorRouter template topology callback threw for domain_tag='{}': {}",
+                            hint.domain_tag,
+                            ex.what());
+                        // Fail-closed to heuristic path on bridge exception.
                     }
                 }
             }
@@ -399,20 +406,28 @@ void TensorRouter::setTemplateCatalog(
 }
 
 void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     impl_->template_topology_apply_fn = std::move(fn);
 }
 
 void TensorRouter::clearTemplateTopologyApplyFn() {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     impl_->template_topology_apply_fn = nullptr;
 }
 
 bool TensorRouter::hasTemplateTopologyApplyFn() const {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     return static_cast<bool>(impl_->template_topology_apply_fn);
 }
 
 std::shared_ptr<tensor::TemplateCatalog>
 TensorRouter::templateCatalog() const noexcept {
     return impl_->template_catalog;
+}
+
+TensorRouter::TemplateTopologyApplyFn TensorRouter::getTemplateTopologyApplyFn() const {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
+    return impl_->template_topology_apply_fn;
 }
 
 } // namespace storage

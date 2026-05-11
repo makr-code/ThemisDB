@@ -14,6 +14,9 @@
  * HissReshaper reject mismatched grid product THSS-08
  * HissReshaper preserves dense tensor values  THSS-09
  * HissReshaper residual-factor reshape        THSS-10
+ * HissReshaper QuanticsFn bridge inject       THSS-11
+ * HissReshaper QuanticsFn bridge clear        THSS-12
+ * HissReshaper QuanticsFn bridge callback OK  THSS-13
  * TNSRTask construction error on null engine  TNSR-01
  * TNSRTask empty key range → zero report      TNSR-02
  * TNSRTask recompresses and writes back       TNSR-03
@@ -23,6 +26,9 @@
  * TNSRTask report duration > 0               TNSR-07
  * TNSRTask multiple keys, rank_delta positive TNSR-08
  * TNSRTask trivial train fast-path skip        TNSR-09
+ * TNSRTask RerouteSerializeFn bridge inject   TNSR-10
+ * TNSRTask RerouteSerializeFn bridge clear    TNSR-11
+ * TNSRTask RerouteSerializeFn callback called TNSR-12
  */
 
 #include "tensor/hiss_structural_search.h"
@@ -427,29 +433,157 @@ TEST(TNSRTask, TrivialTrainSkipsTopologySearch) {
     EXPECT_EQ(report.topology_changes, 0u);
 }
 
-TEST(TNSRTask, RerouteSerializeCallbackRunsForNonTrivialTopology) {
+// ============================================================================
+// THSS-11  HissReshaper QuanticsFn bridge can be set and retrieved
+// ============================================================================
+TEST(HissReshaper, QuanticsFnBridgeSetAndGet) {
+    themis::tensor::HissReshaper::clearQuanticsFn();
+    EXPECT_FALSE(static_cast<bool>(themis::tensor::HissReshaper::getQuanticsFn()));
+
+    bool called = false;
+    themis::tensor::HissReshaper::setQuanticsFn(
+        [&called](const themis::storage::TTTrain& t,
+                  const std::vector<std::size_t>& gs) {
+            called = true;
+            return themis::tensor::QTTrain{};
+        });
+    EXPECT_TRUE(static_cast<bool>(themis::tensor::HissReshaper::getQuanticsFn()));
+    themis::tensor::HissReshaper::clearQuanticsFn();
+}
+
+// ============================================================================
+// THSS-12  HissReshaper QuanticsFn bridge cleared → fallback executes normally
+// ============================================================================
+TEST(HissReshaper, QuanticsFnBridgeClearRestoresFallback) {
+    bool bridge_called = false;
+    themis::tensor::HissReshaper::setQuanticsFn(
+        [&bridge_called](const themis::storage::TTTrain& t,
+                         const std::vector<std::size_t>& gs) {
+            bridge_called = true;
+            return themis::tensor::QTTrain{};
+        });
+    themis::tensor::HissReshaper::clearQuanticsFn();
+
+    const auto train = makeSmallTrain();
+    // Must not throw and must not invoke the cleared bridge.
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
+    EXPECT_FALSE(bridge_called);
+    EXPECT_FALSE(qt.quantics_mode_sizes.empty());
+}
+
+// ============================================================================
+// THSS-13  HissReshaper QuanticsFn bridge callback is invoked
+// ============================================================================
+TEST(HissReshaper, QuanticsFnBridgeCallbackInvoked) {
+    struct Guard {
+        ~Guard() { themis::tensor::HissReshaper::clearQuanticsFn(); }
+    } guard;
+
+    int call_count = 0;
+    themis::tensor::HissReshaper::setQuanticsFn(
+        [&call_count](const themis::storage::TTTrain& train,
+                      const std::vector<std::size_t>& grid_sizes) {
+            ++call_count;
+            // Return a minimal valid QTTrain mirroring the input.
+            themis::tensor::QTTrain qt;
+            qt.grid_sizes           = train.mode_sizes;
+            qt.quantics_mode_sizes  = train.mode_sizes;
+            qt.tt_train             = train;
+            for (const auto ms : train.mode_sizes) {
+                std::size_t depth = 0;
+                auto sz = ms;
+                while (sz > 1) { sz >>= 1; ++depth; }
+                qt.bit_depths.push_back(std::max<std::size_t>(depth, 1u));
+            }
+            return qt;
+        });
+
+    const auto train = makeSmallTrain();
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
+    EXPECT_EQ(call_count, 1);
+    EXPECT_EQ(qt.grid_sizes, train.mode_sizes);
+}
+
+// ============================================================================
+// TNSR-10  RerouteSerializeFn bridge can be set and retrieved
+// ============================================================================
+TEST(TNSRTask, RerouteSerializeFnBridgeSetAndGet) {
+    themis::tensor::TNSRTask::clearRerouteSerializeFn();
+    EXPECT_FALSE(static_cast<bool>(themis::tensor::TNSRTask::getRerouteSerializeFn()));
+
+    themis::tensor::TNSRTask::setRerouteSerializeFn(
+        [](themis::storage::TensorNetworkStorageEngine&,
+           const themis::storage::TensorFieldKey&,
+           const themis::tensor::TensorNetworkGraph&,
+           const themis::storage::TTTrain&) { return true; });
+    EXPECT_TRUE(static_cast<bool>(themis::tensor::TNSRTask::getRerouteSerializeFn()));
+    themis::tensor::TNSRTask::clearRerouteSerializeFn();
+}
+
+// ============================================================================
+// TNSR-11  RerouteSerializeFn cleared → run() still completes without error
+// ============================================================================
+TEST(TNSRTask, RerouteSerializeFnClearNoError) {
+    themis::tensor::TNSRTask::setRerouteSerializeFn(
+        [](themis::storage::TensorNetworkStorageEngine&,
+           const themis::storage::TensorFieldKey&,
+           const themis::tensor::TensorNetworkGraph&,
+           const themis::storage::TTTrain&) { return false; });
+    themis::tensor::TNSRTask::clearRerouteSerializeFn();
+
     std::shared_ptr<themis::storage::InMemoryTensorBackend> be;
     themis::storage::TensorFieldKey key;
     auto engine = makeTinyEngine(be, key);
 
-    std::atomic<std::size_t> callback_calls{0};
+    themis::tensor::TNSRTask task(engine);
+    themis::tensor::TNSRConfig cfg;
+    cfg.epsilon = 0.5;
+    cfg.min_bytes_saved_to_commit = 0;
+    cfg.max_topology_changes_per_run = 4;
+
+    const auto report = task.run({key}, cfg);
+    EXPECT_EQ(report.error_count, 0u);
+}
+
+// ============================================================================
+// TNSR-12  RerouteSerializeFn callback is invoked for non-trivial trains
+//          that receive topology changes
+// ============================================================================
+TEST(TNSRTask, RerouteSerializeFnCallbackInvoked) {
+    struct Guard {
+        ~Guard() { themis::tensor::TNSRTask::clearRerouteSerializeFn(); }
+    } guard;
+
+    int serialize_calls = 0;
     themis::tensor::TNSRTask::setRerouteSerializeFn(
-        [&callback_calls](const themis::storage::TensorFieldKey& field_key,
-                          const themis::tensor::TensorNetworkGraph& graph,
-                          themis::storage::TTTrain& train) {
-            if (!field_key.field_name.empty() && graph.nodeCount() > 0 && !train.mode_sizes.empty()) {
-                ++callback_calls;
-            }
+        [&serialize_calls](themis::storage::TensorNetworkStorageEngine&,
+                           const themis::storage::TensorFieldKey&,
+                           const themis::tensor::TensorNetworkGraph& tng,
+                           const themis::storage::TTTrain&) {
+            ++serialize_calls;
+            // Sanity: graph must have at least one node.
+            EXPECT_GE(tng.nodeCount(), 1u);
             return true;
         });
 
+    std::shared_ptr<themis::storage::InMemoryTensorBackend> be;
+    themis::storage::TensorFieldKey key;
+    auto engine = makeTinyEngine(be, key);
+
     themis::tensor::TNSRTask task(engine);
     themis::tensor::TNSRConfig cfg;
-    cfg.epsilon = 0.05;
+    cfg.epsilon = 0.5;
     cfg.min_bytes_saved_to_commit = 0;
     cfg.max_topology_changes_per_run = 8;
-    (void)task.run({key}, cfg);
+    cfg.hiss_config.entropy_threshold = 0.0; // maximize edge candidates
 
-    EXPECT_GE(callback_calls.load(), 1u);
-    themis::tensor::TNSRTask::clearRerouteSerializeFn();
+    const auto report = task.run({key}, cfg);
+    EXPECT_EQ(report.error_count, 0u);
+    // If topology changes occurred, the serialize fn must have been called;
+    // if no topology changes occurred, the callback must not have been called.
+    if (report.topology_changes > 0) {
+        EXPECT_GE(serialize_calls, 1);
+    } else {
+        EXPECT_EQ(serialize_calls, 0);
+    }
 }

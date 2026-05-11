@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <functional>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -27,6 +28,48 @@
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Static bridge slots — STUB #257 (EmbedFn) / STUB #258 (ImageEmbedFn)
+// ============================================================================
+
+namespace {
+    std::mutex          g_embed_mtx;
+    UTRConverter::EmbedFn g_embed_fn;          // null ⟹ use FNV-1a fallback
+
+    std::mutex               g_image_embed_mtx;
+    UTRConverter::ImageEmbedFn g_image_embed_fn; // null ⟹ use raw-pixel fallback
+} // namespace
+
+void UTRConverter::setEmbedFn(UTRConverter::EmbedFn fn) {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    g_embed_fn = std::move(fn);
+}
+
+void UTRConverter::clearEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    g_embed_fn = nullptr;
+}
+
+UTRConverter::EmbedFn UTRConverter::getEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    return g_embed_fn;
+}
+
+void UTRConverter::setImageEmbedFn(UTRConverter::ImageEmbedFn fn) {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    g_image_embed_fn = std::move(fn);
+}
+
+void UTRConverter::clearImageEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    g_image_embed_fn = nullptr;
+}
+
+UTRConverter::ImageEmbedFn UTRConverter::getImageEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    return g_image_embed_fn;
+}
 
 namespace {
 
@@ -284,10 +327,14 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
             ") != h*w*c (" + std::to_string(expected) + ")");
     }
 
-    // Patch-statistics embedding:
-    // - split the image into non-overlapping patches
-    // - compute mean + standard deviation per channel
-    // - TT-decompose the resulting patch-feature tensor
+    ImageEmbedFn image_embed_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+        image_embed_fn = g_image_embed_fn;
+    }
+    if (image_embed_fn) {
+        return image_embed_fn(pixels, h, w, c, cfg);
+    }
 
     const auto patch_h = clampPatchExtent(h);
     const auto patch_w = clampPatchExtent(w);
@@ -318,9 +365,14 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
                 }
             }
             for (std::size_t channel = 0; channel < c; ++channel) {
-                const auto mean = sample_count > 0 ? sum[channel] / static_cast<double>(sample_count) : 0.0;
+                const auto mean = sample_count > 0
+                    ? sum[channel] / static_cast<double>(sample_count)
+                    : 0.0;
                 const auto variance = sample_count > 0
-                    ? std::max(0.0, (sum_sq[channel] / static_cast<double>(sample_count)) - (mean * mean))
+                    ? std::max(
+                          0.0,
+                          (sum_sq[channel] / static_cast<double>(sample_count)) -
+                              (mean * mean))
                     : 0.0;
                 patch_features.push_back(static_cast<float>(mean));
                 patch_features.push_back(static_cast<float>(std::sqrt(variance)));
@@ -375,10 +427,28 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     const std::size_t num_segs  = segments.size();
     const std::size_t embed_dim = cfg.embed_dim;
 
+    // Obtain the embedding function: injected bridge takes priority over FNV-1a.
+    UTRConverter::EmbedFn embed_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_embed_mtx);
+        embed_fn = g_embed_fn;
+    }
+
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
     for (const auto& seg : segments) {
-        const auto emb = hashEmbed(seg, embed_dim);
+        std::vector<float> emb;
+        if (embed_fn) {
+            emb = embed_fn(seg, embed_dim);
+            if (emb.size() != embed_dim) {
+                throw std::runtime_error(
+                    "UTRConverter::fromDocument: injected EmbedFn returned " +
+                    std::to_string(emb.size()) +
+                    " elements but embed_dim=" + std::to_string(embed_dim));
+            }
+        } else {
+            emb = hashEmbed(seg, embed_dim);
+        }
         segment_matrix.insert(segment_matrix.end(), emb.begin(), emb.end());
     }
 

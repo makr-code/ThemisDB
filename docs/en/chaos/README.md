@@ -7,7 +7,6 @@
 - `src/chaos/ROADMAP.md`
 - `src/chaos/FUTURE_ENHANCEMENTS.md`
 - `include/chaos/README.md`
-- `include/chaos/ROADMAP.md`
 
 **Bezug / Reference:**
 - Issue: #4685
@@ -19,7 +18,7 @@
 
 ## TL;DR
 
-The `chaos` module is implemented as an **in-process chaos/fault-injection component**.  
+The `chaos` module is implemented as an **in-process chaos/fault-injection component**.
 Core classes (`FaultInjector`, `ChaosScheduler`) are implemented and covered by unit/stress tests and benchmarks.
 
 ## Reality-check scope
@@ -34,14 +33,32 @@ Core classes (`FaultInjector`, `ChaosScheduler`) are implemented and covered by 
 1. **Primary docs ↔ code are aligned for core functionality**
    - Fault types, fault lifecycle, and scheduler behavior in `README`/`ARCHITECTURE` match implementation.
 2. **ROADMAP status checked against evidence**
-   - `include/chaos/ROADMAP.md` Phase 4 is now marked `[x]` with concrete test evidence.
+   - `src/chaos/ROADMAP.md` implementation phases reflect current test/benchmark evidence.
 3. **FUTURE_ENHANCEMENTS remains actionable**
    - Required sections (`Scope`, `Design Constraints`, `Required Interfaces`, `Test Strategy`, `Performance Targets`, `Security / Reliability`) are present and implementable.
+4. **Public include entry-points documented**
+   - `include/chaos/README.md` documents the single public header and all exposed API types/classes.
 
 ## Open items / known gaps
 
 - Cluster-wide distributed chaos coordination is still open (`src/chaos/ROADMAP.md`, In Progress).
-- ABI compatibility matrix for external include consumers is still open (`include/chaos/ROADMAP.md`, Production Readiness Checklist).
+
+## Installation
+
+Build as part of ThemisDB:
+
+```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+```
+
+## Usage
+
+Use module entry docs:
+
+- Source module docs: `src/chaos/README.md`
+- Public headers docs: `include/chaos/README.md`
+- Gap tracking (DE): `docs/de/chaos/MISSING_IMPLEMENTATIONS.md`
 
 German detailed gap report:
 - `docs/de/chaos/MISSING_IMPLEMENTATIONS.md`

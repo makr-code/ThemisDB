@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB API Module
 

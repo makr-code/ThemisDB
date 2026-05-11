@@ -132,12 +132,22 @@ in `src/aql/` (Implementierung) und `include/aql/` (Schnittstellen).
 | `AQLConfidenceScorer` | `aql_confidence_scorer.cpp` | Konfidenz-Score für LLM-generierte Queries (0.0–1.0) |
 | `AQLAutocomplete` | `aql_autocomplete.cpp` | Token-Level-Autocompletion (LSP-kompatibel) |
 | `AQLFewShotExampleLibrary` | `aql_fewshot_example_library.cpp` | Beispiel-Bibliothek für verbesserte NL→AQL-Genauigkeit |
-| `AQLConversationContext` | `aql_conversation_context.cpp` | Multi-Turn-Gesprächshistorie |
+| `AQLConversationContext` | `aql_conversation_context.cpp` | Multi-Turn-Gesprächshistorie mit Context-Window-Budget |
 | `AQLOptimizerAdvisor` | `aql_optimizer_advisor.cpp` | Query-Plan-Erklärung & Optimierungshinweise |
 | `AQLQueryTemplateLibrary` | `aql_query_template_library.cpp` | Vorvalidierte Abfrage-Templates |
 | `AQLLoraFinetuner` | `aql_lora_finetuner.cpp` | LoRA-Adapter-Fine-Tuning auf AQL-Korpora |
 | `AQLMigrationAssistant` | `aql_migration_assistant.cpp` | Migration Legacy-AQL (ArangoDB → ThemisDB) |
 | `LLMMetricsCollector` | `llm_metrics_collector.cpp` | Latenz, Token-Zähler, Cache-Hit-Metriken |
+| `ReActAgent` | `aql_agent.cpp` | Mehrstufiger Reasoning-Agent mit Tool-Calling (Phase 4) |
+| `AQLTokenStream` | *(header-only)* | Thread-sicherer Streaming-Token-Iterator (Phase 4) |
+| `IAsyncLLMBackend` | *(header-only)* | Nicht-blockierendes Async-Backend-Interface (Phase 4) |
+| `MultiModalInferRequest` | *(header-only)* | Bild/Audio/Video-Inferenz-Request (Phase 4) |
+| `AQLQueryDiffExplainer` | `aql_query_diff_explainer.cpp` | Klausel-Level-Diff zwischen zwei AQL-Queries (regelbasiert) |
+| `AQLRollbackSuggester` | `aql_rollback_suggester.cpp` | Kompensierender Rollback-Query für Mutationsstatements |
+| `AQLIngestionBridge` | `aql_ingestion_bridge.cpp` | INSERT/UPSERT-Payload-Anreicherung via Ingestion-Pipeline |
+| `AQLModelRouter` | `aql_model_router.cpp` | Query-Typ-basiertes LLM-Backend-Routing |
+| `IClassifyFn` / `ClassifyBridge` | `classify_bridge.cpp` | Zero-Shot-Textklassifikations-Interface |
+| `LLMAQLEmbeddingBridge` | `llm_aql_embedding_bridge.cpp` | Embedding-Bridge für semantisches Few-Shot-Ranking |
 
 ### Schnelles Beispiel
 
@@ -161,8 +171,10 @@ LLM RAG 'Was sind die Vorteile von Vektordatenbanken?'
 ### Status (v1.5.0)
 
 ✅ **Stabil:** NL→AQL-Übersetzung, Konfidenz-Scoring, SSE-Streaming, Autocompletion,
-LoRA-Adapter, Konversationskontext, Query-Validierung, Few-Shot-Bibliothek  
-🔬 **Experimentell:** Multi-Modal (Bilder, Audio), Fine-Tuning-Pipeline, Agenten-Framework
+LoRA-Adapter, Konversationskontext, Query-Validierung, Few-Shot-Bibliothek,
+ReActAgent, AQLTokenStream, IAsyncLLMBackend, AQLQueryDiffExplainer,
+AQLRollbackSuggester, AQLIngestionBridge, AQLModelRouter  
+🔬 **Experimentell:** Multi-Modal (Bilder, Audio), Fine-Tuning-Pipeline, verteilte LLM-Inferenz
 
 ---
 
@@ -374,6 +386,34 @@ FOR u IN users
 3. Teste mit `SHORTEST_PATH` für exakte Pfade
 4. Aktiviere Tracing für `edges_expanded` Metrik
 
+### LLM-Übersetzung liefert ungültiges AQL
+
+**Problem:** `translateNLToAQL()` wirft `LLMException(INVALID_RESPONSE)` oder die Query schlägt bei der Ausführung fehl.
+
+**Lösung:**
+1. `schema_context` mit Collection-/Feldnamen angeben für bessere Genauigkeit.
+2. Code-Generierungsmodell verwenden (z.B. DeepSeek-Coder, Codestral).
+3. Validierungsmodus `RETRY_ON_ERROR` aktivieren: Handler sendet Fehlerannotation als Feedback an LLM.
+4. Bei `PROMPT_INJECTION`-Fehler: NL-Eingabe vor Übergabe bereinigen.
+
+### LLM-Inferenz-Timeout
+
+**Problem:** `LLMException(TIMEOUT)` bei `executeInfer()` oder `executeRAG()`.
+
+**Lösung:**
+- Timeout erhöhen: `handler.setTimeoutConfig({.infer_timeout = 600})`.
+- `max_tokens` reduzieren.
+- Kleineres/quantisiertes Modell (4-bit GGUF) laden.
+- GPU-Offload aktivieren: Modell mit `GPU_LAYERS <n>` neuladen.
+
+### Circuit Breaker offen
+
+**Problem:** `LLMException(CIRCUIT_OPEN)` für einen Befehlstyp, andere funktionieren.
+
+**Lösung:** Pro-Befehl-Circuit-Breaker (INFER, RAG, EMBED, FINETUNE) sind isoliert.
+Status prüfen via `handler.getCircuitBreakerStates()` oder `LLM STATS`-Befehl.
+Nach 60 Sekunden öffnet sich das Fenster automatisch wieder.
+
 ---
 
 ## 📚 Siehe auch
@@ -419,9 +459,10 @@ FOR u IN users
 ## 📝 Changelog
 
 ### v1.5.0 - 9. März 2026
-- ✅ **LLM-AQL-Abschnitt:** Neuer Abschnitt über KI-gestützte Hilfskomponenten (NL→AQL, SSE-Streaming, LoRA, etc.)
+- ✅ **LLM-AQL-Abschnitt:** Phase 4/5 Komponenten ergänzt (ReActAgent, AQLTokenStream, IAsyncLLMBackend, AQLQueryDiffExplainer, AQLRollbackSuggester, AQLIngestionBridge, AQLModelRouter, LLMAQLEmbeddingBridge, ClassifyBridge)
+- ✅ **Status-Update:** Stable-Liste aktualisiert; Agenten-Framework aus Experimentell nach Stabil verschoben
+- ✅ **Troubleshooting:** LLM-spezifische Problemlösungen ergänzt (Timeout, Circuit Breaker, ungültiges AQL)
 - ✅ **Primär-Links:** Verlinkung auf `src/aql/README.md` und `include/aql/README.md`
-- ✅ **Status-Update:** Version auf v1.5.0 angehoben (Production Ready)
 
 ### v1.3.0 - 22. Dezember 2025
 - ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
