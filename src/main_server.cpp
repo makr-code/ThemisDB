@@ -1034,7 +1034,6 @@ int main(int argc, char* argv[]) {
         if (!g_hsm_provider->initialize()) {
             THEMIS_CRITICAL("HSM provider initialization failed: {}",
                             g_hsm_provider->getLastError());
-            g_hsm_provider.reset();
             return 1;
         }
         

@@ -5,6 +5,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <cctype>
 #include <cstdlib>
 #include <optional>
 #include <string>
@@ -28,7 +29,16 @@ struct HSMStartupPolicyResult {
     }
 
     const auto* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
-    return allow_stub != nullptr && std::string_view{allow_stub} == "1";
+    if (allow_stub == nullptr) {
+        return false;
+    }
+
+    std::string value{allow_stub};
+    for (auto& ch : value) {
+        ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+    }
+
+    return value == "1" || value == "true" || value == "yes" || value == "on";
 }
 
 [[nodiscard]] inline std::optional<std::string> applyConfiguredHSMProvider(
@@ -88,8 +98,8 @@ struct HSMStartupPolicyResult {
     HSMStartupPolicyResult result;
     result.explicit_stub_opt_in = isHSMStubOptInEnabled(argc, argv);
 
-    const auto try_apply = [&](const std::optional<nlohmann::json>& cfg,
-                               const std::string&                  source) -> bool {
+    const auto applyConfigIfPresent = [&](const std::optional<nlohmann::json>& cfg,
+                                          const std::string&                  source) -> bool {
         if (!cfg || !cfg->contains("hsm")) {
             return false;
         }
@@ -104,8 +114,8 @@ struct HSMStartupPolicyResult {
         return true;
     };
 
-    if (!try_apply(security_config, "security config")
-        && !try_apply(main_config, "main config")) {
+    if (!applyConfigIfPresent(security_config, "security config")
+        && !applyConfigIfPresent(main_config, "main config")) {
         if (!result.explicit_stub_opt_in) {
             result.error =
                 "No HSM configuration found. Configure `hsm.provider: pkcs11` with a real "

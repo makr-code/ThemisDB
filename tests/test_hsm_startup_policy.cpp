@@ -3,6 +3,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "security/hsm_startup_policy.h"
 
@@ -11,6 +12,7 @@
 #include <string>
 
 using nlohmann::json;
+using ::testing::HasSubstr;
 
 namespace themis::security::test {
 
@@ -73,7 +75,7 @@ TEST(HSMStartupPolicy, NoConfigRequiresExplicitStubOptIn) {
 
     const auto result = resolveHSMStartupPolicy(std::nullopt, std::nullopt, 1, argv);
     EXPECT_FALSE(result.ok());
-    EXPECT_NE(result.error.find("No HSM configuration found"), std::string::npos);
+    EXPECT_THAT(result.error, HasSubstr("No HSM configuration found"));
 }
 
 TEST(HSMStartupPolicy, NoConfigAllowsExplicitStubOptInFromFlag) {
@@ -106,7 +108,7 @@ TEST(HSMStartupPolicy, StubProviderRequiresExplicitOptIn) {
 
     const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
     EXPECT_FALSE(result.ok());
-    EXPECT_NE(result.error.find("requires explicit development opt-in"), std::string::npos);
+    EXPECT_THAT(result.error, HasSubstr("requires explicit development opt-in"));
 }
 
 TEST(HSMStartupPolicy, StubProviderAllowsEnvironmentOptIn) {
@@ -147,7 +149,7 @@ TEST(HSMStartupPolicy, Pkcs11ProviderRequiresLibraryPath) {
 
     const auto result = resolveHSMStartupPolicy(security_cfg, std::nullopt, 1, argv);
     EXPECT_FALSE(result.ok());
-    EXPECT_NE(result.error.find("library_path"), std::string::npos);
+    EXPECT_THAT(result.error, HasSubstr("library_path"));
 }
 
 TEST(HSMStartupPolicy, Pkcs11ProviderParsesConfiguredFields) {
