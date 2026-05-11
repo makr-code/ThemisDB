@@ -61,9 +61,10 @@
 //      When absent, geo spatial backend type logged as "disabled" or "CPU fallback".
 //
 // Activation: All conditions above are evaluated at compile time; the relevant
-//   features are simply absent rather than returning errors to callers.
-// Production Delta: Without the required build flags, the server starts in a
-//   degraded mode.  Minimum viable production build requires at least:
+//   features are absent in the binary image.
+// Production Delta: Startup fails closed in production mode when required build
+//   flags are missing unless `--allow-degraded-build` is set explicitly.
+//   Minimum viable production build requires at least:
 //   `-DTHEMIS_ENABLE_HTTP_SERVER=1 -DTHEMIS_ENABLE_GRPC=1 -DTHEMIS_HAS_PROMETHEUS=1
 //    -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC=1` and a real HSM provider.
 // Removal Plan: Each stub block maps to a specific feature activation; see the
@@ -159,6 +160,7 @@
 #include <thread>
 #include <atomic>
 #include <functional>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 #ifndef _WIN32
@@ -237,6 +239,7 @@ void print_usage(std::ostream& out, const char* prog) {
         << "  --threads N          Number of worker threads (default: auto)\n"
         << "  --config FILE        Load server/storage config from JSON or YAML file\n"
         << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
+        << "  --allow-degraded-build  Allow startup with missing production build features\n"
         << "  --version, -v        Show version information and exit\n"
         << "  --build-info         Show build configuration details and exit\n"
         << "  --license-info       Show embedded license information and exit\n"
@@ -356,6 +359,75 @@ bool parse_server_command_line(int argc,
     }
 
     return true;
+}
+
+bool has_allow_degraded_build_flag(int argc, char* argv[]) {
+    for (int index = 1; index < argc; ++index) {
+        if (std::string_view{argv[index]} == "--allow-degraded-build") {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::string> collect_missing_production_build_flags() {
+    std::vector<std::string> missing;
+#ifndef THEMIS_ENABLE_HTTP_SERVER
+    missing.emplace_back("THEMIS_ENABLE_HTTP_SERVER");
+#endif
+#ifndef THEMIS_ENABLE_GRPC
+    missing.emplace_back("THEMIS_ENABLE_GRPC");
+#endif
+#ifndef THEMIS_HAS_PROMETHEUS
+    missing.emplace_back("THEMIS_HAS_PROMETHEUS");
+#endif
+#ifndef THEMIS_ENABLE_LLM
+    missing.emplace_back("THEMIS_ENABLE_LLM");
+#endif
+#ifndef THEMIS_ENABLE_MIMALLOC
+    missing.emplace_back("THEMIS_ENABLE_MIMALLOC");
+#endif
+    return missing;
+}
+
+bool validate_production_build_capabilities(int argc, char* argv[]) {
+    const auto missing = collect_missing_production_build_flags();
+    if (missing.empty()) {
+        return true;
+    }
+
+    std::ostringstream missing_joined;
+    for (size_t i = 0; i < missing.size(); ++i) {
+        if (i > 0) {
+            missing_joined << ", ";
+        }
+        missing_joined << missing[i];
+    }
+
+    const bool allow_degraded_build = has_allow_degraded_build_flag(argc, argv);
+    const bool production_mode = themis::security::HSMSecurityChecker::isProductionMode();
+    if (!production_mode) {
+        THEMIS_WARN("Build capability warning (development mode): missing production build flags: {}",
+                    missing_joined.str());
+        return true;
+    }
+
+    if (allow_degraded_build) {
+        THEMIS_WARN("Production startup override active (--allow-degraded-build); missing build flags: {}",
+                    missing_joined.str());
+        return true;
+    }
+
+    THEMIS_CRITICAL("╔═══════════════════════════════════════════════════════════════╗");
+    THEMIS_CRITICAL("║  🛑  CRITICAL BUILD CAPABILITY FAILURE  🛑                    ║");
+    THEMIS_CRITICAL("╠═══════════════════════════════════════════════════════════════╣");
+    THEMIS_CRITICAL("║  Missing required production build flags:                     ║");
+    THEMIS_CRITICAL("║  {} ", missing_joined.str());
+    THEMIS_CRITICAL("║                                                               ║");
+    THEMIS_CRITICAL("║  Override (development/emergency only):                        ║");
+    THEMIS_CRITICAL("║  --allow-degraded-build                                        ║");
+    THEMIS_CRITICAL("╚═══════════════════════════════════════════════════════════════╝");
+    return false;
 }
 
 } // namespace
@@ -617,6 +689,11 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         return 0;
+    }
+
+    if (!validate_production_build_capabilities(argc, argv)) {
+        THEMIS_CRITICAL("Server startup aborted due to missing production build capabilities");
+        return 1;
     }
     
     // Display build configuration and edition information (startup logging)
