@@ -129,7 +129,7 @@ namespace {
 [[nodiscard]] static std::string trimCopy(std::string value) {
     const auto begin = value.find_first_not_of(" \t\r\n");
     if (begin == std::string::npos) {
-        return {};
+        return std::string{};
     }
     const auto end = value.find_last_not_of(" \t\r\n");
     return value.substr(begin, end - begin + 1);
@@ -197,14 +197,8 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
         return std::chrono::microseconds{0};
     }
     try {
-        const auto parsed = std::stoll(raw_value);
-        if (parsed < 0) {
-            std::cerr << "bench_ingestion_quality_judge: negative "
-                      << "THEMIS_BENCH_QJ_BACKEND_LATENCY_US=" << raw_value
-                      << " (clamped to 0)\n";
-            return std::chrono::microseconds{0};
-        }
-        return std::chrono::microseconds{parsed};
+        const auto parsed = std::stoull(raw_value);
+        return std::chrono::microseconds{static_cast<long long>(parsed)};
     } catch (const std::exception& e) {
         std::cerr << "bench_ingestion_quality_judge: invalid "
                   << "THEMIS_BENCH_QJ_BACKEND_LATENCY_US=" << raw_value
