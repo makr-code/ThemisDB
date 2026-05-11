@@ -361,7 +361,7 @@ bool parse_server_command_line(int argc,
     return true;
 }
 
-bool has_allow_degraded_build_flag(int argc, char* argv[]) {
+[[nodiscard]] bool has_allow_degraded_build_flag(int argc, char* argv[]) {
     for (int index = 1; index < argc; ++index) {
         if (std::string_view{argv[index]} == "--allow-degraded-build") {
             return true;
@@ -370,7 +370,7 @@ bool has_allow_degraded_build_flag(int argc, char* argv[]) {
     return false;
 }
 
-std::vector<std::string> collect_missing_production_build_flags() {
+[[nodiscard]] std::vector<std::string> collect_missing_production_build_flags() {
     std::vector<std::string> missing;
 #ifndef THEMIS_ENABLE_HTTP_SERVER
     missing.emplace_back("THEMIS_ENABLE_HTTP_SERVER");
@@ -390,7 +390,7 @@ std::vector<std::string> collect_missing_production_build_flags() {
     return missing;
 }
 
-bool validate_production_build_capabilities(int argc, char* argv[]) {
+[[nodiscard]] bool validate_production_build_capabilities(int argc, char* argv[]) {
     const auto missing = collect_missing_production_build_flags();
     if (missing.empty()) {
         return true;
@@ -418,15 +418,9 @@ bool validate_production_build_capabilities(int argc, char* argv[]) {
         return true;
     }
 
-    THEMIS_CRITICAL("╔═══════════════════════════════════════════════════════════════╗");
-    THEMIS_CRITICAL("║  🛑  CRITICAL BUILD CAPABILITY FAILURE  🛑                    ║");
-    THEMIS_CRITICAL("╠═══════════════════════════════════════════════════════════════╣");
-    THEMIS_CRITICAL("║  Missing required production build flags:                     ║");
-    THEMIS_CRITICAL("║  {} ", missing_joined.str());
-    THEMIS_CRITICAL("║                                                               ║");
-    THEMIS_CRITICAL("║  Override (development/emergency only):                        ║");
-    THEMIS_CRITICAL("║  --allow-degraded-build                                        ║");
-    THEMIS_CRITICAL("╚═══════════════════════════════════════════════════════════════╝");
+    THEMIS_CRITICAL("Critical build capability failure: missing required production build flags: {}",
+                    missing_joined.str());
+    THEMIS_CRITICAL("Override for development/emergency only: --allow-degraded-build");
     return false;
 }
 
