@@ -101,6 +101,7 @@ name: "Shared · Changelog Update"
 # ---------------------------------------------------------------------------
 
 on:
+  workflow_dispatch: {}
   workflow_call:
     inputs:
       entry-title:
