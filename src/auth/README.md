@@ -1515,6 +1515,11 @@ For more detailed documentation, see:
 - [Auth API Authentication & Authorization Guide](../../docs/security/api_authentication_authorization.md)
 - [Security Hardening](../security/README.md)
 - [Public API Headers](../../include/auth/README.md)
+- [Architecture Guide](./ARCHITECTURE.md)
+- [Security Guide](./SECURITY.md)
+- [Audit Report](./AUDIT.md)
+- [Changelog](./CHANGELOG.md)
+- [Performance Expectations](./PERFORMANCE_EXPECTATIONS.md)
 - [Auth Roadmap](./ROADMAP.md)
 - [Auth Future Enhancements](./FUTURE_ENHANCEMENTS.md)
 
