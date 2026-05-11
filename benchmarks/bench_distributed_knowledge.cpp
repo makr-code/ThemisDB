@@ -19,6 +19,7 @@
 
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <optional>
 #include <random>
 #include <string>
@@ -46,17 +47,34 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
     return g;
 }
 
+/// Load benchmark gradients from JSON fixture.
+///
+/// Supported fixture formats:
+///  1. Top-level array of gradient objects.
+///  2. Object containing `gradients` array.
+///
+/// Each gradient object can provide:
+///  - `shard_id` (string, optional; defaults to `fixture-shard-<index>`)
+///  - `round` (number, optional; defaults to 1)
+///  - `sample_count` (number, optional; defaults to 100)
+///  - `data` (object, required for a usable entry)
+///
+/// Returns `std::nullopt` when the file cannot be opened, parsed, or no valid
+/// gradient entries are present.
 [[nodiscard]] std::optional<std::vector<EncryptedGradient>>
 loadGradientFixture(const std::string& fixture_path) {
     std::ifstream input(fixture_path);
     if (!input.is_open()) {
+        std::cerr << "Failed to open gradient fixture: " << fixture_path << '\n';
         return std::nullopt;
     }
 
     nlohmann::json root;
     try {
         input >> root;
-    } catch (const std::exception&) {
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to parse gradient fixture JSON (" << fixture_path
+                  << "): " << e.what() << '\n';
         return std::nullopt;
     }
 
@@ -77,7 +95,10 @@ loadGradientFixture(const std::string& fixture_path) {
             continue;
         }
 
-        const auto shard_id = entry.value("shard_id", "fixture-shard-" + std::to_string(i));
+        std::string shard_id = "fixture-shard-" + std::to_string(i);
+        if (entry.contains("shard_id") && entry["shard_id"].is_string()) {
+            shard_id = entry["shard_id"].get<std::string>();
+        }
         auto data = entry.value("data", nlohmann::json::object());
         if (!data.is_object()) {
             continue;
