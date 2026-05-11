@@ -1,6 +1,6 @@
 /**
  * @file test_knowledge_graph_reasoner.cpp
- * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-20
+ * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-22
  *
  * Test coverage:
  *   KGR-01..05  Horn-clause rule application (transitive, reflexive, inverse, chained)
@@ -9,6 +9,7 @@
  *   KGR-14..16  applyLoRAScore() — stub integration
  *   KGR-17..18  Structural pattern detection (chain-of-authority, hub-spoke)
  *   KGR-19..20  InferenceStore capacity and TTL eviction
+ *   KGR-21..22  LoRA adapter routing + score hardening
  */
 
 #include "graph/knowledge_graph_reasoner.h"
@@ -16,6 +17,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <chrono>
+#include <limits>
 #include <string>
 #include <thread>
 #include <vector>
@@ -463,6 +465,69 @@ TEST(KnowledgeGraphReasonerTest, KGR20_AddRuleValidation) {
                              {{"?A", "trusts", "?B"}}}));
 
     EXPECT_EQ(kgr.ruleCount(), 1u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-21: applyLoRAScore() uses rule LoRA adapter when adapter_id is empty
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR21_ApplyLoRAScoreUsesRuleAdapterFallback) {
+    KnowledgeGraphReasoner kgr;
+    kgr.addRule({"domain_rule",
+                 {{"?A", "knows", "?B"}},
+                 {{"?A", "trusts", "?B"}},
+                 "domain_adapter_v1",
+                 0.0});
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto chain = kgr.infer("alice", 1);
+    ASSERT_FALSE(chain.empty());
+
+    std::string seen_adapter;
+    kgr.setLoraScoreFn([&](std::string_view adapter_id, const InferenceEdge&) {
+        seen_adapter = std::string(adapter_id);
+        return 0.91;
+    });
+
+    kgr.applyLoRAScore(chain, "");
+
+#if defined(THEMIS_ENABLE_LLM)
+    EXPECT_EQ(seen_adapter, "domain_adapter_v1");
+    ASSERT_FALSE(chain.empty());
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.91, 1e-9);
+#else
+    EXPECT_TRUE(seen_adapter.empty());
+    ASSERT_FALSE(chain.empty());
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.5, 1e-9);
+#endif
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-22: applyLoRAScore() clamps invalid scorer outputs to [0, 1]
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
+    KnowledgeGraphReasoner kgr;
+    kgr.addRule({"strict_rule",
+                 {{"?A", "knows", "?B"}},
+                 {{"?A", "trusts", "?B"}},
+                 "strict_adapter",
+                 0.6});
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto chain = kgr.infer("alice", 1);
+    ASSERT_FALSE(chain.empty());
+
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return std::numeric_limits<double>::quiet_NaN();
+    });
+    kgr.applyLoRAScore(chain, "strict_adapter");
+
+#if defined(THEMIS_ENABLE_LLM)
+    // NaN is clamped to 0.0 and therefore filtered by min_lora_score=0.6.
+    EXPECT_TRUE(chain.empty());
+#else
+    // LLM path disabled: deterministic fallback (0.5) is also filtered.
+    EXPECT_TRUE(chain.empty());
+#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -149,7 +149,7 @@
   - Affected: `include/graph/knowledge_graph_reasoner.h`, `src/graph/knowledge_graph_reasoner.cpp`
   - Runtime: `infer(subjectId, depth)` → `InferenceChain`; `explain(factId)` → Proof-Trace als Triple-Sequenz
   - Error handling: Regelwiderspruch → `ConflictError`; Zirkelbeweis → Depth-Limit mit `CycleDetected`
-  - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-20)
+  - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-22)
   - Perf: 1 M Kanten kalt ≤ 2 s; incremental CDC ≤ 50 ms
 - [x] Incremental CDC-Trigger: `KnowledgeGraphReasoner::onCDCEvent()` für Forward-Chaining bei Kanten-Inserts (Target: Q1 2027)
 - [ ] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
@@ -234,6 +234,12 @@
     band buckets both on `remove()` and overwrite path in `insert()`.
   - Regression tests TFG-22 and TFG-23 verify no stale IDs are returned via
     `findSimilar()` after delete/update.
+- [x] Candidate hard cap in LSH lookup to bound worst-case query cost (2026-05-11)
+  - `TensorFingerprintGraph::lshCandidates()` now stops within-band enumeration as
+    soon as `max_candidates` is reached (instead of collecting full buckets before
+    the outer-loop break), and returns immediately when `max_candidates=0`.
+  - Regression test TFG-29 (`TFG29_MaxCandidatesHardCapBoundedResolverCalls`)
+    verifies bounded resolver invocations and bounded result size.
 - [x] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
   - **Progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
     `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
@@ -334,7 +340,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 28 TFG + 25 TDM = 53 tests passing (TFG-01..28 + TDM-01..25)
+- 29 TFG + 25 TDM = 54 tests passing (TFG-01..29 + TDM-01..25)
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

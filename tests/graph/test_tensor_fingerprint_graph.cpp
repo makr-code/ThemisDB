@@ -31,6 +31,7 @@
  *   TFG-26  Persisted node metadata import rebuilds buckets for recovery queries
  *   TFG-27  Persisted edge import re-hydrates adjacency from durable payload
  *   TFG-28  One-shot persisted graph snapshot import restores nodes and adjacency
+ *   TFG-29  lshCandidates hard-cap respects max_candidates during query
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -591,6 +592,43 @@ TEST(TensorFingerprintGraphResolverTest, TFG28_ImportPersistedGraphSnapshot) {
     auto nb = recovered.neighbours("snap_a");
     ASSERT_FALSE(nb.empty());
     EXPECT_EQ(nb.front().tensor_id, "snap_b");
+}
+
+// TFG-29: candidate enumeration must stop at max_candidates to bound query cost.
+TEST(TensorFingerprintGraphResolverTest, TFG29_MaxCandidatesHardCapBoundedResolverCalls) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.max_candidates = 3;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph graph(cfg);
+    std::unordered_map<std::string, TTTrain> trains;
+    std::size_t load_calls = 0;
+    graph.setTrainLoadFn([&](const std::string& tensor_id,
+                             const std::string&,
+                             const std::string&,
+                             const std::string&) -> std::optional<TTTrain> {
+        ++load_calls;
+        auto it = trains.find(tensor_id);
+        if (it == trains.end()) {
+            return std::nullopt;
+        }
+        return it->second;
+    });
+
+    auto base = makeTT(randVec(16, 619), {16, 1});
+    for (std::size_t i = 0; i < 20; ++i) {
+        const auto id = "cap_" + std::to_string(i);
+        trains.emplace(id, base);
+        graph.insert(id, base, "ten", "col", "f");
+    }
+
+    load_calls = 0;
+    auto results = graph.findSimilar(base, 20);
+    EXPECT_LE(load_calls, cfg.max_candidates);
+    EXPECT_LE(results.size(), cfg.max_candidates);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -221,6 +221,10 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string& id,
 std::unordered_set<std::string>
 TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
     std::unordered_set<std::string> candidates;
+    if (cfg_.max_candidates == 0) {
+        return candidates;
+    }
+    candidates.reserve(cfg_.max_candidates);
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         std::size_t start = band * rows_per_band_;
         uint64_t bh = bandHash(fp, start, rows_per_band_, band);
@@ -229,8 +233,12 @@ TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
         if (!lsh_nonempty_.count(bucket_key)) continue;
         auto it = lsh_buckets_.find(bucket_key);
         if (it != lsh_buckets_.end()) {
-            for (const auto& id : it->second)
+            for (const auto& id : it->second) {
                 candidates.insert(id);
+                if (candidates.size() >= cfg_.max_candidates) {
+                    break;
+                }
+            }
         }
         if (candidates.size() >= cfg_.max_candidates) break;
     }
