@@ -25,7 +25,7 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -44,7 +44,7 @@ class MTLSClient;
 /**
  * @brief Gossip Protocol for Cluster Membership and Failure Detection
  * 
- * @sources
+ * Sources:
  * - Algorithm: Gossip Protocol (Epidemic/Anti-Entropy)
  * - Inspired by: Apache Cassandra's Gossip Implementation
  * - Paper: van Renesse, R., Birman, K. P., & Vogels, W. (2003)

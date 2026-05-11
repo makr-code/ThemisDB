@@ -54,7 +54,7 @@
 #include <unordered_map>
 #include <memory>
 #include <functional>
-#include <optional>
+#include &lt;optional&gt;
 #include <stdexcept>
 
 namespace themis {

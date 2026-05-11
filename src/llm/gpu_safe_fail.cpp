@@ -133,7 +133,7 @@ void GPUSafeFailManager::recordFailure(FailureType type, const std::string& erro
     last_error_message_ = error_message;
     
     spdlog::warn("GPU operation failed ({}): {}", 
-                 static_cast<int>(type), error_message);
+                 static_cast&lt;int&gt;(type), error_message);
     
     updateState();
 }

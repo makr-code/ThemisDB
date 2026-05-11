@@ -22,7 +22,7 @@
 
 #include "importers/temporal_support.h"
 #include <algorithm>
-#include <set>
+#include &lt;set&gt;
 #include <sstream>
 
 namespace themis {

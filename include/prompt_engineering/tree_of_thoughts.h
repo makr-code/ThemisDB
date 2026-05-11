@@ -47,7 +47,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace prompt_engineering {

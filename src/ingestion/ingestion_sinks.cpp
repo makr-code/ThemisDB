@@ -152,7 +152,7 @@ std::string serializeEntitySet(const BaseEntitySet& es) {
     for (const auto& n : es.nodes) {
         json nj;
         nj["id"]          = n.id;
-        nj["entity_type"] = static_cast<int>(n.entity_type);
+        nj["entity_type"] = static_cast&lt;int&gt;(n.entity_type);
         nj["text"]        = n.text;
         nj["properties"]  = n.properties;
         nj["confidence"]  = n.provenance.confidence;
@@ -166,7 +166,7 @@ std::string serializeEntitySet(const BaseEntitySet& es) {
         json ej;
         ej["from"]  = e.from_id;
         ej["to"]    = e.to_id;
-        ej["type"]  = static_cast<int>(e.relation_type);
+        ej["type"]  = static_cast&lt;int&gt;(e.relation_type);
         ej["props"] = e.properties;
         edges_arr.push_back(std::move(ej));
     }
@@ -248,7 +248,7 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
     for (const auto& e : es.nodes) {
         nlohmann::json ej;
         ej["id"]             = e.id;
-        ej["entity_type"]    = static_cast<int>(e.entity_type);
+        ej["entity_type"]    = static_cast&lt;int&gt;(e.entity_type);
         ej["text"]           = e.text;
         ej["source_file_id"] = e.source_file_id;
         ej["source_text_ref"] = e.source_text_ref;
@@ -271,7 +271,7 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
         nlohmann::json rj;
         rj["from_id"]       = r.from_id;
         rj["to_id"]         = r.to_id;
-        rj["relation_type"] = static_cast<int>(r.relation_type);
+        rj["relation_type"] = static_cast&lt;int&gt;(r.relation_type);
         const auto weight_it = r.properties.find("weight");
         if (weight_it != r.properties.end()) {
             rj["weight"] = weight_it->second;

@@ -24,7 +24,7 @@
 #include "server/cache_admin_api_handler.h"
 #include "utils/logger.h"
 
-#include <regex>
+#include &lt;regex&gt;
 #include <stdexcept>
 #include "utils/tracing.h"
 
@@ -40,7 +40,7 @@ static const char kBase64Chars[] =
 
 std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
     std::string output;
-    std::vector<int> T(256, -1);
+    std::vector&lt;int&gt; T(256, -1);
     for (int i = 0; i < 64; ++i) {
         T[static_cast<unsigned char>(kBase64Chars[i])] = i;
     }
@@ -372,7 +372,7 @@ http::response<http::string_body> CacheAdminApiHandler::makeErrorResponse(
     nlohmann::json err = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, err.dump(), req);
 }

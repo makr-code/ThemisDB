@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-#include <map>
+#include &lt;map&gt;
 #include <sstream>
 #include <stdexcept>
 
@@ -428,7 +428,7 @@ std::optional<AdaLoRAAdapter> AdaLoraTTBridge::loadAdapter(
     // Group keys by layer (each layer has G0 + G1)
     std::map<std::string, std::array<std::optional<storage::TTCore>, 2>> layer_cores;
     for (const auto& key : keys) {
-        // Parse: __lora_adapters__:<tenant>:<adapter>:<layer>:G<idx>
+        // Parse: __lora_adapters__:<tenant>:<adapter>:<layer>:G&lt;idx&gt;
         auto last_colon = key.rfind(':');
         if (last_colon == std::string::npos) continue;
         std::string core_tag   = key.substr(last_colon + 1);   // "G0" or "G1"
@@ -481,7 +481,7 @@ std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp,
     for (auto& lexp : exp.layers) {
         storage::TensorTrainConfig cfg;
         cfg.eps      = eps;
-        cfg.max_rank = static_cast<int>(lexp.active_rank);
+        cfg.max_rank = static_cast&lt;int&gt;(lexp.active_rank);
 
         auto [rounded, stats] = decomposer.round(lexp.train, cfg);
         lexp.train       = std::move(rounded);

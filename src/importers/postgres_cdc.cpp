@@ -46,8 +46,8 @@ bool PostgreSQLCDC::LogicalDecoder::createPublication(
     const std::vector<std::string>& /*tables*/)
 {
     // In production this issues:
-    //   CREATE PUBLICATION <name> FOR ALL TABLES;
-    //   or  CREATE PUBLICATION <name> FOR TABLE t1, t2;
+    //   CREATE PUBLICATION &lt;name&gt; FOR ALL TABLES;
+    //   or  CREATE PUBLICATION &lt;name&gt; FOR TABLE t1, t2;
     // via a libpq connection.  This build provides the interface contract;
     // the live connection is established when THEMIS_ENABLE_CDC is set and
     // the libpq dependency is available.

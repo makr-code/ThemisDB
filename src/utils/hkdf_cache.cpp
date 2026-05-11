@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <functional>
 #include <iomanip>
-#include <list>
+#include &lt;list&gt;
 #include <sstream>
 #include <string_view>
 #include <thread>
@@ -148,7 +148,7 @@ struct HKDFCache::Impl {
         SHA256(data, len, digest);
         std::ostringstream oss;
         oss << std::hex << std::setfill('0');
-        for (unsigned char b : digest) oss << std::setw(2) << static_cast<int>(b);
+        for (unsigned char b : digest) oss << std::setw(2) << static_cast&lt;int&gt;(b);
         return oss.str();
     }
 };

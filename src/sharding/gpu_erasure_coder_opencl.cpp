@@ -41,7 +41,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <algorithm>
-#include <set>
+#include &lt;set&gt;
 #include <vector>
 
 // OpenCL headers — platform-specific include path
@@ -88,12 +88,12 @@ static void build_gf_tables() {
 
 static uint8_t gf_mul(uint8_t a, uint8_t b) {
     if (a == 0 || b == 0) return 0;
-    return gf_exp[static_cast<int>(gf_log[a]) + static_cast<int>(gf_log[b])];
+    return gf_exp[static_cast&lt;int&gt;(gf_log[a]) + static_cast&lt;int&gt;(gf_log[b])];
 }
 
 static uint8_t gf_inv(uint8_t a) {
     if (a == 0) throw std::runtime_error("GF division by zero");
-    return gf_exp[255 - static_cast<int>(gf_log[a])];
+    return gf_exp[255 - static_cast&lt;int&gt;(gf_log[a])];
 }
 
 // Build Vandermonde parity matrix: V[p][d] = gf_pow(p+1, d)

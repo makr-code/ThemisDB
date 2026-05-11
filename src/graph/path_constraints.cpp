@@ -454,7 +454,7 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
     queue.push(std::move(initial));
     
     // BFS traversal
-    while (!queue.empty() && static_cast<int>(results.size()) < max_results) {
+    while (!queue.empty() && static_cast&lt;int&gt;(results.size()) < max_results) {
         PathState current = std::move(queue.front());
         queue.pop();
         
@@ -482,7 +482,7 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
         }
         
         // Check max length constraint (early termination)
-        if (max_length > 0 && static_cast<int>(current.nodes.size()) >= max_length) {
+        if (max_length > 0 && static_cast&lt;int&gt;(current.nodes.size()) >= max_length) {
             continue; // Path already at max length
         }
         
@@ -590,7 +590,7 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
               });
     
     // Limit to max_results
-    if (static_cast<int>(results.size()) > max_results) {
+    if (static_cast&lt;int&gt;(results.size()) > max_results) {
         results.resize(max_results);
     }
     

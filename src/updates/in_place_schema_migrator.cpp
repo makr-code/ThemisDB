@@ -29,7 +29,7 @@
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...)  SPDLOG_INFO(__VA_ARGS__)
 
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace updates {

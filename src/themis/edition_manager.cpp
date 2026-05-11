@@ -28,7 +28,7 @@
 #include "themis/edition_manager.h"
 #include "themis/runtime_license_gate.h"
 
-#include <optional>
+#include &lt;optional&gt;
 #include <sstream>
 
 namespace themis {

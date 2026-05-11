@@ -19,10 +19,10 @@
 
 #pragma once
 
-#include <optional>
+#include &lt;optional&gt;
 #include <functional>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <string>
 #include "utils/logger.h"
@@ -41,7 +41,7 @@ namespace utils {
  * @return std::optional with reference wrapper to element, or nullopt if out of bounds
  * 
  * @code
- * std::vector<int> data = {1, 2, 3};
+ * std::vector&lt;int&gt; data = {1, 2, 3};
  * if (auto val = safe_get(data, 1)) {
  *     process(val->get());
  * }

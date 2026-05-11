@@ -145,7 +145,7 @@ std::string RootCauseReport::toReport() const {
     std::ostringstream oss;
     oss << "=== Root Cause Analysis Report ===\n\n";
     oss << "Primary Cause : " << primary_cause
-        << " (" << static_cast<int>(confidence * 100) << "% confidence)\n\n";
+        << " (" << static_cast&lt;int&gt;(confidence * 100) << "% confidence)\n\n";
 
     if (!contributing_factors.empty()) {
         oss << "Contributing Factors:\n";
@@ -404,7 +404,7 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
             if (kv.second >= 0.0) {
                 oss << "+";
             }
-            oss << static_cast<int>(kv.second) << "%";
+            oss << static_cast&lt;int&gt;(kv.second) << "%";
             report.contributing_factors.push_back(oss.str());
         }
     }

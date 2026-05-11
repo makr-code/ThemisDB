@@ -112,7 +112,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     const std::vector<std::string>& actions
 ) const {
     CoverageResult result;
-    result.total_resources_checked = static_cast<int>(resources.size());
+    result.total_resources_checked = static_cast&lt;int&gt;(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
                  resources.size(), actions.size());
@@ -180,7 +180,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
             overlap.resource_pattern = pattern.substr(0, colon_pos);
             overlap.action_pattern = pattern.substr(colon_pos + 1);
             overlap.overlapping_rule_ids = rule_ids;
-            overlap.overlap_count = static_cast<int>(rule_ids.size());
+            overlap.overlap_count = static_cast&lt;int&gt;(rule_ids.size());
             
             overlaps.push_back(overlap);
         }
@@ -244,7 +244,7 @@ ComplianceGapDetector::ComplianceRequirement::fromJson(const nlohmann::json& j) 
     if (j.contains("requires_encryption")) req.requires_encryption = j["requires_encryption"].get<bool>();
     if (j.contains("requires_signature")) req.requires_signature = j["requires_signature"].get<bool>();
     if (j.contains("requires_audit")) req.requires_audit = j["requires_audit"].get<bool>();
-    if (j.contains("min_retention_days")) req.min_retention_days = j["min_retention_days"].get<int>();
+    if (j.contains("min_retention_days")) req.min_retention_days = j["min_retention_days"].get&lt;int&gt;();
     return req;
 }
 
@@ -387,7 +387,7 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
         }
     }
     
-    status.total_requirements = static_cast<int>(filtered_reqs.size());
+    status.total_requirements = static_cast&lt;int&gt;(filtered_reqs.size());
     
     for (const auto& req : filtered_reqs) {
         if (checkRequirement(req, policy_mgr)) {
@@ -539,7 +539,7 @@ std::string ComplianceReporter::PolicySummaryReport::toHTML() const {
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
-    html << "th{background-color:#4CAF50;color:white;}</style></head><body>";
+    html << "th{background-color:#4CAF50;color:white;}</style></head>&lt;body&gt;";
     html << "<h1>Policy Summary Report</h1>";
     html << "<p>Generated: " << std::put_time(std::localtime(&generated_at), "%Y-%m-%d %H:%M:%S") << "</p>";
     
@@ -599,7 +599,7 @@ std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
     html << "th{background-color:#4CAF50;color:white;}";
-    html << ".compliant{color:green;}.non-compliant{color:red;}</style></head><body>";
+    html << ".compliant{color:green;}.non-compliant{color:red;}</style></head>&lt;body&gt;";
     html << "<h1>Compliance Status Report - " << framework << "</h1>";
     html << "<p>Overall Compliance: <strong>" << std::fixed << std::setprecision(2) 
          << overall_compliance << "%</strong></p>";
@@ -667,7 +667,7 @@ std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
-    html << "th{background-color:#4CAF50;color:white;}</style></head><body>";
+    html << "th{background-color:#4CAF50;color:white;}</style></head>&lt;body&gt;";
     html << "<h1>Access Control Matrix</h1>";
     
     html << "<table><tr><th>Role</th><th>Resource</th><th>Allowed Actions</th>";
@@ -748,7 +748,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
     html << "th{background-color:#4CAF50;color:white;}";
     html << ".high{background-color:#ffcccc;}.medium{background-color:#fff4cc;}";
-    html << ".low{background-color:#ccffcc;}</style></head><body>";
+    html << ".low{background-color:#ccffcc;}</style></head>&lt;body&gt;";
     html << "<h1>Risk Assessment Report</h1>";
     
     html << "<h2>Risk Summary</h2>";
@@ -832,7 +832,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toHTML() const {
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
-    html << "th{background-color:#4CAF50;color:white;}</style></head><body>";
+    html << "th{background-color:#4CAF50;color:white;}</style></head>&lt;body&gt;";
     html << "<h1>Change History Report</h1>";
     html << "<p>Total Changes: " << total_changes << "</p>";
     
@@ -864,7 +864,7 @@ ComplianceReporter::PolicySummaryReport ComplianceReporter::generatePolicySummar
     PolicySummaryReport report;
     auto all_rules = policy_mgr.listRules();
     
-    report.total_rules = static_cast<int>(all_rules.size());
+    report.total_rules = static_cast&lt;int&gt;(all_rules.size());
     report.generated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     
     for (const auto& rule : all_rules) {
@@ -1095,7 +1095,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         }
     }
     
-    report.total_changes = static_cast<int>(report.changes.size());
+    report.total_changes = static_cast&lt;int&gt;(report.changes.size());
     
     THEMIS_INFO("Generated change history report: {} changes", report.total_changes);
     
@@ -1214,7 +1214,7 @@ std::string generateHTMLFromJson(const nlohmann::json& report) {
          << "tr:nth-child(even){background-color:#f9f9f9;}"
          << ".meta{color:#666;font-size:0.9em;margin-bottom:20px;}"
          << "@media print{body{margin:15px;}}"
-         << "</style></head><body>";
+         << "</style></head>&lt;body&gt;";
 
     html << "<h1>ThemisDB Compliance Report</h1>";
 
@@ -1288,22 +1288,22 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
     // Build page streams with explicit Td positioning
     double y = PAGE_H - MARGIN;
     page_streams.back() += "BT\n";
-    page_streams.back() += "/F1 " + std::to_string(static_cast<int>(TITLE_SIZE)) + " Tf\n";
-    page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                           std::to_string(static_cast<int>(y)) + " Td\n";
+    page_streams.back() += "/F1 " + std::to_string(static_cast&lt;int&gt;(TITLE_SIZE)) + " Tf\n";
+    page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                           std::to_string(static_cast&lt;int&gt;(y)) + " Td\n";
     page_streams.back() += "(" + escapePDFString(title) + ") Tj\n";
     y -= TITLE_SIZE * 1.8;
 
     // Separator line (drawn as thin filled rectangle)
     page_streams.back() += "ET\n";
-    page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                           std::to_string(static_cast<int>(y + 4)) +
-                           " " + std::to_string(static_cast<int>(PAGE_W - MARGIN * 2)) +
+    page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                           std::to_string(static_cast&lt;int&gt;(y + 4)) +
+                           " " + std::to_string(static_cast&lt;int&gt;(PAGE_W - MARGIN * 2)) +
                            " 1 re f\n";
     y -= LINE_H;
 
     page_streams.back() += "BT\n";
-    page_streams.back() += "/F2 " + std::to_string(static_cast<int>(BODY_SIZE)) + " Tf\n";
+    page_streams.back() += "/F2 " + std::to_string(static_cast&lt;int&gt;(BODY_SIZE)) + " Tf\n";
 
     for (const auto& line : lines) {
         if (y < MARGIN) {
@@ -1313,10 +1313,10 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
             y = PAGE_H - MARGIN;
             page_streams.back() += "BT\n";
             page_streams.back() += "/F2 " +
-                std::to_string(static_cast<int>(BODY_SIZE)) + " Tf\n";
+                std::to_string(static_cast&lt;int&gt;(BODY_SIZE)) + " Tf\n";
         }
-        page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
-                               std::to_string(static_cast<int>(y)) + " Td\n";
+        page_streams.back() += std::to_string(static_cast&lt;int&gt;(MARGIN)) + " " +
+                               std::to_string(static_cast&lt;int&gt;(y)) + " Td\n";
         // Truncate very long lines
         std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + escapePDFString(display) + ") Tj\n";
@@ -1338,7 +1338,7 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
     //   3+P..3+2P-1: Content streams
     //   3+2P: Font F1 (Helvetica-Bold)
     //   3+2P+1: Font F2 (Helvetica)
-    int P = static_cast<int>(page_streams.size());
+    int P = static_cast&lt;int&gt;(page_streams.size());
     int base_page   = 3;
     int base_stream = base_page + P;
     int font_f1_id  = base_stream + P;
@@ -1389,8 +1389,8 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
         int stream_id = base_stream + i;
         std::string page_dict =
             "<< /Type /Page /Parent 2 0 R"
-            " /MediaBox [0 0 " + std::to_string(static_cast<int>(PAGE_W)) +
-            " " + std::to_string(static_cast<int>(PAGE_H)) + "]"
+            " /MediaBox [0 0 " + std::to_string(static_cast&lt;int&gt;(PAGE_W)) +
+            " " + std::to_string(static_cast&lt;int&gt;(PAGE_H)) + "]"
             " /Contents " + std::to_string(stream_id) + " 0 R"
             " /Resources << /Font " + font_res + " >> >>";
         appendObj(page_id, page_dict);
@@ -1491,7 +1491,7 @@ std::string ComplianceReporter::generateHTMLHeader(const std::string& title) con
     html << "th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }";
     html << "th { background-color: #4CAF50; color: white; }";
     html << "tr:nth-child(even) { background-color: #f2f2f2; }";
-    html << "</style></head><body>";
+    html << "</style></head>&lt;body&gt;";
     return html.str();
 }
 

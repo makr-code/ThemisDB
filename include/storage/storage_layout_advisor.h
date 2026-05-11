@@ -16,7 +16,7 @@
 #include "storage/schema_dead_weight_detector.h"   // reuse GdprFieldRegistry
 #include "llm/decision_record_yaml_processor.h"
 
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <string>
 #include <vector>

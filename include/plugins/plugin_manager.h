@@ -35,7 +35,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <mutex>
 #include <nlohmann/json.hpp>
 
@@ -177,7 +177,7 @@ public:
      * @p cache_dir (reusing a cached copy when the SHA-256 digest matches),
      * verifies the binary, and delegates to loadPluginFromPath().
      *
-     * OCI reference format: [registry/]name[:tag][@digest]
+     * OCI reference format: [registry/]name[:tag][\@digest]
      * Example: "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
      *
      * @param oci_ref   OCI image reference string.

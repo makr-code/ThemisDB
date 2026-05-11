@@ -29,7 +29,7 @@
 #pragma once
 
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <variant>
 #include <vector>
@@ -80,8 +80,8 @@ struct CypherRelPattern {
     std::string variable;             ///< empty when anonymous
     std::vector<std::string> types;   ///< edge type labels
     CypherRelDirection direction = CypherRelDirection::Out;
-    std::optional<int> min_hops;      ///< variable-length: *min..max
-    std::optional<int> max_hops;
+    std::optional&lt;int&gt; min_hops;      ///< variable-length: *min..max
+    std::optional&lt;int&gt; max_hops;
 };
 
 // ============================================================================

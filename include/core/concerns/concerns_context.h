@@ -35,7 +35,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
-#include <map>
+#include &lt;map&gt;
 #include <unordered_map>
 
 namespace themis {

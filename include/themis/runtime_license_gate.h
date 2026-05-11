@@ -48,7 +48,7 @@
 #include "themis/export.h"
 #include "themis/license_info.h"
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <string_view>
 

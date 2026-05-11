@@ -83,7 +83,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Parse certificate using OpenSSL
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast&lt;int&gt;(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO for certificate");
     }
@@ -173,7 +173,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     } else {
         // Generiere neues IKM (32 zufällige Bytes) und speichere hex-codiert
         ikm_raw.resize(32);
-        if (RAND_bytes(ikm_raw.data(), static_cast<int>(ikm_raw.size())) != 1) {
+        if (RAND_bytes(ikm_raw.data(), static_cast&lt;int&gt;(ikm_raw.size())) != 1) {
             throw std::runtime_error("RAND_bytes für IKM fehlgeschlagen");
         }
         static const char* hex_chars = "0123456789abcdef";
@@ -245,12 +245,12 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             std::vector<uint8_t> dek(blob.ciphertext.size());
             int len = 0;
             
-            if (EVP_DecryptUpdate(ctx, dek.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
+            if (EVP_DecryptUpdate(ctx, dek.data(), &len, blob.ciphertext.data(), static_cast&lt;int&gt;(blob.ciphertext.size())) != 1) {
                 EVP_CIPHER_CTX_free(ctx);
                 throw std::runtime_error("DecryptUpdate failed");
             }
             
-            if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, static_cast<int>(blob.tag.size()), blob.tag.data()) != 1) {
+            if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, static_cast&lt;int&gt;(blob.tag.size()), blob.tag.data()) != 1) {
                 EVP_CIPHER_CTX_free(ctx);
                 throw std::runtime_error("Set tag failed");
             }
@@ -273,13 +273,13 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
     } else {
         // Generate new DEK
         std::vector<uint8_t> dek(32); // 256-bit
-        if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
+        if (RAND_bytes(dek.data(), static_cast&lt;int&gt;(dek.size())) != 1) {
             throw std::runtime_error("Failed to generate random DEK");
         }
         
         // Encrypt DEK with KEK using AES-GCM
         std::vector<uint8_t> iv(12);
-        if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+        if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(iv.size())) != 1) {
             throw std::runtime_error("Failed to generate IV for DEK encryption");
         }
         
@@ -294,7 +294,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
         std::vector<uint8_t> ciphertext(dek.size() + 16);
         int len = 0;
         
-        if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len, dek.data(), static_cast<int>(dek.size())) != 1) {
+        if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len, dek.data(), static_cast&lt;int&gt;(dek.size())) != 1) {
             EVP_CIPHER_CTX_free(ctx);
             throw std::runtime_error("EncryptUpdate failed");
         }
@@ -308,7 +308,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
         ciphertext.resize(len + final_len);
         
         std::vector<uint8_t> tag(16);
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast<int>(tag.size()), tag.data()) != 1) {
+        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast&lt;int&gt;(tag.size()), tag.data()) != 1) {
             EVP_CIPHER_CTX_free(ctx);
             throw std::runtime_error("Get tag failed");
         }
@@ -510,7 +510,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         
         dek.resize(ciphertext.size());
         int len = 0;
-        if (EVP_DecryptUpdate(ctx, dek.data(), &len, ciphertext.data(), static_cast<int>(ciphertext.size())) != 1) {
+        if (EVP_DecryptUpdate(ctx, dek.data(), &len, ciphertext.data(), static_cast&lt;int&gt;(ciphertext.size())) != 1) {
             EVP_CIPHER_CTX_free(ctx);
             throw std::runtime_error("EVP_DecryptUpdate failed");
         }
@@ -532,13 +532,13 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
     } else {
         // Generate new Group DEK
         dek.resize(32); // AES-256
-        if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
+        if (RAND_bytes(dek.data(), static_cast&lt;int&gt;(dek.size())) != 1) {
             throw std::runtime_error("RAND_bytes failed for Group DEK");
         }
         
         // Encrypt with KEK before storing
         std::vector<uint8_t> nonce(12);
-        if (RAND_bytes(nonce.data(), static_cast<int>(nonce.size())) != 1) {
+        if (RAND_bytes(nonce.data(), static_cast&lt;int&gt;(nonce.size())) != 1) {
             throw std::runtime_error("RAND_bytes failed for nonce");
         }
         
@@ -554,7 +554,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         }
         
         int len = 0;
-        if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len, dek.data(), static_cast<int>(dek.size())) != 1) {
+        if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len, dek.data(), static_cast&lt;int&gt;(dek.size())) != 1) {
             EVP_CIPHER_CTX_free(ctx);
             throw std::runtime_error("EVP_EncryptUpdate failed");
         }

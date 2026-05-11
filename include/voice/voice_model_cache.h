@@ -24,12 +24,12 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <map>
-#include <list>
+#include &lt;map&gt;
+#include &lt;list&gt;
 #include <mutex>
 #include <functional>
 #include <cstdint>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 namespace themis { namespace voice {

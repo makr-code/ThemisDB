@@ -417,7 +417,7 @@ PolicyValidator::calculateEffectiveness(
         // Calculate days since last use
         if (metrics.last_used > 0) {
             int64_t seconds_since_use = now - metrics.last_used;
-            metrics.days_since_last_use = static_cast<int>(seconds_since_use / (24 * 3600));
+            metrics.days_since_last_use = static_cast&lt;int&gt;(seconds_since_use / (24 * 3600));
         }
         
         // Determine if unused
@@ -718,11 +718,11 @@ PolicyValidator::ValidationReport PolicyValidator::generateValidationReport(
     
     ValidationReport report;
     auto all_rules = policy_mgr.listRules();
-    report.total_rules_checked = static_cast<int>(all_rules.size());
+    report.total_rules_checked = static_cast&lt;int&gt;(all_rules.size());
     
     // Detect conflicts
     report.conflicts = detectConflicts(policy_mgr);
-    report.conflicts_found = static_cast<int>(report.conflicts.size());
+    report.conflicts_found = static_cast&lt;int&gt;(report.conflicts.size());
     
     // Perform security checks
     report.security_checks = performSecurityChecks(policy_mgr);
@@ -734,7 +734,7 @@ PolicyValidator::ValidationReport PolicyValidator::generateValidationReport(
     
     // Calculate effectiveness
     auto unused = identifyUnusedRules(policy_mgr, hit_counts);
-    report.effectiveness_issues_found = static_cast<int>(unused.size());
+    report.effectiveness_issues_found = static_cast&lt;int&gt;(unused.size());
     
     // Generate recommendations
     if (!report.conflicts.empty()) {
@@ -1246,7 +1246,7 @@ PolicyOptimizer::recommendReordering(
             rec.rule_id = stats.rule_id;
             rec.optimization_type = "reorder";
             rec.description = "Rule has high match rate (" + 
-                            std::to_string(static_cast<int>(stats.match_rate)) + 
+                            std::to_string(static_cast&lt;int&gt;(stats.match_rate)) + 
                             "%) but low priority";
             rec.rationale = "Frequently matched rules should be evaluated earlier";
             rec.expected_benefit = "Reduced average evaluation time";
@@ -1324,7 +1324,7 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     OptimizationReport report;
     
     report.recommendations = generateRecommendations(policy_mgr, validation_report, metrics);
-    report.total_recommendations = static_cast<int>(report.recommendations.size());
+    report.total_recommendations = static_cast&lt;int&gt;(report.recommendations.size());
     
     // Count high priority recommendations (priority >= 7)
     for (const auto& rec : report.recommendations) {

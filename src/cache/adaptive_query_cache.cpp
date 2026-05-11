@@ -37,7 +37,7 @@
 #include <thread>
 #include <shared_mutex>
 #include <openssl/sha.h>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis {
 
@@ -194,7 +194,7 @@ std::string AdaptiveQueryCache::generateFingerprint(
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::setw(2) << static_cast<int>(hash[i]);
+        ss << std::setw(2) << static_cast&lt;int&gt;(hash[i]);
     }
     
     return ss.str();
@@ -252,7 +252,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                             uint32_t wc = ptr->window_count.exchange(1, std::memory_order_relaxed);
                             if (ws > 0 && wc <= 1) {
                                 int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);
-                                int new_ttl = std::max(static_cast<int>(old_ttl * 0.5),
+                                int new_ttl = std::max(static_cast&lt;int&gt;(old_ttl * 0.5),
                                                        config_.adaptive_ttl_min_seconds);
                                 if (ptr->ttl_seconds.compare_exchange_strong(
                                         old_ttl, new_ttl, std::memory_order_relaxed)) {
@@ -265,7 +265,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;
                         if (wc >= 10) {
                             int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);
-                            int new_ttl = std::min(static_cast<int>(old_ttl * 1.5),
+                            int new_ttl = std::min(static_cast&lt;int&gt;(old_ttl * 1.5),
                                                    config_.adaptive_ttl_max_seconds);
                             if (ptr->ttl_seconds.compare_exchange_strong(
                                     old_ttl, new_ttl, std::memory_order_relaxed)) {
@@ -341,7 +341,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                             if (entry.window_start_ms > 0 && entry.window_count <= 1) {
                                 int old_ttl = entry.ttl_seconds;
                                 entry.ttl_seconds = std::max(
-                                    static_cast<int>(entry.ttl_seconds * 0.5),
+                                    static_cast&lt;int&gt;(entry.ttl_seconds * 0.5),
                                     config_.adaptive_ttl_min_seconds);
                                 if (entry.ttl_seconds < old_ttl) {
                                     enhanced_metrics_.ttl_shortened_total++;
@@ -355,7 +355,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                             if (entry.window_count >= 10) {
                                 int old_ttl = entry.ttl_seconds;
                                 entry.ttl_seconds = std::min(
-                                    static_cast<int>(entry.ttl_seconds * 1.5),
+                                    static_cast&lt;int&gt;(entry.ttl_seconds * 1.5),
                                     config_.adaptive_ttl_max_seconds);
                                 if (entry.ttl_seconds > old_ttl) {
                                     enhanced_metrics_.ttl_extended_total++;
@@ -491,7 +491,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                             if (window_start_ms > 0 && window_count <= 1) {
                                 int old_ttl = ttl_seconds;
                                 ttl_seconds = std::max(
-                                    static_cast<int>(ttl_seconds * 0.5),
+                                    static_cast&lt;int&gt;(ttl_seconds * 0.5),
                                     config_.adaptive_ttl_min_seconds);
                                 if (ttl_seconds < old_ttl) {
                                     enhanced_metrics_.ttl_shortened_total++;
@@ -507,7 +507,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                             if (window_count >= 10) {
                                 int old_ttl = ttl_seconds;
                                 ttl_seconds = std::min(
-                                    static_cast<int>(ttl_seconds * 1.5),
+                                    static_cast&lt;int&gt;(ttl_seconds * 1.5),
                                     config_.adaptive_ttl_max_seconds);
                                 if (ttl_seconds > old_ttl) {
                                     enhanced_metrics_.ttl_extended_total++;
@@ -1245,7 +1245,7 @@ int AdaptiveQueryCache::calculateAdaptiveTTL(int64_t access_count) const {
     
     int base_ttl = config_.adaptive_ttl_min_seconds;
     double log_factor = std::log(static_cast<double>(access_count + 1)) / config_.adaptive_ttl_scaling_factor;
-    int adaptive_ttl = static_cast<int>(base_ttl * (1.0 + log_factor));
+    int adaptive_ttl = static_cast&lt;int&gt;(base_ttl * (1.0 + log_factor));
     
     // Clamp to configured bounds
     adaptive_ttl = std::max(adaptive_ttl, config_.adaptive_ttl_min_seconds);
@@ -1941,7 +1941,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
 
     // Phase 4: Propagate tenant invalidation to peer nodes.
     // Use the same tenant-prefix pattern that the local invalidation uses
-    // ("tenant:<id>:") so peer nodes performing regex matching evict exactly
+    // ("tenant:&lt;id&gt;:") so peer nodes performing regex matching evict exactly
     // the same set of L1/L2 keys.
     if (config_.enable_replication) {
         std::shared_ptr<cache::ICacheCoordinator> coord;

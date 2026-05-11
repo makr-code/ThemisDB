@@ -20,8 +20,8 @@
 #pragma once
 
 #include <string>
-#include <map>
-#include <optional>
+#include &lt;map&gt;
+#include &lt;optional&gt;
 #include <queue>
 #include <thread>
 #include <mutex>
@@ -82,7 +82,7 @@ struct DecisionRecord {
 
     // ─── LoRA-specific ─────────────────────────────────────────────────────────
     /// Federation round number (Layer 11B).
-    std::optional<int> lora_round;
+    std::optional&lt;int&gt; lora_round;
 
     /// Differential privacy ε consumed in this round.
     std::optional<float> epsilon_spent;

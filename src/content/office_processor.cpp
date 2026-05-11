@@ -36,11 +36,11 @@
 
 #include "content/office_processor.h"
 #include "content/content_metrics.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <cstring>
 #include <algorithm>
-#include <map>
+#include &lt;map&gt;
 #include <cmath>
 #include <functional>
 #include <string>
@@ -417,7 +417,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
                             if (type && std::string(type) == "s") {
                                 // Shared string reference
                                 int idx = std::stoi(v_node.child_value());
-                                if (idx >= 0 && idx < static_cast<int>(shared_strings.size())) {
+                                if (idx >= 0 && idx < static_cast&lt;int&gt;(shared_strings.size())) {
                                     value = shared_strings[idx];
                                 }
                             } else {
@@ -827,7 +827,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     std::string in_tpl = tmp_dir + "/input_XXXXXX" + ext;
     std::vector<char> in_buf(in_tpl.begin(), in_tpl.end());
     in_buf.push_back('\0');
-    int in_fd = mkstemps(in_buf.data(), static_cast<int>(strlen(ext)));
+    int in_fd = mkstemps(in_buf.data(), static_cast&lt;int&gt;(strlen(ext)));
     if (in_fd < 0) {
         result.error_message = std::string("Failed to create temp input file: ") + strerror(errno);
         return result;
@@ -1142,7 +1142,7 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string& chunk_d
                                     ^ (i * 31u)
                                     ^ (static_cast<size_t>(seed) * 97u);
             for (int d = 0; d < 10; ++d) {
-                const int dim = static_cast<int>(
+                const int dim = static_cast&lt;int&gt;(
                     (combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
                 const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 const float phase  = static_cast<float>(

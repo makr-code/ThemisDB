@@ -54,8 +54,8 @@ public:
     
     // Per-GPU indices
     std::vector<std::unique_ptr<GPUVectorIndex>> gpuIndices;
-    std::vector<int> activeDeviceIds;
-    std::vector<int> failedDeviceIds;
+    std::vector&lt;int&gt; activeDeviceIds;
+    std::vector&lt;int&gt; failedDeviceIds;
     
     // Communication backend (v2.5+)
 #ifdef THEMIS_ENABLE_NCCL
@@ -161,7 +161,7 @@ public:
             case CommBackend::NCCL: {
                 ncclBackend = std::make_unique<acceleration::NCCLVectorBackend>();
                 acceleration::NCCLVectorBackend::Config ncclConfig;
-                ncclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                ncclConfig.worldSize = static_cast&lt;int&gt;(config.deviceIds.size());
                 ncclConfig.rank = 0;  // In real multi-process setup, this would vary
                 ncclConfig.deviceIds = config.deviceIds;
                 ncclConfig.enableP2P = config.enableP2P;
@@ -181,7 +181,7 @@ public:
             case CommBackend::RCCL: {
                 rcclBackend = std::make_unique<acceleration::RCCLVectorBackend>();
                 acceleration::RCCLVectorBackend::Config rcclConfig;
-                rcclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                rcclConfig.worldSize = static_cast&lt;int&gt;(config.deviceIds.size());
                 rcclConfig.rank = 0;  // In real multi-process setup, this would vary
                 rcclConfig.deviceIds = config.deviceIds;
                 rcclConfig.enableP2P = config.enableP2P;
@@ -259,14 +259,14 @@ public:
             case PartitionStrategy::ROUND_ROBIN: {
                 // Simple round-robin based on current vector count
                 size_t totalVectors = vectorToGPU.size();
-                return static_cast<int>(totalVectors % activeDeviceIds.size());
+                return static_cast&lt;int&gt;(totalVectors % activeDeviceIds.size());
             }
             
             case PartitionStrategy::HASH_BASED: {
                 // Hash the vector ID
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return static_cast&lt;int&gt;(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::RANGE_BASED: {
@@ -274,7 +274,7 @@ public:
                 // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return static_cast&lt;int&gt;(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::BALANCED: {
@@ -286,7 +286,7 @@ public:
                     auto stats = gpuIndices[i]->getStatistics();
                     if (stats.numVectors < minVectors) {
                         minVectors = stats.numVectors;
-                        selectedGPU = static_cast<int>(i);
+                        selectedGPU = static_cast&lt;int&gt;(i);
                     }
                 }
                 return selectedGPU;
@@ -307,7 +307,7 @@ public:
         if (it != vectorToGPU.end()) {
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
-            if (gpuIdx >= 0 && gpuIdx < static_cast<int>(gpuIndices.size())) {
+            if (gpuIdx >= 0 && gpuIdx < static_cast&lt;int&gt;(gpuIndices.size())) {
                 return gpuIndices[gpuIdx]->updateVector(id, vector);
             }
             return false;
@@ -315,7 +315,7 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || gpuIdx >= static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx < 0 || gpuIdx >= static_cast&lt;int&gt;(gpuIndices.size())) {
             return false;
         }
         
@@ -335,7 +335,7 @@ public:
         }
         
         int gpuIdx = it->second;
-        if (gpuIdx >= 0 && gpuIdx < static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx >= 0 && gpuIdx < static_cast&lt;int&gt;(gpuIndices.size())) {
             bool success = gpuIndices[gpuIdx]->removeVector(id);
             if (success) {
                 vectorToGPU.erase(it);
@@ -729,12 +729,12 @@ bool MultiGPUVectorIndex::removeGPU(int deviceId) {
     auto mapIt = pImpl->vectorToGPU.begin();
     while (mapIt != pImpl->vectorToGPU.end()) {
         auto &gpuIndexRef = mapIt->second;
-        if (gpuIndexRef == static_cast<int>(idx)) {
+        if (gpuIndexRef == static_cast&lt;int&gt;(idx)) {
             // This vector was assigned to the removed GPU; drop the mapping.
             mapIt = pImpl->vectorToGPU.erase(mapIt);
             continue;
         }
-        if (gpuIndexRef > static_cast<int>(idx)) {
+        if (gpuIndexRef > static_cast&lt;int&gt;(idx)) {
             // Shift indices down to account for the erased GPU slot.
             --gpuIndexRef;
         }
@@ -756,11 +756,11 @@ MultiGPUVectorIndex::Statistics MultiGPUVectorIndex::getStatistics() const {
     return pImpl->getStatistics();
 }
 
-std::vector<int> MultiGPUVectorIndex::getActiveGPUs() const {
+std::vector&lt;int&gt; MultiGPUVectorIndex::getActiveGPUs() const {
     return pImpl->activeDeviceIds;
 }
 
-std::vector<int> MultiGPUVectorIndex::getFailedGPUs() const {
+std::vector&lt;int&gt; MultiGPUVectorIndex::getFailedGPUs() const {
     return pImpl->failedDeviceIds;
 }
 

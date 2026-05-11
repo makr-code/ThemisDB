@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace llm {

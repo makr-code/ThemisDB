@@ -26,7 +26,7 @@
 #include "importers/conflict_resolver.h"
 #include "importers/relationship_mapper.h"
 #include "plugins/plugin_interface.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <atomic>
 #include <unordered_map>
 #include <unordered_set>
@@ -129,7 +129,7 @@ private:
      * the parsed fields to reconstruct the DDL exactly.
      */
     struct ExcludeConstraint {
-        /// Constraint name (from `CONSTRAINT <name> EXCLUDE …`)
+        /// Constraint name (from `CONSTRAINT &lt;name&gt; EXCLUDE …`)
         std::string name;
         /// Index access method (e.g. "gist", "btree", "spgist")
         std::string index_method;

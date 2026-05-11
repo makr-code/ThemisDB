@@ -20,7 +20,7 @@
 #include "utils/http_client_pool.h"
 #include <stdexcept>
 #include <sstream>
-#include <regex>
+#include &lt;regex&gt;
 #include <algorithm>
 
 namespace themis {
@@ -445,7 +445,7 @@ HTTPResponse BeastHTTPClient::execute(
             http::read(stream, buffer, res);
             
             // Extract response
-            response.status_code = static_cast<int>(res.result_int());
+            response.status_code = static_cast&lt;int&gt;(res.result_int());
             response.body = res.body();
             
             for (auto const& field : res) {
@@ -499,7 +499,7 @@ HTTPResponse BeastHTTPClient::execute(
             http::read(stream, buffer, res);
             
             // Extract response
-            response.status_code = static_cast<int>(res.result_int());
+            response.status_code = static_cast&lt;int&gt;(res.result_int());
             response.body = res.body();
             
             for (auto const& field : res) {

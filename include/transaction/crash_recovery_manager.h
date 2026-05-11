@@ -23,7 +23,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include <optional>
+#include &lt;optional&gt;
 #include <mutex>
 #include <atomic>
 #include <chrono>
@@ -47,8 +47,8 @@ namespace transaction {
  *
  * ## WAL layout (one append-only file per session)
  * Each entry is a newline-terminated JSON record:
- *   {"t":<ms>,"txn":<id>,"type":"BEGIN"|"OP"|"COMMIT"|"ABORT",
- *    "iso":<int>,          // BEGIN only
+ *   {"t":&lt;ms&gt;,"txn":&lt;id&gt;,"type":"BEGIN"|"OP"|"COMMIT"|"ABORT",
+ *    "iso":&lt;int&gt;,          // BEGIN only
  *    "op":"put"|"del",     // OP only
  *    "key":"...",          // OP only
  *    "old":"...",          // OP only – base64 for undo

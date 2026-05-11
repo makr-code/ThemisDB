@@ -21,7 +21,7 @@
 
 #include "exporter_interface.h"
 #include "exporter_metrics.h"
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <string>
 #include <vector>

@@ -105,7 +105,7 @@ struct MLModelConfig {
             {"model_id", model_id},
             {"model_name", model_name},
             {"version", version},
-            {"type", static_cast<int>(type)},
+            {"type", static_cast&lt;int&gt;(type)},
             {"file_path", file_path},
             {"format", format},
             {"inference_config", inference_config},
@@ -164,7 +164,7 @@ struct MLModelInstance {
         return json{
             {"instance_id", instance_id},
             {"model_id", model_id},
-            {"status", static_cast<int>(status)},
+            {"status", static_cast&lt;int&gt;(status)},
             {"gpu_device_id", gpu_device_id},
             {"active_requests", active_requests},
             {"total_requests", total_requests},

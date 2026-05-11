@@ -26,7 +26,7 @@
 #include <string>
 #include <cstdint>
 #include <cstring>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis::network {
 

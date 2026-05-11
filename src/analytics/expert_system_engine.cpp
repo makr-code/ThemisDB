@@ -344,7 +344,7 @@ GoalResult ExpertSystemEngine::queryGoal(const TriplePattern& goal) {
     GoalResult result;
     result.success = backwardChainDLS(goal, result.proof_trace, 0,
                                        cfg_.max_backward_chain_depth);
-    result.depth_used = static_cast<int>(result.proof_trace.size());
+    result.depth_used = static_cast&lt;int&gt;(result.proof_trace.size());
     return result;
 }
 

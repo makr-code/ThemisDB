@@ -31,8 +31,8 @@
 
 #include <string>
 #include <vector>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <ostream>
 
 namespace themis {

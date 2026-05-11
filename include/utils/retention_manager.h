@@ -25,7 +25,7 @@
 #include <functional>
 #include <memory>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <atomic>
 #include <condition_variable>
 #include <mutex>

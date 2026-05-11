@@ -139,7 +139,7 @@ public:
     /**
      * @brief Get error code as integer
      */
-    int codeValue() const { return static_cast<int>(code_); }
+    int codeValue() const { return static_cast&lt;int&gt;(code_); }
     
     /**
      * @brief Convert to JSON for logging/monitoring

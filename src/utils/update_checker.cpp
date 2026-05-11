@@ -32,7 +32,7 @@
 #define LOG_WARN(...) SPDLOG_WARN(__VA_ARGS__)
 #define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 #include <algorithm>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <variant>
 
@@ -257,7 +257,7 @@ UpdateCheckerConfig UpdateCheckerConfig::fromJson(const json& j) {
         config.current_version = j["current_version"].get<std::string>();
     }
     if (j.contains("check_interval_seconds")) {
-        config.check_interval = std::chrono::seconds(j["check_interval_seconds"].get<int>());
+        config.check_interval = std::chrono::seconds(j["check_interval_seconds"].get&lt;int&gt;());
     }
     if (j.contains("auto_update_enabled")) {
         config.auto_update_enabled = j["auto_update_enabled"].get<bool>();

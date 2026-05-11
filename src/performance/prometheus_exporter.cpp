@@ -24,7 +24,7 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace performance {

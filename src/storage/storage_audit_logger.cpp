@@ -30,7 +30,7 @@
 #include <cstring>
 #include <ctime>
 #include <filesystem>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <iomanip>
 
@@ -220,7 +220,7 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     auto rot = rotateIfNeeded();
     if (!rot.has_value()) return rot;
 
-    // Build line:  <ts> <seq> <event> <key> [<extra>]\n
+    // Build line:  &lt;ts&gt; &lt;seq&gt; <event> &lt;key&gt; [<extra>]\n
     std::ostringstream oss;
     oss << currentTimestamp() << ' '
         << std::setw(12) << std::setfill('0') << next_seq_ << ' '

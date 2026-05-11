@@ -249,7 +249,7 @@ public:
         return out;
     }
 
-    /// Flush graph file and persist the offset metadata sidecar (<path>.meta).
+    /// Flush graph file and persist the offset metadata sidecar (&lt;path&gt;.meta).
     bool save(const std::string& path) const override {
         if (!impl_) return false;
         impl_->flush();

@@ -51,7 +51,7 @@
 #include <limits>
 #include <numeric>
 #include <random>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -1409,7 +1409,7 @@ bool RuleEngine::evaluateFilter(const Event& event, const std::string& filter) c
     ctx["collection"] = event.collection_name;
     ctx["document_id"] = event.document_id;
     ctx["partition_key"] = event.partition_key;
-    ctx["priority"] = std::to_string(static_cast<int>(event.priority));
+    ctx["priority"] = std::to_string(static_cast&lt;int&gt;(event.priority));
     for (const auto& [k, v] : event.fields) {
         ctx[k] = fieldValueToString(v);
     }
@@ -1456,7 +1456,7 @@ void RuleEngine::executeAction(const ActionConfig& action,
         }
         default:
             spdlog::debug("CEP ACTION type={} rule='{}'",
-                static_cast<int>(action.type), rule.rule_id);
+                static_cast&lt;int&gt;(action.type), rule.rule_id);
             break;
     }
 }
@@ -1575,7 +1575,7 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
 
 std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
     // EPL parser: supports
-    //   [CREATE RULE <name> AS | NAME <name>]
+    //   [CREATE RULE &lt;name&gt; AS | NAME &lt;name&gt;]
     //   SELECT [<aggregations>] FROM <stream> [WHERE <filter>]
     //   [PATTERN (SEQ|AND|OR|NOT) (<event_types>) WITHIN <n>(ms|s|MINUTES|HOURS)]
     //   [WINDOW TUMBLING(<n> UNIT) | TUMBLING <n>ms | SLIDING(<n> UNIT[, <n> UNIT]) | ...]
@@ -1616,7 +1616,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
         return val; // default: ms
     };
 
-    // Extract rule name from CREATE RULE <name> AS, then NAME <name>
+    // Extract rule name from CREATE RULE &lt;name&gt; AS, then NAME &lt;name&gt;
     {
         std::smatch m;
         std::regex create_re(R"(CREATE\s+RULE\s+(\S+)\s+AS\b)", std::regex::icase);
@@ -1831,7 +1831,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
         }
     }
 
-    // Extract ACTION <type>(<params>) - new syntax; falls back to ON MATCH ALERT
+    // Extract ACTION &lt;type&gt;(<params>) - new syntax; falls back to ON MATCH ALERT
     {
         std::regex action_re(
             R"(\bACTION\s+(alert|webhook|db_write|log|slack|kafka|email)\s*\(([^)]*)\))",
@@ -1881,7 +1881,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
         }
 
         if (!found_action) {
-            // Legacy: ON MATCH ALERT [severity=<s>] [message=<msg>]
+            // Legacy: ON MATCH ALERT [severity=<s>] [message=&lt;msg&gt;]
             std::regex alert_re(R"(\bON\s+MATCH\s+ALERT\s*(?:severity=(\S+))?\s*(?:message=(.+?))?$)",
                                 std::regex::icase);
             if (std::regex_search(norm, m, alert_re)) {
@@ -2321,7 +2321,7 @@ bool CEPEngine::createCheckpoint() {
 }
 
 // Parses the text checkpoint produced by createCheckpoint().
-// "rule=<id>:<name>:<1|0>" lines restore the enabled/disabled state of each rule.
+// "rule=&lt;id&gt;:&lt;name&gt;:<1|0>" lines restore the enabled/disabled state of each rule.
 // "pm_rule=" / "pm_rule_end" blocks restore the NFA partial match state of each
 // pattern matcher, allowing in-progress stateful pattern sequences to survive
 // a shutdown/restart cycle.

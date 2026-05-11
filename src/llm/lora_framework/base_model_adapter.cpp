@@ -25,7 +25,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <algorithm>
-#include <regex>
+#include &lt;regex&gt;
 #include <cmath>
 
 namespace themis {
@@ -496,7 +496,7 @@ std::vector<float> BaseModelAdapter::getTokenEmbedding(int token_id) const {
     return embedding;
 }
 
-std::vector<float> BaseModelAdapter::getTokenEmbeddings(const std::vector<int>& token_ids) const {
+std::vector<float> BaseModelAdapter::getTokenEmbeddings(const std::vector&lt;int&gt;& token_ids) const {
     std::vector<float> embeddings;
     size_t hidden_dim = architecture_.hidden_size;
     embeddings.reserve(token_ids.size() * hidden_dim);

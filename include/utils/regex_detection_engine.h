@@ -23,7 +23,7 @@
 #pragma once
 
 #include "pii_detection_engine.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <unordered_map>
 #include <mutex>
 

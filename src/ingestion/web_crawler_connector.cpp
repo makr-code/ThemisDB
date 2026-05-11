@@ -606,7 +606,7 @@ private:
         curl_easy_cleanup(curl);
 
         if (res != CURLE_OK) return {0, {}};
-        return {static_cast<int>(http_code), std::move(response_body)};
+        return {static_cast&lt;int&gt;(http_code), std::move(response_body)};
 #else
         return {0, {}};
 #endif

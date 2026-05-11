@@ -206,7 +206,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
     }
     
     THEMIS_INFO("Quality control complete: score={:.3f}, status={}, time={}ms",
-               result.overall_score, static_cast<int>(result.status),
+               result.overall_score, static_cast&lt;int&gt;(result.status),
                result.total_time.count());
     
     return result;

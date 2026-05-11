@@ -19,7 +19,7 @@
 
 #include "sharding/raft_wal_integration.h"
 #include <chrono>
-#include <set>
+#include &lt;set&gt;
 #include <vector>
 
 namespace themisdb {

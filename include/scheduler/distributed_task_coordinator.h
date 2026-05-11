@@ -76,9 +76,9 @@
 #include <atomic>
 #include <mutex>
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <functional>
 
 namespace themis {

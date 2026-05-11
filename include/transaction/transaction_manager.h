@@ -26,7 +26,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -1269,7 +1269,7 @@ private:
     std::atomic<uint64_t> total_deadlocks_{0};
 
     // Victim selection policy (stored as underlying int for atomic access)
-    std::atomic<int> victim_policy_{static_cast<int>(DeadlockVictimPolicy::YOUNGEST)};
+    std::atomic&lt;int&gt; victim_policy_{static_cast&lt;int&gt;(DeadlockVictimPolicy::YOUNGEST)};
 
     // Cumulative deadlock metrics
     std::atomic<uint64_t> deadlock_total_cycle_len_{0};  // sum of all cycle lengths

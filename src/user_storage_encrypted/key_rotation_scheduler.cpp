@@ -24,7 +24,7 @@
 #include "key_rotation_scheduler.hpp"
 #include <thread>
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
@@ -145,7 +145,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
                 }
                 if (j.contains("interval_days")) {
                     impl_->schedules[level].interval_days =
-                        j["interval_days"].get<int>();
+                        j["interval_days"].get&lt;int&gt;();
                 }
             } catch (...) {
                 // Corrupted state; proceed with current time.
@@ -294,7 +294,7 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
             it->second.last_check_ms = j["last_check_ms"].get<int64_t>();
         }
         if (j.contains("interval_days")) {
-            it->second.interval_days = j["interval_days"].get<int>();
+            it->second.interval_days = j["interval_days"].get&lt;int&gt;();
         }
     } catch (...) {
         // Ignore corrupted persisted state.

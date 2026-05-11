@@ -125,7 +125,7 @@ std::string buildDashboardHtml() {
          << "pre{background:#1f2430;color:#f1f5f9;padding:12px;border-radius:12px;overflow:auto}"
          << "#flash{min-height:20px;color:var(--accent);font-weight:700}"
          << "</style></head>\n"
-         << "<body><main>"
+         << "&lt;body&gt;<main>"
          << "<h1>Repair Dashboard</h1>"
          << "<p class=\"sub\">Shard health, repair jobs, and anti-entropy triggers.</p>"
          << "<div id=\"flash\"></div>"
@@ -359,7 +359,7 @@ http::response<http::string_body> ShardRepairApiHandler::makeErrorResponse(
     json body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, body.dump(), "application/json", req);
 }

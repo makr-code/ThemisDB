@@ -42,7 +42,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace experimental {

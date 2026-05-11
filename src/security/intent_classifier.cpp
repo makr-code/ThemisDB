@@ -24,7 +24,7 @@
 #include <cctype>
 #include <cmath>
 #include <fstream>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <unordered_map>
 
@@ -309,7 +309,7 @@ std::vector<float> IntentClassifier::buildEmbedding(
     std::vector<float> emb(kEmbeddingDim, 0.0f);
 
     // Use the intent ordinal as a class seed.
-    const int classSeed = static_cast<int>(intent);
+    const int classSeed = static_cast&lt;int&gt;(intent);
 
     // Simple hash of primary_indicator for deterministic variation.
     std::size_t strHash = std::hash<std::string>{}(primary_indicator);

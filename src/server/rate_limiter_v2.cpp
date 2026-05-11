@@ -169,7 +169,7 @@ bool TokenBucketRateLimiter::localTryAcquire(size_t tokens, Priority prio) {
     }
 
     if (bucket_it == buckets_.end()) {
-        THEMIS_ERROR("RateLimiter: No bucket configured for priority {}", static_cast<int>(prio));
+        THEMIS_ERROR("RateLimiter: No bucket configured for priority {}", static_cast&lt;int&gt;(prio));
         return false; // Safe fallback: reject
     }
 
@@ -217,7 +217,7 @@ std::string TokenBucketRateLimiter::redisKey(const std::string& bucket_id,
                                               Priority prio) const {
     std::ostringstream oss;
     oss << config_.redis.key_prefix << ":" << bucket_id
-        << ":" << static_cast<int>(prio);
+        << ":" << static_cast&lt;int&gt;(prio);
     return oss.str();
 }
 
@@ -275,7 +275,7 @@ bool TokenBucketRateLimiter::redisConnect() {
 
     std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
     // Grow or replenish the pool to pool_size slots.
-    if (static_cast<int>(redis_pool_.slots.size()) < pool_size) {
+    if (static_cast&lt;int&gt;(redis_pool_.slots.size()) < pool_size) {
         redis_pool_.slots.resize(pool_size);
     }
     int healthy = 0;
@@ -411,7 +411,7 @@ int TokenBucketRateLimiter::redisExecEvalsha(
     }
 
     int result = (reply->type == REDIS_REPLY_INTEGER)
-                     ? static_cast<int>(reply->integer)
+                     ? static_cast&lt;int&gt;(reply->integer)
                      : -1;
     freeReplyObject(reply);
     redis_errors_.store(0, std::memory_order_relaxed);

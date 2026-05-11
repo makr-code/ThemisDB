@@ -26,7 +26,7 @@
 #include <boost/asio.hpp>
 #include <memory>
 #include <string>
-#include <map>
+#include &lt;map&gt;
 #include <atomic>
 #include <mutex>
 

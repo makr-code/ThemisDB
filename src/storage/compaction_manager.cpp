@@ -26,7 +26,7 @@
 #include "storage/compaction_manager.h"
 #include "utils/error_registry.h"
 
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 
 namespace themis {

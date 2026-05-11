@@ -392,7 +392,7 @@ GeometryInfo EWKBParser::parseGeometryFromPtr(const uint8_t*& ptr) {
     
     int srid = 4326;
     if (has_srid) {
-        srid = static_cast<int>(readUInt32(ptr, is_little_endian));
+        srid = static_cast&lt;int&gt;(readUInt32(ptr, is_little_endian));
     }
     
     GeometryInfo geom;

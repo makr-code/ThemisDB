@@ -233,7 +233,7 @@ private:
     std::array<uint8_t, 65536> recv_buf_;
     udp::endpoint               sender_endpoint_;
 
-    // Active QUIC connections indexed by "<addr>:<port>" string.
+    // Active QUIC connections indexed by "<addr>:&lt;port&gt;" string.
     // Each entry owns the ngtcp2_conn* for that peer.
     mutable std::mutex                               sessions_mutex_;
     std::unordered_map<std::string, ngtcp2_conn*>    sessions_;

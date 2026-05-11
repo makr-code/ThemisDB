@@ -54,7 +54,7 @@ GPUEmbeddingLayer::GPUEmbeddingLayer(const float* embedding_weights,
     }
     
     spdlog::info("Creating GPUEmbeddingLayer: vocab_size={}, hidden_dim={}, device={}",
-                 vocab_size, hidden_dim, static_cast<int>(device.type));
+                 vocab_size, hidden_dim, static_cast&lt;int&gt;(device.type));
     
     // Upload embedding weights to GPU
     std::vector<float> weights_vec(embedding_weights, embedding_weights + vocab_size * hidden_dim);
@@ -134,10 +134,10 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
             // Note: Token IDs stored as floats in GPUTensor (architecture limitation - no int32 tensor support yet)
             // Using round() to handle potential floating point imprecision
             // TODO: Add integer tensor support to GPUTensor to avoid this conversion
-            int token_id = static_cast<int>(std::round(token_data[token_idx]));
+            int token_id = static_cast&lt;int&gt;(std::round(token_data[token_idx]));
             
             // Bounds check
-            if (token_id < 0 || token_id >= static_cast<int>(vocab_size_)) {
+            if (token_id < 0 || token_id >= static_cast&lt;int&gt;(vocab_size_)) {
                 // Fill with zeros - log only once (thread-safe) to avoid flooding
                 static std::atomic<bool> logged_warning{false};
                 bool expected = false;
@@ -263,10 +263,10 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
             embeddings_data.data(),
             token_data.data(),
             weights_data.data(),
-            static_cast<int>(batch_size),
-            static_cast<int>(seq_len),
-            static_cast<int>(hidden_dim_),
-            static_cast<int>(vocab_size_)
+            static_cast&lt;int&gt;(batch_size),
+            static_cast&lt;int&gt;(seq_len),
+            static_cast&lt;int&gt;(hidden_dim_),
+            static_cast&lt;int&gt;(vocab_size_)
         );
         
         spdlog::debug("Vulkan embedding lookup completed successfully");
@@ -311,10 +311,10 @@ GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
             embeddings_data.data(),
             token_data.data(),
             weights_data.data(),
-            static_cast<int>(batch_size),
-            static_cast<int>(seq_len),
-            static_cast<int>(hidden_dim_),
-            static_cast<int>(vocab_size_)
+            static_cast&lt;int&gt;(batch_size),
+            static_cast&lt;int&gt;(seq_len),
+            static_cast&lt;int&gt;(hidden_dim_),
+            static_cast&lt;int&gt;(vocab_size_)
         );
         
         spdlog::debug("DirectX embedding lookup completed successfully");

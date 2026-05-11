@@ -40,7 +40,7 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <set>
+#include &lt;set&gt;
 #include <unordered_map>
 #include <unordered_set>
 #include <limits>
@@ -91,7 +91,7 @@ public:
             auto opts = args[2];
             if (opts.contains("edgeCollection")) edgeCollection = opts["edgeCollection"].get<std::string>();
             if (opts.contains("direction")) direction = opts["direction"].get<std::string>();
-            if (opts.contains("maxDepth")) maxDepth = static_cast<int>(toNumber(opts["maxDepth"]));
+            if (opts.contains("maxDepth")) maxDepth = static_cast&lt;int&gt;(toNumber(opts["maxDepth"]));
         }
         
         // BFS to find all shortest paths
@@ -138,7 +138,7 @@ public:
         
         std::string startVertex = toString(args[0]);
         std::string endVertex = toString(args[1]);
-        int k = static_cast<int>(toNumber(args[2]));
+        int k = static_cast&lt;int&gt;(toNumber(args[2]));
         
         if (k <= 0) {
             return nlohmann::json::array();
@@ -696,7 +696,7 @@ public:
         if (unique_edges.empty()) {
             // No edges: each node becomes its own community
             nlohmann::json communities_array = nlohmann::json::array();
-            for (int idx = 0; idx < static_cast<int>(node_list.size()); ++idx) {
+            for (int idx = 0; idx < static_cast&lt;int&gt;(node_list.size()); ++idx) {
                 nlohmann::json comm;
                 comm["id"] = idx;
                 comm["members"] = nlohmann::json::array({node_list[idx]});
@@ -707,7 +707,7 @@ public:
             }
             nlohmann::json result;
             result["communities"] = communities_array;
-            result["num_communities"] = static_cast<int>(node_list.size());
+            result["num_communities"] = static_cast&lt;int&gt;(node_list.size());
             result["overall_modularity"] = 0.0;
             return result;
         }
@@ -815,7 +815,7 @@ public:
             nlohmann::json comm_obj;
             comm_obj["id"] = new_id;
             comm_obj["members"] = members;
-            comm_obj["size"] = static_cast<int>(n_c);
+            comm_obj["size"] = static_cast&lt;int&gt;(n_c);
             comm_obj["modularity"] = comm_modularity;
             comm_obj["density"] = density;
             communities_array.push_back(comm_obj);
@@ -887,9 +887,9 @@ public:
         int max_iterations = 100;
         if (args.size() > 1) {
             if (args[1].is_object() && args[1].contains("max_iterations")) {
-                max_iterations = static_cast<int>(args[1]["max_iterations"].get<double>());
+                max_iterations = static_cast&lt;int&gt;(args[1]["max_iterations"].get<double>());
             } else if (args[1].is_number()) {
-                max_iterations = static_cast<int>(args[1].get<double>());
+                max_iterations = static_cast&lt;int&gt;(args[1].get<double>());
             }
         }
 
@@ -954,7 +954,7 @@ public:
             nlohmann::json comm_obj;
             comm_obj["id"] = new_id++;
             comm_obj["members"] = members;
-            comm_obj["size"] = static_cast<int>(members.size());
+            comm_obj["size"] = static_cast&lt;int&gt;(members.size());
             communities_array.push_back(comm_obj);
         }
 

@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
-#include <map>
+#include &lt;map&gt;
 #include <numeric>
 #include <stdexcept>
 #include <tuple>

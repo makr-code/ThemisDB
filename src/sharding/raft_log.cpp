@@ -230,7 +230,7 @@ std::string sha256Hex(const uint8_t* data, size_t size) {
     }
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
     }
     return oss.str();
 }

@@ -53,7 +53,7 @@ namespace themis {
  * providing better performance through SIMD optimizations and potential GPU acceleration.
  * Falls back to custom K-means implementation when FAISS is not available.
  * 
- * @sources
+ * Sources:
  * - Library: FAISS (Facebook AI Similarity Search)
  * - Repository: https://github.com/facebookresearch/faiss
  * - License: MIT

@@ -29,7 +29,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <chrono>
 #include <random>
@@ -53,7 +53,7 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
         "0123456789+/";
     
     std::vector<uint8_t> result;
-    std::vector<int> T(256, -1);
+    std::vector&lt;int&gt; T(256, -1);
     for (int i = 0; i < 64; i++) T[base64_chars[i]] = i;
     
     int val = 0, valb = -8;
@@ -567,7 +567,7 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
             // If already a KeyOperationException, decide whether to retry based on transient flag
             if (koe.transient() && attempt <= max_retries) {
                 double factor = jitter_dist(rng);
-                int sleep_ms = static_cast<int>(base_backoff_ms * factor);
+                int sleep_ms = static_cast&lt;int&gt;(base_backoff_ms * factor);
                 std::this_thread::sleep_for(std::chrono::milliseconds(sleep_ms));
                 base_backoff_ms *= 2; // exponential base for next attempt
                 continue;
@@ -578,7 +578,7 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
             bool is_transient = true;
             if (attempt <= max_retries) {
                 double factor = jitter_dist(rng);
-                int sleep_ms = static_cast<int>(base_backoff_ms * factor);
+                int sleep_ms = static_cast&lt;int&gt;(base_backoff_ms * factor);
                 std::this_thread::sleep_for(std::chrono::milliseconds(sleep_ms));
                 base_backoff_ms *= 2;
                 continue;
@@ -701,12 +701,12 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         payload["data"]["key"] = key_b64;
     payload["data"]["created_at_ms"] = metadata.created_at_ms;
         payload["data"]["algorithm"] = metadata.algorithm;
-        payload["data"]["status"] = static_cast<int>(metadata.status);
+        payload["data"]["status"] = static_cast&lt;int&gt;(metadata.status);
     } else {
         payload["key"] = key_b64;
     payload["created_at_ms"] = metadata.created_at_ms;
         payload["algorithm"] = metadata.algorithm;
-        payload["status"] = static_cast<int>(metadata.status);
+        payload["status"] = static_cast&lt;int&gt;(metadata.status);
     }
     
     std::string payload_str = payload.dump();

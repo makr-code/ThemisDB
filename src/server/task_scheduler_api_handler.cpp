@@ -408,7 +408,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
     html += ".toast.ok{border-left:4px solid #22c55e}\n";
     html += ".toast.err{border-left:4px solid #ef4444}\n";
     html += "#refresh-indicator{font-size:.75rem;color:#64748b;margin-left:auto}\n";
-    html += "</style>\n</head>\n<body>\n";
+    html += "</style>\n</head>\n&lt;body&gt;\n";
 
     html += "<header>\n";
     html += "  <h1>&#x23F2; Task Scheduler</h1>\n";

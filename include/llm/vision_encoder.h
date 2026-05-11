@@ -242,8 +242,8 @@ struct VisionRequest {
     int top_k = 40;                    ///< Top-k sampling parameter
     
     // Multi-modal specific
-    bool use_image_start_end = true;   ///< Add <image> tokens
-    std::string image_token = "<image>"; ///< Special image token
+    bool use_image_start_end = true;   ///< Add &lt;image&gt; tokens
+    std::string image_token = "&lt;image&gt;"; ///< Special image token
 };
 
 /**

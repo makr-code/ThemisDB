@@ -22,9 +22,9 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <optional>
+#include &lt;optional&gt;
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <variant>
 #include "utils/geo/ewkb.h"  // For GeoSidecar definition
 
@@ -50,7 +50,7 @@ using Value = std::variant<
 /// - Fast field extraction: simdjson on-demand parsing for index updates
 /// - Multi-model support: Flexible schema-less document model
 /// 
-/// @sources
+/// Sources:
 /// - Concept: Unified Multi-Model Storage with Canonical Entity Pattern
 /// - Origin: ThemisDB Original Design
 /// - Design Philosophy: "One canonical storage, multiple projection layers"

@@ -87,7 +87,7 @@ std::string stubSign(const std::string& data, const std::string& key) {
     std::ostringstream oss;
     for (uint8_t b : tag) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(b);
+            << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }

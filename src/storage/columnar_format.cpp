@@ -773,7 +773,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
     }
 
     // Get maximum compressed size
-    int max_compressed_size = LZ4_compressBound(static_cast<int>(data.size()));
+    int max_compressed_size = LZ4_compressBound(static_cast&lt;int&gt;(data.size()));
     if (max_compressed_size <= 0) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -801,7 +801,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
     int compressed_size = LZ4_compress_default(
         reinterpret_cast<const char*>(data.data()),
         reinterpret_cast<char*>(result.data() + 8),
-        static_cast<int>(data.size()),
+        static_cast&lt;int&gt;(data.size()),
         max_compressed_size
     );
 
@@ -874,8 +874,8 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     int decompressed_size = LZ4_decompress_safe(
         reinterpret_cast<const char*>(compressed.data() + 8),
         reinterpret_cast<char*>(decompressed.data()),
-        static_cast<int>(compressed_data_size),
-        static_cast<int>(original_size)
+        static_cast&lt;int&gt;(compressed_data_size),
+        static_cast&lt;int&gt;(original_size)
     );
 
     if (decompressed_size < 0) {

@@ -27,7 +27,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <optional>
+#include &lt;optional&gt;
 #include <vector>
 #include <functional>
 #include <atomic>
@@ -64,7 +64,7 @@ class BaseEntity;
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
 /// 
-/// @thread_safety
+/// Thread-safety:
 /// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
 /// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
 /// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
@@ -336,8 +336,8 @@ public:
     /// callers need no size checks and the API is backward compatible.
     ///
     /// Key scheme (internal, not part of public contract):
-    ///   manifest : "__tmbs_m__:<key>"
-    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
+    ///   manifest : "__tmbs_m__:&lt;key&gt;"
+    ///   chunk N  : "__tmbs_c__:&lt;key&gt;:<6-digit-index>"
     ///
     /// @param key  Logical blob key (visible to getBlob() / delBlob()).
     /// @param data Blob bytes.
@@ -706,8 +706,8 @@ public:
     
     /// Create or open a column family
     /// @return Result containing column family handle (owned by DB, don't delete) or error
-    /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
-    /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
+    /// Error: ERR_INDEX_NOT_INITIALIZED if database is not open
+    /// Error: ERR_INDEX_CREATION_FAILED if column family creation fails
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
 
     /// Lightweight metadata snapshot for one column family
@@ -781,7 +781,7 @@ private:
     // Mutex to protect db_ lifecycle (race condition fix #3)
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
-    mutable std::atomic<int> active_operations_{0};
+    mutable std::atomic&lt;int&gt; active_operations_{0};
     // Set to true inside db_lifecycle_mutex_ when close() starts so that new
     // OperationGuards see it under the same lock and refuse to start (R-1 fix).
     mutable std::atomic<bool> closing_{false};

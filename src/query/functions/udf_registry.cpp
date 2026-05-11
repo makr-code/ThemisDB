@@ -219,7 +219,7 @@ nlohmann::json UdfFunction::evalExpr(
         if (!expr.contains("index") || !expr["index"].is_number_integer()) {
             throw std::runtime_error(def_.name + ": 'arg' node requires integer 'index'");
         }
-        int idx = expr["index"].get<int>();
+        int idx = expr["index"].get&lt;int&gt;();
         if (idx < 0 || static_cast<size_t>(idx) >= args.size()) {
             throw std::runtime_error(def_.name + ": argument index " +
                                      std::to_string(idx) + " out of range");

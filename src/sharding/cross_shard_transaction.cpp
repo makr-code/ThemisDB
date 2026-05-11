@@ -39,7 +39,7 @@
 #include "sharding/transaction_snapshot.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
-#include <set>
+#include &lt;set&gt;
 #include <fstream>
 #include <thread>
 #include <chrono>
@@ -289,16 +289,16 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     if (consensus_) {
         nlohmann::json data = {
             {"transaction_id", transaction_id},
-            {"protocol", static_cast<int>(protocol)},
-            {"isolation_level", static_cast<int>(isolation_level)},
-            {"state", static_cast<int>(TransactionState::ACTIVE)}
+            {"protocol", static_cast&lt;int&gt;(protocol)},
+            {"isolation_level", static_cast&lt;int&gt;(isolation_level)},
+            {"state", static_cast&lt;int&gt;(TransactionState::ACTIVE)}
         };
         
         consensus_->propose("BEGIN_TRANSACTION", data);
     }
     
     spdlog::info("Transaction {} started with protocol {}", 
-                 transaction_id, static_cast<int>(protocol));
+                 transaction_id, static_cast&lt;int&gt;(protocol));
     return true;
 }
 
@@ -424,7 +424,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     if (consensus_ && all_prepared) {
         consensus_->propose("PREPARE_TRANSACTION", {
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(TransactionState::PREPARED)}
+            {"state", static_cast&lt;int&gt;(TransactionState::PREPARED)}
         });
     }
     
@@ -498,7 +498,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
         consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(final_state)}
+            {"state", static_cast&lt;int&gt;(final_state)}
         });
     }
     
@@ -573,7 +573,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     if (consensus_) {
         consensus_->propose("ABORT_TRANSACTION", {
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(TransactionState::ABORTED)}
+            {"state", static_cast&lt;int&gt;(TransactionState::ABORTED)}
         });
     }
     
@@ -669,7 +669,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
             // Create RPC client for this shard
             themis::sharding::ShardRPCClient::Config rpc_config;
             rpc_config.endpoint = endpoint;
-            rpc_config.timeout_ms = static_cast<int>(config_.saga_step_timeout.count());
+            rpc_config.timeout_ms = static_cast&lt;int&gt;(config_.saga_step_timeout.count());
             rpc_config.max_retries = 2;  // SAGA steps should be idempotent
             rpc_config.retry_delay_ms = 100;
             
@@ -1388,7 +1388,7 @@ bool CrossShardTransactionCoordinator::sendPrepare(
         }
         auto& participant = participant_it->second;
         rpc_config.endpoint    = participant.endpoint;
-        rpc_config.timeout_ms  = static_cast<int>(config_.prepare_timeout.count());
+        rpc_config.timeout_ms  = static_cast&lt;int&gt;(config_.prepare_timeout.count());
         rpc_config.max_retries = 3;
         rpc_config.retry_delay_ms = 100;
         for (const auto& op : participant.operations) {
@@ -1474,7 +1474,7 @@ bool CrossShardTransactionCoordinator::sendCommit(
         }
 
         rpc_config.endpoint       = participant.endpoint;
-        rpc_config.timeout_ms     = static_cast<int>(config_.commit_timeout.count());
+        rpc_config.timeout_ms     = static_cast&lt;int&gt;(config_.commit_timeout.count());
         rpc_config.max_retries    = 3;
         rpc_config.retry_delay_ms = 100;
     }
@@ -1547,7 +1547,7 @@ bool CrossShardTransactionCoordinator::sendAbort(
         }
         auto& participant = participant_it->second;
         rpc_config.endpoint       = participant.endpoint;
-        rpc_config.timeout_ms     = static_cast<int>(config_.abort_timeout.count());
+        rpc_config.timeout_ms     = static_cast&lt;int&gt;(config_.abort_timeout.count());
         rpc_config.max_retries    = 3;
         rpc_config.retry_delay_ms = 100;
     }
@@ -1834,7 +1834,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 }
                 auto& participant = participant_it->second;
                 rpc_config.endpoint       = participant.endpoint;
-                rpc_config.timeout_ms     = static_cast<int>(config_.saga_step_timeout.count());
+                rpc_config.timeout_ms     = static_cast&lt;int&gt;(config_.saga_step_timeout.count());
                 rpc_config.max_retries    = 3;
                 rpc_config.retry_delay_ms = 100;
             }
@@ -1958,9 +1958,9 @@ bool CrossShardTransactionCoordinator::persistTransactionState(
             {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count()},
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(state)},
-            {"protocol", static_cast<int>(txn.protocol)},
-            {"isolation_level", static_cast<int>(txn.isolation_level)},
+            {"state", static_cast&lt;int&gt;(state)},
+            {"protocol", static_cast&lt;int&gt;(txn.protocol)},
+            {"isolation_level", static_cast&lt;int&gt;(txn.isolation_level)},
             {"snapshot_timestamp", txn.snapshot_timestamp},
             {"commit_timestamp", txn.commit_timestamp}
         };
@@ -1983,7 +1983,7 @@ bool CrossShardTransactionCoordinator::persistTransactionState(
         log_file.close();
         
         spdlog::debug("Persisted transaction {} state: {}", 
-                     transaction_id, static_cast<int>(state));
+                     transaction_id, static_cast&lt;int&gt;(state));
         
         return true;
         
@@ -2023,8 +2023,8 @@ std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPending
                     // New transaction
                     CrossShardTransaction txn;
                     txn.transaction_id = txn_id;
-                    txn.protocol = static_cast<TransactionProtocol>(log_entry["protocol"].get<int>());
-                    txn.isolation_level = static_cast<IsolationLevel>(log_entry["isolation_level"].get<int>());
+                    txn.protocol = static_cast<TransactionProtocol>(log_entry["protocol"].get&lt;int&gt;());
+                    txn.isolation_level = static_cast<IsolationLevel>(log_entry["isolation_level"].get&lt;int&gt;());
                     txn.state = state;
                     
                     // Restore MVCC timestamps
@@ -2080,7 +2080,7 @@ std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPending
                 txn.state != TransactionState::ABORTED) {
                 pending_transactions.push_back(txn);
                 spdlog::info("Found pending transaction: {} in state {}", 
-                           txn_id, static_cast<int>(txn.state));
+                           txn_id, static_cast&lt;int&gt;(txn.state));
             }
         }
         
@@ -2111,7 +2111,7 @@ bool CrossShardTransactionCoordinator::recoverFromFailure() {
     
     for (auto& txn : pending) {
         spdlog::info("Recovering transaction {} in state {}", 
-                    txn.transaction_id, static_cast<int>(txn.state));
+                    txn.transaction_id, static_cast&lt;int&gt;(txn.state));
         
         // Restore transaction to in-memory map
         {

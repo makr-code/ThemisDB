@@ -247,7 +247,7 @@ std::string ReplicationTopologyApiHandler::buildUiHtml(const std::string& api_ba
          << "h1{margin:0 0 12px 0;font-size:20px}"
          << "pre{background:#111827;color:#e5e7eb;padding:12px;border-radius:8px;overflow:auto}"
          << "#error{color:#b91c1c;margin:8px 0;display:none}</style></head>\n"
-         << "<body><h1>Replication Topology</h1><div id=\"error\"></div>\n"
+         << "&lt;body&gt;<h1>Replication Topology</h1><div id=\"error\"></div>\n"
          << "<h2>Topology</h2><pre id=\"topology\">loading...</pre>\n"
          << "<h2>Health</h2><pre id=\"health\">loading...</pre>\n"
          << "<script>const API_BASE=" << encoded_api_base << ";\n"

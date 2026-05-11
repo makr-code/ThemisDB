@@ -557,7 +557,7 @@ std::string AuditLogger::computeEntryHash(const nlohmann::json& entry) const {
     // Convert to hex string
     std::ostringstream oss;
     for (auto b : hash_bytes) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(b);
     }
     return oss.str();
 }
@@ -602,7 +602,7 @@ bool AuditLogger::verifyChainIntegrity() {
             
             std::ostringstream oss;
             for (auto b : hash_bytes) {
-                oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+                oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(b);
             }
             expected_prev_hash = oss.str();
         }
@@ -1470,7 +1470,7 @@ std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& da
 std::string HashChainAuditWriter::bytesToHex(const std::vector<uint8_t>& data) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (auto b : data) oss << std::setw(2) << static_cast<int>(b);
+    for (auto b : data) oss << std::setw(2) << static_cast&lt;int&gt;(b);
     return oss.str();
 }
 
@@ -1626,7 +1626,7 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
 
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (auto b : digest) oss << std::setw(2) << static_cast<int>(b);
+    for (auto b : digest) oss << std::setw(2) << static_cast&lt;int&gt;(b);
     return oss.str();
 }
 

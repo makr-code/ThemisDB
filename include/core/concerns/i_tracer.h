@@ -28,7 +28,7 @@
 #include "core/concerns/lifecycle.h"
 #include <string>
 #include <memory>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace core {

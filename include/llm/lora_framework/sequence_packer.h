@@ -85,7 +85,7 @@ public:
      * @param sequences Vector of token sequences (variable length)
      * @return Packed batch with metadata
      */
-    PackedBatch packSequences(const std::vector<std::vector<int>>& sequences);
+    PackedBatch packSequences(const std::vector<std::vector&lt;int&gt;>& sequences);
     
     /**
      * @brief Unpack results back to separate sequences
@@ -105,7 +105,7 @@ public:
      * @return Memory savings percentage (0.0-1.0)
      */
     static float calculateMemorySavings(
-        const std::vector<std::vector<int>>& sequences,
+        const std::vector<std::vector&lt;int&gt;>& sequences,
         size_t max_length
     );
     
@@ -116,8 +116,8 @@ private:
      * @brief Sort sequences by length for better packing
      * Returns sorted sequences and original indices
      */
-    std::pair<std::vector<std::vector<int>>, std::vector<size_t>> 
-    sortByLength(const std::vector<std::vector<int>>& sequences) const;
+    std::pair<std::vector<std::vector&lt;int&gt;>, std::vector<size_t>> 
+    sortByLength(const std::vector<std::vector&lt;int&gt;>& sequences) const;
 };
 
 } // namespace lora

@@ -49,7 +49,7 @@ namespace server {
  *   POST /api/v1/auth/saml/acs
  *     Assertion Consumer Service.  Receives the SAMLResponse POST from the IdP,
  *     validates it and returns an internal session token.
- *     Form body: SAMLResponse=<base64>&RelayState=<optional>
+ *     Form body: SAMLResponse=<base64>&RelayState=&lt;optional&gt;
  *     On success: { "token": "...", "user_id": "...", "email": "...", "relay_state": "..." }
  *     On failure: 401 / 403 with JSON error
  *

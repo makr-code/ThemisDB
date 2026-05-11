@@ -1,7 +1,7 @@
 #include "ethics_ai/convergence_marker_engine.h"
 
 #include <algorithm>
-#include <map>
+#include &lt;map&gt;
 #include <sstream>
 
 namespace themis {
@@ -13,7 +13,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int ConvergenceMarkerEngine::countTokens(const std::string& text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast&lt;int&gt;((text.size() + 3) / 4);
 }
 
 // ---------------------------------------------------------------------------
@@ -172,7 +172,7 @@ std::string ConvergenceMarkerEngine::buildConvergencePreamble(
 
     // Hard trim to max_tokens
     const int max_chars = max_tokens * 4;
-    if (static_cast<int>(result.size()) > max_chars) {
+    if (static_cast&lt;int&gt;(result.size()) > max_chars) {
         result = result.substr(0, static_cast<size_t>(max_chars));
     }
 

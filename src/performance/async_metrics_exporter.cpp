@@ -27,8 +27,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 
 namespace themis {
 namespace performance {

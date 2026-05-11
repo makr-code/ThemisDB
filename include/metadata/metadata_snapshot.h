@@ -43,9 +43,9 @@
 #pragma once
 
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -136,7 +136,7 @@ struct MetadataSnapshot {
      * Schema:
      * @code
      * {
-     *   "snapshot_id": "<id>",
+     *   "snapshot_id": "&lt;id&gt;",
      *   "created_at":  "<ISO-8601>",
      *   "author":      "<string>",
      *   "description": "<string>",

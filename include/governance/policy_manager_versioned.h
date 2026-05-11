@@ -25,7 +25,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 namespace themis {

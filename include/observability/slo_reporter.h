@@ -24,7 +24,7 @@
 
 #include <chrono>
 #include <deque>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <string>
@@ -264,10 +264,10 @@ public:
      * @brief Publish SLO metrics to @c MetricsCollector.
      *
      * Emits the following gauge families:
-     * - `themis_slo_current_sli{slo="<name>"}` – current SLI value
-     * - `themis_slo_error_budget_remaining{slo="<name>"}` – fraction remaining (0–1)
-     * - `themis_slo_burn_rate{slo="<name>"}` – current burn rate
-     * - `themis_slo_met{slo="<name>"}` – 1 if SLO is met, 0 otherwise
+     * - `themis_slo_current_sli{slo="&lt;name&gt;"}` – current SLI value
+     * - `themis_slo_error_budget_remaining{slo="&lt;name&gt;"}` – fraction remaining (0–1)
+     * - `themis_slo_burn_rate{slo="&lt;name&gt;"}` – current burn rate
+     * - `themis_slo_met{slo="&lt;name&gt;"}` – 1 if SLO is met, 0 otherwise
      */
     void publishMetrics() const;
 

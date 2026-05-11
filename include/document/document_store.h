@@ -41,7 +41,7 @@
 #include <cstdint>
 #include <memory>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -157,7 +157,7 @@ public:
  * @brief Thread-safe in-memory implementation of IDocumentStore.
  *
  * Stores all records in a @c std::unordered_map keyed by
- * @c "<collection>:<id>".  Intended for unit tests and development; not
+ * @c "<collection>:&lt;id&gt;".  Intended for unit tests and development; not
  * suitable for production use.
  */
 class InMemoryDocumentStore final : public IDocumentStore {

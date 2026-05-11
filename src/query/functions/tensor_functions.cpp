@@ -177,8 +177,8 @@ public:
         if (args.size() < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0]);
-        auto dim    = static_cast<std::size_t>(args[1].get<int>());
-        auto idx    = static_cast<std::size_t>(args[2].get<int>());
+        auto dim    = static_cast<std::size_t>(args[1].get&lt;int&gt;());
+        auto idx    = static_cast<std::size_t>(args[2].get&lt;int&gt;());
         TTTrain sl  = TensorContractionEngine::slice(a, dim, idx);
         auto recon  = sl.reconstruct();
         return json{
@@ -220,7 +220,7 @@ public:
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0]);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
-        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get&lt;int&gt;()) : 0u;
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
         auto recon  = comp.reconstruct();
         return json{
@@ -374,7 +374,7 @@ public:
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
         TTTrain t    = buildTrain(args[0]);
-        auto    mode = static_cast<std::size_t>(args[1].get<int>());
+        auto    mode = static_cast<std::size_t>(args[1].get&lt;int&gt;());
 
         TTTrain result = TensorContractionEngine::project(t, mode);
         auto    recon  = result.reconstruct();
@@ -434,7 +434,7 @@ public:
         for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
 
         auto max_rank = (args.size() > 2)
-            ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+            ? static_cast<std::size_t>(args[2].get&lt;int&gt;()) : 0u;
         double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;

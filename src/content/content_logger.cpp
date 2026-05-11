@@ -18,7 +18,7 @@
  */
 
 #include "content/content_logger.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <iomanip>
 

@@ -78,7 +78,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
 
     if (effective == RetrievalMode::GLOBAL) {
         // ── GLOBAL path ──────────────────────────────────────────────────────
-        // Resolve model_id from the instance record stored under proc:inst:<id>
+        // Resolve model_id from the instance record stored under proc:inst:&lt;id&gt;
         std::string model_id;
         {
             std::string inst_val;
@@ -101,7 +101,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                               return a.modularity_score > b.modularity_score;
                           });
 
-                const int top_k = std::min(static_cast<int>(communities.size()), 3);
+                const int top_k = std::min(static_cast&lt;int&gt;(communities.size()), 3);
                 std::ostringstream ctx;
                 std::vector<std::string> used_ids;
                 for (int i = 0; i < top_k; ++i) {

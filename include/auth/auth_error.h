@@ -24,7 +24,7 @@
 
 #include "utils/error_registry.h"
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -139,7 +139,7 @@ enum class AuthErrorCode {
  * @brief Convert AuthErrorCode to ErrorRegistry ErrorCode
  */
 inline errors::ErrorCode toErrorCode(AuthErrorCode code) {
-    return static_cast<errors::ErrorCode>(static_cast<int>(code));
+    return static_cast<errors::ErrorCode>(static_cast&lt;int&gt;(code));
 }
 
 /**

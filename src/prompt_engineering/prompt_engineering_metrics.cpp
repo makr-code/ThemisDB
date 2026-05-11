@@ -740,8 +740,8 @@ void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
     auto load_i64 = [&](const char* key, std::atomic<int64_t>& target) {
         if (snapshot.contains(key)) target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);
     };
-    auto load_i32 = [&](const char* key, std::atomic<int>& target) {
-        if (snapshot.contains(key)) target.store(snapshot[key].get<int>(), std::memory_order_relaxed);
+    auto load_i32 = [&](const char* key, std::atomic&lt;int&gt;& target) {
+        if (snapshot.contains(key)) target.store(snapshot[key].get&lt;int&gt;(), std::memory_order_relaxed);
     };
     auto load_dbl = [&](const char* key, std::atomic<double>& target) {
         if (snapshot.contains(key)) target.store(snapshot[key].get<double>(), std::memory_order_relaxed);

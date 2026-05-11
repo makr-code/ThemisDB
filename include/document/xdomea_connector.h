@@ -72,10 +72,10 @@
 
 #include <algorithm>
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
-#include <optional>
-#include <set>
+#include &lt;optional&gt;
+#include &lt;set&gt;
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -407,7 +407,7 @@ public:
         for (const auto& doc : documents) {
             const std::string tag = objectTypeTag_(doc.object_type);
             xml += "  <" + tag + ">\n";
-            xml += "    <id>"           + escapeXML_(doc.id)           + "</id>\n";
+            xml += "    &lt;id&gt;"           + escapeXML_(doc.id)           + "</id>\n";
             xml += "    <aktenzeichen>" + escapeXML_(doc.aktenzeichen) + "</aktenzeichen>\n";
             xml += "    <betreff>"      + escapeXML_(doc.betreff)      + "</betreff>\n";
             if (!doc.author.empty())

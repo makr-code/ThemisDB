@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
-#include <regex>
+#include &lt;regex&gt;
 
 // Regex patterns compiled once at program startup to avoid per-call overhead.
 // Positive-complement phrases that begin with a negation word but express

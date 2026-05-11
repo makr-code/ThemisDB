@@ -40,8 +40,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <memory>
 #include <chrono>
 #include <functional>
@@ -51,7 +51,7 @@
 #include <shared_mutex>
 #include <condition_variable>
 #include <thread>
-#include <optional>
+#include &lt;optional&gt;
 #include <queue>
 
 namespace themisdb {

@@ -210,16 +210,16 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <sstream>
 #include <iomanip>
 #include <tuple>
-#include <regex>
+#include &lt;regex&gt;
 #include <queue>
 #include <unordered_set>
 #include <functional>
 #include <cmath>
 #include <functional>
-#include <map>
+#include &lt;map&gt;
 #include <unordered_map>
 #include <limits>
-#include <optional>
+#include &lt;optional&gt;
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
@@ -288,7 +288,7 @@ HttpServer::HttpServer(
     , redundancy_manager_(std::move(redundancy_manager))
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
-    , ioc_(static_cast<int>(config_.num_threads))
+    , ioc_(static_cast&lt;int&gt;(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
 {
@@ -1696,7 +1696,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // PUT /entities/<key> - upsert entity body (key is in the URL path, not in the body)
+    // PUT /entities/&lt;key&gt; - upsert entity body (key is in the URL path, not in the body)
     request_validator_->registerSchema("PUT", "/entities/", {
         {"type", "object"},
         {"properties", {
@@ -3652,7 +3652,7 @@ http::response<http::string_body> HttpServer::routeRequest(
     }
 
     // ---------------------------------------------------------------------------
-    // Versioned path routing: redirect unversioned paths to /v1/<path>
+    // Versioned path routing: redirect unversioned paths to /v1/&lt;path&gt;
     //
     // REST endpoints added before API versioning (e.g., /documents/{id}, /query)
     // are implicitly treated as v1.  Clients that omit the version prefix receive a
@@ -4094,7 +4094,7 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                         auto llm_response = plugin_mgr.generate(llm_request);
                         const int documents_retrieved = !rag_context.documents.empty()
-                            ? static_cast<int>(rag_context.documents.size())
+                            ? static_cast&lt;int&gt;(rag_context.documents.size())
                             : (top_k > 0 ? top_k : 1);
                         json body = {
                             {"text", llm_response.text},
@@ -4129,7 +4129,7 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                                     auto llm_response = plugin_mgr.generate(llm_request);
                                     const int documents_retrieved = !rag_context.documents.empty()
-                                        ? static_cast<int>(rag_context.documents.size())
+                                        ? static_cast&lt;int&gt;(rag_context.documents.size())
                                         : (top_k > 0 ? top_k : 1);
                                     json body = {
                                         {"text", llm_response.text},
@@ -6251,7 +6251,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             auto html = task_scheduler_api_
                 ? task_scheduler_api_->getWebUi()
-                : "<html><body>Task scheduler not initialized.</body></html>";
+                : "<html>&lt;body&gt;Task scheduler not initialized.</body></html>";
             response = http::response<http::string_body>{http::status::ok, req.version()};
             response.set(http::field::content_type, "text/html; charset=utf-8");
             response.body() = std::move(html);
@@ -8444,7 +8444,7 @@ namespace {
         std::istringstream tss(timepart);
         tss >> H >> c1 >> M >> c2 >> S;
         if (tss.fail() || c1 != ':' || c2 != ':') return 0;
-        tm.tm_hour = H; tm.tm_min = M; tm.tm_sec = static_cast<int>(S);
+        tm.tm_hour = H; tm.tm_min = M; tm.tm_sec = static_cast&lt;int&gt;(S);
         millis = static_cast<int64_t>((S - tm.tm_sec) * 1000.0 + 0.5);
         // Parse timezone
         if (!tzpart.empty()) {
@@ -10523,7 +10523,7 @@ http::response<http::string_body> HttpServer::makeErrorResponse(
     json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -10938,7 +10938,7 @@ void HttpServer::Session::processRequest() {
                 const auto decision = ws_handler.validate(request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
-                                static_cast<int>(decision.reject_status),
+                                static_cast&lt;int&gt;(decision.reject_status),
                                 decision.reject_reason);
                     response_.result(decision.reject_status);
                     response_.set(http::field::content_type, "application/json");
@@ -11247,7 +11247,7 @@ void HttpServer::SslSession::processRequest() {
                 const auto decision = ws_handler.validate(request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
-                                static_cast<int>(decision.reject_status),
+                                static_cast&lt;int&gt;(decision.reject_status),
                                 decision.reject_reason);
                     response_.result(decision.reject_status);
                     response_.set(http::field::content_type, "application/json");

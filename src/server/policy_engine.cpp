@@ -84,8 +84,8 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                     if (n["allowed_ip_prefixes"]) {
                         for (const auto& ip : n["allowed_ip_prefixes"]) p.allowed_ip_prefixes.push_back(ip.as<std::string>());
                     }
-                    if (n["time_window_utc_hours_start"]) p.time_window_utc_hours_start = n["time_window_utc_hours_start"].as<int>(-1);
-                    if (n["time_window_utc_hours_end"])   p.time_window_utc_hours_end   = n["time_window_utc_hours_end"].as<int>(-1);
+                    if (n["time_window_utc_hours_start"]) p.time_window_utc_hours_start = n["time_window_utc_hours_start"].as&lt;int&gt;(-1);
+                    if (n["time_window_utc_hours_end"])   p.time_window_utc_hours_end   = n["time_window_utc_hours_end"].as&lt;int&gt;(-1);
                     if (n["allowed_user_agent_patterns"]) {
                         for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
                     }

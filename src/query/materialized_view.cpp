@@ -106,7 +106,7 @@ MaterializedView::MaterializedView(const Definition& def, Config config)
     THEMIS_INFO("MaterializedView '{}' created: strategy={}, base_tables=[{}], "
                 "staleness_tolerance={}ms",
                 def_.name,
-                static_cast<int>(def_.strategy),
+                static_cast&lt;int&gt;(def_.strategy),
                 [&]() -> std::string {
                     std::string s;
                     for (const auto& t : def_.base_tables) {
@@ -286,7 +286,7 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
         stats_.is_stale = true;
         THEMIS_DEBUG("MaterializedView '{}': delta received (strategy={}), "
                      "marking stale", def_.name,
-                     static_cast<int>(def_.strategy));
+                     static_cast&lt;int&gt;(def_.strategy));
         break;
 
     case RefreshStrategy::MANUAL:

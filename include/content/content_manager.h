@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <unordered_map>
 #include <atomic>
 #include <istream>
@@ -53,7 +53,7 @@ using json = nlohmann::json;
  * @brief Content Metadata (Universal)
  * 
  * Unified metadata structure for all content types.
- * Primary Key: content:<uuid>
+ * Primary Key: content:&lt;uuid&gt;
  */
 struct ContentMeta {
     std::string id;                  // Content UUID (without "content:" prefix)
@@ -100,7 +100,7 @@ struct ContentMeta {
  * @brief Chunk Metadata (Universal)
  * 
  * Represents a chunk from any content type.
- * Primary Key: chunk:<uuid>
+ * Primary Key: chunk:&lt;uuid&gt;
  */
 struct ChunkMeta {
     std::string id;                  // Chunk UUID (without "chunk:" prefix)
@@ -192,7 +192,7 @@ public:
      * Optional kann der Binärblob separat geliefert und gespeichert werden.
      * 
      * @param spec JSON-Objekt mit Content/Chunks/Edges
-     * @param blob Optionaler Binärblob (wird unter content_blob:<id> gespeichert)
+     * @param blob Optionaler Binärblob (wird unter content_blob:&lt;id&gt; gespeichert)
      * @return Status mit message; bei Erfolg ist message="ok"
      */
     // user_context: z.B. Benutzer-ID für kontextabhängige Verschlüsselung

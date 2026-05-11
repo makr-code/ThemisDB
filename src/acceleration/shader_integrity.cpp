@@ -37,7 +37,7 @@
  *
  * Manifest loading
  * ----------------
- *   ShaderIntegrityVerifier::loadManifest(path)  — parses "<name> <sha256>" lines
+ *   ShaderIntegrityVerifier::loadManifest(path)  — parses "&lt;name&gt; <sha256>" lines
  *   ShaderIntegrityVerifier::registerExpectedHash(name, hex)  — register individual hash
  *
  * Key interfaces implemented / exposed
@@ -190,7 +190,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) 
 
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; ++i)
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
     return ss.str();
 }
 

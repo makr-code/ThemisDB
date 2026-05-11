@@ -182,7 +182,7 @@ public:
             // Brute-force distance computation on the partition data.
             for (size_t vi = 0; vi < numVecs; ++vi) {
                 const float* vecPtr = data->data() + vi * dim;
-                float dist = computeDistance(query.data(), vecPtr, static_cast<int>(dim));
+                float dist = computeDistance(query.data(), vecPtr, static_cast&lt;int&gt;(dim));
                 candidates.emplace_back(dist, globalOffset + vi);
             }
             globalOffset += numVecs;

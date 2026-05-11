@@ -105,7 +105,7 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
         }
 
         // Record dimension on first successful call.
-        int dim = static_cast<int>(embedding.size());
+        int dim = static_cast&lt;int&gt;(embedding.size());
         int expected = embedding_dim_.load(std::memory_order_relaxed);
         if (expected == 0) {
             embedding_dim_.store(dim, std::memory_order_relaxed);

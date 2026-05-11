@@ -32,7 +32,7 @@
 #include <cmath>
 #include <algorithm>
 #include <unordered_map>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <stdexcept>
 #include <limits>
@@ -353,7 +353,7 @@ double BuddyAllocator::getFragmentation() const {
     
     // Fragmentation = 1 - (largest_block / total_free_space)
     size_t largest_block = 0;
-    for (int i = static_cast<int>(impl_->max_order); i >= 0; --i) {
+    for (int i = static_cast&lt;int&gt;(impl_->max_order); i >= 0; --i) {
         if (impl_->free_list_heads[i] != 0) {
             largest_block = impl_->min_block_size << i;
             break;

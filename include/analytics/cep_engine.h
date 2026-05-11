@@ -49,13 +49,13 @@
 #include <condition_variable>
 #include <thread>
 #include <queue>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <variant>
 #include <any>
-#include <regex>
+#include &lt;regex&gt;
 
 // Lock-free MPMC ring buffer for the CEP event queue.
 #include "analytics/detail/ring_buffer.h"

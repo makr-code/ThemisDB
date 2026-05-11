@@ -351,7 +351,7 @@ double CalibrationManager::calculateECE(
     std::vector<size_t> bin_count(num_bins, 0);
 
     for (size_t i = 0; i < predictions.size(); ++i) {
-        int bin = static_cast<int>(predictions[i] / bin_width);
+        int bin = static_cast&lt;int&gt;(predictions[i] / bin_width);
         bin = std::clamp(bin, 0, num_bins - 1);
         bin_accuracy[bin]  += ground_truth[i];
         bin_confidence[bin] += predictions[i];
@@ -433,7 +433,7 @@ double CalibrationManager::calculateInterAnnotatorAgreement(
 
 bool CalibrationManager::saveModel(const std::string& filepath) {
     json j;
-    j["method"]      = static_cast<int>(config_.method);
+    j["method"]      = static_cast&lt;int&gt;(config_.method);
     j["temperature"] = temperature_;
 
     json dim_temps = json::object();

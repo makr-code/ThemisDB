@@ -22,7 +22,7 @@
 #include "llm/adapter_registry.h"
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace llm {
@@ -183,9 +183,9 @@ private:
     
     // Helper: Parse version string
     struct VersionParts {
-        std::optional<int> major;
-        std::optional<int> minor;
-        std::optional<int> patch;
+        std::optional&lt;int&gt; major;
+        std::optional&lt;int&gt; minor;
+        std::optional&lt;int&gt; patch;
         std::string variant;  // e.g., "instruct", "chat"
     };
     

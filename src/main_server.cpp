@@ -153,7 +153,7 @@
 #include <cstdlib>
 #include <csignal>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <string_view>
 #include <thread>
 #include <atomic>
@@ -459,7 +459,7 @@ LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
         code, exception_name,
         pExp ? pExp->ExceptionRecord->ExceptionAddress : nullptr);
     
-    if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
+    if (len > 0 && len < static_cast&lt;int&gt;(sizeof(buffer))) {
         _write(2, buffer, len);
     }
 
@@ -481,7 +481,7 @@ void hsmSecurityWarningLoop() {
     
     while (g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
         // Sleep for 5 minutes in 1-second increments to allow quick shutdown
-        for (int i = 0; i < static_cast<int>(warning_interval_seconds) &&
+        for (int i = 0; i < static_cast&lt;int&gt;(warning_interval_seconds) &&
                 g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
             std::this_thread::sleep_for(seconds(1));
         }
@@ -870,7 +870,7 @@ int main(int argc, char* argv[]) {
                 if (s.contains("block_cache_size_mb")) db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
                 if (s.contains("enable_blobdb")) db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
                 if (s.contains("enable_high_parallel_tuning")) db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
-                if (s.contains("high_parallel_thread_threshold")) db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
+                if (s.contains("high_parallel_thread_threshold")) db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get&lt;int&gt;();
                 if (s.contains("compression")) {
                     const auto& c = s["compression"];
                     if (c.contains("default")) db_config.compression_default = c["default"].get<std::string>();
@@ -881,7 +881,7 @@ int main(int argc, char* argv[]) {
             if (cfg->contains("server")) {
                 const auto& sv = (*cfg)["server"];
                 if (sv.contains("host")) host = sv["host"].get<std::string>();
-                if (sv.contains("port")) port = static_cast<uint16_t>(sv["port"].get<int>());
+                if (sv.contains("port")) port = static_cast<uint16_t>(sv["port"].get&lt;int&gt;());
                 if (sv.contains("worker_threads")) num_threads = sv["worker_threads"].get<size_t>();
             }
             // features (beta)
@@ -1589,7 +1589,7 @@ int main(int argc, char* argv[]) {
             }
             redundancy_manager->setDefaultConfig(default_config);
             THEMIS_INFO("  RAID default mode: {}, replication_factor: {}", 
-                       static_cast<int>(default_config.mode), default_config.replication_factor);
+                       static_cast&lt;int&gt;(default_config.mode), default_config.replication_factor);
 
             // Configure per-collection redundancy
             if (cfg->contains("raid") && (*cfg)["raid"].contains("collections")) {
@@ -1621,7 +1621,7 @@ int main(int argc, char* argv[]) {
                     
                     redundancy_manager->setCollectionConfig(collection_name, coll_redundancy_config);
                     THEMIS_INFO("  Collection '{}': mode={}, replication_factor={}", 
-                               collection_name, static_cast<int>(coll_redundancy_config.mode), 
+                               collection_name, static_cast&lt;int&gt;(coll_redundancy_config.mode), 
                                coll_redundancy_config.replication_factor);
                 }
             }

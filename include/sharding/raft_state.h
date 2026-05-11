@@ -24,7 +24,7 @@
 
 #include <atomic>
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <random>
@@ -39,7 +39,7 @@ namespace sharding {
 /**
  * @brief Raft Consensus Protocol Implementation
  * 
- * @sources
+ * Sources:
  * - Algorithm: Raft Consensus Protocol
  * - Paper: Ongaro, D., & Ousterhout, J. (2014)
  *          "In Search of an Understandable Consensus Algorithm"

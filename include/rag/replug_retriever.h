@@ -29,7 +29,7 @@
  *
  *  1. **LLM-scored retrieval** — each candidate document is assigned a
  *     perplexity-based likelihood score: P(query | document) ∝ exp(-PPL).
- *     A pluggable @ref ILLMScorer interface makes this model-agnostic.
+ *     A pluggable `ILLMScorer` interface makes this model-agnostic.
  *
  *  2. **Ensemble fusion** — retrieval scores (from any backend) are combined
  *     with LLM-derived scores via a configurable interpolation weight λ:
@@ -44,10 +44,10 @@
  *     without back-propagating through the LLM.
  *
  * Design:
- *  - @ref ILLMScorer   — pluggable interface; default is heuristic PPL proxy.
- *  - @ref ReplugConfig — all tunable parameters.
- *  - @ref ReplugRetriever — main class; pure string-assembly, no I/O.
- *  - @ref ReplugRetrieverFactory — convenience factories.
+ *  - `ILLMScorer`   — pluggable interface; default is heuristic PPL proxy.
+ *  - `ReplugConfig` — all tunable parameters.
+ *  - `ReplugRetriever` — main class; pure string-assembly, no I/O.
+ *  - `ReplugRetrieverFactory` — convenience factories.
  *
  * Thread safety: A single ReplugRetriever instance is NOT thread-safe for
  * concurrent calls that modify weight tables; create one instance per thread

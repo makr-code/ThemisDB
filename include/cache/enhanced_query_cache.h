@@ -24,7 +24,7 @@
 #include <chrono>
 #include <atomic>
 #include <functional>
-#include <optional>
+#include &lt;optional&gt;
 #include <algorithm>
 #include <tbb/concurrent_hash_map.h>
 
@@ -47,7 +47,7 @@ namespace cache {
  * - 2-5x throughput improvement for read-heavy workloads
  * - Reduced CPU and I/O load
  * 
- * @sources
+ * Sources:
  * - Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md
  * - Quick Wins: docs/de/performance/OPTIMIZATION_QUICK_WINS.md
  * 

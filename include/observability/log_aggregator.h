@@ -30,7 +30,7 @@
 #include <deque>
 #include <functional>
 #include <future>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <queue>

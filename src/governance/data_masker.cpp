@@ -66,8 +66,8 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int digest_len     = 0;
     const unsigned char *result = HMAC(
-        EVP_sha256(), reinterpret_cast<const unsigned char *>(key.data()), static_cast<int>(key.size()),
-        reinterpret_cast<const unsigned char *>(input.data()), static_cast<int>(input.size()), digest, &digest_len);
+        EVP_sha256(), reinterpret_cast<const unsigned char *>(key.data()), static_cast&lt;int&gt;(key.size()),
+        reinterpret_cast<const unsigned char *>(input.data()), static_cast&lt;int&gt;(input.size()), digest, &digest_len);
     if (!result) {
         THEMIS_ERROR("DataMasker: OpenSSL HMAC-SHA256 failed; falling back to SHA-256 (no HMAC) - "
                      "pseudonym stability across collections is lost");
@@ -109,7 +109,7 @@ std::string DataMasker::applyStrategy(const std::string &value, const FieldMaski
 
         case MaskingStrategy::TRUNCATE: {
             const int n = (rule.truncate_length > 0) ? rule.truncate_length : 4;
-            if (static_cast<int>(value.size()) <= n) {
+            if (static_cast&lt;int&gt;(value.size()) <= n) {
                 return value; // Value is already short – no truncation needed
             }
             return value.substr(0, static_cast<size_t>(n)) + "...";

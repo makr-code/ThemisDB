@@ -22,7 +22,7 @@
 #include <cmath>
 #include <algorithm>
 #include <queue>
-#include <set>
+#include &lt;set&gt;
 
 namespace themis {
 
@@ -86,12 +86,12 @@ GraphAnalytics::degreeCentrality(const std::vector<std::string>& node_pks) const
         
         auto out_it = topo.outgoing.find(pk);
         if (out_it != topo.outgoing.end()) {
-            dr.out_degree = static_cast<int>(out_it->second.size());
+            dr.out_degree = static_cast&lt;int&gt;(out_it->second.size());
         }
         
         auto in_it = topo.incoming.find(pk);
         if (in_it != topo.incoming.end()) {
-            dr.in_degree = static_cast<int>(in_it->second.size());
+            dr.in_degree = static_cast&lt;int&gt;(in_it->second.size());
         }
         
         dr.total_degree = dr.in_degree + dr.out_degree;
@@ -620,7 +620,7 @@ GraphAnalytics::kShortestPaths(
                 path.vertices = state.path_vertices;
                 path.edges = state.path_edges;
                 path.length = state.dist;
-                path.hop_count = static_cast<int>(path.edges.size());
+                path.hop_count = static_cast&lt;int&gt;(path.edges.size());
                 return {true, path};
             }
             
@@ -777,7 +777,7 @@ GraphAnalytics::kShortestPaths(
                 }
                 
                 total_path.length = root_length + spur_path.length;
-                total_path.hop_count = static_cast<int>(total_path.edges.size());
+                total_path.hop_count = static_cast&lt;int&gt;(total_path.edges.size());
                 
                 // Check if this path is unique (not in A or candidate queue)
                 std::string path_key = pathKey(total_path);

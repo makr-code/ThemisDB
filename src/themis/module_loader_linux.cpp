@@ -33,7 +33,7 @@
 #include "themis/base/module_loader.h"
 #include <filesystem>
 #include <fstream>
-#include <map>
+#include &lt;map&gt;
 #include <string>
 #include <type_traits>
 #include <spdlog/spdlog.h>

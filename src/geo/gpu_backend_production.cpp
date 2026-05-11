@@ -350,7 +350,7 @@ public:
             return out;
         }
 
-        const int n = static_cast<int>(in.count);
+        const int n = static_cast&lt;int&gt;(in.count);
 
         // Build flat MBR arrays: [minx, miny, maxx, maxy] per geometry.
         std::vector<double> mbrs_a(static_cast<size_t>(n) * 4);
@@ -380,7 +380,7 @@ public:
             (e = cudaMemcpy(d_cached_mbrs_b_, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
             (e = cudaMemset(d_cached_results_, 0, res_sz))                                    != cudaSuccess) {
             THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel",
-                        static_cast<int>(e));
+                        static_cast&lt;int&gt;(e));
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
         }
@@ -398,7 +398,7 @@ public:
 
         if (e != cudaSuccess) {
             THEMIS_WARN("CUDA execution failed ({}), falling back to CPU-parallel",
-                        static_cast<int>(e));
+                        static_cast&lt;int&gt;(e));
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
         }
@@ -549,7 +549,7 @@ private:
             (e = cudaMalloc(&d_cached_mbrs_b_,  mbr_sz)) != cudaSuccess ||
             (e = cudaMalloc(&d_cached_results_, res_sz))  != cudaSuccess) {
             freeCachedBuffers();
-            THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast<int>(e));
+            THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast&lt;int&gt;(e));
             return false;
         }
         cached_n_ = n;
@@ -667,7 +667,7 @@ public:
             return out;
         }
 
-        const int n = static_cast<int>(in.count);
+        const int n = static_cast&lt;int&gt;(in.count);
 
         // Build flat MBR arrays: [minx, miny, maxx, maxy] per geometry.
         std::vector<double> mbrs_a(static_cast<size_t>(n) * 4);
@@ -841,7 +841,7 @@ private:
                                              &kOpenCLGeoIntersectsKernelSrc,
                                              nullptr, &err);
         if (err != CL_SUCCESS) {
-            THEMIS_WARN("OpenCL clCreateProgramWithSource failed ({})", static_cast<int>(err));
+            THEMIS_WARN("OpenCL clCreateProgramWithSource failed ({})", static_cast&lt;int&gt;(err));
             return false;
         }
         err = clBuildProgram(program_, 1, &device_, nullptr, nullptr, nullptr);

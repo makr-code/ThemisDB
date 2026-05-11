@@ -21,7 +21,7 @@
  */
 
 #include "ingestion/semantic_validator.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <algorithm>
 #include <numeric>
 #include <sstream>

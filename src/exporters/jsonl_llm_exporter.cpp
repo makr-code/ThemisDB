@@ -38,7 +38,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <set>
+#include &lt;set&gt;
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -350,7 +350,7 @@ ExportStats JSONLLLMExporter::exportEntities(
             } catch (const ExporterException& e) {
                 stats.failed_entities++;
                 std::string error_msg = "Entity " + entity.getPrimaryKey() + 
-                                      ": [" + std::to_string(static_cast<int>(e.getErrorCode())) + 
+                                      ": [" + std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + 
                                       "] " + e.what();
                 stats.errors.push_back(error_msg);
                 metrics_->recordError("exporter_exception");
@@ -432,7 +432,7 @@ ExportStats JSONLLLMExporter::exportEntities(
         
     } catch (const ExportIOException& e) {
         stats.errors.push_back(
-            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + 
+            "[" + std::to_string(static_cast&lt;int&gt;(e.getErrorCode())) + "] " + 
             e.what() + " (file: " + e.getFilePath() + ")"
         );
         metrics_->recordError("io_exception");

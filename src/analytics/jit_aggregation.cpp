@@ -56,7 +56,7 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
-#include <optional>
+#include &lt;optional&gt;
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -547,7 +547,7 @@ std::string JITAggregationCompiler::makeSpecKey(
     };
     std::ostringstream oss;
     for (const auto& s : specs) {
-        int fi = static_cast<int>(s.function);
+        int fi = static_cast&lt;int&gt;(s.function);
         oss << (fi >= 0 && fi < 6 ? kFnName[fi] : "?")
             << '|' << s.input_column
             << '|' << s.result_name

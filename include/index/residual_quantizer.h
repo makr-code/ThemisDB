@@ -40,7 +40,7 @@ namespace themis {
  * when THEMIS_HAS_FAISS is defined and prefer_faiss is true, providing 20-30%
  * faster training per stage.
  * 
- * @sources
+ * Sources:
  * - Algorithm: Residual Vector Quantization (RVQ)
  * - Paper: Chen, Y., Guan, T., & Wang, C. (2010).
  *          "Approximate Nearest Neighbor Search by Residual Vector Quantization"
@@ -162,7 +162,7 @@ public:
      * @brief Get a specific stage quantizer (for inspection/testing)
      */
     const ProductQuantizer* getStageQuantizer(int stage) const {
-        if (stage >= 0 && stage < static_cast<int>(stage_quantizers_.size())) {
+        if (stage >= 0 && stage < static_cast&lt;int&gt;(stage_quantizers_.size())) {
             return stage_quantizers_[stage].get();
         }
         return nullptr;

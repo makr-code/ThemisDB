@@ -30,7 +30,7 @@
 #define LOG_INFO(...)  SPDLOG_INFO(__VA_ARGS__)
 #define LOG_WARN(...)  SPDLOG_WARN(__VA_ARGS__)
 
-#include <map>
+#include &lt;map&gt;
 #include <stdexcept>
 #include <variant>
 
@@ -314,7 +314,7 @@ struct SchemaMigration::Impl {
         }
 
         LOG_INFO("SchemaMigration [{}]: rolling back from phase {}",
-                 version_, static_cast<int>(phase_));
+                 version_, static_cast&lt;int&gt;(phase_));
 
         // Replay undo log in reverse order.
         bool undo_ok = true;

@@ -365,8 +365,8 @@ std::string TensorRouter::explain(
         {"use_ml_routing",               impl_->policy.use_ml_routing}
     };
     j["hint"] = {
-        {"category",      static_cast<int>(hint.category)},
-        {"distribution",  static_cast<int>(hint.distribution)},
+        {"category",      static_cast&lt;int&gt;(hint.category)},
+        {"distribution",  static_cast&lt;int&gt;(hint.distribution)},
         {"inference_use", hint.inference_use},
         {"high_churn",    hint.high_churn},
         {"min_ratio",     hint.min_ratio},

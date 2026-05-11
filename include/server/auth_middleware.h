@@ -30,7 +30,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <functional>
 #include <atomic>
 #include <mutex>
@@ -173,7 +173,7 @@ public:
     /// Extract basic context (user_id, groups) from token if valid
     std::optional<AuthContext> extractContext(std::string_view token) const;
 
-    /// Extract token from "Bearer <token>" header value
+    /// Extract token from "Bearer &lt;token&gt;" header value
     static std::optional<std::string> extractBearerToken(std::string_view auth_header);
 
     /// Get metrics (for Prometheus)

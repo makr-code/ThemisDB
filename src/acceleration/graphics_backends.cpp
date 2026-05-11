@@ -1151,7 +1151,7 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
     if (initialized_ && impl_ && impl_->device != VK_NULL_HANDLE) {
         caps.deviceName    = std::string(impl_->deviceProps.deviceName);
         caps.vendorName    = impl_->vendorName;
-        caps.computeUnits  = static_cast<int>(
+        caps.computeUnits  = static_cast&lt;int&gt;(
             impl_->deviceProps.limits.maxComputeWorkGroupCount[0]);
         // Report device-local heap size
         for (uint32_t i = 0; i < impl_->memoryProps.memoryHeapCount; ++i) {
@@ -2974,7 +2974,7 @@ public:
 
     // Dispatch Bellman-Ford on GPU.
     // Returns flat dist[np × nv] and pred[np × nv] after nv-1 relaxations.
-    struct BFResult { std::vector<float> dist; std::vector<int> pred; };
+    struct BFResult { std::vector<float> dist; std::vector&lt;int&gt; pred; };
 
     BFResult gpuBellmanFord(
         const uint32_t* adjacency, const float* weights, uint32_t nv,
@@ -3603,7 +3603,7 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
 
     // CPU ray-casting fallback (same algorithm as VulkanGeoBackend)
     std::vector<bool> out(numPoints, false);
-    const int nv = static_cast<int>(numPolygonVertices);
+    const int nv = static_cast&lt;int&gt;(numPolygonVertices);
     for (size_t p = 0; p < numPoints; ++p) {
         const double testLat = pointLats[p];
         const double testLon = pointLons[p];
@@ -3855,7 +3855,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                 float dist_ev = bf.dist[p * numVertices + ev];
                 if (dist_ev >= 1e29f) continue;  // unreachable
                 std::vector<uint32_t> path;
-                for (int cur = static_cast<int>(ev); cur != -1;
+                for (int cur = static_cast&lt;int&gt;(ev); cur != -1;
                      cur = bf.pred[p * numVertices + static_cast<size_t>(cur)]) {
                     path.push_back(static_cast<uint32_t>(cur));
                     if (static_cast<uint32_t>(cur) == sv) break;
@@ -3880,7 +3880,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
     for (size_t p = 0; p < numPairs; ++p) {
         uint32_t sv = startVertices[p], ev = endVertices[p];
         std::vector<float> dist(numVertices, 1e30f);
-        std::vector<int>   pred(numVertices, -1);
+        std::vector&lt;int&gt;   pred(numVertices, -1);
         dist[sv] = 0.f;
         for (size_t iter = 0; iter + 1 < numVertices; ++iter) {
             for (size_t u = 0; u < numVertices; ++u) {
@@ -3890,7 +3890,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                         float nd = dist[u] + weights[u * numVertices + v];
                         if (nd < dist[v]) {
                             dist[v] = nd;
-                            pred[v] = static_cast<int>(u);
+                            pred[v] = static_cast&lt;int&gt;(u);
                         }
                     }
                 }
@@ -3898,7 +3898,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
         }
         if (dist[ev] >= 1e29f) continue;  // unreachable
         std::vector<uint32_t> path;
-        for (int cur = static_cast<int>(ev); cur != -1; cur = pred[static_cast<size_t>(cur)]) {
+        for (int cur = static_cast&lt;int&gt;(ev); cur != -1; cur = pred[static_cast<size_t>(cur)]) {
             path.push_back(static_cast<uint32_t>(cur));
             if (static_cast<uint32_t>(cur) == sv) break;
             if (path.size() > numVertices) { path.clear(); break; }
@@ -3994,9 +3994,9 @@ static int vulkan_ann_topk_dispatch(
         std::priority_queue<Pair> heap;
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (static_cast<int>(heap.size()) > topK) heap.pop();
+            if (static_cast&lt;int&gt;(heap.size()) > topK) heap.pop();
         }
-        int slot = static_cast<int>(heap.size()) - 1;
+        int slot = static_cast&lt;int&gt;(heap.size()) - 1;
         while (!heap.empty()) {
             topk_indices[q * topK + slot] = heap.top().second;
             topk_dists  [q * topK + slot] = heap.top().first;
@@ -4215,7 +4215,7 @@ std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
     }
 
     std::vector<bool> out(numPoints, false);
-    const int nv = static_cast<int>(numPolygonVertices);
+    const int nv = static_cast&lt;int&gt;(numPolygonVertices);
     for (size_t p = 0; p < numPoints; ++p) {
         const double testLat = pointLats[p];
         const double testLon = pointLons[p];

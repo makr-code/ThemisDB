@@ -33,7 +33,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 // Forward declaration to avoid pulling the full AuditLogger header here

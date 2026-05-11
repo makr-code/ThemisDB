@@ -25,7 +25,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <map>
+#include &lt;map&gt;
 #include <numeric>
 
 namespace themis {

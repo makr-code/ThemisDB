@@ -31,7 +31,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -304,9 +304,9 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
         f.severity    = InjectionSeverity::HIGH;
         f.category    = "density_threshold";
         f.description = "Injection density " +
-                        std::to_string(static_cast<int>(density * 100)) +
+                        std::to_string(static_cast&lt;int&gt;(density * 100)) +
                         "% exceeds threshold " +
-                        std::to_string(static_cast<int>(
+                        std::to_string(static_cast&lt;int&gt;(
                             cfg.max_injection_density * 100)) + "%";
         result.findings.push_back(f);
     }
@@ -323,7 +323,7 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
         THEMIS_WARN("PromptInjectionDetector: {} finding(s), max_severity={} in "
                     "{} chars",
                     result.findings.size(),
-                    static_cast<int>(result.max_severity),
+                    static_cast&lt;int&gt;(result.max_severity),
                     text.size());
     }
 

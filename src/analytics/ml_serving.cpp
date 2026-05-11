@@ -29,7 +29,7 @@
  * Data flow:
  *   MLServingClient::infer(model_name, input_tensor)
  *     ONNX path:    → OrtSession::Run() → output tensor → InferenceResult
- *     TF Serving:   → HTTP POST /v1/models/<name>:predict (libcurl) → JSON parse → InferenceResult
+ *     TF Serving:   → HTTP POST /v1/models/&lt;name&gt;:predict (libcurl) → JSON parse → InferenceResult
  *     Unavailable:  → returns MLServingStatus::UNAVAILABLE immediately
  *
  * Error paths:
@@ -142,7 +142,7 @@ struct ONNXServingBackend::Impl {
         // Thread-count settings
         int intra = (cfg.intra_op_threads > 0)
                         ? cfg.intra_op_threads
-                        : static_cast<int>(std::thread::hardware_concurrency());
+                        : static_cast&lt;int&gt;(std::thread::hardware_concurrency());
         int inter = (cfg.inter_op_threads > 0)
                         ? cfg.inter_op_threads
                         : 1;
@@ -429,7 +429,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
-    // Build JSON payload: { "inputs": { "<name>": [[...]] } }
+    // Build JSON payload: { "inputs": { "&lt;name&gt;": [[...]] } }
     json payload;
     json inputs_json = json::object();
     for (const auto& t : req.inputs) {
@@ -506,7 +506,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
-    // Parse JSON response: { "outputs": { "<name>": [...] } }
+    // Parse JSON response: { "outputs": { "&lt;name&gt;": [...] } }
     try {
         auto jresp = json::parse(response_body);
 

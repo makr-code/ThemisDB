@@ -49,12 +49,12 @@
  *   if (opt) { … }
  *
  *   // Type-safe nested access ("a.b.c"):
- *   int v = getNestedOrDefault<int>(j, {"a", "b", "c"}, 0);
+ *   int v = getNestedOrDefault&lt;int&gt;(j, {"a", "b", "c"}, 0);
  * @endcode
  */
 
 #include <nlohmann/json.hpp>
-#include <optional>
+#include &lt;optional&gt;
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -142,7 +142,7 @@ template <typename T>
  * @brief Traverse a sequence of keys into a nested JSON object and return the
  *        leaf value as T, or @p default_value on any failure.
  *
- * Example:  getNestedOrDefault<int>(j, {"server", "port"}, 8080)
+ * Example:  getNestedOrDefault&lt;int&gt;(j, {"server", "port"}, 8080)
  */
 template <typename T>
 [[nodiscard]] inline T getNestedOrDefault(

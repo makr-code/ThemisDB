@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <shared_mutex>
 #include <nlohmann/json.hpp>
 #include "projects/DocumentManager/document_manager.h"
@@ -97,8 +97,8 @@ struct ProjectStateTransition {
  *
  * RocksDB key layout
  * ──────────────────
- *  lifecycle:<project_id>              → current ProjectState (string)
- *  lifecycle_log:<project_id>:<ts_ns>  → ProjectStateTransition JSON
+ *  lifecycle:&lt;project_id&gt;              → current ProjectState (string)
+ *  lifecycle_log:&lt;project_id&gt;:&lt;ts_ns&gt;  → ProjectStateTransition JSON
  *
  * All methods are thread-safe (protected by an internal shared_mutex).
  */

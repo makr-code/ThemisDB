@@ -30,11 +30,11 @@ namespace themis {
 // ===== CronExpression Implementation =====
 
 CronExpression::CronExpression(const std::string& expression,
-                               std::set<int> minutes,
-                               std::set<int> hours,
-                               std::set<int> days,
-                               std::set<int> months,
-                               std::set<int> weekdays)
+                               std::set&lt;int&gt; minutes,
+                               std::set&lt;int&gt; hours,
+                               std::set&lt;int&gt; days,
+                               std::set&lt;int&gt; months,
+                               std::set&lt;int&gt; weekdays)
     : expression_(expression),
       minutes_(std::move(minutes)),
       hours_(std::move(hours)),
@@ -43,12 +43,12 @@ CronExpression::CronExpression(const std::string& expression,
       weekdays_(std::move(weekdays)) {}
 
 CronExpression::CronExpression(const std::string& expression,
-                               std::set<int> minutes,
-                               std::set<int> hours,
-                               std::set<int> days,
-                               std::set<int> months,
-                               std::set<int> weekdays,
-                               std::set<int> years)
+                               std::set&lt;int&gt; minutes,
+                               std::set&lt;int&gt; hours,
+                               std::set&lt;int&gt; days,
+                               std::set&lt;int&gt; months,
+                               std::set&lt;int&gt; weekdays,
+                               std::set&lt;int&gt; years)
     : expression_(expression),
       minutes_(std::move(minutes)),
       hours_(std::move(hours)),
@@ -481,7 +481,7 @@ static int weekdayNameToNumber(const std::string& name) {
 
 // Parse a single token that may be either an integer or a name alias.
 // Returns std::nullopt on failure.
-static std::optional<int> parseToken(const std::string& token,
+static std::optional&lt;int&gt; parseToken(const std::string& token,
                                      int min_value, int max_value) {
     if (token.empty()) return std::nullopt;
 
@@ -518,7 +518,7 @@ static std::optional<int> parseToken(const std::string& token,
 
 // ===== Field Parsing =====
 
-std::optional<std::set<int>> CronExpression::parseField(
+std::optional<std::set&lt;int&gt;> CronExpression::parseField(
     const std::string& field, int min_value, int max_value) {
     
     if (field.empty()) {
@@ -550,18 +550,18 @@ std::optional<std::set<int>> CronExpression::parseField(
     // Parse as single token (number or name alias)
     auto v = parseToken(field, min_value, max_value);
     if (!v) return std::nullopt;
-    return std::set<int>{*v};
+    return std::set&lt;int&gt;{*v};
 }
 
-std::optional<std::set<int>> CronExpression::parseWildcard(int min_value, int max_value) {
-    std::set<int> result;
+std::optional<std::set&lt;int&gt;> CronExpression::parseWildcard(int min_value, int max_value) {
+    std::set&lt;int&gt; result;
     for (int i = min_value; i <= max_value; ++i) {
         result.insert(i);
     }
     return result;
 }
 
-std::optional<std::set<int>> CronExpression::parseRange(
+std::optional<std::set&lt;int&gt;> CronExpression::parseRange(
     const std::string& range, int min_value, int max_value) {
     
     size_t dash_pos = range.find('-');
@@ -578,17 +578,17 @@ std::optional<std::set<int>> CronExpression::parseRange(
     int end   = *end_opt;
     if (start > end) return std::nullopt;
 
-    std::set<int> result;
+    std::set&lt;int&gt; result;
     for (int i = start; i <= end; ++i) {
         result.insert(i);
     }
     return result;
 }
 
-std::optional<std::set<int>> CronExpression::parseList(
+std::optional<std::set&lt;int&gt;> CronExpression::parseList(
     const std::string& list, int min_value, int max_value) {
     
-    std::set<int> result;
+    std::set&lt;int&gt; result;
     std::istringstream iss(list);
     std::string item;
     
@@ -596,7 +596,7 @@ std::optional<std::set<int>> CronExpression::parseList(
         if (item.empty()) return std::nullopt;
 
         // Each list item may be a step, range, wildcard, or single token.
-        std::optional<std::set<int>> item_values;
+        std::optional<std::set&lt;int&gt;> item_values;
         if (item.find('/') != std::string::npos) {
             item_values = parseStep(item, min_value, max_value);
         } else if (item.find('-') != std::string::npos) {
@@ -605,17 +605,17 @@ std::optional<std::set<int>> CronExpression::parseList(
             item_values = parseWildcard(min_value, max_value);
         } else {
             auto v = parseToken(item, min_value, max_value);
-            if (v) item_values = std::set<int>{*v};
+            if (v) item_values = std::set&lt;int&gt;{*v};
         }
 
         if (!item_values) return std::nullopt;
         result.insert(item_values->begin(), item_values->end());
     }
     
-    return result.empty() ? std::nullopt : std::optional<std::set<int>>(result);
+    return result.empty() ? std::nullopt : std::optional<std::set&lt;int&gt;>(result);
 }
 
-std::optional<std::set<int>> CronExpression::parseStep(
+std::optional<std::set&lt;int&gt;> CronExpression::parseStep(
     const std::string& step, int min_value, int max_value) {
     
     size_t slash_pos = step.find('/');
@@ -633,7 +633,7 @@ std::optional<std::set<int>> CronExpression::parseStep(
         }
         
         // Parse the range part
-        std::set<int> range_values;
+        std::set&lt;int&gt; range_values;
         
         if (range_part == "*") {
             // */n means every n starting from min_value
@@ -662,7 +662,7 @@ std::optional<std::set<int>> CronExpression::parseStep(
             }
         }
         
-        return range_values.empty() ? std::nullopt : std::optional<std::set<int>>(range_values);
+        return range_values.empty() ? std::nullopt : std::optional<std::set&lt;int&gt;>(range_values);
     } catch (...) {
         return std::nullopt;
     }

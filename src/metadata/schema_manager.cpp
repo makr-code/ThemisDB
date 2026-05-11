@@ -30,7 +30,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
-#include <set>
+#include &lt;set&gt;
 
 namespace themis {
 

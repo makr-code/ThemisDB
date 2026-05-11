@@ -27,7 +27,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
-#include <set>
+#include &lt;set&gt;
 
 namespace themis {
 

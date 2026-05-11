@@ -86,7 +86,7 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
     QueryPlanNode* current_parent = &return_node;
 
-    for (int i = static_cast<int>(n) - 1; i >= 0; --i) {
+    for (int i = static_cast&lt;int&gt;(n) - 1; i >= 0; --i) {
         const auto& pred = plan.orderedPredicates[static_cast<size_t>(i)];
 
         // Selectivity: fraction of proxy_scan_rows that pass this predicate.

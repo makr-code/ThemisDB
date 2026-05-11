@@ -47,7 +47,7 @@ static inline int clz64(uint64_t x) {
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanReverse64(&idx, x);
-    return 63 - static_cast<int>(idx);
+    return 63 - static_cast&lt;int&gt;(idx);
 #else
     return __builtin_clzll(x);
 #endif
@@ -58,7 +58,7 @@ static inline int ctz64(uint64_t x) {
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanForward64(&idx, x);
-    return static_cast<int>(idx);
+    return static_cast&lt;int&gt;(idx);
 #else
     return __builtin_ctzll(x);
 #endif
@@ -239,9 +239,9 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
         vbits = prev_vbits_;
     } else {
         if (br_.eof()) { error_ = true; return std::nullopt; }
-        int leading = static_cast<int>(br_.readBits(6));
+        int leading = static_cast&lt;int&gt;(br_.readBits(6));
         if (br_.eof()) { error_ = true; return std::nullopt; }
-        int significant = static_cast<int>(br_.readBits(6));
+        int significant = static_cast&lt;int&gt;(br_.readBits(6));
         if (significant == 0) significant = 64;  // 0 encodes 64
         // Validate leading + significant fits in 64 bits
         if (leading + significant > 64) { error_ = true; return std::nullopt; }

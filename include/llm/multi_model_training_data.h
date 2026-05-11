@@ -25,7 +25,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 #include "training_data_iterator.h"
 

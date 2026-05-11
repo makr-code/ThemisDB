@@ -83,7 +83,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
                 if (val["redaction_level"])
                     profile.redaction_level = val["redaction_level"].as<std::string>();
                 if (val["retention_days"])
-                    profile.retention_days = val["retention_days"].as<int>();
+                    profile.retention_days = val["retention_days"].as&lt;int&gt;();
                 if (val["log_encryption"])
                     profile.log_encryption = val["log_encryption"].as<bool>();
 
@@ -131,7 +131,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
                             rule.strategy = MaskingStrategy::REDACT;
                     }
                     if (r["truncate_length"]) {
-                        rule.truncate_length = r["truncate_length"].as<int>();
+                        rule.truncate_length = r["truncate_length"].as&lt;int&gt;();
                     }
                     if (r["collection_secret"]) {
                         rule.collection_secret = r["collection_secret"].as<std::string>();
@@ -637,7 +637,7 @@ InferencePermissionResult PolicyEngine::checkInferencePermission(
     InferencePermissionResult result;
 
     // ── Step 1: extract the API key from the Authorization header ──────────
-    // Accept "Bearer <key>" format (standard OpenAI SDK convention).
+    // Accept "Bearer &lt;key&gt;" format (standard OpenAI SDK convention).
     static const std::string k_route = "/v1/chat/completions";
     static const std::string k_auth_header = "Authorization";
     static const std::string k_bearer_prefix = "Bearer ";

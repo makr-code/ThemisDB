@@ -25,7 +25,7 @@
 #include "core/concerns/i_metrics.h"
 #include <string>
 #include <deque>
-#include <map>
+#include &lt;map&gt;
 #include <vector>
 #include <mutex>
 #include <chrono>
@@ -160,14 +160,14 @@ private:
  * Prometheus scrape endpoint and in the Grafana plugin dashboard.
  *
  * Metric names and labels emitted:
- *   plugin_function_calls      {plugin="<name>"}  gauge
- *   plugin_errors              {plugin="<name>"}  gauge
- *   plugin_reload_count        {plugin="<name>"}  gauge
- *   plugin_load_time_ms        {plugin="<name>"}  gauge
- *   plugin_memory_bytes        {plugin="<name>"}  gauge
- *   plugin_call_latency_avg_ms {plugin="<name>"}  gauge
- *   plugin_call_latency_p95_ms {plugin="<name>"}  gauge
- *   plugin_call_latency_p99_ms {plugin="<name>"}  gauge
+ *   plugin_function_calls      {plugin="&lt;name&gt;"}  gauge
+ *   plugin_errors              {plugin="&lt;name&gt;"}  gauge
+ *   plugin_reload_count        {plugin="&lt;name&gt;"}  gauge
+ *   plugin_load_time_ms        {plugin="&lt;name&gt;"}  gauge
+ *   plugin_memory_bytes        {plugin="&lt;name&gt;"}  gauge
+ *   plugin_call_latency_avg_ms {plugin="&lt;name&gt;"}  gauge
+ *   plugin_call_latency_p95_ms {plugin="&lt;name&gt;"}  gauge
+ *   plugin_call_latency_p99_ms {plugin="&lt;name&gt;"}  gauge
  */
 class PluginMetricsCollector {
 public:

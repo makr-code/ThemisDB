@@ -28,7 +28,7 @@
 #include <string_view>
 #include <vector>
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <utility>
 #include <memory>
 
@@ -55,7 +55,7 @@ namespace utils {
 /// - In-Memory Cache für schnellen Zugriff, optional HNSW-Index für ANN
 /// - Optional: Audit Logging für Vector-Operationen (Phase 1 Knowledge Graph Protection)
 ///
-/// @sources
+/// Sources:
 /// - HNSW Algorithm: Malkov, Y. A., & Yashunin, D. A. (2018).
 ///   "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
 ///   IEEE Transactions on Pattern Analysis and Machine Intelligence

@@ -21,8 +21,8 @@
 
 #include <string>
 #include <vector>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <queue>
 #include <stdexcept>
 #include <algorithm>
@@ -145,7 +145,7 @@ public:
         
         // Calculate in-degree for each node
         for (const auto& [name, deps] : graph.dependencies) {
-            in_degree[name] = static_cast<int>(deps.size());
+            in_degree[name] = static_cast&lt;int&gt;(deps.size());
         }
         
         // Find all nodes with no dependencies (in-degree = 0)

@@ -23,7 +23,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 #include <cmath>
 
 namespace themis {
@@ -423,10 +423,10 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     }
     
     auto hitOpt = entity.getFieldAsInt("hit_count");
-    if (hitOpt.has_value()) entry.hit_count = static_cast<int>(*hitOpt);
+    if (hitOpt.has_value()) entry.hit_count = static_cast&lt;int&gt;(*hitOpt);
     
     auto sizeOpt = entity.getFieldAsInt("result_size");
-    if (sizeOpt.has_value()) entry.result_size = static_cast<int>(*sizeOpt);
+    if (sizeOpt.has_value()) entry.result_size = static_cast&lt;int&gt;(*sizeOpt);
     
     return entry;
 }

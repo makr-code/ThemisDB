@@ -46,7 +46,7 @@
 #include <sstream>
 #include <iomanip>
 #include <limits>
-#include <set>
+#include &lt;set&gt;
 #include <future>
 #include <numeric>
 #include <lz4.h>
@@ -273,7 +273,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
         std::ostringstream oss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') 
-                << static_cast<int>(hash[i]);
+                << static_cast&lt;int&gt;(hash[i]);
         }
         stored_entry.checksum = oss.str();
     }
@@ -353,7 +353,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     std::ostringstream oss;
                     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
                         oss << std::hex << std::setw(2) << std::setfill('0')
-                            << static_cast<int>(hash[i]);
+                            << static_cast&lt;int&gt;(hash[i]);
                     }
                     if (oss.str() != entry->checksum) {
                         THEMIS_ERROR("WAL entry seq={} checksum mismatch – possible data corruption, skipping",
@@ -1728,7 +1728,7 @@ std::string CRDTConflictResolver::resolve(
     const std::string& collection,
     const std::string& document_id)
 {
-    // For simple numeric fields that follow the pattern "\"<field>\":<number>"
+    // For simple numeric fields that follow the pattern "\"&lt;field&gt;\":<number>"
     // we take the maximum value (grow-only counter / LWW-Max register).
     // For all other content we delegate to LWWConflictResolver.
     
@@ -2757,7 +2757,7 @@ std::string MultiMasterReplicationManager::write(
         SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
         std::ostringstream oss;
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
-            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast&lt;int&gt;(hash[i]);
         entry.checksum = oss.str();
     }
 
@@ -3957,12 +3957,12 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
             return data;
 
         case CompressionAlgorithm::LZ4: {
-            int bound = LZ4_compressBound(static_cast<int>(data.size()));
+            int bound = LZ4_compressBound(static_cast&lt;int&gt;(data.size()));
             std::vector<uint8_t> out(static_cast<size_t>(bound));
             int compressed = LZ4_compress_default(
                 reinterpret_cast<const char*>(data.data()),
                 reinterpret_cast<char*>(out.data()),
-                static_cast<int>(data.size()),
+                static_cast&lt;int&gt;(data.size()),
                 bound
             );
             if (compressed <= 0) {
@@ -4024,8 +4024,8 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             int result = LZ4_decompress_safe(
                 reinterpret_cast<const char*>(compressed.data()),
                 reinterpret_cast<char*>(out.data()),
-                static_cast<int>(compressed.size()),
-                static_cast<int>(out.size())
+                static_cast&lt;int&gt;(compressed.size()),
+                static_cast&lt;int&gt;(out.size())
             );
             if (result < 0) {
                 THEMIS_ERROR("LZ4 decompression failed");
@@ -4342,7 +4342,7 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
             b.bottleneck_type = "NETWORK";
             b.severity        = std::min(1.0, normalized_range / 5.0);
             b.details         = "High lag spread (normalized_range=" +
-                                std::to_string(static_cast<int>(normalized_range * 100)) + "%)";
+                                std::to_string(static_cast&lt;int&gt;(normalized_range * 100)) + "%)";
         } else if (avg > config_.slow_replica_avg_ms) {
             b.bottleneck_type = "DISK_IO";
             b.severity        = std::min(1.0,
@@ -4874,7 +4874,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const std::vector<uint8_t>& key) {
     // Generate a cryptographically secure random 12-byte IV via OpenSSL RAND_bytes
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(iv.size())) != 1) {
         THEMIS_ERROR("WALArchival: RAND_bytes failed; cannot generate encryption IV");
         return {};  // return empty to signal failure; caller must not store this
     }
@@ -4893,7 +4893,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
     EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data());
     EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
-                      data.data(), static_cast<int>(data.size()));
+                      data.data(), static_cast&lt;int&gt;(data.size()));
     ct_len = len;
     EVP_EncryptFinal_ex(ctx, ciphertext.data() + ct_len, &len);
     ct_len += len;
@@ -4918,7 +4918,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const uint8_t* iv      = data.data();
     const uint8_t* tag_ptr = data.data() + 12;
     const uint8_t* ct      = data.data() + 28;
-    int ct_len = static_cast<int>(data.size() - 28);
+    int ct_len = static_cast&lt;int&gt;(data.size() - 28);
 
     std::vector<uint8_t> plain(static_cast<size_t>(ct_len));
     int len = 0, plain_len = 0;
@@ -5408,7 +5408,7 @@ MultiRegionActiveActiveManager::write(
     result.session_token    = generateSessionToken(seq);
 
     THEMIS_INFO("MultiRegionActiveActive: write seq={} region={} consistency={}",
-                seq, config_.local_region_id, static_cast<int>(consistency));
+                seq, config_.local_region_id, static_cast&lt;int&gt;(consistency));
     return result;
 }
 
@@ -6219,7 +6219,7 @@ bool GeoReplicationManager::write(
 
     THEMIS_INFO("GeoReplicationManager: write key='{}' seq={} consistency={} region={}",
                 key, seq,
-                static_cast<int>(consistency),
+                static_cast&lt;int&gt;(consistency),
                 config_.local_region);
     return true;
 }
@@ -6254,12 +6254,12 @@ std::optional<std::string> GeoReplicationManager::read(
         ++reads_rejected_;
         THEMIS_WARN("GeoReplicationManager: read key='{}' rejected – "
                     "no eligible region for consistency={}",
-                    key, static_cast<int>(consistency));
+                    key, static_cast&lt;int&gt;(consistency));
         return std::nullopt;
     }
 
     THEMIS_INFO("GeoReplicationManager: read key='{}' consistency={} served by region={}",
-                key, static_cast<int>(consistency), region);
+                key, static_cast&lt;int&gt;(consistency), region);
     // Return a non-empty sentinel value – the actual value comes from the
     // caller's storage layer; this manager handles routing / consistency only.
     return region;

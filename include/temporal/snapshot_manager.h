@@ -35,10 +35,10 @@
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
 #include <functional>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <unordered_map>
 #include <vector>

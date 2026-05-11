@@ -187,7 +187,7 @@ public:
         // ── Store depth hint in extra ──────────────────────────────────────
         int depth = 1;
         if (cfg.config.contains("max_depth") && cfg.config["max_depth"].is_number()) {
-            depth = cfg.config["max_depth"].get<int>();
+            depth = cfg.config["max_depth"].get&lt;int&gt;();
         }
         ctx.extra["decompress.depth"] = std::to_string(depth);
 

@@ -23,7 +23,7 @@
 #include "ingestion/ingestion_step.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
-#include <regex>
+#include &lt;regex&gt;
 
 using json = nlohmann::json;
 

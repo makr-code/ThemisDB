@@ -24,7 +24,7 @@
 #include "content/content_security.h"
 #include "content/content_errors.h"
 #include <openssl/sha.h>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <iomanip>
 
@@ -45,7 +45,7 @@ std::string contentHash(const std::string& data) {
     std::ostringstream oss;
     for (int i = 0; i < 8; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(digest[i]);
+            << static_cast&lt;int&gt;(digest[i]);
     }
     return oss.str();
 }
@@ -63,7 +63,7 @@ json ContentSecurityConfig::toJson() const {
     json j;
     j["enable_malware_scan"] = enable_malware_scan;
     j["block_on_malware"] = block_on_malware;
-    j["malware_block_threshold"] = static_cast<int>(malware_block_threshold);
+    j["malware_block_threshold"] = static_cast&lt;int&gt;(malware_block_threshold);
     j["enable_pii_detection"] = enable_pii_detection;
     j["block_on_pii"] = block_on_pii;
     j["redact_pii_in_logs"] = redact_pii_in_logs;
@@ -84,7 +84,7 @@ ContentSecurityConfig ContentSecurityConfig::fromJson(const json& j) {
     if (j.contains("enable_malware_scan")) config.enable_malware_scan = j["enable_malware_scan"];
     if (j.contains("block_on_malware")) config.block_on_malware = j["block_on_malware"];
     if (j.contains("malware_block_threshold"))
-        config.malware_block_threshold = static_cast<security::ThreatLevel>(j["malware_block_threshold"].get<int>());
+        config.malware_block_threshold = static_cast<security::ThreatLevel>(j["malware_block_threshold"].get&lt;int&gt;());
     if (j.contains("enable_pii_detection")) config.enable_pii_detection = j["enable_pii_detection"];
     if (j.contains("block_on_pii")) config.block_on_pii = j["block_on_pii"];
     if (j.contains("redact_pii_in_logs")) config.redact_pii_in_logs = j["redact_pii_in_logs"];

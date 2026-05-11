@@ -85,7 +85,7 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
     wparams.print_progress = cfg_.print_progress;
 
     auto* ctx = static_cast<whisper_context*>(ctx_);
-    if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {
+    if (whisper_full(ctx, wparams, pcm.data(), static_cast&lt;int&gt;(pcm.size())) != 0) {
         result.success = false;
         result.error_message = "whisper_full() failed";
         return result;

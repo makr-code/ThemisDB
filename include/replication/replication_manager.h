@@ -52,11 +52,11 @@
 #include <shared_mutex>
 #include <condition_variable>
 #include <thread>
-#include <optional>
+#include &lt;optional&gt;
 #include <queue>
 #include <deque>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 
 namespace themisdb {
 namespace replication {

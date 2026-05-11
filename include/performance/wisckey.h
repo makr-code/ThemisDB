@@ -34,7 +34,7 @@
 #include <shared_mutex>
 #include <memory>
 #include <fstream>
-#include <optional>
+#include &lt;optional&gt;
 #include <atomic>
 
 namespace themis {

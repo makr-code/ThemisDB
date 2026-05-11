@@ -32,7 +32,7 @@
 #include <numeric>
 #include <cmath>
 #include <sstream>
-#include <regex>
+#include &lt;regex&gt;
 #include <random>
 #include <mutex>
 #include <atomic>
@@ -123,7 +123,7 @@ std::string LLMIntegration::generate(
         try {
             llm::InferenceRequest req;
             req.prompt      = prompt;
-            req.max_tokens  = static_cast<int>(options.max_tokens);
+            req.max_tokens  = static_cast&lt;int&gt;(options.max_tokens);
             req.temperature = static_cast<float>(options.temperature);
             req.model_id    = "default";
             auto response = llm::LLMPluginManager::instance().generate(req);

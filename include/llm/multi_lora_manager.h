@@ -25,7 +25,7 @@
 #include <vector>
 #include <unordered_map>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <thread>
 #include <atomic>
 #include <condition_variable>
@@ -77,7 +77,7 @@ enum class GPUPlacement {
  */
 struct MultiGPUConfig {
     bool enabled = false;
-    std::vector<int> devices;                    // GPU device IDs to use (e.g., {0, 1, 2, 3})
+    std::vector&lt;int&gt; devices;                    // GPU device IDs to use (e.g., {0, 1, 2, 3})
     MultiGPUStrategy strategy = MultiGPUStrategy::ROUND_ROBIN;
     bool enable_peer_transfer = false;           // GPUDirect P2P
     // FIND-015: Use named constant for default max VRAM per GPU
@@ -295,7 +295,7 @@ struct LoRASlot {
     
     // Multi-GPU support (v1.4.0)
     GPUPlacement gpu_placement = GPUPlacement::SINGLE_GPU;
-    std::vector<int> assigned_gpus;     // GPU device IDs where this LoRA is loaded
+    std::vector&lt;int&gt; assigned_gpus;     // GPU device IDs where this LoRA is loaded
     int primary_gpu = 0;                 // Primary GPU for single-GPU or coordinator for multi-GPU
     
     // Security and audit (v1.5.0)
@@ -674,7 +674,7 @@ public:
      * @param lora_id LoRA identifier
      * @return GPU device IDs where the LoRA is placed, empty if not loaded
      */
-    std::vector<int> getLoRAGPUPlacement(const std::string& lora_id) const;
+    std::vector&lt;int&gt; getLoRAGPUPlacement(const std::string& lora_id) const;
     
     /**
      * @brief Get per-GPU memory statistics (v1.4.0)
@@ -937,7 +937,7 @@ private:
     bool loadLoRAMultiGPU(LoRASlot* lora);  // Load LoRA across multiple GPUs
     void updateGPUMemoryTracking();  // Recalculate per-GPU memory usage
     bool isGPUHealthy(int gpu_id) const;  // Check GPU health status
-    std::vector<int> getAvailableGPUs() const;  // Get list of available GPUs
+    std::vector&lt;int&gt; getAvailableGPUs() const;  // Get list of available GPUs
     
     // Quantization helpers
     bool quantizeLoRA(LoRASlot* lora);

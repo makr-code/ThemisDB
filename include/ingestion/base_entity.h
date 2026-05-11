@@ -135,7 +135,7 @@ struct EntityProvenance {
  *   e.g. "law:BImSchG:§4:Abs1"
  * • Norm references: "normref:<target_law>:§<n>"
  * • Decisions:       "bescheid:<aktenzeichen>"
- * • Generic chunks:  "chunk:<file_id>:<seq>"
+ * • Generic chunks:  "chunk:<file_id>:&lt;seq&gt;"
  */
 struct BaseEntity {
     // ── Identity ──────────────────────────────────────────────────────────────

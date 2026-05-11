@@ -99,7 +99,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
         const auto& tok = kv.first;
         const int tf = kv.second;
         const uint64_t h = fnv1a64(tok);
-        const int idx = static_cast<int>(h % static_cast<uint64_t>(dim));
+        const int idx = static_cast&lt;int&gt;(h % static_cast<uint64_t>(dim));
         const float sign = ((h >> 8) & 1ULL) ? -1.0f : 1.0f;
         const float weight = 1.0f + std::log(static_cast<float>(std::max(1, tf)));
         vec[static_cast<size_t>(idx)] += sign * weight;
@@ -198,7 +198,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
             if (db_json.contains("pipeline") && db_json["pipeline"].contains("embedding")) {
                 const auto& emb = db_json["pipeline"]["embedding"];
                 if (emb.contains("dimension")) {
-                    impl_->embedding_dimension = emb["dimension"].get<int>();
+                    impl_->embedding_dimension = emb["dimension"].get&lt;int&gt;();
                 }
                 if (emb.contains("backend")) {
                     const std::string backend = emb["backend"].get<std::string>();
@@ -236,7 +236,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
 
                 doc.content_type = "text/markdown";
                 doc.text_content = chunk_json.value("text", "");
-                doc.content_length = chunk_json.value("token_count", static_cast<int>(doc.text_content.size()));
+                doc.content_length = chunk_json.value("token_count", static_cast&lt;int&gt;(doc.text_content.size()));
 
                 doc.metadata = {
                     {"chunk_id", chunk_json.value("chunk_id", "")},
@@ -257,7 +257,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
                 }
                 if (chunk_json.contains("embedding_q") && chunk_json["embedding_q"].is_array()) {
                     for (const auto& x : chunk_json["embedding_q"]) {
-                        doc.embedding_q.push_back(static_cast<int16_t>(x.get<int>()));
+                        doc.embedding_q.push_back(static_cast<int16_t>(x.get&lt;int&gt;()));
                     }
                     doc.embedding_scale = chunk_json.value("embedding_scale", 0.0f);
                     doc.has_embedding = !doc.embedding_q.empty();
@@ -307,7 +307,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
                     doc.text_content = doc.themis_metadata["vector"]["text_content"].get<std::string>();
                     
                     if (doc.themis_metadata["vector"].contains("content_length")) {
-                        doc.content_length = doc.themis_metadata["vector"]["content_length"].get<int>();
+                        doc.content_length = doc.themis_metadata["vector"]["content_length"].get&lt;int&gt;();
                     }
                 }
             }

@@ -25,7 +25,7 @@
 #include "scraper/scraper_config.h"
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 
 namespace themis {

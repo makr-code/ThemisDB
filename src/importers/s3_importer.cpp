@@ -153,7 +153,7 @@ bool S3Importer::initialize(const std::string& config) {
             s3_config_.request_timeout_ms =
                 cfg["request_timeout_ms"].get<long>();
         if (cfg.contains("max_retries"))
-            s3_config_.max_retries = cfg["max_retries"].get<int>();
+            s3_config_.max_retries = cfg["max_retries"].get&lt;int&gt;();
 
         // Flat-file settings forwarded to FlatFileImporter.
         json flat_cfg = json::object();

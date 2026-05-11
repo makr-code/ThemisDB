@@ -146,8 +146,8 @@ double HyperIndexTensor::contract(
     }
 
     // Build a mode→pinned-bucket map for O(1) lookup
-    std::vector<int> pin(d, -1);
-    for (const auto& [mode, bucket] : pinned_modes) pin[mode] = static_cast<int>(bucket);
+    std::vector&lt;int&gt; pin(d, -1);
+    for (const auto& [mode, bucket] : pinned_modes) pin[mode] = static_cast&lt;int&gt;(bucket);
 
     // Left-to-right contraction: carry = current (r_left-dim) vector
     // For a pinned mode: slice core along the pinned index → multiply carry into it

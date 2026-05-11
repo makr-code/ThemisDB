@@ -61,7 +61,7 @@ struct HnswOptimizationConfig {
 /// Implements layer pruning, adaptive layer selection, and batch insert optimization
 /// for HNSW vector index to improve performance at scale (1B+ vectors)
 ///
-/// @sources
+/// Sources:
 /// - HNSW Algorithm: Malkov, Y. A., & Yashunin, D. A. (2018).
 ///   "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
 ///   IEEE Transactions on Pattern Analysis and Machine Intelligence

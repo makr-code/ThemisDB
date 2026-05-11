@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace plugins {

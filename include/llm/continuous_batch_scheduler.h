@@ -127,7 +127,7 @@ public:
         size_t total_prompt_tokens = 0;
         
         // PagedAttention integration
-        std::vector<int> allocated_blocks;  // Physical block IDs from PagedKVCache
+        std::vector&lt;int&gt; allocated_blocks;  // Physical block IDs from PagedKVCache
         int sequence_id = -1;                // Unique sequence identifier
         
         // Timestamps for accurate metrics
@@ -325,8 +325,8 @@ private:
     // Thread-safe counters using atomics
     // Note: These are incremented during request submission under mutex_,
     // but making them atomic is defensive programming for future changes
-    std::atomic<int> next_request_id_{0};
-    std::atomic<int> next_sequence_id_{0};
+    std::atomic&lt;int&gt; next_request_id_{0};
+    std::atomic&lt;int&gt; next_sequence_id_{0};
 };
 
 } // namespace llm

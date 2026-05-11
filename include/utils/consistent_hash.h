@@ -24,7 +24,7 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <map>
+#include &lt;map&gt;
 #include <shared_mutex>
 #include <string>
 #include <unordered_set>
@@ -91,7 +91,7 @@ private:
     /// FNV-1a 64-bit hash of an arbitrary string.
     static uint64_t fnv1a64(const std::string& s);
 
-    /// Hash used for virtual-node slots: "<node>#<idx>".
+    /// Hash used for virtual-node slots: "&lt;node&gt;#&lt;idx&gt;".
     static uint64_t virtualKey(const std::string& node, size_t idx);
 
     size_t virtual_nodes_;

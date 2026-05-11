@@ -101,7 +101,7 @@ const char* levelName(core::concerns::ILogger::Level level) noexcept {
 }
 
 int levelIndex(core::concerns::ILogger::Level level) noexcept {
-    return static_cast<int>(level);
+    return static_cast&lt;int&gt;(level);
 }
 
 /// Format a system_clock time_point as ISO-8601 UTC (seconds precision).

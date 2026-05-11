@@ -31,7 +31,7 @@ namespace utils {
  * 
  * Uses a compact binary format similar to VelocyPack or MessagePack
  * 
- * @sources
+ * Sources:
  * - Inspired by: VelocyPack (ArangoDB)
  *   Repository: https://github.com/arangodb/velocypack
  *   License: Apache 2.0

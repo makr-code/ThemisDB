@@ -26,7 +26,7 @@
 #include "llm/lora_framework/feedback_plugin.h"
 #include <algorithm>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis {
 namespace llm {

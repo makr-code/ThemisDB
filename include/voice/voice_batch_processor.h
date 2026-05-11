@@ -21,7 +21,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <functional>
 #include <future>
 #include <atomic>

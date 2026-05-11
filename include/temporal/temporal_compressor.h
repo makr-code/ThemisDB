@@ -163,7 +163,7 @@ struct CompressionStats {
  * For each consecutive pair of historical versions of the same key, the
  * payload is replaced with a JSON patch object:
  * ```json
- * {"__compressed": "delta", "__base": <key+version>, "__patch": {<field>: <new_value>, ...}}
+ * {"__compressed": "delta", "__base": <key+version>, "__patch": {&lt;field&gt;: <new_value>, ...}}
  * ```
  * Fields unchanged between versions are omitted.  Decompression walks the
  * chain from the earliest baseline and applies patches in order.

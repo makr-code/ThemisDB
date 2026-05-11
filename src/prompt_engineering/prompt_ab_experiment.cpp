@@ -356,7 +356,7 @@ ExperimentVariant PromptABExperimentFramework::assignVariant(
     }
     const int split_pct = it->second.split_pct;
     const std::uint32_t h = murmur3_32(context.request_id);
-    return (static_cast<int>(h % 100u) < split_pct)
+    return (static_cast&lt;int&gt;(h % 100u) < split_pct)
            ? ExperimentVariant::TREATMENT
            : ExperimentVariant::CONTROL;
 }

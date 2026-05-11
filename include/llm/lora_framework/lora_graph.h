@@ -23,7 +23,7 @@
 #include "storage/base_entity.h"
 #include <vector>
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace llm {
@@ -149,7 +149,7 @@ struct LoRAVectorEmbedding {
             {"embedding", embedding},
             {"embedding_model", embedding_model},
             {"source_text", source_text},
-            {"source", static_cast<int>(source)},
+            {"source", static_cast&lt;int&gt;(source)},
             {"dimensions", embedding.size()}
         };
     }

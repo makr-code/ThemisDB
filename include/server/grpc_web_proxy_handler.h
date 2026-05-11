@@ -71,8 +71,8 @@ namespace http  = beast::http;
  *
  * ## Endpoints
  *
- *   POST    /grpc-web/<Package>.<Service>/<Method>      – proxy unary gRPC call
- *   OPTIONS /grpc-web/<Package>.<Service>/<Method>      – CORS preflight
+ *   POST    /grpc-web/&lt;Package&gt;.&lt;Service&gt;/&lt;Method&gt;      – proxy unary gRPC call
+ *   OPTIONS /grpc-web/&lt;Package&gt;.&lt;Service&gt;/&lt;Method&gt;      – CORS preflight
  *   GET     /api/v1/grpc-web/status                     – proxy health / config
  *
  * ## Content-Type

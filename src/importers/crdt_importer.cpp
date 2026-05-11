@@ -23,7 +23,7 @@
 #include "importers/crdt_importer.h"
 #include <stdexcept>
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace importers {

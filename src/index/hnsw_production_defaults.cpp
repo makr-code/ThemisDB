@@ -69,16 +69,16 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     
     switch (workload) {
         case WorkloadType::OLTP:
-            params.ef_construction = static_cast<int>(params.ef_construction * 0.7);
+            params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 0.7);
             break;
         case WorkloadType::ANALYTICS:
-            params.ef_construction = static_cast<int>(params.ef_construction * 1.3);
+            params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 1.3);
             break;
         case WorkloadType::RAG:
-            params.ef_construction = static_cast<int>(params.ef_construction * 1.2);
+            params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 1.2);
             break;
         case WorkloadType::BATCH_INSERT:
-            params.ef_construction = static_cast<int>(params.ef_construction * 0.6);
+            params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 0.6);
             break;
         case WorkloadType::MIXED:
         default:
@@ -92,13 +92,13 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     
     switch (workload) {
         case WorkloadType::OLTP:
-            params.ef_search = std::max(16, static_cast<int>(params.ef_search * 0.8));
+            params.ef_search = std::max(16, static_cast&lt;int&gt;(params.ef_search * 0.8));
             break;
         case WorkloadType::ANALYTICS:
-            params.ef_search = std::min(512, static_cast<int>(params.ef_search * 1.5));
+            params.ef_search = std::min(512, static_cast&lt;int&gt;(params.ef_search * 1.5));
             break;
         case WorkloadType::RAG:
-            params.ef_search = std::min(256, static_cast<int>(params.ef_search * 1.2));
+            params.ef_search = std::min(256, static_cast&lt;int&gt;(params.ef_search * 1.2));
             break;
         case WorkloadType::BATCH_INSERT:
             // ef_search less relevant for batch insert
@@ -204,13 +204,13 @@ int HnswProductionDefaults::getRecommendedEfConstruction(int M, size_t dataset_s
     if (dataset_size < SMALL_DATASET) {
         return base_ef;
     } else if (dataset_size < MEDIUM_DATASET) {
-        return static_cast<int>(base_ef * 1.25);
+        return static_cast&lt;int&gt;(base_ef * 1.25);
     } else if (dataset_size < LARGE_DATASET) {
-        return static_cast<int>(base_ef * 1.5);
+        return static_cast&lt;int&gt;(base_ef * 1.5);
     } else if (dataset_size < XLARGE_DATASET) {
         return base_ef * 2;
     } else {
-        return static_cast<int>(base_ef * 2.5);
+        return static_cast&lt;int&gt;(base_ef * 2.5);
     }
 }
 
@@ -221,29 +221,29 @@ int HnswProductionDefaults::getRecommendedEfSearch(
     // ef_search must be >= k
     // Higher ef_search = better recall but slower queries
     
-    int base_ef = static_cast<int>(k);
+    int base_ef = static_cast&lt;int&gt;(k);
     
     // Apply profile multiplier
     double multiplier = BALANCED_EF_MULTIPLIER;
     switch (profile) {
         case PerformanceProfile::LATENCY_OPTIMIZED:
             multiplier = LATENCY_EF_MULTIPLIER;
-            base_ef = std::max(static_cast<int>(k), static_cast<int>(k * 1.5));
+            base_ef = std::max(static_cast&lt;int&gt;(k), static_cast&lt;int&gt;(k * 1.5));
             break;
         case PerformanceProfile::BALANCED:
             multiplier = BALANCED_EF_MULTIPLIER;
-            base_ef = static_cast<int>(k * 2.0);
+            base_ef = static_cast&lt;int&gt;(k * 2.0);
             break;
         case PerformanceProfile::RECALL_OPTIMIZED:
             multiplier = RECALL_EF_MULTIPLIER;
-            base_ef = static_cast<int>(k * 3.0);
+            base_ef = static_cast&lt;int&gt;(k * 3.0);
             break;
     }
     
-    int ef = static_cast<int>(base_ef * multiplier);
+    int ef = static_cast&lt;int&gt;(base_ef * multiplier);
     
     // Clamp to reasonable range
-    return std::clamp(ef, static_cast<int>(k), 512);
+    return std::clamp(ef, static_cast&lt;int&gt;(k), 512);
 }
 
 HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
@@ -270,11 +270,11 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
     // Fine-tune ef_construction based on the recall target.
     // A higher recall target during construction means a denser graph is needed.
     if (target_recall >= 0.99) {
-        params.ef_construction = static_cast<int>(params.ef_construction * 1.5);
+        params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 1.5);
     } else if (target_recall >= 0.97) {
-        params.ef_construction = static_cast<int>(params.ef_construction * 1.2);
+        params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 1.2);
     } else if (target_recall < 0.90) {
-        params.ef_construction = static_cast<int>(params.ef_construction * 0.8);
+        params.ef_construction = static_cast&lt;int&gt;(params.ef_construction * 0.8);
     }
 
     // Fine-tune ef_search based on the latency target.
@@ -296,7 +296,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
         "(latency_target={:.1f}ms, recall_target={:.3f}, workload={})",
         params.M, params.ef_construction, params.ef_search,
         target_latency_ms, target_recall,
-        static_cast<int>(workload));
+        static_cast&lt;int&gt;(workload));
 
     return params;
 }
@@ -404,20 +404,20 @@ int HnswRuntimeAdapter::adjustEfSearch(
     if (actual_recall >= 0.0) {
         if (actual_recall < target_recall - 0.01) {
             // Recall too low - increase ef_search
-            new_ef = static_cast<int>(current_ef * 1.2);
+            new_ef = static_cast&lt;int&gt;(current_ef * 1.2);
         } else if (actual_recall > target_recall + 0.02) {
             // Recall higher than needed - can reduce ef_search
-            new_ef = static_cast<int>(current_ef * 0.9);
+            new_ef = static_cast&lt;int&gt;(current_ef * 0.9);
         }
     }
     
     // Priority 2: Meet latency target
     if (actual_latency_ms > target_latency_ms * 1.2) {
         // Latency too high - decrease ef_search
-        new_ef = std::min(new_ef, static_cast<int>(current_ef * 0.85));
+        new_ef = std::min(new_ef, static_cast&lt;int&gt;(current_ef * 0.85));
     } else if (actual_latency_ms < target_latency_ms * 0.5) {
         // Latency very low - can increase ef_search for better recall
-        new_ef = std::max(new_ef, static_cast<int>(current_ef * 1.1));
+        new_ef = std::max(new_ef, static_cast&lt;int&gt;(current_ef * 1.1));
     }
     
     // Ensure ef_search stays in reasonable bounds

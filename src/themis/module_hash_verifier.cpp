@@ -82,7 +82,7 @@ std::string ModuleHashVerifier::computeSHA256(const std::string& filePath) {
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0')
-           << static_cast<int>(hash[i]);
+           << static_cast&lt;int&gt;(hash[i]);
     }
     return ss.str();
 }

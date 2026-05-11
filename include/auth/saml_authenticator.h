@@ -26,7 +26,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <chrono>
 #include <mutex>
 #include <functional>
@@ -329,7 +329,7 @@ private:
     /// SAMLConfig::sp_private_key_loader.  Supports AES-128-CBC and AES-256-CBC
     /// data encryption with RSA-OAEP (default) or RSA-PKCS1-v1.5 key transport.
     ///
-    /// @param encrypted_assertion_node  The <EncryptedAssertion> pugixml node
+    /// @param encrypted_assertion_node  The <EncryptedAssertion>lt;EncryptedAssertion<EncryptedAssertion>gt; pugixml node
     /// @return Decrypted assertion XML as a UTF-8 string
     /// @throws AuthException (SAML_DECRYPTION_FAILED) on any failure
     std::string decryptAssertion(const pugi::xml_node& encrypted_assertion_node) const;

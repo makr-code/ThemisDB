@@ -28,7 +28,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace index {
@@ -49,7 +49,7 @@ namespace index {
  * - Automatic backend selection
  * - Production-ready performance (200K+ queries/sec on GPU)
  * 
- * @sources
+ * Sources:
  * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI
  * - FAISS: Johnson et al. (2019) - IEEE Transactions on Big Data
  * - ROCm/HIP: https://rocm.docs.amd.com/

@@ -23,7 +23,7 @@
 #include "query/query_rewrite_rule.h"
 
 #include <stdexcept>
-#include <optional>
+#include &lt;optional&gt;
 #include <unordered_map>
 #include <unordered_set>
 
@@ -181,7 +181,7 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
                 filters.push_back(std::move(child));
             } else {
                 if (hasType(child, "scan") && scan_index < 0) {
-                    scan_index = static_cast<int>(others.size());
+                    scan_index = static_cast&lt;int&gt;(others.size());
                 }
                 others.push_back(std::move(child));
             }

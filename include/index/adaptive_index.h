@@ -25,7 +25,7 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <shared_mutex>
@@ -270,7 +270,7 @@ private:
     SelectivityAnalyzer* analyzer_;
 
     // In-memory registry of indexes that already exist.
-    // Key format: "<collection>:<field>"
+    // Key format: "<collection>:&lt;field&gt;"
     mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     

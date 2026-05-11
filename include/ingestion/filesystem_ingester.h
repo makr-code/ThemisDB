@@ -40,7 +40,7 @@ namespace ingestion {
 enum class BinaryMimeType {
     UNKNOWN,  ///< Not a known binary type (may be text)
     PDF,      ///< Portable Document Format (magic: %PDF)
-    DOCX      ///< Office Open XML / DOCX (magic: PK\x03\x04 ZIP with OOXML marker)
+    DOCX      ///< Office Open XML / DOCX (magic: PK 0x03 0x04 ZIP with OOXML marker)
 };
 
 /**
@@ -49,7 +49,7 @@ enum class BinaryMimeType {
  * Reads the first 8 bytes of the provided raw buffer and identifies
  * known binary formats:
  * - PDF:  starts with `%PDF`
- * - DOCX: starts with the ZIP magic `PK\x03\x04` and contains the OOXML
+ * - DOCX: starts with the ZIP magic `PK 0x03 0x04` and contains the OOXML
  *         content-type marker in the first 512 bytes
  *
  * @param raw   First bytes of the file (minimum 4 bytes required; fewer

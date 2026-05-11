@@ -22,7 +22,7 @@
 #include "observability/continuous_profiler.h"
 
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <string>
 #include <vector>
@@ -74,7 +74,7 @@ struct MergedFlameGraph {
      *
      * Each line has the form:
      * ```
-     * frame1;frame2;frame3 <count>
+     * frame1;frame2;frame3 &lt;count&gt;
      * ```
      * Lines are sorted by stack string for deterministic output.
      */

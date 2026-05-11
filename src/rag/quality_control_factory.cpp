@@ -60,7 +60,7 @@ QualityControlPipeline::Config makePipelineConfigForMode(QCMode mode) {
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createBasic(QCMode mode) {
     auto config = makePipelineConfigForMode(mode);
     
-    THEMIS_INFO("Creating basic quality control pipeline (mode: {})", static_cast<int>(mode));
+    THEMIS_INFO("Creating basic quality control pipeline (mode: {})", static_cast&lt;int&gt;(mode));
     
     return std::make_unique<QualityControlPipeline>(config);
 }

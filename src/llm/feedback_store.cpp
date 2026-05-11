@@ -25,7 +25,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
-#include <regex>
+#include &lt;regex&gt;
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 

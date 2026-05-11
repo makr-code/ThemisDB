@@ -29,7 +29,7 @@
 #include <string_view>
 #include <vector>
 #include <utility>
-#include <optional>
+#include &lt;optional&gt;
 #include <unordered_set>
 #include <unordered_map>
 #include <mutex>
@@ -49,8 +49,8 @@ namespace utils {
 /// GraphIndexManager
 /// - Verwaltet Adjazenz-Indizes für gerichtete Kanten
 /// - Key-Schema:
-///   - Out: graph:out:<from_pk>:<edge_id>  -> value: <to_pk>
-///   - In:  graph:in:<to_pk>:<edge_id>    -> value: <from_pk>
+///   - Out: graph:out:&lt;from_pk&gt;:&lt;edge_id&gt;  -> value: &lt;to_pk&gt;
+///   - In:  graph:in:&lt;to_pk&gt;:&lt;edge_id&gt;    -> value: &lt;from_pk&gt;
 /// - Atomare Operationen via WriteBatch
 /// - In-Memory Topologie für O(1) Nachbarschaftsabfragen
 /// - Saubere Fehler über Status-Rückgabe, kein Exception-API nach außen

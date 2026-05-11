@@ -42,7 +42,7 @@ namespace themis {
  *
  * ## Log entry format (one line per event)
  *
- *   <ISO-8601 timestamp> <sequence> <event> <key> [<extra>]\n
+ *   <ISO-8601 timestamp> &lt;sequence&gt; &lt;event&gt; &lt;key&gt; [&lt;extra&gt;]\n
  *
  * Example:
  *

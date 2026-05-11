@@ -3,10 +3,10 @@
 #include "ethics_ai/ethics_profile_registry.h"
 #include "philosophy_loader.h"
 
-#include <list>
+#include &lt;list&gt;
 #include <mutex>
 #include <unordered_map>
-#include <map>
+#include &lt;map&gt;
 
 namespace themis {
 namespace plugins {

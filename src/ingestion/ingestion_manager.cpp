@@ -44,8 +44,8 @@
 #include <random>
 #include <filesystem>
 #include <fstream>
-#include <regex>
-#include <optional>
+#include &lt;regex&gt;
+#include &lt;optional&gt;
 
 namespace themis {
 namespace ingestion {
@@ -92,7 +92,7 @@ static std::string sourceTypeLabel(SourceType t) {
 
 /// Map IngestionErrorCode to its integer string for a metric label
 [[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
-    return std::to_string(static_cast<int>(c));
+    return std::to_string(static_cast&lt;int&gt;(c));
 }
 
 // ============================================================================
@@ -112,7 +112,7 @@ static std::string regexEscape(const std::string& s) {
     return out;
 }
 
-/// Build a compiled regex that matches `"key"\s*:` at a JSON object key position
+/// Build a compiled regex that matches `"key"\\s*:` at a JSON object key position
 /// (preceded by `{` or `,`).  Field names are literal-escaped before insertion.
 static std::regex buildKeyRegex(const std::string& key) {
     return std::regex(R"([{,]\s*\")" + regexEscape(key) + R"(\"\s*:)");
@@ -171,7 +171,7 @@ static bool looksLikeJson(const std::string& content) {
 struct CompiledFieldRule {
     std::string            name;
     SchemaFieldRule        rule;
-    std::regex             key_re;     ///< compiled [{,]\s*"name"\s*: pattern
+    std::regex             key_re;     ///< compiled [{,]\\s*"name"\\s*: pattern
     std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
     bool                   key_re_ok    = false;
     bool                   value_re_ok  = false;
@@ -739,7 +739,7 @@ public:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
                                    IngestionErrorSeverity::ERROR,
                                    "Connector type not yet implemented: " +
-                                   std::to_string(static_cast<int>(config.type)),
+                                   std::to_string(static_cast&lt;int&gt;(config.type)),
                                    source_id);
                     return stats;
             }
@@ -1891,7 +1891,7 @@ std::string IngestionMetricsExporter::exportText(
         // Count occurrences per error code
         std::unordered_map<int, size_t> code_counts;
         for (const auto& err : stats.errors) {
-            code_counts[static_cast<int>(err.code)]++;
+            code_counts[static_cast&lt;int&gt;(err.code)]++;
         }
         for (const auto& [code_int, cnt] : code_counts) {
             auto labels = base_labels;

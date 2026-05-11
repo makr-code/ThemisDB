@@ -37,7 +37,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <vector>
 
@@ -55,11 +55,11 @@ struct RegistryConfig {
     /// Base URL of the registry (e.g., "https://registry.example.com/api/v1").
     std::string registry_url;
 
-    /// Bearer token sent as "Authorization: Bearer <token>".
+    /// Bearer token sent as "Authorization: Bearer &lt;token&gt;".
     /// Takes precedence over api_key when both are set.
     std::string auth_token;
 
-    /// API key sent as "X-API-Key: <key>" header.
+    /// API key sent as "X-API-Key: &lt;key&gt;" header.
     std::string api_key;
 
     /// Directory where downloaded plugin binaries are stored.

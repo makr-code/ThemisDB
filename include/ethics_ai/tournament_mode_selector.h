@@ -2,7 +2,7 @@
 
 #include "ethics_ai/ethics_ai_types.h"
 #include "ethics_ai/cross_school_tension_resolver.h"
-#include <map>
+#include &lt;map&gt;
 #include <string>
 #include <vector>
 

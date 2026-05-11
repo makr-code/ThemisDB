@@ -22,8 +22,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <optional>
-#include <map>
+#include &lt;optional&gt;
+#include &lt;map&gt;
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
 #include "llm/adapter_registry.h"
@@ -193,20 +193,20 @@ public:
     AQLTrainParser() = default;
     
     /// Parse TRAIN ADAPTER statement
-    /// Syntax: TRAIN ADAPTER <id> FROM <collection> [WHERE ...] 
+    /// Syntax: TRAIN ADAPTER &lt;id&gt; FROM &lt;collection&gt; [WHERE ...] 
     ///         [USING GRAPH_CONTEXT(...)]
     ///         [USING VECTOR_SIMILARITY(...)]
     ///         [USING RELATIONAL_JOIN(...)]
-    ///         [DISTRIBUTED] WITH <config>
+    ///         [DISTRIBUTED] WITH &lt;config&gt;
     std::shared_ptr<TrainAdapterStmt> parseTrainAdapter(const std::string& aql);
     
     /// Parse DEPLOY ADAPTER statement
-    /// Syntax: DEPLOY ADAPTER <id> TO SHARD '<shard>' [, '<shard2>'] 
+    /// Syntax: DEPLOY ADAPTER &lt;id&gt; TO SHARD '&lt;shard&gt;' [, '&lt;shard2&gt;'] 
     ///         [WITH strategy = '...', validate_compatibility = TRUE]
     std::shared_ptr<DeployAdapterStmt> parseDeployAdapter(const std::string& aql);
     
     /// Parse VERIFY ADAPTER statement
-    /// Syntax: VERIFY ADAPTER <id> [CHECK signature, manifest, safetensors_match]
+    /// Syntax: VERIFY ADAPTER &lt;id&gt; [CHECK signature, manifest, safetensors_match]
     std::shared_ptr<VerifyAdapterStmt> parseVerifyAdapter(const std::string& aql);
     
     /// Parse LIST ADAPTERS statement

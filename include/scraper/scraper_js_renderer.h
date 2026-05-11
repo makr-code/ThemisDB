@@ -24,7 +24,7 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 
 namespace themis {
@@ -80,7 +80,7 @@ public:
  * @brief Invokes an external headless browser renderer via subprocess.
  *
  * The command line called is:
- *   <renderer_cmd> <url> [--timeout <ms>] [--wait-for <selector>] [extra_args…]
+ *   &lt;renderer_cmd&gt; &lt;url&gt; [--timeout &lt;ms&gt;] [--wait-for &lt;selector&gt;] [extra_args…]
  *
  * The renderer must:
  *  - Write the fully-rendered HTML to stdout.
@@ -137,7 +137,7 @@ public:
 
     JsRenderResult render(const JsRenderRequest& /*req*/) override {
         ++call_count_;
-        if (idx_ < static_cast<int>(injected_.size())) {
+        if (idx_ < static_cast&lt;int&gt;(injected_.size())) {
             return injected_[idx_++];
         }
         JsRenderResult r;

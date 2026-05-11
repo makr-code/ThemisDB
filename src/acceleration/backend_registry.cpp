@@ -166,7 +166,7 @@ BackendRegistry& BackendRegistry::instance() {
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
     if (backend && backend->isAvailable()) {
         std::unique_lock<std::shared_mutex> lock(registryMutex_);
-        THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()));
+        THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast&lt;int&gt;(backend->type()));
 
         // Perform all dynamic_casts once at registration time so the hot
         // query path (selectTyped / getBestXBackend) never needs to cast.
@@ -523,7 +523,7 @@ void BackendRegistry::initializeRuntime(
     auto logSelection = [](const char* category, const IComputeBackend* b) {
         if (b) {
             THEMIS_INFO("[acceleration] Selected {} backend: {} (type={})",
-                        category, b->name(), static_cast<int>(b->type()));
+                        category, b->name(), static_cast&lt;int&gt;(b->type()));
         } else {
             THEMIS_WARN("[acceleration] No suitable {} backend found — operation category unavailable.",
                         category);

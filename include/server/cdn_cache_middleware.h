@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <cstdint>
 
 namespace themis {
@@ -123,7 +123,7 @@ struct CdnRoutePolicy {
  * }
  * @endcode
  *
- * @thread_safety All public methods are stateless with respect to the
+ * Thread-safety: All public methods are stateless with respect to the
  *   registered policy map, which is populated before the server starts
  *   and never mutated afterwards.  No locking is required for read-only
  *   access during request processing.

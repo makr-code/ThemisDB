@@ -180,7 +180,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
         if (!plaintext.empty()) {
             if (EVP_EncryptUpdate(ctx, ciphertext_ptr, &len,
                                   plaintext.data(),
-                                  static_cast<int>(plaintext.size())) != 1) {
+                                  static_cast&lt;int&gt;(plaintext.size())) != 1) {
                 throw std::runtime_error("EncryptedBlobBackend: EVP_EncryptUpdate failed");
             }
         }
@@ -191,7 +191,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
         }
 
         // Write GCM tag after ciphertext.
-        uint8_t* tag_ptr = out.data() + kIvLen + static_cast<int>(plaintext.size());
+        uint8_t* tag_ptr = out.data() + kIvLen + static_cast&lt;int&gt;(plaintext.size());
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, kTagLen, tag_ptr) != 1) {
             throw std::runtime_error("EncryptedBlobBackend: EVP_CTRL_GCM_GET_TAG failed");
         }
@@ -247,7 +247,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
         int len = 0;
         if (ct_len > 0) {
             if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                                  ct_ptr, static_cast<int>(ct_len)) != 1) {
+                                  ct_ptr, static_cast&lt;int&gt;(ct_len)) != 1) {
                 throw std::runtime_error("EncryptedBlobBackend: EVP_DecryptUpdate failed");
             }
         }

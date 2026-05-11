@@ -40,14 +40,14 @@
 //             exhausting the queue form a cyclic subgraph.
 //
 // Version constraint format: comma-separated tokens, each of the form
-//   <op><version>, where <op> is one of >=, <=, >, <, ==, !=.
+//   &lt;op&gt;<version>, where &lt;op&gt; is one of >=, <=, >, <, ==, !=.
 // All tokens are ANDed; an empty constraint is always satisfied.
 
 #include "updates/dependency_resolver.h"
 
 #include <algorithm>
 #include <cstdio>
-#include <map>
+#include &lt;map&gt;
 #include <queue>
 #include <sstream>
 #include <tuple>

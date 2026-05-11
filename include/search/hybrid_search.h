@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include "index/vector_index.h"
 
 namespace themis {

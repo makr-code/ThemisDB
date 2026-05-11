@@ -360,7 +360,7 @@ void Http3Session::start() {
 
     // Congestion control algorithm (production: BBR for mobile/lossy paths)
     settings.cc_algo = static_cast<ngtcp2_cc_algo>(
-        static_cast<int>(prod_cfg_.cc_algorithm));
+        static_cast&lt;int&gt;(prod_cfg_.cc_algorithm));
 
     // Production flow-control tuning
     settings.max_stream_data_bidi_local  = static_cast<uint64_t>(
@@ -568,7 +568,7 @@ void Http3Session::doRead() {
 
         if (sveccnt < 0) {
             THEMIS_WARN("HTTP/3: nghttp3_conn_writev_stream: {}",
-                        nghttp3_strerror(static_cast<int>(sveccnt)));
+                        nghttp3_strerror(static_cast&lt;int&gt;(sveccnt)));
             break;
         }
 
@@ -598,7 +598,7 @@ void Http3Session::doRead() {
                 continue;
             }
             THEMIS_WARN("HTTP/3: ngtcp2_conn_writev_stream: {}",
-                        ngtcp2_strerror(static_cast<int>(nwrite)));
+                        ngtcp2_strerror(static_cast&lt;int&gt;(nwrite)));
             break;
         }
 
@@ -951,7 +951,7 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
 
     if (nwrite < 0) {
         THEMIS_WARN("[Http3Session] ngtcp2_conn_write_datagram failed: {}",
-                    ngtcp2_strerror(static_cast<int>(nwrite)));
+                    ngtcp2_strerror(static_cast&lt;int&gt;(nwrite)));
         return false;
     }
 

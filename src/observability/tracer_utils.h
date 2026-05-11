@@ -6,7 +6,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include <map>
+#include &lt;map&gt;
 #include <random>
 #include <sstream>
 #include <string>

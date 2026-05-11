@@ -26,8 +26,8 @@
 #include <algorithm>
 #include <cctype>
 #include <sstream>
-#include <regex>
-#include <set>
+#include &lt;regex&gt;
+#include &lt;set&gt;
 #include <unordered_map>
 
 namespace themis {
@@ -404,7 +404,7 @@ void AQLQueryValidator::checkUnknownFields(
         }
     }
 
-    // Extract <var>.<field> accesses
+    // Extract <var>.&lt;field&gt; accesses
     static const std::regex field_access_re(
         R"(\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*))",
         std::regex::icase

@@ -34,7 +34,7 @@ namespace plugins {
  * @brief Parsed OCI image reference.
  *
  * An OCI reference has the form:
- *   [registry/][namespace/]name[:tag][@digest]
+ *   [registry/][namespace/]name[:tag][\@digest]
  *
  * Examples:
  *   - "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
@@ -50,7 +50,7 @@ struct OciReference {
      * @brief Parse a raw OCI reference string into its components.
      *
      * Accepts references of the form:
-     *   [registry/]name[:tag][@digest]
+     *   [registry/]name[:tag][\@digest]
      *
      * If no registry is detected (no dot or colon before the first slash),
      * "registry-1.docker.io" is used as a default.

@@ -71,10 +71,10 @@
 #include "temporal/temporal_types.h"
 #include <atomic>
 #include <filesystem>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
-#include <optional>
-#include <set>
+#include &lt;optional&gt;
+#include &lt;set&gt;
 #include <shared_mutex>
 #include <string>
 #include <vector>
@@ -393,7 +393,7 @@ public:
                                   const std::string& doc_key,
                                   Timestamp sys_start);
 
-    /** Prefix for all versions of (table_name, doc_key): `<table>\x01<key>\x01` */
+    /** Prefix for all versions of (table_name, doc_key): `<table>\x01&lt;key&gt;\x01` */
     static std::string keyPrefix(const std::string& table_name,
                                   const std::string& doc_key);
 

@@ -27,7 +27,7 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <sstream>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis::rag {
 

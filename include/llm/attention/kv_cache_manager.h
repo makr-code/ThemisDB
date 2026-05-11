@@ -45,7 +45,7 @@ struct KVTensor {
  * @brief Block table for mapping logical to physical blocks
  */
 struct BlockTable {
-    std::vector<int> block_ids;     // Physical block IDs
+    std::vector&lt;int&gt; block_ids;     // Physical block IDs
     int num_tokens = 0;             // Total tokens in this sequence
     uint64_t sequence_id = 0;       // Sequence identifier
     
@@ -144,7 +144,7 @@ private:
     std::vector<Block> blocks_;
     
     // Free block management
-    std::queue<int> free_blocks_;
+    std::queue&lt;int&gt; free_blocks_;
     
     // Sequence to block table mapping
     std::unordered_map<uint64_t, BlockTable> sequences_;

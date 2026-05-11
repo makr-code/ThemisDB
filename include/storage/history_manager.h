@@ -25,7 +25,7 @@
 #include "storage/hlc.h"
 #include "storage/rocksdb_wrapper.h"
 #include <cstdint>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <string_view>
 #include <vector>
@@ -123,7 +123,7 @@ struct ConflictSet {
  * versions in chronological order, consistent with the existing MVCCStore
  * versioned-key scheme.
  *
- * @thread_safety
+ * Thread-safety:
  * Read operations are thread-safe. Write operations must be performed within
  * a single-writer transaction to guarantee atomicity with live-key writes.
  */
@@ -234,7 +234,7 @@ private:
  * Writes use a non-transactional write batch so that they always succeed
  * even after a transaction has failed.
  *
- * @thread_safety Thread-safe for all operations.
+ * Thread-safety: Thread-safe for all operations.
  */
 class ConflictManager {
 public:

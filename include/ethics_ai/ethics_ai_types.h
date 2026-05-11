@@ -21,10 +21,10 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <chrono>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace plugins {
@@ -114,7 +114,7 @@ struct PhilosophyThesis {
 
     /// Discourse rounds (1–5) in which this thesis is fully injected.
     /// Empty = active in all rounds (default, backward compatible).
-    std::vector<int> activation_rounds;
+    std::vector&lt;int&gt; activation_rounds;
 
     /// Per-round-role priority weights.  Key = role name (e.g. "PRO",
     /// "REBUTTAL", "SYNTHESIS"), value = weight in [0, 1].  Higher weight

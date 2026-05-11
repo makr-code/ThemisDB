@@ -26,7 +26,7 @@
 #include <system_error>
 #include <memory>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <atomic>
 #include "utils/expected.h"
@@ -421,7 +421,7 @@ public:
      *
      * @param snapshot_name  Human-readable name; used as the directory name
      *                       inside the default snapshot base path
-     *                       ("<db_path>/../snapshots/<snapshot_name>_<ts>").
+     *                       ("<db_path>/../snapshots/<snapshot_name>_&lt;ts&gt;").
      * @param storage_class  Reserved for future cloud / K8s integration;
      *                       ignored for local snapshots.
      * @return On success: the absolute path to the snapshot directory.

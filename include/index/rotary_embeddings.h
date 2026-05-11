@@ -62,7 +62,7 @@ struct RotationConfig {
 /// - Temporal encoding for time-series data
 /// - Multi-relational vector search
 ///
-/// @sources
+/// Sources:
 /// - RoFormer Paper: Su, J., et al. (2021). arXiv:2104.09864
 /// - Original Concept: Rotary Position Embedding (RoPE)
 /// - ThemisDB Integration: ThemisDB Core Team

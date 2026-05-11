@@ -19,7 +19,7 @@
 
 #include "auth/jwks_validator.h"
 #include "utils/logger.h"
-#include <set>
+#include &lt;set&gt;
 #include <algorithm>
 
 namespace themis {

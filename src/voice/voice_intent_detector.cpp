@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis { namespace voice {
 
@@ -187,8 +187,8 @@ std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::str
             ent.text = text.substr(pos, pattern.size());
             ent.type = type;
             ent.confidence = 0.85f;
-            ent.start_offset = static_cast<int>(pos);
-            ent.end_offset = static_cast<int>(pos + pattern.size());
+            ent.start_offset = static_cast&lt;int&gt;(pos);
+            ent.end_offset = static_cast&lt;int&gt;(pos + pattern.size());
             entities.push_back(ent);
         }
     }
@@ -206,8 +206,8 @@ std::vector<NamedEntity> VoiceIntentDetector::extractNumberEntities(const std::s
         ent.text = it->str();
         ent.type = ent.text.back() == '%' ? "METRIC" : "NUMBER";
         ent.confidence = 0.9f;
-        ent.start_offset = static_cast<int>(it->position());
-        ent.end_offset   = static_cast<int>(it->position() + it->length());
+        ent.start_offset = static_cast&lt;int&gt;(it->position());
+        ent.end_offset   = static_cast&lt;int&gt;(it->position() + it->length());
         entities.push_back(ent);
     }
     return entities;
@@ -229,8 +229,8 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
             ent.text = text.substr(pos, kw.size());
             ent.type = "METRIC";
             ent.confidence = 0.75f;
-            ent.start_offset = static_cast<int>(pos);
-            ent.end_offset   = static_cast<int>(pos + kw.size());
+            ent.start_offset = static_cast&lt;int&gt;(pos);
+            ent.end_offset   = static_cast&lt;int&gt;(pos + kw.size());
             entities.push_back(ent);
         }
     }

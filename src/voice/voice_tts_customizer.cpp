@@ -26,9 +26,9 @@
 #include <sstream>
 #include <stdexcept>
 #include <numeric>
-#include <regex>
-#include <map>
-#include <set>
+#include &lt;regex&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
 
 namespace themis { namespace voice {
 

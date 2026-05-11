@@ -34,7 +34,7 @@
 #include <sstream>
 #include <numeric>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 #include <unordered_map>
 namespace themis {
 namespace training {

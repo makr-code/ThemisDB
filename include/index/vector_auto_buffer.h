@@ -40,7 +40,7 @@
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
 #include <deque>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <atomic>
 #include <thread>

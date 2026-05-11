@@ -138,9 +138,9 @@ GPUConfig::simulateAllocation(uint64_t bytes,
     if (usage_after >= oom_warning_threshold) {
         return {true,
                 "Accepted (warning: would use " +
-                std::to_string(static_cast<int>(usage_after * 100)) +
+                std::to_string(static_cast&lt;int&gt;(usage_after * 100)) +
                 "% of VRAM, above " +
-                std::to_string(static_cast<int>(oom_warning_threshold * 100)) +
+                std::to_string(static_cast&lt;int&gt;(oom_warning_threshold * 100)) +
                 "% threshold)"};
     }
 

@@ -236,7 +236,7 @@ std::string sha256File(const std::string& path) {
     std::ostringstream oss;
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(digest[i]);
+            << static_cast&lt;int&gt;(digest[i]);
     }
     return oss.str();
 }
@@ -334,7 +334,7 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(
         return result;
     }
 
-    // Determine local file name: <name>-<version>.<platform_ext>
+    // Determine local file name: &lt;name&gt;-<version>.<platform_ext>
 #if defined(_WIN32)
     const std::string ext = ".dll";
 #elif defined(__APPLE__)
@@ -531,7 +531,7 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
 
     for (int attempt = 0; attempt < attempts; ++attempt) {
         // Enforce total retry time budget before starting this attempt.
-        const auto elapsed_ms = static_cast<int>(
+        const auto elapsed_ms = static_cast&lt;int&gt;(
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - request_start)
                 .count());
@@ -571,7 +571,7 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
 
         // Cap per-attempt timeout to the remaining total budget so the overall
         // call cannot overrun max_total_retry_time_ms by more than one timeout.
-        const auto elapsed_now = static_cast<int>(
+        const auto elapsed_now = static_cast&lt;int&gt;(
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - request_start)
                 .count());
@@ -665,7 +665,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 
     for (int attempt = 0; attempt < attempts; ++attempt) {
         // Enforce total retry time budget before starting this attempt.
-        const auto elapsed_ms = static_cast<int>(
+        const auto elapsed_ms = static_cast&lt;int&gt;(
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - request_start)
                 .count());
@@ -710,7 +710,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
         }
 
         // Cap per-attempt timeout to the remaining total budget.
-        const auto elapsed_now = static_cast<int>(
+        const auto elapsed_now = static_cast&lt;int&gt;(
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - request_start)
                 .count());

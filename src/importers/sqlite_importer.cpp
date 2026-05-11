@@ -27,7 +27,7 @@
 #include <thread>
 #include <future>
 #include <cctype>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis {
 namespace importers {

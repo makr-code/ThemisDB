@@ -396,7 +396,7 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
         utils::Serialization::Decoder decoder(blob_);
         
         // Binary format: <num_fields> <field1> <field2> ...
-        // Each field: <name_len> <name> <type_tag> <value>
+        // Each field: <name_len> &lt;name&gt; <type_tag> &lt;value&gt;
         
         size_t num_fields = decoder.beginObject();
         
@@ -465,7 +465,7 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     // Fail fast on unknown or unsupported type tags to avoid decoder desynchronization
                     // Continuing after unknown tag can cause subsequent reads to go out of bounds
                     THEMIS_ERROR("Unknown or unsupported type tag {} for field '{}'. Cannot safely continue parsing.",
-                                static_cast<int>(type), field_name);
+                                static_cast&lt;int&gt;(type), field_name);
                     throw std::runtime_error("Unknown type tag encountered while parsing BaseEntity binary blob");
             }
         }

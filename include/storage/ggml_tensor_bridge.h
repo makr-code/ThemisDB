@@ -75,7 +75,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 
 // Forward-declare ggml types to avoid full ggml.h inclusion at ThemisDB level

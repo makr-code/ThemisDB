@@ -35,7 +35,7 @@
 #include <atomic>
 #include <functional>
 #include <mutex>
-#include <map>
+#include &lt;map&gt;
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -236,7 +236,7 @@ private:
     std::atomic<int64_t> ab_test_starts_{0};
     std::atomic<int64_t> ab_test_completions_{0};
     std::atomic<int64_t> ab_test_observations_{0};
-    std::atomic<int> active_ab_tests_{0};
+    std::atomic&lt;int&gt; active_ab_tests_{0};
 
     // Performance tracking counters
     std::atomic<int64_t> prompt_executions_{0};

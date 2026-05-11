@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <thread>
 #include <future>
-#include <regex>
+#include &lt;regex&gt;
 #include <cctype>
 #include <cinttypes>
 #include <cstdio>
@@ -90,7 +90,7 @@ bool MySQLImporter::initialize(const std::string& config) {
         if (cfg.contains("host") && cfg["host"].is_string())
             jdbc_config_.host = cfg["host"].get<std::string>();
         if (cfg.contains("port") && cfg["port"].is_number_integer())
-            jdbc_config_.port = cfg["port"].get<int>();
+            jdbc_config_.port = cfg["port"].get&lt;int&gt;();
         if (cfg.contains("database") && cfg["database"].is_string())
             jdbc_config_.database = cfg["database"].get<std::string>();
         if (cfg.contains("user") && cfg["user"].is_string())

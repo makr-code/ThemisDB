@@ -21,7 +21,7 @@
 #include "query/let_evaluator.h"
 
 #include <algorithm>
-#include <map>
+#include &lt;map&gt;
 #include <sstream>
 #include <cmath>
 

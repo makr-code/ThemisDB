@@ -15,7 +15,7 @@
 // Per https://github.com/WebAssembly/component-model
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 
 namespace themis { namespace plugins {

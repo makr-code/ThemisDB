@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <cctype>
 #include <unordered_set>
-#include <regex>
+#include &lt;regex&gt;
 #include <fmt/format.h>
 
 namespace themis {

@@ -42,7 +42,7 @@
 
 #include "timeseries/tsstore.h"
 #include <deque>
-#include <map>
+#include &lt;map&gt;
 #include <mutex>
 #include <atomic>
 #include <thread>

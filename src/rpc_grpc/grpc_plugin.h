@@ -30,7 +30,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <string>
@@ -105,7 +105,7 @@ public:
      * @brief Return the admin server address if multi-port binding is active.
      *
      * If `extra_config["admin_port"]` was set before `start()`, returns
-     * `"<host>:<admin_port>"`.  Returns an empty string when no admin port
+     * `"&lt;host&gt;:<admin_port>"`.  Returns an empty string when no admin port
      * is bound.
      */
     std::string getAdminAddress() const;

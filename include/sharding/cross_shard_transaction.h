@@ -33,8 +33,8 @@
 #include "transaction/in_doubt_recovery_coordinator.h"
 #include <string>
 #include <vector>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <memory>
 #include <functional>
 #include <nlohmann/json.hpp>
@@ -132,9 +132,9 @@ struct CrossShardTransaction {
     nlohmann::json toJson() const {
         nlohmann::json j = {
             {"transaction_id", transaction_id},
-            {"protocol", static_cast<int>(protocol)},
-            {"isolation_level", static_cast<int>(isolation_level)},
-            {"state", static_cast<int>(state)},
+            {"protocol", static_cast&lt;int&gt;(protocol)},
+            {"isolation_level", static_cast&lt;int&gt;(isolation_level)},
+            {"state", static_cast&lt;int&gt;(state)},
             {"start_time", std::chrono::duration_cast<std::chrono::milliseconds>(
                 start_time.time_since_epoch()).count()},
             {"metadata", metadata}

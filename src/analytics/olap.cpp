@@ -33,13 +33,13 @@
 #include <cstring>
 #include <numeric>
 #include <chrono>
-#include <list>
+#include &lt;list&gt;
 #include <mutex>
 #include <sstream>
-#include <set>
+#include &lt;set&gt;
 #include <thread>
 #include <unordered_set>
-#include <map>
+#include &lt;map&gt;
 #include <limits>
 #include <string>
 #include <string_view>
@@ -239,7 +239,7 @@ static std::string computeOLAPCacheKey(const OLAPQuery& query) {
     std::vector<std::string> meas;
     meas.reserve(query.measures.size());
     for (const auto& m : query.measures) {
-        meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
+        meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast&lt;int&gt;(m.function)));
     }
     std::sort(meas.begin(), meas.end());
     for (const auto& m : meas) ss << m << '\0';
@@ -248,7 +248,7 @@ static std::string computeOLAPCacheKey(const OLAPQuery& query) {
     std::vector<std::string> filter_strs;
     filter_strs.reserve(query.filters.size());
     for (const auto& f : query.filters) {
-        std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
+        std::string fstr = f.field + ':' + std::to_string(static_cast&lt;int&gt;(f.op)) + ':';
         std::visit([&fstr](const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::nullptr_t>) {
@@ -271,7 +271,7 @@ static std::string computeOLAPCacheKey(const OLAPQuery& query) {
     for (const auto& f : filter_strs) ss << f << '\0';
 
     // Grouping mode
-    ss << static_cast<int>(query.grouping_mode) << '\0';
+    ss << static_cast&lt;int&gt;(query.grouping_mode) << '\0';
 
     // Limit / offset
     if (query.limit)  ss << 'L' << *query.limit  << '\0';
@@ -705,7 +705,7 @@ std::vector<RollupRow> OLAPEngine::executeRollup(
         auto levelIt = row.values.find("_level");
         if (levelIt != row.values.end()) {
             if (auto* i = std::get_if<int64_t>(&levelIt->second)) {
-                rollupRow.level = static_cast<int>(*i);
+                rollupRow.level = static_cast&lt;int&gt;(*i);
             }
         }
         

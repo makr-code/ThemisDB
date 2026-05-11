@@ -106,7 +106,7 @@ std::string TemporalCompressor::base64Decode(const std::string& input) {
 // ============================================================================
 // Run-length encoder (simple byte-level LZ surrogate used for ZSTD mode)
 //
-// Format: sequences of repeated bytes → <repeat_marker><count><byte>
+// Format: sequences of repeated bytes → <repeat_marker>&lt;count&gt;<byte>
 //         Other bytes are passed through verbatim.
 // ============================================================================
 
@@ -185,9 +185,9 @@ nlohmann::json TemporalCompressor::decompressZstd(const nlohmann::json& doc) {
 //
 // A delta payload looks like:
 //   { "__compressed": "delta",
-//     "__base_ref":   "<key>@<sys_start_ms>",
-//     "__patch":      { <field>: <new_value>, ... },
-//     "__removed":    [<field>, ...] }
+//     "__base_ref":   "&lt;key&gt;@<sys_start_ms>",
+//     "__patch":      { &lt;field&gt;: <new_value>, ... },
+//     "__removed":    [&lt;field&gt;, ...] }
 //
 // Fields absent from __patch and __removed are unchanged from the base.
 // ============================================================================
@@ -224,7 +224,7 @@ nlohmann::json TemporalCompressor::applyDelta(const nlohmann::json& base,
 //
 // For each numeric field across a version chain, we store:
 //   { "__compressed": "gorilla",
-//     "__field":      "<name>",
+//     "__field":      "&lt;name&gt;",
 //     "__timestamps": [t0, t1-t0, t2-t1, ...],   // delta-encoded
 //     "__values":     [v0_bits, xor1, xor2, ...]   // XOR-delta as hex strings
 //   }
@@ -281,7 +281,7 @@ nlohmann::json TemporalCompressor::applyDictionary(
             const std::string& s = val.get<std::string>();
             auto it = dict.find(s);
             if (it == dict.end()) {
-                int idx = static_cast<int>(dict.size());
+                int idx = static_cast&lt;int&gt;(dict.size());
                 dict[s] = idx;
                 it = dict.find(s);
             }
@@ -303,13 +303,13 @@ nlohmann::json TemporalCompressor::applyDictionary(
 //
 // Payload format stored in the history table:
 //   { "__compressed": "lz4",
-//     "__original_size": <int>,      // original JSON string byte count
+//     "__original_size": &lt;int&gt;,      // original JSON string byte count
 //     "__data": "<base64-encoded LZ4 compressed block>"
 //   }
 
 nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
     const std::string src = doc.dump();
-    const int src_size    = static_cast<int>(src.size());
+    const int src_size    = static_cast&lt;int&gt;(src.size());
 
     // LZ4_compressBound gives the worst-case output size.
     const int max_dst = LZ4_compressBound(src_size);
@@ -340,7 +340,7 @@ nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
         return doc;
     }
 
-    const int original_size = doc["__original_size"].get<int>();
+    const int original_size = doc["__original_size"].get&lt;int&gt;();
     if (original_size <= 0) {
         return doc;
     }
@@ -353,7 +353,7 @@ nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
     const int decompressed_size = LZ4_decompress_safe(
         compressed.data(),
         decompressed.data(),
-        static_cast<int>(compressed.size()),
+        static_cast&lt;int&gt;(compressed.size()),
         original_size);
 
     if (decompressed_size < 0 || decompressed_size != original_size) {
@@ -559,7 +559,7 @@ CompressionStats TemporalCompressor::compressHistory(
                         // Reference into the compressed Gorilla series by index
                         compressed_doc[f] = nlohmann::json{
                             {"__gorilla_ref", f},
-                            {"__index",       static_cast<int>(i)}
+                            {"__index",       static_cast&lt;int&gt;(i)}
                         };
                     } else {
                         compressed_doc[f] = val;

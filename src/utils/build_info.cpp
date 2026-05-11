@@ -32,7 +32,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <fstream>
-#include <map>
+#include &lt;map&gt;
 
 // Platform headers for executable path
 #if defined(__linux__)

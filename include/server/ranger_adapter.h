@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 #include "server/policy_engine.h" // provides themis::PolicyEngine and nested Policy
@@ -32,7 +32,7 @@ struct RangerClientConfig {
     std::string base_url;           // e.g. https://ranger.example.com
     std::string policies_path;      // e.g. /service/public/v2/api/policy
     std::string service_name;       // e.g. themisdb-prod
-    std::string bearer_token;       // Authorization: Bearer <token>
+    std::string bearer_token;       // Authorization: Bearer &lt;token&gt;
     bool tls_verify = true;         // verify peer
     std::optional<std::string> ca_cert_path;       // optional custom CA
     std::optional<std::string> client_cert_path;   // optional mTLS

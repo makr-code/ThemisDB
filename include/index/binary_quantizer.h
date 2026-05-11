@@ -38,7 +38,7 @@ namespace themis {
  * uses compiler intrinsics (same as FAISS uses internally) for optimized Hamming
  * distance computation with SIMD instructions.
  * 
- * @sources
+ * Sources:
  * - Algorithm: Locality Sensitive Hashing (LSH) / Binary Quantization
  * - Implementation: Custom ThemisDB with optional FAISS-style optimizations
  * - Library: https://github.com/facebookresearch/faiss

@@ -73,7 +73,7 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
             return false;
         }
         
-        bio = BIO_new_mem_buf(cleaned_input.data(), static_cast<int>(cleaned_input.size()));
+        bio = BIO_new_mem_buf(cleaned_input.data(), static_cast&lt;int&gt;(cleaned_input.size()));
         if (!bio) {
             BIO_free(b64);
             spdlog::error("Failed to create memory BIO");
@@ -87,7 +87,7 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
         const size_t max_decode_len = cleaned_input.size();
         output.resize(max_decode_len);
         
-        int decoded_len = BIO_read(bio, output.data(), static_cast<int>(max_decode_len));
+        int decoded_len = BIO_read(bio, output.data(), static_cast&lt;int&gt;(max_decode_len));
         if (decoded_len < 0) {
             BIO_free_all(bio);
             spdlog::error("Base64 decoding failed");

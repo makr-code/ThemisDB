@@ -212,7 +212,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     }
     std::string html;
     std::array<char, 4096> buf{};
-    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe))
+    while (std::fgets(buf.data(), static_cast&lt;int&gt;(buf.size()), pipe))
         html += buf.data();
     _pclose(pipe);
     const auto t1  = std::chrono::steady_clock::now();

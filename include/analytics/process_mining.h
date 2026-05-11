@@ -28,11 +28,11 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 #include <unordered_map>
 #include <unordered_set>
-#include <optional>
+#include &lt;optional&gt;
 #include <functional>
 #include <chrono>
 
@@ -388,7 +388,7 @@ public:
     /**
      * @brief Clustert ähnliche Varianten (nutzt VectorIndex)
      */
-    std::pair<Status, std::map<int, std::vector<int>>> clusterVariants(
+    std::pair<Status, std::map<int, std::vector&lt;int&gt;>> clusterVariants(
         const EventLog& log,
         int num_clusters = 5
     );

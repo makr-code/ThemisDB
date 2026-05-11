@@ -137,7 +137,7 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
             if (n["sitemap_url"])  src.sitemap_url  = n["sitemap_url"].as<std::string>();
             if (n["search_param"]) src.search_param = n["search_param"].as<std::string>();
             if (n["page_param"])   src.page_param   = n["page_param"].as<std::string>();
-            if (n["results_per_page"]) src.results_per_page = n["results_per_page"].as<int>();
+            if (n["results_per_page"]) src.results_per_page = n["results_per_page"].as&lt;int&gt;();
             if (n["form_method"])  src.form_method  = n["form_method"].as<std::string>();
             if (n["result_list_selector"])
                 src.result_list_selector = n["result_list_selector"].as<std::string>();

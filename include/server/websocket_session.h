@@ -28,7 +28,7 @@
 #include <memory>
 #include <string>
 #include <queue>
-#include <set>
+#include &lt;set&gt;
 #include <mutex>
 #include <functional>
 #include "cdc/changefeed.h"

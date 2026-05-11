@@ -117,7 +117,7 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
         "{\n"
         "  \"deontic_category\": \"<category>\",\n"
         "  \"confidence\": <0.0-1.0>,\n"
-        "  \"entities\": [{\"type\": \"<type>\", \"value\": \"<value>\"}],\n"
+        "  \"entities\": [{\"type\": \"&lt;type&gt;\", \"value\": \"&lt;value&gt;\"}],\n"
         "  \"obligations\": [{\"actor\": \"\", \"action\": \"\", \"condition\": \"\"}]\n"
         "}\n\n"
         "Gesetzestext:\n" + text + "\n[/INST]";

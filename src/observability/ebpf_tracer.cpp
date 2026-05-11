@@ -87,7 +87,7 @@ static int openSoftwareCounter(uint64_t sw_config) noexcept {
                                       -1,  // all CPUs
                                       -1,  // no group leader
                                       0);
-    return (fd < 0) ? -1 : static_cast<int>(fd);
+    return (fd < 0) ? -1 : static_cast&lt;int&gt;(fd);
 }
 
 /** Enable a perf counter fd; no-op if fd < 0. */

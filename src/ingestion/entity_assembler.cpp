@@ -22,7 +22,7 @@
 
 #include "ingestion/entity_assembler.h"
 #include <algorithm>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <iomanip>
 #include <functional>

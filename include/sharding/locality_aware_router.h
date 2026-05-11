@@ -24,8 +24,8 @@
 #include "sharding/urn.h"
 #include <nlohmann/json.hpp>
 #include <shared_mutex>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 
 namespace themis::sharding {
 

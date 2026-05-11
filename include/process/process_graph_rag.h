@@ -41,7 +41,7 @@
 #include <functional>
 #include <mutex>
 #include <nlohmann/json.hpp>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -338,7 +338,7 @@ public:
      * @brief Find similar past Verwaltungsvorgänge (for precedent / reference).
      *
      * Uses cosine similarity over stored instance embeddings
-     * (key prefix @c proc:inst_emb:<id>) if available, and falls back to
+     * (key prefix @c proc:inst_emb:&lt;id&gt;) if available, and falls back to
      * variable-based Jaccard similarity otherwise.
      */
     struct SimilarCase {

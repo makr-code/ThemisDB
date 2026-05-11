@@ -32,7 +32,7 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <utility>
 #include "themis/edition.h"
 #include "themis/export.h"

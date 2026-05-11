@@ -255,7 +255,7 @@ double AdaptiveRetrieval::complexityToThreshold(
 {
     // Linear interpolation between base_similarity_threshold (SIMPLE)
     // and min_similarity_threshold (VERY_COMPLEX) over 4 tiers (0-3).
-    const int tier = static_cast<int>(complexity);  // 0..3
+    const int tier = static_cast&lt;int&gt;(complexity);  // 0..3
     const double base  = config_.base_similarity_threshold;
     const double floor = config_.min_similarity_threshold;
     const double range = base - floor;

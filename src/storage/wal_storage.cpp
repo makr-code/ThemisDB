@@ -37,7 +37,7 @@
 #include <filesystem>
 #include <fstream>
 #include <mutex>
-#include <regex>
+#include &lt;regex&gt;
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>

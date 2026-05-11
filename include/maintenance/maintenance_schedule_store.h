@@ -28,7 +28,7 @@
  * Wraps the existing IStorageEngine API and maps each schedule to a single
  * key-value pair:
  *
- *   Key:   "maint_sched::<id>"   (UTF-8)
+ *   Key:   "maint_sched::&lt;id&gt;"   (UTF-8)
  *   Value: JSON serialisation of MaintenanceScheduleEntry  (UTF-8)
  *
  * The store is write-through: every mutation (save / remove) is committed
@@ -44,7 +44,7 @@
 #include "maintenance/maintenance_schedule.h"
 #include "themis/base/interfaces/storage_interface.h"
 
-#include <map>
+#include &lt;map&gt;
 #include <string>
 
 namespace themis {
@@ -95,7 +95,7 @@ public:
     /**
      * @brief Delete the persisted entry for @p id.
      *
-     * Calls IStorageEngine::del() for key "maint_sched::<id>".
+     * Calls IStorageEngine::del() for key "maint_sched::&lt;id&gt;".
      * Returns ok even when the key does not exist (idempotent).
      *
      * @return Result<void> – ok on success, storage error on failure.

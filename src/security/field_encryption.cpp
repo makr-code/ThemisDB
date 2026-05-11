@@ -550,7 +550,7 @@ std::string FieldEncryption::decryptWithKey(const EncryptedBlob& blob,
 std::vector<uint8_t> FieldEncryption::generateIV() const {
     std::vector<uint8_t> iv(12);  // 96 bits for GCM
     
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), static_cast&lt;int&gt;(iv.size())) != 1) {
         throw EncryptionException("Failed to generate random IV");
     }
     
@@ -595,7 +595,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
         // Encrypt plaintext
         blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
         int len = 0;
-        if (EVP_EncryptUpdate(ctx, blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+        if (EVP_EncryptUpdate(ctx, blob.ciphertext.data(), &len, plaintext.data(), static_cast&lt;int&gt;(plaintext.size())) != 1) {
             throw EncryptionException("Encryption failed");
         }
         int ciphertext_len = len;
@@ -666,7 +666,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
         // Decrypt ciphertext
         std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
         int len = 0;
-        if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
+        if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, blob.ciphertext.data(), static_cast&lt;int&gt;(blob.ciphertext.size())) != 1) {
             throw DecryptionException("Decryption failed");
         }
         int plaintext_len = len;

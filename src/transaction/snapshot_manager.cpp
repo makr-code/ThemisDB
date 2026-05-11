@@ -20,7 +20,7 @@
 #include "transaction/snapshot_manager.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
-#include <regex>
+#include &lt;regex&gt;
 #include <algorithm>
 
 namespace themis {

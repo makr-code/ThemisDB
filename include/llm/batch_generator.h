@@ -25,7 +25,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 #include <functional>
 #include <nlohmann/json.hpp>
 #include "training_data_iterator.h"
@@ -62,8 +62,8 @@ struct BatchConfig {
     
     // Filtering
     std::optional<float> min_quality_score;
-    std::optional<int> min_length;
-    std::optional<int> max_length;
+    std::optional&lt;int&gt; min_length;
+    std::optional&lt;int&gt; max_length;
     
     nlohmann::json toJSON() const;
     static BatchConfig fromJSON(const nlohmann::json& j);
@@ -76,9 +76,9 @@ struct TrainingBatch {
     std::vector<TrainingSample> examples;
     
     // Tokenized data (prepared for model input)
-    std::vector<std::vector<int>> input_ids;
-    std::vector<std::vector<int>> attention_mask;
-    std::vector<std::vector<int>> labels;
+    std::vector<std::vector&lt;int&gt;> input_ids;
+    std::vector<std::vector&lt;int&gt;> attention_mask;
+    std::vector<std::vector&lt;int&gt;> labels;
     
     // Batch metadata
     int batch_id = 0;

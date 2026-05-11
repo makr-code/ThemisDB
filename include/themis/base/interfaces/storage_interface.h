@@ -29,7 +29,7 @@
 #include <string_view>
 #include <utility>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include "utils/expected.h"
 
 namespace themis {

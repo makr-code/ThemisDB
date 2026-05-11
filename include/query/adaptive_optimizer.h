@@ -21,7 +21,7 @@
 
 #include <atomic>
 #include <chrono>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <string>
@@ -275,12 +275,12 @@ public:
         int node_id;
         size_t available_cores;
         size_t memory_gb;
-        std::vector<int> cpu_ids;
+        std::vector&lt;int&gt; cpu_ids;
     };
     
     struct NumaPlacement {
         int preferred_numa_node;
-        std::vector<int> cpu_affinity;
+        std::vector&lt;int&gt; cpu_affinity;
         bool use_local_memory;
     };
     

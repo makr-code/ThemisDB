@@ -50,7 +50,7 @@
 #include <fstream>
 #include <sstream>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <chrono>
 #include <iomanip>
 #include <ctime>
@@ -99,7 +99,7 @@ TrainingDataSample makeSample(
     TrainingDataSample s;
     s.input  = input;
     s.output = output;
-    s.metadata["category"] = static_cast<int>(cat);
+    s.metadata["category"] = static_cast&lt;int&gt;(cat);
     return s;
 }
 

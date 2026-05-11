@@ -44,7 +44,7 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
-#include <regex>
+#include &lt;regex&gt;
 #include <stdexcept>
 
 namespace themis {

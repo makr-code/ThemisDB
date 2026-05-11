@@ -158,7 +158,7 @@ public:
                     auto blob_ref = config_.blob_manager->put(metadata.model_id, *model_data);
                     
                     // Store blob reference in metadata
-                    entity.setField("blob_ref_type", Value(static_cast<int>(blob_ref.type)));
+                    entity.setField("blob_ref_type", Value(static_cast&lt;int&gt;(blob_ref.type)));
                     entity.setField("blob_ref_id", Value(blob_ref.id));
                     entity.setField("blob_ref_uri", Value(blob_ref.uri));
                     entity.setField("blob_ref_hash", Value(blob_ref.hash_sha256));
@@ -169,7 +169,7 @@ public:
                     }
                     
                     spdlog::info("Model {} stored in blob storage: type={}, uri={}", 
-                                 metadata.model_id, static_cast<int>(blob_ref.type), blob_ref.uri);
+                                 metadata.model_id, static_cast&lt;int&gt;(blob_ref.type), blob_ref.uri);
                 } else if (model_data->size() > 0) {
                     // Store inline if small enough
                     spdlog::info("Storing model {} inline ({} bytes)", 
@@ -260,10 +260,10 @@ public:
             metadata.size_bytes = entity.getFieldAsInt("size_bytes").value_or(0);
             metadata.checksum = entity.getFieldAsString("checksum").value_or("");
             metadata.parameter_count = entity.getFieldAsInt("parameter_count").value_or(0);
-            metadata.context_length = static_cast<int>(entity.getFieldAsInt("context_length").value_or(4096));
-            metadata.vocabulary_size = static_cast<int>(entity.getFieldAsInt("vocabulary_size").value_or(32000));
-            metadata.num_layers = static_cast<int>(entity.getFieldAsInt("num_layers").value_or(32));
-            metadata.hidden_size = static_cast<int>(entity.getFieldAsInt("hidden_size").value_or(4096));
+            metadata.context_length = static_cast&lt;int&gt;(entity.getFieldAsInt("context_length").value_or(4096));
+            metadata.vocabulary_size = static_cast&lt;int&gt;(entity.getFieldAsInt("vocabulary_size").value_or(32000));
+            metadata.num_layers = static_cast&lt;int&gt;(entity.getFieldAsInt("num_layers").value_or(32));
+            metadata.hidden_size = static_cast&lt;int&gt;(entity.getFieldAsInt("hidden_size").value_or(4096));
             
             // Parse JSON fields
             if (entity.hasField("capabilities")) {
@@ -431,7 +431,7 @@ public:
             }
             
             spdlog::info("Loading model {} from blob storage: type={}, uri={}", 
-                         model_id, static_cast<int>(blob_ref.type), blob_ref.uri);
+                         model_id, static_cast&lt;int&gt;(blob_ref.type), blob_ref.uri);
             
             // Retrieve blob data
             auto blob_data_opt = config_.blob_manager->get(blob_ref);
@@ -727,12 +727,12 @@ bool LLMModelStorage::addEdge(
     try {
         // Store edge as a separate key-value pair
         std::string edge_key = config_.key_prefix + "edge:" + from_id + ":" + to_id + 
-                               ":" + std::to_string(static_cast<int>(edge_type));
+                               ":" + std::to_string(static_cast&lt;int&gt;(edge_type));
         
         json edge_data = {
             {"from", from_id},
             {"to", to_id},
-            {"type", static_cast<int>(edge_type)},
+            {"type", static_cast&lt;int&gt;(edge_type)},
             {"weight", weight},
             {"created_at", std::chrono::system_clock::now().time_since_epoch().count()}
         };
@@ -742,7 +742,7 @@ bool LLMModelStorage::addEdge(
         
         bool success = config_.db->put(edge_key, edge_bytes);
         if (success) {
-            spdlog::info("Added edge: {} -> {} (type={})", from_id, to_id, static_cast<int>(edge_type));
+            spdlog::info("Added edge: {} -> {} (type={})", from_id, to_id, static_cast&lt;int&gt;(edge_type));
         }
         return success;
     } catch (const std::exception& e) {

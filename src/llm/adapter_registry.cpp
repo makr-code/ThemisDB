@@ -325,7 +325,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     // supplied (useful in test/CI environments).
     if (!private_key.empty()) {
         BIO* bio = BIO_new_mem_buf(private_key.data(),
-                                   static_cast<int>(private_key.size()));
+                                   static_cast&lt;int&gt;(private_key.size()));
         EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
         BIO_free(bio);
 

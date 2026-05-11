@@ -29,7 +29,7 @@
  * ## Multi-tenancy
  *
  * Each index is namespaced by `tenant_id`; key format:
- *   `__ttmgr__:<tenant_id>:<collection>:<field>`
+ *   `__ttmgr__:&lt;tenant_id&gt;:<collection>:&lt;field&gt;`
  *
  * ## Thread safety
  *
@@ -44,7 +44,7 @@
 #include "storage/tensor_router.h"
 #include <memory>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>

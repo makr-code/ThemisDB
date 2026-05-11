@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis::sharding {
 

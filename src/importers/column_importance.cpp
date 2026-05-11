@@ -23,8 +23,8 @@
 #include "importers/column_importance.h"
 #include <algorithm>
 #include <cmath>
-#include <map>
-#include <set>
+#include &lt;map&gt;
+#include &lt;set&gt;
 
 namespace themis {
 namespace importers {

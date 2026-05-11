@@ -23,7 +23,7 @@
 #pragma once
 
 #include <chrono>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <utility>
 #include <vector>
@@ -161,7 +161,7 @@ private:
     static double                               mean(const std::vector<double>& v);
     static double                               stddev(const std::vector<double>& v, double mu);
     double medianIntervalMs(const ForecastSeries& series) const;
-    std::vector<int> dbscanLabels(const std::vector<double>& values) const;
+    std::vector&lt;int&gt; dbscanLabels(const std::vector<double>& values) const;
     double changePointScore(const std::vector<double>& values) const;
     std::string severityForScore(double s) const;
     std::vector<double> buildSeasonalTemplate(const themisdb::analytics::DecompositionResult& d) const;

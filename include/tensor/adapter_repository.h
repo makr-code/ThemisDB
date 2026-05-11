@@ -29,7 +29,7 @@
  *
  * ## Key Schema
  *
- *   `__adapters__:<tenant_id>:<domain>:<base_model_id>`
+ *   `__adapters__:&lt;tenant_id&gt;:<domain>:<base_model_id>`
  *
  * ## Zero-Copy STUB (#172)
  *
@@ -156,7 +156,7 @@ public:
      * @brief Persist a LoRA adapter as a TT graph.
      *
      * Serialises `adapter_train` and writes it to the storage backend under
-     * key `__adapters__:<tenant_id>:<domain>:<base_model_id>`.
+     * key `__adapters__:&lt;tenant_id&gt;:<domain>:<base_model_id>`.
      * Overwrites any existing adapter at the same key.
      *
      * @param domain         Domain tag (e.g. "legal", "medical", "scientific").

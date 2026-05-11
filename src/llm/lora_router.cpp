@@ -102,7 +102,7 @@ LoRARouter::LoRARouter(
     spdlog::info("LoRA Router initialized:");
     spdlog::info("  Semantic routing: {}", config_.enable_semantic_routing ? "enabled" : "disabled");
     spdlog::info("  Load-aware routing: {}", config_.enable_load_aware ? "enabled" : "disabled");
-    spdlog::info("  Default policy: {}", static_cast<int>(config_.default_policy));
+    spdlog::info("  Default policy: {}", static_cast&lt;int&gt;(config_.default_policy));
     spdlog::info("  Top-K candidates: {}", config_.top_k_candidates);
     spdlog::info("  Min similarity threshold: {:.2f}", config_.min_similarity_threshold);
     spdlog::info("  Decision cache: {}", config_.enable_decision_cache ? "enabled" : "disabled");
@@ -156,7 +156,7 @@ RoutingDecision LoRARouter::routeQuery(
         active_policy = RoutingPolicy::ROLLOUT;
     }
     
-    spdlog::debug("Routing query with policy: {}", static_cast<int>(active_policy));
+    spdlog::debug("Routing query with policy: {}", static_cast&lt;int&gt;(active_policy));
     
     // Find semantic candidates
     std::vector<std::pair<std::string, float>> candidates;
@@ -819,7 +819,7 @@ void LoRARouter::emitAdapterSelectionRecord(const RoutingDecision& decision) con
     rec.parameters["base_model_id"]   = decision.base_model_id;
     rec.parameters["gpu_device_id"]   = std::to_string(decision.gpu_device_id);
     rec.parameters["similarity_score"] = std::to_string(decision.similarity_score);
-    rec.parameters["policy"]          = std::to_string(static_cast<int>(decision.policy_used));
+    rec.parameters["policy"]          = std::to_string(static_cast&lt;int&gt;(decision.policy_used));
     rec.parameters["is_fallback"]     = decision.is_fallback ? "true" : "false";
     if (!decision.reason.empty()) {
         rec.parameters["reason"] = decision.reason;

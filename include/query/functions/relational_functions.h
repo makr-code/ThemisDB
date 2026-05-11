@@ -801,7 +801,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
-        int offset = args.size() > 2 ? args[2].get<int>() : 1;
+        int offset = args.size() > 2 ? args[2].get&lt;int&gt;() : 1;
         nlohmann::json defaultVal = args.size() > 3 ? args[3] : nlohmann::json(nullptr);
         
         nlohmann::json result = nlohmann::json::array();
@@ -857,7 +857,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
-        int offset = args.size() > 2 ? args[2].get<int>() : 1;
+        int offset = args.size() > 2 ? args[2].get&lt;int&gt;() : 1;
         nlohmann::json defaultVal = args.size() > 3 ? args[3] : nlohmann::json(nullptr);
         
         nlohmann::json result = nlohmann::json::array();
@@ -962,7 +962,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
-        int n = args[1].get<int>();
+        int n = args[1].get&lt;int&gt;();
         
         if (n <= 0) throw std::runtime_error("NTILE: n must be positive");
         

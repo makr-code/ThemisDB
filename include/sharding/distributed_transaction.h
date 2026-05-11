@@ -30,10 +30,10 @@
 #include "sharding/wal_manager.h"
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <unordered_map>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -228,7 +228,7 @@ public:
      *
      * Injects a shard_id → network-address mapping so that
      * beginTransaction() can populate participant endpoints with real
-     * addresses instead of the placeholder "shard://<id>" URIs.
+     * addresses instead of the placeholder "shard://&lt;id&gt;" URIs.
      *
      * @param map Map of shard_id to gRPC address (e.g. "host:port")
      */

@@ -22,7 +22,7 @@
 #include "plugins/plugin_interface.h"
 #include <string>
 #include <memory>
-#include <map>
+#include &lt;map&gt;
 #include <vector>
 #include <atomic>
 #include <cstdint>

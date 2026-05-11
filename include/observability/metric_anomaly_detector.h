@@ -24,10 +24,10 @@
 
 #include <chrono>
 #include <functional>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
-#include <optional>
+#include &lt;optional&gt;
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -168,10 +168,10 @@ struct MonitoredMetric {
  *
  * | Gauge | Description |
  * |-------|-------------|
- * | `themis_anomaly_score{metric="<name>"}` | Latest anomaly score [0–1] |
- * | `themis_anomaly_detected{metric="<name>"}` | 1 if latest point is anomalous, 0 otherwise |
- * | `themis_anomaly_total{metric="<name>"}` | Total anomalies detected since start |
- * | `themis_anomaly_window_size{metric="<name>"}` | Current training window size |
+ * | `themis_anomaly_score{metric="&lt;name&gt;"}` | Latest anomaly score [0–1] |
+ * | `themis_anomaly_detected{metric="&lt;name&gt;"}` | 1 if latest point is anomalous, 0 otherwise |
+ * | `themis_anomaly_total{metric="&lt;name&gt;"}` | Total anomalies detected since start |
+ * | `themis_anomaly_window_size{metric="&lt;name&gt;"}` | Current training window size |
  *
  * ### Thread safety
  * All public methods are thread-safe.

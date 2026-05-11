@@ -895,7 +895,7 @@ http::response<http::string_body> MonitoringApiHandler::makeErrorResponse(
     nlohmann::json error_body = {
         {"error", true},
         {"message", message},
-        {"status_code", static_cast<int>(status)}
+        {"status_code", static_cast&lt;int&gt;(status)}
     };
     return makeResponse(status, error_body.dump(), req);
 }
@@ -1079,7 +1079,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
             try {
                 auto j = json::parse(req.body());
                 if (j.contains("duration_minutes") && j["duration_minutes"].is_number_integer()) {
-                    duration_minutes = j["duration_minutes"].get<int>();
+                    duration_minutes = j["duration_minutes"].get&lt;int&gt;();
                 }
             } catch (...) {
                 // ignore JSON parse errors; use default duration
@@ -1127,7 +1127,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
                 const auto& cfg = alertmanager_->getConfig();
                 am["enabled"]      = cfg.enabled;
                 am["endpoint_url"] = cfg.endpoint_url;
-                am["active_alerts"] = static_cast<int>(
+                am["active_alerts"] = static_cast&lt;int&gt;(
                     alertmanager_->getActiveAlerts().size());
                 if (cfg.enabled) {
                     auto conn = alertmanager_->testConnection();
@@ -1228,7 +1228,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         html += "tr:hover td{background:#16213e}\n";
         html += ".val{text-align:right;color:#00ff9f}\n";
         html += "a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}\n";
-        html += "</style>\n</head>\n<body>\n";
+        html += "</style>\n</head>\n&lt;body&gt;\n";
         html += "<h1>ThemisDB Metrics Dashboard</h1>\n";
         html += "<p class=\"sub\">Version: <b>" + version + "</b> &nbsp;|&nbsp; ";
         html += "Uptime: <b>" + std::to_string(uptime_seconds) + "s</b> &nbsp;|&nbsp; ";
@@ -1381,7 +1381,7 @@ void MonitoringApiHandler::registerRoutes() {
     reg.registerRoute({"/api/v1/observability/alerts/{id}/silence", "post", {
         "Silence an alert",
         "Silences the named alert for a configurable duration. "
-        "Body: {\"duration_minutes\": <int>} (default 60)",
+        "Body: {\"duration_minutes\": &lt;int&gt;} (default 60)",
         "silenceObservabilityAlert", {"observability"},
         {RouteParam{"id", "path", true, "Alert identifier", {{"type","string"}}}},
         {{"required",false},

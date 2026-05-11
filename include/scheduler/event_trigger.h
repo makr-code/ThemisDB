@@ -40,8 +40,8 @@
 
 #include "cdc/changefeed.h"
 #include <string>
-#include <set>
-#include <optional>
+#include &lt;set&gt;
+#include &lt;optional&gt;
 #include <functional>
 #include <memory>
 #include <atomic>

@@ -27,7 +27,7 @@
 
 #include "rag/response_parser.h"
 #include "utils/logger.h"
-#include <regex>
+#include &lt;regex&gt;
 #include <algorithm>
 #include <cctype>
 #include <sstream>

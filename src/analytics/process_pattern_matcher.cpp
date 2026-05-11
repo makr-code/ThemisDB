@@ -49,7 +49,7 @@
 #include <chrono>
 #include <cmath>
 #include <numeric>
-#include <set>
+#include &lt;set&gt;
 #include <sstream>
 #include <unordered_map>
 #include <spdlog/spdlog.h>
@@ -309,7 +309,7 @@ ProcessPatternMatcher::findSimilar(
 
     // Check cache
     const std::string cache_key = pattern.id
-        + "::" + std::to_string(static_cast<int>(config.method))
+        + "::" + std::to_string(static_cast&lt;int&gt;(config.method))
         + "::" + std::to_string(config.min_similarity);
     if (config.use_cache) {
         auto it = pattern_cache_.find(cache_key);
@@ -424,7 +424,7 @@ ProcessPatternMatcher::findSimilar(
 
     // Apply max_results
     if (config.max_results > 0 &&
-        static_cast<int>(results.size()) > config.max_results) {
+        static_cast&lt;int&gt;(results.size()) > config.max_results) {
         results.resize(static_cast<size_t>(config.max_results));
     }
 
@@ -490,10 +490,10 @@ ProcessPatternMatcher::compareWithIdeal(
                      : static_cast<double>(covered) / trace_set.size();
 
     // Token replay approximation
-    result.produced_tokens  = static_cast<int>(trace_acts.size());
+    result.produced_tokens  = static_cast&lt;int&gt;(trace_acts.size());
     result.consumed_tokens  = lcs;
-    result.missing_tokens   = static_cast<int>(pat_acts.size()) - lcs;
-    result.remaining_tokens = static_cast<int>(trace_acts.size()) - lcs;
+    result.missing_tokens   = static_cast&lt;int&gt;(pat_acts.size()) - lcs;
+    result.remaining_tokens = static_cast&lt;int&gt;(trace_acts.size()) - lcs;
 
     // Deviations: missing and extra activities
     for (const auto& a : pat_set) {
@@ -778,7 +778,7 @@ std::pair<ProcessPatternMatcher::Status, ProcessPatternMatcher::PatternStatistic
 ProcessPatternMatcher::getStatistics() const
 {
     PatternStatistics stats{};
-    stats.total_patterns_cached         = static_cast<int>(pattern_cache_.size());
+    stats.total_patterns_cached         = static_cast&lt;int&gt;(pattern_cache_.size());
     stats.total_comparisons_performed   = statistics_.total_comparisons_performed;
     stats.avg_computation_time_ms       = statistics_.avg_computation_time_ms;
     stats.pattern_frequency             = statistics_.pattern_frequency;
@@ -803,9 +803,9 @@ int ProcessPatternMatcher::longestCommonSubsequence(
     const std::vector<std::string>& a,
     const std::vector<std::string>& b
 ) const {
-    const int m = static_cast<int>(a.size());
-    const int n = static_cast<int>(b.size());
-    std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
+    const int m = static_cast&lt;int&gt;(a.size());
+    const int n = static_cast&lt;int&gt;(b.size());
+    std::vector<std::vector&lt;int&gt;> dp(m + 1, std::vector&lt;int&gt;(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
             if (a[i - 1] == b[j - 1]) {

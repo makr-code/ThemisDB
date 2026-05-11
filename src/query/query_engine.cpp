@@ -61,8 +61,8 @@
 #include <functional>
 #include <unordered_map>
 #include <unordered_set>
-#include <set>
-#include <map>
+#include &lt;set&gt;
+#include &lt;map&gt;
 #include <mutex>
 #include <queue>
 #include <thread>
@@ -1966,7 +1966,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			auto apRes = evalArg(2);
 			if (!apRes) return apRes;
 			// Clamp arc_points to [3, 360]: backend already clamps < 3, but guard upper bound here.
-			arc_points = static_cast<int>(qe_toNumber(*apRes));
+			arc_points = static_cast&lt;int&gt;(qe_toNumber(*apRes));
 			if (arc_points < 3) arc_points = 3;
 			if (arc_points > 360) arc_points = 360;
 		}
@@ -2095,7 +2095,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		default: break;
 	}
 	return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
-		fmt::format("Unknown expression type in QueryEngine evaluator: {}", static_cast<int>(expr->getType())));
+		fmt::format("Unknown expression type in QueryEngine evaluator: {}", static_cast&lt;int&gt;(expr->getType())));
 }
 
 Result<nlohmann::json> QueryEngine::evaluateExpression(
@@ -3394,15 +3394,15 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
 		
 		if (timestamp_ms.has_value()) {
-			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, static_cast&lt;int&gt;(q.max_depth));
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else if (hasTypeFilter) {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast&lt;int&gt;(q.max_depth), q.edge_type, graphId);
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast&lt;int&gt;(q.max_depth));
 			st = status;
 			reachableNodes = std::move(nodes);
 		}
@@ -3775,10 +3775,10 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 		auto result = db.get("config:hybrid_query");
 		if (result.has_value()) {
 			auto j = nlohmann::json::parse(result.value());
-			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int>(cfg.overfetch))));
+			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast&lt;int&gt;(cfg.overfetch))));
 			if (j.contains("bbox_ratio_threshold")) cfg.bbox_ratio_threshold = (std::min)(1.0, (std::max)(0.0, j.value("bbox_ratio_threshold", cfg.bbox_ratio_threshold)));
-			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int>(cfg.min_chunk_spatial_eval))));
-			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int>(cfg.min_chunk_vector_bf))));
+			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast&lt;int&gt;(cfg.min_chunk_spatial_eval))));
+			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast&lt;int&gt;(cfg.min_chunk_vector_bf))));
 		}
 	} catch (...) {
 		// keep defaults

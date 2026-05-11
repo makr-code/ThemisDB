@@ -31,7 +31,7 @@
 #include <iomanip>
 #include <vector>
 #include <cstring>
-#include <regex>
+#include &lt;regex&gt;
 #include <filesystem>
 
 namespace themis {

@@ -40,10 +40,10 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
-#include <map>
+#include &lt;map&gt;
 #include <queue>
 #include <random>
-#include <set>
+#include &lt;set&gt;
 #include <shared_mutex>
 #include <sstream>
 #include <unordered_map>
@@ -1122,7 +1122,7 @@ bool ModuleLoader::updateModuleStage(const std::string& moduleName,
 
     it->second.currentStage = newStage;
     spdlog::debug("Module {} stage updated to {}",
-                  moduleName, static_cast<int>(newStage));
+                  moduleName, static_cast&lt;int&gt;(newStage));
     return true;
 }
 
@@ -1654,7 +1654,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
     }
 
     BIO* bio = BIO_new_mem_buf(publicKeyPem.data(),
-                               static_cast<int>(publicKeyPem.size()));
+                               static_cast&lt;int&gt;(publicKeyPem.size()));
     if (!bio) {
         error = "BIO_new_mem_buf failed";
         return false;

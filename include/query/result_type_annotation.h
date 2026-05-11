@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 namespace themis {

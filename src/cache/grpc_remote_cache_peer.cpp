@@ -151,7 +151,7 @@ void GrpcRemoteCachePeer::sendRpc(const std::string& type,
         const std::string msg =
             "[GrpcRemoteCachePeer] RPC '" + type + "' to " + config_.address +
             " failed: " + status.error_message() +
-            " (code=" + std::to_string(static_cast<int>(status.error_code())) + ")";
+            " (code=" + std::to_string(static_cast&lt;int&gt;(status.error_code())) + ")";
         THEMIS_WARN("{}", msg);
         throw std::runtime_error(msg);
     }

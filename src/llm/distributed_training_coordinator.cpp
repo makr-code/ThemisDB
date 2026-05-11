@@ -35,7 +35,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <future>
-#include <set>
+#include &lt;set&gt;
 
 namespace themis {
 namespace llm {
@@ -46,8 +46,8 @@ namespace llm {
 
 json DistributedTrainingConfig::toJSON() const {
     json j;
-    j["sync_strategy"] = static_cast<int>(sync_strategy);
-    j["compression"] = static_cast<int>(compression);
+    j["sync_strategy"] = static_cast&lt;int&gt;(sync_strategy);
+    j["compression"] = static_cast&lt;int&gt;(compression);
     j["coordinator_shard"] = coordinator_shard;
     j["participant_shards"] = participant_shards;
     j["gradient_accumulation_steps"] = gradient_accumulation_steps;
@@ -62,27 +62,27 @@ json DistributedTrainingConfig::toJSON() const {
     j["checkpoint_frequency"] = checkpoint_frequency;
     j["checkpoint_path"] = checkpoint_path;
     j["enable_byzantine_detection"] = enable_byzantine_detection;
-    j["detection_method"] = static_cast<int>(detection_method);
+    j["detection_method"] = static_cast&lt;int&gt;(detection_method);
     j["detection_threshold"] = detection_threshold;
     j["max_byzantine_shards"] = max_byzantine_shards;
-    j["byzantine_action"] = static_cast<int>(byzantine_action);
+    j["byzantine_action"] = static_cast&lt;int&gt;(byzantine_action);
     return j;
 }
 
 DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
     DistributedTrainingConfig config;
     if (j.contains("sync_strategy")) 
-        config.sync_strategy = static_cast<SyncStrategy>(j["sync_strategy"].get<int>());
+        config.sync_strategy = static_cast<SyncStrategy>(j["sync_strategy"].get&lt;int&gt;());
     if (j.contains("compression")) 
-        config.compression = static_cast<GradientCompressionType>(j["compression"].get<int>());
+        config.compression = static_cast<GradientCompressionType>(j["compression"].get&lt;int&gt;());
     if (j.contains("coordinator_shard")) 
         config.coordinator_shard = j["coordinator_shard"].get<std::string>();
     if (j.contains("participant_shards")) 
         config.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
     if (j.contains("gradient_accumulation_steps")) 
-        config.gradient_accumulation_steps = j["gradient_accumulation_steps"].get<int>();
+        config.gradient_accumulation_steps = j["gradient_accumulation_steps"].get&lt;int&gt;();
     if (j.contains("sync_frequency")) 
-        config.sync_frequency = j["sync_frequency"].get<int>();
+        config.sync_frequency = j["sync_frequency"].get&lt;int&gt;();
     if (j.contains("gradient_clip_norm")) 
         config.gradient_clip_norm = j["gradient_clip_norm"].get<float>();
     if (j.contains("use_mixed_precision")) 
@@ -92,25 +92,25 @@ DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
     if (j.contains("sparse_threshold")) 
         config.sparse_threshold = j["sparse_threshold"].get<float>();
     if (j.contains("max_retry_attempts")) 
-        config.max_retry_attempts = j["max_retry_attempts"].get<int>();
+        config.max_retry_attempts = j["max_retry_attempts"].get&lt;int&gt;();
     if (j.contains("timeout_seconds")) 
-        config.timeout_seconds = j["timeout_seconds"].get<int>();
+        config.timeout_seconds = j["timeout_seconds"].get&lt;int&gt;();
     if (j.contains("enable_checkpointing")) 
         config.enable_checkpointing = j["enable_checkpointing"].get<bool>();
     if (j.contains("checkpoint_frequency")) 
-        config.checkpoint_frequency = j["checkpoint_frequency"].get<int>();
+        config.checkpoint_frequency = j["checkpoint_frequency"].get&lt;int&gt;();
     if (j.contains("checkpoint_path")) 
         config.checkpoint_path = j["checkpoint_path"].get<std::string>();
     if (j.contains("enable_byzantine_detection"))
         config.enable_byzantine_detection = j["enable_byzantine_detection"].get<bool>();
     if (j.contains("detection_method"))
-        config.detection_method = static_cast<ByzantineDetectionMethod>(j["detection_method"].get<int>());
+        config.detection_method = static_cast<ByzantineDetectionMethod>(j["detection_method"].get&lt;int&gt;());
     if (j.contains("detection_threshold"))
         config.detection_threshold = j["detection_threshold"].get<float>();
     if (j.contains("max_byzantine_shards"))
-        config.max_byzantine_shards = j["max_byzantine_shards"].get<int>();
+        config.max_byzantine_shards = j["max_byzantine_shards"].get&lt;int&gt;();
     if (j.contains("byzantine_action"))
-        config.byzantine_action = static_cast<ByzantineAction>(j["byzantine_action"].get<int>());
+        config.byzantine_action = static_cast<ByzantineAction>(j["byzantine_action"].get&lt;int&gt;());
     return config;
 }
 
@@ -357,7 +357,7 @@ json GradientTensor::toJSON() const {
     j["source_shard"] = source_shard;
     j["timestamp_ms"] = timestamp_ms;
     j["step_number"] = step_number;
-    j["compression_type"] = static_cast<int>(compression_type);
+    j["compression_type"] = static_cast&lt;int&gt;(compression_type);
     
     if (compressed_data.has_value()) {
         j["compressed_data"] = compressed_data.value();
@@ -371,12 +371,12 @@ json GradientTensor::toJSON() const {
 GradientTensor GradientTensor::fromJSON(const json& j) {
     GradientTensor tensor;
     if (j.contains("layer_name")) tensor.layer_name = j["layer_name"].get<std::string>();
-    if (j.contains("shape")) tensor.shape = j["shape"].get<std::vector<int>>();
+    if (j.contains("shape")) tensor.shape = j["shape"].get<std::vector&lt;int&gt;>();
     if (j.contains("source_shard")) tensor.source_shard = j["source_shard"].get<std::string>();
     if (j.contains("timestamp_ms")) tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
-    if (j.contains("step_number")) tensor.step_number = j["step_number"].get<int>();
+    if (j.contains("step_number")) tensor.step_number = j["step_number"].get&lt;int&gt;();
     if (j.contains("compression_type")) 
-        tensor.compression_type = static_cast<GradientCompressionType>(j["compression_type"].get<int>());
+        tensor.compression_type = static_cast<GradientCompressionType>(j["compression_type"].get&lt;int&gt;());
     
     if (j.contains("compressed_data")) {
         tensor.compressed_data = j["compressed_data"].get<std::vector<uint8_t>>();
@@ -424,8 +424,8 @@ GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
     if (j.contains("message_id")) msg.message_id = j["message_id"].get<std::string>();
     if (j.contains("source_shard")) msg.source_shard = j["source_shard"].get<std::string>();
     if (j.contains("destination_shard")) msg.destination_shard = j["destination_shard"].get<std::string>();
-    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"].get<int>();
-    if (j.contains("total_participants")) msg.total_participants = j["total_participants"].get<int>();
+    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"].get&lt;int&gt;();
+    if (j.contains("total_participants")) msg.total_participants = j["total_participants"].get&lt;int&gt;();
     if (j.contains("participants_seen")) 
         msg.participants_seen = j["participants_seen"].get<std::vector<std::string>>();
     if (j.contains("sent_timestamp_ms")) msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
@@ -445,7 +445,7 @@ GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
         msg.local_accuracy = j["local_accuracy"].get<float>();
     }
     if (j.contains("samples_in_batch")) {
-        msg.samples_in_batch = j["samples_in_batch"].get<int>();
+        msg.samples_in_batch = j["samples_in_batch"].get&lt;int&gt;();
     }
     
     return msg;
@@ -476,16 +476,16 @@ json ShardTrainingState::toJSON() const {
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
     ShardTrainingState state;
     if (j.contains("shard_id")) state.shard_id = j["shard_id"].get<std::string>();
-    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"].get<int>();
-    if (j.contains("current_step")) state.current_step = j["current_step"].get<int>();
-    if (j.contains("total_steps")) state.total_steps = j["total_steps"].get<int>();
+    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"].get&lt;int&gt;();
+    if (j.contains("current_step")) state.current_step = j["current_step"].get&lt;int&gt;();
+    if (j.contains("total_steps")) state.total_steps = j["total_steps"].get&lt;int&gt;();
     if (j.contains("current_loss")) state.current_loss = j["current_loss"].get<float>();
     if (j.contains("avg_grad_norm")) state.avg_grad_norm = j["avg_grad_norm"].get<float>();
-    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"].get<int>();
+    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"].get&lt;int&gt;();
     if (j.contains("is_active")) state.is_active = j["is_active"].get<bool>();
     if (j.contains("is_synchronized")) state.is_synchronized = j["is_synchronized"].get<bool>();
     if (j.contains("last_heartbeat_ms")) state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
-    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"].get<int>();
+    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"].get&lt;int&gt;();
     if (j.contains("gpu_utilization")) state.gpu_utilization = j["gpu_utilization"].get<float>();
     if (j.contains("memory_usage_gb")) state.memory_usage_gb = j["memory_usage_gb"].get<float>();
     return state;
@@ -684,7 +684,7 @@ DistributedTrainingCoordinator::DistributedTrainingCoordinator(
     spdlog::info("DistributedTrainingCoordinator created");
     spdlog::info("  Coordinator shard: {}", config_.coordinator_shard);
     spdlog::info("  Participant shards: {}", config_.participant_shards.size());
-    spdlog::info("  Sync strategy: {}", static_cast<int>(config_.sync_strategy));
+    spdlog::info("  Sync strategy: {}", static_cast&lt;int&gt;(config_.sync_strategy));
 }
 
 DistributedTrainingCoordinator::~DistributedTrainingCoordinator() {
@@ -715,7 +715,7 @@ bool DistributedTrainingCoordinator::initialize(
     if (config_.enable_byzantine_detection) {
         initializeByzantineDetector();
         spdlog::info("Byzantine fault detection enabled (method={}, threshold={}, max_f={})",
-                    static_cast<int>(config_.detection_method),
+                    static_cast&lt;int&gt;(config_.detection_method),
                     config_.detection_threshold,
                     config_.max_byzantine_shards);
     }
@@ -1402,7 +1402,7 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
 
     // Use total_steps from config when available to compute a real ETA.
     if (config_.total_steps > 0) {
-        int remaining = config_.total_steps - static_cast<int>(stats_.total_steps_completed);
+        int remaining = config_.total_steps - static_cast&lt;int&gt;(stats_.total_steps_completed);
         if (remaining <= 0) {
             return 0.0f;  // Training already at or past the configured step count
         }

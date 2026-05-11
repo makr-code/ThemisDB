@@ -157,7 +157,7 @@ bool FaissGPUVectorBackend::initializeIndex(const Config& config) {
         }
 
         std::cout << "Faiss index created — type: "
-                  << static_cast<int>(config.indexType)
+                  << static_cast&lt;int&gt;(config.indexType)
                   << ", dim: " << config.dimension << std::endl;
         return true;
 
@@ -266,7 +266,7 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
         default:
             setError(AccelerationErrorCode::InvalidInputShape,
                      "createIndex: unknown IndexType value " +
-                     std::to_string(static_cast<int>(type)),
+                     std::to_string(static_cast&lt;int&gt;(type)),
                      "Use one of FLAT_L2, FLAT_IP, IVF_FLAT, IVF_PQ, IVF_SQ8, HNSW_FLAT");
             return nullptr;
     }
@@ -521,10 +521,10 @@ std::vector<float> FaissGPUVectorBackend::computeDistances(
     // For one-time distance computation, create a temporary flat index
     Config tempConfig;
     tempConfig.indexType = useL2 ? IndexType::FLAT_L2 : IndexType::FLAT_IP;
-    tempConfig.dimension = static_cast<int>(dim);
+    tempConfig.dimension = static_cast&lt;int&gt;(dim);
     tempConfig.deviceId = config_.deviceId;
 
-    void* tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
+    void* tempIndex = createIndex(tempConfig.indexType, static_cast&lt;int&gt;(dim));
     if (!tempIndex) {
         return {};
     }
@@ -585,10 +585,10 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batc
     // For one-time KNN search, create a temporary flat index
     Config tempConfig;
     tempConfig.indexType = useL2 ? IndexType::FLAT_L2 : IndexType::FLAT_IP;
-    tempConfig.dimension = static_cast<int>(dim);
+    tempConfig.dimension = static_cast&lt;int&gt;(dim);
     tempConfig.deviceId = config_.deviceId;
 
-    void* tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
+    void* tempIndex = createIndex(tempConfig.indexType, static_cast&lt;int&gt;(dim));
     if (!tempIndex) {
         return {};
     }

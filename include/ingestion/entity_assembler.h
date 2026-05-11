@@ -28,7 +28,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis {
 namespace ingestion {
@@ -65,8 +65,8 @@ struct EntityNormalizerConfig {
  * | LEGAL_DECISION   | `bescheid:<aktenzeichen>`          | `bescheid:12_A_345_24`       |
  * | PERSON           | `person:<hash(text)>`              | `person:abc123`              |
  * | ORGANIZATION     | `org:<hash(text)>`                 | `org:def456`                 |
- * | CHUNK            | `chunk:<file_id>:<seq>`            | `chunk:sha256:abc:0`         |
- * | Default          | `<type>:<file_id>:<hash(text)>`    | `date:sha256:abc:789`        |
+ * | CHUNK            | `chunk:<file_id>:&lt;seq&gt;`            | `chunk:sha256:abc:0`         |
+ * | Default          | `&lt;type&gt;:<file_id>:<hash(text)>`    | `date:sha256:abc:789`        |
  *
  * ## Deduplication
  * When `dedup_strategy == "canonical_id"`, entities with the same canonical

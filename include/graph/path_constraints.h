@@ -23,7 +23,7 @@
 #include "graph/ontology_manager.h"
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <functional>
 #include <unordered_set>
 #include <memory>
@@ -81,7 +81,7 @@ public:
      */
     struct Constraint {
         ConstraintType type;
-        std::optional<int> int_value;
+        std::optional&lt;int&gt; int_value;
         std::optional<std::string> string_value;
         std::optional<std::function<bool(const std::vector<std::string>&)>> predicate;
         /// Property key for NODE_PROPERTY / EDGE_PROPERTY constraints.

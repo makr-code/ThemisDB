@@ -104,7 +104,7 @@ public:
 
     bool initialize() {
         // Determine actual device IDs to use
-        std::vector<int> deviceIds = config.deviceIds;
+        std::vector&lt;int&gt; deviceIds = config.deviceIds;
         if (deviceIds.empty()) {
             for (int i = 0; i < config.numDevices; ++i) {
                 deviceIds.push_back(i);
@@ -113,7 +113,7 @@ public:
 
         // Clamp to available GPU count
         int gpuCount = MultiGPUVectorBackend::detectGPUCount();
-        if (gpuCount > 0 && static_cast<int>(deviceIds.size()) > gpuCount) {
+        if (gpuCount > 0 && static_cast&lt;int&gt;(deviceIds.size()) > gpuCount) {
             std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size()
                       << " devices but only " << gpuCount << " visible; clamping.\n";
             deviceIds.resize(static_cast<size_t>(gpuCount));
@@ -324,7 +324,7 @@ public:
     // Communication backend helpers
     // -------------------------------------------------------------------------
 
-    void initCommBackend(const std::vector<int>& deviceIds) {
+    void initCommBackend(const std::vector&lt;int&gt;& deviceIds) {
         (void)deviceIds;
         CommBackend target = config.commBackend;
 
@@ -351,7 +351,7 @@ public:
             case CommBackend::NCCL: {
                 ncclBackend = std::make_unique<NCCLVectorBackend>();
                 NCCLVectorBackend::Config ncclCfg;
-                ncclCfg.worldSize     = static_cast<int>(deviceIds.size());
+                ncclCfg.worldSize     = static_cast&lt;int&gt;(deviceIds.size());
                 ncclCfg.rank          = 0;
                 ncclCfg.deviceIds     = deviceIds;
                 ncclCfg.enableP2P     = config.enableP2P;
@@ -373,7 +373,7 @@ public:
             case CommBackend::RCCL: {
                 rcclBackend = std::make_unique<RCCLVectorBackend>();
                 RCCLVectorBackend::Config rcclCfg;
-                rcclCfg.worldSize    = static_cast<int>(deviceIds.size());
+                rcclCfg.worldSize    = static_cast&lt;int&gt;(deviceIds.size());
                 rcclCfg.rank         = 0;
                 rcclCfg.deviceIds    = deviceIds;
                 rcclCfg.enableP2P    = config.enableP2P;
@@ -489,7 +489,7 @@ const std::vector<ShardDescriptor>& MultiGPUVectorBackend::shards() const noexce
 }
 
 int MultiGPUVectorBackend::activeDeviceCount() const noexcept {
-    return static_cast<int>(pImpl_->shardDescs.size());
+    return static_cast&lt;int&gt;(pImpl_->shardDescs.size());
 }
 
 MultiGPUVectorBackend::CommBackend MultiGPUVectorBackend::activeCommBackend() const noexcept {

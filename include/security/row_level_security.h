@@ -23,7 +23,7 @@
 #include <vector>
 #include <mutex>
 #include <unordered_map>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 namespace themis {

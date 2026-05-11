@@ -119,14 +119,14 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     if (body.contains("max_tokens")) {
         const auto& m = body["max_tokens"];
         if (m.is_number_integer()) {
-            req.max_tokens = m.get<int>();
+            req.max_tokens = m.get&lt;int&gt;();
         }
     }
     // OpenAI spec also accepts max_completion_tokens (o1-series alias)
     if (body.contains("max_completion_tokens")) {
         const auto& m = body["max_completion_tokens"];
         if (m.is_number_integer()) {
-            req.max_tokens = m.get<int>();
+            req.max_tokens = m.get&lt;int&gt;();
         }
     }
 

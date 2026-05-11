@@ -47,8 +47,8 @@
 #include <condition_variable>
 #include <thread>
 #include <queue>
-#include <map>
-#include <optional>
+#include &lt;map&gt;
+#include &lt;optional&gt;
 #include <fstream>
 
 namespace themisdb {
@@ -291,7 +291,7 @@ struct DeferredOperation {
      * Calculate effective priority (considers age)
      */
     int getEffectivePriority() const {
-        int base = static_cast<int>(priority);
+        int base = static_cast&lt;int&gt;(priority);
         // Boost priority for older operations
         int age_boost = getAgeSeconds() / 60;  // +1 per minute
         return std::max(0, base - age_boost);

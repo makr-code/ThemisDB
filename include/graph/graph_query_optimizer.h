@@ -29,10 +29,10 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <unordered_map>
 #include <unordered_set>
-#include <list>
+#include &lt;list&gt;
 #include <functional>
 #include <atomic>
 #include <chrono>
@@ -106,7 +106,7 @@ public:
      * Query constraints and hints
      */
     struct QueryConstraints {
-        std::optional<int> max_depth;
+        std::optional&lt;int&gt; max_depth;
         std::optional<size_t> max_results;
         std::optional<std::string> edge_type;
         std::optional<std::string> graph_id;

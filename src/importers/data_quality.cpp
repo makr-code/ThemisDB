@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <cmath>
 #include <chrono>
-#include <set>
+#include &lt;set&gt;
 #include <sstream>
 #include <iomanip>
 
@@ -234,7 +234,7 @@ DataQualityFramework::QualityAssessor::generateQualityReport(
         if (metrics.overall_quality_score < 60.0) {
             report.issues.push_back(
                 "Table '" + schema.name + "' has low quality score: " +
-                std::to_string(static_cast<int>(metrics.overall_quality_score)));
+                std::to_string(static_cast&lt;int&gt;(metrics.overall_quality_score)));
             report.recommendations.push_back(
                 "Investigate null values and type mismatches in '" + schema.name + "'");
         }

@@ -32,7 +32,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <atomic>
 #include <nlohmann/json.hpp>
 
@@ -294,7 +294,7 @@ public:
      */
     struct QueryMetadata {
         // ── Shard-key predicate ──────────────────────────────────────────────
-        // Populated by analyzeQuery() when it detects a _key == <value> or
+        // Populated by analyzeQuery() when it detects a _key == &lt;value&gt; or
         // _key >= <min> AND _key <= <max> predicate, enabling partition pruning.
         struct ShardKeyPredicate {
             enum class Kind { POINT, RANGE };
@@ -323,7 +323,7 @@ public:
 
         // Shard-key routing fields (populated by analyzeQuery)
         // Set when the query contains an equality predicate on _key:
-        //   FILTER doc._key == "<value>"
+        //   FILTER doc._key == "&lt;value&gt;"
         std::optional<std::string> point_lookup_key;
         // Set when the query contains a range predicate on _key:
         //   FILTER doc._key >= "<min>" AND doc._key <= "<max>"

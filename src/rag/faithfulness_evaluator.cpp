@@ -30,8 +30,8 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>
-#include <regex>
-#include <set>
+#include &lt;regex&gt;
+#include &lt;set&gt;
 
 namespace themis::rag::judge {
 
@@ -205,7 +205,7 @@ SupportLevel FaithfulnessEvaluator::checkEntailment(
         SupportLevel support = impl_->checkNLIEntailment(claim, doc_content);
         
         // Keep the best (highest) support level found
-        if (static_cast<int>(support) > static_cast<int>(best_support)) {
+        if (static_cast&lt;int&gt;(support) > static_cast&lt;int&gt;(best_support)) {
             best_support = support;
         }
         

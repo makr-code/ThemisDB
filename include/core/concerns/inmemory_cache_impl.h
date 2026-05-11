@@ -23,7 +23,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <chrono>
-#include <regex>
+#include &lt;regex&gt;
 
 namespace themis {
 namespace core {

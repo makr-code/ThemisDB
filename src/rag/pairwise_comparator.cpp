@@ -139,7 +139,7 @@ PairwiseComparator::PairwiseComparator(const Config& config)
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
     THEMIS_DEBUG("PairwiseComparator initialized with bias strategy: {}", 
-                 static_cast<int>(config.bias_strategy));
+                 static_cast&lt;int&gt;(config.bias_strategy));
 }
 
 PairwiseComparator::~PairwiseComparator() = default;
@@ -226,7 +226,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
     result.position_bias_magnitude = 0.0;
     
     THEMIS_DEBUG("Starting pairwise comparison with strategy: {}", 
-                 static_cast<int>(impl_->config.bias_strategy));
+                 static_cast&lt;int&gt;(impl_->config.bias_strategy));
     
     switch (impl_->config.bias_strategy) {
         case BiasMitigationStrategy::NONE: {
@@ -334,7 +334,7 @@ PairwiseComparisonResult PairwiseComparator::compare(
     result.overall_reasoning = reasoning.str();
     
     THEMIS_INFO("Pairwise comparison complete: winner={}, confidence={:.2f}, bias={:.2f}",
-                static_cast<int>(result.overall_winner), result.overall_confidence, 
+                static_cast&lt;int&gt;(result.overall_winner), result.overall_confidence, 
                 result.position_bias_magnitude);
     
     return result;

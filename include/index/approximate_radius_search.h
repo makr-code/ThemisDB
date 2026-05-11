@@ -22,7 +22,7 @@
 #include "utils/expected.h"
 #include <string>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <memory>
 
 namespace themis {
@@ -52,7 +52,7 @@ namespace vector {
  * Implementation Status: Production-Ready Beta
  * All core methods are fully implemented and tested.
  * 
- * @references
+ * References:
  * - Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using HNSW"
  * - Johnson, J., et al. (2019). "Billion-scale similarity search with GPUs" (FAISS)
  */

@@ -24,14 +24,14 @@
 #pragma once
 
 #include <string>
-#include <map>
+#include &lt;map&gt;
 #include <vector>
 #include <deque>
 #include <memory>
 #include <chrono>
 #include <mutex>
 #include <atomic>
-#include <optional>
+#include &lt;optional&gt;
 #include <nlohmann/json.hpp>
 
 namespace themis {

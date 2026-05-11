@@ -426,7 +426,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     }
     
     // Run k-means iterations
-    std::vector<int> assignments(num_samples);
+    std::vector&lt;int&gt; assignments(num_samples);
     
     for (int iter = 0; iter < config_.max_iterations; ++iter) {
         // Assignment step
@@ -447,7 +447,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         
         // Update step
         std::vector<std::vector<float>> new_centroids(k, std::vector<float>(subvector_dim_, 0.0f));
-        std::vector<int> counts(k, 0);
+        std::vector&lt;int&gt; counts(k, 0);
         
         for (size_t i = 0; i < num_samples; ++i) {
             int cluster = assignments[i];

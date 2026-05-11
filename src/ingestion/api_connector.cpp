@@ -103,7 +103,7 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     } else {
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        r.status_code = static_cast<int>(http_code);
+        r.status_code = static_cast&lt;int&gt;(http_code);
     }
 
     if (headers) curl_slist_free_all(headers);
@@ -154,7 +154,7 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     } else {
         long http_code = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        r.status_code = static_cast<int>(http_code);
+        r.status_code = static_cast&lt;int&gt;(http_code);
     }
 
     if (headers) curl_slist_free_all(headers);
@@ -198,7 +198,7 @@ static ApiHttpResponse apiGetWithRetry(const std::string& url,
 
         stats.metrics.retry_count++;
         std::this_thread::sleep_for(
-            std::chrono::milliseconds(static_cast<int>(delay_ms)));
+            std::chrono::milliseconds(static_cast&lt;int&gt;(delay_ms)));
         delay_ms = std::min(delay_ms * cfg.backoff_factor, cfg.max_delay_ms);
     }
     return response;
@@ -225,7 +225,7 @@ static size_t jsonExtractSizeT(const std::string& json,
     return found ? value : 0;
 }
 
-/// Minimal JSON string-field extractor: collect all values for `"key":"<value>"`
+/// Minimal JSON string-field extractor: collect all values for `"key":"&lt;value&gt;"`
 static std::vector<std::string> jsonExtractStringList(const std::string& json,
                                                        const std::string& key) {
     std::vector<std::string> results;
@@ -251,7 +251,7 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
     return results;
 }
 
-/// Extract the first string value for `"key":"<value>"` from JSON, or "" if absent.
+/// Extract the first string value for `"key":"&lt;value&gt;"` from JSON, or "" if absent.
 static std::string jsonExtractStringValue(const std::string& json,
                                           const std::string& key) {
     auto list = jsonExtractStringList(json, key);

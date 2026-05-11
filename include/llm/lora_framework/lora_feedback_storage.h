@@ -25,7 +25,7 @@
 #include "index/graph_index.h"
 #include <memory>
 #include <vector>
-#include <optional>
+#include &lt;optional&gt;
 #include <mutex>
 
 namespace themis {

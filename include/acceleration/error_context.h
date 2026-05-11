@@ -21,7 +21,7 @@
 
 #include "acceleration/error_codes.h"
 #include <string>
-#include <optional>
+#include &lt;optional&gt;
 #include <chrono>
 
 namespace themis {

@@ -31,7 +31,7 @@
 #include "cache/bounded_lru_cache.h"
 #include <string>
 #include <vector>
-#include <map>
+#include &lt;map&gt;
 #include <memory>
 #include <mutex>
 #include <atomic>
@@ -76,7 +76,7 @@ struct MetadataEntry {
             {"key", key},
             {"value", value},
             {"version", version},
-            {"partition", static_cast<int>(partition)},
+            {"partition", static_cast&lt;int&gt;(partition)},
             {"created_at", std::chrono::duration_cast<std::chrono::milliseconds>(
                 created_at.time_since_epoch()).count()},
             {"updated_at", std::chrono::duration_cast<std::chrono::milliseconds>(

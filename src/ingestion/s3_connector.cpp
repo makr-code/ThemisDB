@@ -260,10 +260,10 @@ public:
             // AWS S3 ListObjectsV2 accepts MaxKeys as an integer in [1, 1000].
             // Cap at INT_MAX to avoid narrowing overflow, then clamp to valid range.
             if (raw == 0 || raw > static_cast<unsigned long long>(
-                                       std::numeric_limits<int>::max())) {
+                                       std::numeric_limits&lt;int&gt;::max())) {
                 max_keys_per_list_ = 1000;
             } else {
-                max_keys_per_list_ = static_cast<int>(raw);
+                max_keys_per_list_ = static_cast&lt;int&gt;(raw);
             }
         } catch (...) {
             max_keys_per_list_ = 1000;

@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <mutex>
 #include <numeric>
-#include <optional>
+#include &lt;optional&gt;
 
 namespace themis {
 namespace observability {

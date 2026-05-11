@@ -37,7 +37,7 @@
 #pragma once
 
 #include <memory>
-#include <optional>
+#include &lt;optional&gt;
 #include <openssl/evp.h>
 #include <openssl/x509.h>
 #include <openssl/x509_vfy.h>

@@ -176,7 +176,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
 
         bool fully_inside = (n.x0 >= qx_lo && x1 <= qx_hi &&
                              n.y0 >= qy_lo && y1 <= qy_hi);
-        bool budget_full  = (static_cast<int>(ranges.size()) >= max_ranges - 1);
+        bool budget_full  = (static_cast&lt;int&gt;(ranges.size()) >= max_ranges - 1);
 
         if (fully_inside || n.bits == 0 || budget_full) {
             // Emit this range.  Merge with the previous entry when adjacent to
@@ -869,7 +869,7 @@ double SpatialIndexManager::euclidean3DDistance(
 
 // Z-bucket (10 m buckets; negative elevations get negative bucket IDs)
 int SpatialIndexManager::getZBucket(double z) const {
-    return static_cast<int>(std::floor(z / Z_BUCKET_SIZE));
+    return static_cast&lt;int&gt;(std::floor(z / Z_BUCKET_SIZE));
 }
 
 // Search intersects

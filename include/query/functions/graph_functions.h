@@ -374,7 +374,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string startId = graph_helpers::getVertexId(args[0]);
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
-        int maxDepth = args.size() > 3 ? args[3].get<int>() : 1;
+        int maxDepth = args.size() > 3 ? args[3].get&lt;int&gt;() : 1;
         
         std::transform(direction.begin(), direction.end(), direction.begin(), ::tolower);
         
@@ -527,7 +527,7 @@ public:
         return nlohmann::json{
             {"vertices", vertices},
             {"edges", nlohmann::json::array()}, // Edge details would require more context
-            {"distance", static_cast<int>(path.size() - 1)}
+            {"distance", static_cast&lt;int&gt;(path.size() - 1)}
         };
     }
 };
@@ -591,7 +591,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         ShortestPathFunction spf;
         auto result = spf.execute(args, ctx);
-        return result["distance"].get<int>() >= 0;
+        return result["distance"].get&lt;int&gt;() >= 0;
     }
 };
 
@@ -685,7 +685,7 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
         double damping = args.size() > 1 ? args[1].get<double>() : 0.85;
-        int iterations = args.size() > 2 ? args[2].get<int>() : 20;
+        int iterations = args.size() > 2 ? args[2].get&lt;int&gt;() : 20;
         
         // Parse options
         std::string format = "detailed";
@@ -1203,7 +1203,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
-        int max_iterations = args.size() > 1 ? args[1].get<int>() : 100;
+        int max_iterations = args.size() > 1 ? args[1].get&lt;int&gt;() : 100;
         
         const auto& vertices = graph.vertices();
         if (vertices.empty()) return nlohmann::json::object();

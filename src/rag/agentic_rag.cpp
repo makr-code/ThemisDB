@@ -376,7 +376,7 @@ AgenticRAGResult AgenticRAG::run(
     THEMIS_INFO("AgenticRAG::run complete: iterations={}, stop_reason={}, "
                 "quality_satisfied={}, tokens_consumed={}, elapsed={}ms",
                 result.total_iterations,
-                static_cast<int>(result.stop_reason),
+                static_cast&lt;int&gt;(result.stop_reason),
                 result.quality_satisfied,
                 result.tokens_consumed,
                 result.total_elapsed_ms.count());

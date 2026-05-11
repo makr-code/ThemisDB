@@ -21,7 +21,7 @@
 
 #include "query/functions/function_registry.h"
 #include <algorithm>
-#include <set>
+#include &lt;set&gt;
 #include <numeric>
 
 namespace themis {

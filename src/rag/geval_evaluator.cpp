@@ -31,7 +31,7 @@
 #include <sstream>
 #include <iomanip>
 #include <atomic>
-#include <regex>
+#include &lt;regex&gt;
 
 // Forward declaration for llama.cpp types
 extern "C" {
@@ -116,8 +116,8 @@ struct GEvalEvaluator::Impl {
     /**
      * @brief Find token IDs for score levels
      */
-    std::vector<int> findScoreTokens(llama_model* model) {
-        std::vector<int> score_tokens;
+    std::vector&lt;int&gt; findScoreTokens(llama_model* model) {
+        std::vector&lt;int&gt; score_tokens;
         int n_vocab = llama_n_vocab(model);
         
         // Search for tokens representing "1", "2", "3", "4", "5"
@@ -188,7 +188,7 @@ struct GEvalEvaluator::Impl {
                                           score_1_to_5));
         std::vector<double> probs(kNumScoreLevels, 0.0);
         double sum = 0.0;
-        for (int i = 0; i < static_cast<int>(kNumScoreLevels); ++i) {
+        for (int i = 0; i < static_cast&lt;int&gt;(kNumScoreLevels); ++i) {
             double diff = (i + 1) - s;
             probs[i] = std::exp(-0.5 * diff * diff);  // Gaussian, variance=1 (σ²=1)
             sum += probs[i];
@@ -383,7 +383,7 @@ GEvalResult GEvalEvaluator::evaluate(
 
 std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     const std::string& prompt,
-    const std::vector<int>& score_tokens
+    const std::vector&lt;int&gt;& score_tokens
 ) {
     // Use LLM engine to derive probabilities from the prompt when available;
     // otherwise fall back to heuristic distributions.
@@ -400,7 +400,7 @@ double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilitie
     // Compute expected value: E[score] = Σ(level × P(level))
     double expected_score = 0.0;
     for (size_t i = 0; i < probabilities.size(); i++) {
-        int level = static_cast<int>(i) + 1;
+        int level = static_cast&lt;int&gt;(i) + 1;
         expected_score += level * probabilities[i];
     }
     
@@ -471,7 +471,7 @@ double GEvalEvaluator::aggregateScores(
             // Use the most common score (with some tolerance)
             std::unordered_map<int, int> counts;
             for (double score : samples) {
-                int bucket = static_cast<int>(score * 10);  // 0.1 resolution
+                int bucket = static_cast&lt;int&gt;(score * 10);  // 0.1 resolution
                 counts[bucket]++;
             }
             
