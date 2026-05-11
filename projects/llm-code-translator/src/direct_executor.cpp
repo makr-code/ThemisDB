@@ -755,7 +755,7 @@ nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
                                           int top_k,
                                           const std::string& distance_metric) {
     nlohmann::json out = nlohmann::json::array();
-    if (top_k <= 0) {
+    if (top_k <= 0 || query_vector.empty()) {
         return out;
     }
     const auto it = data_.find(datasource);
@@ -782,7 +782,7 @@ nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
         if (embedding.empty()) {
             continue;
         }
-        if (embedding.size() != query_vector.size() || query_vector.empty()) {
+        if (embedding.size() != query_vector.size()) {
             continue;
         }
         const auto count = embedding.size();

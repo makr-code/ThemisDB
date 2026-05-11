@@ -154,9 +154,10 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
     for (const auto v : g.values) { vmin = std::min(vmin, v); vmax = std::max(vmax, v); }
     const float range = (vmax > vmin) ? (vmax - vmin) : 1.0f;
 
-    std::vector<float> expected(recon.size(), 0.0f);
+    std::vector<float> expected;
+    expected.reserve(recon.size());
     for (std::size_t i = 0; i < g.values.size(); ++i) {
-        expected[i] = (g.values[i] - vmin) / range;
+        expected.push_back((g.values[i] - vmin) / range);
     }
 
     // Hilbert traversal may permute index order vs. row-major source layout.
