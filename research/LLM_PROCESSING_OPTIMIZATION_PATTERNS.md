@@ -85,7 +85,7 @@ Rule used in this document: all major claims in Sections III-VIII map to at leas
 
 ### A. Setup
 
-- **Software:** repository snapshot for this draft revision anchored at commit `f5fce92ca6` (arXiv-structure baseline on this branch), with subsequent textual refinements documented in PR history.
+- **Software:** repository snapshot for this draft revision anchored at branch `copilot/research-review-llm-processing-optimization`, commit `f5fce92ca6e167db013e0f9f63ccbb3bfb546328` (arXiv-structure baseline), with subsequent textual refinements documented in PR history.
 - **Execution mode:** serving-only and mixed-load profiles.
 - **Controls:** fixed seeds, warm-up phase, repeated runs, and percentile reporting (p50/p95/p99).
 
