@@ -513,20 +513,40 @@ TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
                  0.6});
     kgr.addFact({"alice", "knows", "bob"});
 
-    auto chain = kgr.infer("alice", 1);
-    ASSERT_FALSE(chain.empty());
+    auto make_chain = [&]() {
+        auto chain = kgr.infer("alice", 1);
+        EXPECT_FALSE(chain.empty());
+        return chain;
+    };
 
+    auto chain_nan = make_chain();
     kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
         return std::numeric_limits<double>::quiet_NaN();
     });
-    kgr.applyLoRAScore(chain, "strict_adapter");
+    kgr.applyLoRAScore(chain_nan, "strict_adapter");
+
+    auto chain_pos_inf = make_chain();
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return std::numeric_limits<double>::infinity();
+    });
+    kgr.applyLoRAScore(chain_pos_inf, "strict_adapter");
+
+    auto chain_neg_inf = make_chain();
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return -std::numeric_limits<double>::infinity();
+    });
+    kgr.applyLoRAScore(chain_neg_inf, "strict_adapter");
 
 #if defined(THEMIS_ENABLE_LLM)
-    // NaN is clamped to 0.0 and therefore filtered by min_lora_score=0.6.
-    EXPECT_TRUE(chain.empty());
+    // Non-finite outputs normalize to 0.0 and are filtered by min_lora_score=0.6.
+    EXPECT_TRUE(chain_nan.empty());
+    EXPECT_TRUE(chain_pos_inf.empty());
+    EXPECT_TRUE(chain_neg_inf.empty());
 #else
     // LLM path disabled: deterministic fallback (0.5) is also filtered.
-    EXPECT_TRUE(chain.empty());
+    EXPECT_TRUE(chain_nan.empty());
+    EXPECT_TRUE(chain_pos_inf.empty());
+    EXPECT_TRUE(chain_neg_inf.empty());
 #endif
 }
 

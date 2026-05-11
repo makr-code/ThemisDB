@@ -224,6 +224,8 @@ TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
     if (cfg_.max_candidates == 0) {
         return candidates;
     }
+    // Cap reserve() to avoid pathological memory reservations when callers set
+    // very large max_candidates values while preserving amortized O(1) inserts.
     static constexpr std::size_t kReserveCap = 10'000;
     candidates.reserve(std::min(cfg_.max_candidates, kReserveCap));
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
