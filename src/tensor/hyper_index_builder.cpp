@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
 #include <unordered_map>
@@ -20,6 +21,9 @@ namespace themis {
 namespace tensor {
 
 namespace {
+
+std::mutex g_bucket_assignment_fn_mu;
+HyperIndexBuilder::BucketAssignmentFn g_bucket_assignment_fn;
 
 // ============================================================================
 // Bucket helpers
@@ -214,19 +218,46 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         total_elements *= bucket_count;
     }
 
-    // STUB/SIMULATION NOTE (STUB #255):
-    // Purpose: Expose latent cross-column relationships via TT co-occurrence tensor.
-    // Activation: Always.
-    // Production Delta: Uses uniform bucketing (NUMERIC: equal-width intervals,
-    //   CATEGORY: insertion-order rank). No FK-graph weighting or cross-table
-    //   join propagation in bucket assignment.
-    // Removal Plan: Q4 2028 — integrate FK graph into bucket assignment; add
-    //   index-guided TT-cross for cross-table FK signal propagation.
+    // Default path uses built-in uniform/category/bool bucketisation.
+    // Optional BucketAssignmentFn bridge can override per-row buckets (e.g.,
+    // FK-graph-aware assignment) before co-occurrence counting.
 
     std::vector<float> count_tensor(total_elements, 0.0f);
+    BucketAssignmentFn bucket_assignment_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
+        // Snapshot callback once per build to avoid per-row lock contention.
+        // std::function is copied by value here; later set/clear calls only
+        // affect global storage and do not mutate this local snapshot.
+        bucket_assignment_fn = g_bucket_assignment_fn;
+    }
 
-    for (const auto& row : rows) {
-        const auto buckets = bucketiseRow(row, schema, bucket_count);
+    for (std::size_t row_idx = 0; row_idx < rows.size(); ++row_idx) {
+        const auto& row = rows[row_idx];
+        auto buckets = bucketiseRow(row, schema, bucket_count);
+
+        if (bucket_assignment_fn) {
+            auto assigned = bucket_assignment_fn(
+                tenant_id, schema, row, row_idx, buckets);
+            if (assigned.size() != schema.size()) {
+                throw std::runtime_error(
+                    "bucket assignment bridge returned " +
+                    std::to_string(assigned.size()) +
+                    " buckets, expected " + std::to_string(schema.size()) +
+                    " at row " + std::to_string(row_idx));
+            }
+            for (std::size_t k = 0; k < assigned.size(); ++k) {
+                if (assigned[k] >= bucket_count) {
+                    throw std::runtime_error(
+                        "bucket assignment bridge returned out-of-range bucket " +
+                        std::to_string(assigned[k]) + " at dimension " + std::to_string(k) +
+                        ", bucket_count=" + std::to_string(bucket_count) +
+                        ", row=" + std::to_string(row_idx));
+                }
+            }
+            buckets = std::move(assigned);
+        }
+
         const auto flat    = flattenBuckets(buckets, bucket_count);
         count_tensor[flat] += 1.0f;
     }
@@ -246,6 +277,21 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     result.bucket_count = bucket_count;
     result.total_rows   = rows.size();
     return result;
+}
+
+void HyperIndexBuilder::setBucketAssignmentFn(BucketAssignmentFn fn) {
+    std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
+    g_bucket_assignment_fn = std::move(fn);
+}
+
+void HyperIndexBuilder::clearBucketAssignmentFn() {
+    std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
+    g_bucket_assignment_fn = nullptr;
+}
+
+HyperIndexBuilder::BucketAssignmentFn HyperIndexBuilder::getBucketAssignmentFn() {
+    std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
+    return g_bucket_assignment_fn;
 }
 
 } // namespace tensor

@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include <numeric>
 #include <random>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -89,6 +90,8 @@ struct TensorRouter::Impl {
     TensorRoutingPolicy                           policy;
     TensorTrainDecomposer                         decomposer;
     std::shared_ptr<tensor::TemplateCatalog>      template_catalog;
+    mutable std::mutex                            template_apply_mu;
+    TemplateTopologyApplyFn                       template_topology_apply_fn;
 
     mutable std::mutex   stats_mu;
     mutable RouterStats  stats_ {};
@@ -226,11 +229,34 @@ struct TensorRouter::Impl {
         if (override.has_value()) return *override;
 
         // Domain template catalog promotion (STUB #253):
-        // A matching template means an optimised TN structure is known → LIFT.
+        // A matching template means an optimised TN structure is known.
+        // If a topology-apply bridge is installed and succeeds, promote to LIFT.
+        // Otherwise fall back to legacy direct promotion.
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
-                return TensorRouteDecision::LIFT;
+                TemplateTopologyApplyFn apply_fn;
+                {
+                    std::lock_guard<std::mutex> lk(template_apply_mu);
+                    apply_fn = template_topology_apply_fn;
+                }
+                if (apply_fn) {
+                    try {
+                        if (apply_fn(hint.domain_tag, *tmpl, hint)) {
+                            return TensorRouteDecision::LIFT;
+                        }
+                    } catch (const std::exception& ex) {
+                        spdlog::warn(
+                            "TensorRouter template topology callback threw for domain_tag='{}': {}",
+                            hint.domain_tag,
+                            ex.what());
+                        // Fail-closed to heuristic path on bridge exception.
+                    }
+                    // Bridge installed but failed: do NOT force LIFT.
+                } else {
+                    // Legacy compatibility path when no bridge is installed.
+                    return TensorRouteDecision::LIFT;
+                }
             }
         }
 
@@ -390,6 +416,21 @@ void TensorRouter::setTemplateCatalog(
 std::shared_ptr<tensor::TemplateCatalog>
 TensorRouter::templateCatalog() const noexcept {
     return impl_->template_catalog;
+}
+
+void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
+    impl_->template_topology_apply_fn = std::move(fn);
+}
+
+void TensorRouter::clearTemplateTopologyApplyFn() {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
+    impl_->template_topology_apply_fn = nullptr;
+}
+
+TensorRouter::TemplateTopologyApplyFn TensorRouter::getTemplateTopologyApplyFn() const {
+    std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
+    return impl_->template_topology_apply_fn;
 }
 
 } // namespace storage

@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <functional>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -23,6 +24,48 @@
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Static bridge slots — STUB #257 (EmbedFn) / STUB #258 (ImageEmbedFn)
+// ============================================================================
+
+namespace {
+    std::mutex          g_embed_mtx;
+    UTRConverter::EmbedFn g_embed_fn;          // null ⟹ use FNV-1a fallback
+
+    std::mutex               g_image_embed_mtx;
+    UTRConverter::ImageEmbedFn g_image_embed_fn; // null ⟹ use raw-pixel fallback
+} // namespace
+
+void UTRConverter::setEmbedFn(UTRConverter::EmbedFn fn) {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    g_embed_fn = std::move(fn);
+}
+
+void UTRConverter::clearEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    g_embed_fn = nullptr;
+}
+
+UTRConverter::EmbedFn UTRConverter::getEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_embed_mtx);
+    return g_embed_fn;
+}
+
+void UTRConverter::setImageEmbedFn(UTRConverter::ImageEmbedFn fn) {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    g_image_embed_fn = std::move(fn);
+}
+
+void UTRConverter::clearImageEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    g_image_embed_fn = nullptr;
+}
+
+UTRConverter::ImageEmbedFn UTRConverter::getImageEmbedFn() {
+    std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+    return g_image_embed_fn;
+}
 
 namespace {
 
@@ -231,13 +274,21 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // STUB/SIMULATION NOTE (STUB #258):
     // Purpose: Provide a TT-encoded image representation for structural similarity
     //          search in TensorIndexManager.
-    // Activation: Always.
+    // Activation: Always when no ImageEmbedFn bridge is installed.
     // Production Delta: Normalises pixel values to [0, 1] and decomposes directly
     //   in HWC mode order.  No patch embedding, semantic alignment, or frequency-
     //   domain transform is applied.  Similarity is therefore pixel-level, not
     //   semantic.
     // Removal Plan: Q4 2028 — add patch-based structural embedding (non-overlapping
     //   patches → learned linear projection → TT decompose in patch space).
+
+    // Delegate to an injected encoder when available.
+    {
+        std::lock_guard<std::mutex> lk(g_image_embed_mtx);
+        if (g_image_embed_fn) {
+            return g_image_embed_fn(pixels, h, w, c, cfg);
+        }
+    }
 
     // Normalise to [0, 1]
     std::vector<float> normed(pixels.size());
@@ -297,10 +348,28 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     const std::size_t num_segs  = segments.size();
     const std::size_t embed_dim = cfg.embed_dim;
 
+    // Obtain the embedding function: injected bridge takes priority over FNV-1a.
+    UTRConverter::EmbedFn embed_fn;
+    {
+        std::lock_guard<std::mutex> lk(g_embed_mtx);
+        embed_fn = g_embed_fn;
+    }
+
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
     for (const auto& seg : segments) {
-        const auto emb = hashEmbed(seg, embed_dim);
+        std::vector<float> emb;
+        if (embed_fn) {
+            emb = embed_fn(seg, embed_dim);
+            if (emb.size() != embed_dim) {
+                throw std::runtime_error(
+                    "UTRConverter::fromDocument: injected EmbedFn returned " +
+                    std::to_string(emb.size()) +
+                    " elements but embed_dim=" + std::to_string(embed_dim));
+            }
+        } else {
+            emb = hashEmbed(seg, embed_dim);
+        }
         segment_matrix.insert(segment_matrix.end(), emb.begin(), emb.end());
     }
 

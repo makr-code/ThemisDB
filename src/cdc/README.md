@@ -142,6 +142,7 @@ For CDC documentation, see:
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+Kafka support requires librdkafka and `-DTHEMIS_ENABLE_KAFKA=1`.
 
 ## Usage
 

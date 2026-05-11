@@ -16,10 +16,35 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
+#include <mutex>
 #include <stdexcept>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Static bridge slots — STUB #252 (RerouteSerializeFn)
+// ============================================================================
+
+namespace {
+    std::mutex                      g_reroute_serialize_mtx;
+    TNSRTask::RerouteSerializeFn    g_reroute_serialize_fn;
+} // namespace
+
+void TNSRTask::setRerouteSerializeFn(TNSRTask::RerouteSerializeFn fn) {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    g_reroute_serialize_fn = std::move(fn);
+}
+
+void TNSRTask::clearRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    g_reroute_serialize_fn = nullptr;
+}
+
+TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
+    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+    return g_reroute_serialize_fn;
+}
 
 // ============================================================================
 // TNSRTask — construction
@@ -99,15 +124,16 @@ TNSRReport TNSRTask::run(
         if (trivial_topology) {
             ++report.topology_search_skipped_keys;
         } else {
-            // STUB/SIMULATION NOTE:
+            // STUB/SIMULATION NOTE (STUB #252):
             // Purpose: Demonstrate topology analysis (HissStructuralSearchEngine)
             //          integration; count rerouteEdge calls in the report.
-            // Activation: Non-trivial TT trains only.
+            // Activation: Non-trivial TT trains only; when no RerouteSerializeFn set.
             // Production Delta: The TensorNetworkGraph is rebuilt for the
             //   recompressed train and rerouteEdge changes are counted, but the
-            //   mutated topology is NOT re-serialised to storage.  Bond-dimension
-            //   reduction (recompress) IS durable.  Topology changes are advisory
-            //   in this release.
+            //   mutated topology is NOT re-serialised to storage unless a
+            //   RerouteSerializeFn bridge is installed.  Bond-dimension
+            //   reduction (recompress) IS always durable.  Topology changes are
+            //   advisory in this release.
             // Removal Plan: Q3 2028 — map rerouteEdge suggestions to a topology-
             //   aware contraction and re-serialisation path.
             TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
@@ -125,6 +151,21 @@ TNSRReport TNSRTask::run(
                 ++topo_changes_this_key;
             }
             report.topology_changes += topo_changes_this_key;
+
+            // STUB #252 bridge: call injected re-serialization fn when set.
+            if (topo_changes_this_key > 0) {
+                TNSRTask::RerouteSerializeFn serialize_fn;
+                {
+                    std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
+                    serialize_fn = g_reroute_serialize_fn;
+                }
+                if (serialize_fn) {
+                    const bool ok = serialize_fn(*engine_, field_key, tng, recompressed);
+                    if (!ok) {
+                        ++report.error_count;
+                    }
+                }
+            }
         }
 
         // ── 5. Decide whether to write back ────────────────────────────────

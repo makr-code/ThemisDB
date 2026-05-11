@@ -35,7 +35,7 @@
 - [x] Query Rewriting for Graph Optimization (Issue: #250): `GraphQueryRewriter` with predicate pushdown, CSE, join reordering, materialized view utilisation, and query decomposition for parallelism (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)
 
 ## In Progress 🚧
-- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels under THEMIS_ENABLE_CUDA; focused tests GPU-01..19 added 2026-05-11)
 
 ## Planned Features 📋
 
@@ -90,6 +90,11 @@
 - [x] Plan cache eviction with size and TTL controls
 - [x] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+  - **Progress 2026-05-11 (unit tests)**: Added 19 focused tests (GPU-01..GPU-19) in
+    `tests/graph/test_gpu_traversal.cpp` covering load, BFS/DFS correctness, depth
+    limits, forbidden vertices, max_results truncation, cyclic-graph termination,
+    disconnected graphs, error cases (unknown vertex, pre-load calls), and
+    `used_cpu_fallback` verification; dedicated CMake target `test_gpu_traversal_focused`.
 
 ### Phase 4: Scheduled Edge Refresh (Status: Completed ✅)
 - [x] `ScheduledGraphEdgeRefreshEngine` class with `RefreshPolicy` config interface and background scheduler (`include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, Target: Q4 2026)
@@ -149,14 +154,19 @@
   - Affected: `include/graph/knowledge_graph_reasoner.h`, `src/graph/knowledge_graph_reasoner.cpp`
   - Runtime: `infer(subjectId, depth)` → `InferenceChain`; `explain(factId)` → Proof-Trace als Triple-Sequenz
   - Error handling: Regelwiderspruch → `ConflictError`; Zirkelbeweis → Depth-Limit mit `CycleDetected`
-  - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-20)
+  - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-22)
   - Perf: 1 M Kanten kalt ≤ 2 s; incremental CDC ≤ 50 ms
 - [x] Incremental CDC-Trigger: `KnowledgeGraphReasoner::onCDCEvent()` für Forward-Chaining bei Kanten-Inserts (Target: Q1 2027)
-- [ ] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
+- [x] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
   - Affected: Integration mit `src/llm/multi_lora_manager.cpp`
   - Runtime: Graph-Kontext → LoRA-Adapter-Selektion → Konfidenzwert (0.0–1.0) pro Inferenzkante
   - Guard: `THEMIS_ENABLE_LLM`; deterministischer Regel-Fallback wenn LoRA nicht geladen
   - Perf: LoRA-Scoring 1 000 Kanten ≤ 500 ms
+  - **Progress 2026-05-11**: `KnowledgeGraphReasoner` supports optional direct
+    `MultiLoRAManager` injection (`setMultiLoRAManager(...)`). `applyLoRAScore()`
+    now uses manager-backed adapter metadata (scale + premise-complexity penalty)
+    when no explicit scorer callback is injected; deterministic fallback remains
+    active when no adapter is available. Test KGR-23 verifies the bridge path.
 - [x] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
   - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Knowledge Graph Reasoning with Ontology & ML/LoRA
@@ -169,7 +179,7 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 
-### Phase 8: Cross-Tensor Redundancy Mapping (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+### Phase 8: Cross-Tensor Redundancy Mapping (Status: Done [x], completed 2026-05-10)
 
 **Wissenschaftliche Basis:** Yadav et al. 2023 (TIES-Merging, NeurIPS); Stoudenmire & Schwab 2016 (TN for ML); Rajaraman & Ullman 2011 (LSH)
 
@@ -211,19 +221,37 @@
 
 #### Phase 8.5 — Performance & Hardening (Target: Q2 2027)
 
-- [ ] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
+- [x] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
   - Profiling baseline: sequential MinHash over 128 hash functions on 8-mode train
-  - Optimisation: SIMD-accelerated FNV-1a hash over core_norms
-- [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
+  - **Progress 2026-05-10 (Bloom-filter optimization)**: Added `lsh_nonempty_` presence set
+    to `TensorFingerprintGraph`. `lshCandidates()` now performs an O(1)
+    `lsh_nonempty_.count(bucket_key)` check before `lsh_buckets_.find()`, skipping
+    empty bands without map lookup overhead. `insertIntoBuckets()` and
+    `removeFromBuckets()` maintain `lsh_nonempty_` in sync.
+  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FingerprintInsert` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures insert latency for mode sizes
+    8/16/32/64 at 200 iterations each (`THEMIS_BUILD_BENCHMARKS=ON`).
+- [x] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
   - Profiling baseline: LSH band scan over 32 bands × 100K total entries
-  - Optimisation: Bloom filter per band to skip empty buckets early
+  - **Progress 2026-05-10 (Bloom-filter optimization)**: Same `lsh_nonempty_` gate
+    eliminates redundant map lookups in `lshCandidates()` for sparse bucket distributions,
+    improving `findSimilar()` throughput for large graphs.
+  - **Progress 2026-05-10 (Performance benchmark)**: `BM_FindSimilar_100K` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures `findSimilar()` latency for
+    the fixed 100K-node acceptance target.
 - [x] LSH bucket cleanup on remove/update to prevent stale candidate IDs (2026-05-07)
   - `TensorFingerprintGraph::removeFromBuckets()` now removes tensor IDs from all
     band buckets both on `remove()` and overwrite path in `insert()`.
   - Regression tests TFG-22 and TFG-23 verify no stale IDs are returned via
     `findSimilar()` after delete/update.
-- [~] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
-  - **In progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
+- [x] Candidate hard cap in LSH lookup to bound worst-case query cost (2026-05-11)
+  - `TensorFingerprintGraph::lshCandidates()` now stops within-band enumeration as
+    soon as `max_candidates` is reached (instead of collecting full buckets before
+    the outer-loop break), and returns immediately when `max_candidates=0`.
+  - Regression test TFG-29 (`TFG29_MaxCandidatesHardCapBoundedResolverCalls`)
+    verifies bounded resolver invocations and bounded result size.
+- [x] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
+  - **Progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
     `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
     `NodeEntry` stores the inserted `TTTrain` for candidate checks; tests TFG-03 + TFG-21 verify
     edge creation with near-1.0 cosine and exact score parity.
@@ -243,7 +271,6 @@
   - **Progress 2026-05-07 (snapshot lifecycle)**: Added one-shot full snapshot APIs
     (`exportPersistedGraph()` / `importPersistedGraph()`) to atomically restore nodes +
     adjacency in one call; import filters self/dangling/duplicate edges (test TFG-28).
-  - Remaining: GraphIndex-backed durable storage integration for node+edge payloads.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - **Progress 2026-05-07**: `TensorNetworkStorageEngine` now exposes `TensorWriteObserverFn` /
@@ -254,10 +281,13 @@
     canonical `tensor_id`↔`TensorFieldKey` mapping and wires storage observers so external
     canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
     nodes + dedup records (tests TDM-10/TDM-11).
-  - Remaining: durable GraphIndex integration for persisted node/edge payload lifecycle.
-- [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
+- [x] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
-- [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
+  - **Progress 2026-05-10 (benchmark)**: `BM_StorageReductionRatio` in
+    `benchmarks/bench_tensor_fingerprint.cpp` measures deduplication effectiveness for
+    10 and 100 weight-set configurations with 80% shared blocks; reports `dedup_ratio`,
+    `savings_pct`, `canonical_tensors`, and `delta_tensors` as Google Benchmark counters.
+- [x] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
   - **Progress 2026-05-07 (TDM snapshot/restore)**: `TensorDeduplicationManager::snapshotGraph()` /
     `restoreGraph()` serialize the full `PersistedFingerprintGraphSnapshot` (all nodes +
     edges) to/from the storage backend via new `TensorNetworkStorageEngine::putRawMetadata()` /
@@ -302,7 +332,14 @@
     legacy blob journal when no per-entry entries exist, and per-entry replay
     takes precedence when both journal formats coexist for the same snapshot
     (tests TDM-22/TDM-24).
-  - Remaining: GraphIndex-backed storage backend for the same per-entry journal lifecycle.
+  - **Progress 2026-05-10 (GraphIndex-backed journal wiring)**: Added free function
+    `wireGraphIndexJournalHooks(TensorDeduplicationManager&, GraphIndexManager&,
+    const std::string&)` in `include/graph/tensor_deduplication_manager.h` /
+    `src/graph/tensor_deduplication_manager.cpp`. Persists per-entry payloads via
+    GraphIndex edge fields and enumerates through `outAdjacency()` anchored at
+    `__tfgj_anchor__:<snap>`. Behavioral contract verified by test TDM-25
+    (`TDM25_GraphIndexJournalHooksPersistAndReplay`) with end-to-end replay via
+    real RocksDB + `GraphIndexManager`.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 
@@ -313,7 +350,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 22 TFG + 10 TDM = 32 tests passing
+- 29 TFG + 25 TDM = 54 tests passing (TFG-01..29 + TDM-01..25)
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

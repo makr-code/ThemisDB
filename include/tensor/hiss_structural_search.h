@@ -22,6 +22,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -93,6 +94,33 @@ struct QTTrain {
 
 class HissReshaper {
 public:
+    // -------------------------------------------------------------------------
+    // STUB #254 bridge — pure-binary QTT quantics encoder
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callable type for quantics reshape encoding.
+     *
+     * @param train      Input TT train.
+     * @param grid_sizes Physical dimension sizes (may be empty → use mode_sizes).
+     * @return QTTrain in the quantics layout.
+     *
+     * When installed, replaces the residual-factor fallback entirely.
+     * The callable MUST satisfy the same size/product contracts as
+     * `exposeQuantics()` or it will produce undefined results.
+     */
+    using QuanticsFn = std::function<QTTrain(const storage::TTTrain&        train,
+                                             const std::vector<std::size_t>& grid_sizes)>;
+
+    /// Install a pure-binary QTT encode backend.  Thread-safe.
+    static void setQuanticsFn(QuanticsFn fn);
+
+    /// Remove the quantics backend (fallback: residual-factor factorisation).
+    static void clearQuanticsFn();
+
+    /// Return the currently installed QuanticsFn (empty if none).
+    static QuanticsFn getQuanticsFn();
+
     /**
      * @brief Reinterprets a TT train in a quantics-friendly reshaped mode layout.
      *
@@ -100,13 +128,16 @@ public:
      * physical dimension into a sequence of quantics factors, and decomposes
      * the tensor again in the reshaped layout.
      *
-     * Factorisation strategy:
+     * Factorisation strategy (STUB #254 fallback):
      * - powers of two become repeated `2` modes
      * - non-power-of-two dimensions are decomposed into repeated `2` modes
      *   plus a final residual factor (e.g. `12 -> {2, 2, 3}`)
      *
      * This exposes latent low-rank structure to later Hiss/QTT phases while
      * preserving the exact dense element count.
+     *
+     * When a `QuanticsFn` bridge is installed via `setQuanticsFn()`, the
+     * bridge is called instead of the residual-factor path.
      */
     [[nodiscard]] static QTTrain
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);

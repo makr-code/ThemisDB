@@ -14,6 +14,9 @@
  * TR-08  route() domain_tag + no catalog wired → uses pilot heuristic
  * TR-09  setTemplateCatalog(nullptr) disables promotion
  * TR-10  templateCatalog() returns wired catalog
+ * TR-11  template topology apply callback accessor set/clear/get
+ * TR-12  callback invoked on domain_tag template hit
+ * TR-13  callback false return falls back to heuristic path
  */
 
 #include "storage/tensor_router.h"
@@ -172,4 +175,86 @@ TEST(TensorRouterRoute, TemplateCatalogAccessor) {
     auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
     router.setTemplateCatalog(catalog);
     EXPECT_EQ(router.templateCatalog().get(), catalog.get());
+}
+
+// ============================================================================
+// TR-11  template topology apply callback accessor set/clear/get
+// ============================================================================
+TEST(TensorRouterRoute, TemplateTopologyApplyCallbackAccessor) {
+    themis::storage::TensorRouter router(makeEngine());
+    router.clearTemplateTopologyApplyFn();
+    EXPECT_FALSE(static_cast<bool>(router.getTemplateTopologyApplyFn()));
+
+    router.setTemplateTopologyApplyFn(
+        [](const std::string&,
+           const themis::tensor::TensorNetworkGraph&,
+           const themis::storage::TensorRouteHint&) {
+            return true;
+        });
+    EXPECT_TRUE(static_cast<bool>(router.getTemplateTopologyApplyFn()));
+    router.clearTemplateTopologyApplyFn();
+    EXPECT_FALSE(static_cast<bool>(router.getTemplateTopologyApplyFn()));
+}
+
+// ============================================================================
+// TR-12  callback invoked on domain_tag template hit
+// ============================================================================
+TEST(TensorRouterRoute, TemplateTopologyApplyCallbackInvokedOnHit) {
+    themis::storage::TensorRouter router(makeEngine());
+
+    auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    catalog->registerTemplate("finance", g);
+    router.setTemplateCatalog(catalog);
+
+    int call_count = 0;
+    router.setTemplateTopologyApplyFn(
+        [&call_count](const std::string& domain_tag,
+                      const themis::tensor::TensorNetworkGraph& graph,
+                      const themis::storage::TensorRouteHint&) {
+            ++call_count;
+            EXPECT_EQ(domain_tag, "finance");
+            EXPECT_GE(graph.nodeCount(), 1u);
+            return true;
+        });
+
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "finance";
+    hint.category   = themis::storage::TensorRouteHint::DataCategory::EMBEDDING;
+    const auto d = router.route(constantData(64), {8, 8}, hint);
+    EXPECT_EQ(d, themis::storage::TensorRouteDecision::LIFT);
+    EXPECT_EQ(call_count, 1);
+}
+
+// ============================================================================
+// TR-13  callback false return falls back to heuristic path
+// ============================================================================
+TEST(TensorRouterRoute, TemplateTopologyApplyCallbackFalseFallsBackToHeuristic) {
+    themis::storage::TensorRouter router(makeEngine());
+
+    auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    catalog->registerTemplate("finance", g);
+    router.setTemplateCatalog(catalog);
+
+    int call_count = 0;
+    router.setTemplateTopologyApplyFn(
+        [&call_count](const std::string&,
+                      const themis::tensor::TensorNetworkGraph&,
+                      const themis::storage::TensorRouteHint&) {
+            ++call_count;
+            return false;
+        });
+
+    // Callback returns false -> no forced LIFT; decision falls back to heuristic.
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "finance";
+    std::vector<float> rand_data(64);
+    for (std::size_t i = 0; i < 64; ++i) rand_data[i] = static_cast<float>(i % 7);
+
+    const auto d = router.route(rand_data, {8, 8}, hint);
+    EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);
+    EXPECT_EQ(call_count, 1);
 }

@@ -47,7 +47,15 @@
 #  ifndef THEMIS_SIMD_FILTER_AVX2
 #    define THEMIS_SIMD_FILTER_AVX2 1
 #  endif
-#  include <intrin.h>  // _BitScanForward
+#  include <intrin.h>  // _BitScanForward, __cpuid
+#endif
+
+// cpuid.h provides __get_cpuid_count() for GCC/Clang (x86/x86_64).
+// It handles PIC-safe EBX save/restore internally.
+#if (defined(__GNUC__) || defined(__clang__)) && \
+    (defined(__x86_64__) || defined(_M_X64) || \
+     defined(__i386__)   || defined(_M_IX86))
+#  include <cpuid.h>
 #endif
 
 namespace themis {
@@ -81,16 +89,20 @@ SIMDLevel detectSIMDLevel() noexcept {
 #if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
     if (level < SIMDLevel::AVX2) {
         // eax=7, ecx=0 → ebx bit 5 = AVX2
-#if defined(__GNUC__) || defined(__clang__)
+        // Use __get_cpuid_count (from <cpuid.h>) which handles PIC-safe
+        // EBX save/restore on both 32-bit and 64-bit GCC/Clang targets.
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER)
         unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-        __asm__ __volatile__(
-            "xchg %%rbx, %[bx]\n\t"
-            "cpuid\n\t"
-            "xchg %%rbx, %[bx]\n\t"
-            : "=a"(eax), [bx] "=r"(ebx), "=c"(ecx), "=d"(edx)
-            : "a"(7), "c"(0)
-        );
-        if (ebx & (1u << 5)) {
+        if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
+            if (ebx & (1u << 5)) {
+                level = SIMDLevel::AVX2;
+            }
+        }
+#elif defined(_MSC_VER)
+        // __cpuidex is required to pass the sub-leaf (ECX=0) for leaf 7.
+        int cpuInfo[4] = {};
+        __cpuidex(cpuInfo, 7, 0);
+        if (static_cast<unsigned int>(cpuInfo[1]) & (1u << 5)) {
             level = SIMDLevel::AVX2;
         }
 #endif
