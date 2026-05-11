@@ -118,6 +118,8 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_sla_monitoring\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_retriever_reasoning\\.cpp$")
 # test_ontology_aware_retriever uses deleted copy ctor on OntologyManager.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ontology_aware_retriever\\.cpp$")
+# test_gpu_traversal is compiled as dedicated focused target test_gpu_traversal_focused.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*graph/test_gpu_traversal\\.cpp$")
 # test_ai_safety_chaos and test_aql_safety_validator have ambiguous
 # AqlSafetyValidator::validate overload in unified context.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ai_safety_chaos\\.cpp$")
@@ -27887,4 +27889,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
     )
 
     message(STATUS "  TensorFingerprintGraph: TFG-01..28 + TDM-01..25 (insert, findSimilar, snapshot/restore, journal)")
+endif()
+
+# ============================================================================
+# Graph Phase 3: GPUGraphTraversal — CPU-fallback BFS/DFS (GPU-01..GPU-19)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
+    message(STATUS "Adding GPUGraphTraversal focused tests (GPU-01..GPU-19)")
+
+    add_executable(test_gpu_traversal_focused
+        graph/test_gpu_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
+    )
+
+    target_include_directories(test_gpu_traversal_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_gpu_traversal_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gpu_traversal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_gpu_traversal_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_traversal_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
 endif()

@@ -35,7 +35,7 @@
 - [x] Query Rewriting for Graph Optimization (Issue: #250): `GraphQueryRewriter` with predicate pushdown, CSE, join reordering, materialized view utilisation, and query decomposition for parallelism (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)
 
 ## In Progress 🚧
-- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels under THEMIS_ENABLE_CUDA; focused tests GPU-01..19 added 2026-05-11)
 
 ## Planned Features 📋
 
@@ -90,6 +90,11 @@
 - [x] Plan cache eviction with size and TTL controls
 - [x] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+  - **Progress 2026-05-11 (unit tests)**: Added 19 focused tests (GPU-01..GPU-19) in
+    `tests/graph/test_gpu_traversal.cpp` covering load, BFS/DFS correctness, depth
+    limits, forbidden vertices, max_results truncation, cyclic-graph termination,
+    disconnected graphs, error cases (unknown vertex, pre-load calls), and
+    `used_cpu_fallback` verification; dedicated CMake target `test_gpu_traversal_focused`.
 
 ### Phase 4: Scheduled Edge Refresh (Status: Completed ✅)
 - [x] `ScheduledGraphEdgeRefreshEngine` class with `RefreshPolicy` config interface and background scheduler (`include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, Target: Q4 2026)
