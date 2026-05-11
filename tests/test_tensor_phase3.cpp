@@ -1605,10 +1605,10 @@ TEST(GgmlTensorBridge, GTB01_ggml_tensor_null_without_alloc_fn) {
 
 // GTB-02: with GgmlAllocFn, ggmlTensor() returns the allocated pointer
 TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
-    // Use a static sentinel as a stand-in for a real ggml_tensor*.
-    static ggml_tensor sentinel;
-    GgmlTensorBridge::setGgmlAllocFn([](std::size_t) -> ggml_tensor* {
-        return &sentinel;
+    // Use a process-local buffer as a stand-in for a real ggml_tensor*.
+    ggml_tensor local_sentinel{};
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](std::size_t) -> ggml_tensor* {
+        return &local_sentinel;
     });
 
     TensorFieldKey key{"t", "c", "f2"};
@@ -1616,7 +1616,7 @@ TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
     GgmlTensorBridge bridge(storage);
     auto handle = bridge.map(nullptr, key);
     EXPECT_TRUE(handle.valid());
-    EXPECT_EQ(handle.ggmlTensor(), &sentinel);
+    EXPECT_EQ(handle.ggmlTensor(), &local_sentinel);
 
     GgmlTensorBridge::clearGgmlAllocFn();
 }
@@ -1641,9 +1641,9 @@ TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
 
 // GTB-04: GgmlAllocFn cleared → ggmlTensor() reverts to nullptr
 TEST(GgmlTensorBridge, GTB04_alloc_fn_cleared_reverts_to_nullptr) {
-    static ggml_tensor sentinel2;
-    GgmlTensorBridge::setGgmlAllocFn([](std::size_t) -> ggml_tensor* {
-        return &sentinel2;
+    ggml_tensor local_sentinel4{};
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](std::size_t) -> ggml_tensor* {
+        return &local_sentinel4;
     });
     GgmlTensorBridge::clearGgmlAllocFn();
 

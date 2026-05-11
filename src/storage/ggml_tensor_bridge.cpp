@@ -154,7 +154,8 @@ ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     if (!impl_ || !impl_->valid) return nullptr;
     // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
     if (impl_->real_ggml_tensor) return impl_->real_ggml_tensor;
-    // Stub fallback: returns nullptr until real ggml_tensor allocation is wired (GTB-03)
+    // Stub fallback: GgmlAllocFn not set — returns nullptr (safe for unit tests,
+    // not for llama.cpp inference until a real allocator is injected).
     return impl_->fake_tensor.asGgmlPtr();
 }
 
@@ -292,7 +293,8 @@ MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
     return map(ctx, key, 0);
 }
 
-void GgmlTensorBridge::prefetch(const TensorFieldKey& key, uint64_t version) {
+void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
+                                 [[maybe_unused]] uint64_t              version) {
     // Delegate to injected PrefetchFn when available (STUB #263b).
     PrefetchFn fn_copy;
     {
