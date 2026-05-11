@@ -317,7 +317,7 @@ TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeAccessor) {
 TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeIsInvoked) {
     using namespace themis::tensor;
 
-    std::atomic<std::size_t> call_count{0};
+    std::atomic<std::size_t> call_count{};
     HyperIndexBuilder::setBucketAssignmentFn(
         [&call_count](const std::string& tenant_id,
                       const std::vector<ColumnSchema>& schema,

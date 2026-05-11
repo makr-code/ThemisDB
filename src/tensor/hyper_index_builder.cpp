@@ -227,6 +227,8 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     {
         std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
         // Snapshot callback once per build to avoid per-row lock contention.
+        // std::function is copied by value here; later set/clear calls only
+        // affect global storage and do not mutate this local snapshot.
         bucket_assignment_fn = g_bucket_assignment_fn;
     }
 
@@ -248,7 +250,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
                 if (assigned[k] >= bucket_count) {
                     throw std::runtime_error(
                         "bucket assignment bridge returned out-of-range bucket " +
-                        std::to_string(assigned[k]) + " at mode " + std::to_string(k) +
+                        std::to_string(assigned[k]) + " at dimension " + std::to_string(k) +
                         ", bucket_count=" + std::to_string(bucket_count) +
                         ", row=" + std::to_string(row_idx));
                 }
