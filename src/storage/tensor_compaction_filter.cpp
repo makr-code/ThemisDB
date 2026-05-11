@@ -121,15 +121,12 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     TensorTrainConfig cfg;
     cfg.eps = epsilon_;
 
-    TTTrain compressed;
+    RecompressFn fn_copy;
     {
-        RecompressFn fn_copy;
-        {
-            std::lock_guard<std::mutex> lk(recompressFnMutex());
-            fn_copy = recompressFnStorage();
-        }
-        compressed = fn_copy ? fn_copy(orig, cfg) : decomposer_.recompress(orig, cfg);
+        std::lock_guard<std::mutex> lk(recompressFnMutex());
+        fn_copy = recompressFnStorage();
     }
+    TTTrain compressed = fn_copy ? fn_copy(orig, cfg) : decomposer_.recompress(orig, cfg);
 
     // Only replace if the compressed form is strictly smaller
     if (compressed.totalParams() >= orig.totalParams()) return false;
@@ -163,15 +160,12 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     TensorTrainConfig cfg;
     cfg.eps = epsilon_;
 
-    TTTrain compressed;
+    RecompressFn fn_copy;
     {
-        RecompressFn fn_copy;
-        {
-            std::lock_guard<std::mutex> lk(recompressFnMutex());
-            fn_copy = recompressFnStorage();
-        }
-        compressed = fn_copy ? fn_copy(train, cfg) : decomposer_.recompress(train, cfg);
+        std::lock_guard<std::mutex> lk(recompressFnMutex());
+        fn_copy = recompressFnStorage();
     }
+    TTTrain compressed = fn_copy ? fn_copy(train, cfg) : decomposer_.recompress(train, cfg);
 
     // Only replace if the compressed form has fewer parameters
     if (compressed.totalParams() >= train.totalParams()) return false;

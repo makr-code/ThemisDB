@@ -54,6 +54,7 @@
 #include "tensor/adapter_repository.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <mutex>
 #include <shared_mutex>
 #include <sstream>
@@ -230,7 +231,17 @@ AdapterRepository::loadAdapter(const std::string& domain,
                 else ++stats_.load_misses;
             }
             return mapped;
+        } catch (const std::exception& e) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::loadAdapter: injected "
+                "MmapLoadFn failed (%s); using heap-deserialize fallback.\n",
+                e.what());
+            // Fail-closed to existing heap-deserialize fallback path below.
         } catch (...) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::loadAdapter: injected "
+                "MmapLoadFn failed (unknown exception); using heap-deserialize "
+                "fallback.\n");
             // Fail-closed to existing heap-deserialize fallback path below.
         }
     }
@@ -346,7 +357,18 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     if (exact_fn_copy) {
         try {
             return exact_fn_copy(key, k, backend_);
+        } catch (const std::exception& e) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
+                "injected ExactSimilarityFn failed (%s); using fingerprint "
+                "fallback.\n",
+                e.what());
+            // Fail-closed to fingerprint-graph path below.
         } catch (...) {
+            std::fprintf(stderr,
+                "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
+                "injected ExactSimilarityFn failed (unknown exception); using "
+                "fingerprint fallback.\n");
             // Fail-closed to fingerprint-graph path below.
         }
     }
