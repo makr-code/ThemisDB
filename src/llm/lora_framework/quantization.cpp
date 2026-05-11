@@ -45,6 +45,10 @@
 namespace spdlog {
     template<typename... Args>
     inline void debug(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(fmt::format_string<Args...>, Args&&...) {}
 }
 #endif
 

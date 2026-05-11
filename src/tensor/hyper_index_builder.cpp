@@ -150,6 +150,14 @@ std::vector<std::vector<double>> buildNumericThresholds(
         out.reserve(bucket_count - 1U);
         const auto value_count = static_cast<double>(values.size());
         const auto bucket_count_d = static_cast<double>(bucket_count);
+        // Thresholds are computed by truncating the exact quantile index to an
+        // integer position in the sorted array.  This is the "nearest rank"
+        // method.  When the number of distinct values is small relative to
+        // bucket_count, adjacent buckets may share the same threshold,
+        // effectively collapsing to the same range.  This is intentional for
+        // the HyperIndex use-case where data distribution is not known in
+        // advance; callers that require strict non-duplicate thresholds should
+        // deduplicate after the call.
         for (std::size_t bucket = 1; bucket < bucket_count; ++bucket) {
             const auto quantile = static_cast<double>(bucket) / bucket_count_d;
             const auto quantile_index = static_cast<std::size_t>(

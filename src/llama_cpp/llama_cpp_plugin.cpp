@@ -229,6 +229,12 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     if (generate_fn) {
         try {
             auto bridged = generate_fn(request);
+            // `model_id` is the identifier the caller sees on the response;
+            // `model_used` tracks which physical model actually produced the
+            // tokens (useful when a router may forward to a different backend).
+            // Both are set to the same local `model_id_` when the bridge does
+            // not populate them, so that callers always get a non-empty value
+            // in both fields.
             if (!bridged.model_id.empty()) {
                 bridged.model_used = bridged.model_id;
             } else if (bridged.model_used.empty()) {

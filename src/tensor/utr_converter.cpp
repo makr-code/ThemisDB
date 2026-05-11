@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace themis {
@@ -89,8 +90,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 // Lexical feature embedding for documents
 // ============================================================================
 
-/// FNV-1a 64-bit hash of a string.
-static uint64_t fnv1a(const std::string& s) noexcept {
+/// FNV-1a 64-bit hash of a string view.
+static uint64_t fnv1a(std::string_view s) noexcept {
     constexpr uint64_t kBasis = 14695981039346656037ULL;
     constexpr uint64_t kPrime = 1099511628211ULL;
     uint64_t h = kBasis;
@@ -115,7 +116,7 @@ static std::vector<float> hashEmbed(const std::string& segment, std::size_t embe
         return token;
     };
 
-    auto scatter = [&](const std::string& feature, float weight) {
+    auto scatter = [&](std::string_view feature, float weight) {
         const uint64_t h = fnv1a(feature);
         for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
             const auto shift = (lane % 4) * 16U;
@@ -138,7 +139,8 @@ static std::vector<float> hashEmbed(const std::string& segment, std::size_t embe
         scatter(token, 1.0f);
         if (token.size() >= 3) {
             for (std::size_t i = 0; i + 3 <= token.size(); ++i) {
-                scatter(token.substr(i, 3), 0.35f);
+                // Pass a view over 3 chars to avoid a heap allocation per n-gram.
+                scatter(std::string_view{token.data() + i, 3}, 0.35f);
             }
         }
         ++count;

@@ -465,6 +465,11 @@ VectorIndexSinkAdapter::VectorIndexSinkAdapter(
 }
 
 Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
+    // ensureInitialized() is const because lazy initialization is logically
+    // const from the caller's perspective: the observable state of the adapter
+    // (the data it can write) does not change.  Only the internal `initialized_`
+    // flag and the vector index registration are mutated, both of which are
+    // declared `mutable` in the header to allow this pattern.
     std::lock_guard<std::mutex> lock(mtx_);
     if (initialized_) {
         return {};

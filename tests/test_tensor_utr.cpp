@@ -204,6 +204,11 @@ TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
 
     const double expected_mean =
         (4.0 * (0.0 + 64.0 + 128.0 + 255.0)) / (16.0 * 255.0);
+    // Two-pass variance: first compute the mean, then accumulate squared
+    // deviations.  The two-pass approach is numerically preferable to the
+    // single-pass (sum_of_squares - n*mean^2) formula which suffers from
+    // catastrophic cancellation when the mean is large relative to the
+    // variance.
     double variance = 0.0;
     for (const auto value : patch) {
         const auto normed = static_cast<double>(value) / 255.0;
