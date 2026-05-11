@@ -405,6 +405,66 @@ public:
 
 **Timeline**: Research phase, 2026-2028
 
+## HSM Key Provider Production
+
+**Status:** 🟡 In Progress (Target: v2.0.0) — STUB #95
+**Priority:** High
+**Affected Files:** `src/utils/build_info.cpp`, `src/themis/build_info.cpp`, `src/security/hsm_provider.cpp`, `include/security/hsm_provider.h`, `include/themis/build_info.h`
+
+### Scope
+
+Replace the in-memory AES-256-GCM stub KEK in `HSMProvider` with a production-grade PKCS#11 hardware-backed key wrapping path. The stub KEK is randomly generated per server start and is NOT persisted across restarts — any DEKs wrapped with it are lost on shutdown. The production path must wrap DEKs using a hardware-protected KEK stored in an HSM (Thales Luna, AWS CloudHSM, or SoftHSM2 for testing).
+
+### Design Constraints
+
+- PKCS#11 shared library path and slot PIN must be configurable via `HSMConfig`; no compiled-in defaults.
+- The stub path (`THEMIS_ENABLE_HSM_REAL` not defined) MUST remain functional for dev/CI builds; it is blocked in production mode by `HSMProvider::initialize()` and `HSMSecurityChecker::validateProductionSafety()`.
+- DEK wrapping uses RSA-OAEP (RSA-2048 minimum) or AES key wrapping (AES-256); not RSA-PKCS#1 v1.5.
+- The `HsmModuleStatusFn` bridge in `themis::build_info` allows the server to dynamically report the runtime HSM state in build-info diagnostics (resolved in STUB #95, v1.8.0).
+- Thread safety: all PKCS#11 session pool operations must use `std::mutex`; pool size is configurable via `HSMConfig::session_pool_size`.
+
+### Required Interfaces
+
+| Interface | Notes |
+|---|---|
+| `HSMProvider::encryptData(data, key_label)` | Wrap DEK bytes with HSM-backed KEK; RSA-OAEP or AES-KW |
+| `HSMProvider::decryptData(encrypted, key_label)` | Unwrap DEK bytes; inverse of encryptData |
+| `HSMProvider::isStubProvider()` | Returns false when real PKCS#11 backend is active |
+| `themis::build_info::setHsmModuleStatusFn(fn)` | Bridge: report runtime HSM state in build-info |
+| `HSMConfig::session_pool_size` | PKCS#11 session pool; round-robin across parallel callers |
+
+### Implementation Phases
+
+- **Phase 1** (v1.8.0 – done): Bridge injection (`EncryptDataFn`/`DecryptDataFn`) + `HsmModuleStatusFn` in build_info — STUB #95 resolved.
+- **Phase 2** (v2.0.0): `hsm_provider_pkcs11.cpp` — real PKCS#11 `C_EncryptInit`/`C_Encrypt`/`C_DecryptInit`/`C_Decrypt` with RSA-OAEP using the key identified by `key_label`; session pool with configurable size.
+- **Phase 3** (v2.0.0): Integration tests against SoftHSM2; parity tests verifying that `encryptData` → restart → `decryptData` round-trips survive (unlike the ephemeral stub KEK).
+- **Phase 4** (v2.0.0): Documentation for `docs/security/HSM_PRODUCTION_SETUP.md`.
+
+### Implementation Notes
+
+- The PKCS#11 wrapper lives in `hsm_provider_pkcs11.cpp`; compiled only when `-DTHEMIS_ENABLE_HSM_REAL=ON`.
+- The stub path in `hsm_provider.cpp` must not be changed; it remains the dev/CI fallback.
+- The `EncryptDataFn`/`DecryptDataFn` bridges allow tests to inject a SoftHSM2-backed implementation without requiring `-DTHEMIS_ENABLE_HSM_REAL=ON`.
+
+### Test Strategy
+
+- BI-HSM-01: Default stub build reports `compiled_in=false` for "HSM PKCS#11" module.
+- BI-HSM-02: After `setHsmModuleStatusFn([]{ return {true, "..."}; })`, module reports `compiled_in=true`.
+- BI-HSM-03: After `clearHsmModuleStatusFn()`, module reverts to `compiled_in=false`.
+- HSM-WRAP-01: Encrypt + decrypt round-trip with stub KEK; data is recovered without error.
+- HSM-WRAP-02 (v2.0.0): SoftHSM2-backed `EncryptDataFn` bridge; ciphertext survives simulated restart.
+
+### Performance Targets
+
+- PKCS#11 `C_Encrypt` (RSA-2048/OAEP, 32-byte DEK): < 5 ms p99 on Luna HSM.
+- Session pool round-robin: zero blocking contention for ≤ `session_pool_size` concurrent callers.
+
+### Security / Reliability
+
+- Startup is hard-blocked in production mode when `THEMIS_ENABLE_HSM_REAL` is not defined (enforced by `HSMProvider::initialize()` and `HSMSecurityChecker`).
+- `isStubProvider()` must return `false` for any build where real PKCS#11 is active.
+- Nonce reuse for AES-GCM in the stub is prevented by CSPRNG-generated IV on every call.
+
 ## Hardware Security Enhancements
 
 ### 1. Trusted Execution Environments (TEE)

@@ -542,7 +542,11 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
-    // STUB/SIMULATION NOTE:
+    // STUB #95 — RESOLVED via HsmModuleStatusFn bridge in canonical
+    // src/themis/build_info.cpp (setHsmModuleStatusFn / clearHsmModuleStatusFn).
+    // This legacy file is no longer compiled; the note is kept for reference.
+    //
+    // Original STUB/SIMULATION NOTE:
     // Purpose: Report HSM PKCS#11 as not-enabled in the build-info module list
     //   so that operators can detect that the server is running with the
     //   in-process stub HSM (HSMProvider::isStubProvider() == true).

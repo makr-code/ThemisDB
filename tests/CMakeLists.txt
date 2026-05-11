@@ -1898,7 +1898,7 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
 #         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 #         (from test_build_info.cpp, Issue #2470)
 add_test(NAME BuildInfoTests
-    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
 set_tests_properties(BuildInfoTests PROPERTIES
     LABELS "build;info;module;availability;themis;unit"
     TIMEOUT 60
