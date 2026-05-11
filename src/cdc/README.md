@@ -70,16 +70,64 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 
 For CDC documentation, see:
 - [Architecture Guide](ARCHITECTURE.md) — component diagram, data flow, threading model
-- [Audit Report](AUDIT.md) — current audit findings and open risks
-- [Changelog](CHANGELOG.md) — release history and behavior changes
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) — planned features and design constraints
-- [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) — benchmark targets
-- [Roadmap](ROADMAP.md) — feature status and planned work
-- [Security Notes](SECURITY.md) — threat model and controls
-- [Public API Headers](../../include/cdc/README.md) — header reference
+- [Security Guide](SECURITY.md) — threat model, controls, and known limitations
+- [Audit Report](AUDIT.md) — verification snapshot for build/tests/compliance
+- [Changelog](CHANGELOG.md) — versioned module history
+- [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) — release-gate benchmark targets
+- [Roadmap](ROADMAP.md) — implementation status and planned work
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md) — long-horizon backlog
+- [Public API Headers](../../include/cdc/README.md) — entry points under `include/cdc/`
 - [CDC Operations Runbook](../../docs/CDC_OPERATIONS_RUNBOOK.md) — production operations
 - [CDC Implementation Summary](../../docs/implementation-history/summaries/CDC_IMPLEMENTATION_SUMMARY.md) — implementation history
+- [Primary Sources (EN)](../../docs/en/cdc/PRIMARY_SOURCES.md) — canonical source index
+- [Primary Sources (DE)](../../docs/de/cdc/PRIMARY_SOURCES.md) — kanonischer Quellenindex
 - [Change Data Capture (DE)](../../docs/de/features/features_change_data_capture.md) — end-user guide (German)
+
+## Public API Entry Points (`include/cdc`)
+
+| Header | Purpose |
+|---|---|
+| `changefeed.h` | Core CDC stream ingestion, replay, and retention APIs |
+| `consumer_group.h` | Durable consumer group offsets and at-least-once fetch semantics |
+| `delivery_tracker.h` | In-flight delivery tracking, ack, and redelivery selection |
+| `dead_letter_queue.h` | Persist/replay/drain failed deliveries |
+| `kafka_cdc_producer.h` | Optional Kafka publisher (`THEMIS_ENABLE_KAFKA`) |
+| `ws_transport.h`, `cdc_ws_handler.h` | WebSocket transport and HTTP handler wiring |
+| `cdc_admin.h` | Admin operations (retention, purge, status, redaction, tombstones) |
+| `changefeed_buffer.h`, `tenant_buffer_manager.h` | Per-tenant buffering and quotas |
+| `cross_collection_stream.h` | Multi-collection merge stream APIs |
+| `outbox.h` | Transactional outbox writer/relay contracts |
+| `cdc_materialized_view.h` | Incremental materialized view maintenance bridge |
+| `debezium_format.h`, `schema_registry.h` | Debezium envelopes and schema registry integration |
+| `icdc_*.h`, `idelivery_guarantee_config.h` | Interface-layer contracts for pause/backpressure/filter/replay/batch delivery |
+| `change_stream_compressor.h`, `cdc_metrics.h`, `cdc_error.h` | Compression, metrics, and structured CDC errors |
+
+## Configuration Surfaces
+
+### Build-time flags
+
+| Flag | Behavior |
+|---|---|
+| `THEMIS_ENABLE_KAFKA` | Enables librdkafka-backed producer implementation; otherwise no-op stub in `kafka_cdc_producer.h` |
+| `THEMIS_ENABLE_HTTP_SERVER` | Enables HTTP-admin wiring (`cdc_admin.cpp`) in build registration |
+
+### Runtime settings and knobs
+
+| Surface | Key Fields |
+|---|---|
+| `Changefeed::RetentionPolicy` | `enabled`, `max_age`, `max_entries`, `max_bytes`, `cleanup_interval`, `compact_on_cleanup` |
+| SSE at-least-once stream | `consumer_id`, `ack_timeout_ms` on `GET /changefeed/stream` plus `POST /changefeed/stream/ack` |
+| Consumer groups | Group identity, partition ownership, and ack timeout in `ConsumerGroupManager::fetchEventsAtLeastOnce()` |
+| Kafka producer | `brokers`, `topic_prefix`, `batch_size`, `linger_ms`, optional auth/TLS in `KafkaProducerConfig` |
+
+## Runtime Behavior, Failure Modes, and Limits
+
+- Delivery model is **at-least-once** for SSE and consumer groups: duplicates are possible after reconnect/timeouts; consumers must be idempotent.
+- Backpressure behavior favors availability: slow consumers may observe dropped oldest buffered events plus gap semantics.
+- DLQ receives events that exceed retry policy; decompression-corrupted payloads are logged but not recoverable.
+- Tenant isolation is enforced by per-tenant buffers and scoped subscriptions.
+- Kafka path is opt-in and build-flag dependent; without `THEMIS_ENABLE_KAFKA`, publish/start return `false`.
+- Raw change-log-at-rest encryption is not performed by this module; operators must enforce storage-layer encryption.
 
 ## Scientific References
 
@@ -101,23 +149,35 @@ Kafka support requires librdkafka and `-DTHEMIS_ENABLE_KAFKA=1`.
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/cdc/README.md`](../../include/cdc/README.md) for the public API.
 
+**Example: SSE subscription with at-least-once acknowledgement**
+
+```bash
+# 1) Open stream
+curl -N -H "Authorization: Bearer $TOKEN" \
+  "https://themis.example/changefeed/stream?collection=orders&consumer_id=ops-bot&ack_timeout_ms=30000"
+
+# 2) Acknowledge delivered sequence(s)
+curl -X POST -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"consumer_id":"ops-bot","acked_sequence":12345}' \
+  "https://themis.example/changefeed/stream/ack"
+```
+
+**Example: enable periodic retention cleanup in code**
+
+```cpp
+themis::cdc::Changefeed::RetentionPolicy policy = themis::cdc::Changefeed::RetentionPolicy::defaults();
+policy.enabled = true;
+policy.max_age = std::chrono::hours(24 * 7);
+policy.max_entries = 2'000'000;
+policy.max_bytes = 8ull * 1024 * 1024 * 1024;
+
+changefeed.updateRetentionPolicy(policy);
+```
+
 ## Troubleshooting
 
-### SSE stream delivers no events
-- Confirm the change feed is registered for the target collection via `cdc_admin.cpp` (`CDCAdmin::listSubscriptions()`).
-- Check that the storage commit hook invokes the changefeed post-commit path.
-- Review `cdc.buffer.max_events_per_tenant` and `cdc.buffer.high_watermark_pct` — a full buffer silently drops oldest events and inserts a gap marker.
-
-### Consumer receives duplicate events
-- CDC guarantees at-least-once delivery. Consumers **must** be idempotent.
-- Use `consumer_id` + `ack_timeout_ms` on `GET /changefeed/stream` and acknowledge events via `POST /changefeed/stream/ack`.
-- Dead-letter queue (`DeadLetterQueue`) stores events that exhausted delivery retries; drain via admin endpoint.
-
-### Kafka CDC producer does nothing
-- Ensure `THEMIS_ENABLE_KAFKA=1` CMake flag is set; without it the stub implementation returns `false` on every call.
-- Verify `THEMIS_KAFKA_BOOTSTRAP_SERVERS` env var or config YAML broker address.
-- Check `delivery_report_cb` logs for broker-side rejection or authentication errors.
-
-### GDPR redaction not applied
-- Verify the schema annotation (`encryption` or `pii`) is set on the affected fields.
-- Redaction is applied before transport serialization; check `CDCAdmin::redactByKeyPrefix()` and the `cdc_redactions` column family audit log.
+- **No Kafka traffic**: confirm build includes `-DTHEMIS_ENABLE_KAFKA=1` and `KafkaCDCProducer::start()` succeeds.
+- **Repeated redelivery**: verify consumers call ack endpoint before `ack_timeout_ms` expires.
+- **High CDC lag**: inspect tenant buffer pressure and subscription fan-out; tune retention/consumer throughput.
+- **Missing replay events**: validate requested cursor range is within retained change-log window.
