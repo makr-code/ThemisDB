@@ -229,9 +229,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
         if (locked) ++bridge->locked_count_;
 
         bridge->total_bytes_ += bytes;
-        // For SST-mapped regions we store bytes=0 to signal that freeRegion()
-        // must NOT be called by the bridge destructor (caller owns the mapping).
-        bridge->regions_.push_back({ptr, sst_mapped ? std::size_t{0} : bytes, locked});
+        bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});
         bridge->slices_.push_back({
             static_cast<const float*>(ptr),
             bytes,
@@ -251,9 +249,12 @@ void TensorMmapBridge::release() noexcept {
     for (auto& r : regions_) {
         if (!r.ptr) continue;
         if (r.locked) unlockRegion(r.ptr, r.bytes);
-        freeRegion(r.ptr, r.bytes);
-        r.ptr    = nullptr;
-        r.locked = false;
+        // Do not call freeRegion() on externally-owned (SST-mapped) regions;
+        // the caller of setSstMapFn() is responsible for their lifetime.
+        if (!r.externally_owned) freeRegion(r.ptr, r.bytes);
+        r.ptr             = nullptr;
+        r.locked          = false;
+        r.externally_owned = false;
     }
     regions_.clear();
     slices_.clear();

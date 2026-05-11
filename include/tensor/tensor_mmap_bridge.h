@@ -214,9 +214,12 @@ private:
     // ---- internal region tracking ----
 
     struct Region {
-        void*       ptr    = nullptr;
-        std::size_t bytes  = 0;
-        bool        locked = false;
+        void*       ptr             = nullptr;
+        std::size_t bytes           = 0;
+        bool        locked          = false;
+        /// When true, the region was provided by SstMapFn (caller owns the mapping);
+        /// the bridge destructor must NOT call freeRegion() on this pointer.
+        bool        externally_owned = false;
     };
 
     std::vector<Region>        regions_;

@@ -262,8 +262,10 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // For RADON/GREENS_FUNCTION, delegate to the injected per-fiber backend
     // (STUB #268): if no fn was set, build() already prevented construction
     // of the operator, so we only reach here when a fn is available.
-    auto applyFiberFn = [&](std::function<void(std::vector<float>&)> fn,
-                            storage::TTTrain result) {
+    //
+    // `result` is an intentional value-copy of `data` (mutated in-place).
+    auto applyFiberFn = [](const std::function<void(std::vector<float>&)>& fn,
+                           storage::TTTrain result) {
         for (std::size_t k = 0; k < result.cores.size(); ++k) {
             auto& core        = result.cores[k];
             const std::size_t r_left  = core.r_left;
@@ -285,7 +287,10 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
 
     if (cfg_.type == OperatorType::RADON) {
         RadonTransformFn fn_copy;
-        { std::lock_guard<std::mutex> lk(radonTransformFnMutex()); fn_copy = radonTransformFnStorage(); }
+        {
+            std::lock_guard<std::mutex> lk(radonTransformFnMutex());
+            fn_copy = radonTransformFnStorage();
+        }
         if (!fn_copy) {
             throw std::logic_error(
                 "TensorButterflyOperator::apply: RADON bridge fn cleared after build() "
@@ -295,7 +300,10 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     }
     if (cfg_.type == OperatorType::GREENS_FUNCTION) {
         GreensTransformFn fn_copy;
-        { std::lock_guard<std::mutex> lk(greensTransformFnMutex()); fn_copy = greensTransformFnStorage(); }
+        {
+            std::lock_guard<std::mutex> lk(greensTransformFnMutex());
+            fn_copy = greensTransformFnStorage();
+        }
         if (!fn_copy) {
             throw std::logic_error(
                 "TensorButterflyOperator::apply: GREENS_FUNCTION bridge fn cleared after build() "

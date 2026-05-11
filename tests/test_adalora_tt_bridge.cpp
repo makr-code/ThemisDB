@@ -149,9 +149,9 @@ TEST(AdaLoraTTBridgeStub271, ALTB_P4_02_training_step_fn_is_called) {
     std::size_t returned_rank = 99u;
 
     AdaLoraTTBridge::setTrainingStepFn(
-        [&fn_called, &returned_rank](AdaLoraTTExport& exp_ref, double eps) -> std::size_t {
+        [&fn_called, &returned_rank]([[maybe_unused]] AdaLoraTTExport& exp_ref,
+                                     [[maybe_unused]] double eps) -> std::size_t {
             fn_called = true;
-            (void)eps;
             // Simulate training step: halve active rank.
             for (auto& l : exp_ref.layers) l.active_rank = 1u;
             returned_rank = exp_ref.totalActiveRank();

@@ -586,7 +586,8 @@ TEST(TensorMmapBridge, MMB_INJ_02_injected_sst_fn_is_called) {
 
     // The fn returns nullptr to trigger memcpy fallback — we just verify it was called.
     TensorMmapBridge::setSstMapFn(
-        [&fn_called](std::size_t /*bytes*/, std::size_t /*core_idx*/) -> void* {
+        [&fn_called]([[maybe_unused]] std::size_t bytes,
+                     [[maybe_unused]] std::size_t core_idx) -> void* {
             fn_called = true;
             return nullptr; // fall back to MAP_ANONYMOUS
         });

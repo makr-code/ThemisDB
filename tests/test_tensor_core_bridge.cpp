@@ -495,13 +495,15 @@ TEST(TCS, TCB_FB_02_injected_factory_backend_is_used) {
     TensorCoreStorageBridge::clearDefaultBackendFactory();
 }
 
-// TCB-FB-03: After clearDefaultBackendFactory(), bridge reverts to InMemoryTensorBackend.
+// TCB-FB-03: When the factory returns nullptr, bridge falls back to InMemoryTensorBackend.
+//             This tests the case where a factory is registered but produces no backend.
 TEST(TCS, TCB_FB_03_clear_factory_reverts_to_in_memory) {
+    // Set a factory that returns nullptr (simulating a misconfigured bootstrap).
+    // The bridge must then fall back to InMemoryTensorBackend automatically.
     TensorCoreStorageBridge::setDefaultBackendFactory(
         []() -> std::shared_ptr<storage::ITensorStorageBackend> {
-            return nullptr; // intentionally return null — bridge falls back to in-memory
+            return nullptr;
         });
-    TensorCoreStorageBridge::clearDefaultBackendFactory();
 
     TensorCoreStorageBridge bridge;
     ingestion::TensorCoreRecord rec;
@@ -511,4 +513,6 @@ TEST(TCS, TCB_FB_03_clear_factory_reverts_to_in_memory) {
     auto r = bridge.write(rec, "T3");
     EXPECT_TRUE(r);
     EXPECT_EQ(bridge.writeCount(), 1u);
+
+    TensorCoreStorageBridge::clearDefaultBackendFactory();
 }
