@@ -43,7 +43,7 @@ namespace functions {
  * - Process mining
  * - Dependency analysis
  * 
- * @sources
+ * Sources:
  * - Query Language Inspiration: ArangoDB AQL (Arango Query Language)
  * - Repository: https://github.com/arangodb/arangodb
  * - License: Apache 2.0
@@ -1029,7 +1029,7 @@ public:
  * real-time AQL queries. For strict modularity optimization, consider using the
  * GraphAnalytics::louvainCommunities method directly with full graph indexing.
  * 
- * @sources
+ * Sources:
  * - Algorithm: "Fast unfolding of communities in large networks" (Blondel et al., 2008)
  * - Implementation adapted from ThemisDB's GraphAnalytics::louvainCommunities
  * - Repository: https://github.com/makr-code/ThemisDB
@@ -1175,7 +1175,7 @@ public:
  * Fast community detection using label propagation algorithm.
  * Each node iteratively adopts the most frequent label among its neighbors.
  * 
- * @sources
+ * Sources:
  * - Algorithm: "Near linear time algorithm to detect community structures" (Raghavan et al., 2007)
  * - Implementation adapted from ThemisDB's GraphAnalytics::labelPropagationCommunities
  * - Repository: https://github.com/makr-code/ThemisDB
@@ -1322,4 +1322,3 @@ inline void registerGraphFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
