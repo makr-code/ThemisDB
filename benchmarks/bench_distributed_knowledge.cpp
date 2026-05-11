@@ -18,8 +18,6 @@
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <cstdlib>
-#include <cerrno>
-#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -34,6 +32,9 @@ using namespace themis::distributed_knowledge;
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+constexpr uint64_t kDefaultFixtureRound = 1;
+constexpr size_t kDefaultFixtureSampleCount = 100;
 
 /// Build a gradient with `num_keys` numeric fields.
 EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
@@ -67,9 +68,7 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
 loadGradientFixture(const std::string& fixture_path) {
     std::ifstream input(fixture_path);
     if (!input.is_open()) {
-        const int open_errno = errno;
-        std::cerr << "Failed to open gradient fixture: " << fixture_path
-                  << " (" << std::strerror(open_errno) << ")\n";
+        std::cerr << "Failed to open gradient fixture: " << fixture_path << '\n';
         return std::nullopt;
     }
 
@@ -107,7 +106,7 @@ loadGradientFixture(const std::string& fixture_path) {
         if (entry.contains("shard_id") && entry["shard_id"].is_string()) {
             shard_id = entry["shard_id"].get<std::string>();
         }
-        auto gradient_data = entry.value("data", nlohmann::json::object());
+        nlohmann::json gradient_data = entry.value("data", nlohmann::json::object());
         if (!gradient_data.is_object()) {
             ++skipped_entries;
             continue;
@@ -115,8 +114,8 @@ loadGradientFixture(const std::string& fixture_path) {
 
         EncryptedGradient g;
         g.shard_id = shard_id;
-        g.round = entry.value("round", static_cast<uint64_t>(1));
-        g.sample_count = entry.value("sample_count", static_cast<size_t>(100));
+        g.round = entry.value("round", kDefaultFixtureRound);
+        g.sample_count = entry.value("sample_count", kDefaultFixtureSampleCount);
         g.data = std::move(gradient_data);
         gradients.push_back(std::move(g));
     }
@@ -184,7 +183,7 @@ static void BM_TriggerAggregation_N64(benchmark::State& state) {
 
     std::vector<EncryptedGradient> prepared_gradients;
     bool using_fixture = false;
-    if (fixture_env != nullptr && fixture_env[0] != '\0') {
+    if (fixture_env && fixture_env[0] != '\0') {
         auto loaded = loadGradientFixture(fixture_env);
         if (!loaded) {
             state.SkipWithError("Invalid THEMIS_BENCH_LORA_GRADIENT_FIXTURE payload");
