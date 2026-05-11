@@ -293,6 +293,65 @@ TEST(UTRConverter, HyperIndexTensorContractPinnedModeReturnsSubset) {
     EXPECT_GE(pinned, 0.0);
 }
 
+TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeAccessor) {
+    using namespace themis::tensor;
+
+    HyperIndexBuilder::clearBucketAssignmentFn();
+    EXPECT_FALSE(static_cast<bool>(HyperIndexBuilder::getBucketAssignmentFn()));
+
+    HyperIndexBuilder::setBucketAssignmentFn(
+        [](const std::string&,
+           const std::vector<ColumnSchema>&,
+           const TableRow&,
+           std::size_t,
+           const std::vector<std::size_t>& buckets) {
+            return buckets;
+        });
+    EXPECT_TRUE(static_cast<bool>(HyperIndexBuilder::getBucketAssignmentFn()));
+
+    HyperIndexBuilder::clearBucketAssignmentFn();
+    EXPECT_FALSE(static_cast<bool>(HyperIndexBuilder::getBucketAssignmentFn()));
+}
+
+TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeIsInvoked) {
+    using namespace themis::tensor;
+
+    std::size_t call_count = 0;
+    HyperIndexBuilder::setBucketAssignmentFn(
+        [&call_count](const std::string& tenant_id,
+                      const std::vector<ColumnSchema>& schema,
+                      const TableRow&,
+                      std::size_t,
+                      const std::vector<std::size_t>& buckets) {
+            ++call_count;
+            EXPECT_EQ(tenant_id, "tenant_a");
+            EXPECT_EQ(schema.size(), 2u);
+            return buckets;
+        });
+
+    const auto hi = buildSimpleHyperIndex();
+    HyperIndexBuilder::clearBucketAssignmentFn();
+
+    EXPECT_EQ(hi.total_rows, 50u);
+    EXPECT_EQ(call_count, hi.total_rows);
+}
+
+TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeRejectsInvalidSize) {
+    using namespace themis::tensor;
+
+    HyperIndexBuilder::setBucketAssignmentFn(
+        [](const std::string&,
+           const std::vector<ColumnSchema>&,
+           const TableRow&,
+           std::size_t,
+           const std::vector<std::size_t>&) {
+            return std::vector<std::size_t>{0u};
+        });
+
+    EXPECT_THROW(buildSimpleHyperIndex(), std::runtime_error);
+    HyperIndexBuilder::clearBucketAssignmentFn();
+}
+
 // ============================================================================
 // STUB #257 — EmbedFn bridge tests
 // ============================================================================
