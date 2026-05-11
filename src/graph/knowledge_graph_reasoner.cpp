@@ -522,9 +522,9 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         if (lora_score_fn_ && !effective_adapter.empty()) {
             // Use injected backend (real LoRA/MultiLoRAManager bridge).
             score = lora_score_fn_(effective_adapter, edge);
-        } else if (auto manager_score = managerScore(effective_adapter, edge);
-                   manager_score.has_value()) {
-            score = *manager_score;
+        } else if (auto manager_score_result = managerScore(effective_adapter, edge);
+                   manager_score_result.has_value()) {
+            score = *manager_score_result;
         }
 #endif
         edge.lora_score = clampScore(score);

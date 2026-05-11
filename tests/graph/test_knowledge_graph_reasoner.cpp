@@ -23,6 +23,7 @@
 #include <filesystem>
 #include <fstream>
 #include <limits>
+#include <random>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -572,15 +573,16 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
+    std::random_device rd;
+    std::mt19937_64 rng(rd());
+    std::uniform_int_distribution<unsigned long long> dist;
     const auto tmp_file = std::filesystem::temp_directory_path() /
-                          ("kgr23_adapter_" +
-                           std::to_string(std::chrono::steady_clock::now()
-                                              .time_since_epoch()
-                                              .count()) +
-                           ".gguf");
+                          ("kgr23_adapter_" + std::to_string(dist(rng)) + ".gguf");
     {
         std::ofstream out(tmp_file, std::ios::binary);
         ASSERT_TRUE(out.good());
+        // `loadLoRA()` only requires an existing file; GGUF parsing may fail and
+        // gracefully falls back to default metadata, which is sufficient here.
         out << "not-a-real-gguf-but-loadable";
     }
 
