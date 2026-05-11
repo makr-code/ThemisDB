@@ -129,10 +129,15 @@ public:
     /**
      * @brief Construct a FederatedSearch engine.
      *
-     * @param config  Engine configuration.
      * @throws std::invalid_argument on invalid config values.
      */
     explicit FederatedSearch();
+    /**
+     * @brief Construct a FederatedSearch engine.
+     *
+     * @param config  Engine configuration.
+     * @throws std::invalid_argument on invalid config values.
+     */
     explicit FederatedSearch(const Config& config);
 
     // -----------------------------------------------------------------------

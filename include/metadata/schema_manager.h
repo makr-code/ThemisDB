@@ -191,7 +191,7 @@ public:
     void refreshCache();
 
     /// Set cache TTL (Time-To-Live)
-    /// @param seconds Cache expiration time in seconds (default: 60)
+    /// @param ttl Cache expiration time.
     void setCacheTTL(std::chrono::seconds ttl);
 
     /// Register a Changefeed for real-time schema change notifications.

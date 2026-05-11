@@ -348,7 +348,7 @@ public:
     /**
      * @brief Estimate RAG retrieval cost for one path.
      *
-     * @param params  Data and index parameters.
+     * @param p       Data and index parameters.
      * @param path    Retrieval path to evaluate.
      * @return RagCostBreakdown with per-phase NCU costs.
      */

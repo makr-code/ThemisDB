@@ -97,10 +97,13 @@ struct CalibrationConfig {
 class CalibrationManager {
 public:
     /**
-     * @brief Construct calibration manager
-     * @param config Calibration configuration
+     * @brief Construct calibration manager with default configuration.
      */
     CalibrationManager();
+    /**
+     * @brief Construct calibration manager.
+     * @param config Calibration configuration.
+     */
     explicit CalibrationManager(const CalibrationConfig& config);
     
     /**

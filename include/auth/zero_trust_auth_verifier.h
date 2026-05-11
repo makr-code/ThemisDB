@@ -177,17 +177,23 @@ public:
     // ========================================================================
 
     /**
-     * @brief Construct with optional configuration.
+     * @brief Construct with default configuration.
      *
      * A default-constructed verifier has no token_verifier (all tokens pass)
-     * and no network policies (all source IPs pass).  Inject both before
+     * and no network policies (all source IPs pass). Inject both before
      * handling production traffic.
-     *
-     * @param config       Verifier configuration.
-     * @param token_verifier Optional token validation callback.
      */
     ZeroTrustAuthVerifier();
+    /**
+     * @brief Construct with default configuration and custom token verifier.
+     * @param token_verifier Optional token validation callback.
+     */
     explicit ZeroTrustAuthVerifier(TokenVerifier token_verifier);
+    /**
+     * @brief Construct with explicit configuration.
+     * @param config Verifier configuration.
+     * @param token_verifier Optional token validation callback.
+     */
     ZeroTrustAuthVerifier(
         const Config& config,
         TokenVerifier token_verifier = nullptr);

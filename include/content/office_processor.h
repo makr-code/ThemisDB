@@ -255,12 +255,15 @@ private:
 };
 
 /**
- * @brief Factory function for Office Processor
- * 
- * @param config Optional configuration
- * @return Unique pointer to OfficeProcessor
+ * @brief Factory function for Office Processor.
+ * @return Unique pointer to OfficeProcessor.
  */
 std::unique_ptr<IContentProcessor> createOfficeProcessor();
+/**
+ * @brief Factory function for Office Processor.
+ * @param config Optional configuration.
+ * @return Unique pointer to OfficeProcessor.
+ */
 std::unique_ptr<IContentProcessor> createOfficeProcessor(
     OfficeProcessor::Config config
 );

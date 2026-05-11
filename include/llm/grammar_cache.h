@@ -49,10 +49,13 @@ public:
     };
     
     /**
-     * @brief Construct grammar cache with configuration
-     * @param config Cache configuration
+     * @brief Construct grammar cache with default configuration.
      */
     GrammarCache();
+    /**
+     * @brief Construct grammar cache with configuration.
+     * @param config Cache configuration.
+     */
     explicit GrammarCache(const Config& config);
     
     /**

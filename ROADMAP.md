@@ -19,6 +19,29 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ---
 
+## Documentation Quality Delta (2026-05-11)
+
+Status: [x] completed
+
+- [x] Doxygen warning output was machine-evaluated and converted into targeted implementation batches (DX-001, DX-002, DX-002b, DX-003).
+- [x] Unsupported tag and overload/parameter documentation mismatches were removed in staged waves across affected headers.
+- [x] Final audit run with `Doxyfile.audit` reached zero `@param` warnings.
+
+Measured result (verifiziert):
+
+- Baseline: 152 `@param`-bezogene Warnungen
+- Final: 0
+- Delta: -152 (100.0% Reduktion)
+
+Audit method:
+
+- Source scope: `include/`
+- Tooling: `C:\Program Files\doxygen\bin\doxygen.exe` with `Doxyfile.audit`
+- Classification buckets: `too_many`, `param_mismatch`, `no_args_with_param`
+- Final distribution: `too_many=0`, `param_mismatch=0`, `no_args_with_param=0`
+
+---
+
 ## Module Status Summary
 
 | Module | Status | Individual Roadmap |

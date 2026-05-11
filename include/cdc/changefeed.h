@@ -173,11 +173,15 @@ public:
     ChangeEvent recordEvent(ChangeEvent event);
 
     /**
-     * @brief List change events with optional filters
-     * @param options List options (pagination, filters, long-poll)
-     * @return Vector of change events
+     * @brief List change events with default options.
+     * @return Vector of change events.
      */
     std::vector<ChangeEvent> listEvents() const;
+    /**
+     * @brief List change events with optional filters.
+     * @param options List options (pagination, filters, long-poll).
+     * @return Vector of change events.
+     */
     std::vector<ChangeEvent> listEvents(const ListOptions& options) const;
 
     /**

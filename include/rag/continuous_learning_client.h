@@ -131,10 +131,13 @@ public:
     };
     
     /**
-     * @brief Construct client with configuration
-     * @param config Client configuration
+     * @brief Construct client with default configuration.
      */
     ContinuousLearningClient();
+    /**
+     * @brief Construct client with configuration.
+     * @param config Client configuration.
+     */
     explicit ContinuousLearningClient(const Config& config);
     
     /**

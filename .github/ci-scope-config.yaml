@@ -158,3 +158,10 @@ workflow_scope_map:
   copilot-ollama-router-ci:   [has_code_changes]
   copilot-regression-guard:   [has_code_changes, has_config_changes]
   performance-regression-check: [has_code_changes]
+
+# ── Quality gate tuning ─────────────────────────────────────────────────────
+# Maintainer knob for Doxygen XML coverage threshold used by
+# .github/workflows/08-quality_doxygen-coverage-gate.yml.
+# Increase gradually (recommended): 90 -> 92 -> 95.
+quality_gates:
+  docs_coverage_threshold: 90

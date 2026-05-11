@@ -190,12 +190,15 @@ private:
 };
 
 /**
- * @brief Factory function for PDF Processor
- * 
- * @param config Optional configuration
- * @return Unique pointer to PDFProcessor
+ * @brief Factory function for PDF Processor.
+ * @return Unique pointer to PDFProcessor.
  */
 std::unique_ptr<IContentProcessor> createPDFProcessor();
+/**
+ * @brief Factory function for PDF Processor.
+ * @param config Optional configuration.
+ * @return Unique pointer to PDFProcessor.
+ */
 std::unique_ptr<IContentProcessor> createPDFProcessor(
     PDFProcessor::Config config
 );

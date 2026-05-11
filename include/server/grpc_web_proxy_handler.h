@@ -112,6 +112,13 @@ public:
     static void setBackendInvokeFn(BackendInvokeFn fn);
 
     /**
+     * @brief Construct a proxy with default configuration.
+     *
+     * The gRPC channel to the backend is created lazily on the first request
+     * so that the handler can be constructed before the gRPC server starts.
+     */
+    GrpcWebProxyHandler();
+    /**
      * @brief Construct a proxy with the given configuration.
      *
      * The gRPC channel to the backend is created lazily on the first request
@@ -119,7 +126,6 @@ public:
      *
      * @param config Proxy configuration.
      */
-    GrpcWebProxyHandler();
     explicit GrpcWebProxyHandler(Config config);
 
     ~GrpcWebProxyHandler() = default;

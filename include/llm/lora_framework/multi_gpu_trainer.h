@@ -107,13 +107,13 @@ public:
         const std::vector<GPUTensor>& targets);
     
     /**
-     * @brief Shard a batch across GPUs
-     * 
+     * @brief Shard a batch across GPUs.
+     *
      * Splits a single large batch into N smaller batches, one per GPU.
-     * 
-     * @param batch Full batch tensor (batch_size, features)
-     * @param num_gpus Number of GPUs to shard across
-     * @return Vector of sharded tensors, one per GPU
+     *
+     * @param batch Full batch tensor (batch_size, features).
+     * @param ctx Multi-GPU context describing available devices.
+     * @return Vector of sharded tensors, one per GPU.
      */
     static std::vector<GPUTensor> shard_batch(
         const GPUTensor& batch,

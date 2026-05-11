@@ -72,6 +72,41 @@
 
 ---
 
+## Documentation Quality Automation (2026-05-11)
+
+### Scope
+- Machine-evaluate Doxygen output and translate findings into deterministic patch batches.
+- Focus on API-documentation correctness for `@param` blocks in public headers.
+
+### Design Constraints
+- No API signature changes; documentation-only corrections.
+- Keep overload contracts explicit: one Doxygen block per overload where parameter sets differ.
+- Eliminate stale parameter names and orphaned `@param` entries.
+
+### Required Interfaces
+- Audit configuration: `Doxyfile.audit`
+- Warning log: `build/doxygen/doxygen-warnings.log`
+- Categories: `too_many`, `param_mismatch`, `no_args_with_param`
+
+### Implementation Notes
+- Executed as phased batches: DX-001 (tag cleanup), DX-002/2b (overload split), DX-003 (param-name alignment).
+- Mechanical fix patterns were preferred over broad rewrites to preserve API docs and reduce risk.
+- Each batch was validated with immediate syntax/error checks and follow-up audit reruns.
+
+### Test Strategy
+- Repeated full Doxygen audits after each batch.
+- Metric-gated progression: next batch starts only after post-batch count capture.
+
+### Performance Targets
+- Initial target: >= 70% reduction from baseline warnings.
+- Achieved: 152 -> 0 (`100.0%` reduction).
+
+### Security / Reliability
+- Improved documentation reliability for downstream tooling (doc generation, API review, agent task extraction).
+- Removed ambiguous parameter contracts that could mislead reviewers and automation.
+
+---
+
 ## Implementation Phases
 
 Every stub replacement **must** follow these six phases before marking `[x]`:

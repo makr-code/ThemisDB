@@ -78,10 +78,13 @@ struct BiasDetectorConfig {
 class BiasDetector {
 public:
     /**
-     * @brief Construct bias detector with configuration
-     * @param config Detector configuration
+     * @brief Construct bias detector with default configuration.
      */
     BiasDetector();
+    /**
+     * @brief Construct bias detector with configuration.
+     * @param config Detector configuration.
+     */
     explicit BiasDetector(const BiasDetectorConfig& config);
     
     /**

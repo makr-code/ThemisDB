@@ -181,11 +181,15 @@ public:
     std::optional<FeedbackEntry> getFeedback(const std::string& id) const;
 
     /**
-     * @brief List feedback entries with optional filters
-     * @param options List options (pagination, filters)
-     * @return Vector of feedback entries
+     * @brief List feedback entries with default options.
+     * @return Vector of feedback entries.
      */
     std::vector<FeedbackEntry> listFeedback() const;
+    /**
+     * @brief List feedback entries with optional filters.
+     * @param options List options (pagination, filters).
+     * @return Vector of feedback entries.
+     */
     std::vector<FeedbackEntry> listFeedback(const ListOptions& options) const;
 
     /**

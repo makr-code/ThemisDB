@@ -101,10 +101,13 @@ struct CacheConfig {
 class EvaluationCache {
 public:
     /**
-     * @brief Construct evaluation cache
-     * @param config Cache configuration
+     * @brief Construct evaluation cache with default configuration.
      */
     EvaluationCache();
+    /**
+     * @brief Construct evaluation cache.
+     * @param config Cache configuration.
+     */
     explicit EvaluationCache(const CacheConfig& config);
     
     /**

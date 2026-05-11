@@ -108,11 +108,15 @@ public:
     std::optional<Interaction> getInteraction(const std::string& id) const;
 
     /**
-     * @brief List interactions with optional filters
-     * @param options List options (pagination, filters)
-     * @return Vector of interactions
+     * @brief List interactions with default options.
+     * @return Vector of interactions.
      */
     std::vector<Interaction> listInteractions() const;
+    /**
+     * @brief List interactions with optional filters.
+     * @param options List options (pagination, filters).
+     * @return Vector of interactions.
+     */
     std::vector<Interaction> listInteractions(const ListOptions& options) const;
 
     /**

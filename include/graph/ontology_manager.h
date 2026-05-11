@@ -169,7 +169,7 @@ public:
     // ── Query API ───────────────────────────────────────────────────────────
 
     /**
-     * @brief Check whether @p concept is the same as or a subclass of @p superConcept.
+     * @brief Check whether @p conceptName is the same as or a subclass of @p superConcept.
      *
      * Performs BFS over the ancestor chain up to kMaxIsADepth hops.
      * Results are cached in an LRU table (capacity: kIsACacheCapacity) to
@@ -177,9 +177,9 @@ public:
      *
      * Unknown concepts return `false` without throwing (graceful degradation).
      *
-     * @param concept      Concept identifier to test.
+    * @param conceptName  Concept identifier to test.
      * @param superConcept Candidate ancestor concept.
-     * @return true if @p concept is-a @p superConcept.
+    * @return true if @p conceptName is-a @p superConcept.
      */
     bool isA(std::string_view conceptName, std::string_view superConcept) const;
 
