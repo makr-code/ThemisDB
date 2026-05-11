@@ -69,6 +69,35 @@
 // Windows (MSVC) and non-SIMD targets without any platform-specific branching
 // at the class level.  The previous whole-class Windows stub has been removed.
 
+/**
+ * @module OLAP
+ *
+ * OLAPEngine — multi-dimensional query execution over ThemisDB collections.
+ *
+ * Data flow:
+ *   OLAPEngine::executeGroupBy(query) / executeCubeQuery / executeRollupQuery
+ *     → columnar hash aggregation using AVX2/AVX-512/NEON SIMD hot paths
+ *     → OLAPResult{rows, columns, metadata}
+ *     → optional Arrow/Parquet export via AnalyticsExporter
+ *   Result cache: keyed on (query_hash, tenant_id); LRU eviction at capacity.
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: unknown collection, invalid dimension/metric names,
+ *     unrecognised aggregate function.
+ *   - `std::runtime_error`: SIMD buffer allocation failure (OOM); falls back to
+ *     scalar path with spdlog::warn.
+ *   - Empty result: valid — no rows match → OLAPResult with zero rows.
+ *   - Cache miss does not produce an error; query is executed and result cached.
+ *
+ * Thread safety: OLAPEngine is fully thread-safe; each execute* call acquires a
+ * shared lock for result-cache reads; cache insertion uses an exclusive lock.
+ *
+ * Cross-links:
+ *   include/analytics/olap.h — OLAPEngine, OLAPQuery, OLAPResult public API
+ *   src/analytics/columnar_execution.cpp — vectorized batch aggregation
+ *   src/analytics/distributed_analytics.cpp — per-shard OLAP execution
+ */
+
 namespace themis {
 namespace analytics {
 

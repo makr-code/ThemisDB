@@ -271,6 +271,7 @@ private:
     /// but the field is absent.
     bool verifyHmac(const nlohmann::json& j) const;
 
+  public:
     // -----------------------------------------------------------------------
     // Injectable publish bridge (STUB #42)
     // -----------------------------------------------------------------------

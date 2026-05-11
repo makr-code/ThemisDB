@@ -174,6 +174,8 @@ private:
 // ============================================================================
 class KnowledgeGraphEnricher::Impl {
 public:
+    friend class KnowledgeGraphEnricher;
+
     explicit Impl(const EnrichmentConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection) {

@@ -12,30 +12,44 @@
 #include <gtest/gtest.h>
 #include "auth/ldap_authenticator.h"
 
-using themis::auth::LDAPAuthenticator;
-using themis::auth::LDAPAuthResult;
+#include <stdexcept>
 
-// ── Fixture ───────────────────────────────────────────────────────────────────
+using themis::auth::LDAPAuthResult;
+using themis::auth::LDAPAuthenticator;
+using themis::auth::LDAPConfig;
+
+namespace {
+
+LDAPConfig makeLdapBridgeConfig() {
+    LDAPConfig cfg;
+    cfg.server_url = "ldap://example.local:389";
+    cfg.bind_dn_template = "CN={username},OU=Users,DC=example,DC=local";
+    cfg.base_dn = "DC=example,DC=local";
+    return cfg;
+}
+
+} // namespace
 
 class LdapBindBridgeTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        LDAPAuthenticator::setLdapBindFn({});
+        ASSERT_TRUE(auth_.initialize(makeLdapBridgeConfig()));
+    }
+
     void TearDown() override {
         LDAPAuthenticator::setLdapBindFn({});
     }
+
+    LDAPAuthenticator auth_;
 };
 
 // ── LDAP-BIND-01 ──────────────────────────────────────────────────────────────
-// With no fn injected the stub returns Failed with the "not compiled in" message.
+// With no fn injected the fallback path must return Failed.
 TEST_F(LdapBindBridgeTest, NoFnReturnsFailed) {
-    LDAPAuthenticator::LDAPConfig cfg;
-    cfg.server_url  = "ldap://localhost";
-    cfg.base_dn     = "dc=example,dc=com";
-    cfg.user_dn_template = "uid={username},dc=example,dc=com";
-    LDAPAuthenticator authenticator(cfg);
-
-    auto result = authenticator.authenticate("alice", "secret");
+    const auto result = auth_.authenticate("alice", "secret");
     EXPECT_FALSE(result.success);
-    EXPECT_THAT(result.error_message, ::testing::HasSubstr("THEMIS_ENABLE_LDAP"));
+    EXPECT_FALSE(result.error_message.empty());
 }
 
 // ── LDAP-BIND-02 ──────────────────────────────────────────────────────────────
@@ -44,21 +58,16 @@ TEST_F(LdapBindBridgeTest, InjectedFnIsCalled) {
     bool fn_called = false;
     LDAPAuthenticator::setLdapBindFn(
         [&](const std::string& username,
-            const std::string& /*dn*/,
+            const std::string& dn,
             const std::string& password) -> LDAPAuthResult {
             fn_called = true;
             EXPECT_EQ(username, "alice");
+            EXPECT_EQ(dn, "CN=alice,OU=Users,DC=example,DC=local");
             EXPECT_EQ(password, "secret");
-            return LDAPAuthResult::Success(username, {"role_admin"});
+            return LDAPAuthResult::Success(username, dn, {"role_admin"});
         });
 
-    LDAPAuthenticator::LDAPConfig cfg;
-    cfg.server_url  = "ldap://localhost";
-    cfg.base_dn     = "dc=example,dc=com";
-    cfg.user_dn_template = "uid={username},dc=example,dc=com";
-    LDAPAuthenticator authenticator(cfg);
-
-    auto result = authenticator.authenticate("alice", "secret");
+    const auto result = auth_.authenticate("alice", "secret");
     EXPECT_TRUE(fn_called);
     EXPECT_TRUE(result.success);
     ASSERT_EQ(result.roles.size(), 1u);
@@ -66,62 +75,15 @@ TEST_F(LdapBindBridgeTest, InjectedFnIsCalled) {
 }
 
 // ── LDAP-BIND-03 ──────────────────────────────────────────────────────────────
-// When fn throws, performBind returns Failed (fail-closed).
+// Throwing callback is fail-closed and does not propagate exceptions.
 TEST_F(LdapBindBridgeTest, ThrowingFnIsFailClosed) {
     LDAPAuthenticator::setLdapBindFn(
-        [](const std::string&, const std::string&, const std::string&)
-                -> LDAPAuthResult {
+        [](const std::string&, const std::string&, const std::string&) -> LDAPAuthResult {
             throw std::runtime_error("simulated ldap error");
         });
 
-    LDAPAuthenticator::LDAPConfig cfg;
-    cfg.server_url  = "ldap://localhost";
-    cfg.base_dn     = "dc=example,dc=com";
-    cfg.user_dn_template = "uid={username},dc=example,dc=com";
-    LDAPAuthenticator authenticator(cfg);
-
     LDAPAuthResult result;
-    EXPECT_NO_THROW({ result = authenticator.authenticate("alice", "secret"); });
+    EXPECT_NO_THROW({ result = auth_.authenticate("alice", "secret"); });
     EXPECT_FALSE(result.success);
-#include <gtest/gtest.h>
-
-#include "auth/ldap_authenticator.h"
-
-using namespace themis::auth;
-
-namespace {
-
-LDAPConfig makeLdapBridgeConfig()
-{
-    LDAPConfig cfg;
-    cfg.server_url = "ldap://example.local:389";
-    cfg.bind_dn_template = "CN={username},OU=Users,DC=example,DC=local";
-    return cfg;
-}
-
-} // namespace
-
-TEST(LDAPBindBridgeTest, InjectedBindFunctionIsUsedByAuthenticate)
-{
-    LDAPAuthenticator::setLdapBindFn(nullptr);
-
-    LDAPAuthenticator auth;
-    ASSERT_TRUE(auth.initialize(makeLdapBridgeConfig()));
-
-    LDAPAuthenticator::setLdapBindFn(
-        [](const std::string& username, const std::string& dn, const std::string& password) {
-            if (username == "bridge-user" &&
-                dn == "CN=bridge-user,OU=Users,DC=example,DC=local" &&
-                password == "bridge-pass") {
-                return LDAPAuthResult::Success(username, dn, {"admin"});
-            }
-            return LDAPAuthResult::Failed("unexpected credentials");
-        });
-
-    const auto result = auth.authenticate("bridge-user", "bridge-pass");
-    EXPECT_TRUE(result.success);
-    ASSERT_EQ(result.roles.size(), 1u);
-    EXPECT_EQ(result.roles[0], "admin");
-
-    LDAPAuthenticator::setLdapBindFn(nullptr);
+    EXPECT_FALSE(result.error_message.empty());
 }

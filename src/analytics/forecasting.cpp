@@ -24,7 +24,26 @@
 /**
  * ThemisDB Predictive Analytics & Time-Series Forecasting Engine – Implementation
  *
- * Algorithms (pure C++17, no external ML dependencies):
+ * @module Forecasting
+ *
+ * Data flow:
+ *   ForecastModel::fit(TimeSeries)  → internal model state (coefficients, seasonal buffers)
+ *   ForecastModel::predict(steps)  → vector<ForecastPoint>{value, lower_ci, upper_ci}
+ *   ForecastModel::predictBatch()  → vector<vector<ForecastPoint>> across N series
+ *   ForecastModel::update(point)   → O(1) incremental state absorption (no full refit)
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: steps ≤ 0, empty training series, seasonality ≥ series_length.
+ *   - `std::runtime_error`: ARIMA Yule–Walker system is singular (near-constant series);
+ *     falls back to EXP_SMOOTHING with a spdlog::warn.
+ *   - ENSEMBLE component failure: individual model error is caught; failed component
+ *     is weighted to 0 in the ensemble average, result marked partial.
+ *   - predictBatch: empty batch returns empty vector (no error).
+ *
+ * Cross-links:
+ *   include/analytics/forecasting.h — public API and ForecastMethod enum
+ *   tests/analytics/test_forecasting.cpp — comprehensive coverage including
+ *     ForecastingBatchStreamingTests suite
  *
  *   LINEAR_REGRESSION
  *       Ordinary least-squares fit: value = α + β·t.

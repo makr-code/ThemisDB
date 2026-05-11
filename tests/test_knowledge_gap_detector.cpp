@@ -216,7 +216,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_01_InjectedFnCalled) {
     KnowledgeGapConfig cfg;
     cfg.enable_self_consistency_check = true;
     cfg.min_documents  = 1;
-    cfg.min_similarity = 0.0;
+    cfg.similarity_threshold = 0.0;
     KnowledgeGapDetector detector(cfg);
 
     bool fn_called = false;
@@ -228,7 +228,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_01_InjectedFnCalled) {
 
     RetrievedDocument doc;
     doc.content        = "Paris is the capital of France.";
-    doc.relevance_score = 0.9;
+    doc.similarity_score = 0.9;
     std::string answer = "Paris is the capital of France.";
     auto result = detector.detectPostGeneration("What is the capital of France?", {doc}, answer);
     EXPECT_TRUE(fn_called);
@@ -242,7 +242,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_02_ClearFnRevertsToHeuristic) {
     KnowledgeGapConfig cfg;
     cfg.enable_self_consistency_check = true;
     cfg.min_documents  = 1;
-    cfg.min_similarity = 0.0;
+    cfg.similarity_threshold = 0.0;
     KnowledgeGapDetector detector(cfg);
 
     bool fn_called = false;
@@ -255,7 +255,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_02_ClearFnRevertsToHeuristic) {
 
     RetrievedDocument doc;
     doc.content        = "Paris is the capital of France.  France is in Europe.";
-    doc.relevance_score = 0.9;
+    doc.similarity_score = 0.9;
     auto result = detector.detectPostGeneration("What is the capital?", {doc}, "Paris.");
     EXPECT_FALSE(fn_called);
     // Result must still be structurally valid
@@ -269,7 +269,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_03_EmptyReturnFallsBackToHeuristic
     KnowledgeGapConfig cfg;
     cfg.enable_self_consistency_check = true;
     cfg.min_documents  = 1;
-    cfg.min_similarity = 0.0;
+    cfg.similarity_threshold = 0.0;
     KnowledgeGapDetector detector(cfg);
 
     detector.setLlmSampleFn([](const std::string&, size_t) {
@@ -278,7 +278,7 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_03_EmptyReturnFallsBackToHeuristic
 
     RetrievedDocument doc;
     doc.content        = "Rome is the capital of Italy.  Italy is in Europe.";
-    doc.relevance_score = 0.85;
+    doc.similarity_score = 0.85;
     auto result = detector.detectPostGeneration("Capital of Italy?", {doc}, "Rome.");
     // Must not crash; result is structurally valid regardless of outcome
     EXPECT_GE(result.confidence_score, 0.0);

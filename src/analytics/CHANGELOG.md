@@ -1,6 +1,6 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Analytics Module
@@ -14,6 +14,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - AutoML ONNX export and deployment pipeline (Target: Q4 2026)
 - GPU-accelerated OLAP aggregations (CUDA) — PR open (Issue #1469)
 - Zero-copy Arrow data transfer optimizations — PR open (Issue #1471)
+
+## [2.0.0] — 2026-04-12
+### Added
+- **Multi-stream join engine** — `IStreamingJoin` / `HashJoin` / `IntervalJoin` (`analytics/streaming_join.cpp`):
+  - `HashJoin`: composite-key hash table, inner/left-outer join, multi-batch build, configurable `max_build_rows`
+  - `IntervalJoin`: `before_ms`/`after_ms`/`slack_ms` time-window join with LRU probe-side pruning; late-arrival handling via watermark
+  - Public API: `build(batch)` / `probe(batch)` / `reset()` on `IStreamingJoin`; factory function `makeHashJoin()` / `makeIntervalJoin()`
+  - 15 focused tests (SJ-01…SJ-15) in `tests/analytics/test_streaming_join.cpp`
+  - Error paths: `std::invalid_argument` on empty key column or mismatched schema; late-arriving rows outside the join window are silently dropped
 
 ## [1.9.0] — 2026-03-28
 ### Added

@@ -276,6 +276,7 @@ nlohmann::json WhisperPlugin::getStatistics() const {
 
 // ── dynamic-loading entry points ─────────────────────────────────────────────
 
+#ifndef THEMIS_TEST_BUILD
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::audio::IAudioBackend* themis_audio_create() {
     return new themis::whisper::WhisperPlugin();
@@ -285,3 +286,4 @@ extern "C" THEMIS_PLUGIN_EXPORT
 void themis_audio_destroy(themis::audio::IAudioBackend* p) {
     delete p;
 }
+#endif

@@ -1,7 +1,7 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 # Acceleration Module Roadmap
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 

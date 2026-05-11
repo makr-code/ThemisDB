@@ -55,6 +55,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -374,7 +375,7 @@ private:
     // ─── Persistence hooks ────────────────────────────────────────────────
     NodePersistHookFn  node_persist_hook_;
     NodeRemoveHookFn   node_remove_hook_;
-    mutable std::mutex hook_mutex_;  ///< guards node_persist_hook_ / node_remove_hook_
+    mutable std::mutex hook_mutex_;   ///< guards node_persist_hook_ / node_remove_hook_
     std::atomic<bool>  has_node_persist_hook_{false};
     std::atomic<bool>  has_node_remove_hook_{false};
 
@@ -402,11 +403,11 @@ private:
     resolveTrainForNode(const std::string& tensor_id,
                         const NodeEntry& node) const;
 
-    /// Build persisted node payload — caller MUST hold mutex_.
+    /// Build persisted node payload — caller MUST hold mutex_ (at least shared).
     PersistedFingerprintNode
     buildPersistedNodeLocked(const std::string& tensor_id) const;
 
-    /// Build persisted outgoing edges for a node — caller MUST hold mutex_.
+    /// Build persisted outgoing edges for a node — caller MUST hold mutex_ (at least shared).
     std::vector<PersistedFingerprintEdge>
     buildPersistedEdgesForLocked(const std::string& tensor_id) const;
 };

@@ -24,8 +24,27 @@
 /**
  * ThemisDB Columnar Execution Engine – Implementation
  *
- * Implements the vectorized operator pipeline declared in
- * include/analytics/columnar_execution.h.
+ * @module OLAP
+ *
+ * Data flow:
+ *   VectorizedPipeline::addOperator(op) → operator chain assembled
+ *   VectorizedPipeline::execute(batch)  → SelectionVector materialised per stage
+ *                                       → FilterOperator prunes rows via predicate eval
+ *                                       → AggregateOperator produces columnar aggregates
+ *                                       → SortOperator merges sorted runs
+ *                                       → returns ColumnBatch (columnar result)
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: unsupported data type in Column::apply_predicate(),
+ *     mismatched column count in AggregateOperator.
+ *   - SIMD paths are best-effort: any SIGILL (unexpected instruction set) falls
+ *     back to the scalar loop path; no exception is thrown.
+ *   - Empty batch → passes through all operators; returns empty ColumnBatch (no error).
+ *
+ * Cross-links:
+ *   include/analytics/columnar_execution.h — VectorizedPipeline, Column, SelectionVector
+ *   src/analytics/olap.cpp — primary consumer
+ *   tests/analytics/ — covered via OLAPEngine integration tests
  *
  * Implementation notes:
  *

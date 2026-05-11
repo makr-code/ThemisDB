@@ -434,6 +434,7 @@ std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
 
 // ── dynamic-loading entry points ──────────────────────────────────────────────
 
+#ifndef THEMIS_TEST_BUILD
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::llm::ILLMPlugin* themis_llm_create() {
     return new themis::llamacpp::LlamaCppPlugin();
@@ -443,3 +444,4 @@ extern "C" THEMIS_PLUGIN_EXPORT
 void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
+#endif

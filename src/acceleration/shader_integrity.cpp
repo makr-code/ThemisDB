@@ -17,12 +17,44 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "acceleration/shader_integrity.h"
-
-#include <fstream>
-#include <iomanip>
-#include <sstream>
-#include <stdexcept>
+/*
+ * Acceleration module — GPU Shader Binary Integrity Verification
+ * ==============================================================
+ * Verifies the SHA-256 hash of SPIR-V / GLSL shader binaries against a
+ * pre-registered expected-hash manifest before any GPU pipeline is created.
+ * This prevents tampered or corrupted shaders from reaching the GPU driver.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   VulkanVectorBackend::initialize()           (graphics_backends.cpp)
+ *       └─► ShaderIntegrityVerifier::verifyShader(name, bytes)   ← this file
+ *               ├─ compute SHA-256 of binary blob (OpenSSL EVP_DigestUpdate)
+ *               ├─ compare against expectedHashes_[name]
+ *               └─ return Verified / HashMismatch / NotRegistered
+ *
+ *   OpenGLVectorBackend::compileShader()         (graphics_backends.cpp)
+ *       └─► ShaderIntegrityVerifier::verifyShader(name, glsl_source)
+ *
+ * Manifest loading
+ * ----------------
+ *   ShaderIntegrityVerifier::loadManifest(path)  — parses "<name> <sha256>" lines
+ *   ShaderIntegrityVerifier::registerExpectedHash(name, hex)  — register individual hash
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   ShaderIntegrityVerifier::instance()          — singleton access
+ *   ShaderIntegrityVerifier::verifyShader()      — verify bytes against registered hash
+ *   ShaderIntegrityVerifier::loadManifest()      — load hash manifest file
+ *   ShaderIntegrityVerifier::registerExpectedHash() — register a single hash entry
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/shader_integrity.h     — ShaderIntegrityVerifier declaration + VerifyResult
+ *   src/acceleration/graphics_backends.cpp      — Vulkan / OpenGL backends that call verifyShader()
+ *   src/acceleration/vulkan_backend_full.cpp    — additional Vulkan shader consumers
+ *   src/acceleration/SECURITY.md               — "Untrusted kernel code execution" threat entry
+ *   src/acceleration/ARCHITECTURE.md           — Section 8 (Security Considerations)
+ */
 
 // SHA-256 via OpenSSL (consistent with plugin_security.cpp)
 #include <openssl/evp.h>

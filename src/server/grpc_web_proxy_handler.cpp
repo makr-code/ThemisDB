@@ -299,7 +299,6 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     int grpc_code = 0;          // grpc::StatusCode::OK
     std::string grpc_message;
     bool handled_by_override = false;
-
     if (auto backend_invoke = getBackendInvokeFn(); backend_invoke) {
         handled_by_override = backend_invoke(
             method, proto_payload, response_proto, grpc_code, grpc_message);

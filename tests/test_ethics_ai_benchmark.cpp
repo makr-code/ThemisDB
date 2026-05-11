@@ -29,6 +29,8 @@
 #include "ethics_ai/rag_context_engine.h"
 #include "ethics_ai/ethics_ai_types.h"
 
+#include "test_performance_helpers.h"
+
 #include <chrono>
 #include <memory>
 #include <string>
@@ -88,22 +90,18 @@ protected:
 // =============================================================================
 
 TEST_F(EthicsAIBenchmarkTests, PB01_MakeDecisionSingleSchoolUnder500ms) {
-    auto t0 = Clock::now();
-    auto result = engine_->makeDecision(
-        "Should patient data be shared without consent for medical research?",
-        {"utilitarianism"},
-        "medical-ethics",
-        /*use_rag=*/false);
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        auto result = engine_->makeDecision(
+            "Should patient data be shared without consent for medical research?",
+            {"utilitarianism"},
+            "medical-ethics",
+            /*use_rag=*/false);
+        EXPECT_TRUE(std::holds_alternative<EthicalDecision>(result));
+    });
 
-    ASSERT_TRUE(std::holds_alternative<EthicalDecision>(result))
-        << "makeDecision returned Status: "
-        << (std::holds_alternative<Status>(result)
-                ? std::get<Status>(result).message : "");
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 500.0)
-        << "makeDecision (single school) took " << elapsed << " ms, expected < 500 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 500.0)
+        << "makeDecision(single school) p95=" << p95 << "ms, expected < 500 ms";
 }
 
 // =============================================================================
@@ -111,19 +109,18 @@ TEST_F(EthicsAIBenchmarkTests, PB01_MakeDecisionSingleSchoolUnder500ms) {
 // =============================================================================
 
 TEST_F(EthicsAIBenchmarkTests, PB02_MakeDecisionTwoSchoolsUnder500ms) {
-    auto t0 = Clock::now();
-    auto result = engine_->makeDecision(
-        "Is it ethical to use surveillance for public safety?",
-        {"utilitarianism", "kantian"},
-        "surveillance-ethics",
-        /*use_rag=*/false);
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        auto result = engine_->makeDecision(
+            "Is it ethical to use surveillance for public safety?",
+            {"utilitarianism", "kantian"},
+            "surveillance-ethics",
+            /*use_rag=*/false);
+        EXPECT_TRUE(std::holds_alternative<EthicalDecision>(result));
+    });
 
-    ASSERT_TRUE(std::holds_alternative<EthicalDecision>(result));
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 500.0)
-        << "makeDecision (two schools) took " << elapsed << " ms, expected < 500 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 500.0)
+        << "makeDecision(two schools) p95=" << p95 << "ms, expected < 500 ms";
 }
 
 // =============================================================================
@@ -146,16 +143,15 @@ TEST_F(EthicsAIBenchmarkTests, PB03_ComputeConfidence100ArgsUnder1ms) {
         args.push_back(a);
     }
 
-    auto t0 = Clock::now();
-    double conf = EthicsEvaluator::computeConfidence(args);
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        double conf = EthicsEvaluator::computeConfidence(args);
+        EXPECT_GE(conf, 0.0);
+        EXPECT_LE(conf, 1.0);
+    });
 
-    EXPECT_GE(conf, 0.0);
-    EXPECT_LE(conf, 1.0);
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 1.0)
-        << "computeConfidence(100 args) took " << elapsed << " ms, expected < 1 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 1.0)
+        << "computeConfidence(100 args) p95=" << p95 << "ms, expected < 1 ms";
 }
 
 // =============================================================================
@@ -177,16 +173,15 @@ TEST_F(EthicsAIBenchmarkTests, PB04_ComputeConsensus100ArgsUnder1ms) {
         args.push_back(a);
     }
 
-    auto t0 = Clock::now();
-    double cons = EthicsEvaluator::computeConsensus(args);
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        double cons = EthicsEvaluator::computeConsensus(args);
+        EXPECT_GE(cons, 0.0);
+        EXPECT_LE(cons, 1.0);
+    });
 
-    EXPECT_GE(cons, 0.0);
-    EXPECT_LE(cons, 1.0);
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 1.0)
-        << "computeConsensus(100 args) took " << elapsed << " ms, expected < 1 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 1.0)
+        << "computeConsensus(100 args) p95=" << p95 << "ms, expected < 1 ms";
 }
 
 // =============================================================================
@@ -201,17 +196,14 @@ TEST_F(EthicsAIBenchmarkTests, PB05_VectorSemanticSearchUnder5ms) {
     // store; this threshold covers the query-path overhead only.
     std::vector<float> query(768, 0.0f);
     query[0] = 1.0f;
-    auto t0 = Clock::now();
-    auto result = rag_->vectorSemanticSearch(query, "utilitarianism", 1);
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        auto result = rag_->vectorSemanticSearch(query, "utilitarianism", 1);
+        (void)result;
+    });
 
-    // Result is valid (either empty results or Status — both are fine in standalone)
-    (void)result;
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 5.0)
-        << "vectorSemanticSearch (empty store) took " << elapsed
-        << " ms, expected < 5 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 5.0)
+        << "vectorSemanticSearch(empty store) p95=" << p95 << "ms, expected < 5 ms";
 }
 
 // =============================================================================
@@ -231,16 +223,15 @@ TEST_F(EthicsAIBenchmarkTests, PB06_BuildContextStandaloneUnder1s) {
         store_->storeArgument(a, false);
     }
 
-    auto t0 = Clock::now();
-    auto result = rag_->buildContext(
-        "Should AI systems make life-or-death decisions autonomously?",
-        {"utilitarianism", "kantian"},
-        "ai-autonomy");
-    auto t1 = Clock::now();
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        auto result = rag_->buildContext(
+            "Should AI systems make life-or-death decisions autonomously?",
+            {"utilitarianism", "kantian"},
+            "ai-autonomy");
+        (void)result;
+    });
 
-    (void)result; // may succeed or return Status in standalone mode
-
-    double elapsed = ms(t0, t1);
-    EXPECT_LT(elapsed, 1000.0)
-        << "buildContext (standalone) took " << elapsed << " ms, expected < 1000 ms";
+    const auto p95 = themis::test::percentileValue(samples, 95);
+    EXPECT_LT(p95, 1000.0)
+        << "buildContext(standalone) p95=" << p95 << "ms, expected < 1000 ms";
 }

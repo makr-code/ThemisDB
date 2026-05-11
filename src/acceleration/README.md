@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Acceleration Module (src/acceleration)
 <!-- Status: current | validated: 2026-04-06 -->
@@ -13,6 +13,18 @@ In practice, this module is responsible for:
 - Selecting an appropriate backend at runtime (GPU/CPU) without breaking portability.
 - Providing a stable interface (`ComputeBackend` and related backend interfaces) that consumers can call without depending on CUDA/Vulkan specifics.
 - Hosting accelerator implementations and/or plugins (e.g., CUDA, Vulkan, HIP) behind feature flags so builds work even if SDKs are not installed.
+
+## Public API Entry Points (from `include/acceleration/`)
+
+| API | Purpose |
+|---|---|
+| `BackendRegistry::instance().initializeRuntime(...)` | Detect backends/devices, evaluate capability requirements, and cache selected vector/graph/geo backends. |
+| `BackendRegistry::getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` | Access selected runtime backends after initialization. |
+| `BackendRegistry::defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` | Retrieve default capability requirements used by runtime selection. |
+| `DeviceManager::instance().probeDevices()` / `refresh()` | Enumerate and re-probe devices with 60 s cache TTL. |
+| `ANNKernelFallbackDispatcher` / `GeoKernelFallbackDispatcher` | Primary-kernel invocation with retry-on-transient-error and fallback dispatch. |
+| `PluginLoader::loadPlugin(...)` | Load optional external backend plugin libraries (validated by plugin-security path). |
+| `AccelerationErrorCode` (`error_codes.h`) | Structured acceleration error taxonomy for startup/runtime/validation/kernel failures. |
 
 ## Directory Layout (high level)
 
@@ -90,6 +102,38 @@ In practice, this module is responsible for:
   services simultaneously once `initializeRuntime()` has completed. Concurrent
   calls to `initializeRuntime()` itself are not recommended; call it once during
   single-threaded server startup before spawning worker threads.
+- Error handling is explicit and structured: kernel dispatchers use integer return
+  codes mapped to `AccelerationErrorCode` values (for example transient
+  `SynchronizationFailed`, `OperationTimeout`, `DeviceLost`), enabling retry and
+  deterministic fallback behavior.
+
+## Configuration Surface
+
+### Build-time flags
+
+- `THEMIS_ENABLE_CUDA`
+- `THEMIS_ENABLE_VULKAN`
+- `THEMIS_ENABLE_HIP`
+
+### Runtime knobs
+
+- `BackendRegistry::CapabilityRequirements` (per-category precision/metric/hardware requirements for runtime selection).
+- `RetryPolicy` in `kernel_fallback_dispatcher.h` (`maxAttempts`, `initialDelayMs`, `maxDelayMs`, `backoffMultiplier`).
+- `VLLMResourceManager::Config` for shared-GPU leasing limits (for inference-heavy deployments).
+
+## Error Cases & Limits
+
+- If runtime selection cannot satisfy requirements, selected backend accessors
+  may return `nullptr`; callers must handle this and/or fall back to CPU path.
+- Unsupported kernel slots in primary dispatch tables are routed directly to the
+  fallback dispatch table.
+- Exhausted retries on transient errors also fall back to the fallback dispatch.
+- Validation failures (e.g., invalid shape/dtype/range) surface as
+  `AccelerationErrorCode::{InvalidInputShape, InvalidInputDtype, InputRangeViolation}`.
+- CUDA HNSW has a single-pass top-k limit (`k <= 1024`); larger `k` requests use
+  a multi-pass host merge path (higher latency trade-off).
+- GPU SDK/tooling is optional; builds and runtime must remain functional through
+  CPU backends when accelerator toolchains are unavailable.
 
 ## Build & Feature Flags
 
@@ -174,3 +218,23 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/acceleration/README.md`](../../include/acceleration/README.md) for the public API.
+
+```cpp
+using namespace themis::acceleration;
+
+auto& registry = BackendRegistry::instance();
+registry.initializeRuntime(
+    BackendRegistry::defaultVectorRequirements(),
+    BackendRegistry::defaultGraphRequirements(),
+    BackendRegistry::defaultGeoRequirements());
+
+if (auto* vectorBackend = registry.getSelectedVectorBackend()) {
+    // Use vectorBackend->batchKnnSearch(...);
+}
+```
+
+### Troubleshooting Quick Links
+
+- [`../../docs/acceleration/capability_negotiation.md`](../../docs/acceleration/capability_negotiation.md)
+- [`../../docs/acceleration/troubleshooting.md`](../../docs/acceleration/troubleshooting.md)
+- [`../../docs/acceleration/error_codes.md`](../../docs/acceleration/error_codes.md)

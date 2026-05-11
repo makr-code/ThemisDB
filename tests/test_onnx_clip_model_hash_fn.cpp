@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 #define THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
-#include "onnx_clip_plugin.h"
+#include "onnx_clip/onnx_clip_plugin.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>

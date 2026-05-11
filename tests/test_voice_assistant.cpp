@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "voice/voice_auth.h"
+#include "voice/voice_assistant.h"
 
 using namespace themis::voice;
 

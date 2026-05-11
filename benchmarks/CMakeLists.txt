@@ -1169,6 +1169,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_traversal.cpp")
     message(STATUS "  Graph Traversal: BFS/DFS, parallel multi-source traversal, fan-out threshold, graph analytics")
 endif()
 
+# TensorFingerprintGraph Benchmarks
+# Targets: insert ≤ 10 ms / 100 K nodes, findSimilar ≤ 50 ms / 100 K nodes
+# (include/graph/tensor_fingerprint_graph.h §Performance, Phase 4, Q2 2027)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_fingerprint_graph.cpp")
+    message(STATUS "Adding TensorFingerprintGraph benchmarks")
+
+    add_executable(bench_tensor_fingerprint_graph
+        bench_tensor_fingerprint_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/tensor_fingerprint_graph.cpp
+    )
+
+    target_include_directories(bench_tensor_fingerprint_graph PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_tensor_fingerprint_graph PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_tensor_fingerprint_graph PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    target_compile_features(bench_tensor_fingerprint_graph PRIVATE cxx_std_17)
+
+    themis_apply_benchmark_release_flags(bench_tensor_fingerprint_graph)
+
+    install(TARGETS bench_tensor_fingerprint_graph
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  TensorFingerprintGraph: insert throughput, findSimilar latency, concurrent reads")
+endif()
+
 # Graph Query Optimizer Benchmarks (cost-based algorithm selection, plan caching)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
     message(STATUS "Adding Graph Query Optimizer benchmarks")

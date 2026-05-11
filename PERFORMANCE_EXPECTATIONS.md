@@ -1161,6 +1161,26 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | Single-Refresh (10K Nodes) |  5 s /  200 ms (8 Worker) |  | n/v |  |
 | Subgraph-Isomorphismus P95 | < 500 ms (100-Node-Pattern, 1M-Graph) |  | n/v |  |
 
+##### 9.1 TensorFingerprintGraph und TensorDeduplicationManager (Ist-Stand)
+
+> Quelle Implementierung: `include/graph/tensor_fingerprint_graph.h`, `include/graph/tensor_deduplication_manager.h`, `benchmarks/bench_tensor_fingerprint_graph.cpp`, `benchmarks/CMakeLists.txt`, `tests/graph/test_tensor_fingerprint_graph.cpp`
+>
+> Status: **Produktion aktiv (Code + Tests vorhanden)**; dedizierte Performance-Messreihe fuer diese Benchmarks in diesem Dokument noch offen.
+
+| Ziel-ID | Erwartungswert | Messpfad / Testpfad | Aktueller Stand |
+|---------|----------------|---------------------|-----------------|
+| TFG-1 Insert-Latenz | <= 10 ms pro Tensor bei Graphgroesse bis 100K Nodes | `BM_TFG_Insert_SingleNode` (`bench_tensor_fingerprint_graph`) | [Z] Ziel dokumentiert, Benchmark implementiert |
+| TFG-2 Similarity Query | <= 50 ms (`findSimilar`) bei bis zu 100K Nodes | `BM_TFG_FindSimilar` (`bench_tensor_fingerprint_graph`) | [Z] Ziel dokumentiert, Benchmark implementiert |
+| TFG-3 Neighbour Lookup | <= 5 ms (`neighbours`) | `BM_TFG_Neighbours` (`bench_tensor_fingerprint_graph`) | [Z] Ziel dokumentiert, Benchmark implementiert |
+| TFG-4 Persisted Export | Full-Graph-Export fuer Snapshot/Restore ohne unkontrolliertes Wachstum | `BM_TFG_ExportPersistedGraph` (`bench_tensor_fingerprint_graph`) | [I] Implementiert; v1.8.3 Messwerte ausstehend |
+| TDM-1 Snapshot/Restore Integritaet | Restore muss Topologie/Records robust wiederherstellen | TDM-12 bis TDM-24 (`TensorDeduplicationManagerSnapshotTest`) | [I] Implementiert und als GTest-Serie vorhanden |
+| TDM-2 Journal-Replay/Kompaktion | Post-Snapshot Mutationen muessen replaybar und kompakt sein | TDM-18, TDM-19, TDM-22, TDM-23, TDM-24 | [I] Implementiert (per-entry + Legacy-WAL Fallback) |
+
+**Einordnung fuer v1.8.3:**
+- `bench_tensor_fingerprint_graph` ist im Build-System registriert und installierbar.
+- Die SLOs sind im Header-Contract der Graph-Komponente verankert; in dieser Datei werden sie hiermit explizit als Graph-Teilziel gefuehrt.
+- Die Ergebniswerte (`[M]`) werden nach einem dedizierten Release-Run nachgetragen.
+
 ---
 
 
@@ -1951,6 +1971,8 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 ### 6.11 Graph Module Results
 
 > *SLO tables and measurement data: see §9 / §5.2. Combined SLO/results tables are preserved in §5.*
+>
+> **Erweiterung (v1.8.3):** TensorFingerprintGraph und TensorDeduplicationManager sind als produktive Graph-Unterpfade dokumentiert (siehe §9.1 und §36.8.1), inklusive Snapshot/Restore- und Journal-Replay-Testabdeckung (TDM-12..TDM-24).
 
 ### 6.12 Acceleration Module Results
 
@@ -2563,6 +2585,24 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | GraphTraversalBenchmarkFixture/DFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.379 k/s | 0.235 ms | 4.449 k/s |
 
 > Lokale Messquelle v1.8.1-rc2: `benchmarks/results/local_20260409_093136/bench_graph_traversal.txt` (Google Benchmark, `_mean`).
+
+##### 36.8.1 TensorFingerprintGraph (`bench_tensor_fingerprint_graph`)
+
+> Implementierungsstatus: Benchmark-Executable ist in `benchmarks/CMakeLists.txt` registriert (inkl. Install-Target) und deckt Insert, Similarity, Neighbours, Concurrent Reads, NodeCount und Persisted-Export ab.
+>
+> Messstatus: In diesem Report sind fuer die folgenden Cases aktuell noch keine konsolidierten `[M]`-Messwerte hinterlegt.
+
+| Benchmark-Case | Zweck | Status |
+|----------------|-------|--------|
+| `BM_TFG_Insert_Throughput` | amortisierte Insert-Kosten in Batch-Groessen | [I] implementiert |
+| `BM_TFG_Insert_SingleNode` | steady-state Insert-Latenz bei vorbefuelltem Graph | [I] implementiert |
+| `BM_TFG_FindSimilar` | Similarity-Suche ueber wachsende Graphgroessen | [I] implementiert |
+| `BM_TFG_Neighbours` | direkte Adjazenzabfrage | [I] implementiert |
+| `BM_TFG_ConcurrentReads` | Parallel-Leseverhalten (`shared_mutex`-Pfad) | [I] implementiert |
+| `BM_TFG_NodeCount` | O(1)-Lesepfad fuer Knotenzaehler | [I] implementiert |
+| `BM_TFG_ExportPersistedGraph` | Snapshot-/Persistenzexport-Kosten | [I] implementiert |
+
+> Nachtragspfad fuer v1.8.3: JSON-Ausgabe in `artifacts/perf_nv/` ablegen und Tabelle um `[M]`-Werte (real_time, items/s) erweitern.
 
 ---
 
@@ -3803,21 +3843,6 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Schnittstelle | Ziel/Messwert | Typ | Quelle |
 |---------------|---------------|-----|--------|
-| Algorithm Selection ( 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
-| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100  p99 | [Z] | FE L1122 |
-| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
-| Audit Trail `appendAudit()` Overhead | < 1  / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
-| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5  / Event | [Z] | FE L1080 |
-| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
-| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
-| Statistics Collection | 10 100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
-
----
-
-#### 39.29 Graph-Modul (`src/graph/`)
-
-| Schnittstelle | Ziel/Messwert | Typ | Quelle |
-|---------------|---------------|-----|--------|
 | Algorithm Selection (<= 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
 | Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100 us p99 | [Z] | FE L1122 |
 | Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
@@ -3832,6 +3857,12 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | Single Constraint Check | ~0.1 us | [M] | README.md L820 |
 | Path Validation (10 Constraints) | ~1 us / Path | [M] | README.md L821 |
 | `findConstrainedPaths` (1000 explored, 10 valid) | 10-100 ms | [M] | README.md L822 |
+| TensorFingerprintGraph Insert (`insert`) | <= 10 ms pro Tensor (bis 100K Nodes) | [Z] | `include/graph/tensor_fingerprint_graph.h`, `bench_tensor_fingerprint_graph` |
+| TensorFingerprintGraph Similarity (`findSimilar`) | <= 50 ms (bis 100K Nodes) | [Z] | `include/graph/tensor_fingerprint_graph.h`, `bench_tensor_fingerprint_graph` |
+| TensorFingerprintGraph Neighbours (`neighbours`) | <= 5 ms | [Z] | `include/graph/tensor_fingerprint_graph.h`, `bench_tensor_fingerprint_graph` |
+| TensorFingerprintGraph Persisted Export | Full-Graph Snapshot-Export ohne unkontrolliertes Wachstum | [I] | `BM_TFG_ExportPersistedGraph` |
+| TensorDeduplicationManager `snapshotGraph/restoreGraph` | Konsistente Wiederherstellung von Graph+Records | [I] | `TensorDeduplicationManagerSnapshotTest` (TDM-12..TDM-24) |
+| TensorDeduplicationManager Journal-Replay (per-entry + legacy blob) | Replay/Kompaktion robust bei Post-Snapshot-Mutationen | [I] | `TensorDeduplicationManagerSnapshotTest` (TDM-18, TDM-19, TDM-22, TDM-23, TDM-24) |
 
 ---
 

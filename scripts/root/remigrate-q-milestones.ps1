@@ -5,7 +5,7 @@
 # Purpose: Remap all Q-milestone issues to version milestones using:
 #   1. ROADMAP.md analysis for explicit Issue→Version mappings
 #   2. Heuristic distribution for remaining issues
-# Usage: .\remigrate-q-milestones.ps1 [-DryRun] [-Verbose]
+# Usage: .\scripts\root\remigrate-q-milestones.ps1 [-DryRun] [-Verbose]
 # Author: Copilot
 ################################################################################
 

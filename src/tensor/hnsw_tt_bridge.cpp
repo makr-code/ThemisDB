@@ -288,15 +288,24 @@ bool HnswTTBridge::add(int64_t id,
 bool HnswTTBridge::addFlat(int64_t id,
                              const float* vector,
                              size_t dim) {
-    storage::TensorTrainDecomposer decomposer;
-    storage::TensorTrainDecomposer::Config cfg;
-    cfg.max_rank = cfg_.max_tt_rank;
-    cfg.epsilon  = cfg_.epsilon;
+    if (!vector || dim == 0) {
+        return false;
+    }
 
+    storage::TensorTrainDecomposer decomposer;
+    storage::TensorTrainConfig cfg;
+    cfg.max_rank = cfg_.max_tt_rank;
+    cfg.eps      = cfg_.epsilon;
+
+    std::vector<float> data(vector, vector + dim);
     std::vector<size_t> shape = { dim };
-    auto result = decomposer.decompose(vector, shape, cfg);
-    if (!result) return false;
-    return add(id, *result);
+    try {
+        auto [train, stats] = decomposer.decompose(data, shape, cfg);
+        (void)stats;
+        return add(id, train);
+    } catch (...) {
+        return false;
+    }
 }
 
 bool HnswTTBridge::remove(int64_t id) {
@@ -351,14 +360,23 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
 
 std::vector<TensorSearchResult>
 HnswTTBridge::searchFlat(const float* query, size_t dim, int k) const {
+    if (!query || dim == 0) {
+        return {};
+    }
+
     storage::TensorTrainDecomposer decomposer;
-    storage::TensorTrainDecomposer::Config cfg;
+    storage::TensorTrainConfig cfg;
     cfg.max_rank = cfg_.max_tt_rank;
-    cfg.epsilon  = cfg_.epsilon;
+    cfg.eps      = cfg_.epsilon;
+    std::vector<float> data(query, query + dim);
     std::vector<size_t> shape = { dim };
-    auto result = decomposer.decompose(query, shape, cfg);
-    if (!result) return {};
-    return search(*result, k);
+    try {
+        auto [train, stats] = decomposer.decompose(data, shape, cfg);
+        (void)stats;
+        return search(train, k);
+    } catch (...) {
+        return {};
+    }
 }
 
 std::optional<float>

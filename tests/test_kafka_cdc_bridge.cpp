@@ -41,9 +41,9 @@ TEST_F(KafkaCdcBridgeTest, NoFnReturnsFalse) {
     EXPECT_FALSE(producer.start())
         << "start() must return false when no StartFn is registered";
 
-    Changefeed::ChangeEvent evt;
+    themis::Changefeed::ChangeEvent evt;
     evt.key  = "doc1";
-    evt.type = Changefeed::ChangeEventType::EVENT_PUT;
+    evt.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
     EXPECT_FALSE(producer.publish(evt))
         << "publish() must return false when no PublishFn is registered";
 }
@@ -63,7 +63,7 @@ TEST_F(KafkaCdcBridgeTest, SuccessFnsReturnTrue) {
         start_called = true;
         return true;
     });
-    KafkaCDCProducer::setPublishFn([&](const Changefeed::ChangeEvent& e) -> bool {
+    KafkaCDCProducer::setPublishFn([&](const themis::Changefeed::ChangeEvent& e) -> bool {
         publish_called = true;
         received_key   = e.key;
         return true;
@@ -74,9 +74,9 @@ TEST_F(KafkaCdcBridgeTest, SuccessFnsReturnTrue) {
     EXPECT_TRUE(producer.start())   << "start() must return true from injected fn";
     EXPECT_TRUE(start_called)       << "StartFn must have been invoked";
 
-    Changefeed::ChangeEvent evt;
+    themis::Changefeed::ChangeEvent evt;
     evt.key  = "order-42";
-    evt.type = Changefeed::ChangeEventType::EVENT_PUT;
+    evt.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
     EXPECT_TRUE(producer.publish(evt)) << "publish() must return true from injected fn";
     EXPECT_TRUE(publish_called)         << "PublishFn must have been invoked";
     EXPECT_EQ(received_key, "order-42") << "PublishFn must receive the correct event";
@@ -92,7 +92,7 @@ TEST_F(KafkaCdcBridgeTest, ThrowingFnsAreFailClosed) {
     KafkaCDCProducer::setStartFn([]() -> bool {
         throw std::runtime_error("Kafka broker unavailable");
     });
-    KafkaCDCProducer::setPublishFn([](const Changefeed::ChangeEvent&) -> bool {
+    KafkaCDCProducer::setPublishFn([](const themis::Changefeed::ChangeEvent&) -> bool {
         throw std::runtime_error("Kafka publish failed");
     });
 
@@ -103,9 +103,9 @@ TEST_F(KafkaCdcBridgeTest, ThrowingFnsAreFailClosed) {
         EXPECT_FALSE(ok) << "start() must return false when fn throws";
     });
 
-    Changefeed::ChangeEvent evt;
+    themis::Changefeed::ChangeEvent evt;
     evt.key = "k1";
-    evt.type = Changefeed::ChangeEventType::EVENT_PUT;
+    evt.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
     EXPECT_NO_THROW({
         bool ok = producer.publish(evt);
         EXPECT_FALSE(ok) << "publish() must return false when fn throws";

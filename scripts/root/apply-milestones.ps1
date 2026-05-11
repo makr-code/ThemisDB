@@ -3,7 +3,7 @@
 ################################################################################
 # ThemisDB: Batch Milestone Application Script (PowerShell)
 # Purpose: Assign milestones to all GitHub issues
-# Usage: .\apply-milestones.ps1
+# Usage: .\scripts\root\apply-milestones.ps1
 # Requirements: GitHub CLI (gh) installed and authenticated
 # Status: Using REAL issue numbers from makr-code/ThemisDB
 ################################################################################

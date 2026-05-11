@@ -23,8 +23,31 @@
  * Wraps themis::gpu::DeviceDiscovery to expose per-device capability info
  * (BackendType mapping, precision flags, VRAM, compute capability) to the
  * acceleration layer with a 60-second probe cache and startup logging.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   BackendRegistry::initializeRuntime()
+ *       └─► DeviceManager::instance().probeDevices()   ← this file
+ *               └─► themis::gpu::DeviceDiscovery::Enumerate()
+ *                       └─► CUDA / ROCm / Vulkan / CPU device enumeration
+ *       └─► BackendRegistry scores capabilities per device
+ *       └─► best backend selected per operation category (vector/graph/geo)
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   DeviceManager::instance()      — singleton access
+ *   DeviceManager::probeDevices()  — enumerate and cache device capabilities
+ *   DeviceManager::refresh()       — force re-probe (invalidates 60 s TTL cache)
+ *   DeviceManager::getBestDevice() — return highest-scoring DeviceCapabilityInfo
+ *   DeviceManager::deviceInfo()    — immutable snapshot captured at last probe
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/device_manager.h      — DeviceManager / DeviceCapabilityInfo declarations
+ *   include/themis/gpu/device_discovery.h      — underlying GPU discovery layer
+ *   src/acceleration/backend_registry.cpp      — consumes DeviceManager during initializeRuntime()
+ *   src/acceleration/ARCHITECTURE.md           — startup flow (Section 4.1)
  */
-
 #include "acceleration/device_manager.h"
 #include "themis/gpu/device_discovery.h"
 

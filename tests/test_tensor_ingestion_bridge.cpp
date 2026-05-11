@@ -133,7 +133,7 @@ TEST(TensorIngestionBridge, TIB01_NullBackendIsAvailableFalse) {
 
 TEST(TensorIngestionBridge, TIB02_NullBackendDecomposeReturnsEmptyTrain) {
     NullTensorDecompositionBackend nb;
-    auto rec = nb.decompose({1.0f, 2.0f, 3.0f, 4.0f}, "c:0", "file1");
+    auto rec = nb.decompose({1.0f, 2.0f, 3.0f, 4.0f}, "c:0", "file1", 0.01, 0);
     EXPECT_TRUE(rec.serialized_train.empty());
 }
 
@@ -161,13 +161,13 @@ TEST(TensorIngestionBridge, TIB05_NullBackendDescriptionNonEmpty) {
 
 TEST(TensorIngestionBridge, TIB06_NullBackendPropagatesChunkId) {
     NullTensorDecompositionBackend nb;
-    auto rec = nb.decompose({1.0f}, "my:chunk", "file2");
+    auto rec = nb.decompose({1.0f}, "my:chunk", "file2", 0.01, 0);
     EXPECT_EQ(rec.chunk_id, "my:chunk");
 }
 
 TEST(TensorIngestionBridge, TIB07_NullBackendPropagatesSourceFileId) {
     NullTensorDecompositionBackend nb;
-    auto rec = nb.decompose({1.0f}, "c", "file-abc");
+    auto rec = nb.decompose({1.0f}, "c", "file-abc", 0.01, 0);
     EXPECT_EQ(rec.source_file_id, "file-abc");
 }
 

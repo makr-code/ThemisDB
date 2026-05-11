@@ -90,6 +90,8 @@ namespace aql_templates {
 // ============================================================================
 class LegalAutoLabeler::Impl {
 public:
+    friend class LegalAutoLabeler;
+
     explicit Impl(const AutoLabelConfig& config, const std::string& db_connection,
                   QueryEngine* engine)
         : config_(config)

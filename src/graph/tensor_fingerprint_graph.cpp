@@ -266,7 +266,7 @@ void TensorFingerprintGraph::insert(
     bool should_notify = false;
 
     {
-        std::lock_guard<std::mutex> lk(mutex_);
+        std::unique_lock<std::shared_mutex> lk(mutex_);
 
         // Remove old entry if updating — inline removal to avoid recursive lock
         // (calling remove() would attempt to re-acquire mutex_ causing deadlock).
@@ -341,7 +341,7 @@ void TensorFingerprintGraph::insert(
 }
 
 void TensorFingerprintGraph::setTrainLoadFn(TrainLoadFn fn) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     train_load_fn_ = std::move(fn);
 }
 
@@ -365,7 +365,7 @@ void TensorFingerprintGraph::setNodeRemoveHook(NodeRemoveHookFn fn) {
 
 void TensorFingerprintGraph::restoreFromExternalStore(NodeEnumerateFn enumerate_fn) {
     {
-        std::lock_guard<std::mutex> lk(mutex_);
+        std::unique_lock<std::shared_mutex> lk(mutex_);
         nodes_.clear();
         adj_.clear();
         lsh_buckets_.clear();
@@ -387,7 +387,7 @@ void TensorFingerprintGraph::restoreFromExternalStore(NodeEnumerateFn enumerate_
 bool TensorFingerprintGraph::remove(const std::string& tensor_id) {
     bool existed = false;
     {
-        std::lock_guard<std::mutex> lk(mutex_);
+        std::unique_lock<std::shared_mutex> lk(mutex_);
         auto nit = nodes_.find(tensor_id);
         if (nit == nodes_.end()) return false;
 
@@ -433,7 +433,7 @@ TensorFingerprintGraph::findSimilar(const TTTrain& train,
     if (top_k == 0) top_k = cfg_.top_k;
     TensorFingerprint fp = computeFingerprint(train);
 
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     auto candidates = lshCandidates(fp);
 
     std::vector<SimilarTensorResult> results;
@@ -466,7 +466,7 @@ TensorFingerprintGraph::findSimilar(const TTTrain& train,
 
 std::vector<SimilarTensorResult>
 TensorFingerprintGraph::neighbours(const std::string& tensor_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     std::vector<SimilarTensorResult> results;
 
     auto ait = adj_.find(tensor_id);
@@ -494,7 +494,7 @@ TensorFingerprintGraph::neighbours(const std::string& tensor_id) const {
 
 std::vector<PersistedFingerprintNode>
 TensorFingerprintGraph::exportPersistedNodes() const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     std::vector<PersistedFingerprintNode> out;
     out.reserve(nodes_.size());
     for (const auto& [tensor_id, node] : nodes_) {
@@ -511,7 +511,7 @@ TensorFingerprintGraph::exportPersistedNodes() const {
 
 void TensorFingerprintGraph::importPersistedNodes(
     const std::vector<PersistedFingerprintNode>& nodes) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     nodes_.clear();
     adj_.clear();
@@ -532,7 +532,7 @@ void TensorFingerprintGraph::importPersistedNodes(
 
 std::vector<PersistedFingerprintEdge>
 TensorFingerprintGraph::exportPersistedEdges() const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     std::vector<PersistedFingerprintEdge> out;
     out.reserve(edge_count_.load(std::memory_order_relaxed));
     for (const auto& [from, edges] : adj_) {
@@ -549,7 +549,7 @@ TensorFingerprintGraph::exportPersistedEdges() const {
 
 void TensorFingerprintGraph::importPersistedEdges(
     const std::vector<PersistedFingerprintEdge>& edges) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     adj_.clear();
     for (const auto& kv : nodes_) {
@@ -579,7 +579,7 @@ void TensorFingerprintGraph::importPersistedEdges(
 
 PersistedFingerprintGraphSnapshot
 TensorFingerprintGraph::exportPersistedGraph() const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     PersistedFingerprintGraphSnapshot snapshot;
     snapshot.nodes.reserve(nodes_.size());
     snapshot.edges.reserve(edge_count_.load(std::memory_order_relaxed));
@@ -609,14 +609,14 @@ TensorFingerprintGraph::exportPersistedGraph() const {
 
 std::optional<PersistedFingerprintNode>
 TensorFingerprintGraph::exportPersistedNode(const std::string& tensor_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     if (nodes_.find(tensor_id) == nodes_.end()) return std::nullopt;
     return buildPersistedNodeLocked(tensor_id);
 }
 
 std::vector<PersistedFingerprintEdge>
 TensorFingerprintGraph::exportPersistedEdgesFor(const std::string& tensor_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     return buildPersistedEdgesForLocked(tensor_id);
 }
 
@@ -649,7 +649,7 @@ TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string& tensor_i
 
 void TensorFingerprintGraph::importPersistedGraph(
     const PersistedFingerprintGraphSnapshot& snapshot) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     nodes_.clear();
     adj_.clear();
@@ -690,7 +690,7 @@ void TensorFingerprintGraph::importPersistedGraph(
 void TensorFingerprintGraph::upsertPersistedNode(
     const PersistedFingerprintNode& node,
     const std::vector<PersistedFingerprintEdge>& edges) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     const auto remove_existing = [this](const std::string& tensor_id) {
         const auto node_it = nodes_.find(tensor_id);
@@ -752,7 +752,7 @@ void TensorFingerprintGraph::upsertPersistedNode(
 // ============================================================================
 
 std::size_t TensorFingerprintGraph::nodeCount() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     return nodes_.size();
 }
 

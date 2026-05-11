@@ -1658,6 +1658,13 @@ std::cout << "Rows processed: " << profile.rows_processed << "\n";
 std::cout << "Rows filtered: " << profile.rows_filtered << "\n";
 ```
 
+## Troubleshooting
+
+- **Arrow exports return NOT_SUPPORTED:** build with `-DTHEMIS_ENABLE_ARROW=ON` and ensure Arrow is detected.
+- **LLM analysis fails at runtime:** verify provider credentials (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `AZURE_OPENAI_*`) and outbound network access.
+- **Unexpected empty OLAP/process results:** validate source collections and timestamp/case-id field mappings before execution.
+- Detailed runbook: [`../../docs/troubleshooting/analytics_troubleshooting.md`](../../docs/troubleshooting/analytics_troubleshooting.md)
+
 ## Roadmap
 
 ### Phase 1: Foundation (✅ Complete)

@@ -264,6 +264,23 @@ public:
         snap.duration = config_.snapshot_interval;
 
         if (type == ProfileType::CPU) {
+            // Under heavy scheduling/load, the background sampler may not have
+            // produced the first sample yet when snapshot() is called shortly
+            // after start(). Capture one synchronous sample as a safe fallback
+            // so callers get a non-empty snapshot whenever CPU profiling is
+            // enabled.
+            if (cpu_stacks_.empty() &&
+                enabled_.load(std::memory_order_acquire) &&
+                config_.enable_cpu_profiling) {
+                auto frames = captureStack(64);
+                std::string key;
+                for (size_t i = 0; i < frames.size(); ++i) {
+                    if (i > 0) key += ';';
+                    key += frames[i];
+                }
+                cpu_stacks_[key]++;
+            }
+
             // Serialise current accumulated stacks to folded-stacks text
             std::string text;
             for (const auto& [stack, count] : cpu_stacks_) {

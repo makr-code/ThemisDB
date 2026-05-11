@@ -521,8 +521,10 @@ bool parseTraceparent(const std::string& value,
     uint8_t flg{};
     if (!hexByte(value[53], value[54], flg)) return false;
 
-    trace_id_out  = otel::trace::TraceId(tid);
-    parent_id_out = otel::trace::SpanId(pid);
+    trace_id_out = otel::trace::TraceId(
+        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(), tid.size()));
+    parent_id_out = otel::trace::SpanId(
+        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(), pid.size()));
     flags_out     = otel::trace::TraceFlags(flg);
     return true;
 }

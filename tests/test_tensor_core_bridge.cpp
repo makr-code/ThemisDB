@@ -346,9 +346,10 @@ TEST(TCS, TCB_RDB_06_IntegratedWithTensorCoreStorageBridge) {
 TEST(TCS, TCS_14_EmptyCoresNoOp) {
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
 
     ExtractionContext ctx;
-    auto res = step->execute(ctx);
+    auto res = step->execute(ctx, sc);
     ASSERT_TRUE(res);
     EXPECT_EQ(sink->writeCount(), 0u);
 }
@@ -356,10 +357,11 @@ TEST(TCS, TCS_14_EmptyCoresNoOp) {
 TEST(TCS, TCS_15_WritesAllCores) {
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
-    step->configure(json{{"tenant_id", "testorg"}});
+    StepConfig sc;
+    sc.config = json{{"tenant_id", "testorg"}};
 
     auto ctx = makeCtxWithCores({makeRecord("f:0"), makeRecord("f:1"), makeRecord("f:2")});
-    auto res = step->execute(ctx);
+    auto res = step->execute(ctx, sc);
     ASSERT_TRUE(res) << res.error().message();
     EXPECT_EQ(sink->writeCount(), 3u);
 }
@@ -367,10 +369,11 @@ TEST(TCS, TCS_15_WritesAllCores) {
 TEST(TCS, TCS_16_TenantFromConfigKey) {
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
-    step->configure(json{{"tenant_id", "config-tenant"}});
+    StepConfig sc;
+    sc.config = json{{"tenant_id", "config-tenant"}};
 
     auto ctx = makeCtxWithCores({makeRecord("f:0")});
-    step->execute(ctx);
+    step->execute(ctx, sc);
 
     auto* found = sink->find("config-tenant", "f:0");
     EXPECT_NE(found, nullptr);
@@ -379,10 +382,11 @@ TEST(TCS, TCS_16_TenantFromConfigKey) {
 TEST(TCS, TCS_17_TenantFromRecordMetadata) {
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
     // No tenant_id in config → falls back to record metadata.
 
     auto ctx = makeCtxWithCores({makeRecordWithTenant("meta-tenant", "f:0")});
-    step->execute(ctx);
+    step->execute(ctx, sc);
 
     // "default" is the global tenant_id; when it equals "default" the step
     // reads per-record metadata["tenant_id"].
@@ -393,13 +397,14 @@ TEST(TCS, TCS_17_TenantFromRecordMetadata) {
 TEST(TCS, TCS_18_SkipEmptySerializedByDefault) {
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
-    step->configure(json{{"tenant_id", "t1"}});
+    StepConfig sc;
+    sc.config = json{{"tenant_id", "t1"}};
 
     TensorCoreRecord empty_rec = makeRecord("f:0");
     empty_rec.serialized_train.clear();
 
     auto ctx = makeCtxWithCores({empty_rec});
-    auto res = step->execute(ctx);
+    auto res = step->execute(ctx, sc);
     ASSERT_TRUE(res); // no error — just skipped
     EXPECT_EQ(sink->writeCount(), 0u);
 }
@@ -409,17 +414,18 @@ TEST(TCS, TCS_19_ProcessEmptySerializedWhenSkipFalse) {
     // fail_on_write_error=true means the step itself returns an error.
     auto sink = std::make_shared<InMemoryTensorCoreBridge>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
-    step->configure(json{
+    StepConfig sc;
+    sc.config = json{
         {"tenant_id",           "t1"},
         {"skip_empty",          false},
         {"fail_on_write_error", true}
-    });
+    };
 
     TensorCoreRecord empty_rec = makeRecord("f:0");
     empty_rec.serialized_train.clear();
 
     auto ctx = makeCtxWithCores({empty_rec});
-    auto res = step->execute(ctx);
+    auto res = step->execute(ctx, sc);
     EXPECT_FALSE(res); // write error propagated
 }
 
@@ -436,12 +442,13 @@ TEST(TCS, TCS_20_FailOnWriteError) {
 
     auto sink = std::make_shared<RejectAllSink>();
     auto step = builtin::createTensorCoreBridgeStep(sink);
-    step->configure(json{
+    StepConfig sc;
+    sc.config = json{
         {"tenant_id",           "t1"},
         {"fail_on_write_error", true}
-    });
+    };
 
     auto ctx = makeCtxWithCores({makeRecord("f:0")});
-    auto res = step->execute(ctx);
+    auto res = step->execute(ctx, sc);
     EXPECT_FALSE(res); // error propagated
 }

@@ -4,7 +4,7 @@
 # ThemisDB: Intelligent Quarterly → Version Milestone Migration
 # Purpose: Extract issue mappings from ROADMAP.md files, then intelligently
 #          reassign all Q2/Q3/Q4/Q1 milestone issues to version milestones
-# Usage: .\migrate-quarterly-milestones.ps1
+# Usage: .\scripts\root\migrate-quarterly-milestones.ps1
 # Strategy: 
 #   1. Parse all src/*/ROADMAP.md for explicit Issue → Version mappings
 #   2. Apply those mappings first

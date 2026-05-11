@@ -115,7 +115,6 @@ src/analytics/           ← Implementierungsdateien
 
 include/analytics/       ← Öffentliche Header
   README.md              ← API-Übersicht
-  FUTURE_ENHANCEMENTS.md ← API-Erweiterungen
   olap.h
   cep_engine.h
   forecasting.h
@@ -135,7 +134,7 @@ include/analytics/       ← Öffentliche Header
 | Roadmap | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) | Status, Phasen, geplante Features |
 | Impl. Future Enhancements | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) | Implementierungsspezifische Erweiterungen |
 | API-Übersicht | [`include/analytics/README.md`](../../../include/analytics/README.md) | Öffentliche C++-Interfaces |
-| API Future Enhancements | [`include/analytics/FUTURE_ENHANCEMENTS.md`](../../../include/analytics/FUTURE_ENHANCEMENTS.md) | Geplante API-Erweiterungen |
+| Troubleshooting | [`docs/troubleshooting/analytics_troubleshooting.md`](../../../docs/troubleshooting/analytics_troubleshooting.md) | Laufzeitprobleme, typische Fehlerbilder, schnelle Checks |
 
 ---
 

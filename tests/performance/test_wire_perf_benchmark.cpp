@@ -43,6 +43,8 @@
 #include <thread>
 #include <vector>
 
+#include "../test_performance_helpers.h"
+
 using namespace themis::network;
 using Clock = std::chrono::steady_clock;
 
@@ -70,22 +72,36 @@ protected:
 };
 
 TEST_F(WirePerfBenchmarkMetrics, RecordLatencyMs_ThroughputTarget) {
-    WireProtocolMetrics m;
+    const int warmup = themis::test::BenchmarkPolicy::warmupIterations();
+    const int runs = themis::test::BenchmarkPolicy::independentRuns();
+    std::vector<double> per_call_samples;
+    per_call_samples.reserve(static_cast<size_t>(runs));
 
-    auto t0 = Clock::now();
-    for (int i = 0; i < kIters; ++i)
-        m.recordLatencyMs(static_cast<double>(i % 100));
-    auto t1 = Clock::now();
+    for (int run = 0; run < runs; ++run) {
+        WireProtocolMetrics m;
+        for (int i = 0; i < warmup; ++i) {
+            m.recordLatencyMs(static_cast<double>(i % 100));
+        }
 
-    double total_us = us(t0, t1);
-    double per_call_us = total_us / kIters;
+        auto t0 = Clock::now();
+        for (int i = 0; i < kIters; ++i) {
+            m.recordLatencyMs(static_cast<double>(i % 100));
+        }
+        auto t1 = Clock::now();
+
+        per_call_samples.push_back(us(t0, t1) / kIters);
+        EXPECT_EQ(m.totalRequests(), static_cast<uint64_t>(warmup + kIters));
+    }
+
+    std::sort(per_call_samples.begin(), per_call_samples.end());
+    const auto p95_index = static_cast<size_t>(
+        std::ceil(0.95 * static_cast<double>(per_call_samples.size()))) - 1;
+    const double p95_per_call_us = per_call_samples[std::min(p95_index, per_call_samples.size() - 1)];
 
     // Target: < 5 µs/call on CI hardware (generous for CI environments)
-    EXPECT_LT(per_call_us, 5.0)
+    EXPECT_LT(p95_per_call_us, 5.0)
         << "recordLatencyMs() is too slow: "
-        << per_call_us << " µs/call (target < 5 µs)";
-
-    EXPECT_EQ(m.totalRequests(), static_cast<uint64_t>(kIters));
+        << p95_per_call_us << " µs/call (target < 5 µs)";
 }
 
 TEST_F(WirePerfBenchmarkMetrics, RecordBytes_ThroughputTarget) {
@@ -175,24 +191,36 @@ TEST_F(WirePerfBenchmarkPool, HitRateAfterWarmup) {
 }
 
 TEST_F(WirePerfBenchmarkPool, AcquireReleaseThroughput) {
-    PayloadBufferPool pool(kSlabSize, 128);
+    const int warmup = themis::test::BenchmarkPolicy::warmupIterations();
+    const int runs = themis::test::BenchmarkPolicy::independentRuns();
+    std::vector<double> per_call_samples;
+    per_call_samples.reserve(static_cast<size_t>(runs));
 
-    // Warm-up
-    for (int i = 0; i < 64; ++i) { auto b = pool.acquire(); (void)b; }
+    for (int run = 0; run < runs; ++run) {
+        PayloadBufferPool pool(kSlabSize, 128);
+        for (int i = 0; i < warmup; ++i) {
+            auto b = pool.acquire();
+            (void)b;
+        }
 
-    auto t0 = Clock::now();
-    for (int i = 0; i < kIters; ++i) {
-        auto buf = pool.acquire();
-        buf->resize(512);
-        // buf returned at end of iteration (RAII)
+        auto t0 = Clock::now();
+        for (int i = 0; i < kIters; ++i) {
+            auto buf = pool.acquire();
+            buf->resize(512);
+        }
+        auto t1 = Clock::now();
+        per_call_samples.push_back(us(t0, t1) / kIters);
     }
-    auto t1 = Clock::now();
 
-    double per_call_us = us(t0, t1) / kIters;
+    std::sort(per_call_samples.begin(), per_call_samples.end());
+    const auto p95_index = static_cast<size_t>(
+        std::ceil(0.95 * static_cast<double>(per_call_samples.size()))) - 1;
+    const double p95_per_call_us = per_call_samples[std::min(p95_index, per_call_samples.size() - 1)];
+
     // Target: < 10 µs/acquire (pool hit path, generous for CI)
-    EXPECT_LT(per_call_us, 10.0)
+    EXPECT_LT(p95_per_call_us, 10.0)
         << "Pool acquire() too slow: "
-        << per_call_us << " µs/call (target < 10 µs)";
+        << p95_per_call_us << " µs/call (target < 10 µs)";
 }
 
 TEST_F(WirePerfBenchmarkPool, RawAllocationBaseline) {

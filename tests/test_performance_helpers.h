@@ -27,6 +27,10 @@
 #include <functional>
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 #include <gtest/gtest.h>
 
 #ifdef _WIN32
@@ -39,6 +43,33 @@
 
 namespace themis {
 namespace test {
+
+// Centralized benchmark policy aligned with PERFORMANCE_EXPECTATIONS.md
+// (independent runs and warmup can be overridden in CI via env vars).
+class BenchmarkPolicy {
+public:
+    static int independentRuns() {
+        return readPositiveIntEnv("THEMIS_BENCH_RUNS", 5);
+    }
+
+    static int warmupIterations() {
+        return readPositiveIntEnv("THEMIS_BENCH_WARMUP_ITERS", 100);
+    }
+
+private:
+    static int readPositiveIntEnv(const char* name, int fallback) {
+        const char* raw = std::getenv(name);
+        if (raw == nullptr || *raw == '\0') {
+            return fallback;
+        }
+        char* end = nullptr;
+        const long parsed = std::strtol(raw, &end, 10);
+        if (end == raw || *end != '\0' || parsed <= 0 || parsed > 1000000L) {
+            return fallback;
+        }
+        return static_cast<int>(parsed);
+    }
+};
 
 // High-resolution timer for measuring latency
 class LatencyMeasurement {
@@ -63,6 +94,35 @@ public:
 private:
     TimePoint start_;
 };
+
+template<typename T>
+T percentileValue(std::vector<T> values, int percentile) {
+    if (values.empty()) {
+        return T{};
+    }
+    std::sort(values.begin(), values.end());
+    const std::size_t idx = static_cast<std::size_t>(
+        std::ceil((static_cast<double>(percentile) / 100.0) * static_cast<double>(values.size()))) - 1U;
+    return values[std::min(idx, values.size() - 1U)];
+}
+
+template<typename Fn>
+std::vector<double> sampleLatencyMs(Fn&& fn,
+                                    int runs = BenchmarkPolicy::independentRuns(),
+                                    int warmup_iters = BenchmarkPolicy::warmupIterations()) {
+    for (int i = 0; i < warmup_iters; ++i) {
+        fn();
+    }
+
+    std::vector<double> samples;
+    samples.reserve(static_cast<std::size_t>(runs));
+    for (int i = 0; i < runs; ++i) {
+        LatencyMeasurement timer;
+        fn();
+        samples.push_back(timer.elapsedMs());
+    }
+    return samples;
+}
 
 // Throughput calculator
 class ThroughputCalculator {

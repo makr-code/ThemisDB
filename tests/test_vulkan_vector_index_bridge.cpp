@@ -126,8 +126,8 @@ TEST_F(VulkanVectorIndexBridgeTest, UploadVectorsFnNotSetReturnsFalse) {
 
 TEST_F(VulkanVectorIndexBridgeTest, SearchFnIsCalledAndReturnsResults) {
     SR result;
-    result.id    = 42;
-    result.score = 0.99f;
+    result.id       = "42";
+    result.distance = 0.99f;
 
     VulkanVectorIndexBackend::setSearchFn(
         [&](const std::vector<float>&, size_t) -> std::vector<SR> {
@@ -138,8 +138,8 @@ TEST_F(VulkanVectorIndexBridgeTest, SearchFnIsCalledAndReturnsResults) {
     VulkanVectorIndexBackend backend(cfg);
     auto res = backend.search({0.1f, 0.2f}, 5);
     ASSERT_EQ(res.size(), 1u);
-    EXPECT_EQ(res[0].id, 42u);
-    EXPECT_FLOAT_EQ(res[0].score, 0.99f);
+    EXPECT_EQ(res[0].id, "42");
+    EXPECT_FLOAT_EQ(res[0].distance, 0.99f);
 }
 
 TEST_F(VulkanVectorIndexBridgeTest, SearchFnNotSetReturnsEmpty) {
@@ -157,8 +157,8 @@ TEST_F(VulkanVectorIndexBridgeTest, SearchBatchFnIsCalledAndReturnsResults) {
             std::vector<std::vector<SR>> out;
             for (size_t i = 0; i < qs.size(); ++i) {
                 SR sr;
-                sr.id    = static_cast<uint32_t>(i);
-                sr.score = 1.0f / (1.0f + static_cast<float>(i));
+                sr.id       = std::to_string(i);
+                sr.distance = 1.0f / (1.0f + static_cast<float>(i));
                 out.push_back({sr});
             }
             (void)k;
@@ -170,8 +170,8 @@ TEST_F(VulkanVectorIndexBridgeTest, SearchBatchFnIsCalledAndReturnsResults) {
     std::vector<std::vector<float>> queries = {{1.0f}, {0.5f}};
     auto res = backend.searchBatch(queries, 3);
     ASSERT_EQ(res.size(), 2u);
-    EXPECT_EQ(res[0][0].id, 0u);
-    EXPECT_EQ(res[1][0].id, 1u);
+    EXPECT_EQ(res[0][0].id, "0");
+    EXPECT_EQ(res[1][0].id, "1");
 }
 
 TEST_F(VulkanVectorIndexBridgeTest, SearchBatchFnExceptionFailClosesToEmpty) {
