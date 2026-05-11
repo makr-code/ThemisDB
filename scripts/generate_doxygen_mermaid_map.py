@@ -253,7 +253,10 @@ def build_function_map(classes: dict[str, ClassInfo], namespaces: dict[str, Name
                 break
 
     if emitted >= max_methods_total:
-        lines.append("    LIMIT_REACHED[\"Method mapping limit reached; increase --max-methods-total\"]")
+        lines.append(
+            f"    LIMIT_REACHED[\"Method mapping limit reached at {max_methods_total}; "
+            "increase --max-methods-total\"]"
+        )
 
     return "\n".join(lines) + "\n"
 
@@ -274,7 +277,7 @@ def write_outputs(
     namespace_count = len(namespaces)
     free_function_count = sum(len(n.functions) for n in namespaces.values())
 
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     md = [
         "# ThemisDB Doxygen Mermaid Mapping\n\n",
         f"Generated: {timestamp}\n\n",

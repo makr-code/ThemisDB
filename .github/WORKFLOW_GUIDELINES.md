@@ -10,7 +10,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
 - `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
-- `.github/workflows/08-quality_doxygen-check.yml`
+- `.github/workflows/08-quality_doxygen-mermaid-mapping.yml`
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
 - `.github/workflows/copilot-ollama-router-ci.yml`
 - `.github/workflows/copilot-regression-guard.yml`

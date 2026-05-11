@@ -23,7 +23,7 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — GPU benchmark matrix (CUDA/HIP/Vulkan); satisfies §1.4 Maßnahme #5 (perf audit check 5c)
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
   — Nightly benchmark sweep (schedule 02:00 UTC, modules 2..35); satisfies §1.4 Maßnahme #10 (perf audit check 10a)
-- `.github/workflows/08-quality_doxygen-check.yml`
+- `.github/workflows/08-quality_doxygen-mermaid-mapping.yml`
   — Scheduled Doxygen warning gate + automatic Mermaid class/function mapping export as CI artifact
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
