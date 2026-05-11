@@ -51,6 +51,10 @@ constexpr std::uint32_t kOpcodeLcgMultiplier = 1664525u;      // Numerical Recip
 constexpr std::uint32_t kOpcodeLcgIncrement = 1013904223u;    // Numerical Recipes LCG
 constexpr int kDefaultSocketDispatchChannels = 64;
 
+/**
+ * Parse boolean environment variable.
+ * Truthy values: "1", "true", "TRUE", "on", "ON"; otherwise false/default.
+ */
 [[nodiscard]] bool parseBoolEnv(const char* name, bool default_value) {
     const char* raw = std::getenv(name);
     if (raw == nullptr || raw[0] == '\0') {
@@ -61,6 +65,10 @@ constexpr int kDefaultSocketDispatchChannels = 64;
            std::string_view(raw) == "ON";
 }
 
+/**
+ * Parse integer environment variable with clamping to [min_value, max_value].
+ * Returns @p default_value for missing or malformed values.
+ */
 [[nodiscard]] int parseIntEnvBounded(const char* name,
                                      int default_value,
                                      int min_value,
@@ -83,6 +91,10 @@ constexpr int kDefaultSocketDispatchChannels = 64;
     return static_cast<int>(parsed);
 }
 
+/**
+ * UDP loopback transport harness for benchmark-only opcode dispatch.
+ * Uses multiple sender sockets (channel fanout) feeding one local receiver socket.
+ */
 class LoopbackOpcodeHarness {
 public:
     explicit LoopbackOpcodeHarness(int channels)
@@ -96,6 +108,11 @@ public:
         }
     }
 
+    /**
+     * Dispatch one opcode byte over loopback.
+     * Session index is mapped to sender channel via modulo.
+     * Throws on unexpected receive size.
+     */
     [[nodiscard]] uint8_t dispatch(uint8_t opcode, std::size_t session_index) {
         const auto sender_count = senders_.size();
         auto& sender = *senders_[session_index % sender_count];
@@ -120,12 +137,12 @@ private:
 };
 
 [[nodiscard]] bool isBenchTrackedOpcodeByte(uint8_t opcode_byte) {
-    switch (static_cast<themis::wire::OpCode>(opcode_byte)) {
-        case themis::wire::OpCode::OP_GET:
-        case themis::wire::OpCode::OP_PUT:
-        case themis::wire::OpCode::OP_QUERY_AQL:
-        case themis::wire::OpCode::OP_PING:
-        case themis::wire::OpCode::OP_OK:
+    switch (opcode_byte) {
+        case static_cast<uint8_t>(themis::wire::OpCode::OP_GET):
+        case static_cast<uint8_t>(themis::wire::OpCode::OP_PUT):
+        case static_cast<uint8_t>(themis::wire::OpCode::OP_QUERY_AQL):
+        case static_cast<uint8_t>(themis::wire::OpCode::OP_PING):
+        case static_cast<uint8_t>(themis::wire::OpCode::OP_OK):
             return true;
         default:
             return false;
