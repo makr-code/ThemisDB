@@ -38,6 +38,7 @@
 #include "tensor/hyper_index_builder.h"
 #include "storage/tensor_train_decomposer.h"
 
+#include <array>
 #include <gtest/gtest.h>
 #include <cmath>
 #include <numeric>
@@ -182,12 +183,13 @@ TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
 }
 
 TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
-    const std::vector<float> px = {
+    const std::array<float, 16> patch = {
         0.f, 64.f, 128.f, 255.f,
         0.f, 64.f, 128.f, 255.f,
         0.f, 64.f, 128.f, 255.f,
         0.f, 64.f, 128.f, 255.f,
     };
+    const std::vector<float> px(patch.begin(), patch.end());
     themis::tensor::UTRConfig cfg;
     cfg.eps = 1e-6;
     cfg.max_rank = 8;

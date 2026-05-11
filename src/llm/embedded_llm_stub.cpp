@@ -111,7 +111,8 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
                     return result;
                 }
             } catch (...) {
-                // Fall through to built-in disabled-path behaviour.
+                // Intentional fail-closed behavior: misconfigured bridge must not
+                // make the no-LLM build throw.
             }
         }
     }

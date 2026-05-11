@@ -27,6 +27,9 @@ namespace tensor {
 
 namespace {
 
+constexpr std::size_t kMinPatchExtent = 1;
+constexpr std::size_t kMaxPatchExtent = 4;
+
 // ============================================================================
 // Shared helpers
 // ============================================================================
@@ -98,7 +101,9 @@ static std::vector<float> hashEmbed(const std::string& segment, std::size_t embe
     std::vector<float> vec(embed_dim, 0.0f);
     auto normalizeToken = [](std::string token) {
         token.erase(std::remove_if(token.begin(), token.end(),
-                                   [](unsigned char c) { return !std::isalnum(c); }),
+                                   [](unsigned char c) {
+                                       return !std::isalnum(static_cast<unsigned char>(c));
+                                   }),
                     token.end());
         std::transform(token.begin(), token.end(), token.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -244,8 +249,8 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // - compute mean + standard deviation per channel
     // - TT-decompose the resulting patch-feature tensor
 
-    const auto patch_h = std::max<std::size_t>(1, std::min<std::size_t>(4, h));
-    const auto patch_w = std::max<std::size_t>(1, std::min<std::size_t>(4, w));
+    const auto patch_h = std::max<std::size_t>(kMinPatchExtent, std::min<std::size_t>(kMaxPatchExtent, h));
+    const auto patch_w = std::max<std::size_t>(kMinPatchExtent, std::min<std::size_t>(kMaxPatchExtent, w));
     const auto patch_rows = (h + patch_h - 1U) / patch_h;
     const auto patch_cols = (w + patch_w - 1U) / patch_w;
     const auto patch_feature_dim = c * 2U; // mean + stddev per channel

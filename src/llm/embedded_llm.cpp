@@ -154,13 +154,15 @@ std::string EmbeddedLLM::chatSimple(
 // ═══════════════════════════════════════════════════════════
 
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
+    EmbedFn embed_fn;
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
-        if (embed_fn_) {
-            auto result = embed_fn_(text);
-            if (!result.empty()) {
-                return result;
-            }
+        embed_fn = embed_fn_;
+    }
+    if (embed_fn) {
+        auto result = embed_fn(text);
+        if (!result.empty()) {
+            return result;
         }
     }
     {

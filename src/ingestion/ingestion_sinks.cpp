@@ -27,6 +27,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <algorithm>
 #include <chrono>
+#include <limits>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -467,6 +468,11 @@ Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
     std::lock_guard<std::mutex> lock(mtx_);
     if (initialized_) {
         return {};
+    }
+    if (dimension_ > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        return tl::make_unexpected(
+            Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
+                  "vector dimension exceeds VectorIndexManager int range"));
     }
     const auto status = vector_index_->init(
         object_name_,

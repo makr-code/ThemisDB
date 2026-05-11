@@ -207,6 +207,8 @@ TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
     const auto original = train.reconstruct();
     const auto reshaped = qt.toTTTrain().reconstruct();
     ASSERT_GE(reshaped.size(), original.size());
+    EXPECT_EQ(reshaped.size(),
+              qt.padded_grid_sizes[0] * qt.padded_grid_sizes[1] * qt.padded_grid_sizes[2]);
     for (std::size_t i = 0; i < original.size(); ++i) {
         EXPECT_NEAR(original[i], reshaped[i], 1e-3f);
     }
