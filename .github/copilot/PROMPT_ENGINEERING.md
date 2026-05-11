@@ -1,33 +1,33 @@
 # Prompt Engineering Guide (ThemisDB)
 
-Dieses Dokument definiert verbindliche Prompt-Muster für reproduzierbare, prüfbare KI-gestützte Umsetzung.
+This document defines mandatory prompt patterns for reproducible and reviewable AI-assisted implementation.
 
-## 1. Step-by-step Decomposition (statt "implement feature X")
+## 1. Step-by-step decomposition (instead of "implement feature X")
 
-Jeder Implementierungs-Prompt MUSS in klar getrennte Schritte zerlegt sein:
+Every implementation prompt MUST be decomposed into explicit stages:
 
-1. **Scope klären** (Dateien/Module/Out-of-Scope)
-2. **Kontext laden** (ROADMAP, FUTURE_ENHANCEMENTS, relevante Header/Tests)
-3. **Änderungsplan** (kleinste sichere Inkremente)
-4. **Implementierung** (nur vereinbarter Scope)
-5. **Validierung** (Build/Test/Lint bzw. dokumentierte Limits)
-6. **Review-Zusammenfassung** (Risiken, offene Punkte, Rückbauplan für Stubs)
+1. **Clarify scope** (files/modules/out-of-scope)
+2. **Load context** (ROADMAP, FUTURE_ENHANCEMENTS, relevant headers/tests)
+3. **Define change plan** (smallest safe increments)
+4. **Implement** (only agreed scope)
+5. **Validate** (build/test/lint or documented environment limits)
+6. **Review summary** (risks, open points, rollback/removal notes for non-production paths)
 
-## 2. Akzeptanzkriterien und Testfälle im Prompt (Pflicht)
+## 2. Acceptance criteria and test cases in the prompt (mandatory)
 
-Prompts müssen vor der Implementierung messbare Akzeptanzkriterien enthalten:
+Prompts must include measurable acceptance criteria before implementation:
 
-- Erwartetes Laufzeitverhalten
-- Eingaben/Fehlerfälle/Edge Cases
-- Nicht-funktionale Ziele (Performance, Sicherheit, Determinismus)
-- Explizite Teststrategie (Unit/Integration/Regression)
+- Expected runtime behavior
+- Inputs, failure cases, and edge cases
+- Non-functional goals (performance, security, determinism)
+- Explicit test strategy (unit/integration/regression)
 
-### Prompt-Template
+### Prompt template
 
 ```text
-Task: <konkrete Aufgabe>
-Scope: <betroffene Dateien/Namespaces>
-Out of Scope: <klare Abgrenzung>
+Task: <specific task>
+Scope: <affected files/namespaces>
+Out of Scope: <clear boundaries>
 Acceptance Criteria:
 - ...
 Test Cases:
@@ -38,66 +38,67 @@ Constraints:
 - ...
 ```
 
-## 3. Checkpoint-Strategie für komplexe Agent-Läufe
+## 3. Checkpoint strategy for complex agent runs
 
-Bei umfangreichen Änderungen sind verbindliche Checkpoints zu setzen:
+For larger changes, checkpoints are mandatory:
 
-- **Checkpoint A:** Analyse abgeschlossen, Plan stabil
-- **Checkpoint B:** Kernänderung implementiert, noch nicht finalisiert
-- **Checkpoint C:** Validierung abgeschlossen, diff-review bereit
+- **Checkpoint A:** analysis complete, plan stable
+- **Checkpoint B:** core implementation complete, not finalized
+- **Checkpoint C:** validation complete, diff ready for review
 
-An jedem Checkpoint müssen Scope, Risiken und nächste Schritte explizit bestätigt werden.
+Each checkpoint must explicitly confirm scope, risks, and next steps.
 
-## 4. Dokumentations-Enforcement (KI-Pflicht)
+## 4. Documentation enforcement (mandatory)
 
-Für C++-Änderungen gilt zusätzlich:
+For C++ changes, apply these documentation rules:
 
-- Öffentliche APIs mit verpflichtender API-Dokumentation versehen (Zweck, Parametererwartungen, Rückgabeverhalten, Fehler-/Randfälle)
-- Für Templates/Concepts semantische Voraussetzungen in Klartext dokumentieren
-- Kommentare erklären **Warum** (Constraint/Trade-off), nicht nur **Was**
-- Bei Refactorings bestehende Dokumentation synchron aktualisieren
-- Edge-Case-Verhalten in der Doku explizit nennen (z. B. Fehlerpfade, Null-/Empty-Handling)
+- Public APIs must include API-facing documentation (purpose, parameter expectations, return behavior, failure/edge cases)
+- When documenting in code, use Doxygen-compatible tags where applicable (`@brief`, `@param`, `@return`, `@throws`, plus `@tparam`/`@requires` for templates/concepts)
+- Templates/concepts must document semantic requirements in plain language
+- Comments explain **why** (constraints/trade-offs), not only **what**
+- Refactoring changes must update relevant existing documentation in the same PR
+- Edge-case behavior must be explicitly documented (error paths, null/empty handling)
 
-## 5. Beispiel-Prompts
+## 5. Example prompts
 
-### 5.1 Thread-sichere Queue
+### 5.1 Thread-safe queue
 
 ```text
-Implementiere eine thread-sichere FIFO-Queue in <module> mit klarer Ownership und ohne raw new/delete.
+Implement a thread-safe FIFO queue in <module> with clear ownership and no raw new/delete.
 Acceptance Criteria:
-- MPMC-Sicherheit unter Parallelzugriff
-- Kein Busy-Wait ohne Begründung
-- Definierte Shutdown-Semantik
+- MPMC safety under concurrent access
+- No busy-wait without explicit rationale
+- Defined shutdown semantics
 Test Cases:
-- Producer/Consumer Paralleltest
-- Shutdown während blockierendem Pop
-- Race-Regression für Spurious Wakeups
+- Producer/consumer concurrency test
+- Shutdown during blocking pop
+- Spurious wakeup race regression
 ```
 
-### 5.2 Socket-Handler
+### 5.2 Socket handler
 
 ```text
-Erweitere den Socket-Handler in <module> um Timeout- und Error-Path-Behandlung.
+Extend the socket handler in <module> with timeout and explicit error-path handling.
 Acceptance Criteria:
-- Timeouts führen zu deterministischem Fehlercode
-- Ressourcen werden in allen Fehlerpfaden freigegeben
-- Keine stillen Fehler
+- Timeouts map to deterministic error codes
+- Resources are released in all failure paths
+- No silent failure handling
 Test Cases:
-- Timeout-Simulation
-- Verbindungsabbruch während Read/Write
-- Mehrfaches Reconnect-Szenario
+- Timeout simulation
+- Connection drop during read/write
+- Reconnect stress scenario
 ```
 
-### 5.3 Token-Bucket-Algorithmus
+### 5.3 Token bucket algorithm
 
 ```text
-Implementiere einen Token-Bucket-Limiter in <module> mit konfigurierbarer Rate/Burst.
+Implement a token-bucket limiter in <module> with configurable rate/burst.
 Acceptance Criteria:
-- Korrekte Token-Auffüllung über Zeit
-- Deterministisches Verhalten bei Grenzwerten
-- Thread-safe Nutzung für parallele Requests
+- Correct token refill over time
+- Deterministic behavior at boundaries
+- Thread-safe usage for concurrent requests
 Test Cases:
-- Burst voll/leer
-- Präzision bei kleinen Zeitintervallen
-- Gleichzeitige acquire()-Aufrufe
+- Full/empty burst behavior
+- Precision under short intervals
+- Concurrent acquire() calls
 ```

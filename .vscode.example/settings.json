@@ -30,7 +30,7 @@
   "files.insertFinalNewline": true,
   "files.encoding": "utf8",
   "cmake.configureOnOpen": true,
-  "cmake.buildDirectory": "${workspaceFolder}/build/linux-debug",
+  "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "C_Cpp.default.cppStandard": "c++20",
   "C_Cpp.default.cStandard": "c17",

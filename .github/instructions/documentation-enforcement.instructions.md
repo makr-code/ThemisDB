@@ -3,7 +3,7 @@ description: "Use when editing C/C++ files to enforce mandatory documentation qu
 applyTo: "**/*.{c,cc,cpp,cxx,h,hh,hpp,hxx,ipp,tpp}"
 ---
 
-# C++ Documentation Enforcement Instructions (No Doxygen/No CI Gate Dependency)
+# C++ Documentation Enforcement Instructions (Doxygen-aware, no CI gate dependency)
 
 Documentation is part of the definition of done.
 
@@ -11,7 +11,8 @@ Documentation is part of the definition of done.
 
 - ALWAYS add or update API-facing documentation for new or changed public interfaces.
 - Each documented interface must include: purpose, parameter expectations, return behavior (if applicable), and failure/edge-case behavior.
-- For templates and constrained APIs, document the semantic requirements and constraints in plain language.
+- Prefer Doxygen-compatible API comments for in-code public interface docs (`@brief`, `@param`, `@return`, `@throws` as applicable).
+- For templates and constrained APIs, document the semantic requirements and constraints in plain language; include Doxygen tags such as `@tparam`/`@requires` when used in-code.
 - Comments must capture intent (**why/constraints/trade-offs**), not only restate implementation details.
 - When refactoring behavior, update existing documentation in the same change.
 - Document error/edge-case behavior explicitly (invalid input, empty state, cancellation, timeout).

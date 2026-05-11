@@ -301,30 +301,31 @@ can be bypassed efficiently:
 ```
 
 
-## 10) Dokumentationspflicht für KI-gestützte C++-Entwicklung
+## 10) Mandatory documentation enforcement for AI-assisted C++ work
 
-Dokumentation ist ein verpflichtender Qualitätsbestandteil und kein optionales Add-on.
+Documentation is a required quality artifact, not an optional add-on.
 
-### 10.1 Verbindliche Dokumentationsregeln (ohne Doxygen-Abhängigkeit)
+### 10.1 Mandatory documentation rules (Doxygen-aware, no CI/CD dependency)
 
-- Jede neue/geänderte öffentliche C++-API MUSS API-Dokumentation enthalten.
-- Die Dokumentation MUSS Zweck, Parameter-Erwartungen, Rückgabeverhalten (falls relevant) und Fehler-/Randfallverhalten abdecken.
-- Für Templates/Concepts müssen semantische Voraussetzungen in Klartext dokumentiert werden.
-- Kommentare müssen den Zweck und die Randbedingungen erklären ("warum"), nicht nur den Code paraphrasieren ("was").
-- Bei Refactorings MUSS bestehende Dokumentation im gleichen Change aktualisiert werden.
+- Every new or changed public C++ API MUST include API-facing documentation.
+- Documentation MUST cover purpose, parameter expectations, return behavior (if applicable), and failure/edge-case behavior.
+- For in-code C++ API docs, prefer Doxygen-compatible tags (`@brief`, `@param`, `@return`, `@throws`) where applicable.
+- For templates/concepts, semantic requirements must be documented in plain language; use `@tparam`/`@requires` when using Doxygen-style comments.
+- Comments must explain intent and constraints ("why"), not only paraphrase implementation details ("what").
+- Refactoring changes MUST update affected documentation in the same change.
 
-### 10.2 Intent- und Edge-Case-Dokumentation
+### 10.2 Intent and edge-case documentation
 
-- Fehler- und Randfallverhalten dokumentieren (invalid input, timeout, cancellation, empty state).
-- Bei APIs mit Ownership-/Lifetime-Vertrag diesen explizit benennen.
+- Document failure and edge-case behavior explicitly (invalid input, timeout, cancellation, empty state).
+- For APIs with ownership/lifetime contracts, state those contracts explicitly.
 
-### 10.3 Tooling und semantischer Kontext
+### 10.3 Tooling and semantic context
 
-- Für C++-Symbolarbeit weiter die Language-Service-Tools verwenden (`GetSymbolInfo_CppTools`, `GetSymbolReferences_CppTools`, `GetSymbolCallHierarchy_CppTools`).
-- VS Code-Kontext für semantische Assistenz sollte `C_Cpp.enableCppCodeEditingTools: true` und `C_Cpp.codeAnalysis.runAutomatically: true` nutzen.
+- Continue using C++ language-service tools for symbol work (`GetSymbolInfo_CppTools`, `GetSymbolReferences_CppTools`, `GetSymbolCallHierarchy_CppTools`).
+- VS Code semantic assistance should keep `C_Cpp.enableCppCodeEditingTools: true` and `C_Cpp.codeAnalysis.runAutomatically: true` enabled.
 
-### 10.4 Governance-Erwartung (ohne CI/CD-Gate)
+### 10.4 Governance expectation (no CI/CD gate dependency)
 
-- Dokumentationslücken sind ein Review-Blocker und vor Merge zu beheben.
-- README/API-Dokumentation muss bei Architektur- und Verhaltensänderungen synchronisiert werden.
-- Die Durchsetzung erfolgt über Prompt-Vorgaben, Review-Checklisten und manuelle Abnahme.
+- Documentation gaps are review blockers and must be fixed before merge.
+- README/API docs must stay synchronized with architecture and behavior changes.
+- Enforcement is achieved via prompt rules, review checklists, and manual sign-off.
