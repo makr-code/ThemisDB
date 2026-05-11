@@ -214,7 +214,7 @@ Use `@ollama` for all of the following:
 | C++ boilerplate / class scaffolding | `@ollama Generate a RAII wrapper for FILE*` |
 | Unit test generation | `@ollama Write GTest cases for KnowledgeGraphRetriever::neighbours()` |
 | Refactoring | `@ollama Refactor this function to use std::expected` |
-| Documentation / Doxygen comments | `@ollama Add Doxygen docs to LLMPluginManager::loadModel()` |
+| Documentation / API comments | `@ollama Update API documentation comments for LLMPluginManager::loadModel()` |
 | CMakeLists.txt edits | `@ollama Add a new test target for test_foo.cpp` |
 | Repetitive code patterns | `@ollama Implement getters/setters for all fields in struct X` |
 
@@ -305,11 +305,11 @@ can be bypassed efficiently:
 
 Dokumentation ist ein verpflichtender Qualitätsbestandteil und kein optionales Add-on.
 
-### 10.1 Verbindliche Doxygen-Regeln
+### 10.1 Verbindliche Dokumentationsregeln (ohne Doxygen-Abhängigkeit)
 
-- Jede neue/geänderte öffentliche C++-API MUSS einen Doxygen-Block haben.
-- Pflicht-Tags: `@brief`, `@param` (für alle Parameter), `@return` (wenn nicht `void`), `@throws` (falls relevant).
-- Für Templates: `@tparam`; für Concepts/semantische Voraussetzungen: `@requires`.
+- Jede neue/geänderte öffentliche C++-API MUSS API-Dokumentation enthalten.
+- Die Dokumentation MUSS Zweck, Parameter-Erwartungen, Rückgabeverhalten (falls relevant) und Fehler-/Randfallverhalten abdecken.
+- Für Templates/Concepts müssen semantische Voraussetzungen in Klartext dokumentiert werden.
 - Kommentare müssen den Zweck und die Randbedingungen erklären ("warum"), nicht nur den Code paraphrasieren ("was").
 - Bei Refactorings MUSS bestehende Dokumentation im gleichen Change aktualisiert werden.
 
@@ -323,8 +323,8 @@ Dokumentation ist ein verpflichtender Qualitätsbestandteil und kein optionales 
 - Für C++-Symbolarbeit weiter die Language-Service-Tools verwenden (`GetSymbolInfo_CppTools`, `GetSymbolReferences_CppTools`, `GetSymbolCallHierarchy_CppTools`).
 - VS Code-Kontext für semantische Assistenz sollte `C_Cpp.enableCppCodeEditingTools: true` und `C_Cpp.codeAnalysis.runAutomatically: true` nutzen.
 
-### 10.4 CI-/Governance-Erwartung
+### 10.4 Governance-Erwartung (ohne CI/CD-Gate)
 
-- Dokumentationslücken sind wie Build-Fehler zu behandeln.
-- Bei späterer CI-Härtung soll ein Doxygen-Coverage-Gate (z. B. Coverxygen + Threshold) verwendet werden.
+- Dokumentationslücken sind ein Review-Blocker und vor Merge zu beheben.
 - README/API-Dokumentation muss bei Architektur- und Verhaltensänderungen synchronisiert werden.
+- Die Durchsetzung erfolgt über Prompt-Vorgaben, Review-Checklisten und manuelle Abnahme.

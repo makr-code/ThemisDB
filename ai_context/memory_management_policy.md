@@ -26,4 +26,4 @@ Diese Richtlinie beschreibt verpflichtende Ownership- und Lifetime-Regeln für K
 - Gibt es einen klaren Owner für jede Ressource?
 - Wird bei Fehlern/Exceptions sauber freigegeben?
 - Sind Nicht-Owner-Typen (`span`/`string_view`) korrekt und sicher verwendet?
-- Wurden Doxygen-Kommentare bei API-Änderungen mit aktualisiert?
+- Wurde die API-Dokumentation bei Verhaltensänderungen synchron aktualisiert?

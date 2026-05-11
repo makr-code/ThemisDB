@@ -33,3 +33,11 @@ Hinweis: Die ADRs liegen aktuell unter `research/architecture_decisions/`.
 - [ADR 007 — gRPC internal RPC](../research/architecture_decisions/adr_007_grpc_for_internal_rpc.md)
 - [ADR 008 — JWT/OAuth2 auth](../research/architecture_decisions/adr_008_jwt_oauth2_for_api_auth.md)
 - [ADR 009 — Algorithm validation framework](../research/architecture_decisions/adr_009_algorithm_validation_framework.md)
+
+## Installation
+
+Keine Installation erforderlich; dieses Verzeichnis ist Teil des Repository-Inhalts.
+
+## Usage
+
+Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mit den betroffenen Code-/Dokumentationsänderungen synchron halten.

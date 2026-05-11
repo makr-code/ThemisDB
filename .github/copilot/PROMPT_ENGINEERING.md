@@ -52,8 +52,8 @@ An jedem Checkpoint müssen Scope, Risiken und nächste Schritte explizit bestä
 
 Für C++-Änderungen gilt zusätzlich:
 
-- Öffentliche APIs mit Doxygen kommentieren (`@brief`, `@param`, `@return`, `@throws` falls relevant)
-- Für Templates zusätzlich `@tparam`; für Concepts zusätzlich `@requires`
+- Öffentliche APIs mit verpflichtender API-Dokumentation versehen (Zweck, Parametererwartungen, Rückgabeverhalten, Fehler-/Randfälle)
+- Für Templates/Concepts semantische Voraussetzungen in Klartext dokumentieren
 - Kommentare erklären **Warum** (Constraint/Trade-off), nicht nur **Was**
 - Bei Refactorings bestehende Dokumentation synchron aktualisieren
 - Edge-Case-Verhalten in der Doku explizit nennen (z. B. Fehlerpfade, Null-/Empty-Handling)
