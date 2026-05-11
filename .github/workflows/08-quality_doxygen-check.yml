@@ -45,16 +45,20 @@ jobs:
 
       - name: Run Doxygen warning gate
         run: |
-          WARN_LOG="$(awk -F= '/^WARN_LOGFILE[[:space:]]*=/{print $2}' Doxyfile | xargs)"
+          WARN_LOG="$(awk -F= '/^WARN_LOGFILE[[:space:]]*=[[:space:]]*/{print $2}' Doxyfile | xargs)"
           if [ -z "${WARN_LOG}" ]; then
             echo "WARN_LOGFILE is not configured in Doxyfile"
             exit 1
           fi
+          mkdir -p "$(dirname "${WARN_LOG}")"
           doxygen Doxyfile
           if [ -f "${WARN_LOG}" ]; then
             echo "Doxygen warnings logged: $(wc -l < "${WARN_LOG}")"
-            if grep -Ein ":[[:space:]]*error:" "${WARN_LOG}"; then
+            if grep -Ein "^[^:]+:[0-9]+:[[:space:]]*error:" "${WARN_LOG}"; then
               echo "Doxygen reported parse/documentation errors:"
               exit 1
             fi
+          else
+            echo "Expected warning log file was not created: ${WARN_LOG}"
+            exit 1
           fi
