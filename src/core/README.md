@@ -398,9 +398,9 @@ export THEMIS_ENVIRONMENT=production
 - [Dependency Injection / Concerns Migration Guide](../../docs/architecture/MIGRATION_GUIDE_CONCERNS.md)
 - [Observability Docs](../../docs/observability/README.md)
 - [Core Header API](../../include/core/README.md)
-- [Roadmap](ROADMAP.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
-- [Production Requirements](PRODUCTION_REQUIREMENTS.md)
+- [Roadmap](./ROADMAP.md)
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Production Requirements](./PRODUCTION_REQUIREMENTS.md)
 
 ## Contributing
 
