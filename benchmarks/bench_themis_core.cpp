@@ -97,14 +97,17 @@ public:
     }
 
     [[nodiscard]] uint8_t dispatch(uint8_t opcode, std::size_t session_index) {
-        auto& sender = *senders_[session_index % senders_.size()];
+        const auto sender_count = senders_.size();
+        auto& sender = *senders_[session_index % sender_count];
         sender.send_to(boost::asio::buffer(&opcode, 1), receiver_endpoint_);
 
         std::array<uint8_t, 1> inbound{};
         boost::asio::ip::udp::endpoint remote;
         const auto received = receiver_.receive_from(boost::asio::buffer(inbound), remote);
         if (received != 1) {
-            throw std::runtime_error("loopback dispatch expected 1 byte");
+            throw std::runtime_error("loopback dispatch expected 1 byte, received " +
+                                     std::to_string(received) + " for opcode " +
+                                     std::to_string(static_cast<unsigned>(opcode)));
         }
         return inbound[0];
     }
@@ -115,6 +118,19 @@ private:
     boost::asio::ip::udp::endpoint receiver_endpoint_;
     std::vector<std::unique_ptr<boost::asio::ip::udp::socket>> senders_;
 };
+
+[[nodiscard]] bool isBenchTrackedOpcodeByte(uint8_t opcode_byte) {
+    switch (static_cast<themis::wire::OpCode>(opcode_byte)) {
+        case themis::wire::OpCode::OP_GET:
+        case themis::wire::OpCode::OP_PUT:
+        case themis::wire::OpCode::OP_QUERY_AQL:
+        case themis::wire::OpCode::OP_PING:
+        case themis::wire::OpCode::OP_OK:
+            return true;
+        default:
+            return false;
+    }
+}
 
 constexpr std::size_t decodedLengthFromBase64Length(std::size_t encoded_len,
                                                     std::size_t padding_chars) {
@@ -218,7 +234,7 @@ void BM_LicenseValidation_Ed25519(benchmark::State& state) {
     }
 }
 
-// SIMULATION NOTE:
+// STUB/SIMULATION NOTE:
 // Purpose: Deterministic benchmark for 10k session opcode dispatch with optional real
 //   loopback socket transport to include kernel network-stack overhead.
 // Activation: `THEMIS_BENCH_WIRE_USE_SOCKET_HARNESS=1` enables socket-backed mode;
@@ -265,9 +281,14 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
                 (static_cast<std::uint64_t>(lcg_state) * opcodes.size()) >> 32;
             auto opcode = opcodes[opcode_index];
             if (socket_harness) {
-                opcode = static_cast<themis::wire::OpCode>(
+                const auto dispatched_opcode =
                     socket_harness->dispatch(static_cast<uint8_t>(opcode),
-                                             static_cast<std::size_t>(session)));
+                                             static_cast<std::size_t>(session));
+                if (!isBenchTrackedOpcodeByte(dispatched_opcode)) {
+                    ++counters[kOtherCounter];
+                    continue;
+                }
+                opcode = static_cast<themis::wire::OpCode>(dispatched_opcode);
             }
             switch (opcode) {
                 case themis::wire::OpCode::OP_GET:       ++counters[kGetCounter]; break;
@@ -282,7 +303,7 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
 
     state.SetItemsProcessed(state.iterations() * kConcurrentSessions);
     if (socket_harness) {
-        state.SetLabel("mode=socket-loopback channels=" + std::to_string(socket_channels));
+        state.SetLabel("mode=socket-loopback, channels=" + std::to_string(socket_channels));
     } else {
         state.SetLabel("mode=synthetic-switch");
     }
