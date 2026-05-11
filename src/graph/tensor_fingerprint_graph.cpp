@@ -224,7 +224,8 @@ TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
     if (cfg_.max_candidates == 0) {
         return candidates;
     }
-    candidates.reserve(cfg_.max_candidates);
+    static constexpr std::size_t kReserveCap = 10'000;
+    candidates.reserve(std::min(cfg_.max_candidates, kReserveCap));
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         std::size_t start = band * rows_per_band_;
         uint64_t bh = bandHash(fp, start, rows_per_band_, band);

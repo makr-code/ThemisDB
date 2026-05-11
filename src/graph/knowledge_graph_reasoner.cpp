@@ -462,6 +462,8 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         return 1.0 / static_cast<double>(1 + n);
     };
     const auto clampScore = [](double score) {
+        // Fail-closed hardening: malformed scorer outputs (NaN/Inf) should never
+        // bypass min_lora_score filters, therefore they normalize to 0.0.
         if (!std::isfinite(score)) {
             return 0.0;
         }
