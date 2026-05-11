@@ -150,6 +150,40 @@
       }
     },
     {
+      "name": "nightly-bench-sweep",
+      "displayName": "Nightly Benchmark Sweep (Linux x64)",
+      "description": "Nightly benchmark sweep preset for CI (CPU-only, benchmarks enabled).",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build/nightly",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_ASAN": "OFF",
+        "THEMIS_ENABLE_TRACING": "OFF"
+      }
+    },
+    {
+      "name": "nightly-bench-sweep-asan",
+      "displayName": "Nightly Benchmark Sweep + ASan (Linux x64)",
+      "description": "Nightly benchmark sweep preset with AddressSanitizer enabled for runtime memory checks.",
+      "inherits": "nightly-bench-sweep",
+      "binaryDir": "${sourceDir}/build/nightly-asan",
+      "cacheVariables": {
+        "THEMIS_ENABLE_ASAN": "ON",
+        "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer"
+      }
+    },
+    {
       "name": "linux-arm64-release",
       "displayName": "Linux arm64: Release (GCC cross + Ninja)",
       "description": "Cross-compiled Release build for Linux arm64 — requires aarch64-linux-gnu-gcc toolchain",
@@ -226,6 +260,16 @@
       "name": "linux-debug",
       "displayName": "Build: Linux x64 Debug",
       "configurePreset": "linux-debug"
+    },
+    {
+      "name": "nightly-bench-sweep",
+      "displayName": "Build: Nightly Benchmark Sweep",
+      "configurePreset": "nightly-bench-sweep"
+    },
+    {
+      "name": "nightly-bench-sweep-asan",
+      "displayName": "Build: Nightly Benchmark Sweep + ASan",
+      "configurePreset": "nightly-bench-sweep-asan"
     },
     {
       "name": "linux-arm64-release",

@@ -1,6 +1,6 @@
-[docs](../../index.md) > [de](../index.md) > [chimera](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../README.md) > [de](../README.md) > [chimera](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-17
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
 - `include/chimera/README.md`
 - `src/chimera/ARCHITECTURE.md`

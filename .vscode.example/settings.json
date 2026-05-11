@@ -22,15 +22,21 @@
   "editor.formatOnSave": true,
   "editor.tabSize": 4,
   "editor.insertSpaces": true,
-  "editor.rulers": [100, 120],
+  "editor.rulers": [
+    100,
+    120
+  ],
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.encoding": "utf8",
-  "cmake.configureOnOpen": false,
+  "cmake.configureOnOpen": true,
+  "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "C_Cpp.default.cppStandard": "c++20",
   "C_Cpp.default.cStandard": "c17",
   "C_Cpp.clang_format_fallbackStyle": "LLVM",
+  "C_Cpp.enableCppCodeEditingTools": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true
@@ -41,7 +47,9 @@
   },
   "[markdown]": {
     "editor.wordWrap": "on",
-    "editor.rulers": [80],
+    "editor.rulers": [
+      80
+    ],
     "files.trimTrailingWhitespace": false
   },
   "[yaml]": {
@@ -56,5 +64,8 @@
   "markdown.validate.fileLinks.enabled": "warning",
   "markdown.validate.fragmentLinks.enabled": "warning",
   "markdown.validate.referenceLinks.enabled": "warning",
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "C_Cpp.codeAnalysis.runAutomatically": true,
+  "github.copilot.chat.scope": "workspace",
+  "C_Cpp.intelliSenseEngine": "default"
 }

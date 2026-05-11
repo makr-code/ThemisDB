@@ -5,7 +5,7 @@
 
 # Security — LLM Module
 
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
+> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../SECURITY.md).
 
 ## Security Scope
 

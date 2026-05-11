@@ -60,6 +60,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -163,18 +164,34 @@ struct TNSRReport {
 /**
  * @brief Background task that performs TensorNetworkStructuralRounding.
  *
- * ### STUB/SIMULATION NOTE:
+ * ### STUB/SIMULATION NOTE (STUB #252):
  * Purpose: Phase-6 TNSR skeleton — rank reduction (recompress) is
  *          production-quality; topology mutation via rerouteEdge is a
  *          demonstration path that rebuilds the in-memory TensorNetworkGraph
  *          but does NOT yet re-serialise the mutated topology back to
  *          storage.  The on-disk TT representation is unchanged by topology
  *          mutation in this release.
- * Activation: Always when run() is called.
+ * Activation: Always when run() is called and no RerouteSerializeFn is set.
  * Production Delta: Topology changes are counted but not persisted; only
  *                   bond-dimension reductions (rank_delta > 0) are durable.
  * Removal Plan: Q3 2028 — implement topology-guided TT re-serialisation
  *               that maps rerouteEdge suggestions to re-contraction + storage.
+ *
+ * ### Bridge Injection (STUB #252)
+ *
+ * Call `setRerouteSerializeFn(fn)` to install a callable that receives the
+ * mutated `TensorNetworkGraph` after all `rerouteEdge()` calls for one key
+ * and must persist the changed topology to storage.  The callable signature:
+ *
+ * ```cpp
+ * bool fn(storage::TensorNetworkStorageEngine& engine,
+ *         const storage::TensorFieldKey&       field_key,
+ *         const TensorNetworkGraph&            tng,
+ *         const storage::TTTrain&              train);
+ * ```
+ *
+ * Returning `true` indicates success (the key is counted in `keys_rewritten`
+ * for topology changes); returning `false` increments `error_count`.
  *
  * ### Thread safety
  * `run()` takes exclusive ownership of the engine for the duration of the
@@ -183,6 +200,33 @@ struct TNSRReport {
  */
 class TNSRTask {
 public:
+    // -------------------------------------------------------------------------
+    // STUB #252 bridge — topology re-serialization
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callable type for topology-guided re-serialization.
+     *
+     * @param engine    Storage engine to write to.
+     * @param field_key Key of the tensor being processed.
+     * @param tng       Mutated TensorNetworkGraph (after rerouteEdge calls).
+     * @param train     Recompressed TTTrain to persist.
+     * @return `true` on success, `false` on failure.
+     */
+    using RerouteSerializeFn =
+        std::function<bool(storage::TensorNetworkStorageEngine& engine,
+                           const storage::TensorFieldKey&       field_key,
+                           const TensorNetworkGraph&            tng,
+                           const storage::TTTrain&              train)>;
+
+    /// Install a topology re-serialization backend.  Thread-safe.
+    static void setRerouteSerializeFn(RerouteSerializeFn fn);
+
+    /// Remove the topology re-serialization backend (fallback: count-only).
+    static void clearRerouteSerializeFn();
+
+    /// Return the currently installed RerouteSerializeFn (empty if none).
+    static RerouteSerializeFn getRerouteSerializeFn();
     /**
      * @brief Construct with an engine and optional decomposer.
      *

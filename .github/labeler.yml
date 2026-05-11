@@ -24,3 +24,7 @@
 "type:test":
   - changed-files:
       - any-glob-to-any-file: "tests/**"
+
+"ai-generated":
+  - changed-files:
+      - any-glob-to-any-file: "ai_working/**"

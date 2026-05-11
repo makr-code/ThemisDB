@@ -2,30 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug ThemisDB Server",
+      "name": "Debug main_server (CMake Target)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/themis_server",
-      "args": ["--config", "config.yaml"],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "cmake-build-debug"
-    },
-    {
-      "name": "Debug Tests",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/build/tests/themis_tests",
+      "program": "${command:cmake.launchTargetPath}",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
@@ -39,21 +19,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "cmake-build-tests"
-    },
-    {
-      "name": "Attach to ThemisDB Process",
-      "type": "cppdbg",
-      "request": "attach",
-      "program": "${workspaceFolder}/build/themis_server",
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
+      "preLaunchTask": "cmake: build"
     }
   ]
 }

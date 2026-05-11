@@ -31,6 +31,7 @@
  *   TFG-26  Persisted node metadata import rebuilds buckets for recovery queries
  *   TFG-27  Persisted edge import re-hydrates adjacency from durable payload
  *   TFG-28  One-shot persisted graph snapshot import restores nodes and adjacency
+ *   TFG-29  lshCandidates hard-cap respects max_candidates during query
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -54,6 +55,7 @@
  *   TDM-22  auto-wired per-entry journal keys compact overwrites and replay on restore
  *   TDM-23  auto-wired per-entry restore falls back to legacy blob journals
  *   TDM-24  when both journal formats coexist, per-entry entries take precedence
+ *   TDM-25  GraphIndex journal hooks persist and replay via real RocksDB + GraphIndexManager
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,12 +64,16 @@
 
 #include "graph/tensor_fingerprint_graph.h"
 #include "graph/tensor_deduplication_manager.h"
+#include "index/graph_index.h"
+#include "storage/rocksdb_wrapper.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tensor_network_storage_engine.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <limits>
 #include <mutex>
@@ -578,6 +584,43 @@ TEST(TensorFingerprintGraphResolverTest, TFG28_ImportPersistedGraphSnapshot) {
     auto nb = recovered.neighbours("snap_a");
     ASSERT_FALSE(nb.empty());
     EXPECT_EQ(nb.front().tensor_id, "snap_b");
+}
+
+// TFG-29: candidate enumeration must stop at max_candidates to bound query cost.
+TEST(TensorFingerprintGraphResolverTest, TFG29_MaxCandidatesHardCapBoundedResolverCalls) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.max_candidates = 3;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph graph(cfg);
+    std::unordered_map<std::string, TTTrain> trains;
+    std::size_t load_calls = 0;
+    graph.setTrainLoadFn([&](const std::string& tensor_id,
+                             const std::string&,
+                             const std::string&,
+                             const std::string&) -> std::optional<TTTrain> {
+        ++load_calls;
+        auto it = trains.find(tensor_id);
+        if (it == trains.end()) {
+            return std::nullopt;
+        }
+        return it->second;
+    });
+
+    auto base = makeTT(randVec(16, 619), {16, 1});
+    for (std::size_t i = 0; i < 20; ++i) {
+        const auto id = "cap_" + std::to_string(i);
+        trains.emplace(id, base);
+        graph.insert(id, base, "ten", "col", "f");
+    }
+
+    load_calls = 0;
+    auto results = graph.findSimilar(base, 20);
+    EXPECT_LE(load_calls, cfg.max_candidates);
+    EXPECT_LE(results.size(), cfg.max_candidates);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1424,4 +1467,78 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     // remains absent even though the blob journal contains a conflicting UPSERT.
     EXPECT_FALSE(restored_mgr->retrieve("conflict_tensor").has_value());
     EXPECT_FALSE(restored_mgr->getRecord("conflict_tensor").has_value());
+}
+
+// TDM-25: End-to-end GraphIndex journal replay with real RocksDB + GraphIndexManager.
+// The test verifies that:
+//   1. Post-snapshot inserts are written as GraphIndex journal edges.
+//   2. A fresh GraphIndexManager instance rebuilt from the same RocksDB path
+//      can enumerate and replay those journal entries during restore.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM25_GraphIndexJournalHooksPersistAndReplay) {
+    namespace fs = std::filesystem;
+    const auto cleanupDbDir = [](const fs::path& path) {
+        std::error_code ec;
+        fs::remove_all(path, ec);
+        ASSERT_TRUE(!ec) << "Unexpected error removing temp DB dir: " << path;
+    };
+    const auto unique_suffix = std::to_string(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+    const fs::path db_dir =
+        fs::temp_directory_path() / ("themis_tdm25_graph_journal_" + unique_suffix);
+    cleanupDbDir(db_dir);
+
+    themis::RocksDBWrapper::Config db_cfg;
+    db_cfg.db_path = db_dir.string();
+    db_cfg.create_if_missing = true;
+
+    constexpr auto kSnap = "snap25";
+    auto engine = makeEngine();
+
+    // ── Phase 1: populate, snapshot, and post-snapshot insert ────────────
+    {
+        themis::RocksDBWrapper db(db_cfg);
+        themis::GraphIndexManager graph_idx(db);
+
+        auto mgr = makeDedup(engine);
+        wireGraphIndexJournalHooks(*mgr, graph_idx, kSnap);
+
+        mgr->store("tdm25_a", std::vector<float>(8, 1.0f), {8, 1}, "t", "c", "f25a");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnap));
+
+        // Post-snapshot insert: must go to GraphIndex journal hooks.
+        mgr->store("tdm25_b", std::vector<float>(8, 2.5f), {8, 1}, "t", "c", "f25b");
+
+        ASSERT_TRUE(mgr->getRecord("tdm25_b").has_value());
+    }
+
+    // ── Phase 2: reopen GraphIndexManager from same RocksDB and restore ───
+    {
+        themis::RocksDBWrapper db(db_cfg);
+        themis::GraphIndexManager graph_idx(db);
+        ASSERT_TRUE(graph_idx.rebuildTopology().ok);
+
+        auto mgr2 = makeDedup(engine);
+        wireGraphIndexJournalHooks(*mgr2, graph_idx, kSnap);
+        ASSERT_TRUE(mgr2->restoreGraph(kSnap));
+
+        EXPECT_TRUE(mgr2->getRecord("tdm25_a").has_value())
+            << "Snapshot-time tensor tdm25_a must be present after restore";
+        EXPECT_TRUE(mgr2->getRecord("tdm25_b").has_value())
+            << "Post-snapshot tensor tdm25_b must be replayed via GraphIndex journal";
+
+        // Retrieved data should approximate the stored values.
+        const auto retrieved = mgr2->retrieve("tdm25_b");
+        ASSERT_TRUE(retrieved.has_value());
+        ASSERT_EQ(retrieved->size(), 8u);
+        for (float v : *retrieved) {
+            EXPECT_NEAR(v, 2.5f, 0.5f) << "Reconstructed value should approximate 2.5";
+        }
+
+        const auto stats = mgr2->getStats();
+        EXPECT_EQ(stats.total_tensors, 2u)
+            << "Both tensors must be accounted for after restore";
+    }
+
+    cleanupDbDir(db_dir);
 }

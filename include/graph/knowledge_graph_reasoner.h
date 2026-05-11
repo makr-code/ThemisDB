@@ -14,6 +14,13 @@
 #include <atomic>
 
 namespace themis {
+
+#if defined(THEMIS_ENABLE_LLM)
+namespace llm {
+class MultiLoRAManager;
+} // namespace llm
+#endif
+
 namespace graph {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -357,6 +364,10 @@ public:
      * `InferenceEdge::lora_score`.  Edges below the rule's `min_lora_score`
      * threshold are then filtered out.
      *
+     * When no scorer callback is injected and `setMultiLoRAManager()` has been
+     * configured (`THEMIS_ENABLE_LLM`), manager-backed adapter metadata is used
+     * for soft plausibility scoring.
+     *
      * Without an injected function the method falls back to a deterministic
      * heuristic: `score = 1 / (1 + premises.size())`.
      *
@@ -374,6 +385,11 @@ public:
     /// Inject a real LoRA scoring backend for `applyLoRAScore()`.
     /// Passing a null function resets to the built-in heuristic fallback.
     void setLoraScoreFn(LoraScoreFn fn);
+
+#if defined(THEMIS_ENABLE_LLM)
+    /// Inject optional MultiLoRAManager integration used by applyLoRAScore().
+    void setMultiLoRAManager(std::shared_ptr<llm::MultiLoRAManager> manager);
+#endif
 
     // ── Introspection ───────────────────────────────────────────────────────
 
@@ -454,6 +470,11 @@ private:
 
     /// Injected LoRA scoring backend; null ⇒ heuristic fallback.
     mutable LoraScoreFn lora_score_fn_;
+
+#if defined(THEMIS_ENABLE_LLM)
+    /// Optional LoRA manager bridge used for adapter-aware plausibility scoring.
+    std::shared_ptr<llm::MultiLoRAManager> lora_manager_;
+#endif
 };
 
 } // namespace graph

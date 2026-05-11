@@ -931,7 +931,11 @@ def main() -> int:
 
     # Report generieren
     generate_report(results, tracking, report_path)
-    print(f'✅ Report written to {report_path.relative_to(root)}')
+    try:
+        display_path = report_path.relative_to(root)
+    except ValueError:
+        display_path = report_path
+    print(f'✅ Report written to {display_path}')
 
     # Versions-Tracking speichern
     save_version_tracking(tracking_path, tracking)
