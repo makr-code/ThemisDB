@@ -19,7 +19,7 @@
 #include <cmath>
 #include <cstring>
 #include <functional>
-#include <shared_mutex>
+#include <limits>
 #include <stdexcept>
 #include <utility>
 
@@ -140,19 +140,33 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(
         return fp;
     }
 
-    for (std::size_t h = 0; h < cfg_.num_hash_funcs; ++h) {
-        // Derive hash parameters from index
-        uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
-        uint64_t b = fnv1a64(&a, sizeof(a));
-        uint64_t min_hash = UINT64_MAX;
-        for (uint64_t elem : elements) {
+    const std::size_t hash_count =
+        std::min<std::size_t>(cfg_.num_hash_funcs, fp.minhash.size());
+    std::vector<uint64_t> a_params(hash_count);
+    std::vector<uint64_t> b_params(hash_count);
+    std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
+
+    for (std::size_t h = 0; h < hash_count; ++h) {
+        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
+        a_params[h] = a;
+        b_params[h] = fnv1a64(&a, sizeof(a));
+    }
+
+    // Stream elements once over all hash functions.
+    for (const uint64_t elem : elements) {
+        for (std::size_t h = 0; h < hash_count; ++h) {
+            const uint64_t a = a_params[h];
+            const uint64_t b = b_params[h];
             uint64_t hv = (a * elem + b) ^ (a >> 17);
             hv ^= hv >> 33;
             hv *= 0xff51afd7ed558ccdULL;
             hv ^= hv >> 33;
-            if (hv < min_hash) min_hash = hv;
+            if (hv < min_hash[h]) min_hash[h] = hv;
         }
-        fp.minhash[h] = min_hash;
+    }
+
+    for (std::size_t h = 0; h < hash_count; ++h) {
+        fp.minhash[h] = min_hash[h];
     }
 
     return fp;
@@ -181,6 +195,7 @@ void TensorFingerprintGraph::insertIntoBuckets(const std::string& id,
         // Combine band index into bucket key to avoid false cross-band collisions
         uint64_t bucket_key = bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
         lsh_buckets_[bucket_key].insert(id);
+        lsh_nonempty_.insert(bucket_key); // keep presence set in sync
     }
 }
 
@@ -198,6 +213,7 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string& id,
         it->second.erase(id);
         if (it->second.empty()) {
             lsh_buckets_.erase(it);
+            lsh_nonempty_.erase(bucket_key); // keep presence set in sync
         }
     }
 }
@@ -205,14 +221,27 @@ void TensorFingerprintGraph::removeFromBuckets(const std::string& id,
 std::unordered_set<std::string>
 TensorFingerprintGraph::lshCandidates(const TensorFingerprint& fp) const {
     std::unordered_set<std::string> candidates;
+    if (cfg_.max_candidates == 0) {
+        return candidates;
+    }
+    // Cap reserve() to avoid pathological memory reservations when callers set
+    // very large max_candidates values while preserving amortized O(1) inserts.
+    static constexpr std::size_t kMaxCandidateReserveSize = 10'000;
+    candidates.reserve(std::min(cfg_.max_candidates, kMaxCandidateReserveSize));
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         std::size_t start = band * rows_per_band_;
         uint64_t bh = bandHash(fp, start, rows_per_band_, band);
         uint64_t bucket_key = bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
+        // O(1) presence check avoids lsh_buckets_.find() for empty bands.
+        if (!lsh_nonempty_.count(bucket_key)) continue;
         auto it = lsh_buckets_.find(bucket_key);
         if (it != lsh_buckets_.end()) {
-            for (const auto& id : it->second)
+            for (const auto& id : it->second) {
                 candidates.insert(id);
+                if (candidates.size() >= cfg_.max_candidates) {
+                    break;
+                }
+            }
         }
         if (candidates.size() >= cfg_.max_candidates) break;
     }

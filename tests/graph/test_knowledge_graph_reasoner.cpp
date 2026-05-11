@@ -1,6 +1,6 @@
 /**
  * @file test_knowledge_graph_reasoner.cpp
- * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-20
+ * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-23
  *
  * Test coverage:
  *   KGR-01..05  Horn-clause rule application (transitive, reflexive, inverse, chained)
@@ -9,14 +9,23 @@
  *   KGR-14..16  applyLoRAScore() — stub integration
  *   KGR-17..18  Structural pattern detection (chain-of-authority, hub-spoke)
  *   KGR-19..20  InferenceStore capacity and TTL eviction
+ *   KGR-21..23  LoRA adapter routing + score hardening + manager bridge
  */
 
 #include "graph/knowledge_graph_reasoner.h"
+#if defined(THEMIS_ENABLE_LLM)
+#include "llm/multi_lora_manager.h"
+#endif
 
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
+#include <filesystem>
+#include <fstream>
+#include <limits>
 #include <string>
+#include <system_error>
 #include <thread>
 #include <vector>
 
@@ -464,6 +473,146 @@ TEST(KnowledgeGraphReasonerTest, KGR20_AddRuleValidation) {
 
     EXPECT_EQ(kgr.ruleCount(), 1u);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-21: applyLoRAScore() uses rule LoRA adapter when adapter_id is empty
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR21_ApplyLoRAScoreUsesRuleAdapterFallback) {
+    KnowledgeGraphReasoner kgr;
+    kgr.addRule({"domain_rule",
+                 {{"?A", "knows", "?B"}},
+                 {{"?A", "trusts", "?B"}},
+                 "domain_adapter_v1",
+                 0.0});
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto chain = kgr.infer("alice", 1);
+    ASSERT_FALSE(chain.empty());
+
+    std::string seen_adapter;
+    kgr.setLoraScoreFn([&](std::string_view adapter_id, const InferenceEdge&) {
+        seen_adapter = std::string(adapter_id);
+        return 0.91;
+    });
+
+    kgr.applyLoRAScore(chain, "");
+
+#if defined(THEMIS_ENABLE_LLM)
+    EXPECT_EQ(seen_adapter, "domain_adapter_v1");
+    ASSERT_FALSE(chain.empty());
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.91, 1e-9);
+#else
+    EXPECT_TRUE(seen_adapter.empty());
+    ASSERT_FALSE(chain.empty());
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.5, 1e-9);
+#endif
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-22: applyLoRAScore() clamps invalid scorer outputs to [0, 1]
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
+    KnowledgeGraphReasoner kgr;
+    kgr.addRule({"strict_rule",
+                 {{"?A", "knows", "?B"}},
+                 {{"?A", "trusts", "?B"}},
+                 "strict_adapter",
+                 0.6});
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto make_chain = [&]() {
+        auto chain = kgr.infer("alice", 1);
+        EXPECT_FALSE(chain.empty());
+        return chain;
+    };
+
+    auto chain_nan = make_chain();
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return std::numeric_limits<double>::quiet_NaN();
+    });
+    kgr.applyLoRAScore(chain_nan, "strict_adapter");
+
+    auto chain_pos_inf = make_chain();
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return std::numeric_limits<double>::infinity();
+    });
+    kgr.applyLoRAScore(chain_pos_inf, "strict_adapter");
+
+    auto chain_neg_inf = make_chain();
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) {
+        return -std::numeric_limits<double>::infinity();
+    });
+    kgr.applyLoRAScore(chain_neg_inf, "strict_adapter");
+
+#if defined(THEMIS_ENABLE_LLM)
+    // Non-finite outputs normalize to 0.0 and are filtered by min_lora_score=0.6.
+    EXPECT_TRUE(chain_nan.empty());
+    EXPECT_TRUE(chain_pos_inf.empty());
+    EXPECT_TRUE(chain_neg_inf.empty());
+#else
+    // LLM path disabled: deterministic fallback (0.5) is also filtered.
+    EXPECT_TRUE(chain_nan.empty());
+    EXPECT_TRUE(chain_pos_inf.empty());
+    EXPECT_TRUE(chain_neg_inf.empty());
+#endif
+}
+
+#if defined(THEMIS_ENABLE_LLM)
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-23: applyLoRAScore() uses MultiLoRAManager metadata-backed scoring
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge) {
+    KnowledgeGraphReasoner kgr;
+    ASSERT_TRUE(kgr.addRule({"rule_with_lora",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}},
+                             "graph_adapter_v1",
+                             0.0}));
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto chain = kgr.infer("alice", 1);
+    ASSERT_FALSE(chain.empty());
+
+    const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    std::filesystem::path tmp_file;
+    for (std::uint32_t attempt = 0; attempt < 16; ++attempt) {
+        const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_file = std::filesystem::temp_directory_path() /
+                   ("kgr23_adapter_" + std::to_string(ts) + "_" +
+                    std::to_string(tid_hash) + "_" + std::to_string(attempt) + ".gguf");
+        if (!std::filesystem::exists(tmp_file)) {
+            break;
+        }
+    }
+    ASSERT_FALSE(std::filesystem::exists(tmp_file))
+        << "Failed to generate unique temp file for KGR23";
+    {
+        std::ofstream out(tmp_file, std::ios::binary);
+        ASSERT_TRUE(out.good());
+        // `loadLoRA()` only requires an existing file; GGUF parsing may fail and
+        // gracefully falls back to default metadata, which is sufficient here.
+        out << "not-a-real-gguf-but-loadable";
+    }
+
+    themis::llm::MultiLoRAManager::Config cfg;
+    // MultiLoRAManager only starts the eviction thread when lora_ttl.count() > 0.
+    cfg.lora_ttl = std::chrono::seconds{0};
+    auto manager = std::make_shared<themis::llm::MultiLoRAManager>(cfg);
+    ASSERT_TRUE(manager->loadLoRA("graph_adapter_v1", tmp_file.string(), "base_model", 0.8f));
+    ASSERT_TRUE(manager->getLoRAInfo("graph_adapter_v1").has_value());
+
+    kgr.setMultiLoRAManager(manager);
+    kgr.applyLoRAScore(chain, "");
+
+    ASSERT_FALSE(chain.empty());
+    // Score model: clamp(scale) * (1 / (1 + 0.25 * premises)).
+    // premises.size()==1 => 0.8 * 0.8 = 0.64
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.64, 1e-6);
+
+    std::error_code ec;
+    std::filesystem::remove(tmp_file, ec);
+}
+#endif
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Additional: Triple::isGround()

@@ -1,8 +1,13 @@
 #include "graph/knowledge_graph_reasoner.h"
 
+#if defined(THEMIS_ENABLE_LLM)
+#include "llm/multi_lora_manager.h"
+#endif
+
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cmath>
 #include <mutex>
 #include <sstream>
 #include <stdexcept>
@@ -430,38 +435,115 @@ void KnowledgeGraphReasoner::setLoraScoreFn(LoraScoreFn fn) {
     lora_score_fn_ = std::move(fn);
 }
 
+#if defined(THEMIS_ENABLE_LLM)
+void KnowledgeGraphReasoner::setMultiLoRAManager(
+    std::shared_ptr<llm::MultiLoRAManager> manager) {
+    lora_manager_ = std::move(manager);
+}
+#endif
+
 // ─────────────────────────────────────────────────────────────────────────────
 // applyLoRAScore()
 // ─────────────────────────────────────────────────────────────────────────────
 
 void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
                                              std::string_view adapter_id) const {
-    for (auto& edge : chain.edges) {
-        if (lora_score_fn_) {
-            // Use injected backend (real LoRA/MultiLoRAManager::score()).
-            edge.lora_score = lora_score_fn_(adapter_id, edge);
-        } else {
-            // Heuristic fallback: longer inference chains are less certain.
-            // score = 1 / (1 + number_of_premises)
-            const std::size_t n = edge.premises.size();
-            edge.lora_score = 1.0 / static_cast<double>(1 + n);
+    if (chain.edges.empty()) {
+        return;
+    }
+
+    struct RuleLoRAConfig {
+        double min_lora_score = 0.0;
+        std::string adapter_id;
+    };
+
+    std::unordered_map<std::string, RuleLoRAConfig> rule_cfg_by_id;
+    {
+        std::shared_lock lock(rules_mutex_);
+        rule_cfg_by_id.reserve(rules_.size());
+        for (const auto& rule : rules_) {
+            rule_cfg_by_id.emplace(
+                rule.id,
+                RuleLoRAConfig{rule.min_lora_score, rule.lora_adapter});
         }
     }
 
-    // Filter out edges whose score falls below the rule's minimum threshold.
-    {
-        std::shared_lock lock(rules_mutex_);
-        chain.edges.erase(
-            std::remove_if(chain.edges.begin(), chain.edges.end(),
-                [this](const InferenceEdge& e) {
-                    auto it = std::find_if(rules_.begin(), rules_.end(),
-                        [&](const Rule& r) { return r.id == e.rule_id; });
-                    if (it == rules_.end()) return false;
-                    if (e.lora_score < 0.0) return false; // not scored
-                    return e.lora_score < it->min_lora_score;
-                }),
-            chain.edges.end());
+    const auto fallbackScore = [](const InferenceEdge& edge) {
+        const std::size_t n = edge.premises.size();
+        return 1.0 / static_cast<double>(1 + n);
+    };
+    const auto clampScore = [](double score) {
+        // Fail-closed hardening: malformed scorer outputs (NaN / +/-Inf) should
+        // never bypass min_lora_score filters, therefore they normalize to 0.0.
+        if (!std::isfinite(score)) {
+            return 0.0;
+        }
+        return std::clamp(score, 0.0, 1.0);
+    };
+
+#if defined(THEMIS_ENABLE_LLM)
+    const auto manager = lora_manager_;
+    // Keep cache call-local so each scoring pass observes current manager state
+    // without cross-request synchronization.
+    std::unordered_map<std::string, std::optional<llm::LoRAInfo>> manager_info_cache;
+    const auto managerScore = [&](std::string_view adapter,
+                                  const InferenceEdge& edge) -> std::optional<double> {
+        if (!manager || adapter.empty()) {
+            return std::nullopt;
+        }
+        const std::string adapter_key(adapter);
+        auto it = manager_info_cache.find(adapter_key);
+        if (it == manager_info_cache.end()) {
+            auto info = manager->getLoRAInfo(adapter_key);
+            it = manager_info_cache.emplace(adapter_key, std::move(info)).first;
+        }
+        if (!it->second.has_value()) {
+            return std::nullopt;
+        }
+        const double scaled_confidence =
+            std::clamp(static_cast<double>(it->second->scale), 0.0, 1.0);
+        const double complexity_penalty =
+            1.0 / (1.0 + 0.25 * static_cast<double>(edge.premises.size()));
+        return std::clamp(scaled_confidence * complexity_penalty, 0.0, 1.0);
+    };
+#endif
+
+    for (auto& edge : chain.edges) {
+        std::string_view effective_adapter = adapter_id;
+        if (effective_adapter.empty()) {
+            const auto it = rule_cfg_by_id.find(edge.rule_id);
+            if (it != rule_cfg_by_id.end() && !it->second.adapter_id.empty()) {
+                effective_adapter = it->second.adapter_id;
+            }
+        }
+
+        double score = fallbackScore(edge);
+#if defined(THEMIS_ENABLE_LLM)
+        if (lora_score_fn_ && !effective_adapter.empty()) {
+            // Use injected backend (real LoRA/MultiLoRAManager bridge).
+            score = lora_score_fn_(effective_adapter, edge);
+        } else if (auto manager_score_result = managerScore(effective_adapter, edge);
+                   manager_score_result.has_value()) {
+            score = *manager_score_result;
+        }
+#endif
+        edge.lora_score = clampScore(score);
     }
+
+    // Filter out edges whose score falls below the rule's minimum threshold.
+    chain.edges.erase(
+        std::remove_if(chain.edges.begin(), chain.edges.end(),
+            [&](const InferenceEdge& e) {
+                const auto it = rule_cfg_by_id.find(e.rule_id);
+                if (it == rule_cfg_by_id.end()) {
+                    return false;
+                }
+                if (e.lora_score < 0.0) {
+                    return false; // not scored
+                }
+                return e.lora_score < it->second.min_lora_score;
+            }),
+        chain.edges.end());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
