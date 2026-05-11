@@ -767,6 +767,13 @@ nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
         nlohmann::json row;
     };
     std::vector<ScoredRow> scored;
+    double qn = 0.0;
+    if (distance_metric != "l2") {
+        for (const auto v : query_vector) {
+            qn += static_cast<double>(v) * v;
+        }
+    }
+    const double query_norm = (distance_metric != "l2" && qn > 0.0) ? std::sqrt(qn) : 0.0;
     for (const auto& row : it->second) {
         if (!row.is_object() || !row.contains("embedding") || !row["embedding"].is_array()) {
             continue;
@@ -775,10 +782,10 @@ nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
         if (embedding.empty()) {
             continue;
         }
-        const auto count = std::min(embedding.size(), query_vector.size());
-        if (count == 0) {
+        if (embedding.size() != query_vector.size() || query_vector.empty()) {
             continue;
         }
+        const auto count = embedding.size();
         double score = 0.0;
         if (distance_metric == "l2") {
             for (std::size_t i = 0; i < count; ++i) {
@@ -788,14 +795,12 @@ nlohmann::json MockDatabase::vectorSearch(const std::string& datasource,
             score = std::sqrt(score);
         } else {
             double dot = 0.0;
-            double qn = 0.0;
             double en = 0.0;
             for (std::size_t i = 0; i < count; ++i) {
                 dot += static_cast<double>(embedding[i]) * query_vector[i];
-                qn += static_cast<double>(query_vector[i]) * query_vector[i];
                 en += static_cast<double>(embedding[i]) * embedding[i];
             }
-            score = (qn > 0.0 && en > 0.0) ? dot / (std::sqrt(qn) * std::sqrt(en)) : 0.0;
+            score = (query_norm > 0.0 && en > 0.0) ? dot / (query_norm * std::sqrt(en)) : 0.0;
         }
         scored.push_back({score, row});
     }

@@ -169,8 +169,9 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
     double ss_res = 0.0, ss_tot = 0.0;
     for (std::size_t i = 0; i < sorted_recon.size(); ++i) {
         const double delta = sorted_recon[i] - sorted_expected[i];
+        const double expected_val = static_cast<double>(sorted_expected[i]);
         ss_res += delta * delta;
-        ss_tot += static_cast<double>(sorted_expected[i]) * sorted_expected[i];
+        ss_tot += expected_val * expected_val;
     }
     const double rmse = (ss_tot > 0.0) ? std::sqrt(ss_res / ss_tot) : 0.0;
     EXPECT_LT(rmse, 0.05);
