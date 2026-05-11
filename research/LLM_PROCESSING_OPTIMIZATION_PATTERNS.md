@@ -1,9 +1,9 @@
 # LLM Processing Optimization Patterns in ThemisDB: Evidence-Bound arXiv Draft
 
-**Status**: In Review
+**Status**: Draft
 **Version**: 0.3
 **Last Updated**: 2026-05-11
-**Target Venue**: arXiv (cs.DB / cs.DC / cs.LG)
+**Intended arXiv Categories**: cs.DB / cs.DC / cs.LG
 
 ---
 
@@ -38,9 +38,9 @@ Earlier document versions described technically plausible optimization gains but
 
 ## II. Related Work
 
-Core prior work includes speculative decoding [1], paged-attention-oriented memory management [2], and IO-aware attention acceleration [3]. Practical serving systems (e.g., Orca, Sarathi-Serve) emphasize throughput/latency trade-offs in serving-centric environments [4,5].
+Core prior work includes speculative decoding [1], paged-attention-oriented memory management [2], and IO-aware attention acceleration [3]. Practical serving systems provide complementary perspectives: Orca focuses on high-utilization iteration-level scheduling for distributed serving [4], while Sarathi-Serve emphasizes throughput-latency control under serving-centric policy design [5].
 
-Our novelty is not a new decoding algorithm. It is an integration review for a **database-native** system, with explicit claim-to-artifact mapping and conservative boundaries on unresolved performance claims.
+Our novelty is not a new decoding algorithm. It is an integration review for a **database-native** system where serving optimizations must coexist with query/retrieval/transaction pressure. This constraint shifts trade-offs from pure token throughput toward mixed-load tail-latency stability and operational fallback behavior, and the document makes this delta explicit through claim-to-artifact mapping and conservative unresolved-claim boundaries.
 
 ## III. System Model / Architecture
 
@@ -85,7 +85,7 @@ Rule used in this document: all major claims in Sections III-VIII map to at leas
 
 ### A. Setup
 
-- **Software:** current ThemisDB repository state with pinned commit for final submission snapshot.
+- **Software:** repository snapshot for this draft revision anchored at commit `f5fce92ca6` (arXiv-structure baseline on this branch), with subsequent textual refinements documented in PR history.
 - **Execution mode:** serving-only and mixed-load profiles.
 - **Controls:** fixed seeds, warm-up phase, repeated runs, and percentile reporting (p50/p95/p99).
 
@@ -216,7 +216,7 @@ ThemisDB already provides verifiable implementation anchors for LLM processing o
 - [x] Results section distinguishes supported vs deferred claims
 - [x] Threats/limitations/ethics documented
 - [x] References are consistent and resolvable
-- [ ] Final submission commit hash frozen in text
+- [x] Revision baseline commit hash identified in Section VI-A
 
 ## Appendix B. Claim-to-Evidence Traceability
 
