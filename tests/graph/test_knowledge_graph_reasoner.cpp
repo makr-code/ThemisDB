@@ -584,6 +584,8 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
             break;
         }
     }
+    ASSERT_FALSE(std::filesystem::exists(tmp_file))
+        << "Failed to generate unique temp file for KGR23";
     {
         std::ofstream out(tmp_file, std::ios::binary);
         ASSERT_TRUE(out.good());
