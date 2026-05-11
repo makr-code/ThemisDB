@@ -14,10 +14,22 @@ name: "CodeQL Advanced"
 on:
   push:
     branches: [ "develop" ]
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - '.github/workflows/codeql.yml'
   pull_request:
     branches: [ "develop" ]
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - '.github/workflows/codeql.yml'
   schedule:
     - cron: '41 19 * * 2'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyze:

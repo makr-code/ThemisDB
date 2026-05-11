@@ -81,3 +81,9 @@ gh workflow run "04-release_bootstrap-release-branches.yml" --repo makr-code/The
 - Lokal zuerst linten: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`
 - Danach Dry-Run: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun`
 - Registry, Guidelines und Reaktivierungsbegruendung bei Struktur-Aenderungen immer zusammen aktualisieren.
+
+## PR Governance for AI-Generated Changes
+- Pull Requests labeled `ai-generated` require maintainer review before merge.
+- Copilot PR summary/review support should be enabled in repository settings to assist human review, but does not replace maintainer approval.
+- `ai-generated` PRs should explicitly document validation scope and documentation synchronization status.
+- Auto-merge for `ai-generated` PRs should remain disabled unless a maintainer explicitly authorizes it.
