@@ -22,7 +22,7 @@ WARN_IF_UNDOCUMENTED   = NO
 WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = NO
 WARN_AS_ERROR          = NO
-WARN_LOGFILE           = doxygen-warnings.log
+WARN_LOGFILE           = build/doxygen/doxygen-warnings.log
 
 QUIET                  = NO
 GENERATE_HTML          = NO

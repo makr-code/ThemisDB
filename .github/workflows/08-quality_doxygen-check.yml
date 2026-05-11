@@ -45,12 +45,12 @@ jobs:
 
       - name: Run Doxygen warning gate
         run: |
-          doxygen Doxyfile 2>&1 | tee doxygen.log
-          if [ -f doxygen-warnings.log ]; then
-            echo "Doxygen warnings logged: $(wc -l < doxygen-warnings.log)"
-            if grep -Eiq ": error:" doxygen-warnings.log; then
+          WARN_LOG="build/doxygen/doxygen-warnings.log"
+          doxygen Doxyfile
+          if [ -f "${WARN_LOG}" ]; then
+            echo "Doxygen warnings logged: $(wc -l < "${WARN_LOG}")"
+            if grep -Ein "^[^:]+:[0-9]+: error:" "${WARN_LOG}"; then
               echo "Doxygen reported parse/documentation errors:"
-              grep -Ein ": error:" doxygen-warnings.log
               exit 1
             fi
           fi
