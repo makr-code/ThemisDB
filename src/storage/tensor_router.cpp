@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include <numeric>
 #include <random>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -244,7 +245,11 @@ struct TensorRouter::Impl {
                         if (apply_fn(hint.domain_tag, *tmpl, hint)) {
                             return TensorRouteDecision::LIFT;
                         }
-                    } catch (const std::exception&) {
+                    } catch (const std::exception& ex) {
+                        spdlog::warn(
+                            "TensorRouter template topology callback threw for domain_tag='{}': {}",
+                            hint.domain_tag,
+                            ex.what());
                         // Fail-closed to heuristic path on bridge exception.
                     }
                     // Bridge installed but failed: do NOT force LIFT.
