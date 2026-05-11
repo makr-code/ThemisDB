@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Core Headers
 
@@ -22,6 +22,17 @@ This directory contains the header files defining the core interfaces and abstra
 - Query execution interfaces (see include/query/)
 
 ## Key Components
+
+### Public Header Entry Points
+
+| Header | Purpose |
+|---|---|
+| `concerns/concerns_context.h` | Main DI entry point (`create`, `createNoOp`, `createCustom`, runtime `replace*`) |
+| `config_validator.h` | Validation helpers for runtime config (adapters, cache, log/tracing settings) |
+| `production_mode.h` | Environment-based production mode detection used for fail-closed checks |
+| `health_probe.h` | Probe result/status types used by concern health checks |
+| `security_initialization.h` | Security subsystem bootstrap contracts for startup wiring |
+| `storage_initialization.h` / `index_initialization.h` / `query_engine_builder.h` | Core wiring helpers for major subsystems |
 
 ### Concerns Subdirectory
 
@@ -186,9 +197,12 @@ concern via string fields — no code changes required:
 | Field | Default | Supported values |
 |---|---|---|
 | `loggerAdapter` | `"spdlog"` | `"spdlog"`, `"noop"` |
-| `tracerAdapter` | `""` (auto) | `"otel"`, `"noop"`, `""` |
+| `tracerAdapter` | `""` (auto) | `"otel"`, `"jaeger"`, `"zipkin"`, `"noop"`, `""` |
 | `metricsAdapter` | `""` (auto) | `"prometheus"`, `"noop"`, `""` |
 | `cacheAdapter` | `"inmemory"` | `"inmemory"`, `"redis"`, `"noop"` |
+| `circuitBreakerAdapter` | `"default"` | `"default"`, `"noop"` |
+| `featureFlagsAdapter` | `"inmemory"` | `"inmemory"`, `"noop"` |
+| `auditAdapter` | `"noop"` | `"noop"`, `"inmemory"` |
 | `secretsAdapter` | `"noop"` | `"noop"`, `"inmemory"`, `"env"` |
 
 Auto-selection: empty `tracerAdapter` resolves to `"otel"` when
@@ -265,10 +279,10 @@ All interfaces are designed for thread-safe usage:
 
 ### Memory Management
 
-- All interfaces use `std::shared_ptr` for ownership
-- ConcernsContext holds shared ownership of adapters
-- Consumers hold non-owning pointers (ILogger*, ITracer*, etc.)
-- Automatic cleanup when all references released
+- `ConcernsContext` owns adapters via `std::unique_ptr` internally
+- Consumers access concerns through references (`logger()`, `tracer()`, etc.)
+- `std::shared_ptr<ConcernsContext>` is used to share one immutable context instance
+- Adapter replacement drains old adapters (`flush`/`shutdown`) before release
 
 ## Integration Points
 
@@ -358,18 +372,18 @@ auto ctx = ConcernsContext::create(cfg);
 ```cpp
 void processQuery(const Query& query, ConcernsContext* ctx) {
     // Logging
-    ctx->logger()->info("Processing query: {}", query.text);
+    ctx->logger().info("Processing query: {}", query.text);
 
     // Tracing
-    auto span = ctx->tracer()->startSpan("query_execution");
+    auto span = ctx->tracer().startSpan("query_execution");
     span->setAttribute("query_type", query.type);
 
     // Metrics
-    ctx->metrics()->incrementCounter("queries_total");
+    ctx->metrics().incrementCounter("queries_total");
 
     auto result = executeQuery(query);
 
-    ctx->metrics()->recordHistogram("query_duration_ms", result.duration);
+    ctx->metrics().recordHistogram("query_duration_ms", result.duration);
     span->end();
 
     return result;
@@ -441,7 +455,7 @@ target_include_directories(my_target PRIVATE include/core)
 - Template methods in headers for zero-cost abstractions
 
 ### Adapter Overhead
-See [src/core/README.md](../../src/core/README.md#performance-characteristics) for detailed performance metrics.
+See [src/core/README.md](../../src/core/README.md) for detailed performance metrics.
 
 **Summary:**
 - No-op adapters: <1ns per call
@@ -467,6 +481,20 @@ See [src/core/README.md](../../src/core/README.md#performance-characteristics) f
    - Template logging methods require fmt library
    - May increase compile times for large codebases
 
+## Troubleshooting
+
+1. **`Production mode violation` on startup**
+   - Cause: `THEMIS_PRODUCTION_MODE=1` (or `THEMIS_ENVIRONMENT=production`) with disabled tracing/metrics or `createNoOp()`.
+   - Fix: enable production adapters (`tracerAdapter=otel|jaeger|zipkin`, `metricsAdapter=prometheus`) and use `create(config)`.
+
+2. **`Invalid adapter configuration` errors**
+   - Cause: unsupported adapter string in `ConcernsContext::Config`.
+   - Fix: validate values using `core/config_validator.h` and the adapter matrix above.
+
+3. **No secrets resolved from environment**
+   - Cause: wrong prefix or secret name mapping.
+   - Fix: set `secretsAdapter="env"` and verify `secretsEnvPrefix` + uppercase/underscore key mapping.
+
 ## Status
 
 **Production Ready** (as of v1.5.0)
@@ -489,6 +517,9 @@ See [src/core/README.md](../../src/core/README.md#performance-characteristics) f
 - [src/core/README.md](../../src/core/README.md) - Implementation details
 - [CACHE_STRATEGIES_README.md](concerns/CACHE_STRATEGIES_README.md) - Cache strategies guide
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Overall system architecture
+- [Roadmap](../../src/core/ROADMAP.md)
+- [Future Enhancements](../../src/core/FUTURE_ENHANCEMENTS.md)
+- [Production Requirements](../../src/core/PRODUCTION_REQUIREMENTS.md)
 
 ## Contributing
 
@@ -504,7 +535,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [FUTURE_ENHANCEMENTS.md](../../src/core/FUTURE_ENHANCEMENTS.md) - Planned interface improvements
 - [Storage Headers](../storage/README.md) - Storage layer interfaces
 - [Server Headers](../server/README.md) - Server protocol interfaces
 
