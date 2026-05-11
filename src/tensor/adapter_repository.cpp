@@ -54,12 +54,51 @@
 #include "tensor/adapter_repository.h"
 
 #include <algorithm>
+#include <mutex>
 #include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
 
 namespace themis {
 namespace tensor {
+
+namespace {
+std::mutex& mmapLoadFnMutex() { static std::mutex m; return m; }
+AdapterRepository::MmapLoadFn& mmapLoadFnStorage() {
+    static AdapterRepository::MmapLoadFn fn;
+    return fn;
+}
+
+std::mutex& exactSimilarityFnMutex() { static std::mutex m; return m; }
+AdapterRepository::ExactSimilarityFn& exactSimilarityFnStorage() {
+    static AdapterRepository::ExactSimilarityFn fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void AdapterRepository::setMmapLoadFn(MmapLoadFn fn) {
+    std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+    mmapLoadFnStorage() = std::move(fn);
+}
+
+/*static*/
+void AdapterRepository::clearMmapLoadFn() {
+    std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+    mmapLoadFnStorage() = {};
+}
+
+/*static*/
+void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+    exactSimilarityFnStorage() = std::move(fn);
+}
+
+/*static*/
+void AdapterRepository::clearExactSimilarityFn() {
+    std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+    exactSimilarityFnStorage() = {};
+}
 
 // ============================================================================
 // Constructor
@@ -164,12 +203,37 @@ bool AdapterRepository::remove(const std::string& domain,
 
 GgmlCoreDescriptor
 AdapterRepository::loadAdapter(const std::string& domain,
-                                const std::string& base_model_id) const {
+                                 const std::string& base_model_id) const {
     GgmlCoreDescriptor desc;
     desc.tenant_id      = tenant_id_;
     desc.domain         = domain;
     desc.base_model_id  = base_model_id;
     desc.adapter_key    = makeKey(domain, base_model_id);
+
+    // Delegate to injected mmap-style loader backend when available (STUB #265).
+    MmapLoadFn mmap_fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
+        mmap_fn_copy = mmapLoadFnStorage();
+    }
+    if (mmap_fn_copy) {
+        try {
+            auto mapped = mmap_fn_copy(
+                tenant_id_, domain, base_model_id, desc.adapter_key, backend_);
+            if (mapped.tenant_id.empty()) mapped.tenant_id = tenant_id_;
+            if (mapped.domain.empty()) mapped.domain = domain;
+            if (mapped.base_model_id.empty()) mapped.base_model_id = base_model_id;
+            if (mapped.adapter_key.empty()) mapped.adapter_key = desc.adapter_key;
+            {
+                std::unique_lock lock(stats_mutex_);
+                if (mapped.valid) ++stats_.load_hits;
+                else ++stats_.load_misses;
+            }
+            return mapped;
+        } catch (...) {
+            // Fail-closed to existing heap-deserialize fallback path below.
+        }
+    }
 
     // STUB/SIMULATION NOTE (AR-01):
     // Retrieves bytes from the backend and deserialises into desc.train.
@@ -271,6 +335,22 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         return {};
     }
 
+    const std::string key = makeKey(domain, base_model_id);
+
+    // Delegate to injected exact-similarity backend when available (STUB #266).
+    ExactSimilarityFn exact_fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
+        exact_fn_copy = exactSimilarityFnStorage();
+    }
+    if (exact_fn_copy) {
+        try {
+            return exact_fn_copy(key, k, backend_);
+        } catch (...) {
+            // Fail-closed to fingerprint-graph path below.
+        }
+    }
+
     // STUB/SIMULATION NOTE (AR-02 / STUB #266):
     // Delegates to TensorFingerprintGraph::findSimilar() which uses
     // column-mean fingerprint cosine similarity (not full TT inner-product).
@@ -283,7 +363,6 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         return {};
     }
 
-    const std::string key = makeKey(domain, base_model_id);
     return graph->findSimilar(key, k);
 }
 

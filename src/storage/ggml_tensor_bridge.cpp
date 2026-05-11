@@ -106,6 +106,28 @@ void GgmlTensorBridge::clearPrefetchFn() {
 }
 
 // ============================================================================
+// TypeRegistrationFn injection bridge (STUB #263c)
+// ============================================================================
+
+static std::mutex& typeRegistrationFnMutex() { static std::mutex m; return m; }
+static GgmlTensorBridge::TypeRegistrationFn& typeRegistrationFnStorage() {
+    static GgmlTensorBridge::TypeRegistrationFn fn;
+    return fn;
+}
+
+/*static*/
+void GgmlTensorBridge::setTypeRegistrationFn(TypeRegistrationFn fn) {
+    std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+    typeRegistrationFnStorage() = std::move(fn);
+}
+
+/*static*/
+void GgmlTensorBridge::clearTypeRegistrationFn() {
+    std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+    typeRegistrationFnStorage() = {};
+}
+
+// ============================================================================
 // Internal: FakeTensor — minimal ggml_tensor-compatible proxy
 // ============================================================================
 // STUB/SIMULATION NOTE:
@@ -333,6 +355,16 @@ GgmlTensorBridge::BridgeStats GgmlTensorBridge::stats() const noexcept {
 // ============================================================================
 
 int registerGgmlTypeTT() {
+    // Delegate to injected registration backend when available (STUB #263c).
+    GgmlTensorBridge::TypeRegistrationFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
+        fn_copy = typeRegistrationFnStorage();
+    }
+    if (fn_copy) {
+        return fn_copy();
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Register GGML_TYPE_TT with the ggml runtime.
     // Activation: Called once before any ggml tensor operation on TT-type data.

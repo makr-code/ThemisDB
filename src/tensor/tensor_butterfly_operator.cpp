@@ -47,6 +47,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -111,6 +112,26 @@ void whtTransform(float* data, std::size_t n) {
 }
 
 } // anonymous namespace
+
+namespace {
+std::mutex& fourierTransformFnMutex() { static std::mutex m; return m; }
+TensorButterflyOperator::FourierTransformFn& fourierTransformFnStorage() {
+    static TensorButterflyOperator::FourierTransformFn fn;
+    return fn;
+}
+} // namespace
+
+/*static*/
+void TensorButterflyOperator::setFourierTransformFn(FourierTransformFn fn) {
+    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+    fourierTransformFnStorage() = std::move(fn);
+}
+
+/*static*/
+void TensorButterflyOperator::clearFourierTransformFn() {
+    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+    fourierTransformFnStorage() = {};
+}
 
 // ============================================================================
 // TensorButterflyOperator — private constructor
@@ -230,8 +251,18 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
                     fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];
                 }
 
-                // Apply butterfly WHT transform in-place.
-                whtTransform(fiber.data(), n_k);
+                // Apply injected FOURIER backend when available (STUB #267),
+                // otherwise use the built-in WHT proxy.
+                FourierTransformFn fn_copy;
+                {
+                    std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
+                    fn_copy = fourierTransformFnStorage();
+                }
+                if (fn_copy) {
+                    fn_copy(fiber);
+                } else {
+                    whtTransform(fiber.data(), n_k);
+                }
 
                 // Scatter back
                 for (std::size_t i = 0; i < n_k; ++i) {

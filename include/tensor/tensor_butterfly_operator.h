@@ -67,6 +67,7 @@
 #include "storage/tensor_train_decomposer.h"
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -140,6 +141,12 @@ struct ButterflyConfig {
  */
 class TensorButterflyOperator {
 public:
+    /**
+     * @brief Injectable FOURIER transform backend (STUB #267 bridge).
+     *
+     * Signature: `void fn(std::vector<float>& fiber)`.
+     */
+    using FourierTransformFn = std::function<void(std::vector<float>&)>;
     // ─── Factory ────────────────────────────────────────────────────────────
 
     /**
@@ -205,6 +212,10 @@ public:
 
     /// Human-readable description (useful for AQL EXPLAIN output).
     [[nodiscard]] std::string                describe()    const;
+
+    // ─── Bridge injection API (STUB #267) ───────────────────────────────────
+    static void setFourierTransformFn(FourierTransformFn fn);
+    static void clearFourierTransformFn();
 
 private:
     explicit TensorButterflyOperator(ButterflyConfig cfg);

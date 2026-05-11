@@ -127,6 +127,7 @@
 #include "rag/targ_retrieval.h"
 #include "rag/flare_retrieval.h"
 #include "rag/tensor_rag_pipeline.h"
+#include "storage/tensor_compaction_filter.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/ggml_tensor_bridge.h"
 #include "tensor/tensor_butterfly_operator.h"
@@ -1688,4 +1689,296 @@ TEST(GgmlTensorBridge, GTB06_prefetch_fn_called_with_correct_args) {
 
 } // namespace
 
+#endif // THEMIS_ENABLE_GGML_BRIDGE
+
+// ============================================================================
+// TensorCompactionFilter bridge tests — TCF-01..TCF-03 (STUB #264)
+// ============================================================================
+
+namespace {
+
+static TTTrain makeSimpleTrainForCompaction() {
+    TensorTrainConfig cfg;
+    cfg.eps = 1e-6;
+    TensorTrainDecomposer dec;
+    auto [train, _] = dec.decompose({1.0f, 2.0f, 3.0f, 4.0f}, {2u, 2u}, cfg);
+    return train;
+}
+
+TEST(TensorCompactionFilterBridge, TCF01_recompress_fn_called_for_ttcore_keys) {
+    auto train = makeSimpleTrainForCompaction();
+    const auto raw = train.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    const auto decision = filter.FilterV2(
+        0,
+        rocksdb::Slice("__ttcore__:tenant:file:chunk"),
+        rocksdb::CompactionFilter::ValueType::kValue,
+        rocksdb::Slice(value),
+        &new_value,
+        &skip_until);
+
+    EXPECT_TRUE(called);
+    EXPECT_EQ(decision, rocksdb::CompactionFilter::Decision::kKeep);
+    TensorCompactionFilter::clearRecompressFn();
+}
+
+TEST(TensorCompactionFilterBridge, TCF02_recompress_fn_called_for_ttn_meta_keys) {
+    auto train = makeSimpleTrainForCompaction();
+    TTQuantizer q;
+    auto qt = q.quantize(train, QuantizationType::INT8);
+    const auto raw = qt.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    const auto decision = filter.FilterV2(
+        0,
+        rocksdb::Slice("__ttn__:tenant:collection:field:meta:1"),
+        rocksdb::CompactionFilter::ValueType::kValue,
+        rocksdb::Slice(value),
+        &new_value,
+        &skip_until);
+
+    EXPECT_TRUE(called);
+    EXPECT_EQ(decision, rocksdb::CompactionFilter::Decision::kKeep);
+    TensorCompactionFilter::clearRecompressFn();
+}
+
+TEST(TensorCompactionFilterBridge, TCF03_clear_recompress_fn_disables_bridge) {
+    bool called = false;
+    TensorCompactionFilter::setRecompressFn(
+        [&called](const TTTrain& in, const TensorTrainConfig&) {
+            called = true;
+            return in;
+        });
+    TensorCompactionFilter::clearRecompressFn();
+
+    auto train = makeSimpleTrainForCompaction();
+    const auto raw = train.serialize();
+    const std::string value(reinterpret_cast<const char*>(raw.data()), raw.size());
+
+    TensorCompactionFilter filter;
+    std::string new_value;
+    std::string skip_until;
+    filter.FilterV2(0,
+                    rocksdb::Slice("__ttcore__:tenant:file:chunk"),
+                    rocksdb::CompactionFilter::ValueType::kValue,
+                    rocksdb::Slice(value),
+                    &new_value,
+                    &skip_until);
+
+    EXPECT_FALSE(called);
+}
+
+} // namespace
+
+// ============================================================================
+// AdapterRepository bridge tests — AR-13..AR-16 (STUB #265 / #266)
+// ============================================================================
+
+namespace {
+
+TEST(AdapterRepositoryPhase3, AR13_mmap_loader_bridge_is_used_when_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-mm");
+
+    bool called = false;
+    AdapterRepository::setMmapLoadFn(
+        [&called](const std::string& tenant,
+                  const std::string& domain,
+                  const std::string& model,
+                  const std::string& key,
+                  const std::shared_ptr<ITensorStorageBackend>&) {
+            called = true;
+            GgmlCoreDescriptor d;
+            d.valid = true;
+            d.tenant_id = tenant;
+            d.domain = domain;
+            d.base_model_id = model;
+            d.adapter_key = key;
+            return d;
+        });
+
+    auto desc = repo.loadAdapter("legal", "llama3");
+    EXPECT_TRUE(called);
+    EXPECT_TRUE(desc.valid);
+    AdapterRepository::clearMmapLoadFn();
+}
+
+TEST(AdapterRepositoryPhase3, AR14_mmap_loader_clear_reverts_to_backend_path) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-mm2");
+
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    ASSERT_TRUE(repo.store("legal", "llama3", train));
+
+    AdapterRepository::setMmapLoadFn(
+        [](const std::string&, const std::string&, const std::string&,
+           const std::string&, const std::shared_ptr<ITensorStorageBackend>&) {
+            GgmlCoreDescriptor d;
+            d.valid = false;
+            return d;
+        });
+    AdapterRepository::clearMmapLoadFn();
+
+    auto desc = repo.loadAdapter("legal", "llama3");
+    EXPECT_TRUE(desc.valid);
+}
+
+TEST(AdapterRepositoryPhase3, AR15_exact_similarity_bridge_is_used_when_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-sim");
+
+    bool called = false;
+    AdapterRepository::setExactSimilarityFn(
+        [&called](const std::string& query_key,
+                  std::size_t k,
+                  const std::shared_ptr<ITensorStorageBackend>&) {
+            called = true;
+            SimilarityResult r;
+            r.adapter_key = query_key + ":sim";
+            r.domain = "d";
+            r.base_model_id = "m";
+            r.score = 0.9f;
+            std::vector<SimilarityResult> out{r};
+            if (out.size() > k) out.resize(k);
+            return out;
+        });
+
+    auto out = repo.findSimilarAdapters("d", "m", 1);
+    EXPECT_TRUE(called);
+    ASSERT_EQ(out.size(), 1u);
+    EXPECT_FLOAT_EQ(out[0].score, 0.9f);
+    AdapterRepository::clearExactSimilarityFn();
+}
+
+TEST(AdapterRepositoryPhase3, AR16_exact_similarity_clear_reverts_to_graph_path) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-sim2");
+
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    auto a = make1DTrain({1.0f, 0.0f, 0.0f, 0.0f});
+    auto b = make1DTrain({0.9f, 0.1f, 0.0f, 0.0f});
+    ASSERT_TRUE(repo.store("d", "mA", a));
+    ASSERT_TRUE(repo.store("d", "mB", b));
+
+    AdapterRepository::setExactSimilarityFn(
+        [](const std::string&, std::size_t, const std::shared_ptr<ITensorStorageBackend>&) {
+            return std::vector<SimilarityResult>{};
+        });
+    AdapterRepository::clearExactSimilarityFn();
+
+    auto out = repo.findSimilarAdapters("d", "mA", 1);
+    EXPECT_LE(out.size(), 1u);
+}
+
+} // namespace
+
+// ============================================================================
+// TensorButterflyOperator bridge tests — TBO-07..TBO-09 (STUB #267)
+// ============================================================================
+
+namespace {
+
+TEST(TensorButterflyOperatorPhase3, TBO07_injected_fourier_backend_is_used) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>& fiber) {
+            for (auto& v : fiber) v = 7.0f;
+        });
+
+    auto out = op.apply(train);
+    const auto recon = flatten1D(out);
+    ASSERT_EQ(recon.size(), 4u);
+    for (float v : recon) EXPECT_FLOAT_EQ(v, 7.0f);
+
+    TensorButterflyOperator::clearFourierTransformFn();
+}
+
+TEST(TensorButterflyOperatorPhase3, TBO08_clear_fourier_backend_reverts_to_wht) {
+    auto train = make1DTrain({1.0f, 2.0f, 3.0f, 4.0f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>& fiber) { for (auto& v : fiber) v = 0.0f; });
+    TensorButterflyOperator::clearFourierTransformFn();
+
+    auto out = op.apply(train);
+    const auto recon = flatten1D(out);
+    const auto ref = refWHT({1.0f, 2.0f, 3.0f, 4.0f});
+    ASSERT_EQ(recon.size(), ref.size());
+    for (std::size_t i = 0; i < ref.size(); ++i) {
+        EXPECT_NEAR(recon[i], ref[i], 1e-5f);
+    }
+}
+
+TEST(TensorButterflyOperatorPhase3, TBO09_injected_backend_supports_identity_transform) {
+    auto train = make1DTrain({1.0f, -2.0f, 3.5f, 0.25f});
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+
+    TensorButterflyOperator::setFourierTransformFn(
+        [](std::vector<float>&) {
+            // identity: do nothing
+        });
+    auto out = op.apply(train);
+    TensorButterflyOperator::clearFourierTransformFn();
+
+    const auto in_vec = flatten1D(train);
+    const auto out_vec = flatten1D(out);
+    ASSERT_EQ(in_vec.size(), out_vec.size());
+    for (std::size_t i = 0; i < in_vec.size(); ++i) {
+        EXPECT_NEAR(in_vec[i], out_vec[i], 1e-6f);
+    }
+}
+
+} // namespace
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+// ============================================================================
+// GgmlTensorBridge type-registration tests — GTB-07..GTB-09 (STUB #263c)
+// ============================================================================
+
+namespace {
+
+TEST(GgmlTensorBridge, GTB07_register_type_returns_placeholder_without_fn) {
+    GgmlTensorBridge::clearTypeRegistrationFn();
+    EXPECT_EQ(registerGgmlTypeTT(), 9999);
+}
+
+TEST(GgmlTensorBridge, GTB08_register_type_uses_injected_backend) {
+    GgmlTensorBridge::setTypeRegistrationFn([] { return 4242; });
+    EXPECT_EQ(registerGgmlTypeTT(), 4242);
+    GgmlTensorBridge::clearTypeRegistrationFn();
+}
+
+TEST(GgmlTensorBridge, GTB09_clear_type_registration_fn_reverts_placeholder) {
+    GgmlTensorBridge::setTypeRegistrationFn([] { return 1111; });
+    GgmlTensorBridge::clearTypeRegistrationFn();
+    EXPECT_EQ(registerGgmlTypeTT(), 9999);
+}
+
+} // namespace
 #endif // THEMIS_ENABLE_GGML_BRIDGE
