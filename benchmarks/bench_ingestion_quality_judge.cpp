@@ -107,7 +107,13 @@
 #include "ingestion/file_manifest.h"
 #include "ingestion/inference_backend.h"
 
+#include <atomic>
+#include <cctype>
+#include <chrono>
+#include <cstdlib>
+#include <fstream>
 #include <memory>
+#include <thread>
 #include <string>
 #include <vector>
 #include <sstream>
@@ -116,40 +122,149 @@ using namespace themis::ingestion;
 
 // ─── Scripted backend (deterministic LLM stub) ───────────────────────────────
 
+namespace {
+
+[[nodiscard]] static std::string trimCopy(std::string value) {
+    const auto begin = value.find_first_not_of(" \t\r\n");
+    if (begin == std::string::npos) {
+        return {};
+    }
+    const auto end = value.find_last_not_of(" \t\r\n");
+    return value.substr(begin, end - begin + 1);
+}
+
+[[nodiscard]] static std::vector<std::string>
+loadScriptedResponsesFromFile(const std::string& file_path) {
+    std::ifstream input(file_path);
+    if (!input.is_open()) {
+        return {};
+    }
+    std::ostringstream buffer;
+    buffer << input.rdbuf();
+    const std::string content = buffer.str();
+    if (content.empty()) {
+        return {};
+    }
+
+    std::vector<std::string> responses;
+    static constexpr const char* kSeparator = "\n---\n";
+    std::string::size_type start = 0;
+    while (start <= content.size()) {
+        const auto end = content.find(kSeparator, start);
+        const auto chunk =
+            (end == std::string::npos)
+                ? content.substr(start)
+                : content.substr(start, end - start);
+        auto trimmed = trimCopy(chunk);
+        if (!trimmed.empty()) {
+            responses.push_back(std::move(trimmed));
+        }
+        if (end == std::string::npos) {
+            break;
+        }
+        start = end + std::char_traits<char>::length(kSeparator);
+    }
+    return responses;
+}
+
+[[nodiscard]] static bool parseBoolEnv(const char* raw_value, bool default_value) {
+    if (raw_value == nullptr || raw_value[0] == '\0') {
+        return default_value;
+    }
+    std::string lowered(raw_value);
+    for (auto& ch : lowered) {
+        ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+    }
+    if (lowered == "0" || lowered == "false" || lowered == "off" || lowered == "no") {
+        return false;
+    }
+    if (lowered == "1" || lowered == "true" || lowered == "on" || lowered == "yes") {
+        return true;
+    }
+    return default_value;
+}
+
+[[nodiscard]] static std::chrono::microseconds parseLatencyEnv(const char* raw_value) {
+    if (raw_value == nullptr || raw_value[0] == '\0') {
+        return std::chrono::microseconds{0};
+    }
+    try {
+        const auto parsed = std::stoll(raw_value);
+        return std::chrono::microseconds{parsed < 0 ? 0 : parsed};
+    } catch (...) {
+        return std::chrono::microseconds{0};
+    }
+}
+
 /**
- * @brief Lightweight in-process text generation stub for benchmarking.
+ * @brief Lightweight in-process text generation backend for benchmarking.
  *
- * Returns a pre-configured response string for every prompt without
- * any I/O or thread synchronisation — ideal for isolating the
- * IngestionQualityJudge overhead from any real LLM cost.
+ * Supports deterministic scripted responses, optional response-sequence replay,
+ * and optional synthetic latency to approximate non-zero model cost.
  *
- * STUB/SIMULATION NOTE:
- * Purpose:    Benchmark isolation — measures judge overhead, not LLM latency.
- * Activation: Only used inside this benchmark compilation unit.
- * Production Delta: isAvailable() = true; generate() returns a fixed string.
- * Removal Plan: Not needed in production; stays test-scoped.
+ * SIMULATION NOTE:
+ * Purpose:    Benchmark isolation with optional approximation of live backend
+ *             timing and response variance.
+ * Activation: Only used inside this benchmark compilation unit. Runtime knobs:
+ *             THEMIS_BENCH_QJ_RESPONSE_FILE, THEMIS_BENCH_QJ_BACKEND_LATENCY_US,
+ *             THEMIS_BENCH_QJ_BACKEND_AVAILABLE.
+ * Production Delta: Does not perform real model inference; responses are
+ *                   synthetic fixture/script payloads.
+ * Removal Plan: Keep as benchmark harness backend.
  */
 class ScriptedTextBackend : public ITextGenerationBackend {
 public:
+    explicit ScriptedTextBackend(std::vector<std::string> responses,
+                                 std::chrono::microseconds latency,
+                                 bool available = true)
+        : responses_(std::move(responses)), latency_(latency), available_(available) {
+        if (responses_.empty()) {
+            responses_.push_back("SCORE: 0.80\nRATIONALE: default benchmark response.\n");
+        }
+    }
+
     explicit ScriptedTextBackend(std::string response, bool available = true)
-        : response_(std::move(response)), available_(available) {}
+        : ScriptedTextBackend(std::vector<std::string>{std::move(response)},
+                              std::chrono::microseconds{0},
+                              available) {}
 
     std::string generate(const std::string& /*prompt*/,
                          int    /*max_tokens*/,
                          double /*temperature*/,
                          const std::string& /*lora*/) override {
-        return response_;
+        if (latency_.count() > 0) {
+            std::this_thread::sleep_for(latency_);
+        }
+        const auto index = call_index_.fetch_add(1, std::memory_order_relaxed);
+        return responses_[index % responses_.size()];
     }
 
     bool        isAvailable() const override { return available_; }
-    std::string description() const override { return "ScriptedTextBackend-bench-v1"; }
-
-    void setResponse(const std::string& r) { response_ = r; }
+    std::string description() const override { return "ScriptedTextBackend-bench-v2"; }
 
 private:
-    std::string response_;
-    bool        available_;
+    std::vector<std::string> responses_;
+    std::chrono::microseconds latency_;
+    bool available_;
+    std::atomic<size_t> call_index_{0};
 };
+
+[[nodiscard]] static std::shared_ptr<ScriptedTextBackend>
+makeBenchmarkTextBackend(const std::string& default_response) {
+    const bool available = parseBoolEnv(std::getenv("THEMIS_BENCH_QJ_BACKEND_AVAILABLE"), true);
+    const auto latency = parseLatencyEnv(std::getenv("THEMIS_BENCH_QJ_BACKEND_LATENCY_US"));
+    std::vector<std::string> responses{default_response};
+    const char* response_file = std::getenv("THEMIS_BENCH_QJ_RESPONSE_FILE");
+    if (response_file != nullptr && response_file[0] != '\0') {
+        auto from_file = loadScriptedResponsesFromFile(response_file);
+        if (!from_file.empty()) {
+            responses = std::move(from_file);
+        }
+    }
+    return std::make_shared<ScriptedTextBackend>(std::move(responses), latency, available);
+}
+
+} // namespace
 
 // ─── Counting observer (zero-overhead sink for benchmarks) ───────────────────
 
@@ -255,7 +370,7 @@ BENCHMARK(BM_QJ01_EvaluateNullBackend)->Unit(benchmark::kMicrosecond);
 static void BM_QJ02_EvaluateSingleDimension(benchmark::State& state)
 {
     const auto resp = makeScoredResponse(0.90);
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
 
     IngestionJudgeConfig cfg;
     cfg.evaluate_completeness       = true;
@@ -294,7 +409,7 @@ class AllDimsFixture : public benchmark::Fixture {
 public:
     void SetUp(const benchmark::State&) override {
         resp    = makeScoredResponse(0.88);
-        backend = std::make_shared<ScriptedTextBackend>(resp);
+        backend = makeBenchmarkTextBackend(resp);
         judge   = std::make_unique<IngestionQualityJudge>(backend);
         ctx     = makeCtx(kLegalText1000, 5);
     }
@@ -332,7 +447,7 @@ BENCHMARK_F(AllDimsFixture, QJ03_EvaluateAllDimensions)(benchmark::State& state)
 static void BM_QJ04_EvaluateSparseContext(benchmark::State& state)
 {
     const auto resp = makeScoredResponse(0.90);
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
 
     IngestionJudgeConfig cfg;
     cfg.min_text_bytes_for_eval = 1000; // threshold > length of sparse text
@@ -366,7 +481,7 @@ BENCHMARK(BM_QJ04_EvaluateSparseContext)->Unit(benchmark::kMicrosecond);
 static void BM_QJ05_EvaluateEntityScaling(benchmark::State& state)
 {
     const auto resp = makeScoredResponse(0.85);
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
 
     // Enable only the two dimensions that embed entity lists in the prompt.
     IngestionJudgeConfig cfg;
@@ -413,7 +528,7 @@ static void BM_QJ06_EvaluateBulletListParsing(benchmark::State& state)
         resp_builder << "- Hint_" << i << ": re-run NER for entity type LAW\n";
 
     const auto resp = resp_builder.str();
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
 
     IngestionJudgeConfig cfg;
     cfg.evaluate_completeness       = true;
@@ -448,7 +563,7 @@ BENCHMARK(BM_QJ06_EvaluateBulletListParsing)
 static void BM_QJ07_ObserverDispatch_Zero(benchmark::State& state)
 {
     const auto resp = makeScoredResponse(0.90);
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
 
     IngestionJudgeConfig cfg;
     cfg.evaluate_completeness       = true;
@@ -484,7 +599,7 @@ BENCHMARK(BM_QJ07_ObserverDispatch_Zero)->Unit(benchmark::kMicrosecond);
 static void BM_QJ08_ObserverDispatch_N(benchmark::State& state)
 {
     const auto resp  = makeScoredResponse(0.90);
-    auto backend     = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend     = makeBenchmarkTextBackend(resp);
 
     IngestionJudgeConfig cfg;
     cfg.evaluate_completeness       = true;
@@ -584,7 +699,7 @@ BENCHMARK(BM_QJ10_ConstructDestruct)->Unit(benchmark::kNanosecond);
 static void BM_QJ11_FeedbackLoopJudgeOnly(benchmark::State& state)
 {
     const auto resp = makeScoredResponse(0.90);
-    auto backend    = std::make_shared<ScriptedTextBackend>(resp);
+    auto backend    = makeBenchmarkTextBackend(resp);
     IngestionQualityJudge judge(backend);
     const auto ctx = makeCtx(kLegalText1000, 5);
 
