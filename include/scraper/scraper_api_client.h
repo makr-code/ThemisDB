@@ -41,7 +41,7 @@ namespace scraper {
  * Used for:
  *  - Government REST APIs (e.g. Bundesanzeiger, EUR-Lex REST)
  *  - JS-build API endpoints (webpack-dev-server, Vite, Next.js)
- *  - React SPA backends that expose /api/* routes
+ *  - React SPA backends that expose /api/\* routes
  */
 struct ApiEndpointConfig {
     std::string url;

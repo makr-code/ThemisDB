@@ -40,7 +40,7 @@
  * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | ✅ migrated → `geo::haversine_km` |
  * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | ✅ migrated → `geo::haversine_m` |
  * | `GeoAccelerationBridge::haversineKm` | geo_acceleration_bridge.cpp | ✅ migrated → `geo::haversine_km` |
- * | `haversineDistanceM()` (geo/*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
+ * | `haversineDistanceM()` (geo/\*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
  *
  * ### Consolidation status
  * - All acceleration, index, and geo files fully migrated (v1.9.0)

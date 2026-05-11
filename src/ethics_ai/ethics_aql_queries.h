@@ -60,7 +60,7 @@ public:
     
     /**
      * @brief Get arguments by philosophy school
-     * Parameters: @school, @limit
+     * Parameters: `school`, `limit`
      */
     static std::string getArgumentsByPhilosophy() {
         return R"(
@@ -73,7 +73,7 @@ public:
     
     /**
      * @brief Get arguments by philosophy with type filter
-     * Parameters: @school, @argument_types (array), @limit
+     * Parameters: `school`, `argument_types` (array), `limit`
      */
     static std::string getArgumentsByPhilosophyAndType() {
         return R"(
@@ -87,7 +87,7 @@ public:
     
     /**
      * @brief Find similar dilemmas using vector similarity
-     * Parameters: @query_vector, @threshold, @limit
+     * Parameters: `query_vector`, `threshold`, `limit`
      */
     static std::string findSimilarDilemmas() {
         return R"(
@@ -107,7 +107,7 @@ public:
     
     /**
      * @brief Search arguments by content (fulltext)
-     * Parameters: @search_text, @limit
+     * Parameters: `search_text`, `limit`
      */
     static std::string searchArgumentsByContent() {
         return R"(
@@ -122,7 +122,7 @@ public:
     
     /**
      * @brief Traverse argument chains (graph traversal)
-     * Parameters: @start_id, @max_depth
+     * Parameters: `start_id`, `max_depth`
      * 
      * Note: Requires graph edges stored as:
      * - FROM: ethics_arguments/arg_001
@@ -144,7 +144,7 @@ public:
     
     /**
      * @brief Get supporting arguments (outbound "supports" edges)
-     * Parameters: @argument_id
+     * Parameters: `argument_id`
      */
     static std::string getSupportingArguments() {
         return R"(
@@ -157,7 +157,7 @@ public:
     
     /**
      * @brief Get countering arguments (outbound "counters" edges)
-     * Parameters: @argument_id
+     * Parameters: `argument_id`
      */
     static std::string getCounteringArguments() {
         return R"(
@@ -170,7 +170,7 @@ public:
     
     /**
      * @brief Find shortest path between two arguments
-     * Parameters: @start_id, @end_id, @max_depth
+     * Parameters: `start_id`, `end_id`, `max_depth`
      */
     static std::string findShortestPath() {
         return R"(
@@ -186,7 +186,7 @@ public:
     
     /**
      * @brief Get decision by ID
-     * Parameters: @decision_id
+     * Parameters: `decision_id`
      */
     static std::string getDecisionById() {
         return R"(
@@ -198,7 +198,7 @@ public:
     
     /**
      * @brief Get decisions by category
-     * Parameters: @category, @min_confidence, @limit
+     * Parameters: `category`, `min_confidence`, `limit`
      */
     static std::string getDecisionsByCategory() {
         return R"(
@@ -213,7 +213,7 @@ public:
     
     /**
      * @brief Get recent debates by category
-     * Parameters: @category, @since_timestamp, @limit
+     * Parameters: `category`, `since_timestamp`, `limit`
      */
     static std::string getRecentDebates() {
         return R"(
@@ -228,7 +228,7 @@ public:
     
     /**
      * @brief Find consensus decisions (high agreement among philosophies)
-     * Parameters: @min_consensus, @limit
+     * Parameters: `min_consensus`, `limit`
      */
     static std::string findConsensusDecisions() {
         return R"(
@@ -244,7 +244,7 @@ public:
     
     /**
      * @brief Get best practice arguments (high quality + satisfaction)
-     * Parameters: @min_quality, @min_satisfaction, @limit
+     * Parameters: `min_quality`, `min_satisfaction`, `limit`
      */
     static std::string getBestPractices() {
         return R"(
@@ -275,7 +275,7 @@ public:
     
     /**
      * @brief Get philosophy profile by school
-     * Parameters: @school
+     * Parameters: `school`
      */
     static std::string getPhilosophyProfile() {
         return R"(
@@ -303,7 +303,7 @@ public:
     
     /**
      * @brief Build RAG context: similar dilemmas + philosophy arguments + best practices
-     * Parameters: @query_vector, @schools (array), @category, @limit
+     * Parameters: `query_vector`, `schools` (array), `category`, `limit`
      */
     static std::string buildRAGContext() {
         return R"(
