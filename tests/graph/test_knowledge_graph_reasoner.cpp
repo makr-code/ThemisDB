@@ -23,7 +23,6 @@
 #include <filesystem>
 #include <fstream>
 #include <limits>
-#include <random>
 #include <string>
 #include <system_error>
 #include <thread>
@@ -573,11 +572,11 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
-    std::random_device rd;
-    std::mt19937_64 rng(rd());
-    std::uniform_int_distribution<unsigned long long> dist;
+    const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
     const auto tmp_file = std::filesystem::temp_directory_path() /
-                          ("kgr23_adapter_" + std::to_string(dist(rng)) + ".gguf");
+                          ("kgr23_adapter_" + std::to_string(ts) + "_" +
+                           std::to_string(tid_hash) + ".gguf");
     {
         std::ofstream out(tmp_file, std::ios::binary);
         ASSERT_TRUE(out.good());
@@ -591,6 +590,7 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     cfg.lora_ttl = std::chrono::seconds{0};
     auto manager = std::make_shared<themis::llm::MultiLoRAManager>(cfg);
     ASSERT_TRUE(manager->loadLoRA("graph_adapter_v1", tmp_file.string(), "base_model", 0.8f));
+    ASSERT_TRUE(manager->getLoRAInfo("graph_adapter_v1").has_value());
 
     kgr.setMultiLoRAManager(manager);
     kgr.applyLoRAScore(chain, "");
