@@ -152,11 +152,16 @@
   - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-22)
   - Perf: 1 M Kanten kalt ≤ 2 s; incremental CDC ≤ 50 ms
 - [x] Incremental CDC-Trigger: `KnowledgeGraphReasoner::onCDCEvent()` für Forward-Chaining bei Kanten-Inserts (Target: Q1 2027)
-- [ ] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
+- [x] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
   - Affected: Integration mit `src/llm/multi_lora_manager.cpp`
   - Runtime: Graph-Kontext → LoRA-Adapter-Selektion → Konfidenzwert (0.0–1.0) pro Inferenzkante
   - Guard: `THEMIS_ENABLE_LLM`; deterministischer Regel-Fallback wenn LoRA nicht geladen
   - Perf: LoRA-Scoring 1 000 Kanten ≤ 500 ms
+  - **Progress 2026-05-11**: `KnowledgeGraphReasoner` supports optional direct
+    `MultiLoRAManager` injection (`setMultiLoRAManager(...)`). `applyLoRAScore()`
+    now uses manager-backed adapter metadata (scale + premise-complexity penalty)
+    when no explicit scorer callback is injected; deterministic fallback remains
+    active when no adapter is available. Test KGR-23 verifies the bridge path.
 - [x] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
   - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Knowledge Graph Reasoning with Ontology & ML/LoRA

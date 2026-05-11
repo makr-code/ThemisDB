@@ -1,6 +1,6 @@
 /**
  * @file test_knowledge_graph_reasoner.cpp
- * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-22
+ * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-23
  *
  * Test coverage:
  *   KGR-01..05  Horn-clause rule application (transitive, reflexive, inverse, chained)
@@ -9,14 +9,19 @@
  *   KGR-14..16  applyLoRAScore() — stub integration
  *   KGR-17..18  Structural pattern detection (chain-of-authority, hub-spoke)
  *   KGR-19..20  InferenceStore capacity and TTL eviction
- *   KGR-21..22  LoRA adapter routing + score hardening
+ *   KGR-21..23  LoRA adapter routing + score hardening + manager bridge
  */
 
 #include "graph/knowledge_graph_reasoner.h"
+#if defined(THEMIS_ENABLE_LLM)
+#include "llm/multi_lora_manager.h"
+#endif
 
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <limits>
 #include <string>
 #include <thread>
@@ -549,6 +554,44 @@ TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
     EXPECT_TRUE(chain_neg_inf.empty());
 #endif
 }
+
+#if defined(THEMIS_ENABLE_LLM)
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-23: applyLoRAScore() uses MultiLoRAManager metadata-backed scoring
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge) {
+    KnowledgeGraphReasoner kgr;
+    ASSERT_TRUE(kgr.addRule({"rule_with_lora",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}},
+                             "graph_adapter_v1",
+                             0.0}));
+    kgr.addFact({"alice", "knows", "bob"});
+
+    auto chain = kgr.infer("alice", 1);
+    ASSERT_FALSE(chain.empty());
+
+    const auto tmp_file = std::filesystem::temp_directory_path() / "kgr23_adapter.gguf";
+    {
+        std::ofstream out(tmp_file, std::ios::binary);
+        ASSERT_TRUE(out.good());
+        out << "not-a-real-gguf-but-loadable";
+    }
+
+    themis::llm::MultiLoRAManager::Config cfg;
+    cfg.lora_ttl = std::chrono::seconds{0}; // disable background thread for test stability
+    auto manager = std::make_shared<themis::llm::MultiLoRAManager>(cfg);
+    ASSERT_TRUE(manager->loadLoRA("graph_adapter_v1", tmp_file.string(), "base_model", 0.8f));
+
+    kgr.setMultiLoRAManager(manager);
+    kgr.applyLoRAScore(chain, "");
+
+    ASSERT_FALSE(chain.empty());
+    // Score model: clamp(scale) * (1 / (1 + 0.25 * premises)).
+    // premises.size()==1 => 0.8 * 0.8 = 0.64
+    EXPECT_NEAR(chain.edges.front().lora_score, 0.64, 1e-6);
+}
+#endif
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Additional: Triple::isGround()

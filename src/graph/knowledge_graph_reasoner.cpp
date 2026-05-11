@@ -1,5 +1,9 @@
 #include "graph/knowledge_graph_reasoner.h"
 
+#if defined(THEMIS_ENABLE_LLM)
+#include "llm/multi_lora_manager.h"
+#endif
+
 #include <algorithm>
 #include <cassert>
 #include <chrono>
@@ -431,6 +435,13 @@ void KnowledgeGraphReasoner::setLoraScoreFn(LoraScoreFn fn) {
     lora_score_fn_ = std::move(fn);
 }
 
+#if defined(THEMIS_ENABLE_LLM)
+void KnowledgeGraphReasoner::setMultiLoRAManager(
+    std::shared_ptr<llm::MultiLoRAManager> manager) {
+    lora_manager_ = std::move(manager);
+}
+#endif
+
 // ─────────────────────────────────────────────────────────────────────────────
 // applyLoRAScore()
 // ─────────────────────────────────────────────────────────────────────────────
@@ -470,6 +481,30 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         return std::clamp(score, 0.0, 1.0);
     };
 
+#if defined(THEMIS_ENABLE_LLM)
+    const auto manager = lora_manager_;
+    std::unordered_map<std::string, std::optional<llm::LoRAInfo>> manager_info_cache;
+    const auto managerScore = [&](std::string_view adapter,
+                                  const InferenceEdge& edge) -> std::optional<double> {
+        if (!manager || adapter.empty()) {
+            return std::nullopt;
+        }
+        auto it = manager_info_cache.find(std::string(adapter));
+        if (it == manager_info_cache.end()) {
+            auto info = manager->getLoRAInfo(std::string(adapter));
+            it = manager_info_cache.emplace(std::string(adapter), std::move(info)).first;
+        }
+        if (!it->second.has_value()) {
+            return std::nullopt;
+        }
+        const double scaled_confidence =
+            std::clamp(static_cast<double>(it->second->scale), 0.0, 1.0);
+        const double complexity_penalty =
+            1.0 / (1.0 + 0.25 * static_cast<double>(edge.premises.size()));
+        return std::clamp(scaled_confidence * complexity_penalty, 0.0, 1.0);
+    };
+#endif
+
     for (auto& edge : chain.edges) {
         std::string_view effective_adapter = adapter_id;
         if (effective_adapter.empty()) {
@@ -484,6 +519,9 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         if (lora_score_fn_ && !effective_adapter.empty()) {
             // Use injected backend (real LoRA/MultiLoRAManager bridge).
             score = lora_score_fn_(effective_adapter, edge);
+        } else if (auto manager_score = managerScore(effective_adapter, edge);
+                   manager_score.has_value()) {
+            score = *manager_score;
         }
 #endif
         edge.lora_score = clampScore(score);
