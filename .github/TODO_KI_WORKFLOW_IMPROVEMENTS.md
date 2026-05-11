@@ -116,11 +116,11 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 - [ ] Lokal verifizieren: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all`
 
 ### 4.2 AddressSanitizer (ASan) in Nightly-Sweep integrieren
-- [ ] ASan-Build-Konfiguration in `CMakePresets.json` ergänzen
+- [x] ASan-Build-Konfiguration in `CMakePresets.json` ergänzen
   (`-fsanitize=address -fno-omit-frame-pointer`)
-- [ ] ASan-Job in `07-quality_nightly-benchmark-sweep.yml` als zusätzlichen
+- [x] ASan-Job in `07-quality_nightly-benchmark-sweep.yml` als zusätzlichen
   Step einfügen (schedule-only → kein PR-Trigger → Governance-konform)
-- [ ] Ziel: dynamische Prüfung auf Laufzeitfehler in KI-generiertem C++-Code
+- [x] Ziel: dynamische Prüfung auf Laufzeitfehler in KI-generiertem C++-Code
 
 ### 4.3 CodeQL-Workflow auf `paths:` eingrenzen
 - [x] `codeql.yml` aktuell triggert auf alle PRs nach `develop` ohne `paths:`
