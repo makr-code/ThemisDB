@@ -20,6 +20,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <limits>
@@ -573,10 +574,16 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     ASSERT_FALSE(chain.empty());
 
     const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
-    const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
-    const auto tmp_file = std::filesystem::temp_directory_path() /
-                          ("kgr23_adapter_" + std::to_string(ts) + "_" +
-                           std::to_string(tid_hash) + ".gguf");
+    std::filesystem::path tmp_file;
+    for (std::uint32_t attempt = 0; attempt < 16; ++attempt) {
+        const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_file = std::filesystem::temp_directory_path() /
+                   ("kgr23_adapter_" + std::to_string(ts) + "_" +
+                    std::to_string(tid_hash) + "_" + std::to_string(attempt) + ".gguf");
+        if (!std::filesystem::exists(tmp_file)) {
+            break;
+        }
+    }
     {
         std::ofstream out(tmp_file, std::ios::binary);
         ASSERT_TRUE(out.good());
