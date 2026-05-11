@@ -172,6 +172,8 @@ TEST(UTRConverter, FromImageRGBReturnValidTrain) {
     const auto px = makePixels(4, 4, 3);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 4, 4, 3);
     EXPECT_EQ(train.cores.size(), 3u);
+    // 4x4 with patch extent 4 -> single 1x1 patch grid.
+    // RGB statistics emit {mean,stddev} per channel -> feature width 3*2 = 6.
     EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{1u, 1u, 6u}));
 }
 
@@ -179,6 +181,8 @@ TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
     const auto px = makePixels(8, 8, 1);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 8, 8, 1);
     EXPECT_EQ(train.cores.size(), 3u);
+    // 8x8 with patch extent 4 -> 2x2 patch grid.
+    // Single-channel stats emit {mean,stddev} -> feature width 2.
     EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u}));
 }
 

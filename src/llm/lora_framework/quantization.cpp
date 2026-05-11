@@ -20,6 +20,7 @@
 #include "llm/lora_framework/quantization.h"
 
 #include <fmt/format.h>
+#include <exception>
 
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
@@ -110,8 +111,10 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
         if (g_debug_log_fn) {
             try {
                 g_debug_log_fn(message);
+            } catch (const std::exception& e) {
+                spdlog::warn("quantization debug callback failed: {}", e.what());
             } catch (...) {
-                // Fail-closed: callback diagnostics must not break quantization.
+                spdlog::warn("quantization debug callback failed with unknown exception");
             }
         }
     }

@@ -102,11 +102,12 @@ public:
      * physical dimension into a sequence of quantics factors, and decomposes
      * the tensor again in the reshaped layout.
      *
-     * Factorisation strategy:
-     * - powers of two become repeated `2` modes
-     * - non-power-of-two dimensions are padded with trailing zeros (appended
-     *   after the original dense element order) to the next power of
-     *   two and decomposed into pure-binary quantics modes; `QTTrain` records
+      * Factorisation strategy:
+      * - powers of two become repeated `2` modes
+      * - non-power-of-two dimensions are padded with trailing zeros (appended
+      *   in flattened lexicographic element order after the original dense payload)
+      *   to the next power of
+      *   two and decomposed into pure-binary quantics modes; `QTTrain` records
      *   both the original and padded physical extents plus the original element
      *   count so callers can distinguish valid payload from padding
      *

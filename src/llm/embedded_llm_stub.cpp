@@ -42,6 +42,15 @@
 
 #include <stdexcept>
 
+#ifndef THEMIS_NO_SPDLOG
+#include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+template <typename... Args>
+inline void warn(const char*, Args&&...) {}
+} // namespace spdlog
+#endif
+
 namespace themis {
 namespace llm {
 
@@ -110,9 +119,10 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
                 if (!result.empty()) {
                     return result;
                 }
+            } catch (const std::exception& e) {
+                spdlog::warn("EmbeddedLLM embed bridge callback failed: {}", e.what());
             } catch (...) {
-                // Intentional fail-closed behavior: misconfigured bridge must not
-                // make the no-LLM build throw.
+                spdlog::warn("EmbeddedLLM embed bridge callback failed with unknown exception");
             }
         }
     }
@@ -172,13 +182,17 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
                 if (request.stream_callback && !response.text.empty()) {
                     try {
                         request.stream_callback(response.text);
+                    } catch (const std::exception& e) {
+                        spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
                     } catch (...) {
-                        // Ignore callback failures on the bridge path.
+                        spdlog::warn("EmbeddedLLM stream callback failed with unknown exception");
                     }
                 }
                 return response;
+            } catch (const std::exception& e) {
+                spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
             } catch (...) {
-                // Fall through to the disabled stub response.
+                spdlog::warn("EmbeddedLLM generate bridge callback failed with unknown exception");
             }
         }
     }

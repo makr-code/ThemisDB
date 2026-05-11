@@ -27,7 +27,17 @@
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <chrono>
+#include <exception>
 #include <sstream>
+
+#ifndef THEMIS_NO_SPDLOG
+#include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+template <typename... Args>
+inline void warn(const char*, Args&&...) {}
+} // namespace spdlog
+#endif
 
 namespace themis {
 namespace llamacpp {
@@ -232,7 +242,15 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
                 bridged.span_id = request.span_id;
             }
             if (request.stream_callback && !bridged.text.empty()) {
-                try { request.stream_callback(bridged.text); } catch (...) { ++error_count_; }
+                try {
+                    request.stream_callback(bridged.text);
+                } catch (const std::exception& e) {
+                    ++error_count_;
+                    spdlog::warn("LlamaCppPlugin stream callback failed: {}", e.what());
+                } catch (...) {
+                    ++error_count_;
+                    spdlog::warn("LlamaCppPlugin stream callback failed with unknown exception");
+                }
             }
             ++inference_count_;
             return bridged;
@@ -273,7 +291,15 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         ++inference_count_;
         const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
         if (request.stream_callback) {
-            try { request.stream_callback(text); } catch (...) { ++error_count_; }
+            try {
+                request.stream_callback(text);
+            } catch (const std::exception& e) {
+                ++error_count_;
+                spdlog::warn("LlamaCppPlugin stub stream callback failed: {}", e.what());
+            } catch (...) {
+                ++error_count_;
+                spdlog::warn("LlamaCppPlugin stub stream callback failed with unknown exception");
+            }
         }
         response.text             = text;
         response.success          = true;

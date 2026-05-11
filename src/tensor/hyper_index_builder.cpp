@@ -148,10 +148,12 @@ std::vector<std::vector<double>> buildNumericThresholds(
         std::sort(values.begin(), values.end());
         auto& out = thresholds[numeric_index];
         out.reserve(bucket_count - 1U);
+        const auto value_count = static_cast<double>(values.size());
+        const auto bucket_count_d = static_cast<double>(bucket_count);
         for (std::size_t bucket = 1; bucket < bucket_count; ++bucket) {
+            const auto quantile = static_cast<double>(bucket) / bucket_count_d;
             const auto quantile_index = static_cast<std::size_t>(
-                (static_cast<double>(bucket) / static_cast<double>(bucket_count)) *
-                static_cast<double>(values.size()));
+                quantile * value_count);
             const auto idx = std::min<std::size_t>(
                 quantile_index,
                 values.size() - 1U);
