@@ -128,18 +128,28 @@ cpp_best_practices:
     - "Prefer 'nullptr' over NULL or 0."
     - "Use 'constexpr' for compile-time computations."
     - "Use range-based for loops for container iteration."
+    - "Prefer std::string_view and std::span for read-only/view-style parameter passing to avoid unnecessary copies."
+    - "Prefer C++20 ranges (std::ranges) for composable transformations/filtering over ad-hoc raw loops when readability is improved."
     - "Prefer smart pointers (std::unique_ptr, std::shared_ptr) over raw pointers."
 
   resource_management_raii:
     - "Use RAII to bind resource lifetime to object lifetime."
     - "Use std::lock_guard or std::unique_lock for mutex locking."
-    - "Avoid manual new/delete; prefer smart pointers."
+    - "Avoid manual new/delete; prefer smart pointers (std::unique_ptr/std::shared_ptr)."
+    - "Any intentional new/delete usage is review-exception only and must be declared in the PR under the "AI-Generated Code (KI-generierter Code)" checklist plus explicit justification in the PR description."
     - "Ensure resources are released automatically when objects go out of scope."
 
   avoid_unnecessary_copies:
     - "Pass large objects by const reference (const &)."
     - "Use move semantics (std::move) for efficient transfer of ownership."
     - "Implement copy and move constructors appropriately."
+
+  template_constraints:
+    - "Use C++20 concepts/requires clauses for template constraints; avoid std::enable_if-based SFINAE in new code."
+
+  coroutines:
+    - "When introducing coroutines, document promise type responsibilities explicitly (lifecycle, allocation, suspension points, error propagation)."
+    - "Coroutine APIs must state cancellation and exception behavior in interface documentation."
 
   clear_and_safe_interfaces:
     - "Mark member functions that do not modify state as 'const'."
@@ -169,12 +179,12 @@ cpp_best_practices:
     - "Follow a consistent coding style guide."
 
   copilot_guidance:
-    - "When generating C++ code, use modern language features like 'auto', smart pointers, and 'constexpr'."
-    - "Avoid manual memory management; prefer RAII."
+    - "When generating C++ code, use modern language features like 'auto', smart pointers, 'constexpr', concepts, and ranges where appropriate."
+    - "Avoid manual memory management; prefer RAII with std::unique_ptr/std::shared_ptr; treat raw new/delete as review-exception only."
     - "Synchronize threads with std::mutex and std::lock_guard; keep critical sections short."
     - "Prevent deadlocks by consistent locking order."
-    - "Write clear, const-correct, exception-safe functions."
-    - "Optimize only after profiling and consider cache friendliness."
+    - "Write clear, const-correct, exception-safe functions; prefer std::string_view/std::span for non-owning parameters."
+    - "Optimize only after profiling and consider cache friendliness; prefer std::ranges pipelines over manual loops when they improve clarity."
     - "If stubs, mocks, or simulation paths are introduced in source code, document them explicitly (purpose, activation conditions, production delta, and removal plan)."
 ```
 

@@ -60,11 +60,11 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 - [x] Vorlage: https://github.com/github/awesome-copilot/blob/main/instructions/cpp-language-service-tools.instructions.md
 
 ### 2.2 `copilot-instructions.md` um Modern-C++20/23-Mandate erweitern
-- [ ] `std::string_view` und `std::span` für Parameter-Übergabe ohne Kopien vorschreiben
-- [ ] C++20 Concepts für Template-Constraints mandatieren (kein `enable_if`)
-- [ ] Ranges-Bibliothek gegenüber Raw-Loop-Schleifen bevorzugen
-- [ ] Coroutinen-Abschnitt: Promise-Typ-Implementierung explizit dokumentieren
-- [ ] RAII-Abschnitt schärfen: `std::unique_ptr`/`std::shared_ptr` zwingend,
+- [x] `std::string_view` und `std::span` für Parameter-Übergabe ohne Kopien vorschreiben
+- [x] C++20 Concepts für Template-Constraints mandatieren (kein `enable_if`)
+- [x] Ranges-Bibliothek gegenüber Raw-Loop-Schleifen bevorzugen
+- [x] Coroutinen-Abschnitt: Promise-Typ-Implementierung explizit dokumentieren
+- [x] RAII-Abschnitt schärfen: `std::unique_ptr`/`std::shared_ptr` zwingend,
   kein `new`/`delete` ohne explizites Review-Flag
 
 ### 2.3 Prompt-Engineering-Leitfaden ergänzen

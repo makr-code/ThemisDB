@@ -50,7 +50,7 @@
 
 <!-- Tool-Referenz: siehe `.github/instructions/cpp-language-service-tools.instructions.md` -->
 
-- [ ] Symbol-Referenzen mit `GetSymbolReferences_CppTools` geprüft
+- [ ] Symbol-Referenzen mit `GetSymbolReferences_CppTools` geprüft (siehe `.github/instructions/cpp-language-service-tools.instructions.md`)
 - [ ] Keine rohen Pointer und kein `new`/`delete` ohne explizites Review eingeführt
 - [ ] RAII und Exception-Safety für neue/angepasste Pfade geprüft
 - [ ] Keine unnötig komplexen KI-Abstraktionen eingeführt
