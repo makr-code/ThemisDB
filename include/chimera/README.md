@@ -214,6 +214,11 @@ Result<bool>                           set_stream_config(config);
 Result<std::unique_ptr<IPreparedStatement>> prepare(query);
 Result<bool>                                unprepare(statement_id);
 Result<std::vector<std::string>>            list_prepared();
+
+// Connection pool injection (optional)
+void setConnectionPool(std::function<void*()> acquire_fn);
+// Once injected, has_capability(CONNECTION_POOLING) returns true.
+// Pass nullptr to disable pooling.
 ```
 
 **Thread Safety:** All public methods are internally protected by `std::mutex`. Concurrent calls from multiple threads are safe. Keep critical sections short; avoid holding the adapter lock during long-running callbacks.
@@ -271,7 +276,7 @@ adapter.connect("themisdb://prod-host:7070/mydb");
 
 | Limitation | Status |
 |------------|--------|
-| `Capability::CONNECTION_POOLING` declared as available but no dedicated pooling API is implemented in the adapter | Tracked in [`src/chimera/ROADMAP.md`](../../src/chimera/ROADMAP.md) — Target Q3 2026 |
+| `Capability::CONNECTION_POOLING` is conditional: available only when a pool provider is injected via `setConnectionPool()`; reported as unavailable by default | Connection-pool injection API added; full pooling implementation tracked in [`src/chimera/ROADMAP.md`](../../src/chimera/ROADMAP.md) — Target Q3 2026 |
 | Engine-backed paths return `NOT_IMPLEMENTED` if `THEMISDB_ENGINE_AVAILABLE` build flag is off | By design — simulation mode is the safe default |
 | `execute_query_stream` in production mode still uses the in-memory snapshot; real server-side cursor delegated to engine in a future release | See [`src/chimera/FUTURE_ENHANCEMENTS.md`](../../src/chimera/FUTURE_ENHANCEMENTS.md) |
 
@@ -290,4 +295,4 @@ adapter.connect("themisdb://prod-host:7070/mydb");
 | Secondary docs (EN) | [`docs/en/chimera/README.md`](../../docs/en/chimera/README.md) |
 | Streaming tests | [`tests/chimera/test_chimera_streaming.cpp`](../../tests/chimera/test_chimera_streaming.cpp) |
 | Prepared-statement tests | [`tests/chimera/test_chimera_prepared_statements.cpp`](../../tests/chimera/test_chimera_prepared_statements.cpp) |
-| External chimera headers | [`external/chimera/include/chimera/`](../../external/chimera/include/chimera/) |
+| External chimera submodule | [`external/chimera/`](../../external/chimera/) |
