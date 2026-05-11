@@ -65,8 +65,13 @@
 #include "ingestion/legal_domain.h"
 #include "ingestion/ingestion_sinks.h"
 #include "document/document_store.h"
+#include "index/graph_index.h"
+#include "index/vector_index.h"
+#include "storage/rocksdb_wrapper.h"
 
+#include <filesystem>
 #include <gtest/gtest.h>
+#include <atomic>
 #include <memory>
 #include <string>
 
@@ -74,9 +79,18 @@ namespace themis {
 namespace ingestion {
 namespace test {
 
+namespace fs = std::filesystem;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
+
+static std::string makeTempDbPath(const std::string& stem) {
+    static std::atomic<std::uint64_t> counter{0};
+    const auto id = counter.fetch_add(1, std::memory_order_relaxed);
+    return (fs::temp_directory_path() /
+            (stem + "-" + std::to_string(id))).string();
+}
 
 /// Build a minimal BaseEntitySet for sink tests.
 static BaseEntitySet makeEntitySet(const std::string& file_id = "abc123") {
@@ -168,6 +182,58 @@ TEST(LegalDomainTests, DS05_SinkBundleWriteAllRoutesToAdapter) {
     auto r = bundle.writeAll(es, "bundle-col");
     ASSERT_TRUE(r.has_value()) << r.error().message();
     EXPECT_EQ(adapter->documentCount(), 1u);
+}
+
+TEST(LegalDomainTests, GS01_GraphStoreSinkAdapterPersistsNodesAndEdges) {
+    const auto db_path = makeTempDbPath("graph-sink");
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = db_path;
+    cfg.enable_blobdb = false;
+    auto db = std::make_shared<RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    auto graph_index = std::make_shared<GraphIndexManager>(*db);
+    GraphStoreSinkAdapter adapter(db, graph_index);
+
+    const auto es = makeEntitySet("graph-file");
+    auto node_result = adapter.writeEntities(es.nodes);
+    ASSERT_TRUE(node_result.has_value()) << node_result.error().message();
+    auto edge_result = adapter.writeRelations(es.edges);
+    ASSERT_TRUE(edge_result.has_value()) << edge_result.error().message();
+
+    EXPECT_EQ(adapter.nodeCount(), 1u);
+    EXPECT_EQ(adapter.edgeCount(), 1u);
+    EXPECT_TRUE(db->get("ingestion:graph:node:" + es.nodes.front().id).has_value());
+
+    db->close();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
+}
+
+TEST(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors) {
+    const auto db_path = makeTempDbPath("vector-sink");
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = db_path;
+    cfg.enable_blobdb = false;
+    auto db = std::make_shared<RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    auto vector_index = std::make_shared<VectorIndexManager>(*db);
+    VectorIndexSinkAdapter adapter(vector_index, "ingestion_chunks", 1);
+
+    auto es = makeEntitySet("vector-file");
+    es.chunks.front().embedding = {0.1f};
+    auto result = adapter.writeVectors(es.chunks);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+
+    EXPECT_EQ(adapter.vectorCount(), 1u);
+    ASSERT_NE(adapter.findByChunkId(es.chunks.front().chunk_id), nullptr);
+    EXPECT_EQ(adapter.findByChunkId(es.chunks.front().chunk_id)->source_file_id,
+              es.chunks.front().source_file_id);
+
+    db->close();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -171,14 +171,14 @@ TEST(UTRConverter, FromImageRGBReturnValidTrain) {
     const auto px = makePixels(4, 4, 3);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 4, 4, 3);
     EXPECT_EQ(train.cores.size(), 3u);
-    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{4u, 4u, 3u}));
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{1u, 1u, 6u}));
 }
 
 TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
     const auto px = makePixels(8, 8, 1);
     const auto train = themis::tensor::UTRConverter::fromImage(px, 8, 8, 1);
-    EXPECT_EQ(train.cores.size(), 2u);
-    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{8u, 8u}));
+    EXPECT_EQ(train.cores.size(), 3u);
+    EXPECT_EQ(train.mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u}));
 }
 
 TEST(UTRConverter, FromImageRejectsZeroDimension) {
@@ -238,6 +238,33 @@ TEST(UTRConverter, FromDocumentParagraphVsSentenceProduceDifferentShapes) {
     EXPECT_NE(ht_para.shape[0], ht_sent.shape[0]);
 }
 
+TEST(UTRConverter, FromDocumentLexicalEmbeddingChangesAcrossTopics) {
+    themis::tensor::UTRConfig cfg;
+    cfg.embed_dim = 32;
+    cfg.max_segments = 8;
+
+    const auto ht_a = themis::tensor::UTRConverter::fromDocument(
+        "Database transaction commit durability rollback",
+        themis::tensor::DocumentStructureHint::SENTENCES,
+        cfg);
+    const auto ht_b = themis::tensor::UTRConverter::fromDocument(
+        "Satellite imagery forest canopy terrain elevation",
+        themis::tensor::DocumentStructureHint::SENTENCES,
+        cfg);
+
+    const auto dense_a = ht_a.reconstruct();
+    const auto dense_b = ht_b.reconstruct();
+    ASSERT_EQ(dense_a.size(), dense_b.size());
+    bool differs = false;
+    for (std::size_t i = 0; i < dense_a.size(); ++i) {
+        if (std::abs(dense_a[i] - dense_b[i]) > 1e-4f) {
+            differs = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(differs);
+}
+
 // ============================================================================
 // fromTabular / HyperIndexBuilder
 // ============================================================================
@@ -286,4 +313,40 @@ TEST(UTRConverter, HyperIndexTensorContractPinnedModeReturnsSubset) {
     const auto pinned  = hi.contract({{0u, 0u}});  // pin dimension-0 to bucket 0
     EXPECT_GE(full, pinned);
     EXPECT_GE(pinned, 0.0);
+}
+
+TEST(UTRConverter, HyperIndexBuilderQuantileBucketingPreservesTailSignal) {
+    using namespace themis::tensor;
+
+    ColumnSchema amount;
+    amount.name = "amount";
+    amount.type = ColumnType::NUMERIC;
+    amount.range_min = 0.0;
+    amount.range_max = 1000.0;
+
+    ColumnSchema status;
+    status.name = "status";
+    status.type = ColumnType::CATEGORY;
+    status.categories = {"cold", "warm", "hot"};
+
+    std::vector<TableRow> rows;
+    for (int i = 0; i < 63; ++i) {
+        TableRow row;
+        row.numeric_values = {static_cast<double>(i)};
+        row.category_values = {"cold"};
+        rows.push_back(row);
+    }
+    TableRow outlier;
+    outlier.numeric_values = {999.0};
+    outlier.category_values = {"hot"};
+    rows.push_back(outlier);
+
+    HyperIndexConfig cfg;
+    cfg.bucket_count = 4;
+    cfg.eps = 0.01;
+    cfg.max_rank = 8;
+
+    const auto hi = HyperIndexBuilder::fromSchema("tenant", {amount, status}, rows, cfg);
+    const auto tail_bucket = hi.contract({{0u, 3u}});
+    EXPECT_GT(tail_bucket, 0.0);
 }

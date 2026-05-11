@@ -198,14 +198,19 @@ TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
     const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
 
     EXPECT_EQ(qt.grid_sizes, (std::vector<std::size_t>{3u, 4u, 5u}));
+    EXPECT_EQ(qt.padded_grid_sizes, (std::vector<std::size_t>{4u, 4u, 8u}));
     EXPECT_EQ(qt.bit_depths, (std::vector<std::size_t>{2u, 2u, 3u}));
-    EXPECT_EQ(qt.quantics_mode_sizes, (std::vector<std::size_t>{3u, 2u, 2u, 5u}));
+    EXPECT_EQ(qt.quantics_mode_sizes,
+              (std::vector<std::size_t>{2u, 2u, 2u, 2u, 2u, 2u, 2u}));
 
     const auto original = train.reconstruct();
     const auto reshaped = qt.toTTTrain().reconstruct();
-    ASSERT_EQ(original.size(), reshaped.size());
+    ASSERT_GE(reshaped.size(), original.size());
     for (std::size_t i = 0; i < original.size(); ++i) {
         EXPECT_NEAR(original[i], reshaped[i], 1e-3f);
+    }
+    for (std::size_t i = original.size(); i < reshaped.size(); ++i) {
+        EXPECT_NEAR(reshaped[i], 0.0f, 1e-3f);
     }
 }
 

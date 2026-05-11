@@ -294,14 +294,10 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         total_elements *= bucket_count;
     }
 
-    // STUB/SIMULATION NOTE (STUB #255):
-    // Purpose: Expose latent cross-column relationships via TT co-occurrence tensor.
-    // Activation: Always.
-    // Production Delta: Uses uniform bucketing (NUMERIC: equal-width intervals,
-    //   CATEGORY: insertion-order rank). No FK-graph weighting or cross-table
-    //   join propagation in bucket assignment.
-    // Removal Plan: Q4 2028 — integrate FK graph into bucket assignment; add
-    //   index-guided TT-cross for cross-table FK signal propagation.
+    // Adaptive bucketing:
+    // - NUMERIC columns use empirical quantiles derived from the observed rows
+    // - CATEGORY columns are ranked by observed frequency
+    // - FK-graph-aware cross-table propagation is still future work
 
     std::vector<float> count_tensor(total_elements, 0.0f);
 

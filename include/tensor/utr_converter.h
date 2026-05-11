@@ -26,7 +26,7 @@
  * - No tenant data mixing — each converter method is scoped to a single dataset.
  * - Coordinate precision loss ≤ 1e-7 for geospatial inputs.
  *
- * ## Stub status
+ * ## Current implementation status
  *
  * - STUB #256: `fromGeospatial()` — raster grid encoded as TT via row-major
  *   unfolding + TT-SVD.  Neighborhood preservation is structural (locality of
@@ -34,14 +34,13 @@
  *   Full topology-preserving encoding (geomorphic TT mode ordering) deferred to
  *   Q3 2028.
  *
- * - STUB #257: `fromDocument()` — hierarchical sentence embedding; uses uniform
- *   paragraph splits rather than a learned segmentation model.  Full HT encoding
- *   with discourse-graph-guided tree topology deferred to Q4 2028.
+ * - `fromDocument()` now uses normalized token features plus hashed character
+ *   trigram features for each segment before HT decomposition.  A learned
+ *   sentence encoder / discourse-guided topology is still deferred.
  *
- * - STUB #258: `fromImage()` — 3-D / 4-D TT encoding of pixel data in
- *   H×W×C mode ordering.  No semantic alignment or patch embedding performed;
- *   pixel values are normalised to [0, 1] and decomposed directly.
- *   Patch-based structural similarity embedding deferred to Q4 2028.
+ * - `fromImage()` now performs non-overlapping patch aggregation (mean +
+ *   stddev per channel) before TT decomposition.  Learned semantic image
+ *   embeddings remain deferred to Q4 2028.
  */
 
 #pragma once
@@ -165,7 +164,8 @@ public:
      *
      * @throws std::invalid_argument if h, w, or c is 0 or pixels.size() != h*w*c.
      *
-     * @note STUB #258 — patch-based structural similarity embedding deferred to Q4 2028.
+      * @note Uses patch statistics today; learned semantic image embeddings are
+      *       still deferred to Q4 2028.
      */
     [[nodiscard]] static storage::TTTrain
     fromImage(const std::vector<float>& pixels,
@@ -176,8 +176,9 @@ public:
      * @brief Encode a document as a hierarchical TT (HTTrain).
      *
      * The document is split into segments (paragraphs or sentences depending on
-     * `hint`).  Each segment is encoded as a fixed-length embedding vector via
-     * a hash-projection (STUB #257).  The resulting segment × embed_dim matrix
+      * `hint`).  Each segment is encoded as a fixed-length embedding vector via
+      * normalized token + hashed trigram features.  The resulting
+      * segment × embed_dim matrix
      * is decomposed via HT-SVD into an HTTrain.
      *
      * @param text   Raw document text (UTF-8).
@@ -187,7 +188,8 @@ public:
      *
      * @throws std::invalid_argument if text is empty.
      *
-     * @note STUB #257 — discourse-graph HT topology deferred to Q4 2028.
+      * @note Learned sentence encoders / discourse-graph HT topology remain
+      *       deferred to Q4 2028.
      */
     [[nodiscard]] static tensor::HTTrain
     fromDocument(const std::string&       text,

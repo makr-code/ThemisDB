@@ -285,17 +285,10 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     std::vector<std::size_t> quantics_mode_sizes;
     bit_depths.reserve(resolved_grid_sizes.size());
     padded_grid_sizes.reserve(resolved_grid_sizes.size());
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a production-usable quantics reshape path before the
-    //          full pure-binary QTT layout and inverse physical-index mapping land.
-    // Activation: Always.
-    // Production Delta: Each physical dimension is factorised into repeated
-    //                   `2` modes plus one residual factor when needed
-    //                   (e.g. 12 -> {2, 2, 3}) instead of a zero-padded pure
-    //                   binary QTT layout; metadata stores `grid_sizes` and
-    //                   `quantics_mode_sizes` only.
-    // Removal Plan: Q2 2028 — replace residual-factor fallback with padded
-    //               pure-binary QTT plus explicit reversible index mapping.
+    // Pure-binary quantics layout:
+    // - every physical dimension is padded to the next power-of-two extent
+    // - the reshaped TT uses only size-2 quantics modes
+    // - QTTrain metadata keeps both original and padded physical extents
     for (const auto grid_size : resolved_grid_sizes) {
         const auto bit_depth = calculateBitDepth(grid_size);
         bit_depths.push_back(bit_depth);

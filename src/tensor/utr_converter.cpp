@@ -78,18 +78,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 }
 
 // ============================================================================
-// Hash-projection embedding (STUB #257)
+// Lexical feature embedding for documents
 // ============================================================================
-
-// STUB/SIMULATION NOTE (STUB #257):
-// Purpose: Provide a fixed-length embedding for each text segment so that the
-//          HT decomposer can operate on a well-defined 2-D matrix.
-// Activation: Always.
-// Production Delta: Uses a deterministic FNV-1a hash projection instead of a
-//   learned sentence encoder (e.g. SBERT).  Semantic similarity is therefore
-//   approximated by lexical token overlap rather than semantic meaning.
-// Removal Plan: Q4 2028 — wire a learnable sentence encoder (e.g. a quantised
-//   SBERT variant loaded via LLMPluginManager) and replace hash projection.
 
 /// FNV-1a 64-bit hash of a string.
 static uint64_t fnv1a(const std::string& s) noexcept {
@@ -249,16 +239,10 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
             ") != h*w*c (" + std::to_string(expected) + ")");
     }
 
-    // STUB/SIMULATION NOTE (STUB #258):
-    // Purpose: Provide a TT-encoded image representation for structural similarity
-    //          search in TensorIndexManager.
-    // Activation: Always.
-    // Production Delta: Normalises pixel values to [0, 1] and decomposes directly
-    //   in HWC mode order.  No patch embedding, semantic alignment, or frequency-
-    //   domain transform is applied.  Similarity is therefore pixel-level, not
-    //   semantic.
-    // Removal Plan: Q4 2028 — add patch-based structural embedding (non-overlapping
-    //   patches → learned linear projection → TT decompose in patch space).
+    // Patch-statistics embedding:
+    // - split the image into non-overlapping patches
+    // - compute mean + standard deviation per channel
+    // - TT-decompose the resulting patch-feature tensor
 
     const auto patch_h = std::max<std::size_t>(1, std::min<std::size_t>(4, h));
     const auto patch_w = std::max<std::size_t>(1, std::min<std::size_t>(4, w));

@@ -90,7 +90,7 @@ std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response (add disclaimer if needed)
     if (hasEthicalGuidelines()) {
@@ -111,7 +111,7 @@ std::string EmbeddedLLM::generateWithParams(
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens, temperature, top_p);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response
     if (hasEthicalGuidelines()) {
@@ -200,8 +200,10 @@ std::string EmbeddedLLM::generateStreaming(
 ) {
     InferenceRequest request = createRequest(prompt, max_tokens);
     request.stream_callback = callback;
-    
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
+    if (callback && !request.stream_callback && !response.text.empty()) {
+        callback(response.text);
+    }
     return response.text;
 }
 
@@ -226,13 +228,13 @@ std::string EmbeddedLLM::generateStreamingSSE(
 
 json EmbeddedLLM::generateAsMCP(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsMCPResponse(response);
 }
 
 json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsJsonMarkdown(response);
 }
 
