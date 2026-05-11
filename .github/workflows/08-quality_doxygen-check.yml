@@ -1,25 +1,8 @@
-name: Doxygen Documentation Check
+name: Doxygen Mermaid Mapping
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'Doxyfile'
-      - 'include/**/*.h'
-      - 'include/**/*.hpp'
-      - 'include/**/*.hh'
-      - 'include/**/*.hxx'
-      - 'include/**/*.ipp'
-      - 'include/**/*.tpp'
-      - 'src/**/*.h'
-      - 'src/**/*.hpp'
-      - 'src/**/*.hh'
-      - 'src/**/*.hxx'
-      - 'src/**/*.ipp'
-      - 'src/**/*.tpp'
-      - '.github/workflows/08-quality_doxygen-check.yml'
+  schedule:
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 concurrency:
@@ -30,9 +13,9 @@ permissions:
   contents: read
 
 jobs:
-  doxygen-check:
+  doxygen-mermaid-map:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -43,7 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y doxygen
 
-      - name: Run Doxygen warning gate
+      - name: Run Doxygen warning gate + XML export
         run: |
           WARN_LOG="$(awk -F= '/^WARN_LOGFILE[[:space:]]*=[[:space:]]*/{print $2}' Doxyfile | xargs)"
           if [ -z "${WARN_LOG}" ]; then
@@ -62,3 +45,18 @@ jobs:
             echo "Expected warning log file was not created: ${WARN_LOG}"
             exit 1
           fi
+
+      - name: Generate Mermaid class/function mapping
+        run: |
+          python3 scripts/generate_doxygen_mermaid_map.py
+
+      - name: Upload Doxygen Mermaid artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-mermaid-mapping
+          path: |
+            build/doxygen/doxygen-warnings.log
+            build/doxygen/themisdb_doxygen_mermaid_overview.md
+            build/doxygen/themisdb_class_map.mmd
+            build/doxygen/themisdb_function_map.mmd
+          retention-days: 14

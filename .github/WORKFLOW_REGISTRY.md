@@ -23,6 +23,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — GPU benchmark matrix (CUDA/HIP/Vulkan); satisfies §1.4 Maßnahme #5 (perf audit check 5c)
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
   — Nightly benchmark sweep (schedule 02:00 UTC, modules 2..35); satisfies §1.4 Maßnahme #10 (perf audit check 10a)
+- `.github/workflows/08-quality_doxygen-check.yml`
+  — Scheduled Doxygen warning gate + automatic Mermaid class/function mapping export as CI artifact
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
 - `.github/workflows/copilot-ollama-router-ci.yml`
@@ -61,6 +63,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 7
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 8
 - Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
