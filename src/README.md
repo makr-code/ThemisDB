@@ -6,7 +6,7 @@ Dieses Verzeichnis enthält die produktive Implementierung von ThemisDB.
 
 ## Struktur
 
-- 58 Top-Level-Module (z. B. `api`, `query`, `storage`, `llm`, `temporal`, `sharding`)
+- 58 Top-Level-Module (z. B. `ai`, `api`, `query`, `storage`, `llm`, `temporal`, `sharding`)
 - Modul-Doku pro Modul in der Regel über:
   - `README.md`
   - `MODULE_FUNCTION_USAGE_MAP.md` (modulübergreifende Funktionsnutzungs- und Verknüpfungsanalyse)
@@ -19,6 +19,7 @@ Dieses Verzeichnis enthält die produktive Implementierung von ThemisDB.
 - Root-Überblick: [`../README.md`](../README.md)
 - Modulstatus: [`../ROADMAP.md`](../ROADMAP.md)
 - Öffentliche Header-Gegenstücke: [`../include/README.md`](../include/README.md)
+- AI-Modul: [`ai/README.md`](./ai/README.md)
 
 ## Installation
 
