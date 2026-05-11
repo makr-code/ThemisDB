@@ -7,7 +7,6 @@
 - `src/chaos/ROADMAP.md`
 - `src/chaos/FUTURE_ENHANCEMENTS.md`
 - `include/chaos/README.md`
-- `include/chaos/ROADMAP.md`
 
 **Bezug / Reference:**
 - Issue: #4685
@@ -19,7 +18,7 @@
 
 ## TL;DR
 
-Das Modul `chaos` ist als **in-process Chaos-/Fault-Injection-Komponente** implementiert.  
+Das Modul `chaos` ist als **in-process Chaos-/Fault-Injection-Komponente** implementiert.
 Die Kernklassen `FaultInjector` und `ChaosScheduler` sind produktiv vorhanden und durch Unit-/Stress-Tests sowie Benchmarks abgedeckt.
 
 ## Scope (Reality-Check)
@@ -34,14 +33,32 @@ Die Kernklassen `FaultInjector` und `ChaosScheduler` sind produktiv vorhanden un
 1. **Primary-Doku ↔ Code ist für Kernfunktionalität konsistent**
    - Fault-Typen, Fault-Lifecycle und Scheduler-Verhalten sind in `README`/`ARCHITECTURE` mit dem Code konsistent.
 2. **ROADMAP-Status wurde gegen Evidenz geprüft**
-   - `include/chaos/ROADMAP.md` Phase 4 wurde auf `[x]` aktualisiert (konforme Test-Evidenz vorhanden).
+   - `src/chaos/ROADMAP.md` bildet den aktuellen Umsetzungsstand inkl. Test-/Benchmark-Evidenz ab.
 3. **FUTURE_ENHANCEMENTS ist implementierbar formuliert**
    - Sektionen `Scope`, `Design Constraints`, `Required Interfaces`, `Test Strategy`, `Performance Targets`, `Security / Reliability` sind vorhanden und konkret.
+4. **Public Include Entry-Points dokumentiert**
+   - `include/chaos/README.md` beschreibt den öffentlichen Header und die exportierten Typen/Klassen.
 
 ## Offene Punkte / bekannte Lücken
 
 - Cluster-weite, verteilte Chaos-Koordination ist weiterhin offen (`src/chaos/ROADMAP.md`, In Progress).
-- ABI-Kompatibilitätsmatrix für externe Include-Consumer ist weiterhin offen (`include/chaos/ROADMAP.md`, Production Readiness Checklist).
+
+## Installation
+
+Build über den regulären ThemisDB-Flow:
+
+```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+```
+
+## Usage
+
+Relevante Einstiege:
+
+- Source-Moduldoku: `src/chaos/README.md`
+- Public-Header-Doku: `include/chaos/README.md`
+- Lückenbericht: `docs/de/chaos/MISSING_IMPLEMENTATIONS.md`
 
 Details und Priorisierung sind im Report dokumentiert:
 - [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)
