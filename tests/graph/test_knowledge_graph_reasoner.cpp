@@ -24,6 +24,7 @@
 #include <fstream>
 #include <limits>
 #include <string>
+#include <system_error>
 #include <thread>
 #include <vector>
 
@@ -571,7 +572,12 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
-    const auto tmp_file = std::filesystem::temp_directory_path() / "kgr23_adapter.gguf";
+    const auto tmp_file = std::filesystem::temp_directory_path() /
+                          ("kgr23_adapter_" +
+                           std::to_string(std::chrono::steady_clock::now()
+                                              .time_since_epoch()
+                                              .count()) +
+                           ".gguf");
     {
         std::ofstream out(tmp_file, std::ios::binary);
         ASSERT_TRUE(out.good());
@@ -579,7 +585,8 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     }
 
     themis::llm::MultiLoRAManager::Config cfg;
-    cfg.lora_ttl = std::chrono::seconds{0}; // disable background thread for test stability
+    // MultiLoRAManager only starts the eviction thread when lora_ttl.count() > 0.
+    cfg.lora_ttl = std::chrono::seconds{0};
     auto manager = std::make_shared<themis::llm::MultiLoRAManager>(cfg);
     ASSERT_TRUE(manager->loadLoRA("graph_adapter_v1", tmp_file.string(), "base_model", 0.8f));
 
@@ -590,6 +597,9 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     // Score model: clamp(scale) * (1 / (1 + 0.25 * premises)).
     // premises.size()==1 => 0.8 * 0.8 = 0.64
     EXPECT_NEAR(chain.edges.front().lora_score, 0.64, 1e-6);
+
+    std::error_code ec;
+    std::filesystem::remove(tmp_file, ec);
 }
 #endif
 

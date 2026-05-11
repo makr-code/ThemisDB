@@ -483,16 +483,19 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
 
 #if defined(THEMIS_ENABLE_LLM)
     const auto manager = lora_manager_;
+    // Keep cache call-local so each scoring pass observes current manager state
+    // without cross-request synchronization.
     std::unordered_map<std::string, std::optional<llm::LoRAInfo>> manager_info_cache;
     const auto managerScore = [&](std::string_view adapter,
                                   const InferenceEdge& edge) -> std::optional<double> {
         if (!manager || adapter.empty()) {
             return std::nullopt;
         }
-        auto it = manager_info_cache.find(std::string(adapter));
+        const std::string adapter_key(adapter);
+        auto it = manager_info_cache.find(adapter_key);
         if (it == manager_info_cache.end()) {
-            auto info = manager->getLoRAInfo(std::string(adapter));
-            it = manager_info_cache.emplace(std::string(adapter), std::move(info)).first;
+            auto info = manager->getLoRAInfo(adapter_key);
+            it = manager_info_cache.emplace(adapter_key, std::move(info)).first;
         }
         if (!it->second.has_value()) {
             return std::nullopt;
