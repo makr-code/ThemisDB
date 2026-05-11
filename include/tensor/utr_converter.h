@@ -52,6 +52,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -110,9 +111,80 @@ struct UTRConfig {
  * @brief Converts heterogeneous data sources into tensor-native (TT/HT) formats.
  *
  * All methods are static and stateless.  Thread-safe.
+ *
+ * ### Bridge Injection APIs (STUB #257 / #258)
+ *
+ * `UTRConverter` exposes two injectable bridges so that real encoder backends
+ * can replace the built-in fallback implementations without changing callers:
+ *
+ * - **EmbedFn** (`setEmbedFn`) — replaces the FNV-1a hash-projection embedding
+ *   used in `fromDocument()`.  The callable receives `(segment, embed_dim)` and
+ *   must return a `std::vector<float>` of exactly `embed_dim` elements.
+ *
+ * - **ImageEmbedFn** (`setImageEmbedFn`) — replaces the raw-pixel TT encoding
+ *   in `fromImage()`.  The callable receives the flat HWC pixel buffer and the
+ *   three dimensions plus the UTR config, and must return a valid `TTTrain`.
+ *
+ * Both bridges are stored in static `std::mutex`-guarded slots.  Call
+ * `clearEmbedFn()` / `clearImageEmbedFn()` to revert to the built-in fallback.
+ * The fallback is retained when no bridge is set (fail-open for encode quality,
+ * not for correctness — structural invariants are always maintained).
  */
 class UTRConverter {
 public:
+    // -------------------------------------------------------------------------
+    // STUB #257 bridge — sentence/document embedding
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callable type for text-segment embedding.
+     *
+     * @param segment   UTF-8 text segment.
+     * @param embed_dim Required output dimensionality.
+     * @return Float vector of length `embed_dim`.
+     *
+     * The returned vector MUST have exactly `embed_dim` elements; if it does
+     * not, `fromDocument()` throws `std::runtime_error`.
+     */
+    using EmbedFn = std::function<std::vector<float>(const std::string& segment,
+                                                      std::size_t        embed_dim)>;
+
+    /// Replace the FNV-1a hash-projection fallback with a real encoder.
+    static void setEmbedFn(EmbedFn fn);
+
+    /// Revert `fromDocument()` to the built-in FNV-1a fallback.
+    static void clearEmbedFn();
+
+    /// Returns the currently installed EmbedFn, or an empty std::function if none.
+    static EmbedFn getEmbedFn();
+
+    // -------------------------------------------------------------------------
+    // STUB #258 bridge — image encoding
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callable type for image-to-TTTrain encoding.
+     *
+     * @param pixels  Flat HWC float buffer (raw, not normalised).
+     * @param h, w, c Image dimensions.
+     * @param cfg     UTR configuration.
+     * @return A valid TTTrain for the given image.
+     */
+    using ImageEmbedFn = std::function<storage::TTTrain(
+                                const std::vector<float>& pixels,
+                                std::size_t h,
+                                std::size_t w,
+                                std::size_t c,
+                                const UTRConfig& cfg)>;
+
+    /// Replace the raw-pixel TT encoding with a real patch-embedding backend.
+    static void setImageEmbedFn(ImageEmbedFn fn);
+
+    /// Revert `fromImage()` to the built-in raw-pixel fallback.
+    static void clearImageEmbedFn();
+
+    /// Returns the currently installed ImageEmbedFn, or an empty std::function.
+    static ImageEmbedFn getImageEmbedFn();
     /**
      * @brief Encode a geospatial raster grid as a TT-train.
      *

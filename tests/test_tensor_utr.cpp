@@ -32,6 +32,11 @@
  * UTR-14  fromTabular: rejects schema with < 2 columns
  * UTR-15  fromTabular: rejects empty rows
  * UTR-16  HyperIndexTensor::contract: pinned contraction returns positive count
+ * UTR-17  fromDocument: injected EmbedFn is called; result still valid
+ * UTR-18  fromDocument: clearEmbedFn reverts to FNV-1a fallback
+ * UTR-19  fromDocument: EmbedFn returning wrong size throws runtime_error
+ * UTR-20  fromImage: injected ImageEmbedFn is called; result still valid
+ * UTR-21  fromImage: clearImageEmbedFn reverts to raw-pixel fallback
  */
 
 #include "tensor/utr_converter.h"
@@ -286,4 +291,123 @@ TEST(UTRConverter, HyperIndexTensorContractPinnedModeReturnsSubset) {
     const auto pinned  = hi.contract({{0u, 0u}});  // pin dimension-0 to bucket 0
     EXPECT_GE(full, pinned);
     EXPECT_GE(pinned, 0.0);
+}
+
+// ============================================================================
+// STUB #257 — EmbedFn bridge tests
+// ============================================================================
+
+// UTR-17: injected EmbedFn is called and fromDocument still produces a valid HTTrain
+TEST(UTRConverter, EmbedFnBridgeIsCalledFromDocument) {
+    using namespace themis::tensor;
+
+    bool fn_called = false;
+    UTRConverter::setEmbedFn(
+        [&fn_called](const std::string& /*seg*/, std::size_t embed_dim) {
+            fn_called = true;
+            return std::vector<float>(embed_dim, 0.5f); // uniform embedding
+        });
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument(
+        "Hello world.\n\nSecond paragraph.", DocumentStructureHint::PARAGRAPHS, cfg);
+
+    UTRConverter::clearEmbedFn();
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_NE(ht.root, nullptr);
+}
+
+// UTR-18: clearEmbedFn reverts to FNV-1a fallback (both produce valid HTTrain)
+TEST(UTRConverter, ClearEmbedFnRevertsToFnv1aFallback) {
+    using namespace themis::tensor;
+
+    UTRConverter::setEmbedFn(
+        [](const std::string& /*seg*/, std::size_t embed_dim) {
+            return std::vector<float>(embed_dim, 1.0f);
+        });
+    UTRConverter::clearEmbedFn();
+
+    // After clearing, the built-in fallback must still work
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument("Fallback paragraph.", {}, cfg);
+    EXPECT_NE(ht.root, nullptr);
+
+    // Bridge slot must be empty
+    EXPECT_FALSE(static_cast<bool>(UTRConverter::getEmbedFn()));
+}
+
+// UTR-19: EmbedFn returning wrong-size vector throws runtime_error
+TEST(UTRConverter, EmbedFnWrongSizeThrows) {
+    using namespace themis::tensor;
+
+    UTRConverter::setEmbedFn(
+        [](const std::string& /*seg*/, std::size_t /*embed_dim*/) {
+            return std::vector<float>{1.0f, 2.0f}; // always wrong size
+        });
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    EXPECT_THROW(
+        UTRConverter::fromDocument("Some text.", {}, cfg),
+        std::runtime_error);
+
+    UTRConverter::clearEmbedFn();
+}
+
+// ============================================================================
+// STUB #258 — ImageEmbedFn bridge tests
+// ============================================================================
+
+// UTR-20: injected ImageEmbedFn is called and fromImage returns its result
+TEST(UTRConverter, ImageEmbedFnBridgeIsCalledFromImage) {
+    using namespace themis::tensor;
+
+    bool fn_called = false;
+    UTRConverter::setImageEmbedFn(
+        [&fn_called](const std::vector<float>& px,
+                     std::size_t h, std::size_t w, std::size_t c,
+                     const UTRConfig& cfg) -> storage::TTTrain {
+            fn_called = true;
+            // Delegate to the default path via a fresh normalised buffer so
+            // we don't need to re-implement TT decomposition here.
+            std::vector<float> normed(px.size());
+            for (std::size_t i = 0; i < px.size(); ++i)
+                normed[i] = px[i] / 255.0f;
+            storage::TensorTrainDecomposer decomp;
+            storage::TensorTrainConfig tt_cfg;
+            tt_cfg.eps      = cfg.eps;
+            tt_cfg.max_rank = cfg.max_rank;
+            std::vector<std::size_t> shape = (c == 1) ? std::vector<std::size_t>{h, w}
+                                                        : std::vector<std::size_t>{h, w, c};
+            return decomp.decompose(normed, shape, tt_cfg).first;
+        });
+
+    std::vector<float> pixels(4 * 4 * 3, 128.0f);
+    const auto train = UTRConverter::fromImage(pixels, 4, 4, 3);
+
+    UTRConverter::clearImageEmbedFn();
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_FALSE(train.cores.empty());
+}
+
+// UTR-21: clearImageEmbedFn reverts to raw-pixel fallback
+TEST(UTRConverter, ClearImageEmbedFnRevertsToRawPixelFallback) {
+    using namespace themis::tensor;
+
+    UTRConverter::setImageEmbedFn(
+        [](const std::vector<float>&, std::size_t, std::size_t, std::size_t,
+           const UTRConfig&) -> storage::TTTrain {
+            return storage::TTTrain{};
+        });
+    UTRConverter::clearImageEmbedFn();
+
+    std::vector<float> pixels(4 * 4 * 1, 64.0f);
+    const auto train = UTRConverter::fromImage(pixels, 4, 4, 1);
+
+    EXPECT_FALSE(train.cores.empty()); // built-in path produces real output
+    EXPECT_FALSE(static_cast<bool>(UTRConverter::getImageEmbedFn()));
 }
