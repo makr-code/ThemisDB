@@ -47,10 +47,39 @@ Public interfaces for ThemisDB's Change Data Capture (CDC) subsystem — streami
 cmake --preset release && cmake --build build/release --target themis-cdc
 ```
 
+## Usage
+
+```cpp
+#include "cdc/changefeed.h"
+#include "cdc/consumer_group.h"
+#include "cdc/delivery_tracker.h"
+
+using namespace themis::cdc;
+
+// Subscribe to a collection's change events (SSE)
+// GET /changefeed/stream?collection=users&consumer_id=c1&ack_timeout_ms=5000
+
+// At-least-once delivery: acknowledge received events
+// POST /changefeed/stream/ack  { "consumer_id": "c1", "event_id": "..." }
+
+// Consumer group usage
+ConsumerGroupManager groups(rocksdb);
+groups.registerGroup("analytics", {"users", "orders"});
+auto events = groups.fetchEventsAtLeastOnce("analytics", /*batch_size=*/100);
+```
+
+See `src/cdc/README.md` for full configuration options and troubleshooting guide.
+
 ## See Also
 
-- [`../../src/cdc/README.md`](../../src/cdc/README.md) — implementation details
-- [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md) — architecture guide
+- [`../../src/cdc/README.md`](../../src/cdc/README.md) — implementation overview, troubleshooting
+- [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md) — component diagram, data flow
+- [`../../src/cdc/AUDIT.md`](../../src/cdc/AUDIT.md) — audit findings and open risks
+- [`../../src/cdc/CHANGELOG.md`](../../src/cdc/CHANGELOG.md) — release history
+- [`../../src/cdc/PERFORMANCE_EXPECTATIONS.md`](../../src/cdc/PERFORMANCE_EXPECTATIONS.md) — benchmark targets
+- [`../../src/cdc/ROADMAP.md`](../../src/cdc/ROADMAP.md) — feature roadmap and status
+- [`../../src/cdc/SECURITY.md`](../../src/cdc/SECURITY.md) — threat model and controls
+- [`../../src/cdc/FUTURE_ENHANCEMENTS.md`](../../src/cdc/FUTURE_ENHANCEMENTS.md) — planned features
 
 ## Installation
 

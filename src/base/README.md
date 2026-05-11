@@ -281,8 +281,13 @@ public:
 
 For detailed implementation documentation, see:
 - [Architecture Guide](ARCHITECTURE.md)
+- [Audit Report](AUDIT.md)
+- [Changelog](CHANGELOG.md)
+- [Performance Expectations](PERFORMANCE_EXPECTATIONS.md)
+- [Security Notes](SECURITY.md)
 - [Roadmap](ROADMAP.md)
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Public API Headers](../../include/themis/base/README.md)
 
 ## Version History
 
@@ -359,6 +364,23 @@ std::cout << "Author: " << capabilities.author << std::endl;
 3. **Version compatibility**: Check version compatibility
 4. **Error handling**: Handle load failures gracefully
 
+## Troubleshooting
+
+### Module load fails with signature error
+- Check `ModuleSecurityPolicy` values (`requireSignature`, `allowUnsigned`).
+- Validate `.sig` and hash manifest files are present and match the plugin binary.
+- Review loader error output and `auditTrail_` entries for the rejection reason.
+
+### WASM isolation is not active
+- Ensure `Config::enable_wasm_isolation = true` in `ModuleSandbox::Config`.
+- Register at least one runtime via `THEMIS_REGISTER_WASM_RUNTIME(...)`.
+- Check `ModuleSandbox::launchWarnings()` for runtime selection or fallback warnings.
+
+### Hot-reload rollback was triggered
+- Verify ABI/API compatibility between old and new plugin versions.
+- Review `HotReloadManager` error path and module health-check/watchdog logs.
+- Re-run the plugin in sandbox mode before enabling production hot-reload.
+
 ## See Also
 
 - [Acceleration Module](../acceleration/README.md) - Plugin security
@@ -378,4 +400,4 @@ std::cout << "Author: " << capabilities.author << std::endl;
 ## Usage
 
 The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/base/README.md`](../../include/base/README.md) for the public API.
+See [`../../include/themis/base/README.md`](../../include/themis/base/README.md) for the public API.
