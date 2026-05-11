@@ -229,3 +229,8 @@
 /.secret-scan-allowlist.txt @makr-code
 /certs/ @makr-code
 
+
+# ── AI governance workspaces (maintainer review required) ─────────────────────
+/ai_context/ @makr-code
+/ai_working/ @makr-code
+/.github/copilot/ @makr-code
