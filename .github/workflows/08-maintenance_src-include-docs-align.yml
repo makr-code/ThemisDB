@@ -118,29 +118,31 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
-          echo "## src/include ↔ docs/de Alignment Check" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Script** | \`scripts/src-include-docs-align.py\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Docs dir** | \`docs/de/\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f /tmp/align-report.json ]; then
-            TOTAL=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['total_modules'])" 2>/dev/null || echo "n/a")
-            DOCUMENTED=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['documented'])" 2>/dev/null || echo "n/a")
-            UNDOC=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['undocumented'])" 2>/dev/null || echo "n/a")
-            PCT=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['coverage_pct'])" 2>/dev/null || echo "n/a")
-            echo "| **Total modules** | ${TOTAL} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Documented** | ${DOCUMENTED} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Undocumented** | ${UNDOC} |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| **Coverage** | ${PCT}% |" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          echo "" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## src/include ↔ docs/de Alignment Check"
+            echo ""
+            echo "| Parameter | Value |"
+            echo "|-----------|-------|"
+            echo "| **Script** | \`scripts/src-include-docs-align.py\` |"
+            echo "| **Docs dir** | \`docs/de/\` |"
+            echo "| **Event** | \`${{ github.event_name }}\` |"
+            echo "| **Branch** | \`${{ github.ref_name }}\` |"
+            if [ -f /tmp/align-report.json ]; then
+              TOTAL=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['total_modules'])" 2>/dev/null || echo "n/a")
+              DOCUMENTED=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['documented'])" 2>/dev/null || echo "n/a")
+              UNDOC=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['undocumented'])" 2>/dev/null || echo "n/a")
+              PCT=$(python3 -c "import json,sys; d=json.load(open('/tmp/align-report.json')); print(d['summary']['coverage_pct'])" 2>/dev/null || echo "n/a")
+              echo "| **Total modules** | ${TOTAL} |"
+              echo "| **Documented** | ${DOCUMENTED} |"
+              echo "| **Undocumented** | ${UNDOC} |"
+              echo "| **Coverage** | ${PCT}% |"
+            fi
+            echo ""
 
-          if [ -f /tmp/align-report.txt ]; then
-            echo "**Text Report:**" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-            cat /tmp/align-report.txt >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-          fi
+            if [ -f /tmp/align-report.txt ]; then
+              echo "**Text Report:**"
+              echo '```'
+              cat /tmp/align-report.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
