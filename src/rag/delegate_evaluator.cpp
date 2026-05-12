@@ -408,7 +408,10 @@ RelayResult RoundTripSimulator::run(
     if (round_trip_editor_ != nullptr) {
         // Best-effort persistence: benchmark scoring remains valid even if
         // snapshot persistence fails; we intentionally do not abort the relay.
-        (void)round_trip_editor_->beginRelay(last_relay_id_, seed_doc);
+        auto begin_res = round_trip_editor_->beginRelay(last_relay_id_, seed_doc);
+        if (!begin_res) {
+            ++result.persistence_write_failures;
+        }
     }
 
     // ── Edge case: no round trips requested ──────────────────────────────────
@@ -446,11 +449,14 @@ RelayResult RoundTripSimulator::run(
             ++persisted_interaction_index;
             if (round_trip_editor_ != nullptr) {
                 // Best-effort persistence (see beginRelay comment above).
-                (void)round_trip_editor_->saveInteraction(
+                auto save_res = round_trip_editor_->saveInteraction(
                     last_relay_id_,
                     persisted_interaction_index,
                     pair.forward_instruction,
                     forward_doc);
+                if (!save_res) {
+                    ++result.persistence_write_failures;
+                }
             }
         } catch (...) {
             // Forward edit failed: record 0.0 and terminate
@@ -472,11 +478,14 @@ RelayResult RoundTripSimulator::run(
             ++persisted_interaction_index;
             if (round_trip_editor_ != nullptr) {
                 // Best-effort persistence (see beginRelay comment above).
-                (void)round_trip_editor_->saveInteraction(
+                auto save_res = round_trip_editor_->saveInteraction(
                     last_relay_id_,
                     persisted_interaction_index,
                     pair.backward_instruction,
                     backward_doc);
+                if (!save_res) {
+                    ++result.persistence_write_failures;
+                }
             }
         } catch (...) {
             // Backward edit failed: record 0.0 and terminate

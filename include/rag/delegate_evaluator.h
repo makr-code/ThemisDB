@@ -274,6 +274,9 @@ struct RelayResult {
 
     /// Total number of individual forward/backward edit calls executed.
     size_t total_interactions = 0;
+
+    /// Number of snapshot persistence writes that failed in best-effort mode.
+    size_t persistence_write_failures = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

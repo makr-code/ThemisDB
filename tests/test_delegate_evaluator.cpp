@@ -78,6 +78,30 @@ static RoundTripEditPair makeEditPair() {
             "seed", DomainType::JSON_DOCUMENT};
 }
 
+class FailingRoundTripEditor final : public themis::document::IRoundTripEditor {
+public:
+    Result<void> beginRelay(const std::string& /*relay_id*/,
+                            const std::string& /*seed_document*/) override {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND, "beginRelay failed"));
+    }
+
+    Result<void> saveInteraction(const std::string& /*relay_id*/,
+                                 std::size_t /*interaction_index*/,
+                                 const std::string& /*instruction*/,
+                                 const std::string& /*document*/) override {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND, "saveInteraction failed"));
+    }
+
+    Result<std::optional<themis::document::RoundTripSnapshot>> loadInteraction(
+        const std::string& /*relay_id*/, std::size_t /*interaction_index*/) const override {
+        return std::optional<themis::document::RoundTripSnapshot>{std::nullopt};
+    }
+
+    Result<std::size_t> countSnapshots(const std::string& /*relay_id*/) const override {
+        return std::size_t{0};
+    }
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DE-01  JsonDocumentEvaluator — identical documents → RS = 1.0
 // ─────────────────────────────────────────────────────────────────────────────
@@ -380,6 +404,26 @@ TEST(DelegateEvaluatorTest, DE16_StoreBackedSnapshots) {
     ASSERT_TRUE(maybe_first_interaction.has_value());
     EXPECT_EQ(maybe_first_interaction->instruction, "fwd");
     EXPECT_EQ(maybe_first_interaction->document, seed + "X");
+}
+
+TEST(DelegateEvaluatorTest, DE16b_PersistenceFailuresAreCountedAndNonFatal) {
+    const std::string seed = makeJsonDoc();
+    DelegateEvaluatorConfig cfg;
+    cfg.num_round_trips = 2;
+    RoundTripSimulator sim(cfg);
+    FailingRoundTripEditor failing_editor;
+    sim.setRoundTripEditor(&failing_editor);
+    PlainTextEvaluator ev;
+
+    const auto pairs = std::vector<RoundTripEditPair>{
+        {"fwd", "bwd", "seed", DomainType::PLAIN_TEXT}};
+    const auto fn = identityFn();
+    const auto result = sim.run(seed, pairs, ev, fn);
+
+    EXPECT_EQ(result.stop_reason, StopReason::COMPLETED_NORMALLY);
+    EXPECT_EQ(result.total_interactions, 4u);
+    EXPECT_EQ(result.persistence_write_failures, 5u); // seed + 4 interactions
+    EXPECT_EQ(result.final_doc, seed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
