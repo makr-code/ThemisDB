@@ -230,6 +230,52 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - Thorough mode (~2 s latency) is not suitable for real-time interactive use.
 - No built-in document chunking strategy: now provided by `DocumentSplitter` (configurable chunk size, overlap, and strategy).
 
+## DELEGATE-52 Benchmark Integration
+
+> **Scientific basis:** Laban et al., "LLMs Corrupt Your Documents When You Delegate" (arXiv:2604.15597)
+>
+> **Status:** Phase 1–6 Completed ✅ (Target: Q3 2026)
+
+### Current Status
+
+Implemented in `include/rag/delegate_evaluator.h` + `src/rag/delegate_evaluator.cpp`.
+18 unit tests in `tests/test_delegate_evaluator.cpp` (CTest target: `DelegateEvaluatorFocusedTests`).
+Performance benchmark in `benchmarks/bench_delegate_evaluator.cpp`.
+
+### Completed
+
+- [x] `IDomainEvaluator` interface — RS\@k in `[0.0, 1.0]`, clamped (Target: Q2 2026)
+- [x] `JsonDocumentEvaluator` — field-level overlap; non-JSON fallback to `PlainTextEvaluator` (Target: Q2 2026)
+- [x] `AqlQueryEvaluator` — token-level Jaccard similarity (Target: Q2 2026)
+- [x] `PlainTextEvaluator` — normalised Levenshtein edit distance (Target: Q2 2026)
+- [x] `XmlProcessEvaluator` — element-count + attribute overlap (ARIS/BPMN domain) (Target: Q2 2026)
+- [x] `MarkdownEvaluator` — delegates to `PlainTextEvaluator` (Target: Q2 2026)
+- [x] `RoundTripSimulator::run()` — k forward→backward rounds; RS\@k history; catastrophic counter (Target: Q2 2026)
+- [x] `DelegateEvaluatorFactory` — `createForDomain()`, `createSimulator()` (Target: Q2 2026)
+- [x] Edge-case handling: empty documents, `EditFn` exceptions (`EDIT_FAILED`), 0 rounds → RS\@0 = 1.0 (Target: Q2 2026)
+- [x] 18 unit tests DE-01..DE-18 + ancillary checks (Target: Q2 2026)
+- [x] `BM_DelegateEvaluator_JsonRoundTrip_10k` benchmark (Target: Q3 2026)
+- [x] Doxygen API docs for all public APIs (Target: Q2 2026)
+
+### Planned
+
+- [x] Extend to 10+ domains via `IDomainEvaluator` plugin (Target: Q4 2026)
+- [x] Connect `RoundTripSimulator` to `AgenticRAG` as a pre-production safety net (Target: Q4 2026)
+  → `AgenticRAGConfig::RelayGuardConfig`; `AgenticRAGResult::delegate_relay`; best-effort post-loop relay; `tests/test_agentic_rag_relay.cpp` (ARR-01..04)
+- [x] Persist RS\@k history via `IDocumentStore` for trend analysis (Target: Q1 2027)
+  → `IRoundTripEditor` + `StoreBackedRoundTripEditor` (`include/document/round_trip_editor.h`, `src/document/round_trip_editor.cpp`);
+    `RelayResult::persistence_write_failures` counter; DE-16/DE-16b tests
+
+### Domain Comparison
+
+| Aspect | DELEGATE-52 (Paper) | ThemisDB-Umsetzung |
+|---|---|---|
+| Domains | 52 | 4 Kerndomänen (JSON, AQL, Text, XML) — erweiterbar |
+| EditFn | Real LLM via OpenAI/Azure | Injizierbare `EditFn`-Lambda (LLM-agnostisch) |
+| Dataset | 234 HuggingFace environments | Synthetische In-Process-Fixtures |
+| RS\@k | Domänenspezifische Scorer aus Repo | Eigene Scorer, methodisch äquivalent |
+| Ziel | Benchmark 19 LLMs | Qualitätssicherung agentischer Workflows |
+
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.
 - JudgeConfig fields may gain new optional parameters; backward-compatible.

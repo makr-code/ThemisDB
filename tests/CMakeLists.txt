@@ -464,6 +464,11 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # themis_core (monolithic build) so the file must be compiled directly into
     # the focused executable.
     ".*test_remote_registry_client\\.cpp$"
+    # test_delegate_evaluator.cpp is compiled as dedicated focused target
+    # test_delegate_evaluator_focused together with delegate_evaluator.cpp.
+    # delegate_evaluator.cpp is not in THEMIS_CORE_SOURCES yet, so linking
+    # it into the monolithic themis_tests binary requires explicit addition.
+    ".*test_delegate_evaluator\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -2083,6 +2088,56 @@ set_tests_properties(SessionManagerTests PROPERTIES
     LABELS "auth;session;revocation;unit"
     TIMEOUT 60
 )
+
+# ============================================================================
+# DelegateEvaluatorFocusedTests
+# DELEGATE-52 round-trip corruption benchmark (arXiv:2604.15597)
+# Tests: DE-01..DE-18 + ancillary sanity checks
+# No LLM / GPU dependency — runs in every build variant.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
+    message(STATUS "Adding DelegateEvaluator focused tests (DELEGATE-52)")
+
+    add_executable(test_delegate_evaluator_focused
+        test_delegate_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+        # TODO: remove direct source wiring once these files are in THEMIS_CORE_SOURCES.
+        ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
+    )
+
+    target_include_directories(test_delegate_evaluator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_delegate_evaluator_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_delegate_evaluator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_delegate_evaluator_focused)
+        add_dependencies(test_delegate_evaluator_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME DelegateEvaluatorFocusedTests
+        COMMAND test_delegate_evaluator_focused)
+
+    set_tests_properties(DelegateEvaluatorFocusedTests PROPERTIES
+        LABELS "rag;delegation;document;round-trip;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DelegateEvaluator: RS@k scoring, round-trip simulator, JSON/AQL/text/XML evaluators")
+else()
+    message(STATUS "DelegateEvaluator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
+endif()
 
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
@@ -6369,6 +6424,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
         TIMEOUT 60
     )
     message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
+endif()
+
+# AgenticRAG DELEGATE-52 relay guard tests (ARR-01..04)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_relay.cpp")
+    message(STATUS "Adding AgenticRAG relay guard tests (DELEGATE-52 safety net)")
+    add_executable(test_agentic_rag_relay_focused
+        test_agentic_rag_relay.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(test_agentic_rag_relay_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_agentic_rag_relay_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_agentic_rag_relay_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AgenticRAGRelayFocusedTests
+             COMMAND test_agentic_rag_relay_focused)
+    set_tests_properties(AgenticRAGRelayFocusedTests PROPERTIES
+        LABELS "rag;agentic-rag;delegate52;relay;safety-net;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  AgenticRAGRelay: ARR-01..04 relay guard, delegate_relay field, identity/destructive/null guard")
 endif()
 
 # Gap 7 ─ LLMJudgeIntegration is_mock flag focused tests

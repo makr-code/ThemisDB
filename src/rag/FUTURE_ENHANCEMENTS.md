@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-12 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # RAG Module Implementation - Future Enhancements
@@ -18,6 +18,68 @@
 <!-- TODO: add measurable target, interface spec, and test strategy -->
 - Online Bayesian optimization of `top_k` and `similarity_threshold` from evaluation feedback
 <!-- TODO: add measurable target, interface spec, and test strategy -->
+
+## DelegateEvaluator — DELEGATE-52 Round-Trip Corruption Benchmark
+
+> **Scientific basis:** Laban et al., "LLMs Corrupt Your Documents When You Delegate" (arXiv:2604.15597)
+
+### Scope
+
+Measures document-level reconstruction fidelity (RS\@k) through agentic forward→backward
+round trips.  Detects content corruption introduced by LLM-based edit agents before they
+reach production, using only deterministic in-process scoring (no API keys or GPU required).
+
+### Design Constraints
+
+- RS scores always in `[0.0, 1.0]` — enforced via `std::clamp`; invariant tested in DE-12 and RSAlwaysInRange
+- Catastrophic threshold: RS < 0.80 → event counted (matches paper criterion)
+- `RoundTripSimulator` is per-request, not thread-shared (same ownership model as `AgenticRAG`)
+- All evaluators stateless; no LLM call in scoring path
+- RS calculation < 5 ms for documents up to 100 KB (see `BM_DelegateEvaluator_JsonEval_100KB`)
+- 20 interactions on 10 KB JSON < 100 ms end-to-end without EditFn latency (see `BM_DelegateEvaluator_JsonRoundTrip_10k`)
+
+### Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IDomainEvaluator::evaluate(original, recovered)` | `RoundTripSimulator` | Returns RS in `[0.0, 1.0]` |
+| `RoundTripSimulator::run(seed, pairs, evaluator, edit_fn)` | LLM safety validation | Returns `RelayResult` with full RS history |
+| `DelegateEvaluatorFactory::createForDomain(DomainType)` | Test harness, plugin registry | Returns `unique_ptr<IDomainEvaluator>` |
+| `DelegateEvaluatorFactory::createSimulator(config)` | Test harness | Returns `unique_ptr<RoundTripSimulator>` |
+
+### Implementation Notes
+
+- `JsonDocumentEvaluator`: uses `nlohmann/json` (already a mandatory ThemisDB dep); falls back to `PlainTextEvaluator` for non-JSON input
+- `AqlQueryEvaluator`: whitespace+punctuation tokeniser; no external NLP dependency
+- `PlainTextEvaluator`: two-row Levenshtein DP; capped at 10 000 chars for O(n²) safeguard; approximation used for longer strings
+- `XmlProcessEvaluator`: regex-based element/attribute extraction; no full XML parser required; falls back to `PlainTextEvaluator` for non-XML
+- `EditFn` exception → iteration recorded as RS = 0.0, `StopReason::EDIT_FAILED`; relay terminates cleanly
+
+### Test Strategy
+
+18 unit tests (DE-01..DE-18) + 2 ancillary tests in `tests/test_delegate_evaluator.cpp`:
+- DE-01..DE-03: `JsonDocumentEvaluator` (identity, one field, all changed)
+- DE-04..DE-05: `PlainTextEvaluator` (identity, ~50 % change)
+- DE-06..DE-07: `AqlQueryEvaluator` (identity, condition removed)
+- DE-08..DE-11: `RoundTripSimulator` (0 rounds, destructive, perfect, realistic degradation)
+- DE-12: `ReconstructionScoreAtK` catastrophic threshold flagging
+- DE-13: `DelegateEvaluatorFactory` all domains
+- DE-14: empty seed document (no crash)
+- DE-15: `EditFn` exception → `EDIT_FAILED`
+- DE-16: `final_doc` tracking via integration round-trip
+- DE-17..DE-18: `XmlProcessEvaluator` (identity, 3 of 10 elements missing)
+
+### Performance Targets
+
+- RS computation: < 5 ms @ 100 KB document (any domain)
+- `RoundTripSimulator` 20 interactions @ 10 KB JSON: < 100 ms (identity `EditFn`)
+- Score invariant: always in `[0.0, 1.0]`
+
+### Security / Reliability
+
+- No external process spawning; no network calls in evaluators
+- `EditFn` exception always handled gracefully (no uncaught propagation from `run()`)
+- `std::clamp` at every `evaluate()` return site prevents out-of-range scores
 
 ## Design Constraints
 

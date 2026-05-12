@@ -43,7 +43,9 @@
 
 #include "rag/rag_judge.h"
 #include "rag/knowledge_gap_detector.h"
+#include "rag/delegate_evaluator.h"
 
+#include <optional>
 #include <string>
 #include <vector>
 #include <functional>
@@ -112,6 +114,13 @@ struct AgenticRAGResult {
 
     /// True when the quality threshold was ultimately satisfied.
     bool quality_satisfied;
+
+    /// Optional relay result from the DELEGATE-52 safety-net check.
+    ///
+    /// Populated after `run()` when a `RelayGuardConfig` is set on
+    /// `AgenticRAGConfig`.  Present as `std::nullopt` when no relay guard is
+    /// configured or when the relay could not be executed.
+    std::optional<delegate_eval::RelayResult> delegate_relay;
 
     /// Cumulative token count consumed across all LLM calls in this session.
     /// Best-effort: summed from InferenceResponse::tokens_generated when
@@ -185,6 +194,49 @@ struct AgenticRAGConfig {
     /// (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7; tracked in
     ///  rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap")
     size_t max_session_tokens = 0;
+
+    // -----------------------------------------------------------------------
+    // DELEGATE-52 relay guard (optional pre-production safety net)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Configuration for the optional DELEGATE-52 round-trip safety net.
+     *
+     * When all required fields are populated and `relay_guard` is set, the
+     * `AgenticRAG::run()` method fires a `RoundTripSimulator::run()` relay
+     * against a compact seed built from the final retrieved documents after
+     * the main loop completes.  The relay result is stored in
+     * `AgenticRAGResult::delegate_relay`.
+     *
+     * The relay is **best-effort**: any exception is swallowed and
+     * `delegate_relay` remains `std::nullopt` on failure.
+     *
+     * All pointer members are **non-owning**.  The caller must ensure that
+     * `simulator` and `evaluator` outlive the `AgenticRAG::run()` call.
+     */
+    struct RelayGuardConfig {
+        /// Non-owning pointer to a pre-configured `RoundTripSimulator`.
+        /// Required — if null, no relay is executed.
+        delegate_eval::RoundTripSimulator* simulator = nullptr;
+
+        /// Non-owning pointer to the domain evaluator used by the relay.
+        /// Required — if null, no relay is executed.
+        delegate_eval::IDomainEvaluator* evaluator = nullptr;
+
+        /// Ordered list of forward/backward edit-pair instructions for the relay.
+        /// Required — if empty, no relay is executed.
+        std::vector<delegate_eval::RoundTripEditPair> edit_pairs;
+
+        /// Callable that applies a single edit instruction to a document.
+        /// Required — if null, no relay is executed.
+        delegate_eval::EditFn edit_fn;
+    };
+
+    /// Optional DELEGATE-52 relay guard configuration.
+    /// When present and all `RelayGuardConfig` fields are non-null / non-empty,
+    /// a round-trip relay is executed after the agentic loop and the result is
+    /// stored in `AgenticRAGResult::delegate_relay`.
+    std::optional<RelayGuardConfig> relay_guard;
 };
 
 // ---------------------------------------------------------------------------
