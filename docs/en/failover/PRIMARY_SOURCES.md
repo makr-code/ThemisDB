@@ -1,14 +1,8 @@
-[docs](../../index.md) > [en](../index.md) > [failover](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
+[docs](../../README.md) > [en](../INDEX.md) > [failover](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-04-17
+**Status:** draft
 **Primary Source:**
-- `include/failover/ARCHITECTURE.md`
-- `include/failover/AUDIT.md`
-- `include/failover/CHANGELOG.md`
-- `include/failover/FUTURE_ENHANCEMENTS.md`
 - `include/failover/README.md`
-- `include/failover/ROADMAP.md`
-- `include/failover/SECURITY.md`
 - `src/failover/ARCHITECTURE.md`
 - `src/failover/AUDIT.md`
 - `src/failover/CHANGELOG.md`
@@ -33,13 +27,7 @@ This index lists all Markdown documentation files for module **`failover`** from
 
 | File | Path |
 |------|------|
-| `ARCHITECTURE.md` | [`include/failover/ARCHITECTURE.md`](../../../include/failover/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/failover/AUDIT.md`](../../../include/failover/AUDIT.md) |
-| `CHANGELOG.md` | [`include/failover/CHANGELOG.md`](../../../include/failover/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/failover/FUTURE_ENHANCEMENTS.md`](../../../include/failover/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/failover/README.md`](../../../include/failover/README.md) |
-| `ROADMAP.md` | [`include/failover/ROADMAP.md`](../../../include/failover/ROADMAP.md) |
-| `SECURITY.md` | [`include/failover/SECURITY.md`](../../../include/failover/SECURITY.md) |
 
 ### `src/failover/`
 
@@ -52,6 +40,11 @@ This index lists all Markdown documentation files for module **`failover`** from
 | `README.md` | [`src/failover/README.md`](../../../src/failover/README.md) |
 | `ROADMAP.md` | [`src/failover/ROADMAP.md`](../../../src/failover/ROADMAP.md) |
 | `SECURITY.md` | [`src/failover/SECURITY.md`](../../../src/failover/SECURITY.md) |
+
+## Notes
+
+- `include/failover/` currently exposes public headers plus `README.md`; there is no separate include-side roadmap / future-enhancements markdown set in this repository snapshot.
+- Include-boundary behavior is therefore documented via [`../../../include/failover/README.md`](../../../include/failover/README.md) and the headers themselves.
 
 ---
 

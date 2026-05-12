@@ -1,14 +1,8 @@
-[docs](../../index.md) > [de](../index.md) > [failover](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../README.md) > [de](../INDEX.md) > [failover](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-17
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
-- `include/failover/ARCHITECTURE.md`
-- `include/failover/AUDIT.md`
-- `include/failover/CHANGELOG.md`
-- `include/failover/FUTURE_ENHANCEMENTS.md`
 - `include/failover/README.md`
-- `include/failover/ROADMAP.md`
-- `include/failover/SECURITY.md`
 - `src/failover/ARCHITECTURE.md`
 - `src/failover/AUDIT.md`
 - `src/failover/CHANGELOG.md`
@@ -33,13 +27,7 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`failover`*
 
 | Datei | Pfad |
 |-------|------|
-| `ARCHITECTURE.md` | [`include/failover/ARCHITECTURE.md`](../../../include/failover/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/failover/AUDIT.md`](../../../include/failover/AUDIT.md) |
-| `CHANGELOG.md` | [`include/failover/CHANGELOG.md`](../../../include/failover/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/failover/FUTURE_ENHANCEMENTS.md`](../../../include/failover/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/failover/README.md`](../../../include/failover/README.md) |
-| `ROADMAP.md` | [`include/failover/ROADMAP.md`](../../../include/failover/ROADMAP.md) |
-| `SECURITY.md` | [`include/failover/SECURITY.md`](../../../include/failover/SECURITY.md) |
 
 ### `src/failover/`
 
@@ -52,6 +40,11 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`failover`*
 | `README.md` | [`src/failover/README.md`](../../../src/failover/README.md) |
 | `ROADMAP.md` | [`src/failover/ROADMAP.md`](../../../src/failover/ROADMAP.md) |
 | `SECURITY.md` | [`src/failover/SECURITY.md`](../../../src/failover/SECURITY.md) |
+
+## Hinweise
+
+- `include/failover/` enthält im aktuellen Repository-Stand öffentliche Header plus `README.md`; eine separate Include-seitige Roadmap-/Future-Dokumentationsserie ist nicht vorhanden.
+- Include-Boundary-Verhalten wird daher über [`../../../include/failover/README.md`](../../../include/failover/README.md) und die Header selbst dokumentiert.
 
 ---
 
