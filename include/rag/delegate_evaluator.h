@@ -436,6 +436,12 @@ public:
      * @param original  The original AQL string.
      * @param recovered The recovered AQL string.
      * @return RS in `[0.0, 1.0]`.
+     * @note  **Empty-input convention:** when both @p original and @p recovered
+     *        tokenise to the empty set (e.g. whitespace/punctuation-only input),
+     *        this function returns `0.0`.  This intentionally deviates from the
+     *        strict set-theory definition where Jaccard(∅, ∅) = 1.0: an empty
+     *        token set carries no lexical content, so treating it as "perfect
+     *        reconstruction" would be semantically misleading for the RS metric.
      */
     ReconstructionScore evaluate(const std::string& original,
                                   const std::string& recovered) const override;
@@ -460,6 +466,14 @@ public:
      * @param original  The original text.
      * @param recovered The recovered text.
      * @return RS in `[0.0, 1.0]`.
+     * @note  **Large-string approximation:** for inputs exceeding 10 000
+     *        characters the underlying `editDistance()` switches from the
+     *        exact O(n×m) Levenshtein DP to an O(n) Hamming-style approximation
+     *        (aligned-prefix character differences + length delta).  This keeps
+     *        RS computation under ~5 ms for 100 KB inputs at the cost of
+     *        reduced accuracy when the edit distance is large relative to the
+     *        string length.  For document payloads beyond this size, consider
+     *        using `XmlProcessEvaluator` or `JsonDocumentEvaluator` instead.
      */
     ReconstructionScore evaluate(const std::string& original,
                                   const std::string& recovered) const override;
