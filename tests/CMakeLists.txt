@@ -6426,6 +6426,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
     message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
 endif()
 
+# AgenticRAG DELEGATE-52 relay guard tests (ARR-01..04)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_relay.cpp")
+    message(STATUS "Adding AgenticRAG relay guard tests (DELEGATE-52 safety net)")
+    add_executable(test_agentic_rag_relay_focused
+        test_agentic_rag_relay.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(test_agentic_rag_relay_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_agentic_rag_relay_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_agentic_rag_relay_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AgenticRAGRelayFocusedTests
+             COMMAND test_agentic_rag_relay_focused)
+    set_tests_properties(AgenticRAGRelayFocusedTests PROPERTIES
+        LABELS "rag;agentic-rag;delegate52;relay;safety-net;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  AgenticRAGRelay: ARR-01..04 relay guard, delegate_relay field, identity/destructive/null guard")
+endif()
+
 # Gap 7 ─ LLMJudgeIntegration is_mock flag focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
     message(STATUS "Adding LLMJudgeIntegration is_mock flag tests (Gap 7)")

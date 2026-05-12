@@ -259,9 +259,12 @@ Performance benchmark in `benchmarks/bench_delegate_evaluator.cpp`.
 
 ### Planned
 
-- [ ] Extend to 10+ domains via `IDomainEvaluator` plugin (Target: Q4 2026)
-- [ ] Connect `RoundTripSimulator` to `AgenticRAG` as a pre-production safety net (Target: Q4 2026)
-- [ ] Persist RS\@k history via `IDocumentStore` for trend analysis (Target: Q1 2027)
+- [x] Extend to 10+ domains via `IDomainEvaluator` plugin (Target: Q4 2026)
+- [x] Connect `RoundTripSimulator` to `AgenticRAG` as a pre-production safety net (Target: Q4 2026)
+  → `AgenticRAGConfig::RelayGuardConfig`; `AgenticRAGResult::delegate_relay`; best-effort post-loop relay; `tests/test_agentic_rag_relay.cpp` (ARR-01..04)
+- [x] Persist RS\@k history via `IDocumentStore` for trend analysis (Target: Q1 2027)
+  → `IRoundTripEditor` + `StoreBackedRoundTripEditor` (`include/document/round_trip_editor.h`, `src/document/round_trip_editor.cpp`);
+    `RelayResult::persistence_write_failures` counter; DE-16/DE-16b tests
 
 ### Domain Comparison
 
