@@ -223,9 +223,11 @@ struct ReconstructionScoreAtK {
      * @param k  Interaction index starting at 1.
      * @return   RS at that position, or 1.0 if k == 0 (no edit), or
      *           the last available score if k exceeds the recorded history.
+     * @note     Return value must not be discarded; the function silently
+     *           clamps out-of-range k to the last available index.
      * @throws   std::out_of_range — never; the function clamps silently.
      */
-    ReconstructionScore rs_at(size_t k) const noexcept {
+    [[nodiscard]] ReconstructionScore rs_at(size_t k) const noexcept {
         if (k == 0) return 1.0;
         if (rs_per_interaction.empty()) return 1.0;
         const size_t idx = std::min(k, rs_per_interaction.size()) - 1;
@@ -441,6 +443,8 @@ public:
  *
  * Element overlap: fraction of element names from @p original present in
  * @p recovered.  Attribute overlap: fraction of `key="value"` pairs preserved.
+ * When @p original has no attributes, the attribute component scores 1.0
+ * (no attributes to lose, so they do not penalise the overall RS).
  *
  * Designed for ARIS/BPMN process XML as used in `src/process/`.  Non-XML
  * input falls back to `PlainTextEvaluator`.
@@ -503,10 +507,11 @@ public:
      *
      * @param domain  Target document domain.
      * @return        A non-null `unique_ptr` to the matching evaluator.
+     *                The return value must not be discarded.
      *
      * @throws std::invalid_argument  If an unknown `DomainType` value is passed.
      */
-    static std::unique_ptr<IDomainEvaluator> createForDomain(DomainType domain);
+    [[nodiscard]] static std::unique_ptr<IDomainEvaluator> createForDomain(DomainType domain);
 
     /**
      * @brief Create a `RoundTripSimulator` with the given configuration.

@@ -2128,7 +2128,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
         COMMAND test_delegate_evaluator_focused)
 
     set_tests_properties(DelegateEvaluatorFocusedTests PROPERTIES
-        LABELS "rag;delegation;document;round-trip;focused;unit"
+        LABELS "rag;delegate-52;document;round-trip;focused;unit"
         TIMEOUT 60
     )
 

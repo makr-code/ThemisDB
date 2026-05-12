@@ -124,7 +124,13 @@ std::vector<std::string> tokenise(const std::string& s) {
 double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
     const auto ta = tokenise(a);
     const auto tb = tokenise(b);
-    if (ta.empty() && tb.empty()) return 0.0;
+    if (ta.empty() && tb.empty()) {
+        // Two empty token sets have undefined Jaccard similarity; returning 0.0
+        // here is intentional: the AqlQueryEvaluator enforces RS=0.0 for empty
+        // inputs at the call site, so this path is only reached for two truly
+        // empty strings, which carry no information to compare.
+        return 0.0;
+    }
 
     std::unordered_multiset<std::string> ma(ta.begin(), ta.end());
     std::unordered_multiset<std::string> mb(tb.begin(), tb.end());
@@ -150,6 +156,11 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
  * Memory-optimised two-row DP — O(min(|a|, |b|)) space.
  * Falls back to 0-edit (RS=1.0) when either string exceeds 10 000 chars to
  * keep scoring well within 5 ms for 100 KB documents.
+ *
+ * The 10 000-character cap balances correctness and performance:
+ * the DP is O(n×m) which becomes prohibitive beyond ~10k chars (100M ops).
+ * For documents exceeding this limit, an O(n) Hamming-style approximation
+ * is used instead, keeping RS computation under 5 ms for 100 KB inputs.
  */
 size_t editDistance(const std::string& a, const std::string& b) {
     // Safety cap: use char-difference for very large strings
@@ -321,6 +332,8 @@ ReconstructionScore XmlProcessEvaluator::evaluate(
     const auto attrRec  = extractXmlAttributes(recovered);
 
     const double elemScore = multisetOverlap(elemOrig, elemRec);
+    // attrScore = 1.0 when the original has no attributes: no attributes to
+    // lose, so the attribute component does not penalise the score.
     const double attrScore = attrOrig.empty() ? 1.0 : multisetOverlap(attrOrig, attrRec);
 
     // Weighted combination: elements carry more weight than attributes

@@ -229,7 +229,9 @@ TEST(DelegateEvaluatorTest, DE10_PerfectRoundTrip) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(DelegateEvaluatorTest, DE11_RealisticDegradation) {
-    // EditFn removes the last character each call to simulate gradual content loss
+    // EditFn removes the last character each call to simulate gradual content loss.
+    // Each round-trip consists of 2 interactions (forward + backward), so
+    // 10 round-trips = 20 individual calls → 20 characters removed total.
     const std::string seed(100, 'x'); // 100 'x' characters
     auto degradeFn = [](const std::string& doc, const std::string& /*instr*/) {
         if (doc.empty()) return doc;
