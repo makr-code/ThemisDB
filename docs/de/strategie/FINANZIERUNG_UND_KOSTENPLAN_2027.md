@@ -46,6 +46,7 @@
 - Währung: **EUR**, Jahreswerte (netto, gerundet)
 - Fokus: laufende Kosten für Entwicklung, Betrieb, Qualität und Sicherheit
 - Teamgröße für Planung: **6 FTE Engineering + 1 FTE DevOps/QA + 1 FTE Produkt/PM (anteilig)**
+- Kalkulationssatz Personal: **Ø 95.000 € pro FTE/Jahr** (inkl. Arbeitgebernebenkosten, Recruiting-/Onboarding-Anteil, Weiterbildungsbudget)
 
 ### Kostenübersicht 2027
 
