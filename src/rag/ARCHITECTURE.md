@@ -2,9 +2,18 @@
 
 > **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
 
-**Version:** 1.0
-**Last Updated:** 2026-04-06
+**Version:** 1.1
+**Last Updated:** 2026-05-12
 **Module Path:** `src/rag/`
+
+---
+
+## Scientific References
+
+| Paper | Relevance |
+|---|---|
+| Laban et al., "LLMs Corrupt Your Documents When You Delegate" (arXiv:2604.15597) | Basis for `delegate_evaluator.cpp` — RS\@k metric, round-trip corruption measurement, catastrophic threshold |
+| Liu et al., "G-Eval: NLG Evaluation Using GPT-4 with Better Human Alignment" (2023) | Basis for `geval_evaluator.cpp` |
 
 ---
 
@@ -74,6 +83,7 @@ retrieval and self-evaluation loops for complex multi-hop queries.
 | `judge_config.cpp` | Judge configuration validation |
 | `http_metrics_client.cpp` | HTTP metrics export to external monitoring |
 | `prompt_injection_detector.cpp` | Pattern-based prompt injection detection (`PromptInjectionDetector`, `PromptInjectionSanitizer`) |
+| `delegate_evaluator.cpp` | DELEGATE-52 round-trip corruption benchmark (`RoundTripSimulator`, `IDomainEvaluator` variants; see arXiv:2604.15597) |
 
 ### 3.2 Component Diagram
 
