@@ -4,6 +4,11 @@
 
 Data export functionality for ThemisDB.
 
+**Public Headers:** `../../include/exporters/README.md`
+**Architecture Guide:** `ARCHITECTURE.md`
+**Roadmap:** `ROADMAP.md`
+**Future Enhancements:** `FUTURE_ENHANCEMENTS.md`
+
 ## Module Purpose
 
 Provides data export functionality for ThemisDB. Supported formats:
@@ -11,7 +16,7 @@ Provides data export functionality for ThemisDB. Supported formats:
 - **JSONL** — optimized for LLM training data (instruction/input/output, Alpaca/ShareGPT/ChatML)
 - **Apache Parquet** — columnar export for analytics workloads
 - **Apache Arrow IPC** — zero-copy pipelines (file and stream formats)
-- **Hugging Face Datasets** — dataset card + Parquet shards for Hub upload
+- **Hugging Face Datasets** — dataset card + shard metadata for local export and Hub upload
 - **Streaming** — large-collection export without full in-memory buffering
 
 ## Subsystem Scope
@@ -26,7 +31,20 @@ Provides data export functionality for ThemisDB. Supported formats:
 
 **Out of scope:** Data transformation (handled by content module), import functionality (handled by importers module), data compression (delegated to utils/zstd).
 
-## Relevant Interfaces
+## Public Header Entry-Points
+
+| Header | Primary API | Notes |
+|--------|-------------|-------|
+| `../../include/exporters/exporter_interface.h` | `IExporter`, `ExportOptions`, `ExportStats` | Shared contract for output path, filtering, compression, progress, encryption, and authorization |
+| `../../include/exporters/jsonl_llm_exporter.h` | `JSONLLLMExporter`, `JSONLLLMConfig` | LLM-focused JSONL export with template selection, schema validation, metadata, and PII controls |
+| `../../include/exporters/streaming_exporter.h` | `StreamingExporter`, `ExportCursor`, `StreamingExportConfig` | Cursor-driven export with checkpoint resume and ETA reporting |
+| `../../include/exporters/incremental_exporter.h` | `IncrementalExporter`, `IncrementalExportConfig` | Delta export keyed by a persisted sequence watermark |
+| `../../include/exporters/join_exporter.h` | `JoinExporter`, `JoinExportConfig` | Two-collection hash join with field aliasing, predicate filtering, and memory limits |
+| `../../include/exporters/huggingface_hub_client.h` | `HuggingFaceHubClient`, `HubUploadConfig`, `MemoryShardSpec` | Disk and in-memory Hub upload APIs with retry/back-off, audit, and policy checks |
+| `../../include/exporters/format_template.h` | `FormatTemplateType`, `validateTemplate()` | Alpaca / ShareGPT / ChatML / OpenAI fine-tuning templates and dry-run validation |
+| `../../include/exporters/pii_detector.h` | `PIIDetector`, `PIIMetrics` | Regex-based PII detection and redaction helpers |
+
+## Main Implementation Components
 
 - `jsonl_llm_exporter.cpp` — primary JSONL export with LLM training format
 - `parquet_exporter.cpp` — Apache Parquet columnar export
@@ -84,6 +102,41 @@ Provides data export functionality for ThemisDB. Supported formats:
 - PII detection and redaction (mask, hash, remove, partial)
 - Multi-tenant isolation with scope-based authorization
 - Progress callbacks with records exported, bytes written, and estimated ETA
+
+## Runtime Behavior, Error Cases, and Limits
+
+- `ExportOptions::include_fields`, `exclude_fields`, and `filter_expression`
+  are applied before serialization so the same selection logic can be reused
+  across JSONL, streaming, and delta exports.
+- `enforceExportPolicy()` is the mandatory authorization gate whenever
+  `ExportOptions::policy_engine` is set; denials happen before any file or
+  cursor is opened.
+- `StreamingExporter` persists checkpoints after completed pages and bounds peak
+  memory by `StreamingExportConfig::max_buffer_bytes` (default 256 MiB).
+- `IncrementalExporter` writes its watermark atomically and exports only records
+  with a sequence value strictly greater than the persisted watermark.
+- `JoinExporter` aborts when required aliases are missing for colliding field
+  names or when the right-side hash table exceeds
+  `right_side_memory_limit_bytes` (default 1 GiB).
+- `StreamWriter` accepts `CompressionType::GZIP` for backward compatibility,
+  but the implementation emits ZSTD-framed output.
+- `HuggingFaceHubClient` is not thread-safe and returns `success=false` instead
+  of partially uploading data when authorization, libcurl support, or network
+  prerequisites fail.
+- Common failure surfaces come from `ExporterException` and subclasses in
+  `../../include/exporters/exporter_errors.h`, including config, schema, I/O,
+  quality-filter, size-limit, and format errors.
+
+## Configuration Guide
+
+| Config Surface | Key Fields | Typical Use |
+|---|---|---|
+| `ExportOptions` | `output_path`, `compression_type`, `progress_callback`, `continue_on_error`, `collection_name`, `requesting_user` | Shared settings for all file-backed exporters |
+| `JSONLLLMConfig` | `style`, `field_mapping`, `quality`, `structured_gen`, `adapter_metadata`, `pii_config`, `format_template_type` | Fine-tuning dataset export with schema and metadata control |
+| `StreamingExportConfig` | `page_size`, `max_buffer_bytes`, `checkpoint_path` | Large export jobs that must resume after interruption |
+| `IncrementalExportConfig` | `sequence_field`, `watermark_path`, `export_missing_sequence` | Periodic delta exports keyed by monotonic sequence fields |
+| `JoinExportConfig` | `left_collection`, `right_collection`, `output_fields`, `join_predicate`, `right_side_memory_limit_bytes` | Joined training/annotation datasets with bounded right-side memory |
+| `HubUploadConfig` | `repo_id`, `hf_token`, `hf_token_kek_id`, `create_repo`, `max_retries`, `timeout_seconds`, `policy_engine`, `audit_log` | Post-export Hub publication from disk or memory |
 
 ## Hugging Face Hub Direct Upload
 
@@ -251,12 +304,83 @@ compile time, both `uploadDataset()` and `uploadShards()` return immediately wit
 `success=false` and an explanatory `error_message`.  All other `HubUploadConfig` fields
 remain available for configuration in both modes.
 
-## Documentation
+## Additional Usage Snippets
 
-For exporter documentation, see:
-- [Implementation Summary](../../docs/exporters/IMPLEMENTATION_SUMMARY.md)
-- [P0 Implementation (Foundation)](../../docs/exporters/P0_IMPLEMENTATION.md)
-- [P1/P2 Implementation (Security & Performance)](../../docs/exporters/P1_P2_IMPLEMENTATION.md)
+### Incremental export with watermark tracking
+
+```cpp
+#include "exporters/incremental_exporter.h"
+
+using namespace themis::exporters;
+
+IncrementalExportConfig config;
+config.sequence_field = "_seq";
+config.watermark_path = "/tmp/export.watermark.json";
+
+ExportOptions options;
+options.output_path = "/tmp/export.delta.jsonl";
+
+IncrementalExporter exporter(config);
+auto stats = exporter.exportEntities(entities, options);
+```
+
+### Join export with explicit aliases
+
+```cpp
+#include "exporters/join_exporter.h"
+
+using namespace themis::exporters;
+
+JoinExportConfig config;
+config.left_collection = "documents";
+config.right_collection = "annotations";
+config.right_key_field = "document_id";
+config.output_fields = {
+    "left.title:title",
+    "right.label:annotation_label"
+};
+
+JoinExporter exporter(config);
+exporter.setRightCollection(right_entities);
+
+ExportOptions options;
+options.output_path = "/tmp/joined.jsonl";
+auto stats = exporter.exportEntities(left_entities, options);
+```
+
+## Troubleshooting
+
+- **Broken output path / permission errors** — expect `ExportIOException`; check
+  `ExportOptions::output_path`, parent-directory permissions, and disk space.
+- **Template exports drop records** — run
+  `JSONLLLMExporter::validateTemplate(sample)` to list missing required fields
+  before the full export.
+- **Policy denial before export starts** — set `collection_name` and
+  `requesting_user` on `ExportOptions`, and review the attached `PolicyEngine`
+  rules.
+- **Join export reports ambiguous fields** — alias duplicate names explicitly
+  with `left.<field>:alias` / `right.<field>:alias`.
+- **Incremental export behaves like a full export** — verify that
+  `watermark_path` is configured and writable, otherwise no persisted state is
+  available.
+- **Unexpected `.gz` contents** — `CompressionType::GZIP` currently maps to ZSTD
+  output for backward compatibility; convert downstream if a true gzip payload
+  is required.
+- **Hub upload fails immediately** — confirm `CURL_ENABLED` is available, the
+  HF token source resolves successfully, and the target `repo_id` uses the
+  `owner/name` form.
+
+## Related Documentation
+
+- Public header overview: [`../../include/exporters/README.md`](../../include/exporters/README.md)
+- Architecture guide: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Module roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Implementation summary: [`../../docs/exporters/IMPLEMENTATION_SUMMARY.md`](../../docs/exporters/IMPLEMENTATION_SUMMARY.md)
+- Foundation implementation notes: [`../../docs/exporters/P0_IMPLEMENTATION.md`](../../docs/exporters/P0_IMPLEMENTATION.md)
+- Security and performance implementation notes: [`../../docs/exporters/P1_P2_IMPLEMENTATION.md`](../../docs/exporters/P1_P2_IMPLEMENTATION.md)
+- German module index: [`../../docs/de/exporters/README.md`](../../docs/de/exporters/README.md)
+- Primary sources (EN): [`../../docs/en/exporters/PRIMARY_SOURCES.md`](../../docs/en/exporters/PRIMARY_SOURCES.md)
 
 ## Scientific References
 
