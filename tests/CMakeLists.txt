@@ -2102,6 +2102,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
     add_executable(test_delegate_evaluator_focused
         test_delegate_evaluator.cpp
         ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+        # TODO: remove direct source wiring once these files are in THEMIS_CORE_SOURCES.
         ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
     )
 

@@ -229,7 +229,7 @@ struct ReconstructionScoreAtK {
      *           the last available score if k exceeds the recorded history.
      * @note     Return value must not be discarded; the function silently
      *           clamps out-of-range k to the last available index.
-     * @throws   std::out_of_range — never; the function clamps silently.
+     * @note     No exception is thrown for out-of-range k.
      */
     [[nodiscard]] ReconstructionScore rs_at(size_t k) const noexcept {
         if (k == 0) return 1.0;

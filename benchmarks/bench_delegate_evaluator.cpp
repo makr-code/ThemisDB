@@ -132,7 +132,7 @@ static void BM_DelegateEvaluator_PlainTextEval_100KB(benchmark::State& state) {
     PlainTextEvaluator ev;
 
     for (auto _ : state) {
-        // Use doc vs doc (identity) to stress tokenisation/distance path
+        // Use doc vs doc (identity) to stress large-input edit-distance scoring.
         const double rs = ev.evaluate(doc, doc);
         benchmark::DoNotOptimize(rs);
     }

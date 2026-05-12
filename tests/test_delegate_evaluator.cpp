@@ -370,8 +370,9 @@ TEST(DelegateEvaluatorTest, DE16_StoreBackedSnapshots) {
 
     const auto seed_snap = editor.loadInteraction(relay_id, 0);
     ASSERT_TRUE(seed_snap.has_value());
-    ASSERT_TRUE(seed_snap->has_value());
-    EXPECT_EQ(seed_snap->value().document, seed);
+    const auto& seed_snap_opt = *seed_snap;
+    ASSERT_TRUE(seed_snap_opt.has_value());
+    EXPECT_EQ(seed_snap_opt->document, seed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

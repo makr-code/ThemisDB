@@ -21,6 +21,8 @@ namespace {
 
 [[nodiscard]] int64_t nowMs() noexcept {
     using namespace std::chrono;
+    // Wall-clock timestamp is intentional for persisted audit/debug visibility.
+    // Monotonic ordering is not required for snapshot IDs (they are index-based).
     return duration_cast<milliseconds>(
                system_clock::now().time_since_epoch())
         .count();
@@ -118,4 +120,3 @@ std::string StoreBackedRoundTripEditor::makeSnapshotId(const std::string& relay_
 }
 
 } // namespace themis::document
-

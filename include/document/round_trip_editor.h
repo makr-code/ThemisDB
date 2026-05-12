@@ -20,6 +20,8 @@
 
 namespace themis::document {
 
+inline constexpr const char* kDefaultRoundTripCollection = "delegate_round_trip";
+
 /**
  * @brief Persisted snapshot for one round-trip interaction.
  */
@@ -89,6 +91,9 @@ public:
  * Snapshots are stored in one collection (`delegate_round_trip` by default),
  * encoded as JSON document bodies:
  * `{ relay_id, interaction_index, instruction, document }`.
+ *
+ * @note Snapshot IDs are encoded as `relay_id:NNNNNNNNNN` (10-digit zero-padded
+ *       interaction index). The index width is fixed for lexical ordering.
  */
 class StoreBackedRoundTripEditor final : public IRoundTripEditor {
 public:
@@ -99,7 +104,7 @@ public:
      * @param collection Collection used for snapshot documents.
      */
     explicit StoreBackedRoundTripEditor(IDocumentStore& store,
-                                        CollectionId collection = "delegate_round_trip");
+                                        CollectionId collection = kDefaultRoundTripCollection);
 
     [[nodiscard]] Result<void> beginRelay(const std::string& relay_id,
                                           const std::string& seed_document) override;
@@ -126,4 +131,3 @@ private:
 };
 
 } // namespace themis::document
-

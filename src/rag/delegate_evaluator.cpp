@@ -134,10 +134,9 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
     const auto ta = tokenise(a);
     const auto tb = tokenise(b);
     if (ta.empty() && tb.empty()) {
-        // Two empty token sets have undefined Jaccard similarity; returning 0.0
-        // here is intentional: the AqlQueryEvaluator enforces RS=0.0 for empty
-        // inputs at the call site, so this path is only reached for two truly
-        // empty strings, which carry no information to compare.
+        // Two empty token sets carry no lexical signal to compare.
+        // This can happen for whitespace/punctuation-only inputs after
+        // tokenization, so we intentionally return 0.0 here.
         return 0.0;
     }
 
@@ -163,8 +162,10 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
  * @brief Compute Levenshtein edit distance between @p a and @p b.
  *
  * Memory-optimised two-row DP — O(min(|a|, |b|)) space.
- * Falls back to 0-edit (RS=1.0) when either string exceeds 10 000 chars to
- * keep scoring well within 5 ms for 100 KB documents.
+ *
+ * @note For inputs above 10 000 characters, this function switches to an
+ *       O(n) Hamming-style approximation to bound runtime for benchmark-sized
+ *       payloads. This is an intentional performance/accuracy trade-off.
  *
  * The 10 000-character cap balances correctness and performance:
  * the DP is O(n×m) which becomes prohibitive beyond ~10k chars (100M ops).
@@ -403,6 +404,8 @@ RelayResult RoundTripSimulator::run(
     last_relay_id_ = makeRelayId();
 
     if (round_trip_editor_ != nullptr) {
+        // Best-effort persistence: benchmark scoring remains valid even if
+        // snapshot persistence fails; we intentionally do not abort the relay.
         (void)round_trip_editor_->beginRelay(last_relay_id_, seed_doc);
     }
 
@@ -440,6 +443,7 @@ RelayResult RoundTripSimulator::run(
             ++result.total_interactions;
             ++persisted_interaction_index;
             if (round_trip_editor_ != nullptr) {
+                // Best-effort persistence (see beginRelay comment above).
                 (void)round_trip_editor_->saveInteraction(
                     last_relay_id_,
                     persisted_interaction_index,
@@ -465,6 +469,7 @@ RelayResult RoundTripSimulator::run(
             ++result.total_interactions;
             ++persisted_interaction_index;
             if (round_trip_editor_ != nullptr) {
+                // Best-effort persistence (see beginRelay comment above).
                 (void)round_trip_editor_->saveInteraction(
                     last_relay_id_,
                     persisted_interaction_index,
