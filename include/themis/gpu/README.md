@@ -1207,12 +1207,12 @@ All components use internal `std::mutex` or `std::shared_mutex` for thread safet
 
 ## See Also
 
-- [GPU Module Source Documentation](../../src/gpu/README.md) — component architecture and quick-start
-- [GPU Architecture Guide](../../src/gpu/ARCHITECTURE.md) — design principles and data flows
-- [GPU Roadmap](../../src/gpu/ROADMAP.md) — delivery phases and open issues
-- [GPU Security](../../src/gpu/SECURITY.md) — threat model and security controls
-- [GPU Future Enhancements](../../src/gpu/FUTURE_ENHANCEMENTS.md) — planned features and integration notes
-- [GPU Runbooks](../../docs/gpu_runbooks.md) — on-call operational procedures
+- [GPU Module Source Documentation](../../../src/gpu/README.md) — component architecture and quick-start
+- [GPU Architecture Guide](../../../src/gpu/ARCHITECTURE.md) — design principles and data flows
+- [GPU Roadmap](../../../src/gpu/ROADMAP.md) — delivery phases and open issues
+- [GPU Security](../../../src/gpu/SECURITY.md) — threat model and security controls
+- [GPU Future Enhancements](../../../src/gpu/FUTURE_ENHANCEMENTS.md) — planned features and integration notes
+- [GPU Runbooks](../../../docs/gpu_runbooks.md) — on-call operational procedures
 - [LLM Module](../../../src/llm/README.md) — GPU model inference
 - [Vector Index](../../../src/index/README.md) — GPU-accelerated ANN indexing
 
