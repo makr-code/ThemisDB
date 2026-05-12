@@ -242,9 +242,9 @@
 - Gebäude: Nebenkostenstruktur, Energiekennwert, Parken, Sicherheit, Zutrittskontrolle
 - Vertragsrisiken: Staffelmiete, Indexierung, Umbauten, Sonderkündigungsrechte
 
-### Hinweis zum aktuellen Recherche-Stand
+### Hinweis zur Objektselektion
 
-Im aktuellen Agent-Umfeld ist externe DNS-/Web-Recherche eingeschränkt. Die Kostenpositionen sind daher bereits budgetiert; die konkrete Objekt-Auswahl erfolgt über die oben definierte Anfragestruktur mit dokumentierter Glasfaser-Bestätigung pro Objekt.
+Die Kostenpositionen sind budgetiert; die konkrete Objekt-Auswahl erfolgt über die oben definierte Anfragestruktur mit dokumentierter Glasfaser-Bestätigung pro Objekt (inkl. Anbieter, SLA und Schalttermin).
 
 ### Fazit
 
