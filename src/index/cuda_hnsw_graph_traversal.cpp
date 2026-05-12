@@ -161,6 +161,13 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
         }
     }
 
+    // Bottom layer: ef-limited search.
+    // Ensure ef is never smaller than k, otherwise the candidate heap can
+    // never return k results (observed for large-k CPU fallback queries).
+    if (ef < k) {
+        ef = k;
+    }
+
     // Bottom layer: ef-limited search
     const HnswLayerGraph& bottom = layers[0];
     if (bottom.num_nodes == 0) return {};
@@ -415,6 +422,7 @@ CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) con
     if (!impl_->index_built || impl_->flat_vectors.empty()) return {};
     if (ef == 0) ef = config_.ef_search;
     if (k == 0)  k  = 1;
+    if (ef < k) ef = k;
 
 #ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
@@ -437,6 +445,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
     if (!impl_->index_built || queries == nullptr || num_queries == 0) return {};
     if (ef == 0) ef = config_.ef_search;
     if (k  == 0) k  = 1;
+    if (ef < k) ef = k;
 
     std::vector<std::vector<HnswTraversalResult>> results(num_queries);
 

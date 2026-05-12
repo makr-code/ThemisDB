@@ -31,6 +31,7 @@ Rollenbasierte Navigation fuer den schnellsten Weg zur richtigen Doku.
 - Use Cases: [use-cases/README.md](use-cases/README.md)
 - Knowledge Base: [knowledge-base/README.md](knowledge-base/README.md)
 - Zertifizierung: [certification/README.md](certification/README.md)
+- Research (DE): [de/research/README.md](de/research/README.md)
 
 ## Fuer Maintainer
 

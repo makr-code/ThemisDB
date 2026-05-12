@@ -74,7 +74,7 @@ static std::vector<ChangeEvent> replayFiltered(const CDCPersistentLog& log,
 // ============================================================================
 
 // CDCPL-01: open() creates the directory and sets isOpen() = true.
-TEST(CDCPersistentLogTest, CDCPL_01_OpenCreatesDirectory) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_01_OpenCreatesDirectory) {
     CDCPersistentLog log(tempDir("01"));
     EXPECT_FALSE(log.isOpen());
     log.open();
@@ -83,7 +83,7 @@ TEST(CDCPersistentLogTest, CDCPL_01_OpenCreatesDirectory) {
 }
 
 // CDCPL-02: append + replay round-trip restores the event.
-TEST(CDCPersistentLogTest, CDCPL_02_AppendReplayRoundTrip) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_02_AppendReplayRoundTrip) {
     CDCPersistentLog log(tempDir("02"));
     log.open();
     log.append(makeEv("employees", ChangeType::INSERT, "emp1", 1000));
@@ -98,7 +98,7 @@ TEST(CDCPersistentLogTest, CDCPL_02_AppendReplayRoundTrip) {
 }
 
 // CDCPL-03: replay filters by table_name.
-TEST(CDCPersistentLogTest, CDCPL_03_ReplayFiltersTable) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_03_ReplayFiltersTable) {
     CDCPersistentLog log(tempDir("03"));
     log.open();
     log.append(makeEv("employees", ChangeType::INSERT, "emp1", 1000));
@@ -114,7 +114,7 @@ TEST(CDCPersistentLogTest, CDCPL_03_ReplayFiltersTable) {
 }
 
 // CDCPL-04: replay filters by TimeRange.
-TEST(CDCPersistentLogTest, CDCPL_04_ReplayFiltersTimeRange) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_04_ReplayFiltersTimeRange) {
     CDCPersistentLog log(tempDir("04"));
     log.open();
     log.append(makeEv("t", ChangeType::INSERT, "a", 100));
@@ -128,7 +128,7 @@ TEST(CDCPersistentLogTest, CDCPL_04_ReplayFiltersTimeRange) {
 }
 
 // CDCPL-05: totalBytesWritten increases monotonically.
-TEST(CDCPersistentLogTest, CDCPL_05_TotalBytesWritten) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_05_TotalBytesWritten) {
     CDCPersistentLog log(tempDir("05"));
     log.open();
     EXPECT_EQ(log.totalBytesWritten(), 0u);
@@ -140,18 +140,19 @@ TEST(CDCPersistentLogTest, CDCPL_05_TotalBytesWritten) {
     log.close();
 }
 
-// CDCPL-06: segmentCount returns the correct number of .seg files.
-TEST(CDCPersistentLogTest, CDCPL_06_SegmentCount) {
+// CDCPL-06: segmentCount reflects lazy segment creation semantics.
+TEST(CDCPersistentLogV18V19Test, CDCPL_06_SegmentCount) {
     CDCPersistentLog log(tempDir("06"));
     log.open();
-    EXPECT_EQ(log.segmentCount(), 1u);
+    // Segments are created lazily on first append.
+    EXPECT_EQ(log.segmentCount(), 0u);
     log.append(makeEv("t", ChangeType::INSERT, "x", 1));
     log.close();
     EXPECT_EQ(log.segmentCount(), 1u);
 }
 
 // CDCPL-07: segment rotation creates a new file once the size limit is hit.
-TEST(CDCPersistentLogTest, CDCPL_07_SegmentRotation) {
+TEST(CDCPersistentLogV18V19Test, CDCPL_07_SegmentRotation) {
     // Very small segment limit (64 bytes) to force rapid rotation.
     CDCPersistentLog log(tempDir("07"), "cdc", 64u);
     log.open();
@@ -168,18 +169,18 @@ TEST(CDCPersistentLogTest, CDCPL_07_SegmentRotation) {
     EXPECT_EQ(all.size(), 5u);
 }
 
-// CDCPL-08: append on closed log throws std::logic_error.
-TEST(CDCPersistentLogTest, CDCPL_08_AppendOnClosedLogThrows) {
+// CDCPL-08: append on closed log throws std::runtime_error.
+TEST(CDCPersistentLogV18V19Test, CDCPL_08_AppendOnClosedLogThrows) {
     CDCPersistentLog log(tempDir("08"));
     EXPECT_THROW(log.append(makeEv("t", ChangeType::INSERT, "x")),
-                 std::logic_error);
+                 std::runtime_error);
 }
 
 // ============================================================================
 // SD2 — SnapshotDiff tests
 // ============================================================================
 
-class SnapshotDiffTest : public ::testing::Test {
+class SnapshotDiffV18V19Test : public ::testing::Test {
 protected:
     TemporalSnapshotManager mgr;
     SystemVersionedTable    tbl{"employees"};
@@ -204,7 +205,7 @@ bool diffMapHasKey(const std::map<std::string, std::vector<std::string>>& m,
 }
 
 // SD2-01: diff of identical snapshots returns empty result.
-TEST_F(SnapshotDiffTest, SD2_01_IdenticalSnapshots) {
+TEST_F(SnapshotDiffV18V19Test, SD2_01_IdenticalSnapshots) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     auto d   = mgr.diff(h1, h1);
     EXPECT_TRUE(d.empty());
@@ -212,7 +213,7 @@ TEST_F(SnapshotDiffTest, SD2_01_IdenticalSnapshots) {
 }
 
 // SD2-02: newly inserted row appears in diff.added.
-TEST_F(SnapshotDiffTest, SD2_02_AddedRow) {
+TEST_F(SnapshotDiffV18V19Test, SD2_02_AddedRow) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     tbl.insert("emp3", {{"name", "Charlie"}});
     auto h2 = mgr.createSnapshot({{"employees", &tbl}});
@@ -224,7 +225,7 @@ TEST_F(SnapshotDiffTest, SD2_02_AddedRow) {
 }
 
 // SD2-03: deleted row appears in diff.removed.
-TEST_F(SnapshotDiffTest, SD2_03_RemovedRow) {
+TEST_F(SnapshotDiffV18V19Test, SD2_03_RemovedRow) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     tbl.deleteRow("emp2");
     auto h2 = mgr.createSnapshot({{"employees", &tbl}});
@@ -235,7 +236,7 @@ TEST_F(SnapshotDiffTest, SD2_03_RemovedRow) {
 }
 
 // SD2-04: updated row appears in diff.modified.
-TEST_F(SnapshotDiffTest, SD2_04_ModifiedRow) {
+TEST_F(SnapshotDiffV18V19Test, SD2_04_ModifiedRow) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     tbl.update("emp1", {{"name", "Alice Smith"}});
     auto h2 = mgr.createSnapshot({{"employees", &tbl}});
@@ -245,14 +246,14 @@ TEST_F(SnapshotDiffTest, SD2_04_ModifiedRow) {
 }
 
 // SD2-05: diff with invalid handle returns empty diff (no crash).
-TEST_F(SnapshotDiffTest, SD2_05_InvalidHandle) {
+TEST_F(SnapshotDiffV18V19Test, SD2_05_InvalidHandle) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     SnapshotHandle bad;  // default-constructed → invalid
     EXPECT_THROW((void)mgr.diff(h1, bad), std::invalid_argument);
 }
 
 // SD2-06: toJson() serialises the diff correctly.
-TEST_F(SnapshotDiffTest, SD2_06_ToJson) {
+TEST_F(SnapshotDiffV18V19Test, SD2_06_ToJson) {
     auto h1 = mgr.createSnapshot({{"employees", &tbl}});
     tbl.insert("emp3", {{"name", "Charlie"}});
     auto h2 = mgr.createSnapshot({{"employees", &tbl}});
@@ -270,7 +271,7 @@ TEST_F(SnapshotDiffTest, SD2_06_ToJson) {
 // BTM — BiTemporalTable::merge tests
 // ============================================================================
 
-class BiTemporalMergeTest : public ::testing::Test {
+class BiTemporalMergeV18V19Test : public ::testing::Test {
 protected:
     BiTemporalTable local{"orders", "node-A"};
     BiTemporalTable remote{"orders", "node-B"};
@@ -281,7 +282,7 @@ protected:
 };
 
 // BTM-01: merge from empty remote is a no-op.
-TEST_F(BiTemporalMergeTest, BTM_01_MergeEmptyRemote) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_01_MergeEmptyRemote) {
     local.insertWithValidTime("ord1", {{"status", "NEW"}}, {kT1, kMaxTimestamp});
     auto res = local.merge(remote);
     EXPECT_EQ(res.rows_inserted, 0u);
@@ -291,7 +292,7 @@ TEST_F(BiTemporalMergeTest, BTM_01_MergeEmptyRemote) {
 }
 
 // BTM-02: remote row with newer sys_time wins.
-TEST_F(BiTemporalMergeTest, BTM_02_RemoteWinsLWW) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_02_RemoteWinsLWW) {
     local.insertWithValidTime("ord1", {{"status", "NEW"}},       {kT1, kMaxTimestamp});
     remote.insertWithValidTime("ord1", {{"status", "SHIPPED"}},  {kT1, kMaxTimestamp});
     // Manipulate remote's row to have a later sys_time.
@@ -307,7 +308,7 @@ TEST_F(BiTemporalMergeTest, BTM_02_RemoteWinsLWW) {
 }
 
 // BTM-03: local row with newer sys_time is kept (remote skipped).
-TEST_F(BiTemporalMergeTest, BTM_03_LocalWinsIfNewer) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_03_LocalWinsIfNewer) {
     // Insert into remote first, then local, so local.sys_time > remote.sys_time.
     remote.insertWithValidTime("ord1", {{"status", "OLD"}}, {kT1, kMaxTimestamp});
     local.insertWithValidTime("ord1",  {{"status", "NEW"}}, {kT2, kMaxTimestamp});
@@ -323,7 +324,7 @@ TEST_F(BiTemporalMergeTest, BTM_03_LocalWinsIfNewer) {
 }
 
 // BTM-04: key present only in remote is adopted.
-TEST_F(BiTemporalMergeTest, BTM_04_NewKeyFromRemote) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_04_NewKeyFromRemote) {
     remote.insertWithValidTime("ord99", {{"status", "PENDING"}}, {kT1, kMaxTimestamp});
     auto before = local.keyCount();
     auto res    = local.merge(remote);
@@ -332,7 +333,7 @@ TEST_F(BiTemporalMergeTest, BTM_04_NewKeyFromRemote) {
 }
 
 // BTM-05: merge with mismatched table names is a no-op.
-TEST_F(BiTemporalMergeTest, BTM_05_TableNameMismatch) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_05_TableNameMismatch) {
     BiTemporalTable other{"invoices", "node-C"};
     other.insertWithValidTime("inv1", {{"amount", 100}}, {kT1, kMaxTimestamp});
     auto res = local.merge(other);
@@ -342,7 +343,7 @@ TEST_F(BiTemporalMergeTest, BTM_05_TableNameMismatch) {
 }
 
 // BTM-06: MergeResult statistics are accurate for multi-key merges.
-TEST_F(BiTemporalMergeTest, BTM_06_MergeResultStats) {
+TEST_F(BiTemporalMergeV18V19Test, BTM_06_MergeResultStats) {
     local.insertWithValidTime("ord1", {{"s", "A"}}, {kT1, kMaxTimestamp});
     local.insertWithValidTime("ord2", {{"s", "B"}}, {kT2, kMaxTimestamp});
 

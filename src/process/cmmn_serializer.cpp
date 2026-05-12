@@ -266,11 +266,20 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
 
         // ── <case> root element ───────────────────────────────────────────
         if (tn == "case") {
-            if (result.case_id.empty()) {
-                auto it_id   = t.attrs.find("id");
-                auto it_name = t.attrs.find("name");
-                result.case_id   = (it_id   != t.attrs.end()) ? it_id->second   : "imported_case";
-                result.case_name = (it_name != t.attrs.end()) ? it_name->second : result.case_id;
+            // Prefer explicit case metadata over <definitions> fallback data.
+            // A valid CMMN document may define both, and test fixtures expect
+            // the semantic case identity from the <case> element.
+            auto it_id   = t.attrs.find("id");
+            auto it_name = t.attrs.find("name");
+            if (it_id != t.attrs.end() && !it_id->second.empty()) {
+                result.case_id = it_id->second;
+            } else if (result.case_id.empty()) {
+                result.case_id = "imported_case";
+            }
+            if (it_name != t.attrs.end() && !it_name->second.empty()) {
+                result.case_name = it_name->second;
+            } else if (result.case_name.empty()) {
+                result.case_name = result.case_id;
             }
             return;
         }

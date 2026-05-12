@@ -337,6 +337,44 @@
         "primary_benchmark": "GraphTraversalBenchmarkFixture_BFSTraversal",
         "file": "bench_graph_traversal.cpp",
         "status": "mapped"
+      },
+      "TFG-1": {
+        "label": "TFG Insert-Latenz",
+        "primary_benchmark": "BM_TFG_Insert_SingleNode",
+        "file": "bench_tensor_fingerprint_graph.cpp",
+        "status": "mapped"
+      },
+      "TFG-2": {
+        "label": "TFG Similarity Query",
+        "primary_benchmark": "BM_TFG_FindSimilar",
+        "file": "bench_tensor_fingerprint_graph.cpp",
+        "status": "mapped"
+      },
+      "TFG-3": {
+        "label": "TFG Neighbour Lookup",
+        "primary_benchmark": "BM_TFG_Neighbours",
+        "file": "bench_tensor_fingerprint_graph.cpp",
+        "status": "mapped"
+      },
+      "TFG-4": {
+        "label": "TFG Persisted Export",
+        "primary_benchmark": "BM_TFG_ExportPersistedGraph",
+        "file": "bench_tensor_fingerprint_graph.cpp",
+        "status": "mapped"
+      },
+      "TDM-1": {
+        "label": "TensorDeduplication Snapshot/Restore Integritaet",
+        "primary_benchmark": null,
+        "file": null,
+        "status": "not_measurable",
+        "note": "Derzeit als Integritaets-/Korrektheitsziel ueber GTest-Serie TensorDeduplicationManagerSnapshotTest (TDM-12..TDM-24) validiert; kein dedizierter Microbenchmark registriert."
+      },
+      "TDM-2": {
+        "label": "TensorDeduplication Journal-Replay/Kompaktion",
+        "primary_benchmark": null,
+        "file": null,
+        "status": "not_measurable",
+        "note": "Derzeit als Integritaets-/Korrektheitsziel ueber GTest-Serie TensorDeduplicationManagerSnapshotTest (TDM-18/TDM-19/TDM-22/TDM-23/TDM-24) validiert; kein dedizierter Throughput-Benchmark registriert."
       }
     },
     "replication": {
@@ -1585,11 +1623,11 @@
   },
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
-    "total": 191,
-    "mapped": 164,
+    "total": 197,
+    "mapped": 168,
     "proxy": 20,
-    "not_measurable": 7,
+    "not_measurable": 9,
     "gap": 0,
-    "coverage_pct": 85.9
+    "coverage_pct": 85.3
   }
 }

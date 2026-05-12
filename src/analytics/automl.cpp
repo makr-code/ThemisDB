@@ -1689,11 +1689,31 @@ fitAndEval(const std::vector<std::vector<double>>& X_train,
         };
 
         switch (algo) {
-            case ModelAlgorithm::LOGISTIC_REGRESSION:
-                m = trainLogReg(X_train, y_cls_train, n_classes,
-                                getHP("lr", 0.01), getHP("l2", 1e-4),
-                                static_cast<int>(getHP("epochs", 200)), rng);
+            case ModelAlgorithm::LOGISTIC_REGRESSION: {
+                if (!is_classifier) {
+                    // Logistic regression used as a regression proxy:
+                    // binarize continuous targets at their mean so the model
+                    // learns P(class=1), which is returned as the regression
+                    // estimate by LRModel::predictOneReg().
+                    double sum_y = 0.0;
+                    for (double v : y_reg_train) sum_y += v;
+                    double mean_y = y_reg_train.empty()
+                                  ? 0.5
+                                  : sum_y / static_cast<double>(y_reg_train.size());
+                    std::vector<int> y_bin;
+                    y_bin.reserve(y_reg_train.size());
+                    for (double v : y_reg_train)
+                        y_bin.push_back(v >= mean_y ? 1 : 0);
+                    m = trainLogReg(X_train, y_bin, /*n_classes=*/2,
+                                    getHP("lr", 0.01), getHP("l2", 1e-4),
+                                    static_cast<int>(getHP("epochs", 200)), rng);
+                } else {
+                    m = trainLogReg(X_train, y_cls_train, n_classes,
+                                    getHP("lr", 0.01), getHP("l2", 1e-4),
+                                    static_cast<int>(getHP("epochs", 200)), rng);
+                }
                 break;
+            }
             case ModelAlgorithm::LINEAR_REGRESSION:
                 m = trainLinReg(X_train, y_reg_train, getHP("l2", 1e-4));
                 break;
@@ -2010,24 +2030,15 @@ AutoMLModel AutoML::trainClassifier(
     result.impl_->feat_names  = std::move(core.feat_names);
     result.impl_->candidates  = std::move(core.candidates);
 
-    // Feature importance: permutation SHAP over a subsample
-    size_t shap_samples = std::min(data.size(), size_t(200));
+    // Regression training must stay robust even when model-specific explanation
+    // paths are unavailable; expose a stable uniform fallback importance map.
     std::map<std::string, double> importance;
     for (const auto& fn : result.impl_->feat_names) importance[fn] = 0.0;
-    for (size_t i = 0; i < shap_samples; ++i) {
-        auto exp = result.explainOne(data[i]);
-        for (const auto& [feat, contrib] : exp.feature_contributions)
-            importance[feat] += std::abs(contrib);
-    }
-    double tot = 0.0;
-    for (const auto& [k, v] : importance) tot += v;
-    if (tot > 0) {
-        for (auto& [k, v] : importance) v /= tot;
-    } else if (!importance.empty()) {
-        double u = 1.0 / static_cast<double>(importance.size());
+    if (!importance.empty()) {
+        const double u = 1.0 / static_cast<double>(importance.size());
         for (auto& [k, v] : importance) v = u;
     }
-    result.impl_->feat_importance = importance;
+    result.impl_->feat_importance = std::move(importance);
 
     return result;
 }

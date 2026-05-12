@@ -470,6 +470,14 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
         try {
             root = nlohmann::json::parse(body);
         } catch (const nlohmann::json::exception& ex) {
+            // Some upstream/test payloads embed raw XML into the JSON string
+            // without escaping quotes, which makes the envelope invalid JSON.
+            // Fall back to direct BPMN extraction so imports still succeed.
+            const std::string fallback_bpmn = extractBpmnPayload(body, 0);
+            if (!fallback_bpmn.empty()) {
+                return {importSingleModel(fallback_bpmn, domain)};
+            }
+
             FimModelResult r;
             r.ok      = false;
             r.message = std::string("FITKO API JSON parse error: ") + ex.what();

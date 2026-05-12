@@ -1,0 +1,39 @@
+schema_version: 1
+recipe_id: install-default
+actions:
+  - id: create_install_root
+    type: mkdir
+    target: "${install_path}"
+
+  - id: extract_payload
+    type: extract_archive
+    source: "${artifact_path}"
+    destination: "${staging_path}"
+
+  - id: pre_switch_backup
+    type: snapshot_current
+    source: "${install_path}"
+    destination: "${rollback_path}"
+
+  - id: atomic_switch
+    type: atomic_swap
+    source: "${staging_path}"
+    destination: "${install_path}"
+
+  - id: write_install_state
+    type: write_state
+    target: "${state_file}"
+
+post_install:
+  - id: create_shortcuts
+    when_os: windows
+    type: create_shortcut
+
+  - id: register_app_bundle
+    when_os: macos
+    type: register_bundle
+
+  - id: chmod_executables
+    when_os: linux
+    type: chmod
+    mode: "0755"

@@ -47,6 +47,8 @@
       },
       "cacheVariables": {
         "CMAKE_VS_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
@@ -62,6 +64,8 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
         "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux",
         "THEMIS_ENABLE_GPU": "ON",
@@ -76,6 +80,8 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "aarch64-linux-gnu-gcc",
         "CMAKE_CXX_COMPILER": "aarch64-linux-gnu-g++",
+        "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
         "CMAKE_SYSTEM_NAME": "Linux",
         "CMAKE_SYSTEM_PROCESSOR": "aarch64",
         "VCPKG_TARGET_TRIPLET": "arm64-linux",

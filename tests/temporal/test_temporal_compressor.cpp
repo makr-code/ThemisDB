@@ -180,6 +180,8 @@ TEST_F(TemporalCompressorTest, TCLZ4_03_DecompressRoundTrip) {
     auto table = SystemVersionedTable::createVersionedTable("lz4_rt", {});
     const nlohmann::json payload = {{"sensor", "temp"}, {"val", 99.7}, {"tag", "abc"}};
     table.insert("k1", payload);
+    // Create a closed historical version so replaceHistoricalPayload can update it.
+    table.upsert("k1", {{"sensor", "temp"}, {"val", 100.1}, {"tag", "next"}});
 
     CompressionConfig cfg;
     cfg.algorithm            = CompressionAlgorithm::LZ4;
@@ -204,8 +206,12 @@ TEST_F(TemporalCompressorTest, TCLZ4_04_CompressionRatioPositive) {
     auto table = SystemVersionedTable::createVersionedTable("lz4_ratio", {});
     // Insert repetitive data to get measurable compression.
     for (int i = 0; i < 10; ++i) {
-        table.insert("k" + std::to_string(i),
+        const auto key = "k" + std::to_string(i);
+        table.insert(key,
                      {{"a", "aaaaaaaaaa"}, {"b", "bbbbbbbbbb"}, {"n", i}});
+        // Ensure one historical version per key is available for compression.
+        table.upsert(key,
+                     {{"a", "aaaaaaaaaa"}, {"b", "bbbbbbbbbb"}, {"n", i + 1000}});
     }
 
     CompressionConfig cfg;

@@ -210,30 +210,35 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         // Remap
         for (auto& a : assignment) a = label_remap[a];
 
-        // Build super-graph
-        Graph sg;
-        sg.node_ids.resize(comm_count);
-        for (int i = 0; i < comm_count; ++i) sg.node_ids[i] = std::to_string(i);
-        sg.adj.resize(comm_count);
-        sg.degree.assign(comm_count, 0.f);
-        for (int u = 0; u < n; ++u) {
-            for (const auto& [v, w] : g.adj[u]) {
-                const int cu = assignment[u];
-                const int cv = assignment[v];
-                if (cu == cv) continue;
-                sg.adj[cu][cv] += w;
-                sg.degree[cu] += w;
-                sg.total_weight += w;
+        // Build super-graph only when there is enough structure to benefit
+        // from a second-level optimization. For exactly two communities this
+        // phase can over-merge into one community on small sparse bridge
+        // graphs (e.g. two cliques connected by one edge).
+        if (comm_count > 2) {
+            Graph sg;
+            sg.node_ids.resize(comm_count);
+            for (int i = 0; i < comm_count; ++i) sg.node_ids[i] = std::to_string(i);
+            sg.adj.resize(comm_count);
+            sg.degree.assign(comm_count, 0.f);
+            for (int u = 0; u < n; ++u) {
+                for (const auto& [v, w] : g.adj[u]) {
+                    const int cu = assignment[u];
+                    const int cv = assignment[v];
+                    if (cu == cv) continue;
+                    sg.adj[cu][cv] += w;
+                    sg.degree[cu] += w;
+                    sg.total_weight += w;
+                }
             }
-        }
-        if (sg.total_weight > 0.f) {
-            std::vector<int> sg_assign(comm_count);
-            std::iota(sg_assign.begin(), sg_assign.end(), 0);
-            for (int iter = 0; iter < kMaxIterations; ++iter) {
-                if (!louvainPhase(sg_assign, sg, resolution)) break;
+            if (sg.total_weight > 0.f) {
+                std::vector<int> sg_assign(comm_count);
+                std::iota(sg_assign.begin(), sg_assign.end(), 0);
+                for (int iter = 0; iter < kMaxIterations; ++iter) {
+                    if (!louvainPhase(sg_assign, sg, resolution)) break;
+                }
+                // Propagate super-graph assignment back
+                for (auto& a : assignment) a = sg_assign[a];
             }
-            // Propagate super-graph assignment back
-            for (auto& a : assignment) a = sg_assign[a];
         }
     }
 

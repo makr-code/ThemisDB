@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/giuf/schemas/product.schema.json",
+  "title": "GIUF Product Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product_id", "display_name", "support_url", "install", "update", "telemetry"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "product_id": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
+    "display_name": { "type": "string", "minLength": 1 },
+    "support_url": { "type": "string", "format": "uri" },
+    "install": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_path", "allow_custom_path", "required_disk_mb"],
+      "properties": {
+        "default_path": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["windows", "linux", "macos"],
+          "properties": {
+            "windows": { "type": "string" },
+            "linux": { "type": "string" },
+            "macos": { "type": "string" }
+          }
+        },
+        "allow_custom_path": { "type": "boolean" },
+        "required_disk_mb": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel", "allow_downgrade", "check_interval_minutes"],
+      "properties": {
+        "channel": { "type": "string", "enum": ["stable", "beta", "nightly"] },
+        "allow_downgrade": { "type": "boolean" },
+        "check_interval_minutes": { "type": "integer", "minimum": 15 }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled_by_default"],
+      "properties": {
+        "enabled_by_default": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -216,7 +216,8 @@ public:
         const std::string& circuit_breaker_adapter = "default",
         const std::string& feature_flags_adapter   = "inmemory",
         const std::string& audit_adapter            = "noop",
-        const std::string& secrets_adapter          = "noop")
+        const std::string& secrets_adapter          = "noop",
+        const std::string& cache_redis_url          = "")
     {
         ValidationResult result;
 
@@ -252,6 +253,12 @@ public:
         check(feature_flags_adapter,   valid_feature_flags_adapters,   "featureFlagsAdapter");
         check(audit_adapter,           valid_audit_adapters,           "auditAdapter");
         check(secrets_adapter,         valid_secrets_adapters,         "secretsAdapter");
+
+        // Redis cache adapter requires an explicit endpoint to avoid
+        // silently falling back to in-memory cache behavior.
+        if (cache_adapter == "redis" && cache_redis_url.empty()) {
+            result.addError("cacheAdapter 'redis' requires a non-empty cacheRedisUrl");
+        }
 
         return result;
     }

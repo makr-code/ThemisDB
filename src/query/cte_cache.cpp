@@ -56,6 +56,17 @@ CTECache::~CTECache() {
 }
 
 bool CTECache::store(const std::string& name, std::vector<nlohmann::json> results) {
+    if (name.empty()) {
+        THEMIS_WARN("CTECache::store rejected empty CTE name");
+        return false;
+    }
+
+    // Overwrite semantics: remove the previous entry first so memory/disk
+    // accounting remains consistent.
+    if (contains(name)) {
+        remove(name);
+    }
+
     // Estimate size of results
     size_t estimated_size = estimateSize(results);
     
@@ -195,12 +206,15 @@ size_t CTECache::estimateSize(const std::vector<nlohmann::json>& data) const {
         sample_bytes += serialized.size();
     }
     
-    // Extrapolate to full dataset
+    // Extrapolate to full dataset. Apply a conservative overhead factor because
+    // dump() underestimates in-memory representation (allocators, node/object
+    // metadata, small-string buffers, etc.).
     size_t avg_bytes_per_element = sample_bytes / sample_count;
     size_t total_estimate = avg_bytes_per_element * data.size();
-    
-    // Add overhead for vector structure (rough estimate)
-    total_estimate += sizeof(nlohmann::json) * data.size();
+    total_estimate *= 2;
+
+    // Add overhead for vector/object bookkeeping.
+    total_estimate += (sizeof(nlohmann::json) + 64) * data.size();
     
     return total_estimate;
 }

@@ -544,6 +544,7 @@ public:
 TEST(ExecuteDistributedTest, PartialFailureAllowed) {
     DistributedAnalyticsSharding::Config cfg;
     cfg.allow_partial_results = true;
+    cfg.max_failure_rate = 1.0;  // allow up to 100% failure rate so the 1 good shard is merged
     DistributedAnalyticsSharding das(cfg);
 
     auto r_good = makeSimpleResult({{"alpha", 77.0}}, "v", 77.0);

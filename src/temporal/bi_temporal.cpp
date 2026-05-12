@@ -433,6 +433,12 @@ size_t BiTemporalTable::closeCurrentRows(
 // ============================================================================
 
 BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
+    // Reject cross-table merges to avoid mixing unrelated entity histories.
+    MergeResult result;
+    if (table_name_ != other.table_name_) {
+        return result;
+    }
+
     // Take a snapshot of the other table's rows under its own mutex, then
     // merge into our own table under our mutex.  Never hold both locks
     // simultaneously to avoid potential deadlock.
@@ -442,31 +448,39 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
         other_snapshot = other.rows_;
     }
 
-    MergeResult result;
     std::lock_guard<std::mutex> lk_self(mutex_);
 
     for (const auto& [key, other_versions] : other_snapshot) {
         auto& self_versions = rows_[key];  // creates empty VersionList if absent
 
         for (const auto& o_row : other_versions) {
-            // Check whether an identical row already exists locally.
+            // Check whether an identical row already exists locally or whether
+            // the row overlaps a current local row and must be reconciled via LWW.
             bool found_exact = false;
-            bool found_conflict = false;
             std::size_t conflict_idx = std::numeric_limits<std::size_t>::max();
 
             for (std::size_t i = 0; i < self_versions.size(); ++i) {
                 const auto& s_row = self_versions[i];
-                // Match on valid_time period (the bi-temporal key dimension).
-                if (s_row.valid_time == o_row.valid_time) {
-                    if (s_row.sys_time.start == o_row.sys_time.start &&
-                        s_row.data           == o_row.data) {
-                        found_exact = true;
-                        break;
-                    }
-                    // Different sys_time or data → LWW conflict
-                    found_conflict = true;
-                    conflict_idx   = i;
+
+                if (s_row.valid_time == o_row.valid_time &&
+                    s_row.sys_time.start == o_row.sys_time.start &&
+                    s_row.data == o_row.data) {
+                    found_exact = true;
                     break;
+                }
+
+                // Merge conflicts are defined over overlapping valid-time windows
+                // on current local rows for the same key.
+                if (!s_row.isCurrent()) {
+                    continue;
+                }
+                if (!s_row.valid_time.overlaps(o_row.valid_time)) {
+                    continue;
+                }
+
+                if (conflict_idx == std::numeric_limits<std::size_t>::max() ||
+                    s_row.sys_time.start > self_versions[conflict_idx].sys_time.start) {
+                    conflict_idx = i;
                 }
             }
 
@@ -475,7 +489,7 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
                 continue;
             }
 
-            if (found_conflict) {
+            if (conflict_idx != std::numeric_limits<std::size_t>::max()) {
                 // LWW: the row with the later sys_time.start wins.
                 if (o_row.sys_time.start > self_versions[conflict_idx].sys_time.start) {
                     self_versions[conflict_idx] = o_row;
@@ -486,7 +500,7 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
                 continue;
             }
 
-            // No matching valid_time found locally → insert the foreign row.
+            // No overlapping current valid-time found locally → insert row.
             self_versions.push_back(o_row);
             ++result.rows_inserted;
         }

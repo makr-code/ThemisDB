@@ -274,6 +274,9 @@ RedisCache::SocketFd RedisCache::tcpConnect(const std::string& host,
 #if !defined(_WIN32)
         int flags = ::fcntl(fd, F_GETFL, 0);
         ::fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+    #else
+        u_long non_blocking = 1;
+        ::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);
 #endif
 
         int rv = ::connect(fd,
@@ -308,6 +311,32 @@ RedisCache::SocketFd RedisCache::tcpConnect(const std::string& host,
         }
         // Restore blocking
         ::fcntl(fd, F_SETFL, flags);
+#else
+        if (rv == SOCKET_ERROR) {
+            const int err = WSAGetLastError();
+            if (err == WSAEWOULDBLOCK || err == WSAEINPROGRESS || err == WSAEALREADY) {
+                fd_set wfds;
+                FD_ZERO(&wfds);
+                FD_SET(static_cast<SOCKET>(fd), &wfds);
+                struct timeval tv;
+                tv.tv_sec  = config_.connect_timeout_ms / 1000;
+                tv.tv_usec = (config_.connect_timeout_ms % 1000) * 1000;
+                const int sel = ::select(0, nullptr, &wfds, nullptr, &tv);
+                if (sel > 0 && FD_ISSET(static_cast<SOCKET>(fd), &wfds)) {
+                    int so_error = 0;
+                    int so_len = sizeof(so_error);
+                    ::getsockopt(static_cast<SOCKET>(fd), SOL_SOCKET, SO_ERROR,
+                                 reinterpret_cast<char*>(&so_error), &so_len);
+                    if (so_error == 0) {
+                        rv = 0;
+                    }
+                }
+            }
+        }
+
+        // Restore blocking mode.
+        u_long blocking = 0;
+        ::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &blocking);
 #endif
 
         if (rv == 0) {

@@ -79,6 +79,12 @@ inline const std::set<std::string>& scanExtensions() {
 }
 
 inline bool shouldScanFile(const fs::path& p) {
+    std::string filename = p.filename().string();
+    std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
+    if (filename == ".env") {
+        return true;
+    }
+
     std::string ext = p.extension().string();
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
     return scanExtensions().count(ext) > 0;

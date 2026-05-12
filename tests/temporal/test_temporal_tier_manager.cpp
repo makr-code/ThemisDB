@@ -37,7 +37,7 @@ static VersionedDocument makeDoc(const std::string& key,
 // ── BloomFilter tests ─────────────────────────────────────────────────────────
 
 // TTM-BLOOM-01: Inserted timestamps are always found (no false negatives).
-TEST(BloomFilterTest, InsertedAlwaysFound) {
+TEST(BloomFilterTierManagerTest, InsertedAlwaysFound) {
     BloomFilter bf(100);
     for (int i = 0; i < 100; ++i) bf.add(static_cast<int64_t>(i * 13));
     for (int i = 0; i < 100; ++i)
@@ -45,7 +45,7 @@ TEST(BloomFilterTest, InsertedAlwaysFound) {
 }
 
 // TTM-BLOOM-02: FPR is reasonable for 8 bits/element (<15% empirically).
-TEST(BloomFilterTest, FalsePositiveRateAcceptable) {
+TEST(BloomFilterTierManagerTest, FalsePositiveRateAcceptable) {
     constexpr int N = 500;
     BloomFilter bf(N, 8);
     for (int i = 0; i < N; ++i) bf.add(static_cast<int64_t>(i));
@@ -56,7 +56,7 @@ TEST(BloomFilterTest, FalsePositiveRateAcceptable) {
 }
 
 // TTM-BLOOM-03: Empty bloom filter has no false positives for any value.
-TEST(BloomFilterTest, EmptyHasNoFalseNegativesOnInserted) {
+TEST(BloomFilterTierManagerTest, EmptyHasNoFalseNegativesOnInserted) {
     BloomFilter bf(0);  // edge: 0 expected elements → defaults to 64 bits
     bf.add(42);
     EXPECT_TRUE(bf.mightContain(42));

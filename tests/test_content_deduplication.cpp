@@ -636,14 +636,13 @@ TEST_F(ContentSHA256DedupTest, PerceptualDedupDefaultsToOffWhenKeyAbsent) {
     ASSERT_TRUE(res1.success);
 
     // Second ingest with NO enable_deduplication key at all (default off).
-    // Should receive a fresh content ID — dedup must NOT fire.
-    auto res2 = mgr_->ingestRawBlob(bmp_blob, "img2.bmp", "image/bmp");
+    // Change bytes so exact SHA-256 dedup does not short-circuit this test.
+    std::string bmp_blob2 = bmp_blob;
+    bmp_blob2.push_back('\x00');
+    auto res2 = mgr_->ingestRawBlob(bmp_blob2, "img2.bmp", "image/bmp");
     ASSERT_TRUE(res2.success);
     EXPECT_FALSE(res2.metadata.contains("duplicate_of"))
         << "Dedup must be off by default when enable_deduplication key is absent";
-    // SHA-256 exact-dup check will fire for identical bytes, so res2 may return the
-    // same id via the exact-dup path — that is intentional and separate from perceptual
-    // dedup.  What matters is no "duplicate_of" key from the perceptual path.
 }
 
 // ============================================================================

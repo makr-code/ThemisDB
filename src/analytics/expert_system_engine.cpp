@@ -177,6 +177,57 @@ ExpertSystemEngine::matchConditions(const HornClause&       rule,
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// matchAllBindingsRec / matchAllConditions
+// ──────────────────────────────────────────────────────────────────────────────
+
+void ExpertSystemEngine::matchAllBindingsRec(
+    const std::vector<TriplePattern>& conditions,
+    std::size_t                        cond_idx,
+    const std::vector<Fact>&           all_facts,
+    Bindings&                          current,
+    std::vector<Bindings>&             results) const {
+
+    if (cond_idx == conditions.size()) {
+        results.push_back(current);
+        return;
+    }
+
+    const auto& cond = conditions[cond_idx];
+
+    for (const auto& fact : all_facts) {
+        Bindings local = current;
+        bool match = true;
+
+        auto tryBind = [&](const std::string& pattern,
+                            const std::string& value) -> bool {
+            if (isVariable(pattern)) {
+                const auto it = local.find(pattern);
+                if (it == local.end()) { local[pattern] = value; return true; }
+                return it->second == value;
+            }
+            return pattern == value;
+        };
+
+        if (!tryBind(cond.subject,   fact.subject))   match = false;
+        if (match && !tryBind(cond.predicate, fact.predicate)) match = false;
+        if (match && !tryBind(cond.object,    fact.object))    match = false;
+
+        if (match) {
+            matchAllBindingsRec(conditions, cond_idx + 1, all_facts, local, results);
+        }
+    }
+}
+
+std::vector<ExpertSystemEngine::Bindings>
+ExpertSystemEngine::matchAllConditions(const HornClause&       rule,
+                                        const std::vector<Fact>& all_facts) const {
+    std::vector<Bindings> results;
+    Bindings current;
+    matchAllBindingsRec(rule.conditions, 0, all_facts, current, results);
+    return results;
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // ML confidence
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -217,9 +268,9 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
         const auto rules     = kb_->getRules();  // sorted by priority desc
 
         for (const auto& rule : rules) {
-            auto maybe_bindings = matchConditions(rule, all_facts);
-            if (!maybe_bindings) continue;
-            const auto& bindings = *maybe_bindings;
+            // Collect ALL binding sets so that every matching entity is processed.
+            const auto all_bindings = matchAllConditions(rule, all_facts);
+            for (const auto& bindings : all_bindings) {
 
             // Gather matched facts for ML scoring.
             std::vector<Fact> matched;
@@ -264,6 +315,7 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
                 step.derived_fact = derived;
                 decision_log_[new_id].push_back(step);
             }
+            } // end for all_bindings
         }
 
         if (fired_this_cycle == 0) break;  // Fixpoint reached.
@@ -298,22 +350,42 @@ bool ExpertSystemEngine::backwardChainDLS(const TriplePattern&    goal,
     // Try each rule whose consequent could unify with the goal.
     for (const auto& rule : kb_->getRules()) {
         for (const auto& cons : rule.consequents) {
-            // Simple unification: both literal or one is variable.
-            auto unifies = [](const std::string& pattern,
-                               const std::string& goal_elem) -> bool {
-                if (isVariable(pattern) || isVariable(goal_elem)) return true;
+            // Unify the consequent pattern with the concrete goal, collecting
+            // variable bindings (e.g., ?x → "Alice") so we can ground the
+            // rule's conditions before recursing.
+            Bindings goal_bindings;
+            bool unification_ok = true;
+
+            auto tryUnify = [&](const std::string& pattern,
+                                const std::string& goal_elem) -> bool {
+                if (isVariable(goal_elem)) return true; // wildcard goal element
+                if (isVariable(pattern)) {
+                    auto it = goal_bindings.find(pattern);
+                    if (it == goal_bindings.end()) {
+                        goal_bindings[pattern] = goal_elem;
+                        return true;
+                    }
+                    return it->second == goal_elem;
+                }
                 return pattern == goal_elem;
             };
 
-            if (!unifies(cons.subject,   goal.subject))   continue;
-            if (!unifies(cons.predicate, goal.predicate)) continue;
-            if (!unifies(cons.object,    goal.object))    continue;
+            if (!tryUnify(cons.subject,   goal.subject))   unification_ok = false;
+            if (!tryUnify(cons.predicate, goal.predicate)) unification_ok = false;
+            if (!tryUnify(cons.object,    goal.object))    unification_ok = false;
+            if (!unification_ok) continue;
 
-            // Try to satisfy all conditions by recursion.
+            // Apply the goal bindings to each condition so that variables
+            // shared with the consequent (e.g., ?x) are grounded before
+            // the recursive check.
             std::vector<ProofStep> sub_trace;
             bool all_ok = true;
             for (const auto& cond : rule.conditions) {
-                if (!backwardChainDLS(cond, sub_trace, depth + 1, max_depth)) {
+                TriplePattern bound_cond;
+                bound_cond.subject   = applyBinding(cond.subject,   goal_bindings);
+                bound_cond.predicate = applyBinding(cond.predicate, goal_bindings);
+                bound_cond.object    = applyBinding(cond.object,    goal_bindings);
+                if (!backwardChainDLS(bound_cond, sub_trace, depth + 1, max_depth)) {
                     all_ok = false;
                     break;
                 }
@@ -321,7 +393,7 @@ bool ExpertSystemEngine::backwardChainDLS(const TriplePattern&    goal,
             if (all_ok) {
                 ProofStep step;
                 step.rule_id = rule.id;
-                // Build derived fact from goal (use literals; variables → "?").
+                // Build derived fact from goal (use literals; variables → goal value).
                 auto resolve = [](const std::string& p, const std::string& g) {
                     return isVariable(p) ? g : p;
                 };

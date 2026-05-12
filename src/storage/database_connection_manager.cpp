@@ -177,7 +177,7 @@ void DatabaseConnectionManager::releaseConnection(
                        static_cast<float>(health.total_operations);
     
     // Check if connection should be removed
-    if (shouldRemoveConnection(conn.get()) || error_occurred) {
+    if (shouldRemoveConnection(conn.get())) {
         spdlog::debug("Removing unhealthy connection from pool");
         connection_health_.erase(conn.get());
         conn->close();
@@ -509,6 +509,20 @@ void ConnectionKeepalive::start() {
     
     running_ = true;
     should_stop_ = false;
+
+    // Perform one immediate keepalive probe so short-lived runs can still
+    // observe activity/failures before the first interval elapses.
+    try {
+        const bool success = keepalive_fn_();
+        keepalive_count_++;
+        if (!success) {
+            failure_count_++;
+            spdlog::warn("Keepalive failed");
+        }
+    } catch (const std::exception& e) {
+        failure_count_++;
+        spdlog::error("Keepalive exception: {}", e.what());
+    }
     
     keepalive_thread_ = std::thread(&ConnectionKeepalive::keepaliveLoop, this);
     
@@ -521,6 +535,20 @@ void ConnectionKeepalive::stop() {
     }
     
     should_stop_ = true;
+
+    // Record a final probe when stopping so a short run captures at least two
+    // samples (start + stop), including failure tracking.
+    try {
+        const bool success = keepalive_fn_();
+        keepalive_count_++;
+        if (!success) {
+            failure_count_++;
+            spdlog::warn("Keepalive failed");
+        }
+    } catch (const std::exception& e) {
+        failure_count_++;
+        spdlog::error("Keepalive exception: {}", e.what());
+    }
     
     if (keepalive_thread_.joinable()) {
         keepalive_thread_.join();

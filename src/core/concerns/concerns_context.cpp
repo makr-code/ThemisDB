@@ -69,7 +69,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         config.loggerAdapter, config.tracerAdapter,
         config.metricsAdapter, config.cacheAdapter,
         config.circuitBreakerAdapter, config.featureFlagsAdapter,
-        config.auditAdapter, config.secretsAdapter);
+        config.auditAdapter, config.secretsAdapter,
+        config.cacheRedisUrl);
     if (!adapter_validation.valid) {
         throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
     }

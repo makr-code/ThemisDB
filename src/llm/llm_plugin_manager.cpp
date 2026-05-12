@@ -317,7 +317,9 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         plugin = getDefaultPluginLocked();
     }
     if (!plugin) {
-        throw std::runtime_error("No default LLM plugin available");
+        spdlog::warn("LLMPluginManager::loadModel: no default LLM plugin available; model '{}' not loaded",
+                     model_id);
+        return false;
     }
     const bool ok = plugin->loadModel(path);
     if (ok && !model_id.empty()) {

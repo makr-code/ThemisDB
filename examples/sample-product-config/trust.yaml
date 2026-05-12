@@ -1,0 +1,15 @@
+schema_version: 1
+verification:
+  require_manifest_signature: true
+  require_artifact_sha256: true
+  signature_algorithm: ed25519
+  allow_unsigned_configs: false
+
+trusted_public_keys:
+  - key_id: release-key-1
+    algorithm: ed25519
+    public_key_base64: REPLACE_WITH_REAL_KEY
+
+policy:
+  min_tls_version: "1.2"
+  allow_downgrade: false

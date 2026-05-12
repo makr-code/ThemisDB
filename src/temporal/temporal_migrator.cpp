@@ -206,7 +206,7 @@ MigrationPlan TemporalMigrator::analyzeMigration(
 
     // Detect empty documents
     for (const auto& [key, doc] : source_docs) {
-        if (doc.is_object() && doc.empty()) {
+        if (doc.empty() || doc.is_null()) {
             plan.has_empty_documents = true;
             break;
         }

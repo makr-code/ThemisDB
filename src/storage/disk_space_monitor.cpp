@@ -26,6 +26,7 @@
 #include <numeric>
 #include <sstream>
 #include <iomanip>
+#include <filesystem>
 
 // Platform-specific includes for disk space
 #ifdef _WIN32
@@ -148,6 +149,11 @@ bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
     if (isReadOnly()) {
         spdlog::warn("Write blocked: system in read-only mode");
         return false;
+    }
+
+    // A zero-byte write does not consume disk capacity.
+    if (bytes_to_write == 0) {
+        return true;
     }
     
     // Pre-flight check
@@ -489,14 +495,43 @@ bool getDiskSpace(
     size_t& free_bytes,
     size_t& available_bytes
 ) {
+    namespace fs = std::filesystem;
+
+    // Query the nearest existing ancestor so callers may pass non-existing
+    // file/dir targets (e.g., planned output paths) and still obtain volume stats.
+    std::error_code ec;
+    auto probe = fs::absolute(fs::path(path), ec);
+    if (ec || probe.empty()) {
+        probe = fs::current_path(ec);
+        if (ec) {
+            return false;
+        }
+    }
+
+    while (!probe.empty() && !fs::exists(probe, ec)) {
+        if (ec) {
+            return false;
+        }
+        const auto parent = probe.parent_path();
+        if (parent == probe) {
+            break;
+        }
+        probe = parent;
+    }
+
+    if (probe.empty() || !fs::exists(probe, ec) || ec) {
+        return false;
+    }
+
 #ifdef _WIN32
     // Windows implementation
     ULARGE_INTEGER free_bytes_available;
     ULARGE_INTEGER total_number_of_bytes;
     ULARGE_INTEGER total_number_of_free_bytes;
     
-    if (!GetDiskFreeSpaceExA(
-        path.c_str(),
+    const auto probe_w = probe.wstring();
+    if (!GetDiskFreeSpaceExW(
+        probe_w.c_str(),
         &free_bytes_available,
         &total_number_of_bytes,
         &total_number_of_free_bytes
@@ -512,7 +547,8 @@ bool getDiskSpace(
     // Unix/Linux implementation
     struct statvfs stat;
     
-    if (statvfs(path.c_str(), &stat) != 0) {
+    const auto probe_str = probe.string();
+    if (statvfs(probe_str.c_str(), &stat) != 0) {
         return false;
     }
     

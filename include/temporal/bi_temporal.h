@@ -225,9 +225,13 @@ public:
      * Merge all rows from another BiTemporalTable into this table.
      *
      * The merge follows Last-Writer-Wins (LWW) semantics based on
-     * `sys_time.start`: for each (key, valid_time) pair that exists in both
-     * tables, the row with the later `sys_time.start` wins.  Rows that exist
-     * only in @p other are inserted unconditionally.
+     * `sys_time.start`: for each key, a remote row is considered conflicting
+     * with the local table when it overlaps a current local row in valid-time.
+     * The row with the later `sys_time.start` wins.
+     *
+     * Rows whose key has no overlapping current local valid-time are inserted.
+     * If table names differ (`tableName() != other.tableName()`), the merge is
+     * treated as a no-op and returns zero counters.
      *
      * The operation is atomic on each key (keys are locked one at a time) and
      * does not modify @p other.

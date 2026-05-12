@@ -123,13 +123,13 @@ TEST_F(ITokenBlacklistInterfaceTest, Add_ExpiredToken_IsNotRevoked) {
 // Bloom filter behaviour
 // ============================================================================
 
-class BloomFilterTest : public ::testing::Test {
+class TokenBlacklistBloomFilterTest : public ::testing::Test {
 protected:
     // Small max_entries so the Bloom filter is exercised at low token counts
     TokenBlacklist bl_{[]{ TokenBlacklist::Config c; c.max_entries = 1000; return c; }()};
 };
 
-TEST_F(BloomFilterTest, NonRevokedToken_BloomNegative_ReturnsFalse) {
+TEST_F(TokenBlacklistBloomFilterTest, NonRevokedToken_BloomNegative_ReturnsFalse) {
     // No tokens added; Bloom filter should definitively say NO for every query
     for (int i = 0; i < 1000; ++i) {
         EXPECT_FALSE(bl_.isRevoked("jti-never-" + std::to_string(i)));
@@ -140,7 +140,7 @@ TEST_F(BloomFilterTest, NonRevokedToken_BloomNegative_ReturnsFalse) {
     EXPECT_GT(stats.bloom_negatives, 0u);
 }
 
-TEST_F(BloomFilterTest, RevokedToken_AlwaysFound) {
+TEST_F(TokenBlacklistBloomFilterTest, RevokedToken_AlwaysFound) {
     // Insert N tokens; every one must be found (no false negatives)
     constexpr int N = 200;
     for (int i = 0; i < N; ++i) {
@@ -151,7 +151,7 @@ TEST_F(BloomFilterTest, RevokedToken_AlwaysFound) {
     }
 }
 
-TEST_F(BloomFilterTest, AfterClear_BloomDoesNotReturnPositives) {
+TEST_F(TokenBlacklistBloomFilterTest, AfterClear_BloomDoesNotReturnPositives) {
     constexpr int N = 50;
     for (int i = 0; i < N; ++i) {
         bl_.revoke("jti-clear-" + std::to_string(i), future());
@@ -165,7 +165,7 @@ TEST_F(BloomFilterTest, AfterClear_BloomDoesNotReturnPositives) {
     }
 }
 
-TEST_F(BloomFilterTest, AfterPruneExpired_ExpiredTokensNotRevoked) {
+TEST_F(TokenBlacklistBloomFilterTest, AfterPruneExpired_ExpiredTokensNotRevoked) {
     bl_.revoke("live",    future(3600));
     bl_.revoke("expired", past(5));
 
@@ -175,7 +175,7 @@ TEST_F(BloomFilterTest, AfterPruneExpired_ExpiredTokensNotRevoked) {
     EXPECT_FALSE(bl_.isRevoked("expired"));
 }
 
-TEST_F(BloomFilterTest, Statistics_BloomNegativesCounted) {
+TEST_F(TokenBlacklistBloomFilterTest, Statistics_BloomNegativesCounted) {
     // Revoke one token; check a different one — that check should hit the filter.
     bl_.revoke("jti-x", future());
     bl_.isRevoked("jti-y");  // definitely not revoked

@@ -19,8 +19,9 @@ double ringSignedArea(const std::vector<Coordinate>& ring) noexcept {
     const std::size_t n = ring.size();
     if (n < 3) return 0.0;
     double area = 0.0;
+    // Standard cross-product shoelace: positive result → CCW (right-hand rule).
     for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
-        area += (ring[j].x + ring[i].x) * (ring[j].y - ring[i].y);
+        area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
     }
     return area * 0.5;
 }

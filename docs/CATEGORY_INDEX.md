@@ -27,6 +27,7 @@ Stand: 2026-04-18
 | Knowledge Base | [knowledge-base/README.md](knowledge-base/README.md) |
 | Zertifizierung | [certification/README.md](certification/README.md) |
 | FAQ | [FAQ.md](FAQ.md) |
+| Research (DE) | [de/research/README.md](de/research/README.md) |
 
 ## Querschnitt und Prozess
 

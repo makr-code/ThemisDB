@@ -74,17 +74,22 @@ bool DecisionRecordYamlProcessor::submit(DecisionRecord record) {
             ++dropped_;
             return false;
         }
+        ++submitted_;
         queue_.push(std::move(record));
     }
-
-    ++submitted_;
     cv_.notify_one();
     return true;
 }
 
 void DecisionRecordYamlProcessor::flush() {
     std::unique_lock<std::mutex> lk(mutex_);
-    cv_.wait(lk, [this] { return queue_.empty(); });
+    cv_.wait(lk, [this] {
+        const size_t submitted = submitted_.load(std::memory_order_relaxed);
+        const size_t finalized = written_.load(std::memory_order_relaxed)
+                               + errors_.load(std::memory_order_relaxed)
+                               + dropped_.load(std::memory_order_relaxed);
+        return queue_.empty() && in_flight_ == 0 && finalized >= submitted;
+    });
 }
 
 DecisionRecordYamlProcessor::Stats DecisionRecordYamlProcessor::getStats() const noexcept {
@@ -116,13 +121,20 @@ void DecisionRecordYamlProcessor::processorThread() {
 
             rec = std::move(queue_.front());
             queue_.pop();
-
-            if (queue_.empty()) {
-                cv_.notify_all(); // wake flush() waiters
-            }
+            ++in_flight_;
         }
 
         writeRecord(rec);
+
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            if (in_flight_ > 0) {
+                --in_flight_;
+            }
+            if (queue_.empty() && in_flight_ == 0) {
+                cv_.notify_all();
+            }
+        }
     }
 }
 

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/giuf/schemas/manifest.schema.json",
+  "title": "GIUF Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product", "channel", "release", "artifacts", "security"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "product": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
+    "channel": { "type": "string", "enum": ["stable", "beta", "nightly"] },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "published_at", "notes_url", "min_installer_version", "allow_downgrade"],
+      "properties": {
+        "version": { "type": "string", "pattern": "^v?[0-9]+\\.[0-9]+\\.[0-9]+([-.][A-Za-z0-9]+)?$" },
+        "published_at": { "type": "string", "format": "date-time" },
+        "notes_url": { "type": "string", "format": "uri" },
+        "min_installer_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "allow_downgrade": { "type": "boolean" }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "os", "arch", "format", "url", "sha256", "size_bytes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
+          "os": { "type": "string", "enum": ["windows", "linux", "macos"] },
+          "arch": { "type": "string", "enum": ["x64", "arm64"] },
+          "format": { "type": "string", "enum": ["zip", "tar.gz", "tar.zst", "pkg", "msi", "dmg", "appimage", "deb", "rpm"] },
+          "url": { "type": "string", "format": "uri" },
+          "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+          "size_bytes": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signature_algorithm", "manifest_digest"],
+      "properties": {
+        "signature_algorithm": { "type": "string", "enum": ["ed25519", "rsa-pss-sha256"] },
+        "manifest_digest": { "type": "string", "const": "sha256" }
+      }
+    }
+  }
+}

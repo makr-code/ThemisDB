@@ -210,16 +210,21 @@ QuantizedCore TTQuantizer::quantizeNF4(const TTCore& core) const {
     std::size_t nelems = core.numElements();
     if (nelems == 0) return qc;
 
-    // Compute mean and absmax for normalisation
+    // Compute mean and centered absmax for normalisation.
+    // NF4 lookup values are centered around zero, so scale should be derived
+    // from (v - mean) instead of raw |v| to reduce asymmetric clipping error.
     double mean = 0.0;
-    float absmax = 0.0f;
     for (float v : core.data) {
-        mean   += v;
-        absmax  = std::max(absmax, std::abs(v));
+        mean += v;
     }
     mean /= static_cast<double>(nelems);
-    qc.mean  = static_cast<float>(mean);
-    qc.scale = (absmax > 1e-12f) ? absmax : 1.0f;
+    qc.mean = static_cast<float>(mean);
+
+    float centered_absmax = 0.0f;
+    for (float v : core.data) {
+        centered_absmax = std::max(centered_absmax, std::abs(v - qc.mean));
+    }
+    qc.scale = (centered_absmax > 1e-12f) ? centered_absmax : 1.0f;
 
     // Pack two 4-bit indices per byte
     std::size_t packed_bytes = (nelems + 1) / 2;

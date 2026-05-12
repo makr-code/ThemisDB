@@ -34,7 +34,28 @@
 | C-9 | Scheduler-Einplanung bleibt reproduzierbar bei hoher Schedule-Rate | `BM_ChaosScheduler_Schedule` |
 | C-10 | `activeFaultCount` bleibt stabil bei 128 aktiven Faults | `ActiveFaultCount_Throughput` |
 
+## Modulspezifische harte Grenzwerte (v1.9.0)
+
+| Gate-ID | Erwartungswert | Messregel |
+|---|---|---|
+| CHAG-1 | >= 70000 ops/s (InjectFault Throughput) | mean aus `InjectFault_Throughput` |
+| CHAG-2 | <= 20 ms (RecoverFault P95) | p95 aus `RecoverFault_Throughput` |
+| CHAG-3 | <= 35 ms (Concurrent Stress P99) | p99 aus `BM_ConcurrentStress` |
+| CHAG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+
 ## Validation
 
 - Erwartungswerte gelten als erfüllt, wenn die Benchmarks im Release-Profil reproduzierbar laufen und keine signifikante Regression gegenüber der letzten Referenzmessung zeigen.
 - Harte numerische Schwellwerte werden modulweit erst mit dem verteilten Chaos-Backplane-Feature (`src/chaos/ROADMAP.md`) finalisiert.
+
+## Numerische Mindestziele (Release Gate)
+
+| Gate-ID | Erwartungswert | Messregel |
+|---|---|---|
+| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
+| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
+| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+
+Hinweis:
+- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
+- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.

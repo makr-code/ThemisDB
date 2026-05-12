@@ -262,7 +262,7 @@ TEST(CudaGeoBackend, CpuParity_HaversineDistancesMatch) {
     GeoKernelDispatch d = backend.populateGeoDispatch();
     ASSERT_NE(d.launchDistance, nullptr);
 
-    // London (51.5074, -0.1278) to Paris (48.8566, 2.3522) ≈ 340 km
+    // London (51.5074, -0.1278) to Paris (48.8566, 2.3522) ≈ 343.5 km
     const double lats1[] = {51.5074, 51.5074};
     const double lons1[] = {-0.1278, -0.1278};
     const double lats2[] = {51.5074, 48.8566};
@@ -273,7 +273,7 @@ TEST(CudaGeoBackend, CpuParity_HaversineDistancesMatch) {
                                     2, GeoDistanceFormula::HAVERSINE, nullptr);
     EXPECT_EQ(rc, 0);
     EXPECT_NEAR(dists[0],   0.f, 1e-3f);   // same point → 0 km
-    EXPECT_NEAR(dists[1], 340.f, 2.f);     // London → Paris ≈ 340 km
+    EXPECT_NEAR(dists[1], 343.5f, 1.0f);   // London → Paris great-circle distance
 
     backend.shutdown();
 }

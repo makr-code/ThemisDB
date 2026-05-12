@@ -146,6 +146,13 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient& gradient
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     std::lock_guard<std::mutex> lk(mutex_);
 
+    // Idempotent manual trigger after auto-aggregation: if the current round
+    // has already been aggregated and no pending gradients remain, return the
+    // last produced delta instead of failing with "insufficient participants".
+    if (pending_gradients_.empty() && last_delta_.has_value()) {
+        return *last_delta_;
+    }
+
     // ── DK-6: Privacy budget guard ────────────────────────────────────────────
     if (config_.max_rounds > 0 && current_round_ > config_.max_rounds) {
         throw std::runtime_error(

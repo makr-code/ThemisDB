@@ -1,4 +1,4 @@
-# ThemisDB v1.8.2 Production Validation and Performance Benchmarking: Build Success, SLO Compliance, and Temporal Component Analysis
+# ThemisDB v1.9.0-alpha Production Validation and Performance Benchmarking: Build Success, SLO Compliance, and Temporal Component Analysis
 
 **Authors:** ThemisDB Engineering Team  
 **Date:** May 11, 2026  
@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This report documents the comprehensive validation of ThemisDB v1.8.2, a multi-paradigm hybrid database system supporting relational, vector, graph, time-series, and LLM-augmented workloads. We present: (1) successful compilation and linking of all 33 functional modules without errors; (2) empirical validation of Service Level Objectives (SLOs) across three production-grade benchmark suites (Wire Protocol, LLM Batch Scheduling, Ethics AI Decision-Making); (3) a hardware baseline capability model calibrated against real measurements; (4) identification and analysis of performance regressions in temporal and snapshot-management components; and (5) competitive positioning analysis against leading database systems (PostgreSQL, TiDB, ClickHouse, Weaviate, Milvus, DuckDB).
+This report documents the comprehensive validation of ThemisDB v1.9.0-alpha, a multi-paradigm hybrid database system supporting relational, vector, graph, time-series, and LLM-augmented workloads. We present: (1) successful compilation and linking of all 33 functional modules without errors; (2) empirical validation of Service Level Objectives (SLOs) across three production-grade benchmark suites (Wire Protocol, LLM Batch Scheduling, Ethics AI Decision-Making); (3) a hardware baseline capability model calibrated against real measurements; (4) identification and analysis of performance regressions in temporal and snapshot-management components; and (5) competitive positioning analysis against leading database systems (PostgreSQL, TiDB, ClickHouse, Weaviate, Milvus, DuckDB).
 
 **Key Findings:**
 - ✅ All modules compile successfully with modern C++20 and MSVC 2022
@@ -36,7 +36,7 @@ This report documents the comprehensive validation of ThemisDB v1.8.2, a multi-p
 
 ### 1.1 Motivation and Scope
 
-ThemisDB v1.8.2 integrates 33 functional modules across four architectural tiers, unified by a shared RocksDB LSM-tree storage kernel. The system exposes GraphQL, REST, gRPC, and WebSocket interfaces; supports ACID transactions via OCC (Optimistic Concurrency Control), 2PC, and SAGA orchestration; and provides hardware acceleration through CUDA, HIP, and Vulkan backends. As functionality grows, rigorous build verification and performance validation become essential for release qualification and capacity planning.
+ThemisDB v1.9.0-alpha integrates 33 functional modules across four architectural tiers, unified by a shared RocksDB LSM-tree storage kernel. The system exposes GraphQL, REST, gRPC, and WebSocket interfaces; supports ACID transactions via OCC (Optimistic Concurrency Control), 2PC, and SAGA orchestration; and provides hardware acceleration through CUDA, HIP, and Vulkan backends. As functionality grows, rigorous build verification and performance validation become essential for release qualification and capacity planning.
 
 This report serves three technical objectives:
 
@@ -117,7 +117,7 @@ Recent multi-model and vector database systems provide competitive landscape:
 
 ## 2. System Architecture and Module Inventory
 
-### 2.1 ThemisDB v1.8.2 Architecture Overview
+### 2.1 ThemisDB v1.9.0-alpha Architecture Overview
 
 ThemisDB is structured as a four-tier system:
 
@@ -446,7 +446,7 @@ where `Hardware_Efficiency_Class` is calibrated per benchmark class from hardwar
 | **DuckDB 0.9** | In-process, vectorized | ~500,000 rows/s (TPC-H SF1 Query 1) | DuckDB benchmark | DuckDB Docs 2024 | Analytical workload; not OLTP-focused |
 | **Weaviate 1.3** | Vector search benchmark | ~50,000 queries/sec (ANN, recall 0.95) | ANN-Benchmarks SIFT1M | Weaviate Docs 2024 | Vector-specific; not multi-model |
 | **Milvus 2.3** | Vector DB cluster (GPU-enabled) | ~100,000 queries/sec (HNSW) | Benchmark suite | Milvus Docs 2024 | GPU acceleration; high vector throughput |
-| **ThemisDB v1.8.2** | Single-node, 20-core (target) | **~150,000–200,000 tpmC (projected)** | Not yet measured | This work | Multi-model unified; under validation |
+| **ThemisDB v1.9.0-alpha** | Single-node, 20-core (target) | **~150,000–200,000 tpmC (projected)** | Not yet measured | This work | Multi-model unified; under validation |
 
 **Interpretation:**
 - ✅ **ThemisDB projected target is competitive with TiDB** (distributed ACID) while providing unified multi-model support
@@ -579,7 +579,7 @@ where `Hardware_Efficiency_Class` is calibrated per benchmark class from hardwar
 
 ## 8. Recommendations and Future Work
 
-### 8.1 Immediate Actions (P0 – Before v1.8.2 Release)
+### 8.1 Immediate Actions (P0 – Before v1.9.0 Release)
 
 ### 7.1 Symptoms and Manifestation
 
@@ -721,7 +721,7 @@ ThemisDB's strategic advantages vs. incumbent systems:
 
 **Action P0-2: CTest Regression Gate**
 - Run full test suite with increased timeout (300s for snapshot tests)
-- Exclude problematic snapshot/temporal tests from v1.8.2 release criteria
+- Exclude problematic snapshot/temporal tests from v1.9.0-alpha release criteria
 - Document known issues in release notes
 
 **Action P0-3: Build Validation Sign-off**
@@ -768,7 +768,7 @@ ThemisDB's strategic advantages vs. incumbent systems:
 
 ## 9. Conclusion
 
-This report documents successful build verification and comprehensive performance validation of ThemisDB v1.8.2. **All 33 modules compile without errors**, confirming API reconciliation across recent changes. **Production-grade benchmarks validate SLO compliance**: Ethics AI module exceeds targets by 6–10×, wire protocol achieves baseline throughput, and LLM batch scheduling framework confirmed operational.
+This report documents successful build verification and comprehensive performance validation of ThemisDB v1.9.0-alpha. **All 33 modules compile without errors**, confirming API reconciliation across recent changes. **Production-grade benchmarks validate SLO compliance**: Ethics AI module exceeds targets by 6–10×, wire protocol achieves baseline throughput, and LLM batch scheduling framework confirmed operational.
 
 ### 9.1 Key Achievement: Performance Validation Framework
 
@@ -791,7 +791,7 @@ Establishment of rigorous performance measurement framework calibrated against h
 ✅ **Performance Model: CALIBRATED** — Hardware baseline established; efficiency curves validated.  
 ⚠️ **Full Test Regression: INCOMPLETE** — Snapshot/Temporal tests require investigation (0.9% of suite affected).  
 
-**Overall Status:** Ready for targeted performance validation and competitive benchmarking. Temporal/snapshot issues should be resolved before production deployment, but do not block v1.8.2 release candidate.
+**Overall Status:** Ready for targeted performance validation and competitive benchmarking. Temporal/snapshot issues should be resolved before production deployment, but do not block v1.9.0-alpha release candidate.
 
 ### 9.4 Known Limitation: Temporal Component Regression
 
@@ -799,7 +799,7 @@ Establishment of rigorous performance measurement framework calibrated against h
 - **Impact:** Snapshot diffing and bi-temporal merge operations show timeouts and access violations
 - **Root causes:** Likely lock contention, test state isolation issues, merge counter bugs (see §7.2 for detailed analysis)
 - **Timeline to fix:** 3–5 days with focused investigation
-- **Blocking status:** Non-blocking for v1.8.2 RC; must be fixed before production deployment
+- **Blocking status:** Non-blocking for v1.9.0-alpha RC; must be fixed before production deployment
 
 ### 9.5 Forward Path and Strategic Priorities
 

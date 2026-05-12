@@ -1,11 +1,11 @@
 
 
 ---
-**Title:** ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.8.2)
+**Title:** ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.9.0)
 
 **Authors:** ThemisDB Engineering Team  
-**Date:** April 13, 2026  
-**Version:** 2.0  
+**Date:** May 12, 2026  
+**Version:** 2.1  
 **Classification:** Internal Technical Report  
 
 ---
@@ -16,11 +16,27 @@ This technical report presents a comprehensive performance evaluation of ThemisD
 
 Key findings show that ThemisDB achieves its SLOs for Graph Edge Operations (1.177 M/s, target 1 M/s), Timeseries Insert (61.0 M pts/s, target 60 M pts/s), and core Query P99 latency (9.67 ms, target < 50 ms). Primary gaps remain in Secondary Index Insert throughput (254.9 k/s vs. 1.0 M/s target), Query Engine peak throughput (796.4 M/s vs. 900 M/s), and GPU-dependent workloads requiring dedicated hardware. An efficiency model based on hardware baseline parameters is introduced and calibrated against six benchmark classes. Benchmark implementations for all 33 modules are now production-ready; measurement runs for modules 11-19 are pending as next steps.
 
+v1.9.0 documentation update: all `src/*` module expectation files are now present (62/62) and include explicit numeric minimum release gates. The default cross-module baseline is: P95 <= 50 ms, P99 <= 100 ms, and throughput regression <= 10 % vs. baseline unless a stricter module-specific target is defined.
+
 **Keywords:** database systems, performance benchmarking, service level objectives, Google Benchmark, CHIMERA, TPC-C, YCSB, vector search, time series
 
 ---
 
 ## Symbol Legend
+
+## v1.9.0 Addendum (Governance Snapshot)
+
+| Area | Status |
+|---|---|
+| Module expectation files under `src/*` | 62/62 present |
+| Files with explicit numeric targets | 62/62 |
+| Files with only global minimum gates (no stricter module-local numbers yet) | 0/62 |
+| Benchmark mapping validation (`tools/verify_benchmark_mapping.py`) | PASS (all target IDs mapped) |
+| Performance expectations audit (`tools/perf_expectations_audit.py`) | PASS with 1 WARN (orphan benchmark sources without CMake target) |
+
+Release gate interpretation:
+- Global numeric gates are minimum thresholds and apply only where no stricter module-local targets are documented.
+- `proxy` and `not_measurable` items remain release-relevant and must be validated through the documented proxy path.
 
 | Symbol | Bedeutung |
 |--------|-----------|

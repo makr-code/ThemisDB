@@ -1498,6 +1498,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     // ── Phase 1: populate, snapshot, and post-snapshot insert ────────────
     {
         themis::RocksDBWrapper db(db_cfg);
+        ASSERT_TRUE(db.open()) << "Failed to open RocksDB in Phase 1";
         themis::GraphIndexManager graph_idx(db);
 
         auto mgr = makeDedup(engine);
@@ -1515,6 +1516,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     // ── Phase 2: reopen GraphIndexManager from same RocksDB and restore ───
     {
         themis::RocksDBWrapper db(db_cfg);
+        ASSERT_TRUE(db.open()) << "Failed to open RocksDB in Phase 2";
         themis::GraphIndexManager graph_idx(db);
         ASSERT_TRUE(graph_idx.rebuildTopology().ok);
 

@@ -445,8 +445,8 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
     for (char c : tmp) {
         switch (c) {
             case '&':  result += "&amp;";  break;
-            case '<':  result += "<";   break;
-            case '>':  result += ">";   break;
+            case '<':  result += "&lt;";   break;
+            case '>':  result += "&gt;";   break;
             case '"':  result += "&quot;"; break;
             case '\'': result += "&#x27;"; break;
             case '/':  result += "&#x2F;"; break;

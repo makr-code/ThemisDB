@@ -191,6 +191,23 @@ private:
         const std::vector<Fact>&           all_facts,
         Bindings&                          bindings) const;
 
+    /**
+     * Collect ALL possible complete binding sets for a rule's conditions against
+     * the current working memory. Each element of the returned vector represents
+     * one fully-grounded variable assignment.
+     */
+    [[nodiscard]] std::vector<Bindings> matchAllConditions(
+        const HornClause&        rule,
+        const std::vector<Fact>& all_facts) const;
+
+    /** Recursive helper for matchAllConditions. */
+    void matchAllBindingsRec(
+        const std::vector<TriplePattern>& conditions,
+        std::size_t                        cond_idx,
+        const std::vector<Fact>&           all_facts,
+        Bindings&                          current,
+        std::vector<Bindings>&             results) const;
+
     /** Apply bindings to a pattern element. */
     [[nodiscard]] static std::string applyBinding(const std::string& elem,
                                                    const Bindings&    b);

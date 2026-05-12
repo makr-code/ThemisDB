@@ -21,6 +21,7 @@ Diese Links bilden den aktuell gepflegten Einstieg in die Dokumentation:
 - Themenindex: [../CATEGORY_INDEX.md](../CATEGORY_INDEX.md)
 - Strukturregeln: [../DOCS_ORGANIZATION_PLAN.md](../DOCS_ORGANIZATION_PLAN.md)
 - Docs PR Policy: [../governance/DOCS_PR_POLICY.md](../governance/DOCS_PR_POLICY.md)
+- Research-Artikel zu GraphQL und AQL: [../../research/GRAPHQL_AQL_RESEARCH.md](../../research/GRAPHQL_AQL_RESEARCH.md)
 
 Historische Reports wurden aus dem Root ausgelagert und sind hier gebuendelt:
 

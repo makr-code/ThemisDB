@@ -982,8 +982,13 @@ size_t MultiLoRAManager::evictExpired() {
 json MultiLoRAManager::getMemoryStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // FIND-015: Use named constant for byte to MB conversion
-    size_t vram_mb = total_vram_bytes_ / BYTES_PER_MB;
+    // FIND-015: Use named constant for byte to MB conversion.
+    // Round up so non-zero allocations below 1 MB are still visible as 1 MB
+    // in operational/test stats instead of being truncated to 0.
+    size_t vram_mb = 0;
+    if (total_vram_bytes_ > 0) {
+        vram_mb = (total_vram_bytes_ + BYTES_PER_MB - 1) / BYTES_PER_MB;
+    }
     
     json stats;
     stats["vram_used_mb"] = vram_mb;
@@ -2046,6 +2051,20 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         } else {
             spdlog::debug("loadLoRAInternal: GGUF parse skipped for '{}' ({}); "
                           "using default VRAM estimate", lora_path, gguf_loader.getLastError());
+        }
+
+        // Non-GGUF fixtures (e.g. test .bin files) still need a stable
+        // non-zero size estimate for memory accounting and quantization paths.
+        if (lora->original_vram_bytes == 0 || lora->vram_bytes == 0) {
+            std::error_code size_ec;
+            const auto file_bytes = std::filesystem::file_size(lora_path, size_ec);
+            if (!size_ec && file_bytes > 0) {
+                lora->original_vram_bytes = file_bytes;
+                lora->vram_bytes = file_bytes;
+            } else {
+                lora->original_vram_bytes = TYPICAL_LORA_RANK8_BYTES;
+                lora->vram_bytes = TYPICAL_LORA_RANK8_BYTES;
+            }
         }
     }
     

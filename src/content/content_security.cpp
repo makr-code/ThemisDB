@@ -567,7 +567,11 @@ SecurityCheckResult ContentSecurityManager::checkAbuse(
 std::string ContentSecurityManager::sanitizePath(const std::string& text) const {
     // Static regex patterns for path sanitization
     // More specific patterns to avoid false positives
-    static const std::regex unix_path_regex(R"((/[a-zA-Z0-9_\-]+)+(/[a-zA-Z0-9_\-./]+)?)");
+    // Require at least two slash-separated segments and a non-numeric first
+    // segment to avoid false positives like dates (2024/01/15), fractions
+    // (3/4), or MIME subtypes (application/json).
+    static const std::regex unix_path_regex(
+        R"((/(?:[a-zA-Z_][a-zA-Z0-9_\-]*)(?:/[a-zA-Z0-9_\-.]+)+))");
     static const std::regex windows_path_regex(R"([A-Z]:\\([a-zA-Z0-9_\-]+\\)+[a-zA-Z0-9_\-./]*)");
     static const std::regex home_path_regex(R"(~/[a-zA-Z0-9_\-./]+)");
     

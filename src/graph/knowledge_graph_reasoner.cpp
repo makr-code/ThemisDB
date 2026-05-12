@@ -468,6 +468,22 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         }
     }
 
+    const auto lookupRuleConfig = [&](const InferenceEdge& edge) -> const RuleLoRAConfig* {
+        if (const auto it = rule_cfg_by_id.find(edge.rule_id); it != rule_cfg_by_id.end()) {
+            return &it->second;
+        }
+        if (edge.rule_id.empty()) {
+            const auto stored = inference_store_.get(edge.fact);
+            if (stored.has_value() && !stored->rule_id.empty()) {
+                if (const auto it = rule_cfg_by_id.find(stored->rule_id);
+                    it != rule_cfg_by_id.end()) {
+                    return &it->second;
+                }
+            }
+        }
+        return nullptr;
+    };
+
     const auto fallbackScore = [](const InferenceEdge& edge) {
         const std::size_t n = edge.premises.size();
         return 1.0 / static_cast<double>(1 + n);
@@ -482,22 +498,22 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     };
 
 #if defined(THEMIS_ENABLE_LLM)
-    const auto managerScore = [&](std::string_view /*adapter*/,
-                                  const InferenceEdge& /*edge*/) -> std::optional<double> {
-        // In modular link profiles, avoid hard symbol dependencies on optional
-        // MultiLoRAManager methods. Without an injected scorer callback we keep
-        // fail-closed behavior by returning no score override.
+    // Avoid direct symbol coupling to optional MultiLoRAManager internals
+    // across module boundaries. If no scorer callback is injected, we fall
+    // back to config/fallback scoring below.
+    const auto managerScore = [&](std::string_view adapter,
+                                  const InferenceEdge& edge) -> std::optional<double> {
+        (void)adapter;
+        (void)edge;
         return std::nullopt;
     };
 #endif
 
     for (auto& edge : chain.edges) {
+        const RuleLoRAConfig* edge_cfg = lookupRuleConfig(edge);
         std::string_view effective_adapter = adapter_id;
-        if (effective_adapter.empty()) {
-            const auto it = rule_cfg_by_id.find(edge.rule_id);
-            if (it != rule_cfg_by_id.end() && !it->second.adapter_id.empty()) {
-                effective_adapter = it->second.adapter_id;
-            }
+        if (effective_adapter.empty() && edge_cfg != nullptr && !edge_cfg->adapter_id.empty()) {
+            effective_adapter = edge_cfg->adapter_id;
         }
 
         double score = fallbackScore(edge);
@@ -517,14 +533,14 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     chain.edges.erase(
         std::remove_if(chain.edges.begin(), chain.edges.end(),
             [&](const InferenceEdge& e) {
-                const auto it = rule_cfg_by_id.find(e.rule_id);
-                if (it == rule_cfg_by_id.end()) {
+                const RuleLoRAConfig* cfg = lookupRuleConfig(e);
+                if (cfg == nullptr) {
                     return false;
                 }
                 if (e.lora_score < 0.0) {
                     return false; // not scored
                 }
-                return e.lora_score < it->second.min_lora_score;
+                return e.lora_score < cfg->min_lora_score;
             }),
         chain.edges.end());
 }

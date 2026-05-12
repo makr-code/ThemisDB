@@ -167,6 +167,23 @@ def _cmake_has_target(cmake_text: str, target_name: str) -> bool:
     ))
 
 
+def _cmake_has_standard_benchmark_macro(cmake_text: str, target_name: str) -> bool:
+    """Return True if themis_add_standard_benchmark(<target_name> …) exists."""
+    return bool(re.search(
+        rf"\bthemis_add_standard_benchmark\s*\(\s*{re.escape(target_name)}\b",
+        cmake_text,
+    ))
+
+
+def _cmake_has_auto_registration(cmake_text: str) -> bool:
+    """Return True when benchmark auto-registration block is present in CMakeLists."""
+    return "THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS" in cmake_text and bool(re.search(
+        r"\bif\s*\(\s*THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS\s*\)",
+        cmake_text,
+        re.IGNORECASE,
+    ))
+
+
 # ---------------------------------------------------------------------------
 # Per-Measure check functions
 # ---------------------------------------------------------------------------
@@ -558,24 +575,36 @@ def check_measure_8(root: pathlib.Path) -> dict[str, Any]:
     cmake_file = root / "benchmarks" / "CMakeLists.txt"
     cmake_text = _read_text(cmake_file)
 
-    # --- Built-in guard logic: find bench_*.cpp without add_executable ---
+    # --- Built-in guard logic: bench_*.cpp must be covered by one of:
+    #     - explicit add_executable(target)
+    #     - themis_add_standard_benchmark(target, ...)
+    #     - global auto-registration block (THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS)
     bench_sources = sorted((root / "benchmarks").glob("bench_*.cpp"))
+    auto_registration = _cmake_has_auto_registration(cmake_text)
+
     orphaned: list[str] = []
     for src in bench_sources:
         target = src.stem  # e.g. bench_query
-        if not _cmake_has_target(cmake_text, target):
+        covered = (
+            _cmake_has_target(cmake_text, target)
+            or _cmake_has_standard_benchmark_macro(cmake_text, target)
+            or auto_registration
+        )
+        if not covered:
             orphaned.append(str(src.relative_to(root)))
 
     ok_no_orphans = len(orphaned) == 0
     checks.append({"id": "8a",
                    "description": "No bench_*.cpp source file exists without a corresponding "
-                                  "add_executable() target in benchmarks/CMakeLists.txt",
+                                  "build registration in benchmarks/CMakeLists.txt",
                    "result": STATUS_PASS if ok_no_orphans else STATUS_WARN,
                    "detail": f"Orphaned sources: {orphaned}" if orphaned else "None"})
     if ok_no_orphans:
-        evidence.append(f"All {len(bench_sources)} bench_*.cpp files have CMake targets")
+        evidence.append(f"All {len(bench_sources)} bench_*.cpp files are covered by CMake registration")
+        if auto_registration:
+            evidence.append("Auto-registration block THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS is active")
     else:
-        evidence.append(f"Orphaned (no CMake target): {orphaned}")
+        evidence.append(f"Orphaned (no CMake registration): {orphaned}")
 
     # Check for an external guard script or workflow
     external_guard = None

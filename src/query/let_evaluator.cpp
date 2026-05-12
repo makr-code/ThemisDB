@@ -638,6 +638,28 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                                const nlohmann::json& ring) -> bool {
             if (!ring.is_array() || ring.size() < 3) return false;
             const std::size_t n = ring.size();
+
+            // Explicit boundary check: a point that lies exactly on any ring edge
+            // (including vertices) is considered inside (inclusive semantics).
+            for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
+                if (!ring[i].is_array() || ring[i].size() < 2) continue;
+                if (!ring[j].is_array() || ring[j].size() < 2) continue;
+                const double xi = ring[i][0].get<double>();
+                const double yi = ring[i][1].get<double>();
+                const double xj = ring[j][0].get<double>();
+                const double yj = ring[j][1].get<double>();
+                // Check if point is on vertex.
+                if (px == xi && py == yi) return true;
+                // Check if point is on the segment [j→i] via cross-product + bounding-box.
+                const double cross = (xi - xj) * (py - yj) - (yi - yj) * (px - xj);
+                if (cross == 0.0) {
+                    // Collinear: check bounding box containment.
+                    const double minX = std::min(xi, xj), maxX = std::max(xi, xj);
+                    const double minY = std::min(yi, yj), maxY = std::max(yi, yj);
+                    if (px >= minX && px <= maxX && py >= minY && py <= maxY) return true;
+                }
+            }
+
             int crossings = 0;
             for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
                 if (!ring[i].is_array() || ring[i].size() < 2) continue;

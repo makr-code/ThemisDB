@@ -45,7 +45,10 @@ static void insertAt(SystemVersionedTable& t,
                      double value,
                      int extra_sleep_ms = 1) {
     std::this_thread::sleep_for(std::chrono::milliseconds(extra_sleep_ms));
-    t.insert(key, {{"value", value}});
+    if (!t.insert(key, {{"value", value}})) {
+        // Key already exists as current row; create a new version.
+        t.update(key, {{"value", value}});
+    }
 }
 
 class TemporalAggregatorTest : public ::testing::Test {

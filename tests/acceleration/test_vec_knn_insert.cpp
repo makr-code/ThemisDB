@@ -120,8 +120,11 @@ protected:
     }
 
     void TearDown() override {
-        VecKnnInsertPipeline::clearExtractVectorBridgeFn();
-        VecKnnInsertPipeline::clearAddBatchBridgeFn();
+        // NOTE: Do NOT clear the bridge functions here. They are process-global state
+        // and clearing them can affect other tests if tests run in parallel or if
+        // they use SetUp/TearDown patterns. The bridges are set in SetUp() and
+        // setting them again is harmless (overwrites the previous ones).
+        // Each test's SetUp() will reconfigure the bridges correctly.
         vim_.reset();
         db_.reset();
         std::filesystem::remove_all(db_path_);

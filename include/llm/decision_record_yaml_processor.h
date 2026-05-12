@@ -228,6 +228,7 @@ private:
     Config config_;
 
     std::queue<DecisionRecord> queue_;
+    size_t in_flight_{0};
     mutable std::mutex mutex_;
     std::condition_variable cv_;
     std::atomic<bool> stop_{false};
