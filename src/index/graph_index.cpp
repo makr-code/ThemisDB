@@ -593,7 +593,16 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	size_t out_scan_count = 0;
 	db_.scanPrefix("graph:out:", [this, &out_scan_count](std::string_view key, std::string_view val) {
 		std::string graphId, fromPk, edgeId;
-		if (!parseOutKey_(key, graphId, fromPk, edgeId)) return true;
+		const std::string keyStr(key);
+		const size_t lastColon = keyStr.rfind(':');
+		if (lastColon == std::string::npos) return true;
+		edgeId = keyStr.substr(lastColon + 1);
+		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
+			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+			fromPk = edge.getFieldAsString("_from").value_or("");
+			graphId = edge.getFieldAsString("_graph").value_or("");
+		}
+		if (fromPk.empty() && !parseOutKey_(key, graphId, fromPk, edgeId)) return true;
 		std::string toPk(val);
 		// Add to outEdges_
 		outEdges_[fromPk].push_back({edgeId, toPk, graphId});
@@ -605,7 +614,16 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	// Scan all incoming edges: graph:in:<graph_id>:<toPk>:<edgeId> -> fromPk
 	db_.scanPrefix("graph:in:", [this](std::string_view key, std::string_view val) {
 		std::string graphId, toPk, edgeId;
-		if (!parseInKey_(key, graphId, toPk, edgeId)) return true;
+		const std::string keyStr(key);
+		const size_t lastColon = keyStr.rfind(':');
+		if (lastColon == std::string::npos) return true;
+		edgeId = keyStr.substr(lastColon + 1);
+		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
+			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+			toPk = edge.getFieldAsString("_to").value_or("");
+			graphId = edge.getFieldAsString("_graph").value_or("");
+		}
+		if (toPk.empty() && !parseInKey_(key, graphId, toPk, edgeId)) return true;
 		std::string fromPk(val);
 		inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 		return true;

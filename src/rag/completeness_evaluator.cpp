@@ -169,6 +169,15 @@ Aspects:)";
                 }
             }
         }
+
+        if (aspects.empty()) {
+            QueryAspect aspect;
+            aspect.aspect_text = query;
+            aspect.is_required = true;
+            aspect.is_covered = false;
+            aspect.coverage_score = 0.0;
+            aspects.push_back(aspect);
+        }
     } catch (const std::exception& e) {
         THEMIS_WARN("Aspect extraction failed: {}", e.what());
         

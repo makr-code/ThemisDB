@@ -34,10 +34,10 @@ using namespace themis::rag::delegate_eval;
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-static judge::RetrievedDocument makeDoc(const std::string& id,
-                                        const std::string& content) {
-    judge::RetrievedDocument d;
-    d.id      = id;
+static themis::rag::judge::RetrievedDocument makeDoc(const std::string& id,
+                                                     const std::string& content) {
+    themis::rag::judge::RetrievedDocument d;
+    d.id = id;
     d.content = content;
     d.similarity_score = 1.0;
     return d;
@@ -96,7 +96,7 @@ TEST(AgenticRAGRelayTest, ARR02_IdentityFn_RSIsOne) {
 
     ASSERT_TRUE(result.delegate_relay.has_value());
     const auto& relay = *result.delegate_relay;
-    EXPECT_EQ(relay.stop_reason, StopReason::COMPLETED_NORMALLY);
+    EXPECT_EQ(relay.stop_reason, themis::rag::delegate_eval::StopReason::COMPLETED_NORMALLY);
     ASSERT_FALSE(relay.scores.rs_per_interaction.empty());
     EXPECT_NEAR(relay.scores.rs_per_interaction.front(), 1.0, 1e-9);
     EXPECT_EQ(relay.catastrophic_corruption_count, 0u);

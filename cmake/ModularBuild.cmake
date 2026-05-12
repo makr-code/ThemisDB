@@ -1243,6 +1243,7 @@ set(THEMIS_LLM_SOURCES
     # Phase 1–4: Missing RAG evaluators and orchestrators
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/agentic_rag.cpp
+    ../src/rag/delegate_evaluator.cpp
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/claim_extractor.cpp
     ../src/rag/coherence_evaluator.cpp

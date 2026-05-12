@@ -605,6 +605,10 @@ TEST_F(BinaryDeltaPatchesTest, CiCdPatchGeneration_ManifestJsonRoundTrip) {
 // ============================================================================
 
 TEST_F(BinaryDeltaPatchesTest, Compression_SmallDiff_PatchSmallerThanTarget_ZstdDict) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available in this build; ZSTD_DICT size assertions are not applicable.";
+#endif
+
     // A small diff on a large file should produce a patch much smaller than target
     auto base = makeBinaryBlob(65536, 0x11);
     auto target = base;
@@ -649,6 +653,10 @@ TEST_F(BinaryDeltaPatchesTest, Compression_SmallDiff_PatchSmallerThanTarget_Vcdi
 }
 
 TEST_F(BinaryDeltaPatchesTest, Compression_IdenticalFiles_PatchIsMinimal) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD not available in this build; ZSTD_DICT size assertions are not applicable.";
+#endif
+
     // Identical files: patch should be much smaller than the source
     auto data = makeBinaryBlob(16384, 0x33);
 

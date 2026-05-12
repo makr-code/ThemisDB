@@ -116,7 +116,7 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
     
     // Parse step-by-step reasoning
     std::regex step_regex(R"(Step\s+(\d+):\s*(.+?)\s*(?:Observation|Question):\s*(.+?)\s*(?:Evidence|Support):\s*(.+?)\s*Conclusion:\s*(.+?)(?=Step|\n\n|Final|$))",
-                         std::regex::icase | std::regex::extended);
+                         std::regex::icase);
     
     auto steps_begin = std::sregex_iterator(response.begin(), response.end(), step_regex);
     auto steps_end = std::sregex_iterator();
@@ -309,7 +309,7 @@ CoTEvaluationResult CoTEvaluator::evaluate(
         
         // Extract final reasoning
         std::regex reasoning_regex(R"(Final\s+Reasoning:\s*(.+?)(?:\n\n|$))", 
-                                  std::regex::icase | std::regex::extended);
+                      std::regex::icase);
         std::smatch match;
         
         if (std::regex_search(response, match, reasoning_regex)) {

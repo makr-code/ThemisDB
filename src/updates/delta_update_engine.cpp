@@ -74,26 +74,27 @@ namespace fs = std::filesystem;
 static bool isSafePath(const std::string& rel_path, const std::string& base_dir) {
     if (rel_path.empty()) return false;
     // Reject absolute paths and null bytes
-    if (rel_path[0] == '/' || rel_path.find('\0') != std::string::npos) return false;
+    if (rel_path[0] == '/' || rel_path[0] == '\\' || rel_path.find('\0') != std::string::npos) return false;
 
-    // Reject any ".." component
+    // Reject absolute/drive-rooted paths and any ".." component.
     fs::path p(rel_path);
+    if (p.is_absolute() || p.has_root_name() || p.has_root_directory()) return false;
     for (const auto& component : p) {
         if (component == "..") return false;
     }
 
-    // Final check: the resolved path must be strictly inside base_dir.
-    // We require full_str to begin with base_str followed by '/' to avoid
-    // the prefix-trick attack (e.g. base="/install", full="/installmalicious/f").
+    // Final check: the resolved path must be inside base_dir.
     try {
         auto full = fs::weakly_canonical(fs::path(base_dir) / p);
         auto base = fs::weakly_canonical(fs::path(base_dir));
-        auto full_str = full.string();
-        auto base_str = base.string();
-        // Must be strictly longer than base (not equal) and separated by '/'
-        if (full_str.size() <= base_str.size()) return false;
-        if (full_str[base_str.size()] != '/') return false;
-        if (full_str.substr(0, base_str.size()) != base_str) return false;
+
+        // Use lexical relation instead of raw string prefix checks so Windows
+        // path separators and drive handling are evaluated correctly.
+        const auto rel = full.lexically_relative(base);
+        if (rel.empty() || rel.is_absolute()) return false;
+        for (const auto& component : rel) {
+            if (component == "..") return false;
+        }
     } catch (const std::exception&) {
         return false;
     }

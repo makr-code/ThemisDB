@@ -37,6 +37,9 @@ using namespace themis::utils;
 class ZstdCompressionSecurityTest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifndef THEMIS_HAS_ZSTD
+        GTEST_SKIP() << "ZSTD is not available in this build; compression security tests are not applicable.";
+#endif
         // Initialize error registry
         auto& registry = themis::errors::ErrorRegistry::getInstance();
     }

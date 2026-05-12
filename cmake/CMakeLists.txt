@@ -2829,6 +2829,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/training/adalora_tt_bridge.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
+    # Delegate evaluator and relay simulator used by AgenticRAG relay paths
+    ../src/rag/delegate_evaluator.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
     # Phase 5: Distributed evaluation and security
