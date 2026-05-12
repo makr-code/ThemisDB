@@ -381,6 +381,58 @@ AgenticRAGResult AgenticRAG::run(
                 result.tokens_consumed,
                 result.total_elapsed_ms.count());
 
+    // ----------------------------------------------------------------
+    // Optional DELEGATE-52 relay guard (best-effort safety net).
+    // ----------------------------------------------------------------
+    if (impl_->config.relay_guard.has_value()) {
+        const auto& guard = *impl_->config.relay_guard;
+        const bool guard_ready =
+            guard.simulator != nullptr &&
+            guard.evaluator  != nullptr &&
+            !guard.edit_pairs.empty() &&
+            guard.edit_fn;
+
+        if (guard_ready) {
+            try {
+                // Build a compact seed from all final document contents,
+                // separated by newlines.  This gives the relay a realistic
+                // snapshot of what the agent produced.
+                // Reserve capacity up-front to avoid quadratic reallocation.
+                size_t total_size = result.final_documents.empty() ? 0u
+                    : result.final_documents.size() - 1; // newline separators
+                for (const auto& doc : result.final_documents) {
+                    total_size += doc.content.size();
+                }
+                std::string seed;
+                seed.reserve(total_size);
+                for (const auto& doc : result.final_documents) {
+                    if (!seed.empty()) seed += '\n';
+                    seed += doc.content;
+                }
+
+                result.delegate_relay = guard.simulator->run(
+                    seed,
+                    guard.edit_pairs,
+                    *guard.evaluator,
+                    guard.edit_fn);
+
+                THEMIS_INFO("AgenticRAG delegate relay complete: rs_count={}, "
+                            "catastrophic_count={}, persistence_failures={}",
+                            result.delegate_relay->scores.rs_per_interaction.size(),
+                            result.delegate_relay->catastrophic_corruption_count,
+                            result.delegate_relay->persistence_write_failures);
+            } catch (const std::exception& ex) {
+                // Relay failure must not abort the agentic result.
+                THEMIS_WARN("AgenticRAG delegate relay failed (best-effort): {}", ex.what());
+            } catch (...) {
+                THEMIS_WARN("AgenticRAG delegate relay failed with unknown error (best-effort).");
+            }
+        } else {
+            THEMIS_DEBUG("AgenticRAG delegate relay guard configured but not ready "
+                         "(missing simulator, evaluator, edit_pairs, or edit_fn).");
+        }
+    }
+
     return result;
 }
 

@@ -1619,6 +1619,68 @@
         "maps_to_module_id": 27,
         "status": "mapped"
       }
+    },
+    "base": {
+      "BASE-1": {
+        "label": "loadModule() fast-fail (file missing) <= 5 ms",
+        "primary_benchmark": "ModuleLoaderFixture_LoadModule_MissingFile",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-2": {
+        "label": "unloadModule() unknown name <= 1 us",
+        "primary_benchmark": "ModuleLoaderFixture_UnloadModule_Unknown",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-3": {
+        "label": "isModuleLoaded() negative path <= 500 ns",
+        "primary_benchmark": "ModuleLoaderFixture_IsModuleLoaded_NotLoaded",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-4": {
+        "label": "loadAllModules() empty directory <= 10 ms",
+        "primary_benchmark": "ModuleLoaderFixture_LoadAllModules_EmptyDir",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-5": {
+        "label": "getMetrics() overhead <= 1 us",
+        "primary_benchmark": "ModuleLoaderFixture_GetMetrics",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-6": {
+        "label": "getAllLoadedModules() after 1000 events <= 1 ms",
+        "primary_benchmark": "BM_GetAllLoadedModules_Growth",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-7": {
+        "label": "registerModule() throughput >= 100k reg/s",
+        "primary_benchmark": "HotReloadLoadFixture_Registration_Throughput",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-8": {
+        "label": "register -> reload(fast-fail) -> unregister cycle <= 5 ms",
+        "primary_benchmark": "HotReloadLoadFixture_RegisterReloadUnregister_Cycle",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-9": {
+        "label": "concurrent reload scalability (1..16 threads, >= 4x speedup 1->8)",
+        "primary_benchmark": "HotReloadLoadFixture_ConcurrentReload_Scalability",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      },
+      "BASE-10": {
+        "label": "getStats() overhead <= 1 us",
+        "primary_benchmark": "HotReloadLoadFixture_StatsLatency",
+        "file": "bench_module_load_hot_reload.cpp",
+        "status": "mapped"
+      }
     }
   },
   "coverage_summary": {
