@@ -72,6 +72,8 @@ Include the relevant headers from this module:
 #include "geo/geo_json_geometry.h"
 ```
 
+> Assumes your target include path contains the repository `include/` directory (for example via `target_include_directories(... ${THEMISDB_INCLUDE_DIR})`).
+
 Minimal precision-mode backend selection:
 
 ```cpp
