@@ -1940,6 +1940,29 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 
 ---
 
+### 5.10 Base Module (Module Loader & Hot-Reload)
+
+> *Validates Issue #1575: Performance benchmarks for ModuleLoader and HotReloadManager cycles.*
+> *Benchmark file:* `benchmarks/bench_module_load_hot_reload.cpp`
+
+#### 34. Base-Modul (ModuleLoader / HotReloadManager)
+
+| Ziel-ID | Erwartungswert | v1.8.2 Gemessen | Status |
+|---------|----------------|-----------------|--------|
+| BASE-1 `loadModule()` fast-fail (Datei fehlt) | ≤ 5 ms | | |
+| BASE-2 `unloadModule()` unbekannter Name | ≤ 1 µs | | |
+| BASE-3 `isModuleLoaded()` negative path | ≤ 500 ns | | |
+| BASE-4 `loadAllModules()` leeres Verzeichnis | ≤ 10 ms | | |
+| BASE-5 `getMetrics()` Overhead | ≤ 1 µs | | |
+| BASE-6 `getAllLoadedModules()` nach 1000 Einträgen | ≤ 1 ms | | |
+| BASE-7 `registerModule()` Throughput | ≥ 100k reg/s | | |
+| BASE-8 register → reload(fast-fail) → unregister Zyklus | ≤ 5 ms | | |
+| BASE-9 Concurrent reload (1..16 Threads, linear bis 8) | ≥ 4× Speedup (1→8 Threads) | | |
+| BASE-10 `getStats()` Overhead | ≤ 1 µs | | |
+
+---
+
+
 ### 6.4 Query Engine Results
 
 > *SLO tables and measurement data: see §2 / §5.1. Combined SLO/results tables are preserved in §5.*
