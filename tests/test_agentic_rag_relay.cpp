@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace themis::rag::agentic;
@@ -83,12 +84,12 @@ TEST(AgenticRAGRelayTest, ARR02_IdentityFn_RSIsOne) {
 
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
-    cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        .simulator  = &simulator,
-        .evaluator  = &evaluator,
-        .edit_pairs = {pair},
-        .edit_fn    = identityFn()
-    };
+    AgenticRAGConfig::RelayGuardConfig guard;
+    guard.simulator = &simulator;
+    guard.evaluator = &evaluator;
+    guard.edit_pairs = {pair};
+    guard.edit_fn = identityFn();
+    cfg.relay_guard = std::move(guard);
 
     AgenticRAG agent(cfg);
     auto result = agent.run("query", {makeDoc("d1", "hello world")});
@@ -117,12 +118,12 @@ TEST(AgenticRAGRelayTest, ARR03_DestructiveFn_FullyCatastrophic) {
 
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
-    cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        .simulator  = &simulator,
-        .evaluator  = &evaluator,
-        .edit_pairs = {pair},
-        .edit_fn    = destructiveFn()
-    };
+    AgenticRAGConfig::RelayGuardConfig guard;
+    guard.simulator = &simulator;
+    guard.evaluator = &evaluator;
+    guard.edit_pairs = {pair};
+    guard.edit_fn = destructiveFn();
+    cfg.relay_guard = std::move(guard);
 
     AgenticRAG agent(cfg);
     auto result = agent.run("query", {makeDoc("d1", "important content")});
@@ -146,12 +147,12 @@ TEST(AgenticRAGRelayTest, ARR04_EmptyEditPairs_GuardNotReady) {
 
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
-    cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        .simulator  = &simulator,
-        .evaluator  = &evaluator,
-        .edit_pairs = {},   // empty — guard must NOT fire
-        .edit_fn    = identityFn()
-    };
+    AgenticRAGConfig::RelayGuardConfig guard;
+    guard.simulator = &simulator;
+    guard.evaluator = &evaluator;
+    guard.edit_pairs = {}; // empty — guard must NOT fire
+    guard.edit_fn = identityFn();
+    cfg.relay_guard = std::move(guard);
 
     AgenticRAG agent(cfg);
     auto result = agent.run("query", {makeDoc("d1", "content")});
