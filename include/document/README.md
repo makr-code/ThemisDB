@@ -18,6 +18,7 @@ Public interfaces and in-memory reference implementations for document storage, 
 | `document_lifecycle.h` | `IDocumentLifecycleHook`, `DocumentLifecycleEvent` | Observer contract for create/update/delete phases |
 | `document_schema_evolution.h` | `IDocumentSchemaEvolution`, `InMemoryDocumentSchemaEvolution` | Versioned schema registration, sealing, validation reports |
 | `document_diff_merge.h` | `IDocumentDiffMerge`, `InMemoryDocumentDiffMerge` | Field-level diff and three-way merge on store-backed JSON docs |
+| `round_trip_editor.h` | `IRoundTripEditor`, `StoreBackedRoundTripEditor` | Store-backed persistence for DELEGATE-52 round-trip seed/intermediate snapshots |
 | `xdomea_connector.h` | `IXDOMEAConnector`, `InMemoryXDOMEAConnector` | XDOMEA XML import/export and document repository operations |
 | `encrypted_entities.h` | `User`, `Customer`, `SecureDocument` | Example encrypted entity payloads using `EncryptedField<T>` |
 | `document_manager_deprecated.h` | Deprecated alias shim | Legacy forwarding to `projects/DocumentManager` |

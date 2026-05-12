@@ -2102,6 +2102,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
     add_executable(test_delegate_evaluator_focused
         test_delegate_evaluator.cpp
         ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
     )
 
     target_include_directories(test_delegate_evaluator_focused PRIVATE
@@ -2128,7 +2129,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_delegate_evaluator.cpp")
         COMMAND test_delegate_evaluator_focused)
 
     set_tests_properties(DelegateEvaluatorFocusedTests PROPERTIES
-        LABELS "rag;delegate-52;document;round-trip;focused;unit"
+        LABELS "rag;delegation;document;round-trip;focused;unit"
         TIMEOUT 60
     )
 

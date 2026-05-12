@@ -29,9 +29,12 @@
  */
 
 #include "rag/delegate_evaluator.h"
+#include "document/round_trip_editor.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cstddef>
+#include <cstdint>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -50,6 +53,12 @@ namespace themis::rag::delegate_eval {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+std::string makeRelayId() {
+    static std::atomic<std::uint64_t> seq{0};
+    const auto id = ++seq;
+    return "delegate-relay-" + std::to_string(id);
+}
 
 /**
  * @brief Clamp @p v to `[lo, hi]`.
@@ -369,6 +378,19 @@ void RoundTripSimulator::setConfig(const DelegateEvaluatorConfig& config) {
     config_ = config;
 }
 
+void RoundTripSimulator::setRoundTripEditor(
+    themis::document::IRoundTripEditor* editor) noexcept {
+    round_trip_editor_ = editor;
+}
+
+themis::document::IRoundTripEditor* RoundTripSimulator::getRoundTripEditor() const noexcept {
+    return round_trip_editor_;
+}
+
+const std::string& RoundTripSimulator::getLastRelayId() const noexcept {
+    return last_relay_id_;
+}
+
 RelayResult RoundTripSimulator::run(
     const std::string&                   seed_doc,
     const std::vector<RoundTripEditPair>& edit_pairs,
@@ -378,6 +400,11 @@ RelayResult RoundTripSimulator::run(
     RelayResult result;
     result.final_doc  = seed_doc;
     result.stop_reason = StopReason::COMPLETED_NORMALLY;
+    last_relay_id_ = makeRelayId();
+
+    if (round_trip_editor_ != nullptr) {
+        (void)round_trip_editor_->beginRelay(last_relay_id_, seed_doc);
+    }
 
     // ── Edge case: no round trips requested ──────────────────────────────────
     if (config_.num_round_trips == 0) {
@@ -402,6 +429,7 @@ RelayResult RoundTripSimulator::run(
     std::string current_doc = seed_doc;
     const size_t pair_count = edit_pairs.size();
 
+    std::size_t persisted_interaction_index = 0;
     for (size_t round = 0; round < config_.num_round_trips; ++round) {
         const RoundTripEditPair& pair = edit_pairs[round % pair_count];
 
@@ -410,6 +438,14 @@ RelayResult RoundTripSimulator::run(
         try {
             forward_doc = edit_fn(current_doc, pair.forward_instruction);
             ++result.total_interactions;
+            ++persisted_interaction_index;
+            if (round_trip_editor_ != nullptr) {
+                (void)round_trip_editor_->saveInteraction(
+                    last_relay_id_,
+                    persisted_interaction_index,
+                    pair.forward_instruction,
+                    forward_doc);
+            }
         } catch (...) {
             // Forward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;
@@ -427,6 +463,14 @@ RelayResult RoundTripSimulator::run(
         try {
             backward_doc = edit_fn(forward_doc, pair.backward_instruction);
             ++result.total_interactions;
+            ++persisted_interaction_index;
+            if (round_trip_editor_ != nullptr) {
+                (void)round_trip_editor_->saveInteraction(
+                    last_relay_id_,
+                    persisted_interaction_index,
+                    pair.backward_instruction,
+                    backward_doc);
+            }
         } catch (...) {
             // Backward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;

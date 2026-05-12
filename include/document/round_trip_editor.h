@@ -1,0 +1,129 @@
+/*
+ * ThemisDB — Document Module
+ *
+ * File:    round_trip_editor.h
+ * Module:  include/document/
+ * Purpose: Store-backed persistence for DELEGATE-52 round-trip document
+ *          interactions (seed + intermediate versions).
+ *
+ * Version: 1.0.0
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#pragma once
+
+#include "document/document_store.h"
+
+#include <cstddef>
+#include <optional>
+#include <string>
+
+namespace themis::document {
+
+/**
+ * @brief Persisted snapshot for one round-trip interaction.
+ */
+struct RoundTripSnapshot {
+    std::string relay_id;           ///< Logical relay identifier
+    std::size_t interaction_index;  ///< 0 = seed, >0 = edit interactions
+    std::string instruction;        ///< Edit instruction used for this interaction
+    std::string document;           ///< Serialized document content
+};
+
+/**
+ * @brief Persistence interface for round-trip relay snapshots.
+ *
+ * Used by `themis::rag::delegate_eval::RoundTripSimulator` to store
+ * intermediate document versions through a document-store backend.
+ */
+class IRoundTripEditor {
+public:
+    virtual ~IRoundTripEditor() = default;
+
+    /**
+     * @brief Initialize persistence for a relay and store the seed snapshot.
+     *
+     * @param relay_id Unique relay identifier.
+     * @param seed_document Original document before any edit.
+     * @return Success or storage-layer error from `IDocumentStore`.
+     */
+    [[nodiscard]] virtual Result<void> beginRelay(const std::string& relay_id,
+                                                  const std::string& seed_document) = 0;
+
+    /**
+     * @brief Persist one interaction snapshot.
+     *
+     * @param relay_id Relay identifier previously passed to beginRelay().
+     * @param interaction_index 1-based interaction index.
+     * @param instruction Edit instruction that produced this snapshot.
+     * @param document Snapshot document content.
+     * @return Success or storage-layer error from `IDocumentStore`.
+     */
+    [[nodiscard]] virtual Result<void> saveInteraction(
+        const std::string& relay_id,
+        std::size_t interaction_index,
+        const std::string& instruction,
+        const std::string& document) = 0;
+
+    /**
+     * @brief Load one persisted interaction snapshot.
+     *
+     * @param relay_id Relay identifier.
+     * @param interaction_index Snapshot index (0 = seed).
+     * @return Optional snapshot when found, std::nullopt when missing.
+     */
+    [[nodiscard]] virtual Result<std::optional<RoundTripSnapshot>> loadInteraction(
+        const std::string& relay_id,
+        std::size_t interaction_index) const = 0;
+
+    /**
+     * @brief Count persisted snapshots for a relay (including seed snapshot).
+     */
+    [[nodiscard]] virtual Result<std::size_t> countSnapshots(
+        const std::string& relay_id) const = 0;
+};
+
+/**
+ * @brief `IRoundTripEditor` implementation backed by `IDocumentStore`.
+ *
+ * Snapshots are stored in one collection (`delegate_round_trip` by default),
+ * encoded as JSON document bodies:
+ * `{ relay_id, interaction_index, instruction, document }`.
+ */
+class StoreBackedRoundTripEditor final : public IRoundTripEditor {
+public:
+    /**
+     * @brief Construct with backing store and optional collection name.
+     *
+     * @param store Non-owning store reference. Must outlive this editor.
+     * @param collection Collection used for snapshot documents.
+     */
+    explicit StoreBackedRoundTripEditor(IDocumentStore& store,
+                                        CollectionId collection = "delegate_round_trip");
+
+    [[nodiscard]] Result<void> beginRelay(const std::string& relay_id,
+                                          const std::string& seed_document) override;
+
+    [[nodiscard]] Result<void> saveInteraction(
+        const std::string& relay_id,
+        std::size_t interaction_index,
+        const std::string& instruction,
+        const std::string& document) override;
+
+    [[nodiscard]] Result<std::optional<RoundTripSnapshot>> loadInteraction(
+        const std::string& relay_id,
+        std::size_t interaction_index) const override;
+
+    [[nodiscard]] Result<std::size_t> countSnapshots(
+        const std::string& relay_id) const override;
+
+private:
+    [[nodiscard]] std::string makeSnapshotId(const std::string& relay_id,
+                                             std::size_t interaction_index) const;
+
+    IDocumentStore& store_;
+    CollectionId collection_;
+};
+
+} // namespace themis::document
+

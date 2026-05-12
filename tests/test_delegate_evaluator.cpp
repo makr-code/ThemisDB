@@ -23,6 +23,8 @@
  */
 
 #include "rag/delegate_evaluator.h"
+#include "document/round_trip_editor.h"
+#include "document/document_store.h"
 
 #include <gtest/gtest.h>
 #include <string>
@@ -332,7 +334,7 @@ TEST(DelegateEvaluatorTest, DE15_EditFnException) {
 //         (final_doc tracks current state)
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(DelegateEvaluatorTest, DE16_FinalDocTracked) {
+TEST(DelegateEvaluatorTest, DE16_StoreBackedSnapshots) {
     const std::string seed = makeJsonDoc();
     // EditFn: forward appends "X", backward removes last "X"
     auto fn = [](const std::string& doc, const std::string& instr) {
@@ -345,6 +347,9 @@ TEST(DelegateEvaluatorTest, DE16_FinalDocTracked) {
     DelegateEvaluatorConfig cfg;
     cfg.num_round_trips = 2;
     RoundTripSimulator sim(cfg);
+    themis::document::InMemoryDocumentStore store;
+    themis::document::StoreBackedRoundTripEditor editor(store);
+    sim.setRoundTripEditor(&editor);
     PlainTextEvaluator ev;
     const auto pairs = std::vector<RoundTripEditPair>{
         {"fwd", "bwd", "seed", DomainType::PLAIN_TEXT}};
@@ -355,6 +360,18 @@ TEST(DelegateEvaluatorTest, DE16_FinalDocTracked) {
     // After 2 perfect round trips, final_doc should equal the seed
     EXPECT_EQ(result.final_doc, seed);
     EXPECT_EQ(result.total_interactions, 4u); // 2 rounds × 2 interactions
+
+    const auto relay_id = sim.getLastRelayId();
+    ASSERT_FALSE(relay_id.empty());
+    const auto count_res = editor.countSnapshots(relay_id);
+    ASSERT_TRUE(count_res.has_value());
+    // seed + 4 interactions
+    EXPECT_EQ(*count_res, 5u);
+
+    const auto seed_snap = editor.loadInteraction(relay_id, 0);
+    ASSERT_TRUE(seed_snap.has_value());
+    ASSERT_TRUE(seed_snap->has_value());
+    EXPECT_EQ(seed_snap->value().document, seed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
