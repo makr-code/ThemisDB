@@ -135,6 +135,8 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
     const auto tb = tokenise(b);
     if (ta.empty() && tb.empty()) {
         // Two empty token sets carry no lexical signal to compare.
+        // Note: this intentionally deviates from the strict set-theory
+        // convention where Jaccard(∅, ∅) is often defined as 1.0.
         // This can happen for whitespace/punctuation-only inputs after
         // tokenization, so we intentionally return 0.0 here.
         return 0.0;

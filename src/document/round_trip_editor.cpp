@@ -19,7 +19,7 @@ namespace themis::document {
 
 namespace {
 
-[[nodiscard]] int64_t nowMs() noexcept {
+int64_t nowMs() noexcept {
     using namespace std::chrono;
     // Wall-clock timestamp is intentional for persisted audit/debug visibility.
     // Monotonic ordering is not required for snapshot IDs (they are index-based).
@@ -50,7 +50,7 @@ Result<void> StoreBackedRoundTripEditor::beginRelay(const std::string& relay_id,
     if (!put_res) {
         return tl::unexpected(put_res.error());
     }
-    return Result<void>{};
+    return {};
 }
 
 Result<void> StoreBackedRoundTripEditor::saveInteraction(
@@ -72,7 +72,7 @@ Result<void> StoreBackedRoundTripEditor::saveInteraction(
     if (!put_res) {
         return tl::unexpected(put_res.error());
     }
-    return Result<void>{};
+    return {};
 }
 
 Result<std::optional<RoundTripSnapshot>> StoreBackedRoundTripEditor::loadInteraction(

@@ -370,9 +370,16 @@ TEST(DelegateEvaluatorTest, DE16_StoreBackedSnapshots) {
 
     const auto seed_snap = editor.loadInteraction(relay_id, 0);
     ASSERT_TRUE(seed_snap.has_value());
-    const auto& seed_snap_opt = *seed_snap;
-    ASSERT_TRUE(seed_snap_opt.has_value());
-    EXPECT_EQ(seed_snap_opt->document, seed);
+    const auto& maybe_seed_snapshot = *seed_snap;
+    ASSERT_TRUE(maybe_seed_snapshot.has_value());
+    EXPECT_EQ(maybe_seed_snapshot->document, seed);
+
+    const auto first_interaction = editor.loadInteraction(relay_id, 1);
+    ASSERT_TRUE(first_interaction.has_value());
+    const auto& maybe_first_interaction = *first_interaction;
+    ASSERT_TRUE(maybe_first_interaction.has_value());
+    EXPECT_EQ(maybe_first_interaction->instruction, "fwd");
+    EXPECT_EQ(maybe_first_interaction->document, seed + "X");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
