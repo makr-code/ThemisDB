@@ -31,6 +31,15 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 - `opa_adapter.cpp` — Open Policy Agent integration for Rego-based policy evaluation
 - `policy_template.cpp` — built-in policy templates (GDPR, HIPAA, SOC 2, least-privilege, etc.)
 
+### Public API Entry Points (`include/governance`)
+
+- `policy_engine.h` — central entry point (`loadFromYAML`, `evaluate`, `checkQueryPermission`, `simulateDecision`, `reloadIfChanged`, `checkInferencePermission`)
+- `policy_manager.h` / `policy_manager_versioned.h` — rule lifecycle, validation, version history, rollback, and atomic reload
+- `data_masker.h` — field-level masking (`REDACT`, `TOKENIZE`, `TRUNCATE`, `HASH`) applied after `checkQueryPermission()`
+- `opa_adapter.h` — OPA evaluator adapter with REST/WASM modes and timeout/endpoint settings
+- `compliance_reporter.h` / `compliance_reporting.h` — compliance report generation (GDPR/HIPAA/CCPA/PCI-DSS/SOC 2) and renderer formats
+- `cross_tenant_policy_inheritance.h`, `model_governance.h`, `data_lineage.h` — tenant inheritance, AI/ML export governance, lineage tracking
+
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Policy engine, GDPR/HIPAA/CCPA/CPRA/PCI-DSS/SOC 2 rule evaluation, OPA integration, policy simulation, hot-reload, compliance reporting, data masking, data lineage, cross-tenant policy inheritance, and AI/ML model governance are all operational.
@@ -60,6 +69,33 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 - Policy simulation / dry-run mode (`simulateDecision`) without audit trail side effects
 - Policy versioning with rollback and conflict detection (contradictory, overlapping, circular)
 
+## Configuration Options
+
+The runtime policy engine reads configuration from YAML via `PolicyEngine::loadFromYAML()`:
+
+- `vs_classification.<level>`: profile attributes such as `encryption_required`, `ann_allowed`, `export_allowed`, `cache_allowed`, `redaction_level`, `retention_days`, `log_encryption`
+- `enforcement.resource_mapping`: route-to-minimum-classification mapping
+- `enforcement.default_mode`: default governance mode (`enforce` or `observe`)
+- `data_masking.enabled` and `data_masking.rules[]`:
+  - `field`
+  - `strategy` (`redact`, `tokenize`, `truncate`, `hash`)
+  - `truncate_length` (for truncate strategy)
+  - `collection_secret` (required for secure tokenize behavior in production)
+
+Runtime integration options:
+- `PolicyEngine::setOpaEvaluator()` with `OpaAdapter::Config` (`endpoint_url`, `policy_path`, `timeout_ms`, optional WASM mode)
+- `PolicyEngine::setCcpaOptOutSubjects()` for CCPA/CPRA export blocking
+- `PolicyEngine::setModelGovernancePolicy()` for model-training export decisions
+
+## Runtime Behavior, Failure Cases, and Limits
+
+- **Fallback behavior:** if OPA is unavailable or returns an unusable response, evaluation falls back to native policy logic.
+- **Classification fallback:** when no matching profile is found, strict classes (`geheim`, `streng-geheim`) default to restrictive settings.
+- **Hot reload behavior:** `reloadIfChanged()` is a no-op if file mtime is unchanged; reload failures return `false` and can populate an error string.
+- **Inference guardrails:** `checkInferencePermission()` returns structured 401/403 outcomes for missing/invalid bearer auth or denied policy decisions.
+- **CCPA override:** opted-out subjects (`X-User-Id`) force `export_allowed=false`.
+- **Masking limit:** masking rules apply to matching JSON field keys; non-string primitive values pass through unchanged.
+
 ## Documentation
 
 For governance documentation, see:
@@ -87,4 +123,45 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 ## Usage
 
 The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/governance/README.md`](../../include/governance/README.md) for the public API.
+See [`../../include/governance/README.md`](../../include/governance/README.md) for the full public header API.
+
+### Example: Load, Evaluate, and Apply Masking
+
+```cpp
+#include "governance/policy_engine.h"
+#include "governance/data_masker.h"
+
+themis::governance::PolicyEngine engine;
+engine.loadFromYAML("/etc/themisdb/governance/policies.yaml");
+
+auto decision = engine.evaluate({{"X-Classification", "vs-nfd"}}, "/vector/search");
+auto query_result = engine.checkQueryPermission({{"X-User-Id", "user42"}}, "/api/search");
+
+themis::governance::DataMasker masker;
+auto safe_doc = masker.maskFields(raw_doc, query_result.masking_policy);
+```
+
+### Example: Dry-Run Decision (No Audit Side Effects)
+
+```cpp
+themis::governance::SimulationRequest req{
+    .headers = {{"X-Classification", "geheim"}},
+    .route = "/api/export"
+};
+auto simulation = engine.simulateDecision(req);
+```
+
+## Troubleshooting
+
+- For operational diagnostics and common incidents, see [`../../docs/troubleshooting/governance_troubleshooting.md`](../../docs/troubleshooting/governance_troubleshooting.md).
+- Typical quick checks:
+  - Verify watcher/reload flow when policy edits do not take effect.
+  - Validate report template path when compliance reports fail.
+  - Confirm default-action and rule coverage when unexpected allows/denies occur.
+
+## Related Planning and Governance Docs
+
+- [ROADMAP.md](./ROADMAP.md)
+- [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md)
+- [PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md)
+- [ARCHITECTURE.md](./ARCHITECTURE.md)

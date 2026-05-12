@@ -63,7 +63,43 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 Include the relevant headers from this module:
 
 ```cpp
-#include "governance/module_header.h"
+#include "governance/policy_engine.h"
+#include "governance/data_masker.h"
+#include "governance/opa_adapter.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+Example integration:
+
+```cpp
+themis::governance::PolicyEngine engine;
+engine.loadFromYAML("/etc/themisdb/governance/policies.yaml");
+auto permission = engine.checkQueryPermission(headers, "/api/search");
+```
+
+### Configuration Surface (Public API)
+
+- `PolicyEngine::loadFromYAML(path)` reads:
+  - `vs_classification.*` profiles
+  - `enforcement.resource_mapping`
+  - `enforcement.default_mode`
+  - `data_masking.enabled` and `data_masking.rules`
+- `OpaAdapter::Config`:
+  - `endpoint_url`
+  - `policy_path`
+  - `timeout_ms`
+  - optional `mode` (`REST`/`WASM`) and `wasm_bundle_path`
+
+### Runtime Behavior, Errors, and Limits
+
+- OPA unavailability/timeouts return `std::nullopt` in adapter evaluation; `PolicyEngine` falls back to native evaluation.
+- `PolicyEngine::reloadIfChanged(std::string* err)` returns `false` on stat/parse/load failures and can provide details via `err`.
+- `PolicyEngine::checkInferencePermission()` returns structured `allowed/http_status/denial_reason` for caller-facing 401/403 handling.
+- `DataMasker` applies masking to matching JSON field keys; when policy is disabled or empty it is a no-op.
+
+### Troubleshooting and Related Docs
+
+- [Governance Troubleshooting Guide](../../docs/troubleshooting/governance_troubleshooting.md)
+- [Module Overview (`src/governance/README.md`)](../../src/governance/README.md)
+- [Architecture (`src/governance/ARCHITECTURE.md`)](../../src/governance/ARCHITECTURE.md)
+- [Roadmap (`src/governance/ROADMAP.md`)](../../src/governance/ROADMAP.md)
+- [Future Enhancements (`src/governance/FUTURE_ENHANCEMENTS.md`)](../../src/governance/FUTURE_ENHANCEMENTS.md)
