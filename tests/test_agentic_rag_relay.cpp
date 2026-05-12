@@ -84,10 +84,10 @@ TEST(AgenticRAGRelayTest, ARR02_IdentityFn_RSIsOne) {
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
     cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        &simulator,
-        &evaluator,
-        {pair},
-        identityFn()
+        .simulator  = &simulator,
+        .evaluator  = &evaluator,
+        .edit_pairs = {pair},
+        .edit_fn    = identityFn()
     };
 
     AgenticRAG agent(cfg);
@@ -118,10 +118,10 @@ TEST(AgenticRAGRelayTest, ARR03_DestructiveFn_FullyCatastrophic) {
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
     cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        &simulator,
-        &evaluator,
-        {pair},
-        destructiveFn()
+        .simulator  = &simulator,
+        .evaluator  = &evaluator,
+        .edit_pairs = {pair},
+        .edit_fn    = destructiveFn()
     };
 
     AgenticRAG agent(cfg);
@@ -147,10 +147,10 @@ TEST(AgenticRAGRelayTest, ARR04_EmptyEditPairs_GuardNotReady) {
     AgenticRAGConfig cfg;
     cfg.max_iterations = 1;
     cfg.relay_guard    = AgenticRAGConfig::RelayGuardConfig{
-        &simulator,
-        &evaluator,
-        {},          // empty edit_pairs — guard must NOT fire
-        identityFn()
+        .simulator  = &simulator,
+        .evaluator  = &evaluator,
+        .edit_pairs = {},   // empty — guard must NOT fire
+        .edit_fn    = identityFn()
     };
 
     AgenticRAG agent(cfg);

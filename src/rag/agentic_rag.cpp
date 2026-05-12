@@ -397,7 +397,14 @@ AgenticRAGResult AgenticRAG::run(
                 // Build a compact seed from all final document contents,
                 // separated by newlines.  This gives the relay a realistic
                 // snapshot of what the agent produced.
+                // Reserve capacity up-front to avoid quadratic reallocation.
+                size_t total_size = result.final_documents.empty() ? 0u
+                    : result.final_documents.size() - 1; // newline separators
+                for (const auto& doc : result.final_documents) {
+                    total_size += doc.content.size();
+                }
                 std::string seed;
+                seed.reserve(total_size);
                 for (const auto& doc : result.final_documents) {
                     if (!seed.empty()) seed += '\n';
                     seed += doc.content;
