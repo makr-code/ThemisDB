@@ -36,7 +36,7 @@ Rules:
 - `PATCH`: backward-compatible fix
 - `alpha`, `beta`, `rc`: pre-release stages
 
-Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms (`-alpha`, `-beta.N`, `-rc.N`, `-rc`) are tolerated only for historical tags/changelog entries.
+Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms (`-alpha`, `-beta.N`, `-rc.N`, `-rc`) are accepted only for historical tags/changelog entries.
 
 ## 2.1 Milestone Model Alignment (ROADMAP / FUTURE / CHANGELOG)
 

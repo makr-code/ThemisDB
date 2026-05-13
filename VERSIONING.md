@@ -79,7 +79,7 @@ Critical security fixes may bypass the pre-release sequence and be released dire
 
 Canonical suffixes:
 
-| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes accepted for historical tags |
+| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes (historical entries only) |
 |---|---|---|
 | `alpha` | `-alphaN` | `-alpha` |
 | `beta` | `-betaN` | `-beta.N` |

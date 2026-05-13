@@ -79,7 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Dokumentationsaudit durchgeführt
     - Ergebnis in Root-Dokumentation und Changelog dokumentiert
     - Betroffene Bereiche festgehalten: `COPILOT_INSTRUCTIONS.md`, `VERSIONING.md`, `RELEASE_STRATEGY.md`, `CHANGELOG.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
-    - Nachweis-Orte: [ROADMAP Root Governance](ROADMAP.md#root-governance-terminology-and-traceability), [FUTURE_ENHANCEMENTS Root Governance Role](FUTURE_ENHANCEMENTS.md#root-governance-role), [VERSIONING.md](VERSIONING.md), [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)
+    - Nachweis-Orte: [ROADMAP.md](ROADMAP.md) (Abschnitt "Root Governance: Terminology and Traceability"), [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) (Abschnitt "Root Governance Role"), [VERSIONING.md](VERSIONING.md), [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)
 
 - **Module-Docs Sync 📚 — 2026-04-17**
   - 58 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
