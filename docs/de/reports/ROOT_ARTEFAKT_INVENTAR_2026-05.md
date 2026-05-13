@@ -34,7 +34,7 @@ Diese Muster sind weiterhin als **nicht-kanonische Root-Artefakte** definiert, a
 | `build_*.txt` | 0 Treffer | temporär (Build-Output) | `logs/archive/` |
 | `test_*.txt` | 0 Treffer | temporär (Test-Output) | `tests/outputs/` bzw. `tests/outputs/archive/` |
 | `sec_block.txt` | 0 Treffer | temporär (Hilfsartefakt) | `docs/ARCHIVED/root-drafts/` |
-| `scout_cves_*.sarif` | 0 Treffer | temporär (Scan-Rohdaten) | `docs/audit-framework/evidence/<version>/scans/` |
+| `scout_cves_*.sarif` | 0 Treffer | temporär (Scan-Rohdaten) | `docs/audit-framework/evidence/v<release-version>/scans/` (z. B. `.../v1.4.1/scans/`) |
 
 ---
 
@@ -45,7 +45,7 @@ Diese Muster sind weiterhin als **nicht-kanonische Root-Artefakte** definiert, a
 - Temporäre Root-Artefakte werden zeitnah verschoben:
   - `tmp_*.md` -> `docs/archive/tmp-notes/`
   - Build-/Test-Outputs -> `logs/archive/` und `tests/outputs/`
-  - Security-Scan-Rohdaten -> `docs/audit-framework/evidence/<version>/scans/`
+  - Security-Scan-Rohdaten -> `docs/audit-framework/evidence/v<release-version>/scans/` (Schema laut Audit-Runbook)
 - Archivierte Inhalte bleiben nachvollziehbar, werden aber nicht als aktuelle Produktdokumentation referenziert.
 
 ---
