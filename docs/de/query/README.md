@@ -14,10 +14,10 @@ Das Query-Modul implementiert den vollständigen AQL-Abfrage-Stack von ThemisDB:
 Optimizer, Execution-Engine und Caching-Infrastruktur. AQL unterstützt relationale,
 Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Kompatibilität.
 
-- **Primäre Dokumentation:** [`src/query/README.md`](../../../src/query/README.md)
-- **Architektur:** [`src/query/ARCHITECTURE.md`](../../../src/query/ARCHITECTURE.md)
-- **Roadmap:** [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md)
-- **Geplante Erweiterungen:** [`src/query/FUTURE_ENHANCEMENTS.md`](../../../src/query/FUTURE_ENHANCEMENTS.md)
+- **Primäre Dokumentation:** [Query-Modul README](../../../src/query/README.md)
+- **Architektur:** [Query-Modul Architektur](../../../src/query/ARCHITECTURE.md)
+- **Roadmap:** [Query-Modul Roadmap](../../../src/query/ROADMAP.md)
+- **Geplante Erweiterungen:** [Query Future Enhancements](../../../src/query/FUTURE_ENHANCEMENTS.md)
 
 ---
 
@@ -192,10 +192,10 @@ Siehe [`SETUP.md`](../../../SETUP.md) für vollständige Abhängigkeiten und Bui
 
 ## Verwandte Dokumentation
 
-- [Primary Source Docs](../../../src/query/README.md) — vollständige API-Referenz
-- [Architecture](../../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
-- [ROADMAP](../../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
-- [FUTURE_ENHANCEMENTS](../../../src/query/FUTURE_ENHANCEMENTS.md) — geplante APIs, Grenzen, Backlog
+- [Primäre Quelldokumentation](../../../src/query/README.md) — vollständige API-Referenz
+- [Architektur](../../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
+- [Roadmap](../../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [Geplante Erweiterungen](../../../src/query/FUTURE_ENHANCEMENTS.md) — geplante APIs, Grenzen, Backlog
 - [AQL Syntax](../aql/aql_syntax.md) — AQL-Sprachreferenz
 - [Hybrid Search](query_vector_hybrid.md) — Vector + Filter Hybridabfragen
 - [Filtered Vector Queries](query_filtered_vector.md) — Gefilterte Vektorsuche
