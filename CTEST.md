@@ -8,7 +8,7 @@
 
 ---
 
-## Security-/Audit-Verifikationspfade (Root-Abgleich)
+## Root-Dokument-Abgleich: Security-/Audit-Verifikationspfade
 
 Die folgenden Pfade sind der nachvollziehbare Test-/Nachweisbezug für
 Security-relevante Aussagen in Root-Dokumenten:

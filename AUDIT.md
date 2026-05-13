@@ -1,4 +1,4 @@
-# Root Audit-Navigation und Abgleich-Nachweis
+# Root Audit-Navigation und Abgleichsnachweis
 
 Die zentrale Audit-Dokumentation liegt unter `audit/`.
 

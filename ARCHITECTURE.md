@@ -845,7 +845,7 @@ Schutzmaßnahmen Produktionsdatenbanken unwiederbringlich löschen können.
 
 ---
 
-## Root Security-, Audit- und Performance-Baseline (Dokumentenabgleich)
+## Root-Dokument-Abgleich (Architektur / Security / Audit / Performance)
 
 Die folgenden Architekturannahmen sind für Root-Dokumente verbindlich und werden
 in `SECURITY.md`, `AUDIT.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`,

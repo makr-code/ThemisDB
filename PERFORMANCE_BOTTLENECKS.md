@@ -35,7 +35,7 @@ stubs masquerading as functional code on critical paths.
 
 ---
 
-## Root-Dokument-Abgleich (Security / Audit / Architektur / CTest)
+## Root-Dokument-Abgleich (Architektur / Security / Audit / CTest / Performance)
 
 Diese Bottleneck-Analyse ist an dieselben Root-Randbedingungen gebunden wie
 `ARCHITECTURE.md`, `SECURITY.md`, `AUDIT.md`, `CTEST.md`,
