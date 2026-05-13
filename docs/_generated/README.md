@@ -1,15 +1,19 @@
-# _generated
-
-Pfad: `docs/_generated`
+# docs/_generated
 
 ## Zweck
-Dieser Ordner enthält 0 Unterordner und 1 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+`docs/_generated/` enthält ausschließlich generierte Dokumentationsartefakte (Indexe, Exporte, Maschinen-Outputs).
 
-## Dateien nach Kategorien
-- **Konfiguration**: `primary_index.json`
+## Pflegeverantwortung
+- **Owner:** Docs Automation Maintainer (ThemisDB Core Team)
+- **Änderungen:** Nur durch Generatoren/Skripte oder reproduzierbare Pipeline-Läufe
+- **Manuelle Edits:** Nur für klar dokumentierte Hotfixes, danach zeitnah erneut generieren
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Abgrenzung: Generiert vs. manuell
+- **Generiert (hier):** `primary_index.json`
+- **Manuell gepflegt (nicht hier):** Vorlagen/Standards in `docs/_standards/`, redaktionelle Inhalte in `docs/website/`
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+## QA-/Review-Anbindung
+- Validierung über zentrale Review-Kriterien in `docs/DOCUMENTATION_MERGE_PROTOCOL.md`
+- Fachliche Review-Leitlinien in `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
+
+_Letzte Governance-Aktualisierung: 2026-05-13._

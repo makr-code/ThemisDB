@@ -4,6 +4,15 @@ Dieser Ordner enthält die Inhalte (Copy, Struktur, Block-Anweisungen) für die 
 Marketing-Website von ThemisDB. Alle Dateien sind als **Gutenberg-kompatible Vorlagen**
 aufgebaut und können direkt als Grundlage für WordPress-Pages genutzt werden.
 
+## Pflegeverantwortung
+- **Owner:** Product Marketing / Documentation Team
+- **Review:** fachliche Freigabe durch Produktverantwortliche, QA-Freigabe über Doku-Checklisten
+
+## Abgrenzung: Generiert vs. manuell
+- **Manuell (hier):** redaktionelle Webseitentexte und Seitenstruktur
+- **Generiert (nicht hier):** Exporte, Build-Outputs und abgeleitete Artefakte in `docs/_generated/`
+- **Review-/Report-Artefakte (nicht hier):** nach `docs/reviews/` und `docs/reports/`
+
 ## Struktur
 
 ```
@@ -64,3 +73,8 @@ Kontakt-Teaser unterhalb jedes CTA-Buttons:
 | Production-Ready | v1.5.0 inkl. aller v1.7.0 Features |
 | Enterprise Edition | Hyperscaler-Ready Features (Kubernetes Operator, HSM, Multi-Region, OTLP) |
 | Military Edition | Air-Gap Mandatory, RAID-Sharding, Virtual SCIF, LoRA Field Adapters |
+
+## QA-/Review-Anbindung
+- `docs/PR_DOCUMENTATION_CHECKLIST.md`
+- `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
+- `docs/DOCUMENTATION_MERGE_PROTOCOL.md`
