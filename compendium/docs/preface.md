@@ -52,7 +52,7 @@ Wir erklären nicht nur, **wie** Features funktionieren, sondern **warum** sie s
 
 ### 4. Von Einfach zu Komplex
 
-Kapitel 1 erklärt die Basics. Kapitel 30 zeigt Enterprise-Patterns. Dazwischen eine sorgfältig gestaltete Lernkurve.
+Kapitel 1 erklärt die Basics. Die späteren Kapitel (bis Kapitel 42) zeigen Enterprise-, Betriebs- und Integrations-Patterns in steigender Tiefe.
 
 ### 5. Alle Modelle integriert
 
@@ -87,10 +87,10 @@ Fangen Sie bei Kapitel 1 an. Arbeiten Sie sich durch Teil I und II. Nach Teil II
 ### Wenn Sie bereits Erfahrung haben
 
 Springen Sie direkt zu den Themen, die Sie interessieren:
-- **Performance-Probleme?** → Kapitel 20
-- **Skalierung planen?** → Kapitel 17-18
-- **Sicherheit härten?** → Teil VI
-- **AQL meistern?** → Kapitel 13
+- **Performance-Probleme?** → Kapitel 20b und Kapitel 39
+- **Skalierung planen?** → Kapitel 17b und 18b
+- **Sicherheit härten?** → Kapitel 21a/22b/36/40
+- **AQL meistern?** → Kapitel 28
 
 ### Wenn Sie von einer anderen DB migrieren
 
@@ -120,7 +120,7 @@ Alles ist kostenlos und Open Source.
 
 ## Struktur dieses Buchs
 
-**8 Teile, 30 Kapitel, ~880 Seiten**
+**7 Teile, 53 Kapitel plus Anhänge (Stand v1.8.0)**
 
 Jedes Kapitel folgt diesem Muster:
 1. **Überblick:** Was Sie lernen werden
@@ -204,4 +204,4 @@ Datenbanken sind mächtige Werkzeuge. ThemisDB macht sie zugänglich.
 ---
 
 **ThemisDB Team**  
-Dezember 2025
+Mai 2026
