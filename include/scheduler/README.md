@@ -456,7 +456,7 @@ for (const auto& evt : history) {
 }
 ```
 
-// Schedule data compression
+Schedule data compression:
 ```cpp
 ScheduledTask compression_task;
 compression_task.name = "Compress Old Data";
