@@ -567,29 +567,37 @@ storage->put(vec_key, embedding_vector);
 ## Known Limitations
 
 1. **RocksDB Constraints**
-   - Single-node only (no distributed transactions)
-   - No built-in replication
-   - Limited cross-shard transactions
+   - Built-in replication is not provided by `RocksDBWrapper`; replication is handled by upper modules
+   - Cross-shard transactions require explicit participant wiring via `DistributedTransactionManager`
+   - Compaction and cache tuning remains workload-specific and must be tuned per deployment profile
 
 2. **Key Schema**
    - Fixed prefix format (cannot change after data stored)
    - No automatic key migration
 
 3. **Blob Storage**
-   - No automatic tiering between backends
-   - No erasure coding (mirroring only)
+   - External backends depend on provider/network availability
+   - Tiering between blob backends is policy-driven, not automatic for every workload
 
 4. **Backup & Recovery**
    - Restore requires downtime
-   - No online verification during backup
+   - Snapshot/PITR procedures depend on backup and WAL retention policy
 
 5. **Thread Safety**
    - RocksDBWrapper not move-safe during operation
-   - Iterator invalidation on concurrent writes
+   - Iterator lifetime must be managed carefully during concurrent write-heavy workloads
+
+## Runtime Behavior, Errors, and Limits
+
+- Most APIs return `Result<T>` and surface backend/provider failures explicitly (I/O errors, invalid config, timeout/auth failures).
+- Distributed write paths can fail during prepare/commit if any shard participant rejects or becomes unavailable.
+- Blob redundancy in `PARITY` mode requires at least `data_shards` healthy fragments for reconstruction.
+- `StorageEngine::createDefault()` is for convenience; production deployments should use explicit dependency injection and secure key providers.
+- Capacity and latency ceilings are deployment-dependent; use [../../src/storage/PERFORMANCE_EXPECTATIONS.md](../../src/storage/PERFORMANCE_EXPECTATIONS.md) for baseline targets.
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v2.0.0)
 
 ✅ **Stable Interfaces:**
 - StorageEngine with dependency injection
@@ -600,20 +608,20 @@ storage->put(vec_key, embedding_vector);
 - Compression strategies
 
 ⚠️ **Beta Interfaces:**
-- Columnar format API
-- NLP metadata extractor
-- Adaptive index maintenance
+- `WomTree` for write-heavy alternatives to classic LSM behavior
+- Storage layout advisory and advanced schema analysis helpers
 
 🔬 **Experimental:**
-- Distributed transaction support
-- Erasure coding for blobs
-- GPU-accelerated compression
+- Selected AI-assisted maintenance hooks (for example in index analysis workflows)
 
 ## Related Documentation
 
 - [Storage Implementation](../../src/storage/README.md) - Implementation details
 - [RocksDB Layout](../../docs/storage/rocksdb_layout.md) - Physical key layout
 - [Blob Storage Backends](../../docs/storage/CLOUD_BLOB_BACKENDS.md) - Backend implementations
+- [Storage Roadmap](../../src/storage/ROADMAP.md) - Implementation phases and delivery status
+- [Storage Future Enhancements](../../src/storage/FUTURE_ENHANCEMENTS.md) - Planned extensions and constraints
+- [Storage Secondary Docs (DE)](../../docs/de/storage/README.md) - German overview and audits
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols
 
@@ -641,7 +649,7 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage header improvements
+- [Storage Future Enhancements](../../src/storage/FUTURE_ENHANCEMENTS.md) - Planned storage improvements
 - [Storage Implementation README](../../src/storage/README.md) - Implementation guide
 - [Server Headers](../server/README.md) - Server interface documentation
 
