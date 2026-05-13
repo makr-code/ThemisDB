@@ -273,7 +273,8 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
 /**
  * @brief Clamp a propagated floating-point signal to a valid bucket index.
  *
- * @param value Input signal; NaN/negative values map to bucket 0.
+ * @param value Input signal; NaN/negative values map to bucket 0 as a
+ *        conservative fallback to avoid invalid indexing.
  * @param bucket_count Number of buckets; caller guarantees bucket_count > 0.
  * @return Bucket index in [0, bucket_count-1].
  */
@@ -408,9 +409,10 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
         }
     }
 
-    constexpr double kFirstHopFullWeight = 1.0;
+    constexpr double kFullWeightMultiplier = 1.0;
     const auto max_hops = std::max<std::size_t>(1U, fk_cfg.max_hops);
     const auto decay = std::clamp(fk_cfg.propagation_decay, 0.0, 1.0);
+    const auto blend = std::clamp(fk_cfg.signal_blend_weight, 0.0, 1.0);
 
     std::vector<double> signal_weight(schema_size, 0.0);
     std::vector<double> signal_bucket_sum(schema_size, 0.0);
@@ -442,7 +444,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 }
                 // First hop models direct FK linkage and keeps full edge weight.
                 // Additional hops apply configurable decay to attenuate distant joins.
-                const auto hop_decay = (cur.depth == 0U) ? kFirstHopFullWeight : decay;
+                const auto hop_decay = (cur.depth == 0U) ? kFullWeightMultiplier : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
                 if (!(next_weight > 0.0)) {
                     continue;
@@ -460,9 +462,11 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
             continue;
         }
         const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];
-        // Blend base discretization with FK-propagated signal at 50/50 so
-        // FK links can influence, but not fully override, local evidence.
-        const auto blended = (static_cast<double>(buckets[k]) + propagated_bucket) / 2.0;
+        // Blend base discretization with FK-propagated signal so FK links can
+        // influence, but not fully override, local evidence.
+        const auto blended =
+            (static_cast<double>(buckets[k]) * (1.0 - blend)) +
+            (propagated_bucket * blend);
         buckets[k] = clampBucketFromSignal(blended, bucket_count);
     }
 }

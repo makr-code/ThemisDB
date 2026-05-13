@@ -543,11 +543,11 @@ TEST(UTRConverter, HyperIndexBuilderFkJoinSignalPropagatesAcrossTwoHopPath) {
 
     // With max_hops=1, line_order_fk (mode 2) keeps its base low bucket.
     // With max_hops=2, signal from customer_id propagates over 0->1->2.
-    const auto one_hop_mid_bucket = one_hop.contract({{2u, 2u}});
-    const auto two_hop_mid_bucket = two_hop.contract({{2u, 2u}});
+    const auto one_hop_contracted_value = one_hop.contract({{2u, 2u}});
+    const auto two_hop_contracted_value = two_hop.contract({{2u, 2u}});
     EXPECT_EQ(one_hop.total_rows, two_hop.total_rows);
-    EXPECT_GT(two_hop_mid_bucket, one_hop_mid_bucket);
-    EXPECT_GT(two_hop_mid_bucket, 0.25);
+    EXPECT_GT(two_hop_contracted_value, one_hop_contracted_value);
+    EXPECT_GT(two_hop_contracted_value, 0.25);
 }
 
 TEST(UTRConverter, HyperIndexBuilderFkCycleTraversalIsProtected) {

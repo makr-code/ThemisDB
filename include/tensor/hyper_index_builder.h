@@ -152,6 +152,7 @@ struct HyperIndexConfig {
         std::vector<ForeignKeyEdge> edges;             ///< FK relationships
         std::size_t max_hops            = 2;           ///< Min-clamped to 1 during traversal
         double propagation_decay        = 0.8;         ///< Clamped to [0,1]; starts at hop 2
+        double signal_blend_weight      = 0.5;         ///< Clamped to [0,1] for base vs FK blend
         double default_join_strength    = 0.5;         ///< Used only for USE_DEFAULT_WEIGHT
         MissingFkStatsFallback missing_stats_fallback =
             MissingFkStatsFallback::USE_DEFAULT_WEIGHT;
