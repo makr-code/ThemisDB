@@ -2,6 +2,41 @@
 
 This directory contains research papers, draft manuscripts, architectural analyses, and design documents for ThemisDB development.
 
+## Canonical Structure & Status (2026-05)
+
+| Cluster | Canonical Location | Scope | Canonical? |
+|---|---|---|---|
+| Papers | [`research/papers/`](papers/README.md) | Curated scientific sources with module/version status | ✅ |
+| Drafts / WIP | `research/*_DRAFT.md` (top-level legacy) | Working manuscripts and exploration notes | ⚠️ Working state |
+| Experiments | [`research/experiments/`](experiments/README.md) | Reproducible validation runs and benchmark protocols | ✅ |
+| Architecture | [`research/architecture_decisions/`](architecture_decisions/README.md) | ADR records for accepted/proposed decisions | ✅ |
+| Implementation Influence | [`research/implementation_influence/`](implementation_influence/README.md) | Research → module/version traceability matrix | ✅ |
+
+### Draft Lifecycle Labels
+
+- `ACTIVE_DRAFT`: aktuell bearbeitet, kein kanonischer Ersatz vorhanden.
+- `SUPERSEDED_DRAFT`: durch ein neueres/reiferes Dokument ersetzt; nur noch Referenz.
+- `ARCHIVE_CANDIDATE`: veraltet, ohne aktive Weiterentwicklung; bei nächster Bereinigung in Archiv verschieben.
+
+### Marked Outdated / Superseded Drafts
+
+| Legacy Draft | Status | Canonical Successor |
+|---|---|---|
+| [`THEMIS_MULTIMODEL_INDEX_EVALUATION.md`](THEMIS_MULTIMODEL_INDEX_EVALUATION.md) | `SUPERSEDED_DRAFT` | [`THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md`](THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md) |
+| [`LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md`](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md) | `SUPERSEDED_DRAFT` | [`LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md`](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md) |
+| [`GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md`](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) | `SUPERSEDED_DRAFT` | [`GPU_VECTOR_INDEXING_RESEARCH.md`](GPU_VECTOR_INDEXING_RESEARCH.md) |
+| [`PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md`](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) | `SUPERSEDED_DRAFT` | [`PRODUCT_QUANTIZATION_RESEARCH.md`](PRODUCT_QUANTIZATION_RESEARCH.md) |
+
+### Production-Near Documentation Links
+
+- [`research/implementation_influence/by_module.md`](implementation_influence/by_module.md) (source-to-module mapping)
+- [`research/implementation_influence/by_version.md`](implementation_influence/by_version.md) (source-to-release mapping)
+- [`src/rag/README.md`](../src/rag/README.md), [`src/prompt_engineering/README.md`](../src/prompt_engineering/README.md), [`src/search/README.md`](../src/search/README.md) (module-level implementation context)
+
+### Review & Documentation Audit Trace
+
+- [`research/DOCUMENTATION_AUDIT_REPORT_2026-05-13.md`](DOCUMENTATION_AUDIT_REPORT_2026-05-13.md)
+
 ## Contents
 
 ### Ethics AI Module Research (2026-04-29, v0.4)
@@ -44,7 +79,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the Themis RAID-sharding system (20-item risk taxonomy, full topology reference [7 RAID modes, 3 EC algorithms, consistent-hash ring, quorum model, geo-distribution], CAP/PACELC positioning, 6 fault-injection workloads, 40 references — v0.3)
-- [THEMIS_IT_IS_OKAY_TO_FAIL](THEMIS_IT_IS_OKAY_TO_FAIL) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister. v0.7: ~98 Befunde (Kategorien A–J), Abschnitt XI mit wissenschaftlichem Kontext (24 externe Primärquellen: Lu et al. 2008, Cook 1998, Lamport 2001, Dong/RocksDB 2021 u.a.) und Literaturverzeichnis.
+- [THEMIS_IT_IS_OKAY_TO_FAIL.md](THEMIS_IT_IS_OKAY_TO_FAIL.md) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister. v0.7: ~98 Befunde (Kategorien A–J), Abschnitt XI mit wissenschaftlichem Kontext (24 externe Primärquellen: Lu et al. 2008, Cook 1998, Lamport 2001, Dong/RocksDB 2021 u.a.) und Literaturverzeichnis.
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
 - [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval

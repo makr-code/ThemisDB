@@ -24,6 +24,25 @@ Document a source whenever you:
 
 ---
 
+## Canonical Clusters & Document States
+
+Use these clusters consistently:
+
+- `research/papers/` → canonical paper entries
+- `research/architecture_decisions/` → canonical ADR decisions
+- `research/experiments/` → canonical validation evidence
+- `research/*_DRAFT.md` (top-level legacy) → working manuscripts only
+
+Use one of these states in draft/index tracking:
+
+- `ACTIVE_DRAFT`
+- `SUPERSEDED_DRAFT` (canonical successor exists)
+- `ARCHIVE_CANDIDATE` (obsolete, only historical value)
+
+If a canonical successor exists, mark the old draft as `SUPERSEDED_DRAFT` in `research/README.md`.
+
+---
+
 ## Step-by-Step Workflow
 
 ### Step 1 — Identify the source type
@@ -86,6 +105,14 @@ Example:
 ```
 ref(research): Add HNSW (2018) to src/index/
 ```
+
+### Step 6 — Mark draft status clearly
+
+When touching draft files, also update `research/README.md`:
+
+1. Add/update status in the draft lifecycle table
+2. Link the canonical successor (if available)
+3. Keep obsolete drafts discoverable, but clearly non-canonical
 
 ---
 
