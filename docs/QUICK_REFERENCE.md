@@ -2,8 +2,8 @@
 
 **Version:** 1.9.0-beta | **Updated:** 2026-05
 
-> Quick access to the most-used commands, endpoints, and configuration options.
-> For the full Getting Started walkthrough see [de/guides/QUICKSTART.md](de/guides/QUICKSTART.md).
+> Quick access to frequently used commands and endpoints.
+> Canonical onboarding starts at root: [README.md](../README.md) → [QUICKSTART.md](../QUICKSTART.md) → [SETUP.md](../SETUP.md).
 
 ---
 
@@ -12,9 +12,9 @@
 ```bash
 # Docker (recommended)
 docker run -d --name themisdb \
-  -p 8080:8080 -p 18765:18765 -p 4318:4318 \
+  -p 8765:8765 -p 8766:8766 \
   -v themis_data:/data \
-  themisdb/themisdb:latest
+  ghcr.io/makr-code/themisdb:latest
 
 docker stop themisdb   # stop
 docker start themisdb  # restart
@@ -23,8 +23,8 @@ docker start themisdb  # restart
 ./build/themis_server --config config.yaml
 
 # Health check
-curl http://localhost:8080/health
-# Expected: {"status":"ok","version":"1.9.0-beta"}
+curl http://localhost:8765/health
+# Expected: {"status":"ok","version":"1.8.x"}
 ```
 
 ---
@@ -33,9 +33,8 @@ curl http://localhost:8080/health
 
 | Port  | Protocol       | Purpose                          |
 |-------|----------------|----------------------------------|
-| 8080  | HTTP           | REST API, GraphQL, Health checks |
-| 18765 | TCP / gRPC     | Binary Wire Protocol, gRPC       |
-| 4318  | HTTP           | OpenTelemetry / Prometheus       |
+| 8765  | HTTP/REST      | API, health, query endpoints     |
+| 8766  | Wire Protocol  | Binary wire protocol             |
 
 ---
 
@@ -44,7 +43,7 @@ curl http://localhost:8080/health
 ### Entities (key-value style)
 
 ```bash
-BASE=http://localhost:8080
+BASE=http://localhost:8765
 
 # Create / update entity
 curl -X PUT $BASE/entities/users:alice \
@@ -219,7 +218,9 @@ curl -X POST $BASE/admin/compact
 
 | Topic | Link |
 |-------|------|
-| Getting Started | [de/guides/QUICKSTART.md](de/guides/QUICKSTART.md) |
+| Getting Started | [../QUICKSTART.md](../QUICKSTART.md) |
+| Full Setup | [../SETUP.md](../SETUP.md) |
+| Support | [../SUPPORT.md](../SUPPORT.md) |
 | Full API Reference | [api/API_REFERENCE.md](api/API_REFERENCE.md) |
 | REST API | [api/REST_API_REFERENCE.md](api/REST_API_REFERENCE.md) |
 | Tutorials | [tutorials/README.md](tutorials/README.md) |
@@ -234,4 +235,3 @@ curl -X POST $BASE/admin/compact
 ---
 
 **Feedback / Issues:** [github.com/makr-code/ThemisDB/issues](https://github.com/makr-code/ThemisDB/issues)
-
