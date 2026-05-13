@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Updates Module
 
@@ -820,79 +820,68 @@ endif()
 
 ## Known Limitations
 
-1. **Single-Node Updates Only**
-   - No distributed update coordination
-   - Each node must be updated independently
-   - Future: Raft-based cluster-wide updates
+1. **No Rollback Validation**
+   - Rollback assumes the previous version works; no functional validation is performed before restoring
+   - Workaround: Test rollback in a staging environment before applying to production
 
-2. **Sequential Downloads**
-   - Files downloaded one at a time
-   - No parallel download support
-   - Workaround: Pre-download all files before applying
+2. **Platform-Specific Files**
+   - Separate manifests are required per platform; no cross-compilation or universal binary support
+   - Must download the platform-specific release artifact
 
-3. **No Delta Updates**
-   - Full file replacement only
-   - No binary diff/patch support
-   - Future: Binary delta patches for large files
+3. **In-Place Schema Migration — Rename Not Supported**
+   - In-place migrations do not support renaming collections; use a create-and-copy strategy instead
+   - See [Troubleshooting Guide](../../docs/troubleshooting/updates_troubleshooting.md) for workarounds
 
-4. **Schema Migration Manual**
-   - Schema migrations must be scripted separately
-   - No automatic schema inference
-   - Future: Automatic schema migration framework
+4. **Canary Rollout Load Balancer Requirement**
+   - Canary rollouts require a load balancer with weight-based routing (api_gateway, nginx, or envoy)
+   - Not all deployment backends support traffic splitting
 
-5. **No Rollback Validation**
-   - Rollback assumes previous version works
-   - No validation before rollback
-   - Workaround: Test rollback in staging environment
-
-6. **Platform-Specific Files**
-   - Separate manifests per platform
-   - No cross-compilation support
-   - Must download platform-specific release
+5. **Delta Updates — Sequential Version Requirement**
+   - Delta patches require the exact previous version to be installed; skip-version upgrades require a full download
+   - The engine automatically falls back to a full update when `fallback_to_full: true` is set
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v1.8.0)
 
 ✅ **Stable Features:**
-- Hot-reload engine with rollback
-- Manifest database with RocksDB
-- Digital signature verification
-- Automatic backup before updates
-- Version compatibility checking
-- Download caching and resume
-
-⚠️ **Beta Features:**
-- Scheduled updates
-- Auto-update for critical releases
-- Webhook notifications
-- YAML configuration
-
-🔬 **Experimental:**
-- Parallel downloads
-- Delta/binary patches
-- Automatic schema migrations
-- Distributed cluster updates
+- Hot-reload engine with atomic file replacement and rollback
+- Manifest database with RocksDB and signature caching
+- CMS/PKCS#7 digital signature verification with X.509 certificate chain
+- Automatic backup before updates; multiple rollback restore points
+- Version compatibility checking and upgrade path resolution
+- Download caching and resume-capable parallel downloads
+- Binary delta updates (ZSTD_DICT / VCDIFF) with full-update fallback
+- Canary rollout with latency/error-rate monitoring and auto-rollback
+- Blue/green deployment for simultaneous dual-version operation
+- In-place schema migration (additive changes) with dry-run preview
+- Multi-node coordinated updates with replication-safe sequencing
+- Cluster-wide rolling updates via ClusterUpdateManager (leader-last)
+- Schema migration staging/testing framework (SchemaMigrationTester)
+- Notification webhooks (Slack, PagerDuty) on all update lifecycle events
+- Pre-flight health checks (disk space, memory, dependency versions)
+- Dependency resolution engine (topological sort, cycle detection, conflict resolution)
+- Multi-tenant update scheduling with maintenance windows and blackout periods
+- ManifestDatabase: atomic file cleanup on entry removal with tombstone guard
 
 ## Related Documentation
 
 ### Quick Links
 
 - **Core Components:**
-  - [Hot Reload Engine](../../docs/de/src/updates/hot_reload_engine.cpp.md) - Hot-reload implementation
-  - [Manifest Database](../../docs/de/src/updates/manifest_database.cpp.md) - Manifest storage
-  - [Release Manifest](../../docs/de/src/updates/release_manifest.cpp.md) - Release data structures
-- **Architecture:**
-  - [Update System Architecture](../../docs/updates/architecture.md) - System design
-  - [Version Management](../../docs/updates/version_management.md) - Versioning strategy
-  - [Migration Patterns](../../docs/updates/migration_patterns.md) - Schema migration best practices
+  - [Architecture](ARCHITECTURE.md) - Update system design and component interaction
+  - [Security](SECURITY.md) - Signature verification and security model
+  - [Changelog](CHANGELOG.md) - Version history and release notes
 - **Operations:**
-  - [Update Procedures](../../docs/operations/update_procedures.md) - Operational guide
-  - [Rollback Guide](../../docs/operations/rollback_guide.md) - Recovery procedures
-  - [Release Process](../../docs/development/release_process.md) - Creating releases
+  - [Troubleshooting Guide](../../docs/troubleshooting/updates_troubleshooting.md) - Common issues and resolutions
+  - [Migration Guide](../../docs/MIGRATION_GUIDE.md) - Database migration procedures
 - **Security:**
-  - [Signature Verification](../../docs/security/signature_verification.md) - Security model
-  - [Update Security](../../docs/security/update_security.md) - Threat analysis
+  - [Update Security Summary](../../docs/de/releases/updates_security_summary.md) - Threat analysis and controls
+  - [Manifest Security](../../docs/de/releases/updates_manifest_security.md) - Manifest signing and verification
+  - [Release Manifest Concepts](../../docs/de/releases/updates_release_manifest.md) - Release manifest design
+- **Planning:**
+  - [ROADMAP.md](ROADMAP.md) - Feature roadmap and release status
+  - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned improvements
 
 ## Contributing
 
