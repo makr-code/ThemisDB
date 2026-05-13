@@ -1,9 +1,9 @@
 # Training-Modul
 
-**Stand:** 6. April 2026  
-**Version:** 1.6.0  
-**Kategorie:** Training  
-**Validated:** 2026-04-06  
+**Stand:** 6. April 2026
+**Version:** 1.6.0
+**Kategorie:** Training
+**Validated:** 2026-04-06
 **Status:** 🟢 Production-Ready
 
 ---
@@ -44,7 +44,7 @@ umfasst folgende Kernkomponenten:
 | [`src/training/ARCHITECTURE.md`](../../../src/training/ARCHITECTURE.md) | Systemarchitektur, Komponentendiagramm, Datenfluss |
 | [`src/training/ROADMAP.md`](../../../src/training/ROADMAP.md) | Feature-Roadmap und Implementierungsphasen |
 | [`src/training/FUTURE_ENHANCEMENTS.md`](../../../src/training/FUTURE_ENHANCEMENTS.md) | Geplante Erweiterungen und Designbeschränkungen |
-| [`include/training/FUTURE_ENHANCEMENTS.md`](../../../include/training/FUTURE_ENHANCEMENTS.md) | Schnittstellenerweiterungen und API-Verträge |
+| [`include/training/README.md`](../../../include/training/README.md) | Öffentliche Header/APIs und Konfigurationsoptionen |
 
 ---
 
@@ -89,10 +89,25 @@ Weitere Beispiele: [`src/training/README.md`](../../../src/training/README.md#us
 
 ---
 
+## Laufzeitverhalten, Fehlerfälle und Grenzen
+
+- `LegalAutoLabeler` arbeitet DB-gestützt mit `QueryEngine*` oder offline/testweise ohne Engine.
+- `IncrementalLoRATrainer` validiert Konfiguration strikt; ungültige Parameter führen zu `std::invalid_argument`.
+- Checkpoint-Ladevorgänge nutzen Integritätsprüfung (SHA-256) via `LoRACheckpointManager`.
+- Grenzen: Single-Node-Orchestrierung (optional Multi-GPU), Inferenz-Routing außerhalb des Moduls.
+
+---
+
+## Troubleshooting (Kurz)
+
+- **Keine gelabelten Dokumente:** `source_collection`, AQL-Zugriff und `text`-Feld in Quelldokumenten prüfen.
+- **Leere Similarity-Ergebnisse:** `VectorIndexManager` initialisieren und per `setVectorIndex(...)` verdrahten.
+- **Checkpoint-Resume schlägt fehl:** Dateirechte im Checkpoint-Verzeichnis und Manifest/Checksumme prüfen.
+
+---
+
 ## Bekannte Einschränkungen
 
-- AQL-Query-Executor und Vektor-Index-Anbindung sind produktiv stub-implementiert
-  (Dokument-Abruf via `labelAll` / `labelQuery` noch nicht vollständig verdrahtet)
 - Verteiltes/Multi-GPU-Training noch nicht koordiniert (Single-Node)
 - Adapter-Serving (Inferenz) wird durch das LLM-Integrationsmodul übernommen
 
@@ -102,6 +117,15 @@ Weitere Beispiele: [`src/training/README.md`](../../../src/training/README.md#us
 
 Siehe [`MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md) für den vollständigen
 Reality-Check-Bericht.
+
+---
+
+## Installation
+
+Das Modul wird als Teil von ThemisDB gebaut. Für Build-/Test-Details siehe:
+
+- [`src/training/README.md`](../../../src/training/README.md)
+- [`include/training/README.md`](../../../include/training/README.md)
 
 ---
 

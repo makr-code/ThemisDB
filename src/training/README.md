@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Training Module
 
@@ -27,12 +27,18 @@ The Training module provides tools for building and maintaining domain-specific 
 | Interface / File | Role |
 |-----------------|------|
 | `auto_labeler.cpp` | LegalAutoLabeler: structured training sample extraction from legal documents |
+| `database_domain_auto_labeler.cpp` | DatabaseDomainAutoLabeler: `(query, plan, Δlatency)` labeling for optimizer domain datasets |
 | `incremental_lora_trainer.cpp` | Incremental LoRA adapter fine-tuning with checkpoint/resume |
 | `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
 | `lora_checkpoint_manager.cpp` | LoRA checkpoint management with SHA-256 integrity validation and rotation |
+| `lora_adapter.cpp` | LoRAAdapter core matrix path, serialization, forward/update behavior |
+| `ada_lora_adapter.cpp` | AdaLoRA adaptive rank reallocation on importance scores |
+| `lora_adapter_merger.cpp` | Multi-adapter merge strategies (Linear/TIES) |
 | `modality_parser.cpp` | ModalityDetector, TextClauseExtractor, TableExtractor, CitationExtractor, OCRExtractor |
 | `provenance_tracker.cpp` | Training sample provenance and lineage tracking |
 | `lora_data_selection.cpp` | Training data selection, deduplication, and balancing |
+| `adalora_tt_bridge.cpp` | AdaLoRA↔Tensor-Train conversion bridge utilities |
+| `adapter_serving.cpp` | LLM-router integration for deploy/rollback serving handoff |
 | `training_pipeline.cpp` | End-to-end training pipeline orchestrator (ConfidenceCalibrator, ProvenanceTracker integration) |
 
 ## Scope
@@ -148,6 +154,26 @@ IncrementalLoRATrainer
 - `<stdexcept>` — exception propagation
 - AQL query executor (`QueryEngine` / `executeAql()` from `query/aql_runner.h`) — document ID fetch in `labelAll()`, document text fetch in `labelDocument()`, user-supplied queries in `labelQuery()`. Pass a `QueryEngine*` to `LegalAutoLabeler` at construction time. Pass `nullptr` to run in offline/test mode (no DB access).
 - `VectorIndexManager` (from `index/vector_index.h`) — cosine-similarity search for `findSimilarDocuments()`. Wire via `KnowledgeGraphEnricher::setVectorIndex(&vim)`. Pass `nullptr` (default) to run without a vector index.
+
+## Runtime Behaviour
+
+- `labelAll()` / `labelQuery()` call AQL query execution only when a `QueryEngine*` is provided. Without engine pointer, the labeler stays in offline/test mode.
+- `KnowledgeGraphEnricher` can run with optional vector index wiring; with no index, similarity enrichment is skipped.
+- `IncrementalLoRATrainer` supports `INITIAL` and `INCREMENTAL` modes and optionally persists checkpoints through `LoRACheckpointManager` when `checkpoint_dir` is set.
+- Deployment lifecycle (`deployVersionEx`, `rollbackVersionEx`) integrates with `ILLMRouter` when provided, otherwise remains local to trainer state.
+
+## Error Cases and Validation
+
+- Invalid hyperparameters or config constraints raise `std::invalid_argument`.
+- Runtime integrity, storage, or deployment failures raise `std::runtime_error` and/or return failure results (`DeployResult.error`).
+- Corrupt checkpoints are rejected by checksum validation in `LoRACheckpointManager`.
+- Missing/invalid source documents (`text` absent or empty) are skipped during labeling.
+
+## Limits and Operational Boundaries
+
+- Multi-node orchestration is out of scope; training coordination remains single-node with optional multi-GPU configuration.
+- Inference serving is delegated to LLM integration; the training module provides handoff interfaces, not full inference runtime.
+- Domain quality is highest for legal German corpora; other domains/languages require configuration and validation data.
 
 ## Usage Examples
 
@@ -320,3 +346,10 @@ The module provides production-ready AQL-executor integration for document label
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Troubleshooting
+
+- **`labelAll()` returns zero processed documents**: verify `AutoLabelConfig.source_collection`, `QueryEngine` wiring, and source document `text` field population.
+- **`findSimilarDocuments()` returns empty results**: check embedding index initialization and `KnowledgeGraphEnricher::setVectorIndex(...)`.
+- **Checkpoint resume fails**: verify `checkpoint_dir` permissions and checkpoint integrity (manifest + SHA-256 validation).
+- **Deploy/rollback fails with router errors**: validate `ILLMRouter::isAvailable()` and active adapter registration.
