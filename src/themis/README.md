@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Core Framework Implementation
 
@@ -125,6 +125,51 @@ Implements the binary TCP protocol for high-performance client connections.
 - Message dispatcher with OpCode routing
 - LZ4 compression support
 - ChaCha20-Poly1305 encryption support
+
+---
+
+## Runtime Behavior, Error Cases, and Limits
+
+- **Startup path**: build/edition/license metadata is evaluated before module activation; unresolved dependency graphs or failed verifier checks block module startup.
+- **Module loading errors** (`module_loader*.cpp`): hash mismatch, signature failures, missing exports, or platform loader failures result in explicit load failures (no partial activation).
+- **License and feature gate errors** (`license_info.cpp`, `edition_manager.cpp`, `runtime_license_gate` integration): invalid/expired licenses deny restricted features while allowing permitted baseline functionality.
+- **Wire protocol limits** (`wire_protocol_server.cpp`): malformed frames, unsupported opcodes, checksum mismatches, or payloads above limits are rejected.
+- **Concurrency limit**: current wire protocol server implementation expects a single-threaded `io_context` unless guarded by external synchronization (tracked in `ROADMAP.md` Known Issues).
+
+## Usage Snippets
+
+### Module verification before startup
+
+```cpp
+#include "themis/base/module_loader.h"
+
+themis::modules::ModuleLoader loader;
+loader.setRequireSignature(true);
+
+auto result = loader.loadModule("/opt/themis/modules/themis_query.so", "themis_query");
+if (!result.success) {
+    std::cerr << "Module load failed: " << result.errorMessage << std::endl;
+    return;
+}
+```
+
+### Runtime gate check
+
+```cpp
+#include "themis/runtime_license_gate.h"
+
+auto decision = themis::license::RuntimeLicenseGate::instance().checkFeature("rbac");
+if (!decision.allowed) {
+    std::cerr << "Feature denied: " << decision.message() << std::endl;
+}
+```
+
+## Troubleshooting
+
+- **Module fails to load at runtime**: verify manifest hash/signature material and platform trust settings (`module_loader_linux.cpp` / `module_loader_win32.cpp` paths differ).
+- **Feature unexpectedly denied**: inspect embedded license fields and edition gate results (`edition_manager.cpp`, runtime gate checks).
+- **Wire client gets immediate error frame**: confirm opcode, frame header version/magic, payload length, and checksum behavior match `wire_protocol_server` expectations.
+- **Build metadata mismatch across environments**: compare configure-time definitions consumed by `build_info.cpp` and ensure consistent CMake preset usage.
 
 ---
 
@@ -352,9 +397,10 @@ target_link_libraries(themis-network
 ## Related Documentation
 
 - [Header Documentation](../../include/themis/README.md) - Public API
+- [Roadmap](ROADMAP.md) - Implementation phases, known issues, and breaking-change policy
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
 - [Architecture](../../ARCHITECTURE.md) - System architecture
-- [Modularization Plan](../../docs/architecture/MODULARIZATION_PLAN.md) - Module strategy
+- [Modularization Plan (DE)](../../docs/de/architecture/MODULARIZATION_PLAN.md) - Module strategy
 
 ---
 

@@ -575,6 +575,29 @@ High-performance clients use the wire protocol:
 
 ---
 
+## Runtime Behavior, Error Cases, and Limits
+
+- **Module loading (`themis/base/module_loader.h`)** is fail-closed by design: hash/signature verification failures return an unsuccessful load result and prevent activation of the module.
+- **License checks (`themis/license_info.h`, `themis/runtime_license_gate.h`)** deny gated features when no valid license is embedded or when license constraints are violated.
+- **Edition gates (`themis/edition.h`, `themis/edition_manager.h`)** are compile-time + runtime constraints: unavailable features remain disabled in Community builds even when referenced by callers.
+- **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a documented maximum payload size of **64 MB** per message.
+- **Operational limit:** `WireProtocolServer` is intended for a single-threaded `io_context` event loop unless external synchronization is provided (see `src/themis/ROADMAP.md`, Known Issues).
+
+## Public Entry Points (Quick Reference)
+
+| Entry point | Purpose |
+|-------------|---------|
+| `themis/build_info.h` | Build/runtime metadata and reproducibility information |
+| `themis/edition.h` | Compile-time edition configuration and feature flags |
+| `themis/edition_manager.h` | Runtime feature-gate evaluation by edition/license state |
+| `themis/license_info.h` | Embedded license access and signature/expiry validation |
+| `themis/runtime_license_gate.h` | Structured runtime allow/deny decisions (`GateResult`) |
+| `themis/base/module_loader.h` | Secure dynamic module loading + verification |
+| `themis/module_hash_verifier.h` | SHA-256 module integrity verification |
+| `themis/module_signature_verifier.h` | Platform-specific signature verification |
+| `themis/network/wire_protocol_server.hpp` | Binary wire protocol server (v1) |
+| `themis/network/wire_protocol_v2.hpp` | Multiplexed wire protocol API (v2) |
+
 ## Dependencies
 
 ### Internal Dependencies
@@ -816,10 +839,13 @@ bool verify_deployment(const std::string& modules_dir) {
 ## Related Documentation
 
 - [Base Interfaces README](base/README.md) - Dependency inversion interfaces
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned improvements
+- [Themis Source README](../../src/themis/README.md) - Runtime behavior and implementation details
+- [Roadmap](../../src/themis/ROADMAP.md) - Delivery status, phases, limits, and known issues
+- [Future Enhancements](../../src/themis/FUTURE_ENHANCEMENTS.md) - Planned improvements
 - [Architecture Overview](../../ARCHITECTURE.md) - System architecture
-- [Modularization Plan](../../docs/architecture/MODULARIZATION_PLAN.md) - Module strategy
-- [Build Documentation](../../docs/BUILD.md) - Build instructions
+- [Modularization Plan (DE)](../../docs/de/architecture/MODULARIZATION_PLAN.md) - Module strategy
+- [German Themis Index](../../docs/de/themis/index.md) - Secondary module docs and verification
+- [English Themis Index](../../docs/en/themis/index.md) - Secondary module docs and verification
 
 ---
 
@@ -841,11 +867,19 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned enhancements
+- [Source Roadmap](../../src/themis/ROADMAP.md) - Current status and next phases
+- [Source Future Enhancements](../../src/themis/FUTURE_ENHANCEMENTS.md) - Planned enhancements
 - [Storage Module](../storage/README.md) - Storage interfaces
 - [Query Module](../query/README.md) - Query interfaces
 - [Server Module](../server/README.md) - Server interfaces
 - [Security Module](../security/README.md) - Security interfaces
+
+## Troubleshooting
+
+- **`loadModule(...)` fails with verification errors:** verify module hash/signature artifacts and ensure production policy settings (`setRequireSignature`, whitelist/blacklist) match deployment.
+- **Feature unexpectedly denied:** inspect `edition::EditionInfo::Get()` and runtime gate checks to confirm the active edition/license permits the feature.
+- **Wire protocol client disconnects early:** validate frame magic/version/CRC and payload size; malformed frames are rejected.
+- **Edition-specific behavior differs between builds:** confirm `-DTHEMIS_EDITION=...` and license embedding settings used during CMake configure.
 
 ## Installation
 
