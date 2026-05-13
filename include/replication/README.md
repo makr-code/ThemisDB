@@ -10,8 +10,9 @@ Public interfaces and declarations for the ThemisDB replication module.
 2. [Header Files](#header-files)
 3. [Data Structures](#data-structures)
 4. [API Reference](#api-reference)
-5. [Integration Guide](#integration-guide)
-6. [Thread Safety](#thread-safety)
+5. [Usage](#usage)
+6. [Integration Guide](#integration-guide)
+7. [Thread Safety](#thread-safety)
 
 ## Overview
 
@@ -659,6 +660,40 @@ Stats getStats() const;
 std::string exportPrometheusMetrics() const;
 ```
 
+## Usage
+
+Use `replication_manager.h` as the primary entry point for leader-follower, quorum, compression, bidirectional, and geo-replication flows; add specialized headers only when those features are needed:
+
+- `logical_replication.h` for schema-aware logical slot streaming
+- `multi_master_replication.h` for write-anywhere topologies with conflict handling
+- `raft_v2.h` for joint-consensus membership change orchestration
+- `replication_slot.h` for slot lifecycle management APIs
+
+Minimal bootstrap:
+
+```cpp
+#include "replication/replication_manager.h"
+#include "replication/logical_replication.h"
+
+using namespace themisdb::replication;
+
+ReplicationConfig config;
+config.enabled = true;
+config.mode = ReplicationMode::SEMI_SYNC;
+config.min_sync_replicas = 2;
+config.seed_nodes = {"node-a:7000", "node-b:7000", "node-c:7000"};
+
+ReplicationManager manager(config);
+if (manager.initialize()) {
+    WALEntry entry{};
+    entry.operation = "INSERT";
+    entry.collection = "orders";
+    entry.document_id = "order-42";
+    entry.data = R"({"status":"created"})";
+    manager.replicate(entry);
+}
+```
+
 ## Integration Guide
 
 ### Basic Leader-Follower Setup
@@ -792,7 +827,11 @@ repl_mgr.addListener(listener);
 ## See Also
 
 - [Replication Module Implementation](../../src/replication/README.md)
-- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Replication Architecture](../../src/replication/ARCHITECTURE.md)
+- [Replication Roadmap](../../src/replication/ROADMAP.md)
+- [Replication Future Enhancements](../../src/replication/FUTURE_ENHANCEMENTS.md)
+- [Replication HA Guide](../../docs/replication-ha-guide.md)
+- [Replication Troubleshooting](../../docs/troubleshooting/replication_troubleshooting.md)
 - [Storage Module Headers](../storage/README.md)
 - [Transaction Module Headers](../transaction/README.md)
 
@@ -805,36 +844,54 @@ repl_mgr.addListener(listener);
 The following headers are present in `include/replication/` and supplement the components documented above.
 
 ### conflict_resolution.h
-Defines `IConflictResolver` base interface and built-in strategies (`LastWriteWinsResolver`, `FirstWriteWinsResolver`) used by both `ReplicationManager` and `MultiMasterReplicationManager`. <!-- TODO: verify -->
+Declares merge-oriented resolvers (for example `ThreeWayMergeResolver` and `FieldLevelMergeResolver`) used for deterministic conflict handling across concurrent updates.
 
 ### crdt_types.h
-CRDT (Conflict-free Replicated Data Type) primitives: G-Counter, PN-Counter, OR-Set, LWW-Register. Used by `CRDTMergeResolver`. <!-- TODO: verify -->
+Declares CRDT primitives (counter, set, register, map, and sequence variants) for conflict-free convergence in multi-master topologies.
 
 ### event_stream.h
-Change-event streaming interface for emitting replication events to external consumers (Kafka, WebSocket, CDC). <!-- TODO: verify -->
+Declares replication event publishing/subscription contracts with RAII subscription lifetime handling.
 
 ### kafka_change_stream.h
-Kafka-backed change-data-capture (CDC) stream; publishes WAL entries as Kafka messages for downstream consumers. <!-- TODO: verify -->
+Declares Kafka change-stream integration points used for CDC fan-out to external stream processors.
 
 ### logical_replication.h
-Logical (row-level) replication layer that decodes WAL entries into structured change events independent of physical storage format. <!-- TODO: verify -->
+Declares logical (row-level) replication interfaces including per-slot filtering, DDL propagation, and optional transform hooks.
 
 ### multi_tier_replication.h
-Multi-tier (hierarchical) replication topology: data flows from primary → regional secondaries → edge replicas. <!-- TODO: verify -->
+Declares tier-based replication management for critical/standard/archival data classes with optional auto-tiering.
 
 ### observability.h
-Replication-specific observability hooks: OpenTelemetry spans, Prometheus counters, and health-check endpoints. <!-- TODO: verify -->
+Declares observability structures for topology snapshots, lag analysis, bottleneck diagnostics, and health scoring.
 
 ### policy.h
-Declarative replication policies (retention windows, quorum overrides, geo-routing rules) applied per collection. <!-- TODO: verify -->
+Declares policy APIs for per-collection replication-mode assignment and topology validation checks.
 
 ### raft_v2.h
-Raft v2 consensus implementation: leader election, log replication, snapshot installation, and membership changes. <!-- TODO: verify -->
+Declares Raft v2 state/configuration and membership-change orchestration APIs for joint consensus transitions.
 
 ### replication_slot.h
-Persistent replication slots that track consumer progress through the WAL (similar to PostgreSQL replication slots). <!-- TODO: verify -->
+Declares replication-slot state and management interfaces for pause/resume and progress persistence.
 
 ### schema_cdc.h
-Schema change-data-capture: captures DDL events (collection create/drop, index add/remove) as replication entries. <!-- TODO: verify -->
+Declares schema-aware CDC bridge interfaces for integrating replication events with schema registry encoders.
+
+## Troubleshooting
+
+1. **Build errors after including replication headers**
+   - Ensure include path exposes `include/` so imports remain `#include "replication/<header>.h"`.
+   - Include only required headers in leaf components to reduce compile-time coupling.
+
+2. **Replication configuration validation fails**
+   - Check quorum-sensitive fields (`min_sync_replicas`, `mode`, timeout values) for contradictory settings.
+   - Validate TLS files (`cert_path`, `key_path`, `ca_path`) before calling `initialize()`.
+
+3. **Logical replication slot behavior is unexpected**
+   - Verify slot filters (include/exclude collections, row predicate) and whether DDL/DML flags are enabled.
+   - Confirm `wal_directory` points to writable storage when persistent slot metadata is required.
+
+4. **Conflict handling produces unresolved records**
+   - Re-check default and per-collection conflict strategy assignments.
+   - Use deterministic strategies for hot collections and reserve custom resolvers for explicitly handled domains.
 
 ## Installation
