@@ -95,11 +95,11 @@ Dieses Dokument ist die Arbeitsgrundlage für die inhaltliche Konsolidierung von
 ## Verbindliche Review-/Audit-Referenzen
 
 Die Konsolidierung wurde gegen folgende Referenzdokumente abgeglichen:
-- `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
-- `docs/SYSTEMATISCHER_REVIEWPLAN.md`
-- `docs/PR_DOCUMENTATION_CHECKLIST.md`
-- `docs/de/development/SOURCE_CODE_AUDIT.md`
-- `docs/audit-framework/AUDIT_RUNBOOK.md`
+- [`docs/DOCUMENTATION_REVIEW_GUIDELINES.md`](../../docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
+- [`docs/SYSTEMATISCHER_REVIEWPLAN.md`](../../docs/SYSTEMATISCHER_REVIEWPLAN.md)
+- [`docs/PR_DOCUMENTATION_CHECKLIST.md`](../../docs/PR_DOCUMENTATION_CHECKLIST.md)
+- [`docs/de/development/SOURCE_CODE_AUDIT.md`](../../docs/de/development/SOURCE_CODE_AUDIT.md)
+- [`docs/audit-framework/AUDIT_RUNBOOK.md`](../../docs/audit-framework/AUDIT_RUNBOOK.md)
 
 ## Review-/Audit-Nachweis (Issue-Abschluss)
 
