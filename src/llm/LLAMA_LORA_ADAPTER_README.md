@@ -1,6 +1,12 @@
-> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+<!-- Status: current | validated: 2026-05-13 | Source: src/llm/llama_lora_adapter.cpp v0.0.47 -->
+<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md · AUDIT.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # LoRA Adapter Implementation for ThemisDB
+
+> **Scope:** This document covers `llama_lora_adapter.cpp` — the dynamic llama.cpp LoRA API shim.
+> For GGUF model loading see [GGUF_LOADER_README.md](GGUF_LOADER_README.md).
+> For the LoRA training framework see `src/llm/lora_framework/`.
+> For the high-level multi-LoRA manager see `multi_lora_manager.cpp` and [README.md](README.md).
 
 ## Overview
 
@@ -39,13 +45,14 @@ bool themis_llama_lora_available();
 
 ### 3. Backward Compatibility
 
-Maintains compatibility with existing code through overloaded signatures:
+**Note:** The legacy path-only signature has been renamed to avoid collision with the modern integer-handle overload:
 
 ```cpp
-// Legacy signature (compatibility with old stub)
-int llama_lora_adapter_set(llama_context* ctx, const char* adapter_path);
+// Legacy path-only signature (backward-compat; always returns -1 because
+// model* is unavailable at this call site — use MultiLoRAManager instead)
+int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_path);
 
-// MultiLoRAManager signature (integer handle)
+// MultiLoRAManager signature (integer handle cast from void*)
 int llama_lora_adapter_set(llama_context* ctx, int adapter_index, float scale);
 ```
 
@@ -78,15 +85,40 @@ dlsym(RTLD_DEFAULT, "llama_lora_adapter_init")
 - Clear error messages with actionable instructions
 - Graceful degradation when API unavailable
 
+### Test Injection API
+
+`themis_lora_inject_api_functions()` allows tests to override the dlsym-detected function pointers
+without requiring a real llama.cpp LoRA build. Call it before any LoRA API call:
+
+```cpp
+// Inject mock LoRA functions for unit tests (LORA-INJ-01..03)
+themis_lora_inject_api_functions(
+    my_mock_init,    // llama_lora_adapter_init replacement
+    my_mock_set,     // llama_lora_adapter_set replacement
+    my_mock_remove,  // llama_lora_adapter_remove replacement
+    my_mock_clear,   // llama_lora_adapter_clear replacement
+    my_mock_free     // llama_lora_adapter_free replacement
+);
+
+// Pass nullptr for all to revert to dlsym-detected path
+themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+```
+
+When `g_lora_api_override_active` is true (any non-null init+set pair was injected), the override
+path entirely bypasses dlsym detection. The flag is declared in the anonymous namespace of
+`llama_lora_adapter.cpp`; do not access it directly from test code — use `themis_lora_inject_api_functions`.
+
+Tests: `tests/llm/test_gpu_lora_integration.cpp` LORA-INJ-01..03 (added 2026-05-06).
+
 ## Usage
 
 ### From MultiLoRAManager
 
 ```cpp
-// Load adapter
+// Load adapter (path must be inside the trusted adapter directory — see SECURITY.md / AUDIT.md F1-1)
 bool success = lora_manager->loadLoRA(
     "adapter_id",
-    "/path/to/adapter.bin",
+    "/trusted/adapters/adapter.bin",
     "base_model_id",
     1.0f  // scale
 );
@@ -103,8 +135,8 @@ bool removed = lora_manager->removeLoRA("adapter_id", context);
 ```cpp
 // Check if LoRA API is available
 if (themis_llama_lora_available()) {
-    // Load adapter
-    void* adapter = llama_lora_adapter_init(model, "/path/to/adapter.bin");
+    // Load adapter (path must be inside the trusted adapter directory)
+    void* adapter = llama_lora_adapter_init(model, "/trusted/adapters/adapter.bin");
     
     if (adapter) {
         // Apply with scale factor
@@ -118,6 +150,37 @@ if (themis_llama_lora_available()) {
     }
 }
 ```
+
+## Supported Adapter File Formats
+
+| Format | Extension | Notes |
+|--------|-----------|-------|
+| llama.cpp native binary | `.bin` | Direct pass-through to `llama_lora_adapter_init` |
+| GGUF-ST (GGUF + SafeTensors hybrid) | `.gguf` | Load via `GGUFSTAdapter` from `include/llm/gguf_st_adapter.h`; ThemisDB-specific manifest with SHA-256 integrity signature; see `docs/llm_orchestration/GGUF_SUPPORT.md` |
+| SafeTensors | `.safetensors` | Converted to `.bin` before passing to llama.cpp; handled by `AdapterRegistry` |
+
+Path validation (trusted-directory enforcement) applies to **all** formats.
+
+## Security & Path Validation
+
+> **AUDIT.md F1-1 / F1-2 / F2-1 (fixed 2026-04-21):** LoRA adapter paths received from API callers
+> or deserialized remote sources **must** be validated against the configured trusted adapter directory
+> before being passed to `llama_lora_adapter_init`.  The shim itself does **not** enforce this — path
+> validation is the responsibility of `AdapterRegistry` / `lora_security_validator.cpp`.
+> See [SECURITY.md](SECURITY.md) and [AUDIT.md](AUDIT.md) for the full threat model.
+
+## Failure Modes
+
+| Condition | Return value | Log level | Message |
+|-----------|-------------|-----------|---------|
+| LoRA API not available (dlsym miss) | `nullptr` / `-1` | `ERROR` | `"LoRA API not available in this llama.cpp build"` |
+| Null `llama_model*` passed to `init` | `nullptr` | `ERROR` | `"llama_lora_adapter_init: null model provided"` |
+| Empty or null adapter path | `nullptr` / `-1` | `ERROR` | `"null or empty adapter path"` |
+| `llama_lora_adapter_init` returns null | `nullptr` | `ERROR` | `"Failed to load LoRA adapter from: <path>"` |
+| Non-zero return from `adapter_set` | non-zero int | `ERROR` | `"Failed to apply LoRA adapter (error: <n>)"` |
+| Legacy `set_path` signature called | `-1` | `ERROR` | `"Legacy signature not supported … use MultiLoRAManager"` |
+| `llama_lora_adapter_remove` unavailable; `set` available | calls `set(ctx, adapter, 0.0f)` | `WARN` | fallback behaviour |
+| Null `adapter` passed to `free` | *(no-op)* | `DEBUG` | `"null adapter (nothing to free)"` |
 
 ## Configuration
 
@@ -191,33 +254,62 @@ ERROR: Critical failures with recovery instructions
 
 ## Security Considerations
 
-1. **Path Validation**: Adapter paths are validated before loading
+1. **Path Validation**: Adapter paths must be validated against the trusted directory before loading (see AUDIT.md F1-1/F1-2/F2-1); see **Security & Path Validation** section above
 2. **Null Checks**: All pointers checked before dereferencing
 3. **Error Propagation**: Errors from llama.cpp properly propagated
 4. **Memory Safety**: No manual memory management of adapter data
+5. **Integrity Verification**: `lora_security_validator.cpp` enforces SHA-256 manifest check before any adapter is registered in `AdapterRegistry`
 
-## Future Enhancements
+## Implemented Enhancements (since v1.3.1)
 
-The following items listed below have been implemented since v1.3.1:
-
-1. **Adapter Verification**: Cryptographic verification of adapter files — ✅ Implemented in `lora_security_validator.cpp` (SHA-256 + trusted manifest, see `src/llm/lora_security_validator.cpp`)
-2. **Hot-Reloading**: Dynamic adapter updates without context recreation — ✅ Implemented via `AdapterRegistry::hotLoad()` (see `src/llm/adapter_registry.cpp` and `include/llm/adapter_registry.h`)
-3. **Multi-Adapter Composition**: Simultaneous application of multiple adapters — ✅ Implemented in `multi_lora_manager.cpp` (vLLM-style multi-LoRA support)
-4. **Quantization**: Support for quantized adapter formats — <!-- TODO: verify --> partial; quantized base models are supported via `model_quantization_pipeline.cpp`; quantized adapter weights format support is not yet fully implemented
+1. **Adapter Verification**: ✅ Implemented in `lora_security_validator.cpp` (SHA-256 + trusted manifest)
+2. **Hot-Reloading**: ✅ Implemented via `AdapterRegistry::hotLoad()` (`src/llm/adapter_registry.cpp`, `include/llm/adapter_registry.h`)
+3. **Multi-Adapter Composition**: ✅ Implemented in `multi_lora_manager.cpp` (vLLM-style multi-LoRA support)
+4. **Quantized adapter format (GGUF-ST)**: ✅ Partial — quantized base models are fully supported via `model_quantization_pipeline.cpp`; GGUF-ST adapter weights (LoRA deltas) are loaded by `GGUFSTAdapter` (`include/llm/gguf_st_adapter.h`); raw quantized-weight LoRA training is not yet implemented (Target: Q3 2026, see [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md))
+5. **Test Injection API**: ✅ `themis_lora_inject_api_functions()` added 2026-05-06; tests LORA-INJ-01..03
 
 ## Related Components
 
-- `multi_lora_manager.cpp`: High-level LoRA management (vLLM-style)
-- `llama_wrapper.cpp`: llama.cpp integration layer
-- `lora_framework/`: LoRA training and storage infrastructure
+| Component | Role |
+|-----------|------|
+| `multi_lora_manager.cpp` | High-level vLLM-style multi-LoRA manager; primary caller of this shim |
+| `llama_wrapper.cpp` | llama.cpp context/model lifecycle management |
+| `adapter_registry.cpp` | Runtime hot-load registry with trusted-path enforcement |
+| `lora_security_validator.cpp` | SHA-256 integrity verification before adapter registration |
+| `lora_framework/` | LoRA training and GGUF/safetensors storage infrastructure |
+| `include/llm/gguf_st_adapter.h` | GGUF-ST format loader for adapter weights |
 
-## References
+## Core LLM Documentation
+
+| Document | Description |
+|----------|-------------|
+| [README.md](README.md) | Module overview, configuration surfaces (AdapterRegistry knobs) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Component diagrams, LoRA hot-load flow |
+| [SECURITY.md](SECURITY.md) | Threat model, LoRA trust model, path-injection mitigations |
+| [AUDIT.md](AUDIT.md) | S0/S1/S2 findings (F1-1, F1-2, F2-1 — LoRA path validation) |
+| [ROADMAP.md](ROADMAP.md) | LoRA hot-loading status (`[x]`, Issue #1929, #1935) |
+| [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) | `LoraSecurityValidator` cert-store integration, quantized adapter format backlog |
+| [GGUF_LOADER_README.md](GGUF_LOADER_README.md) | GGUF model file loading |
+
+## External References
 
 - [llama.cpp LoRA Documentation](https://github.com/ggerganov/llama.cpp)
 - [ThemisDB LoRA Integration Guide](../../docs/en/llm/LLM_LORA_LLAMACPP_INTEGRATION.md)
 - [LoRA Adapter Application Guide](../../docs/en/lora/LORA_ADAPTER_APPLICATION_GUIDE.md)
+- [GGUF-ST Format](../../docs/llm_orchestration/GGUF_SUPPORT.md)
 
 ## Changelog
+
+### v1.3.3 (2026-05-06)
+- `themis_lora_inject_api_functions(init, set, remove, clear, free)` extern "C" API added
+- `g_lora_api_override_active` override path bypasses dlsym for test isolation
+- Null arguments revert to dlsym-detected path
+- Tests LORA-INJ-01..03 added in `tests/llm/test_gpu_lora_integration.cpp`
+
+### v1.3.2 (2026-04-21)
+- Path injection fixes F1-1, F1-2, F2-1: trusted-directory validation enforced at call site
+- `llama_lora_adapter_set_path` renamed from `llama_lora_adapter_set` (path-only overload) to avoid collision with the integer-handle overload used by `MultiLoRAManager`
+- STUB/SIMULATION documentation block added at top of source file
 
 ### v1.3.1 (2026-01-26)
 - Initial real implementation replacing stub
@@ -226,6 +318,14 @@ The following items listed below have been implemented since v1.3.1:
 - Cross-platform compatibility
 - Backward compatible overloads
 
-### Previous (v1.3.0)
+### v1.3.0
 - Stub implementation returning -1
 - Prevented real LoRA functionality
+
+## Review / Audit Trail
+
+| Date | Reviewer | Scope | Result |
+|------|----------|-------|--------|
+| 2026-04-21 | Copilot | `llama_lora_adapter.cpp` path injection (F1-1, F1-2, F2-1) | Fixed — trusted-directory enforcement at `AdapterRegistry` / call site |
+| 2026-05-06 | Copilot | Test injection API (`themis_lora_inject_api_functions`) | Added — LORA-INJ-01..03 tests pass |
+| 2026-05-13 | Copilot | Documentation sync with `llama_lora_adapter.cpp` v0.0.47 | Updated — scope boundary, formats, failure modes, test injection API, corrected future enhancements, cross-references added |
