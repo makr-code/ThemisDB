@@ -21,6 +21,8 @@
 - This file is the canonical root backlog for **open enhancements** and **stub replacements**.
 - Terminology is aligned with `ROADMAP.md`: shipped/in-progress work is treated as a roadmap **feature**, while open backlog work remains an **enhancement** here.
 - `CHANGELOG.md` should reference roadmap milestones and enhancement items from this file when work is completed.
+- `VERSIONING.md` and `RELEASE_STRATEGY.md` provide the release-type and milestone/tag mapping that completed enhancement entries must follow.
+- `COPILOT_INSTRUCTIONS.md` defines mandatory AI/agent synchronization rules for these root governance documents.
 - `FEATURE_ENHANCEMENT.md` remains a generated maturity report and is not used as planning source-of-truth.
 
 ---

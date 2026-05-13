@@ -25,9 +25,9 @@ Allowed examples:
 - `1.9.0`
 - `1.9.1`
 - `1.10.0`
-- `1.9.0-alpha`
-- `1.9.0-beta.1`
-- `1.9.0-rc.1`
+- `1.9.0-alpha1`
+- `1.9.0-beta1`
+- `1.9.0-rc1`
 
 Rules:
 
@@ -35,6 +35,8 @@ Rules:
 - `MINOR`: new backward-compatible functionality
 - `PATCH`: backward-compatible fix
 - `alpha`, `beta`, `rc`: pre-release stages
+
+Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms (`-alpha`, `-beta.N`, `-rc.N`, `-rc`) are tolerated only for historical tags/changelog entries.
 
 ## 2.1 Milestone Model Alignment (ROADMAP / FUTURE / CHANGELOG)
 
@@ -44,27 +46,32 @@ Rules:
 
 | `RELEASE_TYPE` value | Tag suffix example | Milestone naming pattern | Changelog entry pattern |
 |---|---|---|---|
-| `alpha` | `v1.9.0-alpha` | `v1.9.0-alpha` | `## [Unreleased]` until cut, then `## [1.9.0-alpha] - YYYY-MM-DD` |
-| `beta` | `v1.9.0-beta.1` | `v1.9.0-beta.1` | `## [Unreleased]` until cut, then `## [1.9.0-beta.1] - YYYY-MM-DD` |
-| `rc` | `v1.9.0-rc.1` | `v1.9.0-rc.1` | `## [Unreleased]` until cut, then `## [1.9.0-rc.1] - YYYY-MM-DD` |
+| `alpha` | `v1.9.0-alpha1` | `v1.9.0-alpha1` | `## [Unreleased]` until cut, then `## [1.9.0-alpha1] - YYYY-MM-DD` |
+| `beta` | `v1.9.0-beta1` | `v1.9.0-beta1` | `## [Unreleased]` until cut, then `## [1.9.0-beta1] - YYYY-MM-DD` |
+| `rc` | `v1.9.0-rc1` | `v1.9.0-rc1` | `## [Unreleased]` until cut, then `## [1.9.0-rc1] - YYYY-MM-DD` |
 | `stable` | `v1.9.0` | `v1.9.0` | `## [Unreleased]` until cut, then `## [1.9.0] - YYYY-MM-DD` |
+
+## 2.2 AI-/Agent Governance Alignment
+
+- `COPILOT_INSTRUCTIONS.md` defines how AI/agent documentation updates must keep `VERSIONING.md`, this file, `CHANGELOG.md`, `ROADMAP.md`, and `FUTURE_ENHANCEMENTS.md` synchronized.
+- Release documentation updates are only complete when versioning model, release type mapping, and changelog traceability remain consistent across these root documents.
 
 ## 3. Tags
 
 Community tags:
 
 - Stable: `vX.Y.Z`
-- Pre-release: `vX.Y.Z-alpha`, `vX.Y.Z-beta.1`, `vX.Y.Z-rc.1`
+- Pre-release: `vX.Y.Z-alphaN`, `vX.Y.Z-betaN`, `vX.Y.Z-rcN`
 
 Enterprise tags:
 
 - Stable: `enterprise-vX.Y.Z`
-- Pre-release: `enterprise-vX.Y.Z-rc.1`
+- Pre-release: `enterprise-vX.Y.Z-rcN`
 
 Hyperscaler tags:
 
 - Stable: `hyperscaler-vX.Y.Z`
-- Pre-release: `hyperscaler-vX.Y.Z-rc.1`
+- Pre-release: `hyperscaler-vX.Y.Z-rcN`
 
 Rules:
 

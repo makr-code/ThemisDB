@@ -75,6 +75,17 @@ The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`
 Releases progress through the type sequence: alpha → beta → rc → stable.  
 Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
 
+`RELEASE_TYPE` values are normalized to: `alpha`, `beta`, `rc`, `stable`.
+
+Canonical suffixes:
+
+| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes accepted for historical tags |
+|---|---|---|
+| `alpha` | `-alphaN` | `-alpha` |
+| `beta` | `-betaN` | `-beta.N` |
+| `rc` | `-rcN` | `-rc.N`, `-rc` |
+| `stable` | _(none)_ | n/a |
+
 ---
 
 ## 4. Release Cadence
@@ -184,6 +195,8 @@ Before introducing a breaking change:
 | `-betaN` | Feature-complete, stabilising |
 | `-rcN` | Release candidate, feature-frozen |
 
+Legacy forms `-alpha`, `-beta.N`, `-rc.N`, and `-rc` may still appear in historical release tags/changelog entries, but new releases should use the canonical `-alphaN` / `-betaN` / `-rcN` format.
+
 Pre-release versions are never considered "stable" for production use. Docker tags for pre-releases carry the full qualifier (e.g., `themisdb/themisdb:1.9.0-rc1-community-binary-x64`) and the `latest` tag is only updated on stable releases.
 
 ---
@@ -194,3 +207,6 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 - [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) — Branch model, CI/CD, rollback
 - [SOP.md](SOP.md) — Step-by-step release and hotfix procedures
 - [SECURITY.md](SECURITY.md) — Security patch SLA
+- [COPILOT_INSTRUCTIONS.md](COPILOT_INSTRUCTIONS.md) — AI/agent governance and documentation alignment rules
+- [ROADMAP.md](ROADMAP.md) — Canonical feature/milestone scope
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Canonical open enhancement backlog
