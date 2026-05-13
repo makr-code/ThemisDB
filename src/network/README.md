@@ -1079,6 +1079,29 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ---
 
+## Troubleshooting
+
+### Server does not start with TLS enabled
+- Verify `config.tls_cert_path`, `config.tls_key_path`, and (for mTLS) `config.tls_ca_cert_path`.
+- Run `validateTransportSecurity(argc, argv)` before `start()` and fail fast on `false`.
+- Check certificate/key readability and matching keypair.
+
+### Frequent authentication timeouts
+- Increase `config.auth_timeout_sec` for high-latency environments.
+- Ensure client sends AUTH immediately after HELLO.
+- Validate server/client clock skew when token expiry is enforced externally.
+
+### High reject rate from limits/rate limiting
+- Inspect `Stats.rejected_connections` and `Stats.auth_failures`.
+- Revisit `max_connections`, `max_connections_per_ip`, `max_requests_per_second`, and `max_requests_per_minute`.
+- Confirm expected traffic path (TCP 8766, UDP 8769, QUIC 8770, gRPC 8771) and feature flags.
+
+### QUERY_AQL / GEO_QUERY return integration errors
+- This is expected in the current wire-protocol scope.
+- Use HTTP REST API (`POST /api/v1/query`, `GET /api/v1/geo/query`) until engine integration ships.
+
+---
+
 ## Version History
 
 - **v1.0.0** - Initial wire protocol server
@@ -1096,9 +1119,15 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ## References
 
-- [Wire Protocol Specification](../../docs/wire-protocol.md)
-- [Network Security Best Practices](../../docs/security/network.md)
-- [Performance Tuning Guide](../../docs/performance/network-tuning.md)
+- [Wire Protocol Specification](../../docs/architecture/wire-protocol.md)
+- [Network Security Module Guide](./SECURITY.md)
+- [Network Performance Expectations](./PERFORMANCE_EXPECTATIONS.md)
+- [Network Architecture](./ARCHITECTURE.md)
+- [Network Roadmap](./ROADMAP.md)
+- [Network Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Public Header Documentation](../../include/network/README.md)
+- [German Network Overview](../../docs/de/network/README.md)
+- [Network Troubleshooting](../../docs/troubleshooting/network_troubleshooting.md)
 - [Boost.Asio Documentation](https://www.boost.org/doc/libs/release/doc/html/boost_asio.html)
 - [Protocol Buffers Wire Format](https://developers.google.com/protocol-buffers/docs/encoding)
 
