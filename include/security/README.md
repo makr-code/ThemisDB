@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Security Module Headers
 
@@ -1011,10 +1011,12 @@ make coverage
 ## See Also
 
 - [Implementation README](../../src/security/README.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
-- [Security Best Practices Guide](../../docs/security-best-practices.md)
-- [Key Management Guide](../../docs/key-management.md)
-- [Compliance Documentation](../../docs/compliance/)
+- [ROADMAP](../../src/security/ROADMAP.md) - Security module roadmap and milestones
+- [Future Enhancements](../../src/security/FUTURE_ENHANCEMENTS.md)
+- [Security Hardening Guide](../../docs/de/security/security_hardening.md)
+- [Key Management Guide](../../docs/de/security/security_key_management.md)
+- [Compliance Documentation](../../docs/de/security/security_compliance.md)
+- [Security Documentation Overview](../../docs/de/security/README.md)
 
 ## References
 

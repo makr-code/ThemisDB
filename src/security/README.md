@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Security Module
 
@@ -16,10 +16,10 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 
 ## Relevant Interfaces
 
-- `encryption_manager.cpp` — AES-256-GCM encryption/decryption
-- `key_manager.cpp` — key lifecycle management and rotation
-- `pki_client.cpp` — PKI certificate integration
-- `tls_config.cpp` — TLS certificate and cipher configuration
+- `field_encryption.cpp` — AES-256-GCM field-level encryption/decryption
+- `vault_key_provider.cpp` / `hsm_provider_pkcs11.cpp` — key lifecycle management and rotation
+- `pki_key_provider.cpp` — PKI certificate-based key integration
+- `rbac.cpp` / `access_control_manager.cpp` — RBAC and ABAC authorization
 
 ## Current Delivery Status
 
@@ -1036,10 +1036,13 @@ bool loadLoRAAdapter(const std::string& path) {
 
 ## See Also
 
+- [ROADMAP.md](ROADMAP.md) - Security module roadmap and milestones
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned security features
-- [Security Configuration Guide](../../docs/security-config.md)
-- [Compliance Documentation](../../docs/compliance/)
-- [Key Management Guide](../../docs/key-management.md)
+- [Public Headers README](../../include/security/README.md) - Public API documentation
+- [Security Documentation Overview](../../docs/de/security/README.md) - Detailed guides
+- [Security Hardening Guide](../../docs/de/security/security_hardening.md)
+- [Key Management Guide](../../docs/de/security/security_key_management.md)
+- [Compliance Documentation](../../docs/de/security/security_compliance.md)
 
 ## Scientific References
 
