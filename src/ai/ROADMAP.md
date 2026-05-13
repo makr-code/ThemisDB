@@ -10,7 +10,7 @@ v1.9.x – Das `ai`-Modul liefert eine produktive Phase-1-Basis für AI-gestütz
 
 ## In Progress
 
-- [~] Modul-Dokumentation in `src/ai` und `include/ai` konsolidieren (Target: Q2 2026)
+_(Kein aktiver Dokumentations-Task — alle Phase-1-Doku-Items abgeschlossen.)_
 
 ## Planned Features
 
@@ -46,6 +46,7 @@ v1.9.x – Das `ai`-Modul liefert eine produktive Phase-1-Basis für AI-gestütz
 - [x] Modul-README in `src/ai/README.md` ergänzt
 - [x] Public-Header-README in `include/ai/README.md` ergänzt
 - [x] Querverweise zu Roadmap/Future/sekundärer Doku gesetzt
+- [x] ARCHITECTURE.md, AUDIT.md, SECURITY.md, CHANGELOG.md, PERFORMANCE_EXPECTATIONS.md erstellt
 
 ## Production Readiness Checklist
 
