@@ -41,7 +41,8 @@ Zusätzliche Betriebsbedingung:
 Bei aktivem Produktionsmodus gilt:
 
 - **MUST:** Tracing aktiviert (`tracingEnabled=true`) **oder** produktiver Tracer-Adapter (`otel`, `jaeger`, `zipkin`)
-- **MUST:** Metrics aktiviert (`metricsEnabled=true`) **oder** `metricsAdapter="prometheus"`
+- **MUST:** wenn `tracerAdapter` leer/Default ist, `tracingEnabled=true`; bei expliziter Adapterwahl muss `tracerAdapter` einer von `otel`, `jaeger`, `zipkin` sein
+- **MUST:** wenn `metricsAdapter` leer/Default ist, `metricsEnabled=true`; bei expliziter Adapterwahl muss `metricsAdapter="prometheus"` sein
 - **MUST NOT:** `ConcernsContext::createNoOp()` verwenden
 
 ## Betriebsgrenzen (aktuelles Core-Verhalten)
@@ -75,6 +76,7 @@ Bei aktivem Produktionsmodus gilt:
 - Systematischer Review-Plan: [`docs/SYSTEMATISCHER_REVIEWPLAN.md`](../../docs/SYSTEMATISCHER_REVIEWPLAN.md)
 - Source-Code-Audit-Referenz: [`docs/de/development/SOURCE_CODE_AUDIT.md`](../../docs/de/development/SOURCE_CODE_AUDIT.md)
 - Audit-Runbook: [`docs/audit-framework/AUDIT_RUNBOOK.md`](../../docs/audit-framework/AUDIT_RUNBOOK.md)
+- Link-Validierung der Referenzen: `python3 scripts/link-check.py --internal-only src/core/PRODUCTION_REQUIREMENTS.md` (durchgeführt am 2026-05-13)
 
 ### Betroffene Dateien im Review
 
