@@ -28,6 +28,17 @@ Performance logging completed across all benchmark suites reveals:
 
 ---
 
+## Security-/Audit-Guardrails für Optimierungen
+
+Alle Maßnahmen in diesem Plan sind an folgende Root-Leitplanken gebunden:
+
+1. Keine Optimierung darf bestehende Sicherheitskontrollen (RBAC, Audit-Logging, Transportschutz) deaktivieren oder abschwächen.
+2. Änderungen mit Sicherheitsbezug müssen gegen `SECURITY.md` und `audit/AUDIT.md` nachvollziehbar bleiben.
+3. Validierung erfolgt nicht nur über Benchmarks, sondern auch über die dokumentierten Verifikationspfade in `CTEST.md`.
+4. Zielwerte müssen mit `PERFORMANCE_EXPECTATIONS.md` und den Bottleneck-Funden in `PERFORMANCE_BOTTLENECKS.md` konsistent bleiben.
+
+---
+
 ## Optimization Roadmap
 
 ### Phase 1: Lock Contention Elimination (P0 — Week 1)

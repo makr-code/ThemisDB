@@ -77,6 +77,15 @@ Release gate interpretation:
 - Global numeric gates are minimum thresholds and apply only where no stricter module-local targets are documented.
 - `proxy` and `not_measurable` items remain release-relevant and must be validated through the documented proxy path.
 
+### Root-Dokument-Abgleich (Architektur / Security / Audit / CTest)
+
+Für Root-Konsistenz gelten diese verbindlichen Rahmenbedingungen:
+
+1. Performance-SLOs werden unter denselben Sicherheitsannahmen bewertet, die in `ARCHITECTURE.md` und `SECURITY.md` beschrieben sind (Hardening, Zugriffskontrolle, Auditierbarkeit).
+2. Optimierungsmaßnahmen aus `PERFORMANCE_OPTIMIZATION_PLAN.md` dürfen Security-Kontrollen nicht umgehen.
+3. Bottleneck-Befunde aus `PERFORMANCE_BOTTLENECKS.md` werden zusammen mit Audit-/Security-Nachweisen bewertet.
+4. Reproduzierbare Verifikationspfade laufen über `CTEST.md` und das Audit-Runbook (`docs/audit-framework/AUDIT_RUNBOOK.md`).
+
 | Symbol | Bedeutung |
 |--------|-----------|
 | ✅ | Ziel erfüllt (gemessen ≥ Ziel) |
