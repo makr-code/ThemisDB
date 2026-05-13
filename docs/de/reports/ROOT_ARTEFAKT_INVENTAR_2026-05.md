@@ -29,6 +29,8 @@ Alle aktuell gefundenen Dateien im Root mit `tmp_*.md` sind **temporär** und **
 
 Diese Muster sind weiterhin als **nicht-kanonische Root-Artefakte** definiert, aktuell aber nicht im Root vorhanden:
 
+Pruefkontext: Root-Scan im Repository-Root (`find . -maxdepth 1 ...`) am **2026-05-13**.
+
 | Muster | Aktueller Root-Status | Klassifikation | Zielpfad |
 |---|---|---|---|
 | `build_*.txt` | 0 Treffer | temporär (Build-Output) | `logs/archive/` |
