@@ -1,6 +1,6 @@
 # ThemisDB Kompendium
 
-### Whitebook & Technisches Handbuch
+### Whitebook & Technisches Handbuch (Version 1.8.0)
 
 Ein praxisnaher Leitfaden für Planung, Betrieb und Skalierung der ThemisDB Multi-Model Datenbank – von Grundlagen bis Enterprise-Patterns.
 
