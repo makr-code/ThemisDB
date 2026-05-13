@@ -173,7 +173,7 @@ IncrementalLoRATrainer
 
 - Multi-node orchestration is out of scope; training coordination remains single-node with optional multi-GPU configuration.
 - Inference serving is delegated to LLM integration; the training module provides handoff interfaces, not full inference runtime.
-- Domain quality is highest for legal German corpora; other domains/languages require dedicated validation sets, domain-specific quality metrics (e.g., labeling precision/recall), and calibrated confidence thresholds before production rollout (see [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) and [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)).
+- Domain quality is highest for legal German corpora; other domains/languages require dedicated validation sets, domain-specific quality metrics (e.g., labeling precision/recall), and calibrated confidence thresholds before production rollout (see [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) and [ROADMAP.md](ROADMAP.md)).
 
 ## Usage Examples
 
