@@ -505,6 +505,16 @@ option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF
 option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
 option(THEMIS_ENABLE_SERVICE_MESH "Enable Istio/Envoy service mesh sidecar proxy mode (xDS v3 REST client)" OFF)
 
+set(THEMIS_SERVER_PROFILE "standard" CACHE STRING "Server activation profile: minimal, standard, enterprise")
+set_property(CACHE THEMIS_SERVER_PROFILE PROPERTY STRINGS minimal standard enterprise)
+string(TOLOWER "${THEMIS_SERVER_PROFILE}" _THEMIS_SERVER_PROFILE_NORMALIZED)
+if(NOT _THEMIS_SERVER_PROFILE_NORMALIZED MATCHES "^(minimal|standard|enterprise)$")
+    message(FATAL_ERROR "THEMIS_SERVER_PROFILE must be one of: minimal, standard, enterprise (got: ${THEMIS_SERVER_PROFILE})")
+endif()
+set(THEMIS_SERVER_PROFILE "${_THEMIS_SERVER_PROFILE_NORMALIZED}" CACHE STRING "Server activation profile: minimal, standard, enterprise" FORCE)
+add_compile_definitions(THEMIS_SERVER_PROFILE_DEFAULT="${THEMIS_SERVER_PROFILE}")
+message(STATUS "Server activation profile default: ${THEMIS_SERVER_PROFILE}")
+
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
     set(THEMIS_ENABLE_CUDA ON CACHE BOOL "Force CUDA for vLLM co-location" FORCE)
@@ -4391,6 +4401,8 @@ target_link_libraries(themis_demo_encryption
 add_executable(themis_server
     ../src/main_server.cpp
 )
+
+target_compile_definitions(themis_server PRIVATE THEMIS_SERVER_PROFILE_DEFAULT="${THEMIS_SERVER_PROFILE}")
 
 if(THEMIS_ENABLE_HTTP_SERVER)
     target_compile_definitions(themis_server PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
