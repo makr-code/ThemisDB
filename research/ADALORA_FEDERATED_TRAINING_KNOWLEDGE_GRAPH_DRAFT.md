@@ -124,13 +124,13 @@ The current ThemisDB repository provides a substantial C++ implementation surfac
 
 ### Scientific literature
 
-1. Hu, E. J., et al. *LoRA: Low-Rank Adaptation of Large Language Models*. arXiv:2106.09685.
+1. Hu, E. J., et al. *LoRA: Low-Rank Adaptation of Large Language Models*. ICLR 2022 (arXiv:2106.09685, 2021).
    URL: https://arxiv.org/abs/2106.09685
-2. Zhang, Q., et al. *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning*. arXiv:2303.10512.
+2. Zhang, Q., et al. *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning*. arXiv:2303.10512 (2023).
    URL: https://arxiv.org/abs/2303.10512
-3. Hayou, S., et al. *LoRA+: Efficient Low Rank Adaptation of Large Models*. arXiv:2402.12354.
+3. Hayou, S., et al. *LoRA+: Efficient Low Rank Adaptation of Large Models*. arXiv:2402.12354 (2024).
    URL: https://arxiv.org/abs/2402.12354
-4. Yadav, P., et al. *TIES-Merging: Resolving Interference When Merging Models*. arXiv:2306.01708.
+4. Yadav, P., et al. *TIES-Merging: Resolving Interference When Merging Models*. arXiv:2306.01708 (2023).
    URL: https://arxiv.org/abs/2306.01708
 5. McMahan, H. B., et al. *Communication-Efficient Learning of Deep Networks from Decentralized Data*. AISTATS 2017.
    URL: https://proceedings.mlr.press/v54/mcmahan17a.html
@@ -138,7 +138,7 @@ The current ThemisDB repository provides a substantial C++ implementation surfac
    URL: https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf
 7. Mironov, I. *Rényi Differential Privacy*. IEEE CSF 2017. DOI: 10.1109/CSF.2017.11
    URL: https://doi.org/10.1109/CSF.2017.11
-8. Lewis, P., et al. *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*. NeurIPS 2020.
+8. Lewis, P., et al. *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*. NeurIPS 2020 (arXiv:2005.11401).
    URL: https://arxiv.org/abs/2005.11401
 
 ### ThemisDB repository artifacts
