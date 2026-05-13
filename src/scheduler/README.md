@@ -97,15 +97,15 @@ Primary scheduler API entry points from `include/scheduler/`:
 
 | Header | Purpose |
 |---|---|
-| `../../include/scheduler/task_scheduler.h` | Core scheduler API, task model, retry and SLA controls, metrics |
-| `../../include/scheduler/hybrid_retention_manager.h` | Three-stage retention lifecycle management |
-| `../../include/scheduler/distributed_task_coordinator.h` | Cluster leader election and distributed scheduling control |
-| `../../include/scheduler/external_scheduler_adapter.h` | Kubernetes/Airflow adapter interfaces and manifest conversion |
-| `../../include/scheduler/event_trigger.h` | Event-driven trigger API with circuit-breaker protections |
-| `../../include/scheduler/task_audit_manager.h` | Query/export API for task audit events |
-| `../../include/scheduler/task_result_store.h` | Persistent per-task execution result retrieval |
-| `../../include/scheduler/task_anomaly_detector.h` | Runtime anomaly detection interfaces |
-| `../../include/scheduler/task_audit_event.h` | Audit/security event model types |
+| `task_scheduler.h` | Core scheduler API, task model, retry and SLA controls, metrics |
+| `hybrid_retention_manager.h` | Three-stage retention lifecycle management |
+| `distributed_task_coordinator.h` | Cluster leader election and distributed scheduling control |
+| `external_scheduler_adapter.h` | Kubernetes/Airflow adapter interfaces and manifest conversion |
+| `event_trigger.h` | Event-driven trigger API with circuit-breaker protections |
+| `task_audit_manager.h` | Query/export API for task audit events |
+| `task_result_store.h` | Persistent per-task execution result retrieval |
+| `task_anomaly_detector.h` | Runtime anomaly detection interfaces |
+| `task_audit_event.h` | Audit/security event model types |
 
 For full API details and examples, see [Scheduler Headers](../../include/scheduler/README.md).
 
