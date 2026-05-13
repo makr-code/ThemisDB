@@ -2,7 +2,7 @@
 
 # Plugins Module
 <!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
+<!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/README.md · docs/de/plugins/README.md -->
 
 Plugin system infrastructure for ThemisDB.
 
@@ -52,6 +52,70 @@ Implements the plugin system infrastructure for ThemisDB, providing dynamic plug
 | `image_analysis_manager.h` | `ImageAnalysisManager` — multi-backend plugin manager |
 | `huggingface_ingestion_plugin.h` | `HuggingFaceIngestionPlugin` — HuggingFace first-party plugin |
 
+## Public API Entry Points
+
+The following headers are the primary integration points for host applications:
+
+- `include/plugins/plugin_interface.h` — plugin contract (`IThemisPlugin`, `PluginManifest`, capability negotiation types)
+- `include/plugins/plugin_manager.h` — lifecycle API (`scanPluginDirectory`, `loadPlugin`, `reloadPlugin`, `loadPluginFromOci`, `enableHotPlug`)
+- `include/plugins/plugin_hot_plug_monitor.h` — `HotPlugConfig` (`enabled`, `auto_load`, `auto_reload`, `auto_unload`, `watch_interval_ms`)
+- `include/plugins/plugin_health_monitor.h` — `HealthMonitorConfig` (`check_interval`, `max_recovery_attempts`, backoff and timeout options)
+- `include/plugins/plugin_metrics.h` — per-plugin runtime metrics and collector export API
+
+## Runtime Behavior, Errors, and Limits
+
+- **Load path:** plugin manifest is read first, then security checks are applied before plugin activation.
+- **Hot-reload path:** `reloadPlugin` uses a verify-before-swap flow; failed reload keeps the previous instance active.
+- **Capability checks:** `negotiateCapabilities` validates required capabilities and version ranges against the loaded plugin.
+- **Escalation handling:** `checkCapabilityEscalation` marks a plugin as restricted when post-load capability expansion is detected.
+- **Edition/license gates:** plugin loading is gated by `PluginManager::isEditionSupported()` and `PluginManager::isLicensed()`.
+
+Current limits and boundaries:
+- Native plugins run in-process (planned WASM sandbox runtime remains open work).
+- `PluginRegistry::clearRegistry()` is testing-only and not supported in production flows.
+
+## Usage Snippets
+
+```cpp
+#include "plugins/plugin_manager.h"
+
+using themis::plugins::PluginManager;
+
+auto& manager = PluginManager::instance();
+auto scan = manager.scanPluginDirectory("./plugins");
+if (scan.isOk()) {
+    auto loaded = manager.autoLoadPlugins();
+}
+```
+
+```cpp
+#include "plugins/plugin_hot_plug_monitor.h"
+
+themis::plugins::HotPlugConfig cfg{};
+cfg.enabled = true;
+cfg.auto_reload = true;
+cfg.watch_interval_ms = 250;
+manager.enableHotPlug("./plugins", cfg);
+```
+
+```cpp
+#include "plugins/plugin_interface.h"
+
+std::vector<themis::plugins::PluginCapabilityRequirement> reqs{
+    {"thread_safe", {"1.0.0", ""}}
+};
+auto negotiation = manager.negotiateCapabilities("my_plugin", reqs);
+```
+
+## Troubleshooting
+
+| Symptom | Typical Cause | What to Check |
+|---|---|---|
+| Plugin not loading | Invalid manifest/signature, or edition/license gate | `plugin.json` validity, signature material, and edition/license status |
+| Reload fails but old plugin remains active | Verification or initialization failure during swap | Reload logs and plugin `initialize()` behavior |
+| Capability negotiation fails | Missing capability flag or incompatible version range | Declared plugin capabilities and requirement version bounds |
+| Plugin marked restricted | Runtime capability escalation detected | Invoke `checkCapabilityEscalation()` results and plugin capability implementation |
+
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Core plugin loading, manifest validation, Ed25519 signing, hot-reload, dependency resolution, health monitoring, metrics, OCI registry, and RPC integration are all implemented. WASM sandbox isolation and community marketplace are planned.
@@ -61,6 +125,8 @@ Implements the plugin system infrastructure for ThemisDB, providing dynamic plug
 For plugin documentation, see:
 - [ARCHITECTURE (src/plugins)](ARCHITECTURE.md) — detailed architecture guide
 - [ROADMAP (src/plugins)](ROADMAP.md) — development roadmap, verified against source
+- [FUTURE_ENHANCEMENTS (src/plugins)](FUTURE_ENHANCEMENTS.md) — planned phases and implementation targets
+- [Public Headers (include/plugins)](../../include/plugins/README.md) — public API reference and header-level contracts
 - [Secondary Docs (docs/de/plugins)](../../docs/de/plugins/README.md) — German-language overview
 - [Plugin Migration Guide](../../docs/de/plugins/PLUGIN_MIGRATION.md)
 - [Manifest Signatures](../../docs/de/plugins/MANIFEST_SIGNATURES.md)
