@@ -1,119 +1,159 @@
 > **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
-<!-- Status: current | validated: 2026-03-22 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: ../../include/rpc_grpc/README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB gRPC RPC Plugin
 
-**Version:** 0.2.0
-**Status:** 🟢 Production-Ready (v0.2.0)
-**Last Updated:** 2026-04-15
+**Version:** 0.3.0
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-05-13
 **Module Path:** `src/rpc_grpc/`
 **Namespace:** `themis::plugins::rpc::grpc_plugin`
-**Default Port:** 50051
+**Default Port:** `50051`
 
 ---
 
 ## Module Purpose
 
-The gRPC plugin provides a high-performance RPC transport for ThemisDB using the gRPC
-framework with HTTP/2 multiplexing, Protocol Buffers serialisation, mutual TLS (mTLS),
-and bidirectional streaming. It implements two interfaces:
+The `rpc_grpc` module provides the gRPC-based `IRPCPlugin` backend for ThemisDB.
+It implements transport lifecycle management (`GRPCServer`), TLS/mTLS credential
+setup with fail-closed behavior, optional admin-port binding, per-method metrics,
+structured access logging, and the `BidiStreamAdapter` helper for bidirectional
+streaming handlers.
 
-- **`GRPCServer`** — implements `IRPCServer`; manages the gRPC `grpc::Server` lifecycle.
-- **`GRPCPlugin`** — implements `IRPCPlugin` + `IThemisPlugin`; factory for `GRPCServer`
-  instances and plugin entry point.
+## Main Components
 
-The plugin uses a **fail-closed TLS configuration**: if TLS is enabled and certificate
-loading fails, the server refuses to start rather than falling back to insecure transport.
+| File | Role |
+|---|---|
+| `grpc_plugin.h` | Public declarations for `GRPCServer` and `GRPCPlugin` |
+| `grpc_plugin.cpp` | Server lifecycle, credential setup, reload, metrics, access-log implementation |
+| `bidi_stream_adapter.h` | Header-only typed helper for bidirectional stream handlers |
+| `CMakeLists.txt` | Module build integration with gRPC/protobuf toolchain |
 
----
+## Public API & Entry Points
 
-## Component Table
+- Public API overview: [`../../include/rpc_grpc/README.md`](../../include/rpc_grpc/README.md)
+- Primary entry header: [`grpc_plugin.h`](./grpc_plugin.h)
+- Streaming helper header: [`bidi_stream_adapter.h`](./bidi_stream_adapter.h)
+- Dynamic plugin exports in `grpc_plugin.cpp`:
+  - `extern "C" themis::plugins::IThemisPlugin* createPlugin()`
+  - `extern "C" void destroyPlugin(themis::plugins::IThemisPlugin*)`
 
-| File | Class / Role |
-|------|-------------|
-| `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations; v0.2.0 keepalive, multi-port, TLS reload extensions |
-| `grpc_plugin.cpp` | Full implementation: server lifecycle, mTLS, keepalive tuning, multi-port binding, TLS hot-reload |
-| `bidi_stream_adapter.h` | Header-only `BidiStreamAdapter<Req,Resp>` bidirectional streaming helper |
-| `CMakeLists.txt` | Build configuration; links gRPC++ and protobuf |
+## Configuration Options
 
----
+`GRPCServer::initialize(const RPCServerConfig&)` consumes `RPCServerConfig` from
+[`include/plugins/rpc_plugin_interface.h`](../../include/plugins/rpc_plugin_interface.h).
+The following keys are directly used by this module:
 
-## Quick-Start Example
+| Key | Type | Default | Runtime behavior |
+|---|---|---|---|
+| `host` | string | `0.0.0.0` | Bind address for `server_address_` |
+| `port` | uint16 | `0` | Main listen port; plugin default is `50051` |
+| `tls_enabled` | bool | `false` | Selects TLS credentials vs insecure credentials |
+| `tls_cert_path` | string | empty | Server certificate PEM path when TLS is enabled |
+| `tls_key_path` | string | empty | Server private key PEM path when TLS is enabled |
+| `tls_ca_cert_path` | string | empty | CA PEM path for TLS trust and mTLS verification |
+| `auth_required` | bool | `true` | Enables mTLS client-certificate requirement when TLS is enabled |
+| `extra_config["keepalive_time_ms"]` | integer-as-string | unset | Sets `GRPC_ARG_KEEPALIVE_TIME_MS` when parseable |
+| `extra_config["keepalive_timeout_ms"]` | integer-as-string | unset | Sets `GRPC_ARG_KEEPALIVE_TIMEOUT_MS` when parseable |
+| `extra_config["admin_port"]` | integer-as-string | unset | Adds secondary insecure listener on `<host>:<admin_port>` when 1..65535 |
+
+## Runtime Behavior, Error Cases, and Limits
+
+- `start()` is non-blocking and returns `false` if called while already running.
+- If TLS is enabled and certificate files cannot be loaded, startup fails
+  (fail-closed): the server does **not** fall back to insecure mode.
+- If TLS is disabled, the module logs a security warning and uses
+  `grpc::InsecureServerCredentials()`.
+- `registerService(nullptr)` is rejected with a log message and no registration.
+- If no services are registered, the module creates an idle completion queue so
+  `BuildAndStart()` can still succeed.
+- Message-size limits are set to 100 MiB receive and 100 MiB send.
+- `reloadTls(cert,key,ca)` works only when server is running with TLS enabled;
+  invalid files keep old credentials active and return `false`.
+- `setServiceHealth()` / `isServiceHealthy()` track health state in-process; they
+  do not expose the standard `grpc.health.v1.Health` service endpoint yet.
+- `recordRPC()` updates in-memory per-method counters and emits access-log JSON
+  through the configured sink.
+
+## Usage Snippets
+
+### Basic server lifecycle with TLS/mTLS
 
 ```cpp
-#include "grpc_plugin.h"
+#include "rpc_grpc/grpc_plugin.h"
+
 using namespace themis::plugins::rpc::grpc_plugin;
 
-// 1. Instantiate the plugin
 GRPCPlugin plugin;
-plugin.initialize(nullptr);  // no extra config needed
+plugin.initialize(nullptr);
 
-// 2. Create a server
 auto server = plugin.createServer();
 
-// 3. Configure
-RPCServerConfig config;
-config.host = "0.0.0.0";
-config.port = 50051;
-config.tls_enabled = true;
-config.tls_cert_path = "/certs/server.crt";
-config.tls_key_path  = "/certs/server.key";
-config.tls_ca_cert_path = "/certs/ca.crt";
-config.auth_required = true;  // enables mTLS client cert verification
+RPCServerConfig cfg;
+cfg.host = "0.0.0.0";
+cfg.port = 50051;
+cfg.tls_enabled = true;
+cfg.tls_cert_path = "/certs/server.crt";
+cfg.tls_key_path = "/certs/server.key";
+cfg.tls_ca_cert_path = "/certs/ca.crt";
+cfg.auth_required = true; // mTLS
+cfg.extra_config["keepalive_time_ms"] = "30000";
 
-server->initialize(config);
+server->initialize(cfg);
+server->registerService(static_cast<void*>(my_grpc_service));
 
-// 4. Register a protobuf service implementation
-server->registerService(static_cast<grpc::Service*>(&my_service_impl));
-
-// 5. Start
-server->start();  // non-blocking; gRPC runs its own thread pool
-
-// 6. Stats
-auto stats = server->getStats();
-// stats.total_requests, stats.active_connections, etc.
-
-// 7. Stop
-server->stop();
-```
-
----
-
-## TLS Modes
-
-| Mode | `tls_enabled` | `auth_required` | Behaviour |
-|------|--------------|-----------------|-----------|
-| Insecure | `false` | — | `InsecureServerCredentials()` — development only |
-| TLS | `true` | `false` | Server certificate only; no client cert |
-| mTLS | `true` | `true` | `GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY` |
-
----
-
-## Plugin Registration
-
-```cpp
-// C export for dynamic loading
-extern "C" {
-  IThemisPlugin* createPlugin();   // returns new GRPCPlugin()
-  void destroyPlugin(IThemisPlugin*);
+if (server->start()) {
+    auto stats = server->getStats();
+    server->stop();
 }
 ```
 
----
+### Observability hooks
 
-## See Also
+```cpp
+auto* grpc_server = dynamic_cast<GRPCServer*>(server.get());
+if (grpc_server != nullptr) {
+    grpc_server->setAccessLogSink([](const std::string& line) {
+        std::cerr << line << '\n';
+    });
 
-- `ARCHITECTURE.md` — component diagram, TLS configuration flow
-- `SECURITY.md` — fail-closed TLS design, threat model
-- `ROADMAP.md` — implementation phases and feature backlog
+    grpc_server->recordRPC("/pkg.Service/Method", true, 7);
+    std::string prom = grpc_server->getMetricsText();
+}
+```
 
 ## Installation
 
-This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+This module is built with ThemisDB. In-tree consumers that include
+`rpc_grpc/grpc_plugin.h` should expose both repository include roots:
 
-## Usage
+```cmake
+target_include_directories(your_target PRIVATE
+    ${THEMISDB_INCLUDE_DIR}
+    ${THEMISDB_SOURCE_DIR}/src
+)
+```
 
-The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/rpc_grpc/README.md`](../../include/rpc_grpc/README.md) for the public API.
+## Troubleshooting
+
+- **`start()` returns `false` with TLS enabled:** verify certificate/key/CA files
+  exist and are readable; TLS startup is fail-closed on load/parse errors.
+- **No metrics output from `getMetricsText()`:** call `recordRPC()` first; export
+  is empty while no method counters exist.
+- **`reloadTls()` returns `false`:** ensure the server is already running and was
+  initialized with `tls_enabled=true`.
+- **Unexpected insecure admin listener warning:** remove `extra_config["admin_port"]`
+  or terminate insecure admin traffic externally.
+
+## See Also
+
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — module architecture and data flow
+- [`SECURITY.md`](./SECURITY.md) — threat model and security controls
+- [`ROADMAP.md`](./ROADMAP.md) — implementation phases and delivery status
+- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — planned enhancements
+- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — benchmark targets
+- [`../../include/rpc_grpc/README.md`](../../include/rpc_grpc/README.md) — public API and include-surface guide
+- [`../../docs/de/rpc_grpc/README.md`](../../docs/de/rpc_grpc/README.md) — secondary module overview (DE)
+- [`../../plugins/rpc/README.md`](../../plugins/rpc/README.md) — RPC backend integration overview
