@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "server/server_activation_profile.h"
+#include <utility>
 
 using json = nlohmann::json;
 
@@ -56,6 +57,26 @@ TEST(ServerActivationProfile, StandardProfileAllowsExplicitDegradedOverride) {
     EXPECT_FALSE(result.warnings.empty());
 }
 
+TEST(ServerActivationProfile, EnterpriseProfileRequiresRealHsmBuildCapability) {
+    themis::server::ServerBuildCapabilities caps{};
+    caps.http_server = true;
+    caps.grpc = true;
+    caps.prometheus = true;
+    caps.llm = true;
+    caps.mimalloc = true;
+    caps.hsm_real = false;
+
+    const auto result = themis::server::validateServerActivationProfile(
+        themis::server::ServerActivationProfile::Enterprise,
+        caps,
+        themis::server::ServerRuntimeFeatureRequests{},
+        false);
+
+    EXPECT_FALSE(result.ok());
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors.back().find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
+}
+
 TEST(ServerActivationProfile, RuntimeConfigMismatchFailsFast) {
     themis::server::ServerBuildCapabilities caps{};
     caps.http_server = true;
@@ -82,7 +103,7 @@ TEST(ServerActivationProfile, ExtractsRuntimeRequestsFromConfigPaths) {
         {"optimizations", {{"mimalloc", {{"enabled", true}}}}}
     };
 
-    const auto requests = themis::server::extractRuntimeFeatureRequests(std::optional<json>{cfg}, true);
+    const auto requests = themis::server::extractRuntimeFeatureRequests(std::make_optional<json>(std::move(cfg)), true);
 
     EXPECT_TRUE(requests.llm_enabled);
     EXPECT_TRUE(requests.grpc_enabled);

@@ -916,16 +916,12 @@ int main(int argc, char* argv[]) {
         const auto runtime_requests = themis::server::extractRuntimeFeatureRequests(
             cfg, themis::security::isHSMStubOptInEnabled(argc, argv));
 
-#ifdef THEMIS_SERVER_PROFILE_DEFAULT
-        constexpr std::string_view kDefaultServerProfile = THEMIS_SERVER_PROFILE_DEFAULT;
-#else
-        constexpr std::string_view kDefaultServerProfile = "standard";
-#endif
+        constexpr const char* kDefaultServerProfile = THEMIS_SERVER_PROFILE_DEFAULT;
         const auto profile_resolution = themis::server::resolveServerActivationProfile(
             command_line_options.server_profile,
             cfg,
             get_env_server_profile(),
-            std::string(kDefaultServerProfile));
+            kDefaultServerProfile);
 
         if (!profile_resolution.ok) {
             THEMIS_CRITICAL("Invalid server profile: {} (source: {}, value: '{}')",
@@ -1091,6 +1087,8 @@ int main(int argc, char* argv[]) {
             if (allow_stub) {
                 THEMIS_WARN("HSM stub provider allowed by explicit opt-in (DEVELOPMENT ONLY)");
                 startHSMWarningThread();
+            } else {
+                THEMIS_CRITICAL("HSM stub provider active without explicit opt-in; startup validation will block launch");
             }
         } else {
             THEMIS_INFO("HSM provider is hardware-backed - production ready");

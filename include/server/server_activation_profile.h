@@ -95,6 +95,11 @@ struct ServerProfileValidationResult {
         case ServerActivationProfile::Enterprise:
             return "enterprise";
     }
+#if defined(__GNUC__) || defined(__clang__)
+    __builtin_unreachable();
+#elif defined(_MSC_VER)
+    __assume(false);
+#endif
     return "standard";
 }
 
@@ -148,6 +153,18 @@ struct ServerProfileValidationResult {
     return std::nullopt;
 }
 
+/**
+ * @brief Resolve the effective server activation profile.
+ *
+ * Resolution precedence is: CLI argument > config file > environment variable >
+ * compile-time default profile.
+ *
+ * @param cli_profile Optional CLI profile override (e.g. --server-profile).
+ * @param config Optional parsed runtime config.
+ * @param env_profile Optional profile from THEMIS_SERVER_PROFILE.
+ * @param default_profile Compile-time default profile from build configuration.
+ * @return Resolution metadata with source/value or a descriptive error.
+ */
 [[nodiscard]] inline ProfileResolutionResult resolveServerActivationProfile(
     const std::optional<std::string>& cli_profile,
     const std::optional<nlohmann::json>& config,
@@ -206,6 +223,16 @@ struct ServerProfileValidationResult {
     return result;
 }
 
+/**
+ * @brief Extract runtime feature activation requests from config/CLI context.
+ *
+ * Missing paths are treated as "not requested", and malformed values are
+ * ignored to keep extraction non-throwing.
+ *
+ * @param config Optional parsed runtime config.
+ * @param hsm_stub_opt_in Whether explicit HSM stub opt-in was requested.
+ * @return Runtime request snapshot used for capability validation/reporting.
+ */
 [[nodiscard]] inline ServerRuntimeFeatureRequests extractRuntimeFeatureRequests(
     const std::optional<nlohmann::json>& config,
     bool hsm_stub_opt_in
@@ -241,6 +268,19 @@ struct ServerProfileValidationResult {
     return requests;
 }
 
+/**
+ * @brief Validate profile requirements against build/runtime capability signals.
+ *
+ * This enforces the profile feature matrix and rejects contradictory runtime
+ * requests (feature requested but not compiled in). Missing required features
+ * become warnings only when @p allow_degraded_build is true.
+ *
+ * @param profile Selected activation profile.
+ * @param build_capabilities Compile-time feature capability state.
+ * @param runtime_requests Runtime configuration requests.
+ * @param allow_degraded_build Enables warning-only handling for missing required features.
+ * @return Validation result containing errors (startup blockers) and warnings.
+ */
 [[nodiscard]] inline ServerProfileValidationResult validateServerActivationProfile(
     ServerActivationProfile profile,
     const ServerBuildCapabilities& build_capabilities,
@@ -287,13 +327,20 @@ struct ServerProfileValidationResult {
     require_runtime_compatibility(runtime_requests.llm_enabled, build_capabilities.llm, "llm");
     require_runtime_compatibility(runtime_requests.mimalloc_enabled, build_capabilities.mimalloc, "mimalloc");
 
-    if (profile == ServerActivationProfile::Enterprise && runtime_requests.hsm_stub_opt_in) {
-        result.errors.push_back("enterprise profile does not permit HSM stub opt-in");
-    }
-
     return result;
 }
 
+/**
+ * @brief Enforce HSM runtime policy for the selected profile.
+ *
+ * Stub HSM operation requires explicit opt-in in all profiles, and Enterprise
+ * profile always requires hardware-backed HSM.
+ *
+ * @param profile Selected activation profile.
+ * @param stub_provider_active True when runtime uses stub HSM provider.
+ * @param explicit_stub_opt_in True when operator explicitly opted in to stub mode.
+ * @return Validation result with blocking errors for policy violations.
+ */
 [[nodiscard]] inline ServerProfileValidationResult validateHsmRuntimeForProfile(
     ServerActivationProfile profile,
     bool stub_provider_active,
@@ -315,6 +362,21 @@ struct ServerProfileValidationResult {
     return result;
 }
 
+/**
+ * @brief Build machine-readable startup capability report payload.
+ *
+ * The report captures selected profile, build capabilities, runtime requests,
+ * validation status, and startup mode flags and is intended for structured logs.
+ *
+ * @param profile Active profile.
+ * @param profile_resolution Profile resolution metadata.
+ * @param build_capabilities Compile-time capabilities.
+ * @param runtime_requests Runtime feature requests.
+ * @param validation Validation output for the current startup stage.
+ * @param allow_degraded_build Whether degraded override was requested.
+ * @param production_mode Whether production mode detection is active.
+ * @return JSON object suitable for structured startup logging.
+ */
 [[nodiscard]] inline nlohmann::json makeStartupCapabilityReport(
     ServerActivationProfile profile,
     const ProfileResolutionResult& profile_resolution,
