@@ -69,6 +69,38 @@ TensorRouter::Route TensorRouter::decide(const DataProfile& p) noexcept {
 }
 
 // ============================================================================
+// TensorRouter::validateTemplate
+// ============================================================================
+
+TensorRouter::TemplateValidationResult
+TensorRouter::validateTemplate(const tensor::TensorNetworkGraph& graph,
+                                const std::vector<std::size_t>&   mode_sizes) noexcept
+{
+    // Rule 1: graph must contain at least one node.
+    if (graph.nodeCount() == 0)
+        return {false, "template graph is empty (no nodes)"};
+
+    // Rule 2: mode_sizes must be non-empty; without shape information the
+    //         topology cannot be verified against the data layout.
+    if (mode_sizes.empty())
+        return {false, "mode_sizes is empty; topology cannot be validated without shape information"};
+
+    // Rule 3: every node's mode_index must refer to an existing mode dimension.
+    for (const auto& node : graph.nodes()) {
+        if (node.mode_index >= mode_sizes.size()) {
+            return {false,
+                    "node '" + node.id +
+                    "' mode_index=" + std::to_string(node.mode_index) +
+                    " is out of range for mode_sizes (size=" +
+                    std::to_string(mode_sizes.size()) +
+                    "); topology mismatch between template and data layout"};
+        }
+    }
+
+    return {true, ""};
+}
+
+// ============================================================================
 // to_string
 // ============================================================================
 
@@ -216,12 +248,13 @@ struct TensorRouter::Impl {
     // -----------------------------------------------------------------------
 
     TensorRouteDecision decide(
-        const PilotResult&     pilot,
-        const TensorRouteHint& hint) const
+        const PilotResult&               pilot,
+        const TensorRouteHint&           hint,
+        const std::vector<std::size_t>&  mode_sizes) const
     {
         // Priority order:
         // 1. hard category overrides (e.g. RELATIONAL -> KEEP, GEODATA -> LIFT)
-        // 2. domain-template promotion (TemplateCatalog hit -> LIFT)
+        // 2. domain-template promotion with topology validation (TemplateCatalog hit -> LIFT)
         // 3. rank-cap guard
         // 4. κ + compression-ratio heuristic
         // Category override has highest priority
@@ -231,22 +264,36 @@ struct TensorRouter::Impl {
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
             if (tmpl.has_value()) {
-                TemplateTopologyApplyFn apply_fn;
-                {
-                    std::lock_guard<std::mutex> lk(template_apply_mu);
-                    apply_fn = template_topology_apply_fn;
-                }
-                if (apply_fn) {
-                    try {
-                        if (apply_fn(hint.domain_tag, *tmpl, hint)) {
-                            return TensorRouteDecision::LIFT;
+                // Validate template topology against the data's mode dimensions
+                // before invoking the apply callback.  An invalid or mismatched
+                // template falls back to the heuristic path rather than crashing
+                // or silently producing incorrect index topology.
+                const auto validation =
+                    TensorRouter::validateTemplate(*tmpl, mode_sizes);
+                if (!validation.valid) {
+                    spdlog::warn(
+                        "TensorRouter: template topology for domain_tag='{}' "
+                        "failed validation: {}; falling back to heuristic routing",
+                        hint.domain_tag, validation.reason);
+                    // Controlled fallback: skip apply_fn, continue to heuristic.
+                } else {
+                    TemplateTopologyApplyFn apply_fn;
+                    {
+                        std::lock_guard<std::mutex> lk(template_apply_mu);
+                        apply_fn = template_topology_apply_fn;
+                    }
+                    if (apply_fn) {
+                        try {
+                            if (apply_fn(hint.domain_tag, *tmpl, hint)) {
+                                return TensorRouteDecision::LIFT;
+                            }
+                        } catch (const std::exception& ex) {
+                            spdlog::warn(
+                                "TensorRouter template topology callback threw for domain_tag='{}': {}",
+                                hint.domain_tag,
+                                ex.what());
+                            // Fail-closed to heuristic path on bridge exception.
                         }
-                    } catch (const std::exception& ex) {
-                        spdlog::warn(
-                            "TensorRouter template topology callback threw for domain_tag='{}': {}",
-                            hint.domain_tag,
-                            ex.what());
-                        // Fail-closed to heuristic path on bridge exception.
                     }
                 }
             }
@@ -307,7 +354,7 @@ TensorRouteDecision TensorRouter::route(
         return TensorRouteDecision::KEEP;
 
     auto pilot   = impl_->runPilot(data, mode_sizes);
-    auto decision = impl_->decide(pilot, hint);
+    auto decision = impl_->decide(pilot, hint, mode_sizes);
 
     auto t1      = std::chrono::steady_clock::now();
     double us    = std::chrono::duration<double, std::micro>(t1 - t0).count();
@@ -342,7 +389,7 @@ std::string TensorRouter::explain(
     const TensorRouteHint&          hint) const
 {
     auto pilot    = impl_->runPilot(data, mode_sizes);
-    auto decision = impl_->decide(pilot, hint);
+    auto decision = impl_->decide(pilot, hint, mode_sizes);
 
     nlohmann::json j;
     j["decision"]             = to_string(decision);

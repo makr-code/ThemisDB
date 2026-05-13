@@ -271,6 +271,57 @@ public:
     static Route decide(const DataProfile& p) noexcept;
 
     // -----------------------------------------------------------------------
+    // Template topology validation
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Result of a template topology compatibility check.
+     *
+     * Returned by `validateTemplate()` to communicate whether a
+     * `TensorNetworkGraph` is compatible with a given data layout.
+     * When `valid` is `false`, `reason` contains a human-readable
+     * explanation suitable for logging.
+     */
+    struct TemplateValidationResult {
+        bool        valid  = false; ///< `true` if the template is compatible.
+        std::string reason;         ///< Non-empty diagnostic when `valid` is `false`.
+    };
+
+    /**
+     * @brief Validate a template graph against a concrete set of mode sizes.
+     *
+     * Checks structural compatibility of @p graph with the data shape
+     * described by @p mode_sizes before the template is applied to index
+     * construction.  The router calls this internally before invoking
+     * `TemplateTopologyApplyFn`; callers may use it independently for
+     * pre-flight checks.
+     *
+     * Validation rules (in priority order):
+     *  1. @p graph must be non-empty (at least one node).
+     *  2. @p mode_sizes must be non-empty (topology cannot be checked without
+     *     shape information).
+     *  3. Every node's `mode_index` must be strictly less than
+     *     `mode_sizes.size()` — a node referencing a non-existent mode
+     *     indicates a topology mismatch between the template and the data.
+     *
+     * When validation fails the router skips `TemplateTopologyApplyFn` and
+     * falls back to the pilot-based heuristic path, logging a warning with
+     * the returned `reason` string.
+     *
+     * @param graph       Template graph to validate.
+     * @param mode_sizes  Shape of the tensor data the template will be applied
+     *                    to (same vector that is passed to `route()`).
+     * @return `TemplateValidationResult::valid == true` when compatible;
+     *         `false` with a diagnostic `reason` on any constraint violation.
+     *
+     * @note `noexcept` — never throws; all error information is returned
+     *       in the `TemplateValidationResult`.
+     */
+    [[nodiscard]] static TemplateValidationResult
+        validateTemplate(const tensor::TensorNetworkGraph& graph,
+                         const std::vector<std::size_t>&   mode_sizes) noexcept;
+
+    // -----------------------------------------------------------------------
     // Engine-backed routing (pilot TT-SVD on actual data)
     // -----------------------------------------------------------------------
 
@@ -329,13 +380,27 @@ public:
     void setPolicy(TensorRoutingPolicy p);
 
     /**
-     * @brief Callback used to apply a matched TemplateCatalog topology.
+     * @brief Callback used to apply a matched TemplateCatalog topology to the
+     *        stored index structure.
+     *
+     * The callback is invoked only after `validateTemplate()` confirms that
+     * the matched graph is structurally compatible with the data's mode sizes.
+     * It is responsible for embedding the template topology into the index
+     * cores (e.g. by adjusting bond dimensions or reordering mode contractions
+     * to follow the template graph's node connectivity).
      *
      * @param domain_tag  Domain tag that produced the template hit.
-     * @param graph       Matched template graph.
-     * @param hint        Original route hint.
-     * @return `true` if topology embedding succeeded and LIFT promotion is valid.
-     *         `false` if embedding failed (router falls back to heuristic path).
+     * @param graph       Validated template graph (guaranteed non-empty and
+     *                    mode-compatible at call time).
+     * @param hint        Original route hint (read-only; contains domain_tag,
+     *                    category, distribution, etc.).
+     * @return `true`  — topology embedding succeeded; router promotes to LIFT.
+     *         `false` — embedding failed or was not applicable; router falls
+     *                   back to the pilot-based heuristic path.
+     *
+     * @note The callback must be exception-safe.  Any thrown exception is
+     *       caught by the router, logged as a warning, and treated as `false`
+     *       (heuristic fallback).
      */
     using TemplateTopologyApplyFn =
         std::function<bool(const std::string&,
@@ -347,10 +412,14 @@ public:
      *
      * When a non-null catalog is set, `route()` checks the catalog for a
      * matching template whenever `TensorRouteHint::domain_tag` is non-empty.
-     * A catalog hit promotes the routing decision toward LIFT.
+     * On a catalog hit the router first validates the template topology via
+     * `validateTemplate()`.  Only a compatible template (validation succeeds)
+     * and a successfully applied callback (returns `true`) promote the
+     * decision to LIFT.  If validation fails, the callback is skipped and the
+     * router falls back to the pilot-based heuristic with a warning log entry.
      *
      * Passing nullptr disables template-catalog lookups (default).
-      */
+     */
     void setTemplateCatalog(std::shared_ptr<tensor::TemplateCatalog> catalog);
 
     /**
