@@ -99,7 +99,7 @@ struct [[nodiscard]] HSMRuntimeSecurityDecision {
     if (!policy.config.library_path.empty()) {
         decision.security_classification = "HSM-BLOCKED-PKCS11-FALLBACK";
         decision.audit_event =
-            "HSM policy requires PKCS#11 but runtime fell back to stub without explicit override.";
+            "HSM policy requires PKCS#11 but runtime fell back to stub without explicit override; startup blocked.";
     } else {
         decision.security_classification = "HSM-BLOCKED-IMPLICIT-STUB";
         decision.audit_event =
