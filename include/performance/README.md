@@ -62,6 +62,18 @@ All optimizations are based on peer-reviewed academic research (45+ papers) with
 
 ---
 
+## Public API and Configuration Surface
+
+| Area | Primary Public Headers | Entry/Integration Notes |
+|------|------------------------|-------------------------|
+| Cycle metrics + export | `cycle_metrics.h`, `cycle_metrics_config.h`, `runtime_config.h` | Uses compile-time feature flags; integrates with exporters in `src/performance/*exporter*.cpp` |
+| Runtime feature flags | `feature_flags.h`, `phase2_feature_flags.h`, `phase3/feature_flags.h`, `phase4/feature_flags.h` | Runtime toggles are effective only for features enabled at compile-time |
+| Memory/NUMA | `allocator.h`, `huge_pages.h`, `numa_memory_manager.h`, `numa_topology.h` | NUMA/huge-page behavior depends on OS support and privileges |
+| Concurrent structures | `rcu.h`, `rcu_hash_table.h`, `lockfree_metrics_buffer.h`, `lockfree_histogram.h` | `lockfree_metrics_buffer.h` is SPSC-only; violating this contract is unsupported |
+| Workload-aware optimizers | `workload_predictor.h`, `workload_adaptive_optimizer.h`, `advanced_cache_manager.h` | Enables adaptive behavior based on observed workload profile |
+
+---
+
 ## Usage Examples
 
 ### Enable Optimizations
@@ -132,6 +144,25 @@ cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
 
 ---
 
+## Runtime Behavior, Error Cases, and Limits
+
+- Feature toggles are two-layered: CMake (`THEMIS_ENABLE_*`) gates compilation, runtime flags gate activation.
+- PMU/GPU metrics and accelerator paths are platform-dependent and may degrade to fallback implementations.
+- NUMA pinning and huge page allocation can fail due to host privileges or kernel configuration; callers should tolerate fallback behavior.
+- `lockfree_metrics_buffer.h` must be used with one producer and one consumer only.
+- Full instrumentation (`THEMIS_BENCHMARK_MODE`) is intended for profiling/benchmarking and can increase runtime overhead.
+
+## Troubleshooting
+
+| Symptom | Check |
+|---------|-------|
+| Instrumentation compiles but no cycle metrics are exported | Verify `THEMIS_ENABLE_CYCLE_METRICS=ON` and `THEMIS_ENABLE_METRICS_EXPORT=ON` during CMake configure |
+| Runtime `set_*_enabled(true)` calls do not change behavior | Confirm corresponding feature was compiled in via `THEMIS_ENABLE_*` |
+| Missing GPU/PMU metrics fields | Validate platform/tooling support (CUDA, perf permissions) and rely on fallback counters where unavailable |
+| Inconsistent metrics stream under load | Verify strict SPSC usage for lock-free metrics buffers |
+
+---
+
 ## Performance Gains
 
 | Optimization | Workload | Gain |
@@ -151,15 +182,18 @@ cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
 
 ## Documentation
 
-- **Full Documentation**: `src/performance/README.md`
-- **Future Enhancements**: `src/performance/FUTURE_ENHANCEMENTS.md`, `include/performance/FUTURE_ENHANCEMENTS.md`
-- **Research Papers**: `docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md`
-- **Cycle Metrics**: `docs/performance/CYCLE_METRICS.md`
+- **Module implementation overview**: [`../../src/performance/README.md`](../../src/performance/README.md)
+- **Architecture**: [`../../src/performance/ARCHITECTURE.md`](../../src/performance/ARCHITECTURE.md)
+- **Roadmap**: [`../../src/performance/ROADMAP.md`](../../src/performance/ROADMAP.md)
+- **Future enhancements**: [`../../src/performance/FUTURE_ENHANCEMENTS.md`](../../src/performance/FUTURE_ENHANCEMENTS.md)
+- **Performance targets/SLO mapping**: [`../../src/performance/PERFORMANCE_EXPECTATIONS.md`](../../src/performance/PERFORMANCE_EXPECTATIONS.md)
+- **Module overview (DE)**: [`../../docs/de/performance/README.md`](../../docs/de/performance/README.md)
+- **Research papers**: [`../../docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md`](../../docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md)
 
 ---
 
-**Last Updated**: 2026-04-06
-**Version**: 1.1
+**Last Updated**: 2026-05-13
+**Version**: 1.2
 
 ## Installation
 

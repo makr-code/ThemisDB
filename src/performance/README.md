@@ -47,6 +47,19 @@ The Performance module provides ThemisDB's comprehensive optimization infrastruc
 
 **Maturity:** 🟢 Production-Ready — All Phase 1–4 optimizations implemented; hardware cycle metrics, SIMD, NUMA, lock-free structures, adaptive feature flags, ML workload predictor, and research-based algorithms (WiscKey, Dostoevsky, Cicada, RaBitQ, Ligra) are production-grade.
 
+## Module Navigation
+
+| Document | Purpose |
+|----------|---------|
+| [`README.md`](./README.md) | Modulübersicht, Komponenten, Build-/Runtime-Konfiguration, Usage |
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Komponenten- und Datenfluss des Performance-Moduls |
+| [`ROADMAP.md`](./ROADMAP.md) | Umsetzungsphasen, Readiness-Checklist, bekannte Grenzen |
+| [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) | Geplante Erweiterungen mit Constraints und Teststrategie |
+| [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) | Messbare SLO-/Benchmark-Ziele |
+| [`SECURITY.md`](./SECURITY.md) | Sicherheitsaspekte (z. B. Side-Channel-/Telemetry-Risiken) |
+| [`../../include/performance/README.md`](../../include/performance/README.md) | Public API/Entry-Points in `include/performance` |
+| [`../../docs/de/performance/README.md`](../../docs/de/performance/README.md) | Deutschsprachige Übersichtsseite und weiterführende Guides |
+
 ## Scope
 
 **In Scope:**
@@ -68,6 +81,14 @@ The Performance module provides ThemisDB's comprehensive optimization infrastruc
 - Storage engine implementation (handled by storage module)
 - Network I/O and protocol handling (handled by server module)
 - Authentication and authorization (handled by auth module)
+
+## Runtime Behavior, Error Cases, and Limits
+
+- **Compile-time + Runtime coupling:** Runtime toggles only affect features compiled with the corresponding `THEMIS_ENABLE_*` option.
+- **SPSC contract:** `lockfree_metrics_buffer.h` requires exactly one producer and one consumer; violating this contract can cause undefined behavior.
+- **Platform-gated acceleration:** CUDA/GPU metrics and some PMU counters are platform-specific; unsupported platforms fall back to lower-fidelity timing paths.
+- **Huge page / NUMA constraints:** Huge pages and NUMA pinning depend on host OS and privileges; allocation/pinning can fall back to default allocator or default placement.
+- **Profiling overhead trade-off:** Full instrumentation mode (`THEMIS_BENCHMARK_MODE`) increases runtime overhead and is intended for measurement, not latency-critical production paths.
 
 ## Key Components
 
@@ -1000,6 +1021,18 @@ When adding performance optimizations:
 5. **Documentation**: Update this README and research docs
 6. **Validation**: Measure performance gains and verify correctness
 7. **Examples**: Add usage examples to `feature_flags_examples.h`
+
+---
+
+## Troubleshooting
+
+| Problem | Typical Cause | Mitigation |
+|---------|---------------|------------|
+| No metric output although code is instrumented | `THEMIS_ENABLE_CYCLE_METRICS` or exporter flag disabled at configure-time | Reconfigure CMake with metrics flags and rebuild |
+| Runtime toggles have no effect | Compile-time feature flag for that optimization is OFF | Enable corresponding `THEMIS_ENABLE_*` option and rebuild |
+| Unexpected metric gaps/drops | SPSC buffer pressure or wrong producer/consumer usage | Keep strict single-producer/single-consumer usage; increase collection cadence |
+| GPU cycle metrics unavailable | CUDA runtime/tooling not available on host | Use CPU counters as fallback or run on CUDA-enabled node |
+| No PMU-derived cache miss data | `perf_event_open` unavailable/permission denied | Use fallback counters and validate with privileged perf environment |
 
 ---
 
