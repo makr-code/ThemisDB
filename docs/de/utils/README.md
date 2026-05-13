@@ -213,9 +213,7 @@ Dieses Modul ist Bestandteil von ThemisDB. Die Header-Dateien werden über den T
 target_include_directories(mein_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
 
-## Usage
-
-Die Implementierungsdateien des Moduls werden in die ThemisDB-Bibliothek kompiliert.
+## Verwendung / Usage
 Alle öffentlichen Schnittstellen sind über die Header unter `include/utils/` verfügbar.
 Siehe [`include/utils/README.md`](../../../include/utils/README.md) für die vollständige Public-API-Dokumentation und Verwendungsbeispiele.
 
