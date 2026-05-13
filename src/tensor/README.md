@@ -87,8 +87,9 @@ Boundary analysis: `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
 
 | File | Description |
 |------|-------------|
+| `include/tensor/encoder_interface.h` | `ITextEncoder`, `IImageEncoder`, `EncoderQuality` — pluggable encoder abstractions |
 | `include/tensor/utr_converter.h` | `UTRConverter` — geospatial/tabular/image/document → TT/HT |
-| `src/tensor/utr_converter.cpp` | UTR converter implementation |
+| `src/tensor/utr_converter.cpp` | UTR converter implementation (encoder priority chain: registered encoder > EmbedFn bridge > built-in lexical/patch fallback) |
 | `include/tensor/hyper_index_builder.h` | `HyperIndexBuilder` — tabular co-occurrence TT index |
 | `src/tensor/hyper_index_builder.cpp` | HyperIndex builder implementation |
 
