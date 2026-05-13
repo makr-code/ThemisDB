@@ -806,7 +806,7 @@ rewriter.setBackend(new_backend);
 - `temperature`: Sampling temperature hint (default 0.7; enforcement is backend-specific)
 - `fallback_to_original`: Append original query when no usable LLM output is produced (default true)
 - `max_rewrite_length`: Character budget per rewrite; longer strings are dropped (default 256)
-- `min_token_overlap_ratio`: Minimum Jaccard token-overlap with the original query; rewrites below this are discarded (default 0.2; set 0.0 to disable)
+- `min_token_overlap_ratio`: Minimum Jaccard token-overlap between a rewrite and the original query (Jaccard = |A∩B| / |A∪B| where A and B are whitespace-token sets); rewrites below this threshold are discarded (default 0.2; set 0.0 to disable)
 
 ---
 
@@ -901,7 +901,7 @@ results.erase(
 ```
 
 **Config Fields:**
-- `max_exclude_scan`: Maximum documents fetched per negative term; prevents unbounded memory use (default 100,000; 0 = unlimited, guarantees complete exclusion)
+- `max_exclude_scan`: Maximum documents fetched per negative term; prevents unbounded memory use (default 100,000; set to 0 to disable the limit — only in controlled environments or with small corpora, as very common negative terms can exhaust memory)
 
 **Notes:**
 - `parseQuery()` is a pure static function and is fully thread-safe.
@@ -1169,7 +1169,7 @@ All search engine constructors validate their `Config` at construction time and 
 
 | Class | Typical cause |
 |---|---|
-| `HybridSearch` | `k == 0`, `rrf_k <= 0`, `default_table` or `default_column` is empty, `k > max_k`, or `k_bm25 / k_vector > max_candidates` |
+| `HybridSearch` | `k == 0`, `rrf_k <= 0`, `default_table` or `default_column` is empty, `k > max_k` (hard upper bound, default 10,000), or `k_bm25 / k_vector > max_candidates` (default 10,000); see `HybridSearch::Config` above |
 | `ConversationalSearch` | Reserved for future validation (currently all default configs are valid) |
 | `FederatedSearch` | Reserved for future validation |
 | `LlmQueryRewriter` | `num_rewrites == 0` |
@@ -1181,7 +1181,7 @@ All search engine constructors validate their `Config` at construction time and 
 
 1. **Partial result** — check `SearchStats::partial_result`. One backend may have failed; inspect logs for `THEMIS_ERROR` messages.
 2. **Config weights are zero** — ensure at least one of `bm25_weight` or `vector_weight` is > 0.
-3. **BM25 index not built** — call `SecondaryIndexManager::createIndex()` with `FULLTEXT` type before the first search.
+3. **BM25 index not built** — call `SecondaryIndexManager::createIndex()` with `FULLTEXT` type before the first search. See [Index Module documentation](../index/README.md) for details.
 4. **Vector index empty** — ensure documents have been upserted with embedding vectors before querying.
 
 ### Low recall / poor result quality
