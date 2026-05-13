@@ -22,7 +22,7 @@ against the current implementation state.
 ## Documents
 
 - [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-- [German secondary README](../../de/onnx_clip/README.md)
+- [German secondary overview](../../de/onnx_clip/index.md)
 
 ## Highlights
 
