@@ -3,9 +3,9 @@
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: PRIMARY_SOURCES.md · ../../../src/temporal/README.md -->
 
-**Stand:** 6. April 2026  
-**Version:** aktuell  
-**Kategorie:** Zeitliche Datenverwaltung  
+**Stand:** 6. April 2026
+**Version:** aktuell
+**Kategorie:** Zeitliche Datenverwaltung
 **Status:** 🟢 Production-Ready
 
 ---
@@ -42,3 +42,53 @@ Das Temporal-Modul implementiert bi-temporale Datenverwaltung mit System- und G�
 | Dokument | Beschreibung |
 |----------|--------------|
 | [`src/temporal/README.md`](../../../src/temporal/README.md) | Modulübersicht |
+| [`include/temporal/README.md`](../../../include/temporal/README.md) | Öffentliche Header-API mit C++-Snippets |
+| [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) | Lieferstatus, Phasen und bekannte Einschränkungen |
+| [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) | Geplante Ausbauten und technische Ziele |
+
+---
+
+## Laufzeitverhalten, Fehlerfälle und Grenzen
+
+- Historische Versionen bleiben bis zur Löschung/Archivierung durch Retention-Policies verfügbar.
+- SQL/AQL-Temporal-DDL (`PERIOD FOR`, `FOR SYSTEM_TIME`) ist weiterhin nicht vollständig im Parser verfügbar; produktiv wird derzeit die C++-API verwendet.
+- Typische Fehlerbilder: ungültige Zeitintervalle, unerwartete Konfliktauflösung (Policy/HLC), fehlende historische Daten nach aggressiver Retention.
+- Ohne Retention- und Kompressionskonfiguration kann der Speicherbedarf historischer Daten stark wachsen.
+
+---
+
+## Installation
+
+Das Modul wird automatisch mit ThemisDB gebaut. Für Linux:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+---
+
+## Usage
+
+```cpp
+#include "temporal/system_versioned_table.h"
+#include "temporal/temporal_query_engine.h"
+
+themisdb::temporal::SystemVersionedTable employees("employees");
+employees.insert("emp1", {{"name", "Alice"}});
+
+auto rows = themisdb::temporal::TemporalQueryEngine::queryAsOf(
+    employees,
+    std::chrono::system_clock::now()
+);
+```
+
+Weitere Beispiele: [`include/temporal/README.md`](../../../include/temporal/README.md#examples)
+
+---
+
+## Troubleshooting
+
+- **Keine Daten in historischen Abfragen:** Prüfen, ob der Zeitstempel im gültigen Bereich liegt und ob Retention alte Versionen bereits entfernt hat.
+- **Konflikte verhalten sich unerwartet:** `ConflictPolicy` und HLC-Zeitquellen prüfen.
+- **Speicherverbrauch steigt:** `RetentionManager` aktivieren und `TemporalCompressor` einsetzen.

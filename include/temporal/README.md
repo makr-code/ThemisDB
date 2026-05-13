@@ -1,8 +1,15 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Temporal Module - Public API
 
 Public interface definitions for ThemisDB temporal functionality.
+
+## Module Navigation
+
+- Internal implementation overview: [`../../src/temporal/README.md`](../../src/temporal/README.md)
+- Module roadmap: [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
+- Future enhancements: [`../../src/temporal/FUTURE_ENHANCEMENTS.md`](../../src/temporal/FUTURE_ENHANCEMENTS.md)
+- German overview: [`../../docs/de/temporal/README.md`](../../docs/de/temporal/README.md)
 
 ## Headers
 
@@ -79,7 +86,7 @@ std::cout << "Total conflicts: " << stats.total_conflicts << std::endl;
 ---
 
 ### temporal_cdc.h
-**Purpose:** Change data capture for temporal tables <!-- TODO: verify -->
+**Purpose:** Change data capture for temporal tables with replay support
 
 ---
 
@@ -147,6 +154,15 @@ if (!result.is_ok()) {
     std::cerr << "Error: " << result.error_message() << std::endl;
 }
 ```
+
+---
+
+## Runtime Behavior and Operational Limits
+
+- **History retention is explicit:** historical versions remain available until retention policies remove/archive them.
+- **DDL parser gap:** SQL syntax (`PERIOD FOR`, `FOR SYSTEM_TIME`) is not yet generally available in AQL parser; use C++ APIs from this directory.
+- **Consistency expectation:** APIs assume monotonically progressing temporal metadata (HLC/system timestamps) and may reject malformed time ranges.
+- **Capacity planning:** without retention/compression, versioned history can grow unbounded; configure retention + compression for long-running deployments.
 
 ---
 
@@ -578,7 +594,8 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 ## See Also
 
 - [Implementation Documentation](../../src/temporal/README.md) - Internal implementation details
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Future Enhancements](../../src/temporal/FUTURE_ENHANCEMENTS.md) - Planned features
+- [ROADMAP](../../src/temporal/ROADMAP.md) - Delivery status and next milestones
 - [Replication Module](../replication/README.md) - HLC and distributed coordination
 - [Architecture Guide](../../ARCHITECTURE.md) - System architecture
 
