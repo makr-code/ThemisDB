@@ -112,7 +112,7 @@ themis::tensor::HyperIndexTensor buildSimpleHyperIndex() {
     return HyperIndexBuilder::fromSchema("tenant_a", schema, rows, cfg);
 }
 
-themis::tensor::HyperIndexTensor buildFkAwareHyperIndex(std::size_t max_hops) {
+[[nodiscard]] themis::tensor::HyperIndexTensor buildFkAwareHyperIndex(std::size_t max_hops) {
     using namespace themis::tensor;
 
     ColumnSchema customer_id;

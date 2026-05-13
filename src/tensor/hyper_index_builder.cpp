@@ -277,7 +277,7 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
  * @param bucket_count Number of buckets; caller guarantees bucket_count > 0.
  * @return Bucket index in [0, bucket_count-1].
  */
-std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
+[[nodiscard]] std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
     if (!(value >= 0.0)) {
         return 0U;
     }
@@ -305,7 +305,7 @@ struct FkResolvedEdge {
  * @throws std::invalid_argument on invalid column indices or invalid weights.
  * @throws std::runtime_error when join statistics are missing and fallback is THROW.
  */
-std::vector<FkResolvedEdge> resolveForeignKeyEdges(
+[[nodiscard]] std::vector<FkResolvedEdge> resolveForeignKeyEdges(
     const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
     std::size_t schema_size,
     const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg) {
@@ -408,6 +408,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
         }
     }
 
+    constexpr double kFirstHopFullWeight = 1.0;
     const auto max_hops = std::max<std::size_t>(1U, fk_cfg.max_hops);
     const auto decay = std::clamp(fk_cfg.propagation_decay, 0.0, 1.0);
 
@@ -441,7 +442,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 }
                 // First hop models direct FK linkage and keeps full edge weight.
                 // Additional hops apply configurable decay to attenuate distant joins.
-                const auto hop_decay = (cur.depth == 0U) ? 1.0 : decay;
+                const auto hop_decay = (cur.depth == 0U) ? kFirstHopFullWeight : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
                 if (!(next_weight > 0.0)) {
                     continue;
