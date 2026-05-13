@@ -91,6 +91,64 @@ Full standard cron expression parser supporting all standard syntax elements:
 - Optional 6-field form with year constraint: `0 9 * * MON 2025`
 - Timezone-aware `getNextExecution(from, tz_offset_seconds)` overload
 
+## Public Header Entry Points
+
+Primary scheduler API entry points from `include/scheduler/`:
+
+| Header | Purpose |
+|---|---|
+| `task_scheduler.h` | Core scheduler API, `ScheduledTask` model, registration/execution lifecycle, retry and SLA controls, metrics |
+| `hybrid_retention_manager.h` | Three-stage retention lifecycle management |
+| `distributed_task_coordinator.h` | Cluster leader election and distributed scheduling control |
+| `external_scheduler_adapter.h` | Kubernetes/Airflow adapter interfaces and manifest conversion |
+| `event_trigger.h` | Event-driven trigger API with circuit-breaker protections |
+| `task_audit_manager.h` | Query/export API for task audit events |
+| `task_result_store.h` | Persistent per-task execution result retrieval |
+| `task_anomaly_detector.h` | Runtime anomaly detection interfaces |
+| `task_audit_event.h` | Audit/security event model types |
+
+For full API details and examples, see [Scheduler Headers](../../include/scheduler/README.md).
+
+## Runtime Behavior, Error Cases, and Limits
+
+- Scheduler loop polls on `TaskScheduler::Config::check_interval` and dispatches up to the current concurrency limit (`max_concurrent_tasks` or dynamic limit when scaling is enabled).
+- DAG execution runs dependency-safe tasks in parallel and skips dependents after upstream failures.
+- Retry behavior uses legacy `max_retries` or `ScheduledTask::retry_policy` when configured.
+- Event-trigger execution is protected with circuit-breaker thresholds in `event_trigger.h`.
+- Registration/validation failures include invalid cron expressions, unsafe AQL patterns, and missing function handlers.
+- `executeDAG(...)` throws on unknown task IDs and cyclic dependency graphs.
+- External scheduler conversion APIs throw `std::invalid_argument` for incomplete task/manifests.
+- Resource boundaries are controlled via timeout/SLA settings, dynamic concurrency ceilings, and optional sandbox execution.
+
+## Usage Snippets
+
+### Register a Cron Task
+```cpp
+ScheduledTask task;
+task.name = "nightly_cleanup";
+task.type = ScheduledTask::TaskType::AQL_QUERY;
+task.trigger_type = ScheduledTask::TriggerType::CRON;
+task.cron_expression = "0 2 * * *";
+task.aql_query = "FOR d IN logs FILTER d.ts < DATE_SUB(NOW(), 30, 'day') REMOVE d IN logs";
+scheduler.registerTask(task);
+```
+
+### Execute a DAG On Demand
+```cpp
+auto dag = scheduler.executeDAG({"extract", "transform", "load"});
+if (!dag.failed.empty()) {
+    // inspect dag.task_results[...] for errors
+}
+```
+
+## Troubleshooting
+
+- **Task not firing:** verify `enabled`, trigger type (`CRON`/`INTERVAL`/`CDC_EVENT`), and cron syntax.
+- **No alerts emitted:** ensure Alertmanager is wired via `setAlertmanager(...)`.
+- **Unexpected retries:** check whether `retry_policy` overrides legacy `max_retries`.
+- **Queue backlog:** enable dynamic scaling and inspect `getQueueDepth()` / `getDynamicConcurrencyLimit()`.
+- **Missing history/results:** enable audit logging and result-store options in `TaskScheduler::Config`.
+
 ## Wissenschaftliche Grundlagen
 
 The following peer-reviewed papers and specifications form the scientific foundation of the Scheduler module's core algorithms and design decisions.
@@ -158,9 +216,14 @@ Introduces the *Largest Triangle Three Buckets* (LTTB) algorithm for perceptuall
 
 ## Related Documentation
 
-- [Scheduler Headers](../include/scheduler/README.md) - Public API
+- [Scheduler Headers](../../include/scheduler/README.md) - Public API
 - [Storage Module](../storage/README.md) - Data persistence
 - [Query Module](../query/README.md) - AQL execution
+- [Scheduler Architecture](./ARCHITECTURE.md) - Internal component design
+- [Scheduler Security](./SECURITY.md) - Threat model and controls
+- [Scheduler Roadmap](./ROADMAP.md) - Delivery status and phase plan
+- [Scheduler Future Enhancements](./FUTURE_ENHANCEMENTS.md) - Planned extensions
+- [Scheduler Docs (DE)](../../docs/de/scheduler/README.md) - Secondary German documentation
 
 ## Future Enhancements
 
