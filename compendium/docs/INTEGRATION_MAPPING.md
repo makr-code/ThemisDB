@@ -8,6 +8,18 @@ Dieses Dokument ist die Arbeitsgrundlage für die inhaltliche Konsolidierung von
 - Kapitel mit identischer Nummer sind klar abgegrenzt (Suffix `a/b` im Index).
 - Appendix, Glossar und Referenzen sind über konsistente Links verbunden.
 
+## Dateirollen (kanonisch vs. unterstützend)
+
+### Kanonische Einstiegspunkte
+- `index.md` (verbindliche Navigation)
+- `preface.md` (inhaltlicher Einstieg)
+
+### Unterstützende Nicht-Kapitel-Dateien
+- `cover_book.md` (primäres Build-Cover)
+- `cover.md` (alternative/vereinfachte Cover-Datei)
+- `INTEGRATION_MAPPING.md` (dieses Synchronisations- und Audit-Dokument)
+- `test_links_example.md` (Linktest-Datei, nicht Teil der Leser-Navigation)
+
 ## Konsolidierte Kapitelzuordnung
 
 ### Teil I — Grundlagen
@@ -103,6 +115,27 @@ Die Konsolidierung wurde gegen folgende Referenzdokumente abgeglichen:
 
 ## Review-/Audit-Nachweis (Issue-Abschluss)
 
-- Fachreview (Dokumentationschecklisten) wurde durchgeführt und in den aktualisierten Dateien berücksichtigt: `index.md`, `preface.md`, `cover.md`, `cover_book.md`, `INTEGRATION_MAPPING.md`, `test_links_example.md`.
-- Dokumentationsaudit wurde für Kapitelreihenfolge, Doppelkapitel-Abgrenzung, Appendix-/Glossar-Synchronisation und interne Linkkonsistenz durchgeführt.
-- Relevante Bereiche sind in diesem Mapping explizit gelistet (Teile I–VII, Anhänge A/D/E/F/G/H/I).
+- [x] Fachreview gegen die passenden Doku-/Code-Checklisten durchgeführt.
+- [x] Dokumentationsaudit durchgeführt.
+- [x] Ergebnis nachvollziehbar dokumentiert (in diesem Abschnitt).
+- [x] Relevante Dateien/Bereiche festgehalten.
+
+**Geprüfte und aktualisierte Dateien (Nicht-Kapitel-Scope):**
+- `index.md`
+- `preface.md`
+- `cover.md`
+- `cover_book.md`
+- `appendix_d_feature_status.md`
+- `appendix_e_incident_runbooks.md`
+- `appendix_f_aql_cheatsheet.md`
+- `appendix_g_configuration.md`
+- `appendix_h_glossary.md`
+- `appendix_i_troubleshooting.md`
+- `appendix_literatur.md`
+- `INTEGRATION_MAPPING.md`
+- `test_links_example.md`
+
+**Audit-Schwerpunkte:**
+- Kapitelreihenfolge und Doppelkapitel-Abgrenzung (`a/b`) gegen `index.md` und `mkdocs-nav.yml`.
+- Synchronisation Appendix/Glossar/Referenzen.
+- Interne Linkintegrität im Nicht-Kapitel-Scope (inkl. Korrektur defekter Links in `appendix_d_feature_status.md`).
