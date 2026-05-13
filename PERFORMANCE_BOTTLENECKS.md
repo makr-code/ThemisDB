@@ -35,6 +35,18 @@ stubs masquerading as functional code on critical paths.
 
 ---
 
+## Root-Dokument-Abgleich (Security / Audit / Architektur / CTest)
+
+Diese Bottleneck-Analyse ist an dieselben Root-Randbedingungen gebunden wie
+`ARCHITECTURE.md`, `SECURITY.md`, `AUDIT.md`, `CTEST.md`,
+`PERFORMANCE_EXPECTATIONS.md` und `PERFORMANCE_OPTIMIZATION_PLAN.md`:
+
+- Befunde auf kritischen Pfaden dürfen nicht mit Sicherheitskontrollen kollidieren.
+- Priorisierung berücksichtigt neben Performance-Impact auch Audit-/Compliance-Relevanz.
+- Verifikation erfolgt über nachvollziehbare Test- und Audit-Pfade, nicht nur über rohe Throughput-Werte.
+
+---
+
 ## 1. Lock Contention
 
 ### F-001 ✅ · `BoundedLRUCache::get()` takes exclusive write-lock for reads

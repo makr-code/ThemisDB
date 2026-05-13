@@ -8,6 +8,23 @@
 
 ---
 
+## Security-/Audit-Verifikationspfade (Root-Abgleich)
+
+Die folgenden Pfade sind der nachvollziehbare Test-/Nachweisbezug für
+Security-relevante Aussagen in Root-Dokumenten:
+
+| Nachweisziel | Verifikationspfad |
+|---|---|
+| Authentifizierung/Autorisierung (JWT, LDAP, TOTP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(JWTValidatorTests|LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` |
+| Plugin-/PKI-Sicherheitsprüfungen (inkl. CRL/OCSP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests)$"` |
+| Root-Audit-Toolchain (SAST/Secrets/Dependencies) | `./scripts/comprehensive-code-audit.sh` (siehe [SECURITY.md](SECURITY.md) und [audit/AUDIT.md](audit/AUDIT.md)) |
+| Audit-Evidenzmodell / Reporting | [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
+
+Diese Pfade dienen als Referenz für den Root-Dokument-Abgleich zwischen
+`ARCHITECTURE.md`, `SECURITY.md`, `AUDIT.md` und den Performance-Leitdokumenten.
+
+---
+
 ## Ergebnis des Komplett-Runs (Istzustand 30.03.2026)
 
 ```
