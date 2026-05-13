@@ -75,7 +75,7 @@ struct [[nodiscard]] HSMRuntimeSecurityDecision {
 [[nodiscard]] inline HSMRuntimeSecurityDecision evaluateHSMRuntimeSecurity(
     const HSMStartupPolicyResult& policy,
     bool                          runtime_stub_active,
-    std::string_view              runtime_error)
+    const std::string&            runtime_error)
 {
     HSMRuntimeSecurityDecision decision;
     decision.runtime_stub_active = runtime_stub_active;
@@ -107,7 +107,7 @@ struct [[nodiscard]] HSMRuntimeSecurityDecision {
     }
 
     if (!runtime_error.empty()) {
-        decision.audit_event += " Provider error: " + std::string(runtime_error);
+        decision.audit_event += " Provider error: " + runtime_error;
     }
     return decision;
 }

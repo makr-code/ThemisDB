@@ -1045,22 +1045,16 @@ int main(int argc, char* argv[]) {
 
         // Keep build-info module status aligned with runtime HSM state.
         themis::build_info::setHsmModuleStatusFn([provider = std::weak_ptr<themis::security::HSMProvider>(g_hsm_provider),
-                                                  explicit_stub_opt_in = hsm_policy.explicit_stub_opt_in,
-                                                  pkcs11_required = !hsm_policy.config.library_path.empty()]() {
+                                                  policy = hsm_policy]() {
             const auto provider_locked = provider.lock();
             if (!provider_locked) {
                 return std::make_pair(false,
                                       std::string("HSM PKCS#11 (provider unavailable; security_class=HSM-UNAVAILABLE)"));
             }
 
-            themis::security::HSMStartupPolicyResult policy_snapshot;
-            policy_snapshot.explicit_stub_opt_in = explicit_stub_opt_in;
-            if (pkcs11_required) {
-                policy_snapshot.config.library_path = "configured";
-            }
             const bool runtime_stub = provider_locked->isStubProvider();
             const auto runtime_security = themis::security::evaluateHSMRuntimeSecurity(
-                policy_snapshot, runtime_stub, provider_locked->getLastError());
+                policy, runtime_stub, provider_locked->getLastError());
             const bool real_hsm = !runtime_stub;
             const std::string description = real_hsm
                 ? "HSM PKCS#11 (hardware-backed; security_class=" + runtime_security.security_classification + ")"
@@ -1085,7 +1079,7 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  Security Classification: {}", hsm_runtime_security.security_classification);
         
         // Perform startup security validation
-        if (g_hsm_provider->isStubProvider()) {
+        if (hsm_runtime_security.runtime_stub_active) {
             THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
             startHSMWarningThread();
         } else {
