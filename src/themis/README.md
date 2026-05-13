@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build:** Linux: `cmake --preset linux-release && cmake --build --preset linux-release` · Windows: `cmake --preset windows-release && cmake --build --preset windows-release`
 
 # ThemisDB Core Framework Implementation
 
