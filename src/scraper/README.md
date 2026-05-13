@@ -261,5 +261,9 @@ ScraperRunStats stats = plugin.scrape();
 - [`../../include/scraper/README.md`](../../include/scraper/README.md) — public header API reference
 - [`ROADMAP.md`](./ROADMAP.md) — phased delivery status
 - [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — planned feature work
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component hierarchy and data flow
+- [`AUDIT.md`](./AUDIT.md) — audit findings and compliance status
+- [`SECURITY.md`](./SECURITY.md) — threat model and security controls
+- [`CHANGELOG.md`](./CHANGELOG.md) — version history
 - [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — performance targets and benchmarks
 - [`../../docs/de/scraper/README.md`](../../docs/de/scraper/README.md) — German secondary overview

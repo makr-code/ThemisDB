@@ -9,6 +9,8 @@
 - Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - Roadmap: [`ROADMAP.md`](ROADMAP.md)
 - Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Security: [`SECURITY.md`](SECURITY.md)
+- Changelog: [`CHANGELOG.md`](CHANGELOG.md)
 
 ## Overview
 
