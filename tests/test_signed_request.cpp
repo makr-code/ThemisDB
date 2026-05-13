@@ -90,7 +90,6 @@ AQcttznszBO+ug2ilJnGRic=
     if (!out.good()) {
         throw std::runtime_error("failed to write PEM content: " + path.string());
     }
-    out.close();
     return path;
 }
 
@@ -330,6 +329,9 @@ TEST(SignedRequestVerifierTest, VerifiesRealSignatureAndReplayProtection) {
 
     EXPECT_TRUE(verifier.verify(request, "shard_001"));
     EXPECT_FALSE(verifier.verify(request, "shard_001")) << "second verify must fail due to nonce replay";
+
+    SignedRequest fresh_request = signer.createSignedRequest("POST", "/api/test", nlohmann::json{{"x", 43}});
+    EXPECT_TRUE(verifier.verify(fresh_request, "shard_001")) << "fresh nonce should be accepted";
 }
 
 TEST(SignedRequestVerifierTest, RejectsTamperedPayloadAndUnknownKeyId) {

@@ -409,9 +409,9 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
         const auto it = seen_nonces_.find(oldest.nonce);
         if (it != seen_nonces_.end() && it->second == oldest.timestamp_ms) {
             seen_nonces_.erase(it);
-            rejectWithAuditCode(
-                kAuditNonceEviction,
-                "evicted nonce due to cache pressure: " + std::to_string(oldest.nonce));
+            spdlog::info("SignedRequestVerifier [{}]: evicted nonce due to cache pressure: {}",
+                         kAuditNonceEviction,
+                         oldest.nonce);
         }
     }
 
@@ -534,15 +534,15 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     }
 
     // Step 4: Check Certificate Revocation List if configured.
-    if (!config_.crl_path.empty() &&
-        !std::regex_match(request.cert_serial, certSerialPattern())) {
-        return rejectWithAuditCode(
-            kAuditInvalidCertSerial,
-            "CRL check requires valid cert_serial, got '" + request.cert_serial + "'");
-    }
-    if (!config_.crl_path.empty() &&
-        PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
-        return false;
+    if (!config_.crl_path.empty()) {
+        if (!std::regex_match(request.cert_serial, certSerialPattern())) {
+            return rejectWithAuditCode(
+                kAuditInvalidCertSerial,
+                "CRL check requires valid cert_serial, got '" + request.cert_serial + "'");
+        }
+        if (PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
+            return false;
+        }
     }
 
     // Step 5: Extract public key from the parsed certificate.
