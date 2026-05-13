@@ -64,7 +64,7 @@ Download pre-compiled binaries from our releases page:
 
 ```bash
 # 1. Download latest release (Linux example)
-wget https://github.com/makr-code/ThemisDB/releases/download/v1.4.0/themisdb-linux-x64.tar.gz
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb-linux-x64.tar.gz
 
 # 2. Extract
 tar -xzf themisdb-linux-x64.tar.gz
