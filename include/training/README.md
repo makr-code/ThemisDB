@@ -29,6 +29,7 @@ models, integrated with ThemisDB storage and query infrastructure.
 | Header | Key Types | Description |
 |---|---|---|
 | `ada_lora_adapter.h` | `AdaLoRAAdapter`, `AdaLoRAConfig` | Adaptive LoRA with dynamic rank allocation |
+| `adalora_tt_bridge.h` | `AdaLoraTTBridge`, `AdaLoraTTBridgeConfig` | Conversion bridge between AdaLoRA adapters and tensor-train cores |
 | `adapter_serving.h` | `AdapterServer`, `ServingConfig` | Runtime adapter hot-swap and serving |
 | `database_domain_auto_labeler.h` | `DatabaseDomainAutoLabeler` | Domain-specific auto-labeling from DB schema |
 | `lora_adapter_merger.h` | `LoRAAdapterMerger`, `MergeConfig` | Merge multiple LoRA adapters into a single model |
@@ -44,6 +45,30 @@ models, integrated with ThemisDB storage and query infrastructure.
 | `provenance_tracker.h` | `ProvenanceTracker`, `ProvenanceRecord` | Data lineage tracking |
 
 ---
+
+## Public Entry Points
+
+- `LegalAutoLabeler` (`auto_labeler.h`) — DB-backed or offline labeling (`labelAll`, `labelQuery`, `labelDocument`)
+- `IncrementalLoRATrainer` (`incremental_lora_trainer.h`) — train/resume/evaluate/deploy/rollback workflow
+- `KnowledgeGraphEnricher` (`knowledge_graph_enricher.h`) — graph + vector context enrichment for samples
+- `TrainingPipeline` (`training_pipeline.h`) — orchestration layer for label → enrich → train
+- `DatabaseDomainAutoLabeler` (`database_domain_auto_labeler.h`) — optimizer-domain dataset construction
+
+## Configuration Options (Selected)
+
+- `AutoLabelConfig` (`auto_labeler.h`): `source_collection`, `target_collection`, `language_code`, `min_confidence`, `flag_low_confidence`, `domain_type`
+- `IncrementalTrainingConfig` (`incremental_lora_trainer.h`): `adapter_version`, `num_epochs`, `batch_size`, `learning_rate`, `rank`, `alpha`, `checkpoint_dir`, `quantization`, `num_gpus`
+- `EnrichmentConfig` (`knowledge_graph_enricher.h`): `include_provisions`, `include_case_law`, `include_similar_docs`, `max_related_items`, `similarity_threshold`
+- `PipelineConfig` (`training_pipeline.h`): end-to-end pipeline flags and stage configuration
+
+## Runtime Behaviour, Errors, Limits
+
+- `LegalAutoLabeler` with `QueryEngine* == nullptr` runs in offline/test mode and does not fetch DB documents.
+- `IncrementalLoRATrainer` validates hyperparameters and throws `std::invalid_argument` / `std::runtime_error` on invalid runtime configuration.
+- Checkpoint paths use rotating, integrity-checked writes through `LoRACheckpointManager`.
+- Distributed scheduling/orchestration is an external dependency and not provided by this module.
+- Production serving orchestration is handled by integration layers outside `training`.
+- Adapter inference routing is exposed via `adapter_serving.h` and expected to be wired by the LLM integration runtime (see `src/llm/` plus [`../../src/training/README.md#integration-steps-aql-executor`](../../src/training/README.md#integration-steps-aql-executor)).
 
 ## Quick-Start
 
@@ -77,11 +102,12 @@ auto adapter = mgr->load_latest();
 
 ## Related Documents
 
-- `ARCHITECTURE.md` — design and interface inventory
-- `ROADMAP.md` — planned features and milestones
-- `AUDIT.md` — header audit results
-- `SECURITY.md` — threat model and data handling
-- `CHANGELOG.md` — version history
+- [`../../src/training/README.md`](../../src/training/README.md) — implementation overview, runtime details, troubleshooting
+- [`../../src/training/ARCHITECTURE.md`](../../src/training/ARCHITECTURE.md) — design and component/data-flow diagrams
+- [`../../src/training/ROADMAP.md`](../../src/training/ROADMAP.md) — roadmap and implementation phases
+- [`../../src/training/FUTURE_ENHANCEMENTS.md`](../../src/training/FUTURE_ENHANCEMENTS.md) — planned enhancements and constraints
+- [`../../src/training/SECURITY.md`](../../src/training/SECURITY.md) — threat model and data handling
+- [`../../docs/de/training/README.md`](../../docs/de/training/README.md) — German module overview
 
 ---
 
@@ -103,4 +129,5 @@ Include the relevant headers from this module:
 #include "training/module_header.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+See [`../../src/training/ARCHITECTURE.md`](../../src/training/ARCHITECTURE.md) and
+[`../../src/training/ROADMAP.md`](../../src/training/ROADMAP.md) for details.
