@@ -8,7 +8,7 @@ If the task involves documentation (any change under `docs/**`):
    - Template: `docs/_standards/DOC_TEMPLATE.md`
 
 2) Every doc under `docs/**` MUST start with a clickable breadcrumb link chain:
-   - Example shape: `docs > <lang> > <domain?> > <module> > <doc_kind>`
+   - Use Markdown links for every breadcrumb segment (label + relative target path), e.g. `docs > <lang> > <domain?> > <module> > <doc_kind>`.
 
 3) Every doc header MUST include:
    - **Datum** (YYYY-MM-DD)
