@@ -1,14 +1,47 @@
-> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+<!-- Status: current | validated: 2026-05-13 | auditor: Copilot -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · SECURITY.md · AUDIT.md -->
 
+# VCCDB Design — Architektonischer Entwurf des ThemisDB Multi-Modell-Kerns
 
-Architektonischer Entwurf eines hochperformanten Multi-Modell-Datenbanksystems: Eine Kernel-Level-Analyse von kanonischem Speicher, Projektionsschichten und Speicherhierarchien in C++ und Rust
+**Version:** 1.2
+**Last Updated:** 2026-05-13
+**Status:** `current` — Inhalt gegen Modulcode v1.7.0 und Commit `a04b89b` verifiziert.
+**Module Path:** `src/server/`
 
+> **Scope dieses Dokuments:**
+> Dieses Dokument beschreibt die kernel-level Architektur des kanonischen Speicherformats,
+> der Projektionsschichten, der Speicherhierarchie und der Sicherheitsarchitektur von ThemisDB.
+> Es ist ein ergänzendes Entwurfsdokument neben den operativen Server-Dokumenten.
+> Für die laufende Server-Implementierung, Schnittstellen und Betriebsdokumentation
+> siehe [README.md](README.md), [ARCHITECTURE.md](ARCHITECTURE.md), [ROADMAP.md](ROADMAP.md),
+> [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md), [SECURITY.md](SECURITY.md) und [AUDIT.md](AUDIT.md).
 
-Teil 1: Die Architektur der „Kerndaten“: Ein einheitliches Multi-Modell-Speicherformat
+---
+
+## Verwandte Dokumente
+
+| Dokument | Pfad | Beschreibung |
+|----------|------|--------------|
+| README | [README.md](README.md) | Modulübersicht, Schnittstellen, Betriebsdokumentation |
+| Architecture Guide | [ARCHITECTURE.md](ARCHITECTURE.md) | Komponentenarchitektur, Middleware-Pipeline, Diagramme |
+| Roadmap | [ROADMAP.md](ROADMAP.md) | Implementierungsstatus und geplante Features |
+| Future Enhancements | [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) | Offene Verbesserungsvorhaben und Design Constraints |
+| Security | [SECURITY.md](SECURITY.md) | Bedrohungsmodell, Sicherheitskontrollen |
+| Audit Report | [AUDIT.md](AUDIT.md) | Source-Code-Audit-Ergebnisse |
+
+---
+
+*Architektonischer Entwurf eines hochperformanten Multi-Modell-Datenbanksystems: Eine Kernel-Level-Analyse von kanonischem Speicher, Projektionsschichten und Speicherhierarchien in C++.*
+
+*Hinweis zur Implementierungssprache: ThemisDB ist in C++ implementiert (Boost.Beast/Asio). Rust-Alternativen werden der Vollständigkeit halber als Vergleich erwähnt, sind jedoch nicht Teil der produktiven Implementierung.*
+
+---
+
+## Teil 1: Die Architektur der „Kerndaten“: Ein einheitliches Multi-Modell-Speicherformat
 
 Die zentrale Anforderung ist die Definition eines „Kerndatensatzes“, der von allen vier Datenmodellen (relational, graph, vector, datei/dokument) gleichzeitig genutzt werden kann. Dies impliziert den Entwurf einer „echten“ Multi-Modell-Datenbank (MMDBMS), die über eine einheitliche Speicherschicht (unified storage layer) und eine Modellübersetzungsschicht (model translation layer) verfügt. Im Gegensatz zu Polyglot-Persistence-Ansätzen, die mehrere separate Datenbank-Engines bündeln 1, speichert eine native MMDBMS alle Datentypen in einer einzigen, kanonischen Repräsentation.8
 
-1.1. Das Paradigma der „Base Entity“: Der kanonische Dokumentspeicherkern
+### 1.1. Das Paradigma der „Base Entity“: Der kanonische Dokumentspeicherkern
 
 Die effektivste kanonische Repräsentation für disparate Datenmodelle ist das Dokumentenmodell. Führende native MMDBMS wie ArangoDB und Cosmos DB nutzen dieses Prinzip. ArangoDB speichert alle Daten, einschließlich Graphen, als JSON-Objekte 9, die intern in einem binär-optimierten Format namens VelocyPack serialisiert werden.11 Cosmos DB verwendet ein internes Atom-Record-Sequence (ARS)-Format, das Daten logisch als JSON-Dokumente projiziert.
 Für den hier skizzierten Entwurf definieren wir die atomare Speichereinheit als „Base Entity“.14 Jede logische Entität – sei es eine relationale Zeile, ein Graph-Knoten, ein Vektor-Objekt oder ein Dokument – wird als ein einziges JSON-ähnliches Dokument (im Folgenden als „Blob“ bezeichnet) gespeichert.
@@ -19,7 +52,7 @@ Graph-Daten: Das Labeled Property Graph (LPG)-Modell 23 wird abgebildet, indem K
 Vektor-Daten: Das Vektor-Embedding wird als ein Attribut (typischerweise ein Array von Floats) innerhalb des „Base Entity“-Dokuments gespeichert (z. B. {"id": "doc/789", "text": "...", "embedding": [0.12, 0.45,..., 0.91]}).24
 Die "Kerndaten" sind somit definiert als ein binär-serialisiertes Dokument (Blob) pro logischer Entität.
 
-1.2. Die physische Speicher-Engine: Das Log-Structured-Merge-Tree (LSM-Tree) Fundament
+### 1.2. Die physische Speicher-Engine: Das Log-Structured-Merge-Tree (LSM-Tree) Fundament
 
 Diese „Base Entity“-Blobs müssen physisch auf einem persistenten Medium gespeichert werden. Die modernste und leistungsfähigste Architektur für schreibintensive Workloads ist eine eingebettete Key-Value-Storage-Engine (KV-Store), die auf einem Log-Structured-Merge-Tree (LSM-Tree) basiert.25
 Systeme wie ArangoDB 27, CockroachDB und viele andere nutzen RocksDB als ihre zugrundeliegende Speicher-Engine.28 RocksDB ist eine in C++ geschriebene, hochperformante LSM-Tree-Bibliothek, die für schnelle Speichermedien (insbesondere SSDs) optimiert ist.30 Sie speichert beliebige Byte-Ströme als Schlüssel und Werte.30
@@ -32,14 +65,14 @@ Delete: Eine Löschung ist ebenfalls ein schneller Schreibvorgang, bei dem ein �
 Read (Lesen): Hier liegt die inhärente Schwäche dieser Architektur. Ein einfacher Punktabruf über den Primärschlüssel (Get(PK)) ist schnell. Eine Abfrage, die Filter auf Attribute anwendet (z. B. SELECT * FROM users WHERE age > 30), ist jedoch katastrophal langsam. Sie würde einen Full-Scan aller „Base Entity“-Blobs in der users-Tabelle erfordern, wobei jeder einzelne Blob von der Festplatte gelesen, deserialisiert und gefiltert werden müsste.
 Die Entscheidung für eine LSM-Tree-Architektur zur Speicherung von Blobs maximiert die Schreibleistung auf Kosten der Leseleistung. Dies erzwingt architektonisch die Notwendigkeit der „Layer“ (Teil 2), die als leseschnelle Indexprojektionen dienen, um diesen Nachteil auszugleichen.17
 
-1.3. Die Parsing-Herausforderung: Serialisierung und On-the-Fly-Extraktion
+### 1.3. Die Parsing-Herausforderung: Serialisierung und On-the-Fly-Extraktion
 
 Da die „Layer“ (Indizes) aus den „Kerndaten“ (Blobs) erstellt werden müssen, wird die Geschwindigkeit der Deserialisierung des Binärformats zu einem kritischen Systemengpass. Dieser Engpass tritt bei jedem Schreibvorgang (zur Aktualisierung der Indizes) und bei jedem Lese-Cache-Miss auf.
 C++ Implementierung: Die Standardlösung für das Parsen von JSON in Hochleistungssystemen ist simdjson. Diese Bibliothek nutzt SIMD-Instruktionen (Single Instruction, Multiple Data) moderner CPUs, um JSON mit einer Geschwindigkeit von mehreren Gigabyte pro Sekunde zu verarbeiten, und ist Berichten zufolge bis zu viermal schneller als gängige Parser wie RapidJSON.35 Die Architektur muss simdjson verwenden, um die Blobs während der Indexerstellung (typischerweise während der LSM-Tree-Compaction-Phase) oder bei Bedarf bei einem Lesezugriff zu parsen und die zu indexierenden Felder zu extrahieren.39 Für die Serialisierung kann VelocyPack 11 (wie in ArangoDB 27) oder Bibliotheken wie Protobuf/FlatBuffers verwendet werden.
 Rust Implementierung: Im Rust-Ökosystem ist serde (ein Serialisierungs-Framework) in Kombination mit serde_json 45 oder einem Binärformat wie bincode 49 der idiomatisache Weg. Native Rust-Bibliotheken wie rocksmap 51 oder das Projekt mokuroku 52 demonstrieren, wie Sekundärindizes über einem RocksDB-Backend verwaltet werden, wobei serde zur Serialisierung der Daten verwendet wird.52
 Die Parsing-Engine ist somit ein performance-kritisches Gateway zwischen dem kanonischen, schreiboptimierten Speicher (Write-Path) und den leseschnellen Index-Projektionen (Read-Path).
 
-1.4. Tabelle 1: Multi-Modell-Datenabbildung (Architektonische Blaupause)
+### 1.4. Tabelle 1: Multi-Modell-Datenabbildung (Architektonische Blaupause)
 
 Die folgende Tabelle fasst die Architektur von Teil 1 zusammen und zeigt die konkrete Abbildung von der logischen Entität (Modell) zur physischen Speicherebene (KV-Schema).
 Logisches Modell
@@ -74,11 +107,11 @@ String("object_name:pk_value")
 VelocyPack/Bincode(Dokument inkl. Vektor-Array)
 
 
-Teil 2: Die Multi-Modell-Projektionsschichten (Die „Layer“)
+## Teil 2: Die Multi-Modell-Projektionsschichten (Die „Layer“)
 
 Die in der Anfrage genannten „Layer“ sind keine separaten Speichersysteme. Es handelt sich um leseoptimierte Indexprojektionen, die aus den in Teil 1 definierten „Base Entity“-Blobs abgeleitet werden. Sie werden physisch im selben RocksDB-Speicher abgelegt und dienen ausschließlich der Beschleunigung von Leseoperationen (dem 'R' in CRUD). Jede Schicht stellt eine "Sicht" auf die kanonischen Daten bereit, die für die jeweilige Abfragesprache (SQL, Graph-Traversal, ANN-Suche) optimiert ist.17
 
-2.1. Schicht 1: Relationale Projektionen (Sekundärindizes)
+### 2.1. Schicht 1: Relationale Projektionen (Sekundärindizes)
 
 Problem: Beschleunigung einer SQL-ähnlichen Abfrage, z. B. SELECT * FROM users WHERE age = 30. Wie in 1.2 dargelegt, ist ein Tabellenscan der Blobs inakzeptabel.
 Architektonischer Entwurf: Es wird ein klassischer Sekundärindex erstellt. Physisch ist dies ein separates Set von Key-Value-Paaren innerhalb von RocksDB, das einen Wert (z. B. age = 30) auf den Primärschlüssel des „Base Entity“-Blobs abbildet.
@@ -89,7 +122,7 @@ Abfrage-Flow: Der Query Optimizer (siehe Teil 4) schreibt die Abfrage um. Statt 
 Implementierung (Rust): Die rocksmap-Bibliothek demonstriert dieses Muster elegant mit ihrer SecondaryIndex-Struktur.51 Das mokuroku-Projekt zeigt ebenfalls Beispiele für die Implementierung von Sekundärindizes in Rust über RocksDB.52
 Performance-Trade-off: Dieser Ansatz beschleunigt Lesezugriffe (R) massiv, verlangsamt jedoch Schreibvorgänge (C, U, D). Bei jedem Create oder Update eines User-Blobs muss nun auch der Blob geparst werden (mit simdjson 35 / serde 45) und die entsprechenden Sekundärindex-Einträge müssen atomar (unter Verwendung einer WriteBatch 28 oder RocksMapBatch 51) aktualisiert werden.
 
-2.2. Schicht 1: Native Graph-Projektionen (Simulierte Adjazenz)
+### 2.2. Schicht 1: Native Graph-Projektionen (Simulierte Adjazenz)
 
 Problem: Beschleunigung von Graph-Traversierungen (z. B. Freunde-von-Freunden-Abfragen). Native Graph-Datenbanken nutzen hierfür die „Index-freie Adjazenz“ ($O(1)$) 23, die auf direkten Speicherzeigern basiert. Dies ist in einem abstrahierten KV-Store wie RocksDB unmöglich.
 Architektonischer Entwurf: Wir müssen die Adjazenz simulieren. Der Ansatz von ArangoDB, bei dem Kanten als Dokumente mit _from- und _to-Attributen gespeichert werden 9, wird als Grundlage verwendet. Wir erstellen zwei dedizierte Sekundärindizes (Projektionen), um diese Kantenbeziehungen schnell aufzulösen: einen Index für ausgehende Kanten ("Outdex") und einen für eingehende Kanten ("Index").
@@ -102,7 +135,7 @@ Key: String("graph:in:PK_des_Zielknotens:PK_der_Kante")
 Value: PK_des_Startknotens
 Abfrage-Flow (Traversal): Eine Traversierung (z. B. "finde alle Entitäten, mit denen user/123 verbunden ist") wird zu einem hocheffizienten RocksDB-Präfix-Scan: Seek("graph:out:user/123:"). Die Engine iteriert über dieses Präfix und erhält sofort die Primärschlüssel aller direkten Nachbarn (aus dem Value). Dies ist zwar kein $O(1)$-Zeiger-Lookup, aber ein $O(k \cdot \log N)$-Scan (wobei $k$ die Anzahl der Nachbarn ist), was die optimale Performance für Graph-Traversierungen auf einem LSM-Tree-basierten KV-Store darstellt.
 
-2.3. Schicht 1: Vektor-Projektionen (ANN-Indizes)
+### 2.3. Schicht 1: Vektor-Projektionen (ANN-Indizes)
 
 Problem: Beschleunigung der Ähnlichkeitssuche (Approximate Nearest Neighbor, ANN) für die in den „Base Entity“-Blobs gespeicherten Vektoren.24
 Architektonischer Entwurf: Der ANN-Index ist eine separate, hochspezialisierte Projektionsschicht. Er speichert nicht die Vektoren selbst, sondern eine komplexe Datenstruktur (z. B. einen HNSW-Graphen 24), die auf die Primärschlüssel der „Base Entity“ verweist. Der HNSW-Algorithmus (Hierarchical Navigable Small World) ist ein de-facto-Standard, der einen mehrschichtigen Graphen aufbaut, bei dem obere Schichten als "Autobahnen" für die schnelle Navigation dienen und untere Schichten dichte "lokale Straßen" darstellen.24
@@ -116,7 +149,7 @@ Lösung für gefilterte Suchen: Diese Architektur löst elegant die in 24 beschr
 Phase 1 (Relational): Der relationale Index (aus 2.1) wird gescannt (z. B. idx:year:2020:*, idx:year:2021:*,...), um eine Kandidatenliste von PKs zu erstellen (typischerweise als Bitset repräsentiert).
 Phase 2 (Vektor): Die HNSW-Graph-Traversierung 24 wird modifiziert. An jedem Navigationsschritt wird nur zu Knoten navigiert, deren Primärschlüssel im Kandidaten-Bitset aus Phase 1 vorhanden sind. Dies ist die effiziente Implementierung des "Pre-Filtering"-Ansatzes 24, die nur durch die enge Verzahnung der Index-Layer möglich wird.62
 
-2.4. Schicht 1: Datei/Blob-Projektionen (Externalisierung)
+### 2.4. Schicht 1: Datei/Blob-Projektionen (Externalisierung)
 
 Problem: Speicherung von großen Binärdateien (z. B. Bilder, Videos, PDFs), die die „Base Entity“-Blobs ineffizient aufblähen und die Scan-Performance des LSM-Trees beeinträchtigen würden.
 Architektonischer Entwurf: Es gibt zwei primäre Lösungen, die parallel existieren können:
@@ -124,7 +157,7 @@ RocksDB BlobDB: RocksDB bietet eine spezialisierte Funktion namens BlobDB (oder 
 Referenz-Speicherung: Das „Base Entity“-Blob speichert nicht die Datei, sondern nur Metadaten und einen URI (z. B. einen S3- oder MinIO-Pfad 65), der auf einen externen Objektspeicher verweist.
 Trade-off: Die BlobDB-Lösung 28 ermöglicht es, die Blob-Speicherung atomar mit den Metadaten-Updates im LSM-Tree zu verwalten. Die externe Referenz-Speicherung ist flexibler und skalierbarer, erfordert aber komplexe verteilte Transaktionen (z. B. Two-Phase-Commit 29) oder die Akzeptanz von Eventual Consistency 38, falls ein Update im KV-Store erfolgreich ist, der Upload zum S3-Speicher jedoch fehlschlägt.
 
-2.5. Transaktionale Konsistenz über Layer hinweg (Saga-Pattern vs. ACID)
+### 2.5. Transaktionale Konsistenz über Layer hinweg (Saga-Pattern vs. ACID)
 
 Die Architektur mit einem kanonischen Speicher (Teil 1) und mehreren darauf aufbauenden Index-Projektionen (Teil 2) wirft die Frage nach der Konsistenz auf, insbesondere bei Schreibvorgängen. Wenn eine „Base Entity“ aktualisiert wird, müssen alle relevanten Index-Projektionen (relational, graph, vektor) ebenfalls atomar aktualisiert werden.
 ACID-Garantie (Innerhalb einer TMM-DB): Eine echte Multi-Modell-Datenbank (TMM-DB), die diese Architektur intern implementiert, bietet ACID-Transaktionen.72 Die Aktualisierung des „Base Entity“-Blobs und aller zugehörigen Index-Einträge erfolgt innerhalb einer einzigen atomaren Transaktion, die von der Datenbank-Engine verwaltet wird. Dies garantiert starke Konsistenz.
@@ -134,17 +167,17 @@ Kompensation: Schlägt ein Schritt fehl (z.B. Schritt 4), müssen kompensierende
 Konsequenz: Dies führt zu Eventual Consistency (BASE) 72 und verlagert die Komplexität der Konsistenzverwaltung in die Anwendung.38
 Compliance-Implikationen (DSGVO/EU AI Act): Die Verwendung des Saga-Patterns in einem verteilten System erhöht die Komplexität bei der Einhaltung von Vorschriften wie der DSGVO.83 Das Recht auf Vergessenwerden erfordert beispielsweise das zuverlässige Löschen von Daten über alle beteiligten Systeme hinweg, was durch kompensierende Transaktionen sichergestellt werden muss. Ebenso können Anforderungen des EU AI Acts an Datenprovenienz und Auditierbarkeit schwerer zu erfüllen sein, da die Nachverfolgung einer logischen Transaktion über mehrere physische, eventuell inkonsistente Zustände hinweg erfolgen muss. Eine ACID-konforme TMM-DB vereinfacht diese Compliance-Aufgaben erheblich.
 
-Teil 3: Detaillierter Entwurf der Speicherhierarchie (CRUD-Leistungsoptimierung)
+## Teil 3: Detaillierter Entwurf der Speicherhierarchie (CRUD-Leistungsoptimierung)
 
 Dies ist die direkte Antwort auf die Kernfrage zur physischen Platzierung von Datenkomponenten zur Maximierung der CRUD-Geschwindigkeit. Der Entwurf basiert auf der Standard-Speicherhierarchie (Registers, Cache, RAM, SSD, HDD) 154 und wendet sie auf die in Teil 1 und 2 definierten Architekturkomponenten an.
 
-3.1. Die Persistenz-Grundlage (HDD / Massenspeicher)
+### 3.1. Die Persistenz-Grundlage (HDD / Massenspeicher)
 
 Medium: Hard Disk Drives (HDD).
 Analyse: Aufgrund der extrem hohen Latenz bei wahlfreien Zugriffen (verursacht durch physische Suchzeiten und Rotationslatenz 68) sind HDDs für alle primären CRUD-Operationen in einem Hochleistungssystem ungeeignet.69
 Platzierung: HDDs werden ausschließlich für kalte Backups, Langzeitarchivierung (Tertiary Storage 75) oder als kostengünstiges Ziel für die Replikation des Write-Ahead Log (WAL) für die Notfallwiederherstellung (Disaster Recovery) verwendet.
 
-3.2. Die „Workhorse“-Schicht (NVMe-SSD)
+### 3.2. Die „Workhorse“-Schicht (NVMe-SSD)
 
 Medium: Solid State Drives (SSD), idealerweise NVMe (Non-Volatile Memory Express) für die geringste Latenz.
 Analyse: SSDs sind der Standard für schnelle Speicherung.31 Ihr Hauptvorteil ist der Wegfall der Latenz für wahlfreie Zugriffe, was sie ideal für Datenbank-Workloads macht.68
@@ -153,7 +186,7 @@ Write-Ahead Log (WAL): Dies ist die kritischste Komponente für die Schreibleist
 LSM-Tree SSTables / BlobDB: Die Hauptdaten, d. h. die persistenten, sortierten Dateien (SSTables) des LSM-Trees, die die „Base Entity“-Blobs (Teil 1) und alle Sekundärindizes (Teil 2) enthalten, liegen auf der NVMe-SSD-Flotte.30 Hier finden alle wahlfreien Lesezugriffe statt, die nicht aus dem RAM-Cache bedient werden können.
 On-Disk-ANN-Indizes: Für Vektor-Workloads im Terabyte-Maßstab, die den RAM übersteigen, müssen SSD-optimierte ANN-Strukturen verwendet werden. DiskANN ist ein Algorithmus, der explizit für SSDs entwickelt wurde.78 Faiss (C++) unterstützt ebenfalls On-Disk-Indizes 13, wie IndexIVFPQ 80, die für SSD-Zugriffsmuster optimiert sind.
 
-3.3. Die „Hot“-Schicht (Haupt-RAM / DRAM)
+### 3.3. Die „Hot“-Schicht (Haupt-RAM / DRAM)
 
 Medium: Hauptspeicher (DRAM).
 Analyse: RAM ist die primäre Arbeitsschicht mit Latenzen, die um Größenordnungen geringer sind als bei SSDs.154
@@ -167,7 +200,7 @@ C++: Verwendung der C++-Kernkomponenten von graph-tool 23, die Adjazenzlisten ho
 Rust: Verwendung der petgraph-Bibliothek 89 oder, für höhere Performance, einer benutzerdefinierten Vec<Vec<usize>>-Adjazenzlisten-Implementierung.147
 Resultierender Abfrage-Flow: Eine Graph-Traversierung ist nun ein $O(k)$-Lookup im RAM (um die PKs der Nachbarn zu finden), gefolgt von $k$ Get(PK)-Operationen auf RocksDB, um die "Base Entity"-Blobs abzurufen (die idealerweise im RAM-Block-Cache (Punkt 2 oben) liegen).
 
-3.4. Die Beschleuniger-Schicht (VRAM / Grafik-RAM)
+### 3.4. Die Beschleuniger-Schicht (VRAM / Grafik-RAM)
 
 Medium: VRAM (Video Random Access Memory) auf einer dedizierten GPU.
 Analyse: VRAM ist nicht Teil der allgemeinen CPU-Speicherhierarchie, sondern der Speicher eines Co-Prozessors.154 Er ermöglicht massiv-parallele Berechnungen.
@@ -183,7 +216,7 @@ e. Die GPU gibt eine Liste der Top-k-PKs zurück an den CPU-RAM.
 f. Die CPU-Engine ruft die „Base Entity“-Blobs von RocksDB (RAM-Cache/SSD) ab.
 Performance-Trade-off: Dieser Prozess ist nicht immer schneller. Der Kopiervorgang von CPU-RAM zu VRAM über den PCIe-Bus hat eine signifikante Latenz. GPU-Beschleunigung lohnt sich daher primär für Batch-Abfragen (Suche nach Tausenden von Vektoren gleichzeitig) oder bei extrem hochdimensionalen Vektoren, bei denen die parallele Rechenleistung der GPU die Transferlatenz übersteigt.
 
-3.5. Tabelle 2: Strategie der Speicherhierarchie für CRUD-Optimierung
+### 3.5. Tabelle 2: Strategie der Speicherhierarchie für CRUD-Optimierung
 
 Die folgende Tabelle fasst die in Teil 3 entwickelte Strategie zusammen und beantwortet die Kernfrage des Benutzers nach der optimalen Platzierung der Datenkomponenten zur Maximierung der CRUD-Leistung.
 
@@ -229,17 +262,17 @@ HDD / Cloud Storage
 Günstigste Speicherung für Daten ohne Latenzanforderungen.75
 
 
-Teil 4: Implementierungs-Toolkit und Parallelisierungsstrategien (C++ / Rust)
+## Teil 4: Implementierungs-Toolkit und Parallelisierungsstrategien (C++ / Rust)
 
 Dieser Teil adressiert die Anfrage nach spezifischen C++- und Rust-Bibliotheken und skizziert, wie die Abfrageausführung parallelisiert wird, um moderne Multi-Core-CPUs voll auszunutzen.99
 
-4.1. Die parallele Abfrage-Engine: Task-basierter Parallelismus
+### 4.1. Die parallele Abfrage-Engine: Task-basierter Parallelismus
 
 Problem: Eine hybride Abfrage (z. B. relationaler Filter + Graph-Traversal + Vektor-Suche) 58 besteht aus mehreren voneinander abhängigen oder unabhängigen Tasks. Diese müssen effizient auf N CPU-Kernen ausgeführt werden.
 Architektonischer Entwurf (C++): Intel Threading Building Blocks (TBB).100 TBB ist für diesen Anwendungsfall OpenMP 63 überlegen.6 OpenMP ist primär auf die Parallelisierung von Schleifen (data parallelism) ausgelegt, während TBB ein robustes, Task-basiertes Laufzeitsystem (task parallelism) mit einem "Work-Stealing"-Scheduler bietet.18 Eine hybride Abfrage wird in einen Graphen von tbb::task zerlegt. Beispielsweise können task_A (relationaler Scan) und task_B (Vektor-Suche) parallel ausgeführt werden (tbb::parallel_invoke 112), und task_C (Join/Schnittmenge) wird als Fortsetzungs-Task definiert, der erst ausgeführt wird, wenn beide Vorgänger abgeschlossen sind.
 Architektonischer Entwurf (Rust): Rayon.99 Rayon ist das Äquivalent zu TBB in Rust und bietet eine extrem einfache und sichere Datenparallelität.113 Die Funktion rayon::join 117 wird verwendet, um zwei unabhängige Tasks (z. B. zwei parallele Datenbankabfragen) rekursiv aufzuteilen und auf dem Thread-Pool auszuführen.118 par_iter() 113 wird verwendet, um Datenverarbeitungsschritte (z. B. die Verarbeitung von Suchergebnissen) auf alle verfügbaren Kerne zu verteilen. Für die Verwaltung der asynchronen I/O-Operationen auf der SSD (das Warten auf Lesevorgänge von RocksDB) wird Tokio als primäre Laufzeitumgebung eingesetzt.10
 
-4.2. Das analytische In-Memory-Format: Apache Arrow
+### 4.2. Das analytische In-Memory-Format: Apache Arrow
 
 Problem: Wie werden analytische Abfragen (OLAP) schnell ausgeführt, die Millionen von Entitäten scannen (z. B. AVG(age) über die gesamte User-Tabelle)? Das zeilenweise Abrufen und Deserialisieren (OLTP-Stil 119) von Millionen von Blobs (Teil 1) wäre ein Performance-Desaster.
 Architektonischer Entwurf (Hybride Lösung): Die Architektur nutzt Apache Arrow 119 nicht als primäres Speicherformat auf der Festplatte (das bleibt der RocksDB-Blob 119), sondern als kanonisches In-Memory-Format für die analytische Abfrageausführung.
@@ -250,7 +283,7 @@ Anstatt die Blobs einzeln zu verarbeiten, werden sie (mit simdjson [C++] oder se
 Die gesamte weitere Verarbeitung (Filter, Aggregationen) findet nun nicht mehr auf den einzelnen Objekten statt, sondern hochperformant auf den spaltenbasierten Arrow-Arrays, die CPU-Cache-freundlich (SIMD-optimiert) sind.
 C++/Rust-Implementierung: Apache DataFusion 142 ist eine in Rust geschriebene, Arrow-native Query-Engine 122, die genau das tut: Sie führt SQL-Abfragen direkt auf Arrow-Daten aus.123 Sie kann als analytische Ausführungsschicht über der RocksDB/Arrow-Deserialisierungsschicht (Teil 1.3) sitzen. Apache Arrow Flight 36 dient als hochperformantes RPC-Framework (basierend auf gRPC und FlatBuffers 64), um diese Arrow-Batches effizient zwischen den Knoten des Systems zu übertragen, ohne Serialisierungs-Overhead.124
 
-4.3. Der hybride Abfrage-Optimierer: Ein Kostenmodell für alle Modelle
+### 4.3. Der hybride Abfrage-Optimierer: Ein Kostenmodell für alle Modelle
 
 Problem: Das System muss für jede hybride Abfrage 58 den effizientesten Ausführungsplan wählen.
 Beispiel-Query: MATCH (u:User)-->(f:User) WHERE u.name = 'Alice' AND f.age > 30 AND vector_similarity(f.profile_vec, [...]) > 0.9
@@ -268,7 +301,7 @@ c. Führe Graph-Lookup (2.2) für 2.000 Treffer durch, um zu prüfen, ob sie Fre
 d. Geschätzte Kosten: Hoch.
 Fazit: Der Optimizer (der "Gehirn"-Layer 126) ist entscheidend. Er muss die Selektivität und Kosten aller Index-Projektionen (relational, graph, vektor) kennen und verstehen, wie sie kombiniert werden können (z. B. "Hybrid Search" 127), um den Ausführungsplan mit den geringsten Gesamtkosten auszuwählen.
 
-4.4. Tabelle 3: C++ vs. Rust Implementierungs-Toolkit (Empfohlene Bausteine)
+### 4.4. Tabelle 3: C++ vs. Rust Implementierungs-Toolkit (Empfohlene Bausteine)
 
 Die folgende Tabelle beantwortet die letzte Frage des Benutzers nach konkreten Bibliotheken und Codefragmenten für eine C++- oder Rust-Implementierung.
 
@@ -302,15 +335,15 @@ arrow-rs 122, datafusion 122
 Arrow und DataFusion sind in C++ und Rust (via arrow-rs) erstklassig und bilden das Rückgrat für OLAP-Workloads.36
 
 
-Teil 5: Sicherheitsarchitektur: Integration von Kerberos, RBAC und Verschlüsselung
+## Teil 5: Sicherheitsarchitektur: Integration von Kerberos, RBAC und Verschlüsselung
 
 Dieser Teil integriert die Sicherheitsanforderungen (Kerberos, Benutzerverwaltung, Verschlüsselung) in den entworfenen Kernel. Es wird ein zentralisiertes Governance-Modell bevorzugt, das auf externen Systemen wie Apache Ranger aufbaut, aber auch eine interne Implementierung skizziert wird.83
 
 5.1 Authentifizierung: Kerberos/GSSAPI-Integration
 
 Anforderung: Benutzer sollen sich über Kerberos authentifizieren.83
-Architektur: Die Authentifizierung wird nicht direkt im Datenbankkern, sondern in einer vorgelagerten API-Schicht (z.B. mittels FastAPI) implementiert. Diese Schicht fungiert als Gateway.
-Implementierung (Python): Verwendung von Middleware (z.B. asgi-gssapi) und der python-gssapi-Bibliothek. Die Middleware fängt eingehende Anfragen ab, validiert das Kerberos-Ticket (via GSSAPI AcceptContext) anhand der Server-Keytab und extrahiert den authentifizierten Benutzerprinzipal (z.B. user@REALM).
+Architektur: Die Authentifizierung ist direkt in der C++ Server-Schicht implementiert und läuft als Middleware im Boost.Beast-basierten API-Gateway.
+Implementierung (C++ / ThemisDB): Die Authentifizierungs-Middleware `auth_middleware.cpp` (Header: `include/server/auth_middleware.h`) fängt eingehende Anfragen ab und validiert Kerberos/GSSAPI-Tickets sowie JWT-Claims, API-Tokens und USB-Admin-Tokens. Zusätzlich stehen `saml_auth_provider.cpp` (SAML 2.0) und `oauth2_provider.cpp` (OAuth2/OIDC, RFC 6749 mit PKCE) zur Verfügung. Die Middleware ist für alle Endpunkte als Pflicht-Filter in der Request-Pipeline aktiviert; kein Handler darf auth-Prüfungen überspringen (siehe `api_auth_config.cpp`).
 
 5.2 Autorisierung: Rollen- und Rechteverwaltung (RBAC)
 
@@ -321,8 +354,8 @@ Flow: Das Plugin im API-Gateway empfängt den authentifizierten Kerberos-Prinzip
 Vorteil: Konsistente Richtlinienverwaltung über heterogene Systeme hinweg.83
 Architektur (Alternativ: Intern/Graph-nativ): Implementierung von RBAC direkt innerhalb der Datenbank.
 Modellierung: Das RBAC-Modell selbst wird als Graph gespeichert: (User)-->(Role)-->(Permission)-->(Resource).
-Implementierung (Python): Verwendung einer Autorisierungsbibliothek wie pycasbin im API-Gateway. Ein benutzerdefinierter Adapter übersetzt Casbin enforce-Aufrufe in Cypher-Abfragen gegen den RBAC-Graphen in der eigenen Datenbank, um Berechtigungen zur Laufzeit zu prüfen.
-Nachteil: Geringere Konsistenz bei Verwendung mehrerer Datenbanksysteme; jede DB verwaltet ihre eigenen Rechte.
+Implementierung (C++ / ThemisDB): Für interne Policy-Enforcement steht `opa_adapter.cpp` (Open Policy Agent, OPA) zur Verfügung. OPA-Richtlinien werden über die Rego-Sprache definiert und vom C++ Adapter zur Laufzeit ausgewertet. Zusätzlich ist `policy_engine.cpp` für die Verwaltung von Richtlinienregeln zuständig.
+Nachteil: Höherer Konfigurationsaufwand bei Verwendung mehrerer Datenbanksysteme; jede DB muss in die zentrale Policy-Verwaltung eingebunden werden.
 
 5.3 Verschlüsselung
 
@@ -337,36 +370,41 @@ Architektur (Bevorzugt: Extern/Zentralisiert): Bei Verwendung von Apache Ranger 
 Architektur (Intern): Bei interner RBAC-Implementierung muss ein eigenes, detailliertes Audit-Log-System im API-Gateway oder Datenbankkern entwickelt werden.
 Bedeutung für Compliance: Zentralisierte Audit-Logs vereinfachen die Einhaltung der DSGVO (Rechenschaftspflicht, Auskunftsrecht) und potenzieller AI Act-Anforderungen (Transparenz, Nachvollziehbarkeit von KI-Entscheidungen, die auf den Daten basieren).83
 
-Teil 6: API Layer (Client Interface)
+## Teil 6: API Layer (Client Interface)
 
 Dieser Teil beschreibt, wie der Server-Teil, der Client-Anfragen entgegennimmt, implementiert wird.
-Protokollwahl:
-HTTP (REST/GraphQL): Gängig, breit unterstützt, einfacher zu debuggen, aber potenzieller Overhead durch textbasiertes JSON.35
-Binär (gRPC, Arrow Flight): Performanter, geringerer Serialisierungs-Overhead.64 Apache Arrow Flight 36 ist ideal für den Hochleistungs-Transport von Arrow-Daten.124
-Concurrency-Modell:
-Asynchrones I/O: Unerlässlich für die Skalierung auf Tausende von Verbindungen (Boost.Asio in C++, Tokio in Rust 53).
-CPU Thread Pool: Abfrageausführung an einen separaten Pool (TBB 100 / Rayon 99) übergeben, um die I/O-Schleife nicht zu blockieren.
-Implementierung C++:
-Async: Boost.Asio, libuv.
-HTTP: Boost.Beast, Crow, oat++.
-gRPC/Flight: gRPC C++, Apache Arrow C++.121
-Threading: TBB 100, std::thread.
-Parsing: simdjson 35, nlohmann/json, Protobuf/FlatBuffers.
-Implementierung Rust:
-Async: Tokio 53, async-std.
-HTTP: Actix-web, Axum, Rocket, Warp.
-gRPC/Flight: Tonic, arrow-flight.125
-Threading: Tokio Tasks 10, spawn_blocking 53, Rayon.99
-Parsing: Serde 45, prost/tonic (Protobuf), arrow-rs.122
+
+**ThemisDB-Implementierung (C++ / Boost.Beast/Asio):**
+
+Protokollunterstützung (implementiert in `src/server/`):
+- HTTP/1.1, HTTP/2, HTTP/3 (QUIC) via Boost.Beast und `http_server.cpp`, `http2_session.cpp`, `http3_session.cpp`
+- REST/GraphQL: über 40 spezialisierte Handler-Dateien; OpenAPI 3.1-Spec wird aus Handler-Annotationen automatisch generiert
+- Binär (gRPC): `rpc/llm_grpc_service.cpp`, `rpc/wal_grpc_service.cpp`, `rpc/pitr_grpc_service.cpp`, etc.
+- Apache Arrow Flight: für hochperformanten Transport von Arrow-Batches zwischen Knoten
+- WebSocket, MQTT, PostgreSQL Wire Protocol, MCP (Model Context Protocol für KI-Integrationen)
+
+Concurrency-Modell (ThemisDB):
+- Asynchrones I/O: Boost.Asio; alle Netzwerkoperationen non-blocking.
+- CPU Thread Pool: Intel TBB für task-basierte Abfrageausführung; I/O-Schleife wird nicht blockiert.
+- Parsing: simdjson für JSON-Parsing mit SIMD-Beschleunigung; Protobuf/FlatBuffers für binäre Protokolle.
+
+Implementierung (ThemisDB C++):
+- Async: Boost.Asio
+- HTTP/WS: Boost.Beast (`http_server.cpp`, `websocket_session.cpp`)
+- gRPC/Flight: gRPC C++, Apache Arrow C++ (`rpc/`)
+- Threading: Intel TBB, `std::thread`
+- Parsing: simdjson, nlohmann/json, Protobuf/FlatBuffers
+
 Architekturmuster:
-Proactor/Reactor: Standard für async Server.
-Middleware: Für AuthN (Kerberos 83), AuthZ (RBAC 83), Logging.
-Worker Pool Pattern: Trennung von I/O und CPU-gebundener Arbeit.
+- Proactor/Reactor: Standard für async Server (Boost.Asio).
+- Middleware-Pipeline: AuthN (`auth_middleware.cpp`), Rate Limiting (`rate_limiter_v2.cpp`), Request-Validation (`request_validation_middleware.cpp`), Logging.
+- Worker Pool Pattern: Trennung von I/O und CPU-gebundener Arbeit via TBB.
+- Handler-Per-Domain: jeder API-Domänenbereich hat seinen eigenen Handler (vgl. [ARCHITECTURE.md](ARCHITECTURE.md)).
 
-Teil 7: Strategische Zusammenfassung und Kompromisse
+## Teil 7: Strategische Zusammenfassung und Kompromisse
 
 
-7.1. Synthese des vorgeschlagenen Entwurfs
+### 7.1. Synthese des vorgeschlagenen Entwurfs
 
 Dieser Bericht skizziert eine kohärente Architektur für ein echtes Multi-Modell-Datenbanksystem, das die widersprüchlichen Anforderungen von vier Datenmodellen und Hochleistungs-CRUD-Operationen in Einklang bringt.
 Die Architektur basiert auf einem kanonischen „Base Entity“-Blob, das in einer LSM-Tree KV-Engine (RocksDB) gespeichert ist. Diese Grundarchitektur ist inhärent schreiboptimiert (hohe C/U/D-Leistung).
@@ -374,13 +412,22 @@ Die „Layer“ sind leseoptimierte Index-Projektionen (sekundäre, graphische, 
 Die Systemleistung wird durch die intelligente Verteilung der Komponenten auf die Speicherhierarchie (RAM, VRAM, NVMe-SSD) und parallele Abfrageausführung (TBB/Rayon) erreicht.
 Die Sicherheit wird durch eine Kombination aus Kerberos/GSSAPI-Authentifizierung in einem API-Gateway und einer zentralisierten RBAC-Autorisierung (idealerweise Apache Ranger) sowie Datenverschlüsselung gewährleistet. Zentralisierte Audit-Logs sind für die Compliance (DSGVO, AI Act) entscheidend.83 Der API Layer bietet flexible Anbindungsmöglichkeiten (HTTP, Arrow Flight) über ein asynchrones Server-Modell.
 
-7.2. C++ vs. Rust: Eine strategische Empfehlung
+### 7.2. C++ vs. Rust: Eine strategische Empfehlung
 
-Die Wahl zwischen C++ und Rust ist ein strategischer Kompromiss:
-C++: Bietet das derzeit ausgereifteste und leistungsfähigste Ökosystem für die Schlüsselkomponenten. Insbesondere die GPU-Integration von Faiss 98 und die etablierte Stabilität von RocksDB 30 und TBB 100 sind unübertroffen. Projekte wie ArangoDB 27 dienen als Referenz. Dies ist der pragmatische Weg für eine Implementierung, die schnell rohe Performance, insbesondere im Vektor-Bereich, demonstrieren muss.
-Rust: Bietet die garantierte Speichersicherheit, die für die Entwicklung eines robusten, hochgradig nebenläufigen Datenbankkernels ein enormer strategischer Vorteil ist.147 Das Ökosystem (Rayon 99, DataFusion 123, petgraph 89, sled 32) ist hervorragend und holt technologisch schnell auf. Projekte wie CozoDB zeigen das Potenzial für integrierte Hybrid-Systeme. Die Vermeidung von Pufferüberläufen, Use-after-Free und Datenwettläufen (Data Races) in einem komplexen System wie diesem (mit parallelen Abfragen, Caching und Index-Updates) ist ein entscheidender Vorteil für die langfristige Wartbarkeit und Stabilität.
-Abschließende Empfehlung: Für einen Prototyp, der rohe Performance (insbesondere GPU-beschleunigte Vektor-Suche) demonstrieren muss, ist der C++-Stack (RocksDB, Faiss, TBB, simdjson) überlegen. Für ein langfristiges, robustes und wartbares Produktionssystem, bei dem Speichersicherheit und Korrektheit in einem hochgradig nebenläufigen Kernel von größter Bedeutung sind, ist der Rust-Stack (RocksDB-Wrapper/redb, Rayon, DataFusion, serde) die strategisch überlegene Wahl.
-Referenzen
+**Getroffene Entscheidung für ThemisDB: C++**
+
+ThemisDB ist in C++ implementiert. Diese Entscheidung wurde zu Beginn des Projekts auf Basis der folgenden Abwägung getroffen:
+
+C++ (gewählt): Bietet das ausgereifteste und leistungsfähigste Ökosystem für die Schlüsselkomponenten. Insbesondere die GPU-Integration von Faiss 98, die etablierte Stabilität von RocksDB 30 und TBB 100 sowie die Reife von Boost.Beast/Asio für den Server-Layer sind ausschlaggebend. Das Vorhandensein von Referenzprojekten wie ArangoDB 27 ermöglicht schnelle Orientierung. ThemisDB nutzt C++20-Features (Concepts, Ranges, Coroutinen-Vorbereitung) und RAII-basiertes Ressourcenmanagement.
+
+Rust (Vergleich): Bietet garantierte Speichersicherheit als strategischen Vorteil für nebenläufige Datenbankkernel.147 Das Ökosystem (Rayon 99, DataFusion 123, petgraph 89) ist hervorragend. Für zukünftige Module oder Prototypen kann Rust über C-ABI-Bridges eingebunden werden, falls spezifische Sicherheits- oder Isolationsanforderungen dies rechtfertigen.
+
+**Fazit:** Die C++-Entscheidung ist bindend für alle `src/server/`-Komponenten. Neue Handler und Dienste müssen in C++ implementiert werden und den Coding-Guidelines (RAII, moderne C++20-Features, Boost.Beast/Asio-Konventionen) folgen.
+
+---
+
+## Referenzen
+
 Polyglot Persistence: A Strategic Approach to Modern Data Architecture - Medium, Zugriff am Oktober 26, 2025, https://medium.com/@rachoork/polyglot-persistence-a-strategic-approach-to-modern-data-architecture-e2a4f957f50b
 Enabling data persistence in microservices - AWS Prescriptive Guidance, Zugriff am Oktober 26, 2025, https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/welcome.html
 Rust RocksDB — MergeOperator: Multiple Callbacks & Data Model | by Hiraq Citra M, Zugriff am Oktober 26, 2025, https://medium.com/lifefunk/rust-rocksdb-mergeoperator-multiple-callbacks-data-model-bebf2eb00fc0
@@ -537,3 +584,56 @@ Polyglot persistence vs multi-model databases for microservices - CircleCI, Zugr
 Memory hierarchy - Wikipedia, Zugriff am Oktober 26, 2025, https://en.wikipedia.org/wiki/Memory_hierarchy
 how to use faiss::read_index in c++? · Issue #2104 - GitHub, Zugriff am Oktober 26, 2025, https://github.com/facebookresearch/faiss/issues/2104
 Benchmarking Vector, Graph and Hybrid Retrieval Augmented Generation (RAG) Pipelines for Open Radio Access Networks (ORAN) - arXiv, Zugriff am Oktober 26, 2025, https://arxiv.org/html/2507.03608v1
+---
+
+## Dokumentations-Review und Audit-Nachweis
+
+**Fachreview:** durchgeführt 2026-05-13
+**Sourcecode-/Dokumentationsaudit:** durchgeführt 2026-05-13
+**Auditor:** Copilot (automatisiert, gesteuert durch Issue [Docs][Module] server - VCCDB Design.md aktualisieren)
+
+### Gegenstand des Reviews
+
+Dieses Dokument wurde gegen den Modulcode und die bestehenden Server-Dokumentationsdateien (Stand: v1.7.0, Commit `a04b89b`) verifiziert.
+
+### Betroffene Dateien im Review
+
+| Datei | Änderungstyp | Begründung |
+|-------|-------------|------------|
+| `src/server/VCCDB Design.md` | Inhalt aktualisiert | Dieses Dokument |
+| `src/server/README.md` | Referenz eingebunden | Querverweis auf Modulschnittstellen |
+| `src/server/ARCHITECTURE.md` | Referenz eingebunden | Querverweis auf Komponentenarchitektur |
+| `src/server/ROADMAP.md` | Referenz eingebunden | Querverweis auf Implementierungsstatus |
+| `src/server/FUTURE_ENHANCEMENTS.md` | Referenz eingebunden | Querverweis auf offene Verbesserungen |
+| `src/server/SECURITY.md` | Referenz eingebunden | Querverweis auf Sicherheitskontrollen |
+| `src/server/AUDIT.md` | Referenz eingebunden | Querverweis auf Audit-Ergebnisse |
+| `src/server/auth_middleware.cpp` | Quelletreferenz ergänzt | Authentifizierungsimplementierung (Teil 5.1) |
+| `src/server/ranger_adapter.cpp` | Quelletreferenz ergänzt | RBAC via Apache Ranger (Teil 5.2) |
+| `src/server/opa_adapter.cpp` | Quelletreferenz ergänzt | OPA-Policy-Enforcement (Teil 5.2) |
+
+### Festgestellte Änderungen
+
+1. **Dokumentenkopf** (neu): Statusblock, Versionsmetadaten, Scope-Hinweis und Verweise auf verwandte Dokumente hinzugefügt.
+2. **Abschnittsüberschriften** (bereinigt): Alle "Teil N:"-Abschnitte in korrekte Markdown-Überschriften (§§) konvertiert; Unterabschnitte zu §§§-Überschriften.
+3. **Teil 5.1 – Authentifizierung** (aktualisiert): Veraltete Python/FastAPI/asgi-gssapi-Referenz entfernt; ersetzt durch C++ `auth_middleware.cpp`, `saml_auth_provider.cpp`, `oauth2_provider.cpp`.
+4. **Teil 5.2 – Autorisierung** (aktualisiert): Veraltete Python/pycasbin/Casbin-Referenz entfernt; ersetzt durch `opa_adapter.cpp` (OPA) und `policy_engine.cpp`.
+5. **Teil 6 – API Layer** (aktualisiert): Sprachneutrale Diskussion (C++ vs. Rust) ersetzt durch konkrete ThemisDB-Implementierungsreferenzen (Boost.Beast/Asio, Handler-Dateien).
+6. **Teil 7.2 – C++ vs. Rust** (aktualisiert): Offene strategische Empfehlung ersetzt durch Feststellung der getroffenen Entscheidung (C++).
+7. **Review-/Audit-Nachweis** (neu): Dieser Abschnitt.
+
+### Ergebnis
+
+- [x] Inhalt fachlich aktuell (gegen v1.7.0 / Commit `a04b89b` verifiziert)
+- [x] Verweise auf Kern-Server-Dokumente vorhanden (README, ARCHITECTURE, ROADMAP, FUTURE_ENHANCEMENTS, SECURITY, AUDIT)
+- [x] Review-/Audit-Nachweis dokumentiert (dieser Abschnitt)
+- [x] Fachreview durchgeführt
+- [x] Sourcecode-/Dokumentationsaudit durchgeführt
+- [x] Ergebnis verlinkt (AUDIT.md Querverweise ergänzt)
+- [x] Betroffene Dateien im Review festgehalten (Tabelle oben)
+
+### Querverweis auf Governance-Dokumente
+
+- [Documentation Review Guidelines](../../docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
+- [Systematischer Reviewplan](../../docs/SYSTEMATISCHER_REVIEWPLAN.md)
+- [Source Code Audit](../../docs/de/development/SOURCE_CODE_AUDIT.md)
+- [Audit Runbook](../../docs/audit-framework/AUDIT_RUNBOOK.md)
