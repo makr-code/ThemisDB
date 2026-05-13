@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Security Module — Examples
 
@@ -27,7 +27,7 @@ Calls to planned IMPL-B7 API are marked with `/* PLANNED */` comments. The confi
 
 - Issue spec: `docs/issues/optimization_layers/IMPL-B7-intent-classifier.md`
 - Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 7
-- Module ROADMAP: `include/security/ROADMAP.md` §Phase 7
+- Module ROADMAP: `../../../src/security/ROADMAP.md` §Phase 7
 
 ## Installation
 
@@ -45,4 +45,4 @@ Include the relevant headers from this module:
 #include "security/module_header.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+See [`ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) and [`ROADMAP.md`](../../../src/security/ROADMAP.md) for details.
