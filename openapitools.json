@@ -2,6 +2,41 @@
   "$schema": "https://raw.githubusercontent.com/openapitools/openapi-generator-cli/master/apps/generator-cli/src/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "7.10.0"
+    "version": "7.10.0",
+    "generators": {
+      "themisdb-python": {
+        "generatorName": "python",
+        "inputSpec": "docs/openapi.yaml",
+        "output": "openapi/generated/python",
+        "additionalProperties": {
+          "packageName": "themisdb_client",
+          "projectName": "themisdb-client",
+          "packageVersion": "0.1.0",
+          "library": "urllib3"
+        }
+      },
+      "themisdb-typescript": {
+        "generatorName": "typescript-fetch",
+        "inputSpec": "docs/openapi.yaml",
+        "output": "openapi/generated/javascript",
+        "additionalProperties": {
+          "npmName": "@themisdb/openapi-client",
+          "npmVersion": "0.1.0",
+          "supportsES6": true,
+          "withInterfaces": true
+        }
+      },
+      "themisdb-go": {
+        "generatorName": "go",
+        "inputSpec": "docs/openapi.yaml",
+        "output": "openapi/generated/go",
+        "additionalProperties": {
+          "packageName": "themisdbclient",
+          "moduleName": "github.com/makr-code/ThemisDB/openapi/generated/go",
+          "packageVersion": "0.1.0",
+          "withGoMod": true
+        }
+      }
+    }
   }
 }

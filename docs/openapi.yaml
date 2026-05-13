@@ -1,14 +1,22 @@
 openapi: 3.0.3
 info:
-  title: VCCDB REST API
+  title: ThemisDB REST API
   description: |
     Multi-model database with vector search, graph traversal, and secondary indexes.
     Supports document storage, graph relationships, vector embeddings, and complex queries.
   version: 0.1.0
   contact:
-    name: VCCDB Team
+    name: ThemisDB API Maintainers
   license:
     name: MIT
+  x-api-governance:
+    source_of_truth: docs/openapi.yaml
+    owner: docs/api + docs/apis maintainers
+    reference_docs:
+      - docs/api/README.md
+      - docs/apis/README.md
+    generator_config: openapitools.json
+    breaking_change_process: docs/api/API_VERSIONING.md#deprecation-policy
 
 servers:
   - url: http://localhost:8080

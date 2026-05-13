@@ -18,6 +18,22 @@
 | [rope_rest_api.md](rope_rest_api.md) | ROPE (Rotary Positional Embedding) REST API |
 | [BRANCH_API_OPENAPI.md](BRANCH_API_OPENAPI.md) | Branch/versioning API (OpenAPI spec) |
 | [RESOURCE_LIMITS_GUIDE.md](RESOURCE_LIMITS_GUIDE.md) | Resource limits and quota configuration |
+| [OPENAPI_DOCUMENTATION_AUDIT_2026-05.md](OPENAPI_DOCUMENTATION_AUDIT_2026-05.md) | Review-/Audit-Nachweis für OpenAPI-/Generator-Dokumentation |
+
+---
+
+## OpenAPI Source of Truth und Generator-Workflow
+
+- **Spezifikationsquelle:** [`../openapi.yaml`](../openapi.yaml)
+- **Generator-Konfiguration:** [`../../openapitools.json`](../../openapitools.json)
+- **Generierte SDK-Artefakte:** `openapi/generated/{python,javascript,go}`
+- **Lokale Generierung:** `scripts/generate-sdks.sh`
+
+Für API-Änderungen gilt: OpenAPI-Spezifikation, Referenzdokumentation in diesem Ordner und ergänzende API-Dokumente in `docs/apis/**` werden im selben Change synchron gehalten.
+
+## Breaking Changes
+
+Der verbindliche Prozess für API-Breaking-Changes, Deprecation und Migration ist in [`API_VERSIONING.md`](API_VERSIONING.md) und [`DEPRECATION_REGISTRY.md`](DEPRECATION_REGISTRY.md) dokumentiert.
 
 ---
 
@@ -103,4 +119,3 @@ curl http://localhost:8080/entities/users:alice \
 - [Quick Reference](../QUICK_REFERENCE.md) – common commands cheat sheet
 - [Integration Guide](../INTEGRATION_GUIDE.md) – client SDK and integration patterns
 - [Security docs](../security/README.md) – auth, TLS, and HSM configuration
-
