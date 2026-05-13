@@ -668,47 +668,399 @@ for (const auto& r : results) {
 
 ---
 
-## Additional Header Files
-
-The following headers are present in `include/search/` and supplement the components documented above.
+## Phase 5 Components
 
 ### conversational_search.h
-**Purpose:** Multi-turn conversational search that maintains session context across queries and resolves coreferences. <!-- TODO: verify -->
+**Purpose:** Multi-turn conversational search with context-aware query reformulation. Maintains a per-session conversation history and enriches each new query with the most recent turns.
+
+**Key Classes:**
+- `ConversationalSearch`: Manages session history and context-enriched search
+- `ConversationalSearch::Config`: `context_window`, `max_history`, `context_separator`
+- `ConversationalSearch::Turn`: `query`, `reformulated_query`, `results`
+
+**Usage:**
+```cpp
+#include "search/conversational_search.h"
+
+using namespace themis;
+
+ConversationalSearch::Config cfg;
+cfg.context_window = 3;  // include last 3 turns in context
+ConversationalSearch cs(&hybrid_search, cfg);
+
+// Turn 1
+auto results1 = cs.search("machine learning");
+
+// Turn 2 — query is enriched with prior context
+auto results2 = cs.search("what about overfitting?");
+
+// Inspect history
+for (const auto& turn : cs.getHistory()) {
+    std::cout << turn.query
+              << " (reformulated: " << turn.reformulated_query << ")"
+              << " -> " << turn.results.size() << " results\n";
+}
+
+// Reset session (e.g. for a new user session)
+cs.clearHistory();
+```
+
+**Config Fields:**
+- `context_window`: Number of past query turns appended to the new query (default 3; 0 = stateless per-turn search)
+- `max_history`: Maximum turns retained; oldest evicted when limit is reached (default 50)
+- `context_separator`: String inserted between historical terms in the reformulated query (default `" "`)
+
+**Notes:**
+- `search()` and `reformulate()` never throw; the constructor throws `std::invalid_argument` on invalid config.
+- Not thread-safe; create a separate instance per session or thread.
+
+**@since v2.4.0**
 
 ---
 
 ### federated_search.h
-**Purpose:** Federated search across heterogeneous external sources (REST APIs, other database instances) with result merging. <!-- TODO: verify -->
+**Purpose:** Federated search across isolated per-tenant `HybridSearch` indexes. Executes a single query concurrently across registered tenants and merges results via cross-tenant Reciprocal Rank Fusion (RRF).
+
+**Key Classes:**
+- `FederatedSearch`: Cross-tenant search orchestrator with per-tenant isolation and weighting
+- `FederatedSearch::Config`: `k`, `rrf_k`, `skip_null_tenants`
+- `FederatedSearch::Result`: `document_id`, `tenant_id`, `score`, `bm25_score`, `vector_score`
+- `FederatedSearch::TenantStats`: Per-tenant diagnostics (`tenant_id`, `results_count`, `skipped`)
+
+**Usage:**
+```cpp
+#include "search/federated_search.h"
+
+using namespace themis;
+
+FederatedSearch::Config cfg;
+cfg.k = 20;
+FederatedSearch fs(cfg);
+
+fs.registerTenant("tenant_A", &hs_a);
+fs.registerTenant("tenant_B", &hs_b);
+fs.setTenantWeight("tenant_A", 0.8);  // slightly downweight tenant A
+
+std::vector<FederatedSearch::TenantStats> stats;
+auto results = fs.search("machine learning", {}, &stats);
+
+for (const auto& r : results) {
+    std::cout << r.tenant_id << "/" << r.document_id
+              << " score=" << r.score << "\n";
+}
+```
+
+**Config Fields:**
+- `k`: Final merged result count across all tenants (default 10)
+- `rrf_k`: RRF smoothing constant for cross-tenant fusion (default 60.0)
+- `skip_null_tenants`: Silently skip tenants with null `HybridSearch` pointers (default true)
+
+**Notes:**
+- A weight of 0.0 excludes the tenant from the merged results. Weights are clamped to [0.0, 1.0].
+- `search()` never throws; per-tenant exceptions are caught internally.
+- Results from each tenant are fully isolated: data from one tenant cannot influence another's scores.
+
+**@since v2.4.0**
 
 ---
 
 ### llm_query_rewriter.h
-**Purpose:** LLM-powered query rewriter that expands, clarifies, or decomposes natural-language search queries before execution. <!-- TODO: verify -->
+**Purpose:** LLM-based query rewriting that generates semantically equivalent alternative phrasings to broaden search recall beyond synonym dictionary coverage.
+
+**Key Types:**
+- `RewriteQuality`: `OK` (LLM rewrites accepted) / `FALLBACK` (all rewrites discarded; original used)
+- `RewrittenQuery`: `original`, `rewrites`, `llm_used`, `quality`
+- `LlmQueryRewriter`: Generates alternative queries via an injected `LlmBackend` callable
+- `LlmQueryRewriter::Config`: `num_rewrites`, `max_tokens`, `temperature`, `fallback_to_original`, `max_rewrite_length`, `min_token_overlap_ratio`
+
+**Usage:**
+```cpp
+#include "search/llm_query_rewriter.h"
+
+using namespace themis;
+
+LlmQueryRewriter::Config cfg;
+cfg.num_rewrites = 3;
+cfg.min_token_overlap_ratio = 0.2f;  // discard semantically nonsensical rewrites
+
+LlmQueryRewriter rewriter(cfg, [&](const std::string& prompt) {
+    return my_llm.generate(prompt, 256);
+});
+
+auto result = rewriter.rewrite("fast db insert");
+// result.rewrites might contain:
+//   "high-throughput database insertion"
+//   "quick record insertion in a database"
+
+if (result.quality == RewriteQuality::FALLBACK) {
+    // LLM output was unusable; original query is the sole entry in rewrites
+}
+
+// Swap backend at runtime (e.g. after model hot-reload)
+rewriter.setBackend(new_backend);
+```
+
+**Config Fields:**
+- `num_rewrites`: Alternative rewrites to request from the LLM (default 3; must be > 0)
+- `max_tokens`: Max token hint for the LLM backend (default 256; enforcement is backend-specific)
+- `temperature`: Sampling temperature hint (default 0.7; enforcement is backend-specific)
+- `fallback_to_original`: Append original query when no usable LLM output is produced (default true)
+- `max_rewrite_length`: Character budget per rewrite; longer strings are dropped (default 256)
+- `min_token_overlap_ratio`: Minimum Jaccard token-overlap between a rewrite and the original query (Jaccard = |A∩B| / |A∪B| where A and B are whitespace-token sets); rewrites below this threshold are discarded (default 0.2; set 0.0 to disable)
 
 ---
 
 ### llm_reranker.h
-**Purpose:** LLM-based cross-encoder reranker that scores query-document pairs for precision-oriented re-ranking. <!-- TODO: verify -->
+**Purpose:** Configurable LLM-based re-ranker that scores query-document pairs (0–10), blends the LLM scores with upstream retrieval scores, and optionally converts relevance judgments into `ClickEvent` objects for closed-loop LTR training.
+
+**Key Types:**
+- `LlmRerankCandidate`: `document_id`, `content` (snippet), `initial_score`
+- `LlmRerankResult`: `document_id`, `llm_score` (0–1), `initial_score`, `final_score`, `llm_scored`
+- `LlmReranker`: Batched LLM-based re-ranker with configurable score blending
+- `LlmReranker::Config`: `batch_size`, `llm_weight`, `max_snippet_length`, `fallback_to_original`, `max_tokens`, `temperature`, `min_score_threshold`
+
+**Usage:**
+```cpp
+#include "search/llm_reranker.h"
+
+using namespace themis;
+
+LlmReranker::Config cfg;
+cfg.llm_weight = 0.7;  // final = 0.7 * llm_score + 0.3 * initial_score
+LlmReranker reranker(cfg, [](const std::string& prompt) {
+    return my_model.generate(prompt);
+});
+
+std::vector<LlmRerankCandidate> candidates;
+for (const auto& r : hs_results) {
+    candidates.push_back({r.document_id, r.content, r.hybrid_score});
+}
+auto reranked = reranker.rerank("fast db insert", candidates);
+
+// Optionally close the LTR feedback loop
+auto clicks = LlmReranker::toClickEvents("fast db insert", reranked, 0.5);
+for (const auto& ev : clicks) ltr.recordClick(ev);
+ltr.train();
+```
+
+**Config Fields:**
+- `batch_size`: Candidates per LLM prompt batch (default 5)
+- `llm_weight`: Blending weight for LLM score; `final = llm_weight * llm_score + (1 - llm_weight) * initial_score` (default 0.7)
+- `max_snippet_length`: Max characters of each document snippet included in the prompt (default 200)
+- `fallback_to_original`: Return candidates in original order when the LLM fails (default true)
+- `max_tokens`: Max token hint for the LLM response (default 256)
+- `temperature`: Sampling temperature hint; 0.0 omits the hint from the prompt (default 0.0)
+- `min_score_threshold`: Minimum `final_score` for inclusion in output; 0.0 returns all candidates (default 0.0)
 
 ---
 
 ### negative_keyword_filter.h
-**Purpose:** Filters search results that match a configurable set of negative keywords or blocked phrases. <!-- TODO: verify -->
+**Purpose:** NOT-operator negative keyword filtering. Parses `-term` / `NOT term` syntax from the raw query, runs the positive part through BM25/hybrid search, then removes any result document that contains an excluded term.
+
+**Key Classes:**
+- `NegativeKeywordFilter`: Stateless filter; holds only a non-owning pointer to the secondary index
+- `NegativeKeywordFilter::Config`: `max_exclude_scan`
+- `NegativeKeywordFilter::ParsedQuery`: `positive_query`, `negative_terms`
+
+**Supported query syntax:**
+
+| Syntax | Example | Meaning |
+|---|---|---|
+| Minus prefix (`-`) | `"machine learning -neural"` | Exclude "neural" |
+| `NOT` keyword | `"machine learning NOT neural"` | Equivalent to minus prefix |
+| Mixed | `"database -slow NOT crash"` | Exclude "slow" and "crash" |
+
+**Usage:**
+```cpp
+#include "search/negative_keyword_filter.h"
+
+using namespace themis;
+
+// 1. Parse negative terms from raw user query
+auto pq = NegativeKeywordFilter::parseQuery("machine learning -neural");
+// pq.positive_query == "machine learning"
+// pq.negative_terms == {"neural"}
+
+// 2. Run search on positive query
+auto results = hybrid_search.search(pq.positive_query, vec.data(), vec.size());
+
+// 3. Filter by NOT terms
+std::vector<std::string> pks;
+for (auto& r : results) pks.push_back(r.document_id);
+
+NegativeKeywordFilter nkf(&sec_index);
+auto [status, filtered_pks] = nkf.filter(
+    "documents", "content", pks, pq.negative_terms);
+
+// 4. Retain only results that survived the filter
+std::unordered_set<std::string> keep(filtered_pks.begin(), filtered_pks.end());
+results.erase(
+    std::remove_if(results.begin(), results.end(),
+        [&keep](const auto& r){ return keep.find(r.document_id) == keep.end(); }),
+    results.end());
+```
+
+**Config Fields:**
+- `max_exclude_scan`: Maximum documents fetched per negative term; prevents unbounded memory use (default 100,000; set to 0 to disable the limit — only in controlled environments or with small corpora, as very common negative terms can exhaust memory)
+
+**Notes:**
+- `parseQuery()` is a pure static function and is fully thread-safe.
+- `filter()` never throws. When the index pointer is null, it returns an error Status and the original PKs unchanged.
 
 ---
 
 ### neural_sparse_retrieval.h
-**Purpose:** Neural sparse retrieval (SPLADE-style) generating sparse lexical-semantic embeddings for inverted-index search. <!-- TODO: verify -->
+**Purpose:** SPLADE / BERT-based neural sparse retrieval. Documents and queries are encoded into sparse term-weight vectors; retrieval uses inverted-index dot-product accumulation for efficiency.
+
+**Key Types:**
+- `SparseVector`: `std::unordered_map<std::string, float>` — sparse term-to-weight representation
+- `SparseEncoderBackend`: `std::function<SparseVector(const std::string&)>` — injected text encoder
+- `NeuralSparseRetrieval`: In-memory sparse retrieval engine with indexing and search
+- `NeuralSparseRetrieval::Config`: `k`, `max_terms_per_doc`, `score_threshold`, `normalize_scores`
+- `NeuralSparseRetrieval::Result`: `document_id`, `score` (normalised), `raw_score`
+
+**Usage:**
+```cpp
+#include "search/neural_sparse_retrieval.h"
+
+using namespace themis;
+
+NeuralSparseRetrieval::Config cfg;
+cfg.k = 10;
+NeuralSparseRetrieval nsr(cfg);
+
+// Attach a SPLADE-compatible encoder
+nsr.setEncoder([&](const std::string& text) {
+    return my_splade_model.encode(text);
+});
+
+// Index documents
+nsr.addDocumentText("doc1", "fast in-memory database engine");
+nsr.addDocumentText("doc2", "neural sparse retrieval with SPLADE");
+
+// Query via text (encoder called internally)
+auto results = nsr.searchText("database performance");
+for (auto& r : results)
+    std::cout << r.document_id << "  score=" << r.score << "\n";
+
+// Or supply pre-computed sparse vectors directly
+SparseVector qvec = {{"database", 1.2f}, {"performance", 0.8f}};
+auto results2 = nsr.search(qvec);
+```
+
+**Config Fields:**
+- `k`: Maximum results to return (default 10)
+- `max_terms_per_doc`: Soft cap on terms per document sparse vector; only top-weighted terms are kept (default 512)
+- `score_threshold`: Minimum raw inner-product score for inclusion (default 0.0)
+- `normalize_scores`: Rescale result scores to [0, 1] before returning (default true)
+
+**Notes:**
+- Scoring model: `score(q, d) = Σ_t( q[t] * d[t] )` — standard sparse dot product, matching SPLADE/uniCOIL.
+- `search()` and `searchText()` never throw; encoder errors are caught and result in an empty return.
+- `addDocumentText()` propagates exceptions from the encoder backend.
 
 ---
 
 ### search_highlighter.h
-**Purpose:** Highlights matching query terms and semantic passages within document content for snippet generation. <!-- TODO: verify -->
+**Purpose:** Stateless search result highlighter and best-passage snippet extractor. Wraps matched terms in configurable HTML tags and extracts the highest-coverage passage from a document.
+
+**Key Classes:**
+- `SearchHighlighter`: Stateless; all methods safe to call concurrently
+- `SearchHighlighter::Config`: `highlight_open`, `highlight_close`, `ellipsis`, `min_window`, `max_snippet_len`, `case_insensitive`
+
+**Usage:**
+```cpp
+#include "search/search_highlighter.h"
+
+using namespace themis;
+
+SearchHighlighter::Config cfg;
+cfg.highlight_open  = "<mark>";
+cfg.highlight_close = "</mark>";
+cfg.max_snippet_len = 300;
+SearchHighlighter hl(cfg);
+
+std::string doc = "ThemisDB provides fast hybrid search combining BM25 and vector search.";
+std::vector<std::string> terms = {"hybrid", "search"};
+
+// Wrap all matches in <mark> tags
+std::string marked = hl.highlight(doc, terms);
+// -> "ThemisDB provides fast <mark>hybrid</mark> <mark>search</mark> ..."
+
+// Extract the best-matching passage
+std::string snip = hl.snippet(doc, terms, 100);
+// -> "...fast <mark>hybrid</mark> <mark>search</mark> combining BM25..."
+
+// Static helpers (exposed for pipeline reuse)
+auto tokens       = SearchHighlighter::tokenize(doc, true);
+size_t best_start = SearchHighlighter::bestWindowOffset(doc, tokens, 100);
+```
+
+**Config Fields:**
+- `highlight_open`: Opening HTML tag around matched terms (default `<mark>`)
+- `highlight_close`: Closing HTML tag around matched terms (default `</mark>`)
+- `ellipsis`: Boundary marker inserted at snippet edges (default `...`)
+- `min_window`: Characters on each side of a match in the snippet (default 40)
+- `max_snippet_len`: Maximum returned snippet length in characters (default 300)
+- `case_insensitive`: Case-insensitive term matching (default true)
+
+**Static helpers:**
+- `tokenize(text, case_insensitive)` — split text into lowercase tokens
+- `applyHighlight(text, offsets, open_tag, close_tag)` — insert tags at given byte ranges
+- `bestWindowOffset(text, terms, window_size)` — find the start offset maximising term coverage
+
+**Notes:**
+- `highlight()` and `snippet()` are `noexcept`; invalid inputs produce empty output.
+- Overlapping matches are merged before tagging to prevent nested tags.
 
 ---
 
 ### search_result_stream.h
-**Purpose:** Streams search results progressively as they are retrieved, supporting server-sent events and WebSocket delivery. <!-- TODO: verify -->
+**Purpose:** Cursor-based streaming pagination over a `HybridSearch` result set. Avoids materialising all results at once by delivering them one page at a time via `nextPage()` or a callback via `forEachResult()`.
+
+**Key Classes:**
+- `SearchResultStream`: Stateful streaming wrapper around `HybridSearch`
+- `SearchResultStream::Config`: `total_k`, `page_size`
+- `SearchResultStream::ResultCallback`: `std::function<bool(const HybridSearch::Result&)>` — return `false` to stop early
+
+**Usage:**
+```cpp
+#include "search/search_result_stream.h"
+
+using namespace themis;
+
+SearchResultStream::Config cfg;
+cfg.total_k   = 10000;  // materialise up to 10k results internally
+cfg.page_size = 100;    // deliver 100 at a time
+SearchResultStream stream(&hybrid_search, cfg);
+
+// Page-based iteration
+stream.open("machine learning");
+while (stream.hasMore()) {
+    auto page = stream.nextPage();
+    for (const auto& r : page) { process(r); }
+}
+
+// Callback streaming with early termination
+stream.reset();  // rewind without re-querying
+stream.forEachResult([](const HybridSearch::Result& r) -> bool {
+    process(r);
+    return true;  // return false to stop early
+});
+
+// Release buffered results
+stream.close();
+```
+
+**Config Fields:**
+- `total_k`: Total maximum results to materialise from `HybridSearch` (default 1,000)
+- `page_size`: Results per `nextPage()` call (default 100)
+
+**Stream lifecycle:** `open(query)` → `nextPage()` / `forEachResult()` → `reset()` (rewind) → `close()` (release).
+
+**Notes:**
+- `open()` and `nextPage()` never throw; the constructor throws `std::invalid_argument` on invalid config.
+- Not thread-safe; concurrent calls must be serialised externally.
 
 ---
 
@@ -808,6 +1160,63 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 ---
 
+## Troubleshooting
+
+### `std::invalid_argument` thrown on construction
+
+All search engine constructors validate their `Config` at construction time and throw
+`std::invalid_argument` for invalid values.  Common causes:
+
+| Class | Typical cause |
+|---|---|
+| `HybridSearch` | `k == 0`, `rrf_k <= 0`, `default_table` or `default_column` is empty, `k > max_k` (hard upper bound, default 10,000), or `k_bm25 / k_vector > max_candidates` (default 10,000); see `HybridSearch::Config` above |
+| `ConversationalSearch` | Reserved for future validation (currently all default configs are valid) |
+| `FederatedSearch` | Reserved for future validation |
+| `LlmQueryRewriter` | `num_rewrites == 0` |
+| `LlmReranker` | `batch_size == 0` or `llm_weight` outside [0, 1] |
+| `NeuralSparseRetrieval` | `k == 0`, `max_terms_per_doc == 0`, or `score_threshold < 0` |
+| `SearchResultStream` | `page_size == 0` or `total_k == 0` |
+
+### Empty results from `HybridSearch::search()`
+
+1. **Partial result** — check `SearchStats::partial_result`. One backend may have failed; inspect logs for `THEMIS_ERROR` messages.
+2. **Config weights are zero** — ensure at least one of `bm25_weight` or `vector_weight` is > 0.
+3. **BM25 index not built** — call `SecondaryIndexManager::createIndex()` with `FULLTEXT` type before the first search. See [Index Module documentation](../index/README.md) for details.
+4. **Vector index empty** — ensure documents have been upserted with embedding vectors before querying.
+
+### Low recall / poor result quality
+
+1. **Unbalanced RRF weights** — start with `bm25_weight = 0.5` and `vector_weight = 0.5`; adjust based on evaluation.
+2. **Embedding model mismatch** — query and document vectors must be produced by the same model.
+3. **Small `k_bm25` / `k_vector`** — increasing candidate counts improves recall at the cost of higher latency.
+4. **Missing query expansion** — attach a `QueryExpander` to handle synonyms and spelling errors.
+
+### LLM components return fallback / original results
+
+- `LlmQueryRewriter` and `LlmReranker` silently fall back to the original order/query when no backend is set, or when the backend throws.
+- Verify the backend is set via `setBackend()` and that the LLM service is reachable.
+- Inspect `RewrittenQuery::quality == RewriteQuality::FALLBACK` or `LlmRerankResult::llm_scored == false`.
+
+### `NegativeKeywordFilter::filter()` returns error Status
+
+- The index pointer passed to the constructor is null.  Pass a valid `SecondaryIndexManager*`.
+- The `table` / `column` combination has not been indexed.  Ensure a FULLTEXT index exists.
+
+### `SearchResultStream` delivers no pages after `open()`
+
+- Check that the underlying `HybridSearch` instance is valid and its index is populated.
+- Verify `Config::total_k > 0` and `Config::page_size > 0`.
+- Call `hasMore()` before each `nextPage()`; after the last page `hasMore()` returns false.
+
+### Thread-safety violations
+
+All search classes in this module are **not thread-safe** by default.  If you observe data
+races or crashes in multi-threaded code:
+- Create one instance per thread (recommended for `HybridSearch` — it is lightweight).
+- Or protect shared instances with an external `std::mutex` around every call.
+
+---
+
 ## Performance Characteristics
 
 - **Latency:** 5-20ms for typical queries
@@ -821,12 +1230,12 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 - [Implementation Documentation](../../src/search/README.md)
 - [Index Module](../index/README.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Future Enhancements](../../src/search/FUTURE_ENHANCEMENTS.md)
 
 ---
 
-*Last Updated: April 2026*
-*API Version: v2.3.0*
+*Last Updated: May 2026*
+*API Version: v2.4.0*
 
 ## Installation
 
