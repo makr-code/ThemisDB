@@ -7,13 +7,12 @@ info:
   version: 0.1.0
   contact:
     name: ThemisDB API Maintainers
+    email: support@themisdb.com
   license:
     name: MIT
   x-api-governance:
     source_of_truth: docs/openapi.yaml
-    owner:
-      - docs/api maintainers
-      - docs/apis maintainers
+    owner: themisdb-api-documentation-maintainers
     maintainers_reference: .github/CODEOWNERS
     reference_docs:
       - docs/api/README.md
