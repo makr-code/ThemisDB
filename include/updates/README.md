@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Updates Module - Header Files
 
@@ -433,7 +433,7 @@ notifications:
 | `parallel_downloader.h` | `ParallelDownloader` | Concurrent multi-file download with resume support |
 | `preflight_health_check.h` | `PreflightHealthCheck` | Pre-update system readiness checks |
 | `schema_migration.h` | `SchemaMigration`, `MigrationStep` | Schema migration definition and execution |
-| `schema_migration_tester.h` | `SchemaMigrationTester` | <!-- TODO: verify --> Dry-run schema migration test harness |
+| `schema_migration_tester.h` | `SchemaMigrationTester` | Dry-run schema migration test harness; validates migrations on an isolated staging environment before production apply |
 | `tenant_update_scheduler.h` | `TenantUpdateScheduler` | Per-tenant update scheduling for multi-tenant deployments |
 | `update_history_logger.h` | `UpdateHistoryLogger` | Persistent log of applied updates and outcomes |
 | `update_state_machine.h` | `UpdateStateMachine`, `UpdateState` | FSM governing the update lifecycle |
