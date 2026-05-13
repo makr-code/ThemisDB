@@ -861,7 +861,7 @@ for (const auto& result : nearby) {
 - **HIP**: AMD GPU acceleration (optional)
   - Requires: ROCm 5.0+
 
-**Build Configuration**
+## Build Configuration
 ```cmake
 # Enable GPU acceleration
 option(THEMIS_GPU_ENABLED "Enable GPU acceleration" ON)
@@ -875,7 +875,7 @@ find_package(Vulkan QUIET)
 find_package(CUDAToolkit QUIET)
 ```
 
-**Runtime Configuration Options (Selection)**
+## Runtime Configuration Options (Selection)
 
 | Component | Option(s) | Effect |
 |-----------|-----------|--------|
