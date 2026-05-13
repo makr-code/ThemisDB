@@ -400,7 +400,7 @@ void transfer(int from, int to, int amount) {
 - **Isolation:** `ReadCommitted`, `Snapshot`, and `Serializable` (SSI predicate locking) are available via `IsolationLevel`.
 - **Error reporting:** write and commit APIs return `TransactionManager::Status` (`ok`, `message`, optional conflict metadata).
 - **Recommended limits:** keep transactions below ~1000 operations and prefer short-lived sessions to reduce lock hold times.
-- **Constraint:** avoid mixing anonymous savepoint APIs (`setSavePoint`/`rollbackToSavePoint`) with named savepoints (`createSavepoint`/`rollbackToSavepoint`/`releaseSavepoint`) in one transaction; method names are intentionally case-sensitive per the public API.
+- **Constraint:** do not mix the anonymous savepoint API and the named savepoint API in one transaction.
 
 ---
 

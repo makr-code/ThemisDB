@@ -1078,7 +1078,7 @@ if (!result.success) {
 | Commit returns `Deadlock detected` | Writers acquired locks in conflicting order | Enforce deterministic lock ordering and enable deadlock detection |
 | `OCC version conflict` on `optimisticPut`/`optimisticErase` | Concurrent update changed entity version | Re-read version with `getEntityVersion(...)` and retry |
 | `Serialization conflict` with `IsolationLevel::Serializable` | Predicate-lock overlap with concurrent writers | Retry with backoff and reduce wide range predicates |
-| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use either anonymous or named savepoints in one transaction |
+| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use only one savepoint API style per transaction |
 
 ---
 
@@ -1276,7 +1276,7 @@ txn.commit();  // Auto-compensate on failure
 - [Index Module](../index/README.md) - Secondary, graph, and vector indexes
 - [CDC Module](../cdc/README.md) - Change data capture integration
 - [Query Module](../query/README.md) - AQL query execution
-- [Transaction Header API](../../include/transaction/README.md) - Public entry points and integration notes
+- [Public Header Documentation](../../include/transaction/README.md) - Public entry points and integration notes
 - [Transaction Roadmap](./ROADMAP.md) - Delivery phases and production-readiness checklist
 - [Future Enhancements](./FUTURE_ENHANCEMENTS.md) - Planned interfaces and constraints
 - [German Transaction Docs](../../docs/de/transaction/README.md) - Consolidated module status and inventory
