@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Voice Module - Header Interfaces
 
@@ -29,24 +29,24 @@ The Voice module headers define the interface contracts for voice/audio interact
 
 | Header | Key Types | Description |
 |---|---|---|
-| `audio_preprocessing.h` | `AudioPreprocessor`, `PreprocessConfig` | <!-- TODO: verify --> Audio normalisation and pre-filtering |
-| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionResult` | <!-- TODO: verify --> Acoustic emotion detection |
-| `voice_accessibility.h` | `VoiceAccessibility` | <!-- TODO: verify --> Accessibility features (speaker adaptation, slow speech) |
-| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `VoiceAssistant::Config` | Core voice assistant interface |
-| `voice_audio_storage.h` | `VoiceAudioStorage` | <!-- TODO: verify --> Persistent audio recording storage |
-| `voice_auth.h` | `VoiceAuth` | <!-- TODO: verify --> Voice-biometric authentication |
-| `voice_batch_processor.h` | `VoiceBatchProcessor` | <!-- TODO: verify --> Batch STT/NLP processing |
-| `voice_browser_streaming.h` | `VoiceBrowserStreaming` | <!-- TODO: verify --> WebSocket / WebRTC streaming to browser clients |
-| `voice_error_handler.h` | `VoiceErrorHandler` | <!-- TODO: verify --> Structured voice pipeline error handling |
-| `voice_intent_detector.h` | `VoiceIntentDetector` | <!-- TODO: verify --> NLU intent extraction from transcriptions |
-| `voice_macro.h` | `VoiceMacro` | <!-- TODO: verify --> Programmable voice macro definitions |
-| `voice_meeting_support.h` | `VoiceMeetingSupport`, `MeetingMetadata` | Meeting recording and protocol generation |
-| `voice_model_cache.h` | `VoiceModelCache` | <!-- TODO: verify --> In-memory cache for STT/TTS model weights |
-| `voice_security.h` | `VoiceSecurity` | <!-- TODO: verify --> Audio stream encryption and access control |
-| `voice_session_manager.h` | `VoiceSessionManager` | <!-- TODO: verify --> Multi-session lifecycle management |
-| `voice_telephony.h` | `VoiceTelephony`, `PhoneCallMetadata` | Phone call recording and metadata |
-| `voice_tts_customizer.h` | `VoiceTTSCustomizer` | <!-- TODO: verify --> Custom voice / prosody for TTS output |
-| `wake_word_detector.h` | `WakeWordDetector` | <!-- TODO: verify --> Low-power wake-word / hotword detection |
+| `audio_preprocessing.h` | `AudioPreprocessingPipeline`, `NoiseSuppressor`, `PreprocessingOptions` | Audio normalisation, VAD, echo cancellation, and RNNoise deep-learning noise suppression |
+| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionAnalysis`, `EmotionTimeline` | Acoustic emotion classification (7 categories), sentiment polarity, stress and engagement scoring |
+| `voice_accessibility.h` | `VoiceAccessibility`, `CaptionCue`, `CaptionFormat` | Closed-caption generation and accessible transcript export (VTT, SRT, HTML, JSON) |
+| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `VoiceAssistant::Config` | Core voice assistant interface — STT/LLM/TTS orchestration, session management, call and meeting recording |
+| `voice_audio_storage.h` | `VoiceAudioStorage`, `AudioStorageRecord`, `StorageTier` | Tiered audio recording storage with deduplication, compression, and metadata indexing |
+| `voice_auth.h` | `VoiceBiometricAuthenticator`, `VoiceAuthResult`, `VerificationResult` | Voice-biometric speaker enrollment, 1:1 verification, 1:N identification, and liveness detection |
+| `voice_batch_processor.h` | `VoiceBatchProcessor`, `BatchJob`, `AudioQualityMetrics` | Parallel batch STT transcription with WER and PESQ-like quality metrics |
+| `voice_browser_streaming.h` | `VoiceStreamingSession`, `VoiceStreamingManager` | WebSocket-based real-time bidirectional audio streaming and incremental STT for browser clients |
+| `voice_error_handler.h` | `VoiceErrorHandler`, `VoiceCircuitBreaker`, `VoiceRetryHandler` | Structured voice pipeline error handling with circuit breaker and exponential-backoff retry |
+| `voice_intent_detector.h` | `VoiceIntentDetector`, `IntentResult`, `ConversationContext` | NLU intent classification and named-entity extraction from transcribed text |
+| `voice_macro.h` | `VoiceMacroManager`, `MacroInfo`, `MacroStep` | User-defined voice command macros with trigger-phrase matching and multi-step AQL execution |
+| `voice_meeting_support.h` | `VoiceMeetingSupport`, `MeetingMetadata`, `ActionItem` | Meeting recording, speaker-attributed transcript segmentation, and action-item extraction |
+| `voice_model_cache.h` | `VoiceModelCache`, `CachedModel`, `ModelCacheConfig` | LRU in-memory cache for STT/TTS/LLM model handles with configurable eviction policy |
+| `voice_security.h` | `VoiceSecurity`, `RedactionResult`, `ConsentRecord` | Audio stream encryption, PII redaction, consent tracking, and audit-log access control |
+| `voice_session_manager.h` | `VoiceSessionManager`, `VoiceSessionData`, `SessionState` | Multi-session lifecycle management with configurable timeout, persistence, and cleanup |
+| `voice_telephony.h` | `TelephonyBridge`, `SipCallSession`, `WebRtcCallSession`, `IvrEngine` | SIP/WebRTC telephony bridge for real-time call transcription and IVR flows |
+| `voice_tts_customizer.h` | `VoiceTTSCustomizer`, `VoiceProfile`, `ProsodyConfig` | Custom voice profiles, prosody control (pitch/speed/emphasis), and SSML support |
+| `wake_word_detector.h` | `WakeWordDetector`, `WakeWordDetectionResult`, `WakeWordConfig` | Low-power always-on wake-word spotting with VAD energy gating (built-in: "hey themis") |
 
 ### voice_assistant.h
 **Location:** `/include/voice/voice_assistant.h`
@@ -774,8 +774,9 @@ assert(!response.empty());
 - [Voice Module Source](../../src/voice/README.md) - Implementation documentation
 - [Content Module](../content/README.md) - STT/TTS processors
 - [LLM Module](../llm/README.md) - Language model integration
-- [API Documentation](../../docs/api/voice_api.md) - REST API reference
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Voice Assistant Guide](../../docs/en/features/voice_assistant_guide.md) - Feature guide and deployment reference
+- [Roadmap](../../src/voice/ROADMAP.md) - Completed and planned features
+- [Future Enhancements](../../src/voice/FUTURE_ENHANCEMENTS.md) - Planned features
 
 ---
 
