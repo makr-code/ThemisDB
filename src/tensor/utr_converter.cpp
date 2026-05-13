@@ -2,7 +2,7 @@
  * @file src/tensor/utr_converter.cpp
  * @brief UTRConverter implementation — Phase 7 multi-modal tensor representation.
  *
- * See include/tensor/utr_converter.h for design details and stub notes.
+ * See include/tensor/utr_converter.h for design details and encoder priority chain.
  */
 
 #include "tensor/utr_converter.h"
@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <functional>
 #include <limits>
+#include <memory>
 #include <mutex>
 #include <numeric>
 #include <sstream>
@@ -31,14 +32,21 @@ namespace tensor {
 
 // ============================================================================
 // Static bridge slots — STUB #257 (EmbedFn) / STUB #258 (ImageEmbedFn)
+// Encoder objects — ITextEncoder / IImageEncoder (higher priority)
 // ============================================================================
 
 namespace {
     std::mutex          g_embed_mtx;
-    UTRConverter::EmbedFn g_embed_fn;          // null ⟹ use FNV-1a fallback
+    UTRConverter::EmbedFn g_embed_fn;          // null ⟹ use lexical fallback
 
     std::mutex               g_image_embed_mtx;
     UTRConverter::ImageEmbedFn g_image_embed_fn; // null ⟹ use raw-pixel fallback
+
+    std::mutex                       g_text_encoder_mtx;
+    std::shared_ptr<ITextEncoder>    g_text_encoder;   // null ⟹ use EmbedFn/lexical
+
+    std::mutex                       g_image_encoder_mtx;
+    std::shared_ptr<IImageEncoder>   g_image_encoder;  // null ⟹ use ImageEmbedFn/patch
 } // namespace
 
 void UTRConverter::setEmbedFn(UTRConverter::EmbedFn fn) {
@@ -69,6 +77,40 @@ void UTRConverter::clearImageEmbedFn() {
 UTRConverter::ImageEmbedFn UTRConverter::getImageEmbedFn() {
     std::lock_guard<std::mutex> lk(g_image_embed_mtx);
     return g_image_embed_fn;
+}
+
+// ============================================================================
+// Encoder object registration — ITextEncoder / IImageEncoder
+// ============================================================================
+
+void UTRConverter::setTextEncoder(std::shared_ptr<ITextEncoder> encoder) {
+    std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
+    g_text_encoder = std::move(encoder);
+}
+
+void UTRConverter::clearTextEncoder() {
+    std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
+    g_text_encoder.reset();
+}
+
+std::shared_ptr<ITextEncoder> UTRConverter::getTextEncoder() {
+    std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
+    return g_text_encoder;
+}
+
+void UTRConverter::setImageEncoder(std::shared_ptr<IImageEncoder> encoder) {
+    std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
+    g_image_encoder = std::move(encoder);
+}
+
+void UTRConverter::clearImageEncoder() {
+    std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
+    g_image_encoder.reset();
+}
+
+std::shared_ptr<IImageEncoder> UTRConverter::getImageEncoder() {
+    std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
+    return g_image_encoder;
 }
 
 namespace {
@@ -124,7 +166,7 @@ static std::size_t clampPatchExtent(std::size_t extent) noexcept {
 }
 
 // ============================================================================
-// Document segmentation helpers (STUB #257)
+// Document segmentation helpers
 // ============================================================================
 
 /// Split text at double-newline boundaries (paragraph mode).
@@ -165,7 +207,20 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 }
 
 // ============================================================================
-// Lexical feature embedding for documents
+// Lexical feature embedding for documents (built-in degraded-mode fallback)
+//
+// STUB/SIMULATION NOTE:
+// Purpose:           Built-in lexical encoder used when no ITextEncoder or
+//                    EmbedFn bridge is registered.  Provides deterministic,
+//                    library-free embeddings with LEXICAL quality.
+// Activation:        Active when UTRConverter::getTextEncoder() == nullptr and
+//                    UTRConverter::getEmbedFn() == nullptr.
+// Production Delta:  Does not use learned weights; encodes unigrams, bigrams,
+//                    and character trigrams with FNV-1a hashing + L2 norm.
+//                    Semantic similarity is approximated, not learned.
+// Removal Plan:      Superseded when a plugin registers an ITextEncoder with
+//                    EncoderQuality::SEMANTIC.  This fallback is retained as
+//                    the bottom tier for offline / zero-dependency operation.
 // ============================================================================
 
 /// FNV-1a 64-bit hash of a string view.
@@ -180,52 +235,91 @@ static uint64_t fnv1a(std::string_view s) noexcept {
     return h;
 }
 
-/// Produce a deterministic `embed_dim`-dimensional embedding from a text segment.
-static std::vector<float> hashEmbed(const std::string& segment, std::size_t embed_dim) {
+/// Scatter a hashed feature with `weight` into the embedding vector using
+/// multi-lane projection to reduce hash collisions.
+static void scatterFeature(std::vector<float>& vec,
+                            std::string_view    feature,
+                            float               weight) noexcept {
+    const std::size_t embed_dim = vec.size();
+    const uint64_t h = fnv1a(feature);
+    for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
+        const auto shift = (lane % 4) * 16U;
+        const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
+        const auto dim   = static_cast<std::size_t>((bits + lane * 131U) % embed_dim);
+        const auto sign  = ((h >> (shift + 7U)) & 1ULL) ? 1.0f : -1.0f;
+        vec[dim] += sign * weight;
+    }
+}
+
+/// Normalise a token: lowercase + remove non-alphanumeric characters.
+static std::string normalizeToken(std::string token) {
+    token.erase(std::remove_if(token.begin(), token.end(),
+                               [](unsigned char c) {
+                                   return !std::isalnum(static_cast<unsigned char>(c));
+                               }),
+                token.end());
+    std::transform(token.begin(), token.end(), token.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return token;
+}
+
+/**
+ * @brief Built-in lexical embedding for a text segment.
+ *
+ * Combines:
+ * - Unigram features (token-level FNV-1a projection)
+ * - Bigram features (consecutive token pairs, weight 0.5)
+ * - Character trigram features (weight 0.35, only for tokens ≥ 3 chars)
+ *
+ * The final vector is L2-normalised to unit length, making cosine similarity
+ * directly applicable.
+ *
+ * @param segment   Input text segment.
+ * @param embed_dim Output dimensionality.
+ * @return L2-normalised float vector of length `embed_dim`.
+ */
+static std::vector<float> lexicalEmbed(const std::string& segment,
+                                        std::size_t        embed_dim) {
     std::vector<float> vec(embed_dim, 0.0f);
-    auto normalizeToken = [](std::string token) {
-        token.erase(std::remove_if(token.begin(), token.end(),
-                                   [](unsigned char c) {
-                                       return !std::isalnum(static_cast<unsigned char>(c));
-                                   }),
-                    token.end());
-        std::transform(token.begin(), token.end(), token.begin(),
-                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-        return token;
-    };
 
-    auto scatter = [&](std::string_view feature, float weight) {
-        const uint64_t h = fnv1a(feature);
-        for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
-            const auto shift = (lane % 4) * 16U;
-            const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
-            const auto dim   = static_cast<std::size_t>((bits + lane * 131U) % embed_dim);
-            const auto sign  = ((h >> (shift + 7U)) & 1ULL) ? 1.0f : -1.0f;
-            vec[dim] += sign * weight;
+    // Tokenize
+    std::vector<std::string> tokens;
+    {
+        std::istringstream iss(segment);
+        std::string raw;
+        while (iss >> raw) {
+            auto tok = normalizeToken(std::move(raw));
+            if (!tok.empty()) tokens.push_back(std::move(tok));
         }
-    };
+    }
 
-    // Split to word-level tokens, hash each token and local character n-grams.
-    std::istringstream iss(segment);
-    std::string token;
-    int count = 0;
-    while (iss >> token) {
-        token = normalizeToken(std::move(token));
-        if (token.empty()) {
-            continue;
-        }
-        scatter(token, 1.0f);
-        if (token.size() >= 3) {
-            for (std::size_t i = 0; i + 3 <= token.size(); ++i) {
-                // Pass a view over 3 chars to avoid a heap allocation per n-gram.
-                scatter(std::string_view{token.data() + i, 3}, 0.35f);
+    if (tokens.empty()) {
+        return vec; // all-zero embedding for empty/whitespace-only segments
+    }
+
+    // Unigram features
+    for (const auto& tok : tokens) {
+        scatterFeature(vec, tok, 1.0f);
+        // Character trigrams (for tokens ≥ 3 chars)
+        if (tok.size() >= 3) {
+            for (std::size_t i = 0; i + 3 <= tok.size(); ++i) {
+                scatterFeature(vec, std::string_view{tok.data() + i, 3}, 0.35f);
             }
         }
-        ++count;
     }
-    if (count > 0) {
-        const float scale = 1.0f / std::sqrt(static_cast<float>(count));
-        for (auto& v : vec) v *= scale;
+
+    // Bigram features (consecutive word pairs)
+    for (std::size_t i = 0; i + 1 < tokens.size(); ++i) {
+        const std::string bigram = tokens[i] + '\x01' + tokens[i + 1];
+        scatterFeature(vec, bigram, 0.5f);
+    }
+
+    // L2 normalisation to unit length
+    float norm_sq = 0.0f;
+    for (const auto v : vec) norm_sq += v * v;
+    if (norm_sq > 0.0f) {
+        const float inv_norm = 1.0f / std::sqrt(norm_sq);
+        for (auto& v : vec) v *= inv_norm;
     }
     return vec;
 }
@@ -327,6 +421,26 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
             ") != h*w*c (" + std::to_string(expected) + ")");
     }
 
+    // Priority 1: registered IImageEncoder
+    {
+        std::shared_ptr<IImageEncoder> enc;
+        {
+            std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
+            enc = g_image_encoder;
+        }
+        if (enc && enc->isAvailable()) {
+            auto result = enc->encode(pixels, h, w, c, cfg);
+            if (result.cores.empty()) {
+                throw std::runtime_error(
+                    "UTRConverter::fromImage: registered IImageEncoder ('" +
+                    std::string(enc->description()) +
+                    "') returned an empty TTTrain");
+            }
+            return result;
+        }
+    }
+
+    // Priority 2: raw ImageEmbedFn bridge
     ImageEmbedFn image_embed_fn;
     {
         std::lock_guard<std::mutex> lk(g_image_embed_mtx);
@@ -336,6 +450,13 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
         return image_embed_fn(pixels, h, w, c, cfg);
     }
 
+    // Priority 3: built-in patch-statistics encoder (degraded mode)
+    // STUB/SIMULATION NOTE:
+    // Purpose:           Fallback when no IImageEncoder or ImageEmbedFn is set.
+    // Activation:        getImageEncoder() == nullptr && getImageEmbedFn() == nullptr.
+    // Production Delta:  Uses simple per-patch mean+stddev statistics; no learned
+    //                    spatial or semantic features.
+    // Removal Plan:      Superseded when a plugin registers an IImageEncoder.
     const auto patch_h = clampPatchExtent(h);
     const auto patch_w = clampPatchExtent(w);
     const auto patch_rows = (h + patch_h - 1U) / patch_h;
@@ -423,22 +544,43 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         throw std::invalid_argument("document produced no segments after splitting");
     }
 
-    // 2. Embed each segment
+    // 2. Select embedding function — priority chain:
+    //    ITextEncoder (registered) > EmbedFn bridge > built-in lexical encoder
     const std::size_t num_segs  = segments.size();
     const std::size_t embed_dim = cfg.embed_dim;
 
-    // Obtain the embedding function: injected bridge takes priority over FNV-1a.
+    // Snapshot encoder state once to guarantee consistency across all segments
+    std::shared_ptr<ITextEncoder> text_encoder;
+    {
+        std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
+        text_encoder = g_text_encoder;
+    }
     UTRConverter::EmbedFn embed_fn;
     {
         std::lock_guard<std::mutex> lk(g_embed_mtx);
         embed_fn = g_embed_fn;
     }
 
+    // Resolve active encoder tier
+    const bool use_text_encoder = text_encoder && text_encoder->isAvailable();
+    const bool use_embed_fn     = !use_text_encoder && static_cast<bool>(embed_fn);
+
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
     for (const auto& seg : segments) {
         std::vector<float> emb;
-        if (embed_fn) {
+        if (use_text_encoder) {
+            // Priority 1: registered ITextEncoder
+            emb = text_encoder->encode(seg, embed_dim);
+            if (emb.size() != embed_dim) {
+                throw std::runtime_error(
+                    "UTRConverter::fromDocument: registered ITextEncoder ('" +
+                    std::string(text_encoder->description()) +
+                    "') returned " + std::to_string(emb.size()) +
+                    " elements but embed_dim=" + std::to_string(embed_dim));
+            }
+        } else if (use_embed_fn) {
+            // Priority 2: raw EmbedFn bridge
             emb = embed_fn(seg, embed_dim);
             if (emb.size() != embed_dim) {
                 throw std::runtime_error(
@@ -447,7 +589,8 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
                     " elements but embed_dim=" + std::to_string(embed_dim));
             }
         } else {
-            emb = hashEmbed(seg, embed_dim);
+            // Priority 3: built-in lexical encoder (degraded mode)
+            emb = lexicalEmbed(seg, embed_dim);
         }
         segment_matrix.insert(segment_matrix.end(), emb.begin(), emb.end());
     }

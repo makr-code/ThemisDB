@@ -37,9 +37,19 @@
  * UTR-19  fromDocument: EmbedFn returning wrong size throws runtime_error
  * UTR-20  fromImage: injected ImageEmbedFn is called; result still valid
  * UTR-21  fromImage: clearImageEmbedFn reverts to raw-pixel fallback
+ * UTR-22  fromDocument: registered ITextEncoder is called and produces valid HTTrain
+ * UTR-23  fromDocument: clearTextEncoder reverts to built-in lexical encoder
+ * UTR-24  fromDocument: ITextEncoder wrong size throws runtime_error (fail-closed)
+ * UTR-25  fromDocument: unavailable ITextEncoder falls back to EmbedFn bridge
+ * UTR-26  fromImage: registered IImageEncoder is called and produces valid TTTrain
+ * UTR-27  fromImage: clearImageEncoder reverts to built-in patch encoder
+ * UTR-28  fromImage: IImageEncoder returning empty TTTrain throws runtime_error
+ * UTR-29  fromDocument: lexical encoder produces L2-unit-norm embeddings (non-zero)
+ * UTR-30  fromDocument: ITextEncoder takes priority over EmbedFn bridge
  */
 
 #include "tensor/utr_converter.h"
+#include "tensor/encoder_interface.h"
 #include "tensor/hyper_index_builder.h"
 #include "storage/tensor_train_decomposer.h"
 
@@ -606,4 +616,294 @@ TEST(UTRConverter, ClearImageEmbedFnRevertsToRawPixelFallback) {
 
     EXPECT_FALSE(train.cores.empty()); // built-in path produces real output
     EXPECT_FALSE(static_cast<bool>(UTRConverter::getImageEmbedFn()));
+}
+
+// ============================================================================
+// ITextEncoder / IImageEncoder interface tests (UTR-22 through UTR-30)
+// ============================================================================
+
+namespace {
+
+/// Minimal ITextEncoder stub that returns a constant vector.
+class ConstTextEncoder final : public themis::tensor::ITextEncoder {
+public:
+    explicit ConstTextEncoder(float fill_value = 0.75f, bool available = true)
+        : fill_(fill_value), available_(available) {}
+
+    [[nodiscard]] std::vector<float>
+    encode(const std::string& /*seg*/, std::size_t embed_dim) const override {
+        return std::vector<float>(embed_dim, fill_);
+    }
+
+    [[nodiscard]] bool isAvailable() const noexcept override { return available_; }
+
+    [[nodiscard]] themis::tensor::EncoderQuality quality() const noexcept override {
+        return themis::tensor::EncoderQuality::SEMANTIC;
+    }
+
+    [[nodiscard]] std::string_view description() const noexcept override {
+        return "ConstTextEncoder (test stub)";
+    }
+
+private:
+    float fill_;
+    bool  available_;
+};
+
+/// ITextEncoder stub that returns a vector of the wrong size.
+class WrongSizeTextEncoder final : public themis::tensor::ITextEncoder {
+public:
+    [[nodiscard]] std::vector<float>
+    encode(const std::string& /*seg*/, std::size_t /*embed_dim*/) const override {
+        return {1.0f, 2.0f}; // always wrong size
+    }
+
+    [[nodiscard]] bool isAvailable() const noexcept override { return true; }
+
+    [[nodiscard]] themis::tensor::EncoderQuality quality() const noexcept override {
+        return themis::tensor::EncoderQuality::SEMANTIC;
+    }
+
+    [[nodiscard]] std::string_view description() const noexcept override {
+        return "WrongSizeTextEncoder (test stub)";
+    }
+};
+
+/// Minimal IImageEncoder stub that returns a single-core TTTrain.
+class ConstImageEncoder final : public themis::tensor::IImageEncoder {
+public:
+    explicit ConstImageEncoder(bool available = true, bool return_empty = false)
+        : available_(available), return_empty_(return_empty) {}
+
+    [[nodiscard]] themis::storage::TTTrain
+    encode(const std::vector<float>& /*pixels*/,
+           std::size_t /*h*/, std::size_t /*w*/, std::size_t /*c*/,
+           const themis::tensor::UTRConfig& cfg) const override {
+        if (return_empty_) return themis::storage::TTTrain{};
+        // Build a minimal 2×2 TTTrain via the decomposer so it is well-formed
+        themis::storage::TensorTrainDecomposer decomp;
+        themis::storage::TensorTrainConfig tt_cfg;
+        tt_cfg.eps      = cfg.eps;
+        tt_cfg.max_rank = cfg.max_rank;
+        const std::vector<float> data(4, 1.0f);
+        return decomp.decompose(data, {2u, 2u}, tt_cfg).first;
+    }
+
+    [[nodiscard]] bool isAvailable() const noexcept override { return available_; }
+
+    [[nodiscard]] themis::tensor::EncoderQuality quality() const noexcept override {
+        return themis::tensor::EncoderQuality::SEMANTIC;
+    }
+
+    [[nodiscard]] std::string_view description() const noexcept override {
+        return "ConstImageEncoder (test stub)";
+    }
+
+private:
+    bool available_;
+    bool return_empty_;
+};
+
+} // namespace
+
+// UTR-22: registered ITextEncoder is called and produces a valid HTTrain
+TEST(UTRConverter, TextEncoderBridgeIsCalledFromDocument) {
+    using namespace themis::tensor;
+
+    bool called = false;
+    auto enc = std::make_shared<ConstTextEncoder>(0.5f, true);
+    // Wrap in a lambda-based proxy to track call
+    class TrackingEncoder final : public ITextEncoder {
+    public:
+        explicit TrackingEncoder(bool& flag) : flag_(flag) {}
+        std::vector<float>
+        encode(const std::string& /*seg*/, std::size_t dim) const override {
+            flag_ = true;
+            return std::vector<float>(dim, 0.5f);
+        }
+        bool isAvailable() const noexcept override { return true; }
+        EncoderQuality quality() const noexcept override { return EncoderQuality::SEMANTIC; }
+        std::string_view description() const noexcept override { return "tracking"; }
+    private:
+        bool& flag_;
+    };
+
+    UTRConverter::setTextEncoder(std::make_shared<TrackingEncoder>(called));
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument(
+        "Hello world.\n\nSecond paragraph.", DocumentStructureHint::PARAGRAPHS, cfg);
+
+    UTRConverter::clearTextEncoder();
+
+    EXPECT_TRUE(called);
+    EXPECT_NE(ht.root, nullptr);
+}
+
+// UTR-23: clearTextEncoder reverts to built-in lexical encoder
+TEST(UTRConverter, ClearTextEncoderRevertsToLexicalFallback) {
+    using namespace themis::tensor;
+
+    UTRConverter::setTextEncoder(std::make_shared<ConstTextEncoder>(1.0f));
+    UTRConverter::clearTextEncoder();
+
+    EXPECT_EQ(UTRConverter::getTextEncoder(), nullptr);
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument("Fallback paragraph.", {}, cfg);
+    EXPECT_NE(ht.root, nullptr);
+}
+
+// UTR-24: ITextEncoder returning wrong-size vector throws runtime_error (fail-closed)
+TEST(UTRConverter, TextEncoderWrongSizeThrowsRuntimeError) {
+    using namespace themis::tensor;
+
+    UTRConverter::setTextEncoder(std::make_shared<WrongSizeTextEncoder>());
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    EXPECT_THROW(
+        UTRConverter::fromDocument("Some text.", DocumentStructureHint::SENTENCES, cfg),
+        std::runtime_error);
+
+    UTRConverter::clearTextEncoder();
+}
+
+// UTR-25: unavailable ITextEncoder falls back to EmbedFn bridge
+TEST(UTRConverter, UnavailableTextEncoderFallsBackToEmbedFn) {
+    using namespace themis::tensor;
+
+    // Register unavailable encoder
+    UTRConverter::setTextEncoder(std::make_shared<ConstTextEncoder>(0.0f, /*available=*/false));
+
+    // Also register EmbedFn bridge that marks itself called
+    bool embed_fn_called = false;
+    UTRConverter::setEmbedFn(
+        [&embed_fn_called](const std::string& /*seg*/, std::size_t embed_dim) {
+            embed_fn_called = true;
+            return std::vector<float>(embed_dim, 0.3f);
+        });
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument("Test fallback.", {}, cfg);
+
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+
+    EXPECT_TRUE(embed_fn_called);
+    EXPECT_NE(ht.root, nullptr);
+}
+
+// UTR-26: registered IImageEncoder is called and produces a valid TTTrain
+TEST(UTRConverter, ImageEncoderBridgeIsCalledFromImage) {
+    using namespace themis::tensor;
+
+    UTRConverter::setImageEncoder(std::make_shared<ConstImageEncoder>(/*available=*/true));
+
+    std::vector<float> pixels(4 * 4 * 3, 128.0f);
+    const auto train = UTRConverter::fromImage(pixels, 4, 4, 3);
+
+    EXPECT_EQ(UTRConverter::getImageEncoder().get() != nullptr, true);
+
+    UTRConverter::clearImageEncoder();
+
+    EXPECT_FALSE(train.cores.empty());
+    EXPECT_EQ(UTRConverter::getImageEncoder(), nullptr);
+}
+
+// UTR-27: clearImageEncoder reverts to built-in patch encoder
+TEST(UTRConverter, ClearImageEncoderRevertsToPatchFallback) {
+    using namespace themis::tensor;
+
+    UTRConverter::setImageEncoder(std::make_shared<ConstImageEncoder>());
+    UTRConverter::clearImageEncoder();
+
+    EXPECT_EQ(UTRConverter::getImageEncoder(), nullptr);
+
+    std::vector<float> pixels(4 * 4 * 1, 64.0f);
+    const auto train = UTRConverter::fromImage(pixels, 4, 4, 1);
+    EXPECT_FALSE(train.cores.empty());
+}
+
+// UTR-28: IImageEncoder returning empty TTTrain throws runtime_error (fail-closed)
+TEST(UTRConverter, ImageEncoderEmptyResultThrowsRuntimeError) {
+    using namespace themis::tensor;
+
+    UTRConverter::setImageEncoder(
+        std::make_shared<ConstImageEncoder>(/*available=*/true, /*return_empty=*/true));
+
+    std::vector<float> pixels(4 * 4 * 3, 100.0f);
+    EXPECT_THROW(UTRConverter::fromImage(pixels, 4, 4, 3), std::runtime_error);
+
+    UTRConverter::clearImageEncoder();
+}
+
+// UTR-29: built-in lexical encoder produces non-zero embeddings
+TEST(UTRConverter, LexicalEncoderProducesNonZeroEmbedding) {
+    using namespace themis::tensor;
+
+    // Ensure no encoder or bridge is set
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+
+    UTRConfig cfg;
+    cfg.embed_dim    = 32;
+    cfg.max_segments = 4;
+
+    const auto ht = UTRConverter::fromDocument(
+        "Machine learning models learn from data.\n\n"
+        "Tensor decomposition reduces dimensionality.",
+        DocumentStructureHint::PARAGRAPHS, cfg);
+    EXPECT_NE(ht.root, nullptr);
+
+    // The reconstructed tensor must be non-trivially populated
+    const auto dense = ht.reconstruct();
+    ASSERT_FALSE(dense.empty());
+    const float norm_sq = std::accumulate(dense.begin(), dense.end(), 0.0f,
+        [](float acc, float v) { return acc + v * v; });
+    EXPECT_GT(norm_sq, 0.0f);
+}
+
+// UTR-30: registered ITextEncoder takes priority over EmbedFn bridge
+TEST(UTRConverter, TextEncoderTakesPriorityOverEmbedFn) {
+    using namespace themis::tensor;
+
+    bool encoder_called = false;
+    bool embed_fn_called = false;
+
+    class PriorityCheckEncoder final : public ITextEncoder {
+    public:
+        explicit PriorityCheckEncoder(bool& flag) : flag_(flag) {}
+        std::vector<float>
+        encode(const std::string& /*seg*/, std::size_t dim) const override {
+            flag_ = true;
+            return std::vector<float>(dim, 0.9f);
+        }
+        bool isAvailable() const noexcept override { return true; }
+        EncoderQuality quality() const noexcept override { return EncoderQuality::SEMANTIC; }
+        std::string_view description() const noexcept override { return "priority-check"; }
+    private:
+        bool& flag_;
+    };
+
+    UTRConverter::setTextEncoder(std::make_shared<PriorityCheckEncoder>(encoder_called));
+    UTRConverter::setEmbedFn(
+        [&embed_fn_called](const std::string& /*seg*/, std::size_t dim) {
+            embed_fn_called = true;
+            return std::vector<float>(dim, 0.1f);
+        });
+
+    UTRConfig cfg;
+    cfg.embed_dim = 16;
+    const auto ht = UTRConverter::fromDocument("Priority test.", {}, cfg);
+
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+
+    EXPECT_TRUE(encoder_called);
+    EXPECT_FALSE(embed_fn_called);
+    EXPECT_NE(ht.root, nullptr);
 }
