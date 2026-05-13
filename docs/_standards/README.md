@@ -1,16 +1,22 @@
-# _standards
-
-Pfad: `docs/_standards`
+# docs/_standards
 
 ## Zweck
-Dieser Ordner enthält 0 Unterordner und 2 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+`docs/_standards/` enthaelt manuell gepflegte Standards, Schemas und Templates fuer Dokumentationsarbeit.
 
-## Dateien nach Kategorien
-- **Konfiguration**: `doc_header.schema.yml`
-- **Dokumentation**: `DOC_TEMPLATE.md`
+## Pflegeverantwortung
+- **Owner:** Documentation Governance Maintainer
+- **Review:** Jede Aenderung braucht Docs-Review gegen die zentralen QA-Kriterien
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Inhalte
+- `DOC_TEMPLATE.md` – redaktionelle Vorlage fuer neue Dokumente
+- `doc_header.schema.yml` – Schema fuer Dokument-Metadaten
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+## Abgrenzung: Generiert vs. manuell
+- **Manuell (hier):** Standards/Regelwerke/Templates
+- **Generiert (nicht hier):** maschinell erzeugte Artefakte in `docs/_generated/`
+
+## QA-/Review-Anbindung
+- `docs/DOCUMENTATION_MERGE_PROTOCOL.md`
+- `docs/PR_DOCUMENTATION_CHECKLIST.md`
+
+_Letzte Governance-Aktualisierung: 2026-05-13._

@@ -1,7 +1,7 @@
 # Documentation Merge Protocol
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
+**Version:** 1.1
+**Last Updated:** 2026-05-13
 **Status:** Official Template
 
 ---
@@ -9,6 +9,32 @@
 ## Overview
 
 This document defines the merge protocol for pull requests that include documentation changes. Following this protocol ensures documentation quality and traceability.
+
+## Verbindliche Meta-Bereich-Klassifizierung
+
+Vor dem Merge muss fuer alle betroffenen Doku-Pfade klar sein, ob es sich um:
+
+- **Generierte Inhalte** (`docs/_generated/**`)
+- **Manuell gepflegte Standards/Inhalte** (`docs/_standards/**`, `docs/website/**`)
+- **Review-/Issue-/Report-Artefakte** (`docs/reviews/**`, `docs/issues/**`, `docs/reports/**`)
+
+handelt. Mischungen ohne klare Ablagebegruendung sind nicht merge-faehig.
+
+## Verbindlicher Review- und Audit-Nachweis
+
+Fuer Docs-Meta-Aenderungen ist folgender Nachweis Pflicht (im PR-Text oder verlinktem Report):
+
+- Fachreview gegen passende Doku-/Code-Checklisten
+- Dokumentationsaudit bzw. Sourcecode-Audit
+- Ergebnisdokumentation mit betroffenen Dateien/Bereichen
+
+Referenzen:
+
+- [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md)
+- [SYSTEMATISCHER_REVIEWPLAN.md](SYSTEMATISCHER_REVIEWPLAN.md)
+- [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md)
+- [de/development/SOURCE_CODE_AUDIT.md](de/development/SOURCE_CODE_AUDIT.md)
+- [audit-framework/AUDIT_RUNBOOK.md](audit-framework/AUDIT_RUNBOOK.md)
 
 ## Merge Protocol Template
 
@@ -337,6 +363,16 @@ Documentation PR must meet these criteria to merge:
 - [ ] Documentation checklist complete
 - [ ] Follow-up issues created (if needed)
 - [ ] Related issues linked
+- [ ] Meta-Bereich-Klassifizierung dokumentiert (generiert/manuell/review/report)
+- [ ] Review-/Audit-Nachweis dokumentiert
+- [ ] Report-Lifecycle-Regeln angewendet (falls `docs/reports/**` betroffen)
+
+### Report-Lifecycle-Regeln (bei `docs/reports/**`)
+
+- Reports enthalten Datum + Scope
+- Veraltete Reports quartalsweise pruefen
+- Nicht mehr aktive Reports nach `docs/archive/` verschieben (siehe [DOCUMENTATION_ARCHIVAL_PROCESS.md](DOCUMENTATION_ARCHIVAL_PROCESS.md))
+- Nach Moves internen Link-Check durchfuehren
 
 ### Blocking Issues
 

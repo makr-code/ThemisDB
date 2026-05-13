@@ -1,21 +1,25 @@
-# issues
-
-Pfad: `docs/issues`
+# docs/issues
 
 ## Zweck
-Dieser Ordner enthält 4 Unterordner und 1 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+`docs/issues/` sammelt issue-nahe Arbeitsdokumente (Umsetzungsplaene, Scoping, Nachverfolgung je Themenbereich).
 
-## Unterordner
+## Pflegeverantwortung
+- **Owner:** jeweils verantwortliche Modul-/Themen-Owner
+- **Co-Owner:** Documentation Governance Maintainer (Struktur- und Qualitaetskontrolle)
+
+## Aktuelle Struktur
+- `MASTER_IMPLEMENTATION_PLAN.md`
 - `distributed_knowledge/`
 - `llm/`
 - `lora_loops/`
 - `optimization_layers/`
 
-## Dateien nach Kategorien
-- **Dokumentation**: `MASTER_IMPLEMENTATION_PLAN.md`
+## Abgrenzung: Generiert vs. manuell
+- **Manuell (hier):** redaktionelle Issue- und Planungsdokumente
+- **Nicht hier ablegen:** generierte Reports/Scans (nach `docs/reports/` bzw. `docs/_generated/`)
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## QA-/Review-Anbindung
+- Pflicht-Checklisten: `docs/PR_DOCUMENTATION_CHECKLIST.md`
+- Review-/Audit-Rahmen: `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`, `docs/SYSTEMATISCHER_REVIEWPLAN.md`
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+_Letzte Governance-Aktualisierung: 2026-05-13._
