@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Transaction Module - Header Files
 
@@ -127,7 +127,8 @@ if (!result.success) {
 | `saga_orchestrator.h` | `SagaOrchestrator` | Choreography-based SAGA orchestration |
 | `transaction_auditor.h` | `TransactionAuditor` | Audit trail recording for compliance |
 | `transaction_batcher.h` | `TransactionBatcher` | Micro-batching for throughput optimisation |
-| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | <!-- TODO: verify --> Semantic hints for query planning |
+| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Semantic batch-affinity and conflict-probability hints for pending transactions |
+| `in_doubt_recovery_coordinator.h` | `IInDoubtRecoveryCoordinator` | Recovery interface for in-doubt distributed transactions |
 
 ---
 
@@ -177,6 +178,22 @@ Current version: **1.7.0**
 - `<vector>` - Collections
 - `<unordered_map>` - Hash maps
 - `<nlohmann/json.hpp>` - JSON serialization
+
+---
+
+## Configuration Options
+
+The transaction API exposes runtime tuning via `TransactionManager`:
+
+| API | Default | Purpose |
+|-----|---------|---------|
+| `setDeadlockDetection(bool)` | `false` | Enable/disable background deadlock detector |
+| `setDeadlockTimeout(std::chrono::milliseconds)` | `1000ms` | Timeout used during deadlock detection and victim handling |
+| `setDefaultTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Apply default per-transaction timeout (`0` disables) |
+| `setTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Global timeout sweep for active transactions (`0` disables) |
+| `setSSIConfig(const SSIConfig&)` | `predicate_locking=true`, `max_predicate_locks=10000` | Configure serializable snapshot isolation behavior |
+
+Per transaction, `Transaction::setTimeout(...)` and `Transaction::setReadOnly(...)` override lifecycle behavior for that transaction handle.
 
 ---
 
@@ -377,6 +394,16 @@ void transfer(int from, int to, int amount) {
 
 ---
 
+## Runtime Behavior, Errors, and Limits
+
+- **Atomicity:** `commit()` applies buffered operations atomically; `rollback()` discards pending writes.
+- **Isolation:** `ReadCommitted`, `Snapshot`, and `Serializable` (SSI predicate locking) are available via `IsolationLevel`.
+- **Error reporting:** write and commit APIs return `TransactionManager::Status` (`ok`, `message`, optional conflict metadata).
+- **Recommended limits:** keep transactions below ~1000 operations and prefer short-lived sessions to reduce lock hold times.
+- **Constraint:** avoid mixing anonymous savepoint APIs (`setSavePoint`/`rollbackToSavePoint`) with named savepoints (`createSavepoint`/`rollbackToSavepoint`/`releaseSavepoint`) in one transaction.
+
+---
+
 ## Migration from Legacy API
 
 ### Old Direct WriteBatch
@@ -430,12 +457,26 @@ Headers are tested via:
 
 ---
 
+## Troubleshooting
+
+| Symptom | Likely Cause | Action |
+|---------|--------------|--------|
+| `Deadlock` in commit status | Cyclic lock dependency between active writers | Enable deadlock detection, reduce transaction scope, and acquire entity locks in deterministic order |
+| `OCC version conflict` | Concurrent update changed entity version | Re-read current version with `getEntityVersion(...)` and retry transaction |
+| `Serialization conflict` | Serializable predicate overlap with concurrent writer | Retry transaction with backoff or narrow predicate range |
+| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use only one savepoint API style per transaction |
+
+---
+
 ## Documentation
 
 For detailed implementation documentation, see:
 - [Source Implementation README](../../src/transaction/README.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
-- [API Reference](../../docs/api/transaction.md)
+- [Transaction Roadmap](../../src/transaction/ROADMAP.md)
+- [Future Enhancements](../../src/transaction/FUTURE_ENHANCEMENTS.md)
+- [Architecture Details](../../src/transaction/ARCHITECTURE.md)
+- [German Module Overview](../../docs/de/transaction/README.md)
+- [Primary Sources Index](../../docs/en/transaction/PRIMARY_SOURCES.md)
 
 ---
 

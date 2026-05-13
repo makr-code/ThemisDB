@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Transaction Module
 
@@ -16,6 +16,14 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 | `distributed_saga.cpp` | Distributed SAGA across multiple nodes |
 | `distributed_transaction_manager.cpp` | Two-Phase Commit (2PC) protocol implementation |
 | `global_transaction_manager.cpp` | Multi-region ACID guarantees with TrueTime 2PC |
+
+## Module Documentation Links
+
+- [Public Header Overview](../../include/transaction/README.md)
+- [Roadmap](./ROADMAP.md)
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Architecture](./ARCHITECTURE.md)
+- [German Module Overview](../../docs/de/transaction/README.md)
 
 ## Current Delivery Status
 
@@ -1063,6 +1071,17 @@ if (!result.success) {
 
 ---
 
+## Troubleshooting
+
+| Symptom | Likely Cause | Mitigation |
+|---------|--------------|------------|
+| Commit returns `Deadlock detected` | Writers acquired locks in conflicting order | Enforce deterministic lock ordering and enable deadlock detection |
+| `OCC version conflict` on `optimisticPut`/`optimisticErase` | Concurrent update changed entity version | Re-read version with `getEntityVersion(...)` and retry |
+| `Serialization conflict` with `IsolationLevel::Serializable` | Predicate-lock overlap with concurrent writers | Retry with backoff and reduce wide range predicates |
+| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use either anonymous *or* named savepoints in one transaction |
+
+---
+
 ## Testing
 
 ### Unit Tests
@@ -1142,6 +1161,20 @@ ctest -R transaction_test -V
 ---
 
 ## Configuration
+
+### Public API Configuration Knobs
+
+The primary runtime configuration surface is the C++ API:
+
+| API | Default | Purpose |
+|-----|---------|---------|
+| `TransactionManager::setDeadlockDetection(bool)` | `false` | Enables/disables background deadlock detection |
+| `TransactionManager::setDeadlockTimeout(std::chrono::milliseconds)` | `1000ms` | Deadlock timeout and victim handling threshold |
+| `TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Applies default timeout to newly started transactions |
+| `TransactionManager::setTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Timeout sweep over active transactions |
+| `TransactionManager::setSSIConfig(const SSIConfig&)` | `max_predicate_locks=10000` | Tunes SERIALIZABLE predicate-lock behavior |
+| `Transaction::setTimeout(std::chrono::milliseconds)` | `0ms` | Per-transaction timeout override |
+| `Transaction::setReadOnly(bool)` | `false` | Enables read-only fast path for a transaction |
 
 ### Environment Variables
 ```bash
@@ -1243,6 +1276,10 @@ txn.commit();  // Auto-compensate on failure
 - [Index Module](../index/README.md) - Secondary, graph, and vector indexes
 - [CDC Module](../cdc/README.md) - Change data capture integration
 - [Query Module](../query/README.md) - AQL query execution
+- [Transaction Header API](../../include/transaction/README.md) - Public entry points and integration notes
+- [Transaction Roadmap](./ROADMAP.md) - Delivery phases and production-readiness checklist
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md) - Planned interfaces and constraints
+- [German Transaction Docs](../../docs/de/transaction/README.md) - Consolidated module status and inventory
 - [SAGA Pattern](https://microservices.io/patterns/data/saga.html) - Distributed transaction pattern
 - [RocksDB Transactions](https://github.com/facebook/rocksdb/wiki/Transactions) - Native MVCC support
 
