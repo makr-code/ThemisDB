@@ -1,14 +1,9 @@
-[docs](../../index.md) > [de](../index.md) > [metadata](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+# Primary Sources — `metadata`
+<!-- status: current | validated: 2026-05-13 | commit: HEAD -->
+**Datum:** 2026-05-13
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/metadata/ARCHITECTURE.md`
-- `include/metadata/AUDIT.md`
-- `include/metadata/CHANGELOG.md`
-- `include/metadata/FUTURE_ENHANCEMENTS.md`
 - `include/metadata/README.md`
-- `include/metadata/ROADMAP.md`
-- `include/metadata/SECURITY.md`
 - `src/metadata/ARCHITECTURE.md`
 - `src/metadata/AUDIT.md`
 - `src/metadata/CHANGELOG.md`
@@ -33,13 +28,7 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 
 | Datei | Pfad |
 |-------|------|
-| `ARCHITECTURE.md` | [`include/metadata/ARCHITECTURE.md`](../../../include/metadata/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/metadata/AUDIT.md`](../../../include/metadata/AUDIT.md) |
-| `CHANGELOG.md` | [`include/metadata/CHANGELOG.md`](../../../include/metadata/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/metadata/FUTURE_ENHANCEMENTS.md`](../../../include/metadata/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/metadata/README.md`](../../../include/metadata/README.md) |
-| `ROADMAP.md` | [`include/metadata/ROADMAP.md`](../../../include/metadata/ROADMAP.md) |
-| `SECURITY.md` | [`include/metadata/SECURITY.md`](../../../include/metadata/SECURITY.md) |
 
 ### `src/metadata/`
 
@@ -55,4 +44,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Aktualisiert: 2026-05-13*
