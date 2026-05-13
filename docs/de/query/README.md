@@ -186,8 +186,8 @@ Siehe [`SETUP.md`](../../../SETUP.md) für vollständige Abhängigkeiten und Bui
 
 ## Troubleshooting
 
-- Parser-/Syntaxprobleme: [`docs/troubleshooting/aql_troubleshooting.md`](../../troubleshooting/aql_troubleshooting.md)
-- Laufzeit-, Timeout- und Federation-Probleme: [`docs/troubleshooting/query_troubleshooting.md`](../../troubleshooting/query_troubleshooting.md)
+- Parser-/Syntaxprobleme: [`../../troubleshooting/aql_troubleshooting.md`](../../troubleshooting/aql_troubleshooting.md)
+- Laufzeit-, Timeout- und Federation-Probleme: [`../../troubleshooting/query_troubleshooting.md`](../../troubleshooting/query_troubleshooting.md)
 - Hybrid-Query-spezifische Performance: [`query_hybrid_benchmarks.md`](query_hybrid_benchmarks.md)
 
 ## Verwandte Dokumentation
