@@ -8,7 +8,7 @@
 **Module Path:** `include/whisper/`
 **Implementation Overview:** [`../../src/whisper/README.md`](../../src/whisper/README.md)
 **Namespace:** `themis::whisper`
-**Status:** 🟢 Production-Ready (v2.2.0)
+**Status:** 🟢 Production-Ready (implementation state v2.1.0; runtime `plugin_version` = `"2.0.0"`)
 
 The `whisper` module provides audio transcription and language-detection capabilities
 for ThemisDB via [whisper.cpp](https://github.com/ggerganov/whisper.cpp). The design is
