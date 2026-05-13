@@ -688,10 +688,10 @@ auto result = federation.execute(plan);
 **Thread Safety:** Federation operations are thread-safe.
 
 ### Continuous Query Engine (CQL — v2.0.0)
-**Location:** `continuous_query_engine.h`, `continuous_query_engine_impl.h`, `continuous_query_registry.h`  
+**Location:** `continuous_query_engine.h`, `continuous_query_engine_impl.h`, `continuous_query_registry.h`
 **Implementation:** `../../src/query/continuous_query_engine.cpp`
 
-Production-grade Continuous Query Language (CQL) engine for standing queries evaluated continuously as new data arrives.  
+Production-grade Continuous Query Language (CQL) engine for standing queries evaluated continuously as new data arrives.
 Formal semantics based on Arasu, Babu & Widom (2006).
 
 **Key Types:**
@@ -1345,24 +1345,24 @@ QueryCache
 ### Quick Links
 
 - **Core Components:**
-  - [AQL Parser](../../docs/query/aql_parser.md) - AQL syntax and parsing
-  - [Query Optimizer](../../docs/query/query_optimizer.md) - Optimization strategies
-  - [Query Engine](../../docs/query/query_engine.md) - Execution engine architecture
+  - [Query Module Overview](../../src/query/README.md) - End-to-end parser/optimizer/engine/caching execution stack
+  - [Query Architecture](../../src/query/ARCHITECTURE.md) - Detailed component and dataflow architecture
+  - [AQL Syntax](../../docs/de/aql/aql_syntax.md) - AQL language semantics and clause reference
 - **Architecture:**
-  - [Query Execution Pipeline](../../docs/query/execution_pipeline.md) - End-to-end query flow
-  - [Multi-Model Queries](../../docs/query/multi_model.md) - Cross-model query support
-  - [Hybrid Queries](../../docs/query/hybrid_queries.md) - Vector+Geo, Fulltext+Spatial
+  - [ROADMAP](../../src/query/ROADMAP.md) - Current status, phases, and module boundaries
+  - [Future Enhancements](../../src/query/FUTURE_ENHANCEMENTS.md) - Planned interfaces, constraints, and backlog
+  - [Hybrid Queries Overview](../../docs/de/query/query_hybrid_overview.md) - Vector+Geo and cross-model query patterns
 - **Advanced Features:**
-  - [Query Federation](../../docs/query/federation.md) - Distributed query execution
-  - [Window Functions](../../docs/query/window_functions.md) - Analytical window functions
-  - [CTEs and Subqueries](../../docs/query/ctes_subqueries.md) - Advanced query patterns
+  - [Query Engine Deep Dive](../../docs/de/aql/aql_query_engine.md) - Execution internals, parser/translator, and optimizer flow
+  - [Filtered Vector Queries](../../docs/de/query/query_filtered_vector.md) - Hybrid ANN + attribute filtering behavior
+  - [Vector Hybrid Search](../../docs/de/query/query_vector_hybrid.md) - Extended vector+filter strategies and limits
 - **Performance:**
-  - [Caching Strategies](../../docs/query/caching.md) - Query result caching
-  - [Query Optimization Tips](../../docs/query/optimization_tips.md) - Best practices
-  - [Performance Benchmarks](../../benchmarks/query/) - Query performance data
+  - [Performance Expectations](../../src/query/PERFORMANCE_EXPECTATIONS.md) - Runtime SLOs and benchmark targets
+  - [Hybrid Query Benchmarks](../../docs/de/query/query_hybrid_benchmarks.md) - Measured optimization performance
+  - [Query Troubleshooting](../../docs/troubleshooting/query_troubleshooting.md) - Operational errors, limits, and remediation
 - **Function Reference:**
-  - [AQL Function Reference](../../docs/query/function_reference.md) - Complete function catalog
-  - [Custom Functions](../../docs/query/custom_functions.md) - Registering custom functions
+  - [AQL Function Reference](../../docs/de/aql/aql_functions_reference.md) - Built-in function catalog
+  - [AQL Runner and UDF APIs](../../src/query/README.md) - Query entry points and custom function registration
 
 ## Contributing
 
@@ -1380,7 +1380,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned query improvements
+- [FUTURE_ENHANCEMENTS.md](../../src/query/FUTURE_ENHANCEMENTS.md) - Planned query improvements
 - [Storage Module](../../src/storage/README.md) - Data persistence layer
 - [Index Module](../../src/index/README.md) - Index management
 - [Server Module](../../src/server/README.md) - Network protocols

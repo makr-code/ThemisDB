@@ -1025,11 +1025,11 @@ engine->dropQuery("my_query");
 
 - [Storage Module](../storage/README.md) - Data persistence and transaction coordination
 - [Index Module](../index/README.md) - Index structures for efficient query execution
-- [Query Functions](../include/query/functions/README.md) - Function registry and domain-specific functions
-- [AQL Syntax Reference](../../docs/aql_reference.md) - Complete AQL syntax documentation
-- [Query Optimization Guide](../../docs/query_optimization.md) - Performance tuning and best practices
-- [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
-- [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
+- [Public Query Header API](../../include/query/README.md) - Public entry points and header-level API surface
+- [AQL Syntax Reference](../../docs/de/aql/aql_syntax.md) - Complete AQL syntax documentation
+- [Query Performance Expectations](PERFORMANCE_EXPECTATIONS.md) - Performance tuning targets and benchmark expectations
+- [Implementation Summary: AQL Functions](../../docs/de/implementation/IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
+- [Implementation Summary: Query Optimizer](../../docs/de/implementation/IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
 - [arasu_cql_2006.md](../../research/papers/arasu_cql_2006.md) - CQL formal semantics (Arasu, Babu & Widom 2006)
 
 *Last Updated: April 2026*

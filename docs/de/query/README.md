@@ -14,10 +14,10 @@ Das Query-Modul implementiert den vollständigen AQL-Abfrage-Stack von ThemisDB:
 Optimizer, Execution-Engine und Caching-Infrastruktur. AQL unterstützt relationale,
 Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Kompatibilität.
 
-**Primäre Dokumentation:** [`src/query/README.md`](../../src/query/README.md)  
-**Architektur:** [`src/query/ARCHITECTURE.md`](../../src/query/ARCHITECTURE.md)  
-**Roadmap:** [`src/query/ROADMAP.md`](../../src/query/ROADMAP.md)  
-**Geplante Erweiterungen:** [`src/query/FUTURE_ENHANCEMENTS.md`](../../src/query/FUTURE_ENHANCEMENTS.md)
+- **Primäre Dokumentation:** [`src/query/README.md`](../../../src/query/README.md)
+- **Architektur:** [`src/query/ARCHITECTURE.md`](../../../src/query/ARCHITECTURE.md)
+- **Roadmap:** [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md)
+- **Geplante Erweiterungen:** [`src/query/FUTURE_ENHANCEMENTS.md`](../../../src/query/FUTURE_ENHANCEMENTS.md)
 
 ---
 
@@ -166,11 +166,36 @@ Result<std::string>    explainAqlText(const std::string& aql, QueryEngine& engin
 Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine);
 ```
 
+## Usage
+
+- **AQL ausführen:** `executeAql(...)` als Standard-Entry-Point für Query-Pipeline (Parse → Optimize → Execute)
+- **Ressourcen begrenzen:** `executeAqlWithLimits(...)` für `max_rows`, `max_memory_bytes`, `timeout_ms`
+- **Kooperativer Abbruch:** `executeAqlCancellable(...)` + `QueryCanceller::cancel(request_id)`
+- **Fehleranalyse:** `explainAql(...)`, `explainAqlText(...)`, `explainAqlDot(...)` für Plan-Diagnostik
+
+## Installation
+
+Das Query-Modul wird als Teil von ThemisDB gebaut:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+Siehe [`SETUP.md`](../../../SETUP.md) für vollständige Abhängigkeiten und Build-Umgebung.
+
+## Troubleshooting
+
+- Parser-/Syntaxprobleme: [`docs/troubleshooting/aql_troubleshooting.md`](../../troubleshooting/aql_troubleshooting.md)
+- Laufzeit-, Timeout- und Federation-Probleme: [`docs/troubleshooting/query_troubleshooting.md`](../../troubleshooting/query_troubleshooting.md)
+- Hybrid-Query-spezifische Performance: [`query_hybrid_benchmarks.md`](query_hybrid_benchmarks.md)
+
 ## Verwandte Dokumentation
 
-- [Primary Source Docs](../../src/query/README.md) — vollständige API-Referenz
-- [Architecture](../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
-- [ROADMAP](../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [Primary Source Docs](../../../src/query/README.md) — vollständige API-Referenz
+- [Architecture](../../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
+- [ROADMAP](../../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [FUTURE_ENHANCEMENTS](../../../src/query/FUTURE_ENHANCEMENTS.md) — geplante APIs, Grenzen, Backlog
 - [AQL Syntax](../aql/aql_syntax.md) — AQL-Sprachreferenz
 - [Hybrid Search](query_vector_hybrid.md) — Vector + Filter Hybridabfragen
 - [Filtered Vector Queries](query_filtered_vector.md) — Gefilterte Vektorsuche
@@ -193,4 +218,3 @@ Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine
 QueryFederation(ShardRouter, ShardingManager&, Config)  // Shard-Key-Routing
 QueryFederation(ShardRouter, Config)                     // Einfaches Routing
 ```
-
