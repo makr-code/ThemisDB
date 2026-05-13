@@ -335,8 +335,10 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
     in `include/tensor/utr_converter.h` / `src/tensor/utr_converter.cpp` and
     `include/tensor/hyper_index_builder.h` / `src/tensor/hyper_index_builder.cpp`;
     tests UTR-01..UTR-17 in `tests/test_tensor_utr.cpp`.
-    STUBs: #255 (uniform bucketing, no FK graph), #257 (hash-projection doc embedding),
-    #258 (raw pixel TT).
+    STUBs: #257 (hash-projection doc embedding), #258 (raw pixel TT).
+    **2026-05-13 update**: STUB #255 resolved with FK-aware bucketisation,
+    cycle-protected FK-graph traversal, join-signal propagation, and configurable
+    numeric/category/FK fallback strategies in `HyperIndexBuilder::fromSchema()`.
 
 - [~] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
   - Paper §Geospatial: n-dimensional grids factorized; spatial reasoning by core contraction
@@ -350,8 +352,9 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
     the relational engine
   - `HyperIndexBuilder::fromSchema(tables, fk_graph) → HyperIndexTensor`
   - AC: latent join for standard TPC-H Q18 detected without explicit JOIN hint
-  - **2026-05-07 in progress**: `HyperIndexBuilder::fromSchema()` builds co-occurrence tensor
-    (STUB #255 — uniform bucketing, no FK-graph awareness).
+  - **2026-05-13 update**: `HyperIndexBuilder::fromSchema()` now applies FK-aware
+    bucketisation with cycle-protected FK traversal and join-signal propagation,
+    including explicit fallback handling for missing FK statistics.
 
 - [~] **Hierarchical document tensor — child-to-parent retrieval** (Target: Q4 2028)
   - Paper §Documents: 3–5× better accuracy on structured data via structural context retention
@@ -503,9 +506,8 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - Domain template graph routing in TensorRouter is now apply-gated: catalog
   hits promote to LIFT only when `TemplateTopologyApplyFn` reports successful
   topology wiring
-- Phase 7 UTR encoders still include simplified paths (STUBs #255, #257, #258):
-  document hash-projection embedding (#257), raw pixel TT decomposition (#258),
-  relational Hyper-Index without FK-graph weighting (#255)
+- Phase 7 UTR encoders still include simplified paths (STUBs #257, #258):
+  document hash-projection embedding (#257), raw pixel TT decomposition (#258)
 
 ## Breaking Changes
 

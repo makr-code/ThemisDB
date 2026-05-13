@@ -49,6 +49,7 @@
 #include <gtest/gtest.h>
 #include <cmath>
 #include <numeric>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 
@@ -109,6 +110,47 @@ themis::tensor::HyperIndexTensor buildSimpleHyperIndex() {
     cfg.eps          = 0.05;
 
     return HyperIndexBuilder::fromSchema("tenant_a", schema, rows, cfg);
+}
+
+themis::tensor::HyperIndexTensor buildFkAwareHyperIndex(std::size_t max_hops) {
+    using namespace themis::tensor;
+
+    ColumnSchema customer_id;
+    customer_id.name = "customer_id";
+    customer_id.type = ColumnType::NUMERIC;
+    customer_id.range_min = 0.0;
+    customer_id.range_max = 100.0;
+
+    ColumnSchema order_customer_fk = customer_id;
+    order_customer_fk.name = "order_customer_fk";
+
+    ColumnSchema line_order_fk = customer_id;
+    line_order_fk.name = "line_order_fk";
+
+    std::vector<TableRow> rows;
+    TableRow r0;
+    r0.numeric_values = {90.0, 5.0, 5.0};
+    rows.push_back(r0);
+
+    TableRow r1;
+    r1.numeric_values = {10.0, 10.0, 10.0};
+    rows.push_back(r1);
+
+    HyperIndexConfig cfg;
+    cfg.bucket_count = 4;
+    cfg.eps = 0.01;
+    cfg.max_rank = 8;
+    cfg.numeric_bucket_strategy = HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE;
+    cfg.fk_graph.max_hops = max_hops;
+    cfg.fk_graph.propagation_decay = 1.0;
+    cfg.fk_graph.default_join_strength = 1.0;
+    cfg.fk_graph.edges = {
+        HyperIndexConfig::ForeignKeyEdge{0u, 1u, 1.0},
+        HyperIndexConfig::ForeignKeyEdge{1u, 2u, 1.0},
+    };
+
+    return HyperIndexBuilder::fromSchema(
+        "tenant_fk", {customer_id, order_customer_fk, line_order_fk}, rows, cfg);
 }
 
 } // namespace
@@ -487,6 +529,83 @@ TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeRejectsInvalidSize) {
 
     EXPECT_THROW(buildSimpleHyperIndex(), std::runtime_error);
     HyperIndexBuilder::clearBucketAssignmentFn();
+}
+
+TEST(UTRConverter, HyperIndexBuilderFkJoinSignalPropagatesAcrossTwoHopPath) {
+    const auto one_hop = buildFkAwareHyperIndex(1);
+    const auto two_hop = buildFkAwareHyperIndex(2);
+
+    // With max_hops=1, line_order_fk (mode 2) keeps its base low bucket.
+    // With max_hops=2, signal from customer_id propagates over 0->1->2.
+    const auto one_hop_mid_bucket = one_hop.contract({{2u, 2u}});
+    const auto two_hop_mid_bucket = two_hop.contract({{2u, 2u}});
+    EXPECT_EQ(one_hop.total_rows, two_hop.total_rows);
+    EXPECT_GT(two_hop_mid_bucket, one_hop_mid_bucket);
+}
+
+TEST(UTRConverter, HyperIndexBuilderFkCycleTraversalIsProtected) {
+    using namespace themis::tensor;
+
+    ColumnSchema c0;
+    c0.name = "a";
+    c0.type = ColumnType::NUMERIC;
+    c0.range_min = 0.0;
+    c0.range_max = 100.0;
+    ColumnSchema c1 = c0; c1.name = "b";
+    ColumnSchema c2 = c0; c2.name = "c";
+
+    TableRow row;
+    row.numeric_values = {80.0, 10.0, 20.0};
+
+    HyperIndexConfig cfg;
+    cfg.bucket_count = 4;
+    cfg.numeric_bucket_strategy = HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE;
+    cfg.fk_graph.max_hops = 8;
+    cfg.fk_graph.propagation_decay = 0.7;
+    cfg.fk_graph.edges = {
+        HyperIndexConfig::ForeignKeyEdge{0u, 1u, 1.0},
+        HyperIndexConfig::ForeignKeyEdge{1u, 2u, 1.0},
+        HyperIndexConfig::ForeignKeyEdge{2u, 0u, 1.0},
+    };
+
+    EXPECT_NO_THROW({
+        const auto hi = HyperIndexBuilder::fromSchema("tenant_cycle", {c0, c1, c2}, {row}, cfg);
+        EXPECT_EQ(hi.total_rows, 1u);
+    });
+}
+
+TEST(UTRConverter, HyperIndexBuilderMissingFkStatsUsesConfiguredFallback) {
+    using namespace themis::tensor;
+
+    ColumnSchema c0;
+    c0.name = "pk";
+    c0.type = ColumnType::NUMERIC;
+    c0.range_min = 0.0;
+    c0.range_max = 100.0;
+    ColumnSchema c1 = c0; c1.name = "fk";
+
+    TableRow row;
+    row.numeric_values = {95.0, 5.0};
+
+    HyperIndexConfig strict_cfg;
+    strict_cfg.bucket_count = 4;
+    strict_cfg.numeric_bucket_strategy = HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE;
+    strict_cfg.fk_graph.missing_stats_fallback = HyperIndexConfig::MissingFkStatsFallback::THROW;
+    strict_cfg.fk_graph.edges = {
+        HyperIndexConfig::ForeignKeyEdge{0u, 1u, std::nullopt},
+    };
+    EXPECT_THROW(
+        HyperIndexBuilder::fromSchema("tenant_throw", {c0, c1}, {row}, strict_cfg),
+        std::runtime_error);
+
+    HyperIndexConfig fallback_cfg = strict_cfg;
+    fallback_cfg.fk_graph.missing_stats_fallback =
+        HyperIndexConfig::MissingFkStatsFallback::USE_DEFAULT_WEIGHT;
+    fallback_cfg.fk_graph.default_join_strength = 1.0;
+
+    const auto hi = HyperIndexBuilder::fromSchema("tenant_fallback", {c0, c1}, {row}, fallback_cfg);
+    EXPECT_EQ(hi.total_rows, 1u);
+    EXPECT_GT(hi.contract({{1u, 2u}}), 0.0);
 }
 
 // ============================================================================

@@ -13,8 +13,10 @@
 #include <limits>
 #include <mutex>
 #include <numeric>
+#include <queue>
 #include <stdexcept>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace themis {
@@ -125,7 +127,8 @@ std::size_t flattenBuckets(const std::vector<std::size_t>& buckets,
 std::vector<std::vector<double>> buildNumericThresholds(
     const std::vector<ColumnSchema>& schema,
     const std::vector<TableRow>& rows,
-    std::size_t bucket_count) {
+    std::size_t bucket_count,
+    HyperIndexConfig::NumericBucketStrategy strategy) {
     std::size_t numeric_cols = 0;
     for (const auto& col : schema) {
         if (col.type == ColumnType::NUMERIC) {
@@ -139,6 +142,40 @@ std::vector<std::vector<double>> buildNumericThresholds(
     }
 
     for (std::size_t numeric_index = 0; numeric_index < numeric_cols; ++numeric_index) {
+        auto& out = thresholds[numeric_index];
+        out.clear();
+        out.reserve(bucket_count - 1U);
+
+        if (strategy == HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE) {
+            std::size_t schema_numeric_idx = 0;
+            const ColumnSchema* numeric_schema = nullptr;
+            for (const auto& col : schema) {
+                if (col.type != ColumnType::NUMERIC) {
+                    continue;
+                }
+                if (schema_numeric_idx == numeric_index) {
+                    numeric_schema = &col;
+                    break;
+                }
+                ++schema_numeric_idx;
+            }
+
+            if (!numeric_schema) {
+                continue;
+            }
+
+            const auto span = numeric_schema->range_max - numeric_schema->range_min;
+            if (!(span > 0.0)) {
+                continue;
+            }
+            const auto bucket_count_d = static_cast<double>(bucket_count);
+            for (std::size_t bucket = 1; bucket < bucket_count; ++bucket) {
+                const auto bucket_d = static_cast<double>(bucket);
+                out.push_back(numeric_schema->range_min + (span * (bucket_d / bucket_count_d)));
+            }
+            continue;
+        }
+
         std::vector<double> values;
         values.reserve(rows.size());
         for (const auto& row : rows) {
@@ -150,8 +187,6 @@ std::vector<std::vector<double>> buildNumericThresholds(
             continue;
         }
         std::sort(values.begin(), values.end());
-        auto& out = thresholds[numeric_index];
-        out.reserve(bucket_count - 1U);
         const auto value_count = static_cast<double>(values.size());
         const auto bucket_count_d = static_cast<double>(bucket_count);
         // Thresholds are computed by truncating the exact quantile index to an
@@ -177,7 +212,8 @@ std::vector<std::vector<double>> buildNumericThresholds(
 
 std::vector<std::vector<std::string>> buildCategoryOrders(
     const std::vector<ColumnSchema>& schema,
-    const std::vector<TableRow>& rows) {
+    const std::vector<TableRow>& rows,
+    HyperIndexConfig::CategoryBucketStrategy strategy) {
     std::size_t category_cols = 0;
     for (const auto& col : schema) {
         if (col.type == ColumnType::CATEGORY) {
@@ -187,6 +223,29 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
 
     std::vector<std::vector<std::string>> category_orders(category_cols);
     for (std::size_t category_index = 0; category_index < category_cols; ++category_index) {
+        if (strategy == HyperIndexConfig::CategoryBucketStrategy::SCHEMA_ORDER) {
+            std::size_t schema_category_idx = 0;
+            const ColumnSchema* category_schema = nullptr;
+            for (const auto& col : schema) {
+                if (col.type != ColumnType::CATEGORY) {
+                    continue;
+                }
+                if (schema_category_idx == category_index) {
+                    category_schema = &col;
+                    break;
+                }
+                ++schema_category_idx;
+            }
+
+            auto& out = category_orders[category_index];
+            if (category_schema) {
+                out = category_schema->categories;
+            }
+            if (!out.empty()) {
+                continue;
+            }
+        }
+
         std::unordered_map<std::string, std::size_t> frequencies;
         for (const auto& row : rows) {
             if (category_index < row.category_values.size()) {
@@ -209,6 +268,158 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
         }
     }
     return category_orders;
+}
+
+std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
+    if (!(value >= 0.0)) {
+        return 0U;
+    }
+    const auto max_bucket = static_cast<double>(bucket_count - 1U);
+    if (value >= max_bucket) {
+        return bucket_count - 1U;
+    }
+    return static_cast<std::size_t>(std::llround(value));
+}
+
+struct FkResolvedEdge {
+    std::size_t from;
+    std::size_t to;
+    double weight;
+};
+
+std::vector<FkResolvedEdge> resolveForeignKeyEdges(
+    const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
+    std::size_t schema_size,
+    const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg) {
+    std::vector<FkResolvedEdge> resolved;
+    resolved.reserve(edges.size());
+
+    for (const auto& edge : edges) {
+        if (edge.from_column >= schema_size || edge.to_column >= schema_size) {
+            throw std::invalid_argument(
+                "fk_graph edge references invalid column index: from=" +
+                std::to_string(edge.from_column) + ", to=" +
+                std::to_string(edge.to_column) + ", schema_size=" +
+                std::to_string(schema_size));
+        }
+        if (edge.from_column == edge.to_column) {
+            continue;
+        }
+
+        double weight = 0.0;
+        if (edge.join_strength.has_value()) {
+            weight = *edge.join_strength;
+        } else {
+            switch (fk_cfg.missing_stats_fallback) {
+            case HyperIndexConfig::MissingFkStatsFallback::USE_DEFAULT_WEIGHT:
+                weight = fk_cfg.default_join_strength;
+                break;
+            case HyperIndexConfig::MissingFkStatsFallback::IGNORE_EDGE:
+                continue;
+            case HyperIndexConfig::MissingFkStatsFallback::THROW:
+                throw std::runtime_error(
+                    "fk_graph edge is missing join_strength for from=" +
+                    std::to_string(edge.from_column) + ", to=" +
+                    std::to_string(edge.to_column));
+            }
+        }
+
+        if (!(weight > 0.0)) {
+            continue;
+        }
+        resolved.push_back({edge.from_column, edge.to_column, std::min(weight, 1.0)});
+    }
+    return resolved;
+}
+
+void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
+                                const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
+                                const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg,
+                                std::size_t schema_size,
+                                std::size_t bucket_count) {
+    if (edges.empty() || schema_size == 0 || bucket_count == 0) {
+        return;
+    }
+
+    const auto resolved = resolveForeignKeyEdges(edges, schema_size, fk_cfg);
+    if (resolved.empty()) {
+        return;
+    }
+
+    std::vector<std::vector<std::pair<std::size_t, double>>> adjacency(schema_size);
+    std::vector<std::size_t> indegree(schema_size, 0U);
+    for (const auto& edge : resolved) {
+        adjacency[edge.from].push_back({edge.to, edge.weight});
+        ++indegree[edge.to];
+    }
+
+    std::vector<std::size_t> roots;
+    roots.reserve(schema_size);
+    for (std::size_t node = 0; node < schema_size; ++node) {
+        if (!adjacency[node].empty() && indegree[node] == 0U) {
+            roots.push_back(node);
+        }
+    }
+    if (roots.empty()) {
+        for (std::size_t node = 0; node < schema_size; ++node) {
+            if (!adjacency[node].empty()) {
+                roots.push_back(node);
+            }
+        }
+    }
+
+    const auto max_hops = std::max<std::size_t>(1U, fk_cfg.max_hops);
+    const auto decay = std::clamp(fk_cfg.propagation_decay, 0.0, 1.0);
+
+    std::vector<double> signal_weight(schema_size, 0.0);
+    std::vector<double> signal_bucket_sum(schema_size, 0.0);
+
+    for (const auto root : roots) {
+        struct NodeState {
+            std::size_t node;
+            std::size_t depth;
+            double path_weight;
+        };
+
+        std::queue<NodeState> q;
+        std::unordered_set<std::size_t> visited;
+        q.push({root, 0U, 1.0});
+        visited.insert(root);
+        const auto source_bucket = static_cast<double>(buckets[root]);
+
+        while (!q.empty()) {
+            const auto cur = q.front();
+            q.pop();
+
+            if (cur.depth >= max_hops) {
+                continue;
+            }
+
+            for (const auto& [next, edge_weight] : adjacency[cur.node]) {
+                if (!visited.insert(next).second) {
+                    continue; // cycle-protected traversal
+                }
+                const auto hop_decay = (cur.depth == 0U) ? 1.0 : decay;
+                const auto next_weight = cur.path_weight * edge_weight * hop_decay;
+                if (!(next_weight > 0.0)) {
+                    continue;
+                }
+
+                signal_weight[next] += next_weight;
+                signal_bucket_sum[next] += source_bucket * next_weight;
+                q.push({next, cur.depth + 1U, next_weight});
+            }
+        }
+    }
+
+    for (std::size_t k = 0; k < buckets.size(); ++k) {
+        if (!(signal_weight[k] > 0.0)) {
+            continue;
+        }
+        const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];
+        const auto blended = (static_cast<double>(buckets[k]) + propagated_bucket) / 2.0;
+        buckets[k] = clampBucketFromSignal(blended, bucket_count);
+    }
 }
 
 } // namespace
@@ -298,6 +509,9 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
 
     const auto d            = schema.size();
     const auto bucket_count = cfg.bucket_count;
+    if (bucket_count == 0) {
+        throw std::invalid_argument("bucket_count must be >= 1");
+    }
 
     // Total elements of the co-occurrence tensor
     std::size_t total_elements = 1;
@@ -316,8 +530,10 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     // FK-graph-aware assignment) before co-occurrence counting.
 
     std::vector<float> count_tensor(total_elements, 0.0f);
-    const auto numeric_thresholds = buildNumericThresholds(schema, rows, bucket_count);
-    const auto category_orders = buildCategoryOrders(schema, rows);
+    const auto numeric_thresholds = buildNumericThresholds(
+        schema, rows, bucket_count, cfg.numeric_bucket_strategy);
+    const auto category_orders = buildCategoryOrders(
+        schema, rows, cfg.category_bucket_strategy);
     BucketAssignmentFn bucket_assignment_fn;
     {
         std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
@@ -331,6 +547,8 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         const auto& row = rows[row_idx];
         auto buckets = bucketiseRow(
             row, schema, numeric_thresholds, category_orders, bucket_count);
+        applyForeignKeyPropagation(
+            buckets, cfg.fk_graph.edges, cfg.fk_graph, schema.size(), bucket_count);
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
@@ -392,4 +610,3 @@ HyperIndexBuilder::BucketAssignmentFn HyperIndexBuilder::getBucketAssignmentFn()
 
 } // namespace tensor
 } // namespace themis
-

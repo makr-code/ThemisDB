@@ -204,7 +204,8 @@ O(log n) navigation overhead + O(C·d·r²) TT re-rank.
 | `remove()` when ID not found | `false` |
 | `save()` / `load()` (Phase-1 stubs) | `false` |
 | `makeKey()` with empty/slash argument | `std::invalid_argument` |
-| `HyperIndexBuilder::fromSchema()` with < 2 columns | `std::invalid_argument` |
+| `HyperIndexBuilder::fromSchema()` with < 2 columns, empty rows, invalid FK column indices, or `bucket_count == 0` | `std::invalid_argument` |
+| `HyperIndexBuilder::fromSchema()` with missing FK stats and `MissingFkStatsFallback::THROW` | `std::runtime_error` |
 | `TensorButterflyOperator::build(RADON, …)` without bridge | `std::logic_error` |
 
 ## Stubs
