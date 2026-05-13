@@ -66,7 +66,9 @@ models, integrated with ThemisDB storage and query infrastructure.
 - `LegalAutoLabeler` with `QueryEngine* == nullptr` runs in offline/test mode and does not fetch DB documents.
 - `IncrementalLoRATrainer` validates hyperparameters and throws `std::invalid_argument` / `std::runtime_error` on invalid runtime configuration.
 - Checkpoint paths use rotating, integrity-checked writes through `LoRACheckpointManager`.
-- Current limits: distributed scheduling and production serving orchestration are external dependencies; adapter inference routing is provided via integration (`adapter_serving.h`) and LLM module wiring.
+- Distributed scheduling/orchestration is an external dependency and not provided by this module.
+- Production serving orchestration is handled by integration layers outside `training`.
+- Adapter inference routing is exposed via `adapter_serving.h` and expected to be wired by the LLM module/runtime.
 
 ## Quick-Start
 
