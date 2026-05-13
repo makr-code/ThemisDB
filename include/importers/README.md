@@ -1,62 +1,64 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-# Importers Module Headers
+# Importers Module — Public Headers
 
-This directory contains header files (.h, .hpp) for the importers module.
+**Module Path:** `include/importers/`
+**Implementation Overview:** `../../src/importers/README.md`
 
 ## Purpose
 
-Public interfaces and declarations for importers functionality.
+This directory contains the public C++ interfaces for importer execution, options, stats, plugin integration, and source-specific import connectors.
 
-## Public Headers
+## Header Entry-Points
 
-| Header | Class / Interface | Description |
-|--------|-------------------|-------------|
-| `importer_interface.h` | `IImporter`, `ImportOptions`, `ImportStats` | Core importer interface |
-| `importer_interfaces.h` | `IImporterV2` | Extended importer interface v2 |
-| `importer_plugin.h` | `ImporterPlugin` | Plugin base for importer extensions |
-| `importer_plugin_api.h` | `ImporterPluginAPI` | Plugin registration and lifecycle API |
-| `flatfile_importer.h` | `FlatFileImporter` | CSV/TSV/fixed-width flat file ingestion |
-| `kafka_importer.h` | `KafkaImporter` | Kafka topic consumer importer |
-| `mongo_importer.h` | `MongoImporter` | MongoDB collection importer |
-| `mysql_importer.h` | `MySQLImporter` | MySQL table importer |
-| `oracle_importer.h` | `OracleImporter` | Oracle DB importer |
-| `postgres_importer.h` | `PostgresImporter` | PostgreSQL table importer |
-| `postgres_importer_mdm.h` | `PostgresImporterMDM` | PostgreSQL importer with MDM enrichment |
-| `postgres_cdc.h` | `PostgresCDC` | PostgreSQL change-data-capture connector |
-| `sqlite_importer.h` | `SQLiteImporter` | SQLite database importer |
-| `s3_importer.h` | `S3Importer` | AWS S3 object importer |
-| `graphql_federation.h` | `GraphQLFederationImporter` | GraphQL federation source importer |
-| `schema_inference.h` | `SchemaInference` | Automatic schema detection from raw data |
-| `schema_validator.h` | `SchemaValidator` | Import-time schema validation |
-| `conflict_resolver.h` | `ConflictResolver` | Merge-conflict resolution strategies |
-| `canonical_resolver.h` | `CanonicalResolver` | Entity canonicalization resolver |
-| `entity_linker.h` | `EntityLinker` | Cross-source entity linkage |
-| `entity_matcher.h` | `EntityMatcher` | Fuzzy entity matching engine |
-| `relationship_mapper.h` | `RelationshipMapper` | Relationship extraction and mapping |
-| `polyglot_mapper.h` | `PolyglotMapper` | Multi-format field mapping |
-| `data_quality.h` | `DataQuality` | Import-time data quality checks |
-| `column_importance.h` | `ColumnImportance` | Feature/column importance scoring |
-| `adaptive_import.h` | `AdaptiveImport` | Self-tuning import rate controller |
-| `temporal_support.h` | `TemporalSupport` | Bitemporal import annotations |
-| `crdt_importer.h` | `CrdtImporter` | CRDT-based conflict-free import |
-| `federated_learning.h` | `FederatedLearningImporter` | Federated learning data source integration |
-| `mdm_engine.h` | `MDMEngine` | Master data management engine |
-| `mdm_audit_trail.h` | `MDMAuditTrail` | MDM operation audit log |
-| `mdm_metrics.h` | `MDMMetrics` | MDM throughput and quality metrics |
-| `audit_trail.h` | `AuditTrail` | General import audit trail |
-| `blockchain_integrity.h` | `BlockchainIntegrity` | Blockchain-backed data integrity proofs |
-| `gui_import_wizard.h` | `GUIImportWizard` | GUI wizard integration interface |
-| `ozg_service_registry.h` | `OZGServiceRegistry` | OZG (German e-government) service registry connector |
-| `xoev_importer.h` | `XOEVImporter` | XÖV standard data format importer |
+| Header | Primary API | Runtime Role |
+|---|---|---|
+| `importer_interface.h` | `IImporter`, `ImportOptions`, `ImportStats`, `ImportErrorCode`, `ConflictStrategy` | Core import contract, options, status and structured error model |
+| `importer_interfaces.h` | `IImporterV2`, `IImporterPlugin`, `IImporterPluginRegistry`, async and conflict helper interfaces | Extended contracts and plugin abstractions |
+| `importer_plugin.h` | `THEMIS_IMPORTER_PLUGIN_V1`, `THEMIS_IMPORTER_CREATE_SYMBOL` | Stable C ABI descriptor for third-party importer plugins |
+| `importer_plugin_api.h` | `ImporterPluginRegistry`, `V1ImporterAdapter`, `PluginSandboxConfig` | Runtime plugin loading, ABI validation, timeout/memory sandbox hooks |
+| Source headers (`postgres_importer.h`, `mysql_importer.h`, `mongo_importer.h`, `sqlite_importer.h`, `oracle_importer.h`, `kafka_importer.h`, `s3_importer.h`, `flatfile_importer.h`) | Concrete importer classes | Source-specific connectors |
+| MDM and pipeline headers (`mdm_engine.h`, `entity_linker.h`, `canonical_resolver.h`, `conflict_resolver.h`, `adaptive_import.h`, `data_quality.h`, `schema_inference.h`, `schema_validator.h`) | Specialized processing APIs | MDM, conflict handling, validation, optimization, and quality scoring |
 
-## Documentation
+## Public API Behavior
 
-See `../../docs/src/importers/` for detailed module documentation.
+### Core importer contract (`IImporter`)
+
+- `initialize(config)` configures a connector instance
+- `validateSource(source, errors)` performs preflight validation
+- `importData(...)` runs synchronous import
+- `importDataStreaming(...)` emits row-by-row callbacks for memory-bounded processing
+- `importDataAsync(...)` returns `ImportHandle` with live counters and future-based completion
+- `getSourceSchema(...)` exposes source schema metadata
+
+### Shared options and stats
+
+- `ImportOptions` controls dry-run, batching, filtering, mapping, validation, conflict strategy, resume/checkpoint, observability callbacks, and MDM linking
+- `ImportStats` reports record counters, conflict counters, FK/relationship counters, warnings/errors, and machine-readable `structured_errors`
+- `ImportErrorCode` classifies failure causes (I/O, parsing, schema/type conversion, permission/policy, conflict failure)
+
+### Plugin ABI behavior
+
+- V1 plugins must export `themis_importer_create` returning `THEMIS_IMPORTER_PLUGIN_V1`
+- Loader validates ABI version and struct size before registration
+- `ImporterPluginRegistry::loadPlugin()` supports per-job sandbox limits (memory + timeout)
+- `lastLoadError()` surfaces human-readable load failures
+
+## Configuration and Limits
+
+| Area | Important Fields / Flags | Notes |
+|---|---|---|
+| Execution | `dry_run`, `continue_on_error`, `batch_size` | Dry-run validates without writes; batch size controls throughput/memory tradeoff |
+| Filtering and mapping | `include_tables`, `exclude_tables`, `column_mappings`, `table_mappings`, `type_overrides` | Restricts import scope and remaps schema |
+| Safety and validation | `max_row_size_bytes`, `max_statement_size_bytes`, `enforce_utf8`, `validate_schema`, `schema_sample_rows` | Guards oversized input and invalid text / type drift |
+| Resume and incremental | `checkpoint_file`, `delta_hash_file`, `delta_key_columns` | Enables restart-safe and delta-style runs |
+| Conflict control | `conflict_strategy`, `conflict_key_columns`, `protected_fields`, `merge_depth` | Supports `OVERWRITE`, `SKIP`, `MERGE`, `ERROR` |
+| Feature flags | `THEMIS_ENABLE_KAFKA`, `THEMIS_ENABLE_S3`, `THEMIS_ENABLE_CDC` | Required for live Kafka/S3/CDC backends |
+| Plugin ABI | `THEMIS_IMPORTER_PLUGIN_V1`, `THEMIS_IMPORTER_PLUGIN_ABI_V1` | Stable C ABI for third-party importers |
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the module headers to your include path:
+Headers are included with ThemisDB. Expose the project include directory in your target:
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
@@ -64,10 +66,45 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 
 ## Usage
 
-Include the relevant headers from this module:
+### Synchronous import with shared options
 
 ```cpp
-#include "importers/module_header.h"
+#include "importers/importer_interface.h"
+
+using namespace themis::importers;
+
+ImportOptions options;
+options.batch_size = 1000;
+options.dry_run = false;
+options.validate_schema = true;
+
+// `importer` can be any IImporter implementation.
+ImportStats stats = importer->importData(sourcePath, options);
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+### Stream rows without buffering full datasets
+
+```cpp
+auto stats = importer->importDataStreaming(sourcePath, options,
+    [](const std::string& table, const nlohmann::json& row) {
+        return true; // return false to abort early
+    });
+```
+
+## Troubleshooting
+
+- `FILE_NOT_FOUND` / `FILE_OPEN_FAILED`: source path invalid or unreadable
+- `PERMISSION_DENIED`: permission callback denied `("import", "write")`
+- `SCHEMA_VALIDATION_FAILED`: source values violate inferred schema types
+- `CONFLICT_ERROR`: conflict strategy is `ERROR`; choose `SKIP`/`MERGE` if desired
+- Plugin load failure: inspect `lastLoadError()` for missing symbol / ABI mismatch details
+
+## Related Docs
+
+- Implementation overview: [`../../src/importers/README.md`](../../src/importers/README.md)
+- Architecture guide: [`../../src/importers/ARCHITECTURE.md`](../../src/importers/ARCHITECTURE.md)
+- Module roadmap: [`../../src/importers/ROADMAP.md`](../../src/importers/ROADMAP.md)
+- Future enhancements: [`../../src/importers/FUTURE_ENHANCEMENTS.md`](../../src/importers/FUTURE_ENHANCEMENTS.md)
+- Plugin guide: [`../../docs/importers/plugin_guide.md`](../../docs/importers/plugin_guide.md)
+- Troubleshooting: [`../../docs/troubleshooting/importers_troubleshooting.md`](../../docs/troubleshooting/importers_troubleshooting.md)
+- Primary sources (EN): [`../../docs/en/importers/PRIMARY_SOURCES.md`](../../docs/en/importers/PRIMARY_SOURCES.md)
