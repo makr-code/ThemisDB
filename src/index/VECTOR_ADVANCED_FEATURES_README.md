@@ -98,6 +98,10 @@ cfg.use_gpu      = false;   // Set true to use GPU (requires FAISS GPU build)
 cfg.train_size   = 150'000; // Training vectors — minimum 30 × nlist
 
 AdvancedVectorIndex adv_index(768, cfg);
+// Verify construction succeeded (GPU/FAISS availability affects initialization)
+auto init_stats = adv_index.getStats();
+// init_stats.is_trained == false until train() is called;
+// init_stats.is_gpu reflects whether GPU was actually enabled.
 ```
 
 ### 1.4 Lifecycle
@@ -551,13 +555,13 @@ Full: [·····················768··············
 
 | Constant | Dimensions | Compatible Models |
 |---|---|---|
-| `kMRL_64` | 64 | OpenAI text-embedding-3, Nomic Embed v1.5, BGE-M3 |
+| `kMRL_64` | 64 | text-embedding-3-small, Nomic Embed v1.5, BGE-M3 |
 | `kMRL_128` | 128 | same |
-| `kMRL_256` | 256 | same |
+| `kMRL_256` | 256 | text-embedding-3-small, text-embedding-3-large, Nomic Embed v1.5, BGE-M3 |
 | `kMRL_512` | 512 | same |
-| `kMRL_768` | 768 | same (full) |
-| `kMRL_1024` | 1 024 | OpenAI text-embedding-3 (large) |
-| `kMRL_1536` | 1 536 | OpenAI text-embedding-3 (large), full |
+| `kMRL_768` | 768 | text-embedding-3-small (full), Nomic Embed v1.5 (full), BGE-M3 (full) |
+| `kMRL_1024` | 1 024 | text-embedding-3-large |
+| `kMRL_1536` | 1 536 | text-embedding-3-large, text-embedding-ada-002 (full) |
 
 ### 6.2 Usage
 
