@@ -1,13 +1,13 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: ../../include/onnx_clip/README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB ONNX CLIP Plugin
 
-**Version:** 0.0.1
+**Version:** 1.0.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-05-13
 **Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
@@ -15,112 +15,171 @@
 
 ## Module Purpose
 
-The ONNX CLIP plugin generates image embeddings from raw image bytes using OpenAI CLIP
-models exported to ONNX format. It implements the `IImageAnalysisBackend` interface and
-is compatible with the ThemisDB vector index for multi-modal similarity search.
+The `onnx_clip` module provides a deterministic `IImageAnalysisBackend`
+implementation for CLIP-style image and text embeddings. In the current portable
+build, the module simulates ONNX-backed inference behavior while preserving the
+runtime contract that the rest of ThemisDB relies on: initialization, backend
+selection, image/text embedding generation, bounded batch handling, statistics,
+health checks, and optional model-integrity verification.
 
-Two CLIP model variants are supported:
+## Subsystem Scope
 
-| Model | Embedding Dim | Description |
-|-------|--------------|-------------|
-| `ViT-B/32` | 512 | Base model — lower latency, smaller memory footprint |
-| `ViT-L/14` | 768 | Large model — higher accuracy, larger memory footprint |
+**In scope:** image embeddings from raw bytes, text embeddings for cross-modal
+search, per-plugin statistics, bounded sub-batch processing, optional SHA-256
+model verification, dynamic plugin export, and focused unit coverage.
 
-The plugin supports four execution backends:
+**Out of scope:** real model loading guarantees in every build profile, a
+single native batched ONNX session call, automatic GPU probing in `AUTO` mode,
+and golden-vector integration tests with real ONNX model assets.
 
-| Backend | Constant | Description |
-|---------|----------|-------------|
-| `CPU` | `BackendType::CPU` | ONNX Runtime CPU execution provider |
-| `CUDA` | `BackendType::CUDA` | NVIDIA GPU via CUDA execution provider |
-| `DirectML` | `BackendType::DirectML` | Windows GPU via DirectML execution provider |
-| `TensorRT` | `BackendType::TensorRT` | NVIDIA TensorRT optimised execution |
-| `AUTO` | `BackendType::AUTO` | Selects best available backend at runtime |
+## Current Delivery Status
 
----
+**Maturity:** 🟢 Production-Ready — the module implements the full
+`IImageAnalysisBackend` surface exercised by focused tests, including image and
+text embeddings, stats, health checks, batching, and integrity-check control
+paths. Open follow-up work remains in benchmarking and real-model integration.
 
-## Component Table
+## Components
 
-| File | Class / Role |
-|------|-------------|
-| `onnx_clip_plugin.h` | `ONNXClipPlugin` — `IImageAnalysisBackend` implementation with pImpl |
-| `CMakeLists.txt` | Build configuration; links ONNX Runtime and OpenCV |
+| File | Role |
+|---|---|
+| `onnx_clip_plugin.h` | Public class declaration for `ONNXClipPlugin`, including lifecycle, embedding APIs, stats APIs, and `setModelHashFn()` |
+| `onnx_clip_plugin.cpp` | Deterministic embedding implementation, text tokenization, stats counters, batch splitting, backend selection, and optional SHA-256 verification |
+| `CMakeLists.txt` | Module build gating (`THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX`), ONNX Runtime lookup, OpenCV fallback handling, shared-library target wiring |
 
----
+## Public API & Entry Points
 
-## Quick-Start Example
+- Public header overview: [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md)
+- Source-local entry point: [`onnx_clip_plugin.h`](./onnx_clip_plugin.h)
+- Dynamic plugin export: `THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)`
+- Key methods:
+  - `initialize(config, backend)`
+  - `generateEmbedding(image_data, metadata)`
+  - `generateEmbeddingBatch(images)`
+  - `generateTextEmbedding(text)`
+  - `healthCheck()`, `warmup()`, `getStatistics()`
+  - `setModelHashFn(fn)` for non-OpenSSL integrity-check injection
+
+## Configuration Options
+
+### `PluginConfig` keys read by `initialize()`
+
+| Key | Type | Default | Runtime effect |
+|---|---|---|---|
+| `model.name` | string | `clip-vit-base-patch32` | Label propagated to results/statistics |
+| `model.embedding_dim` | integer | `512` | Embedding size; non-positive values are corrected back to `512` |
+| `max_batch_size` | integer | `16` on CPU, `64` otherwise | Maximum sub-batch size processed per `generateEmbeddingBatch()` chunk |
+| `model.path` | string | empty | Optional model file path used for integrity checks |
+| `model.expected_sha256` | string | empty | Enables hash verification when paired with `model.path`; mismatch causes `initialize()` to fail |
+
+### Build/runtime gates
+
+- `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` must be enabled or the module is skipped at CMake time.
+- `onnxruntime` must be discoverable by CMake or the plugin target is not built.
+- `OpenCV` is optional; if absent, the module keeps a fallback path and logs a status message during configuration.
+- `THEMIS_HAS_OPENSSL` enables built-in SHA-256 verification. Without it, `setModelHashFn()` is the non-OpenSSL verification hook.
+
+## Runtime Behavior, Error Cases, and Limits
+
+- `BackendType::AUTO` currently resolves to `CPU` for deterministic, portable behavior.
+- `generateEmbeddingBatch()` preserves request order and processes items in sequential sub-batches capped by `max_batch_size`.
+- Empty image payloads return `success=false` with `"Image data is empty"`.
+- Empty text payloads return `success=false` with `"Text input is empty"`.
+- Calling image/text embedding methods before `initialize()` returns `success=false` with `"ONNXClipPlugin not initialized"`.
+- `healthCheck()` reports healthy only when the plugin is initialized and the embedding dimension is positive.
+- `getStatistics()` returns readiness, backend, model name, `max_batch_size`, totals, latency, and Prometheus-style counters:
+  - `clip_embeddings_total`
+  - `clip_text_embeddings_total`
+  - `clip_batch_embeddings_total`
+
+## Usage Snippets
+
+### Minimal initialization and image embedding
 
 ```cpp
-#include "onnx_clip_plugin.h"
-#include <fstream>
+#include "onnx_clip/onnx_clip_plugin.h"
+#include <nlohmann/json.hpp>
 
-// 1. Create and initialise the plugin
-themis::plugins::image::ONNXClipPlugin plugin;
+using namespace themis::plugins::image;
 
-PluginConfig config;
-config["model_path"] = "models/clip_vit_b32.onnx";
-config["model_variant"] = "ViT-B/32";
+ONNXClipPlugin plugin;
+PluginConfig cfg;
+plugin.initialize(cfg, BackendType::AUTO);  // resolves to CPU in current build
 
-plugin.initialize(config, BackendType::CUDA);  // or AUTO
-
-// 2. Load image bytes
-std::ifstream f("photo.jpg", std::ios::binary);
-std::vector<uint8_t> image(std::istreambuf_iterator<char>(f), {});
-
-// 3. Generate embedding
-auto result = plugin.generateEmbedding(image);
-if (result.ok) {
-    // result.embedding is a std::vector<float> of dim 512 (ViT-B/32)
-    // Store in ThemisDB vector index for similarity search
+auto result = plugin.generateEmbedding(std::vector<uint8_t>{1, 2, 3, 4});
+if (result.success) {
+    // result.embedding contains a normalized float vector
 }
-
-// 4. Batch processing
-auto batch_results = plugin.generateEmbeddingBatch({image1, image2, image3});
-
-// 5. Text embedding (for cross-modal similarity search)
-auto text_result = plugin.generateTextEmbedding("a photo of a cat");
-// text_result.embedding is compatible with image embeddings
-
-// 6. Health and stats
-plugin.warmup();
-bool healthy = plugin.healthCheck();
-auto stats = plugin.getStatistics();  // JSON: calls, avg_latency_ms, backend_name, max_batch_size, etc.
 ```
 
----
-
-## Plugin Registration
+### Explicit dimension, batching, and text embedding
 
 ```cpp
-// Registered automatically via the THEMIS_IMAGE_PLUGIN macro:
-THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
+nlohmann::json settings = {
+    {"model", {
+        {"name", "clip-vit-large-patch14"},
+        {"embedding_dim", 768}
+    }},
+    {"max_batch_size", 3}
+};
+
+PluginConfig config(settings);
+ONNXClipPlugin plugin;
+plugin.initialize(config, BackendType::CPU);
+
+auto batch = plugin.generateEmbeddingBatch({
+    std::vector<uint8_t>{1, 2, 3},
+    std::vector<uint8_t>{4, 5, 6},
+    std::vector<uint8_t>{7, 8, 9},
+    std::vector<uint8_t>{10, 11, 12}
+});
+
+auto text = plugin.generateTextEmbedding("a photo of a dog");
+auto stats = plugin.getStatistics();
 ```
 
----
+### Optional integrity verification
 
-## Configuration Keys
+```cpp
+nlohmann::json settings = {
+    {"model", {
+        {"path", "/models/clip.onnx"},
+        {"expected_sha256", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
+    }}
+};
 
-| Key | Required | Default | Description |
-|-----|----------|---------|-------------|
-| `model_path` | Yes | — | Path to ONNX model file |
-| `model_variant` | No | `ViT-B/32` | `"ViT-B/32"` or `"ViT-L/14"` |
-| `model.embedding_dim` | No | `512` | Embedding dimension (512 for ViT-B/32, 768 for ViT-L/14) |
-| `max_batch_size` | No | 16 (CPU) / 64 (GPU) | Maximum images per sub-batch call |
-| `num_threads` | No | 4 | CPU thread count (CPU backend) |
-| `gpu_device_id` | No | 0 | GPU device index (CUDA/TensorRT) |
-
----
-
-## See Also
-
-- `ARCHITECTURE.md` — pImpl design, inference pipeline
-- `ROADMAP.md` — implementation phases and feature backlog
-- `SECURITY.md` — model integrity and input validation
+PluginConfig config(settings);
+ONNXClipPlugin plugin;
+bool ok = plugin.initialize(config, BackendType::CPU);
+```
 
 ## Installation
 
-This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+This module is built as part of ThemisDB. When consuming it in-tree, the target
+include path must expose both the repository `include/` directory and the
+repository `src/` directory because the current header lives in `src/onnx_clip/`.
 
-## Usage
+```cmake
+target_include_directories(your_target PRIVATE
+    ${THEMISDB_INCLUDE_DIR}
+    ${THEMISDB_SOURCE_DIR}/src
+)
+```
 
-The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md) for the public API.
+## Troubleshooting
+
+- **`AUTO` never picks a GPU backend**: expected in the current generic implementation; pass an explicit backend enum if your surrounding build/runtime supports it.
+- **Large batches still behave sequentially**: current behavior uses sub-batch splitting, not a single native ONNX batch call.
+- **`initialize()` fails when a hash is configured**: verify both `model.path` and `model.expected_sha256`; in non-OpenSSL builds, ensure a `setModelHashFn()` callback is registered if verification must run.
+- **Embedding calls fail immediately**: call `initialize()` first and check `isReady()` / `healthCheck()`.
+
+## Main Source References
+
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component layout and inference flow
+- [`ROADMAP.md`](./ROADMAP.md) — delivery phases and open work
+- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — implementable follow-up items
+- [`SECURITY.md`](./SECURITY.md) — threat model and controls
+- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — benchmark targets
+- [`AUDIT.md`](./AUDIT.md) — source inventory and focused test coverage
+- [`../../docs/en/onnx_clip/index.md`](../../docs/en/onnx_clip/index.md) — English secondary overview
+- [`../../docs/de/onnx_clip/index.md`](../../docs/de/onnx_clip/index.md) — Deutsche Sekundärübersicht
