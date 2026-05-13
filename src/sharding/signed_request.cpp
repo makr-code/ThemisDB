@@ -55,6 +55,7 @@ namespace {
     constexpr const char* kAuditNonceReplay = "SRV_NONCE_REPLAY";
     constexpr const char* kAuditNonceEviction = "SRV_NONCE_EVICTION";
     constexpr const char* kAuditInvalidCertSerial = "SRV_INVALID_CERT_SERIAL";
+    constexpr const char* kAuditUnsupportedKeyType = "SRV_UNSUPPORTED_KEY_TYPE";
 
     [[nodiscard]] bool rejectWithAuditCode(const char* code, const std::string& details) {
         spdlog::warn("SignedRequestVerifier reject [{}]: {}", code, details);
@@ -573,7 +574,9 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
     }
 
-    return false;
+    return rejectWithAuditCode(
+        kAuditUnsupportedKeyType,
+        "unsupported public key type id=" + std::to_string(pubkey_type));
 }
 
 void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {

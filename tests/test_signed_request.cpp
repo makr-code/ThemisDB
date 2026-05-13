@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
+#include <system_error>
 
 using namespace themis::sharding;
 
@@ -81,6 +82,14 @@ AQcttznszBO+ug2ilJnGRic=
 -----END CERTIFICATE-----
 )";
 
+struct TempDirGuard {
+    std::filesystem::path dir;
+    ~TempDirGuard() {
+        std::error_code ec;
+        std::filesystem::remove_all(dir, ec);
+    }
+};
+
 [[nodiscard]] std::filesystem::path writePem(const std::filesystem::path& path, const std::string& content) {
     std::ofstream out(path);
     if (!out.is_open()) {
@@ -89,6 +98,15 @@ AQcttznszBO+ug2ilJnGRic=
     out << content;
     if (!out.good()) {
         throw std::runtime_error("failed to write PEM content: " + path.string());
+    }
+    std::error_code ec;
+    std::filesystem::permissions(
+        path,
+        std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
+        std::filesystem::perm_options::replace,
+        ec);
+    if (ec) {
+        throw std::runtime_error("failed to set permissions on PEM file: " + path.string());
     }
     return path;
 }
@@ -304,6 +322,7 @@ TEST(SignedRequestVerifierTest, CleanupStructure) {
 
 TEST(SignedRequestVerifierTest, VerifiesRealSignatureAndReplayProtection) {
     const auto base_dir = makeTempDir("themis_signed_request_test");
+    TempDirGuard guard{base_dir};
     std::filesystem::create_directories(base_dir / "trusted");
 
     const auto cert_path = writePem(base_dir / "cert.pem", kTestCertPem);
@@ -336,6 +355,7 @@ TEST(SignedRequestVerifierTest, VerifiesRealSignatureAndReplayProtection) {
 
 TEST(SignedRequestVerifierTest, RejectsTamperedPayloadAndUnknownKeyId) {
     const auto base_dir = makeTempDir("themis_signed_request_test_reject");
+    TempDirGuard guard{base_dir};
     std::filesystem::create_directories(base_dir / "trusted");
 
     const auto cert_path = writePem(base_dir / "cert.pem", kTestCertPem);
