@@ -140,14 +140,19 @@ struct HyperIndexConfig {
     struct ForeignKeyEdge {
         std::size_t from_column = 0;                 ///< Source mode index
         std::size_t to_column   = 0;                 ///< Target mode index
-        std::optional<double> join_strength;         ///< Optional [0,1] signal weight
+        /**
+         * Optional [0,1] signal weight.
+         * - `std::nullopt` triggers `missing_stats_fallback` handling.
+         * - Self-loops (`from_column == to_column`) are ignored during resolution.
+         */
+        std::optional<double> join_strength;
     };
 
     struct ForeignKeyGraphConfig {
         std::vector<ForeignKeyEdge> edges;             ///< FK relationships
-        std::size_t max_hops            = 2;           ///< Maximum join path length
-        double propagation_decay        = 0.8;         ///< Per-hop decay in [0,1]
-        double default_join_strength    = 0.5;         ///< Used when stats are missing
+        std::size_t max_hops            = 2;           ///< Min-clamped to 1 during traversal
+        double propagation_decay        = 0.8;         ///< Clamped to [0,1]; starts at hop 2
+        double default_join_strength    = 0.5;         ///< Used only for USE_DEFAULT_WEIGHT
         MissingFkStatsFallback missing_stats_fallback =
             MissingFkStatsFallback::USE_DEFAULT_WEIGHT;
     };

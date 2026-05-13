@@ -270,6 +270,13 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
     return category_orders;
 }
 
+/**
+ * @brief Clamp a propagated floating-point signal to a valid bucket index.
+ *
+ * @param value Input signal; NaN/negative values map to bucket 0.
+ * @param bucket_count Number of buckets; caller guarantees bucket_count > 0.
+ * @return Bucket index in [0, bucket_count-1].
+ */
 std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
     if (!(value >= 0.0)) {
         return 0U;
@@ -282,11 +289,22 @@ std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
 }
 
 struct FkResolvedEdge {
-    std::size_t from;
-    std::size_t to;
-    double weight;
+    std::size_t from;   ///< Source column index
+    std::size_t to;     ///< Target column index
+    double weight;      ///< Validated join strength in [0,1]
 };
 
+/**
+ * @brief Validate FK edges and resolve effective join strengths.
+ *
+ * @param edges FK edge definitions from config.
+ * @param schema_size Number of schema columns for index validation.
+ * @param fk_cfg FK propagation config with fallback rules.
+ * @return Filtered, validated FK edges with resolved weights.
+ *
+ * @throws std::invalid_argument on invalid column indices or invalid weights.
+ * @throws std::runtime_error when join statistics are missing and fallback is THROW.
+ */
 std::vector<FkResolvedEdge> resolveForeignKeyEdges(
     const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
     std::size_t schema_size,
@@ -306,7 +324,7 @@ std::vector<FkResolvedEdge> resolveForeignKeyEdges(
             continue;
         }
 
-        double weight = 0.0;
+        double weight;
         if (edge.join_strength.has_value()) {
             weight = *edge.join_strength;
         } else {
@@ -339,6 +357,21 @@ std::vector<FkResolvedEdge> resolveForeignKeyEdges(
     return resolved;
 }
 
+/**
+ * @brief Propagate FK join signals across bucket assignments.
+ *
+ * Traversal is cycle-protected via per-root visited sets and bounded by
+ * `max_hops` (minimum effective value is 1). Direct FK hops keep full weight;
+ * deeper hops apply `propagation_decay` (clamped to [0,1]).
+ *
+ * @param buckets In/out bucket assignments for one row (modified in place).
+ * @param edges FK graph edges.
+ * @param fk_cfg FK graph traversal/fallback settings.
+ * @param schema_size Number of schema columns.
+ * @param bucket_count Number of buckets per dimension.
+ *
+ * @throws std::invalid_argument / std::runtime_error from FK edge validation.
+ */
 void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                                 const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
                                 const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg,
