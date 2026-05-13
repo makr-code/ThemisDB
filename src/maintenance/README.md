@@ -249,4 +249,66 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 ## Usage
 
 The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/maintenance/README.md`](../../include/maintenance/README.md) for the public API.
+See [`../../include/maintenance/README.md`](../../include/maintenance/README.md) for the full public API reference, usage snippets, and troubleshooting guidance.
+
+### Building and registering default schedules
+
+```cpp
+#include "maintenance/database_maintenance_orchestrator.h"
+#include "maintenance/maintenance_schedule.h"
+
+// Use the free functions from maintenance_registry.cpp to obtain
+// the pre-built default schedule entries:
+auto daily     = themis::maintenance::defaultDailySchedule();
+auto weekly    = themis::maintenance::defaultWeeklySchedule();
+auto monthly   = themis::maintenance::defaultMonthlySchedule();
+auto quarterly = themis::maintenance::defaultQuarterlySchedule();
+
+// Or register all defaults in one call:
+themis::maintenance::registerDefaultMaintenanceSetup(orchestrator, index_mgr);
+```
+
+### Wiring built-in task handlers at startup
+
+```cpp
+#include "maintenance/maintenance_task_handler_impls.h"
+
+// Storage module registers compaction handler
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::STORAGE_COMPACTION,
+    std::make_shared<StorageCompactionHandler>(compaction_manager));
+
+// Storage engine registers MVCC cleanup handler
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::MVCC_CLEANUP,
+    std::make_shared<MvccCleanupHandler>(mvcc_store, watermark_ms));
+
+// Sharding module registers replica validation handler
+orchestrator.registerTaskHandler(
+    MaintenanceTaskType::REPLICA_VALIDATION,
+    std::make_shared<ReplicaValidationHandler>(consistency_check_fn));
+```
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Resolution |
+|---------|--------------|------------|
+| Schedules not firing after restart | `IStorageEngine` not provided or `start()` not called | Pass a non-null `IStorageEngine*` and call `orchestrator.start()` |
+| Tasks run in wrong order | DAG dependencies not declared | Add `task_dependencies` entries to the schedule; verify no cycles |
+| `halt_on_task_failure` not stopping execution | `halt_on_task_failure = false` (default) | Set `schedule.halt_on_task_failure = true` |
+| Default schedules not registering | `registerDefaultMaintenanceSetup` not called | Call `registerDefaultMaintenanceSetup(orchestrator, index_mgr)` at startup |
+| Handler not invoked | Handler not registered for task type | Call `registerTaskHandler(type, handler)` before `start()` |
+
+## Related Docs
+
+- Public API reference: [`../../include/maintenance/README.md`](../../include/maintenance/README.md)
+- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Changelog: [`CHANGELOG.md`](CHANGELOG.md)
+- Security: [`SECURITY.md`](SECURITY.md)
+- Orchestrator design: [`../../docs/maintenance/ORCHESTRATOR_DESIGN.md`](../../docs/maintenance/ORCHESTRATOR_DESIGN.md)
+- Module integration guide: [`../../docs/maintenance/MODULE_INTEGRATION_GUIDE.md`](../../docs/maintenance/MODULE_INTEGRATION_GUIDE.md)
+- Module index (DE): [`../../docs/de/maintenance/README.md`](../../docs/de/maintenance/README.md)
+- Cross-module roadmap: [`../../ROADMAP.md`](../../ROADMAP.md)
+- Cross-module future enhancements: [`../../FUTURE_ENHANCEMENTS.md`](../../FUTURE_ENHANCEMENTS.md)
