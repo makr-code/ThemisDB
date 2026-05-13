@@ -17,6 +17,12 @@
  * HissReshaper QuanticsFn bridge inject       THSS-11
  * HissReshaper QuanticsFn bridge clear        THSS-12
  * HissReshaper QuanticsFn bridge callback OK  THSS-13
+ * QTTMappingDescriptor power-of-2 roundtrip  THSS-14
+ * QTTMappingDescriptor non-power-of-2 map    THSS-15
+ * QTTMappingDescriptor padding detection     THSS-16
+ * QTTMappingDescriptor edge case: dim=1      THSS-17
+ * QTTMappingDescriptor exposeQuantics populates mapping THSS-18
+ * QTTMappingDescriptor dense roundtrip via mapping THSS-19
  * TNSRTask construction error on null engine  TNSR-01
  * TNSRTask empty key range → zero report      TNSR-02
  * TNSRTask recompresses and writes back       TNSR-03
@@ -256,6 +262,175 @@ std::shared_ptr<themis::storage::TensorNetworkStorageEngine> makeTinyEngine(
 }
 
 } // namespace
+
+// ============================================================================
+// THSS-14  QTTMappingDescriptor: power-of-2 dimensions → full roundtrip
+// ============================================================================
+TEST(QTTMappingDescriptor, PowerOfTwoRoundtrip) {
+    // grid_sizes = [2, 4, 8] — all are already powers of two
+    themis::tensor::QTTMappingDescriptor desc;
+    desc.grid_sizes        = {2u, 4u, 8u};
+    desc.padded_grid_sizes = {2u, 4u, 8u};
+    desc.bit_depths        = {1u, 2u, 3u};
+
+    const std::size_t total_physical = 2u * 4u * 8u; // 64
+    for (std::size_t p = 0; p < total_physical; ++p) {
+        const auto q   = desc.physicalToQTT(p);
+        const auto back = desc.qttToPhysical(q);
+        ASSERT_TRUE(back.has_value())
+            << "physical_idx " << p << " → qtt " << q << " must not be padding";
+        EXPECT_EQ(*back, p)
+            << "roundtrip failed for physical_idx " << p;
+    }
+
+    // physicalToQTT must be a bijection on [0, 64): all QTT results unique.
+    std::vector<std::size_t> qtt_results(total_physical);
+    for (std::size_t p = 0; p < total_physical; ++p) {
+        qtt_results[p] = desc.physicalToQTT(p);
+    }
+    auto sorted = qtt_results;
+    std::sort(sorted.begin(), sorted.end());
+    EXPECT_EQ(sorted.end(), std::adjacent_find(sorted.begin(), sorted.end()))
+        << "physicalToQTT results must be unique (bijection)";
+}
+
+// ============================================================================
+// THSS-15  QTTMappingDescriptor: non-power-of-2 dimensions → valid mapping
+// ============================================================================
+TEST(QTTMappingDescriptor, NonPowerOfTwoMapping) {
+    // grid_sizes = [3, 5] padded to [4, 8]; bit_depths = [2, 3]; B = 5
+    themis::tensor::QTTMappingDescriptor desc;
+    desc.grid_sizes        = {3u, 5u};
+    desc.padded_grid_sizes = {4u, 8u};
+    desc.bit_depths        = {2u, 3u};
+
+    const std::size_t total_physical = 3u * 5u; // 15
+    for (std::size_t p = 0; p < total_physical; ++p) {
+        const auto q    = desc.physicalToQTT(p);
+        const auto back = desc.qttToPhysical(q);
+        ASSERT_TRUE(back.has_value())
+            << "physical_idx " << p << " → qtt " << q << " must not be padding";
+        EXPECT_EQ(*back, p)
+            << "roundtrip failed for physical_idx " << p;
+        // QTT index must lie within the padded flat range [0, 4*8)
+        EXPECT_LT(q, 4u * 8u);
+    }
+}
+
+// ============================================================================
+// THSS-16  QTTMappingDescriptor: padding region returns std::nullopt
+// ============================================================================
+TEST(QTTMappingDescriptor, PaddingRegionReturnsNullopt) {
+    // grid_sizes = [3, 5] padded to [4, 8]
+    themis::tensor::QTTMappingDescriptor desc;
+    desc.grid_sizes        = {3u, 5u};
+    desc.padded_grid_sizes = {4u, 8u};
+    desc.bit_depths        = {2u, 3u};
+
+    const std::size_t total_physical  = 3u * 5u;  // 15
+    const std::size_t total_padded    = 4u * 8u;  // 32
+    std::size_t padding_found = 0u;
+
+    for (std::size_t q = 0; q < total_padded; ++q) {
+        const auto back = desc.qttToPhysical(q);
+        if (!back.has_value()) {
+            ++padding_found;
+        } else {
+            // Every valid QTT index must round-trip back correctly.
+            EXPECT_LT(*back, total_physical);
+            EXPECT_EQ(desc.physicalToQTT(*back), q);
+        }
+    }
+    // Exactly total_padded - total_physical indices must be padding.
+    EXPECT_EQ(padding_found, total_padded - total_physical)
+        << "unexpected number of padding QTT indices";
+}
+
+// ============================================================================
+// THSS-17  QTTMappingDescriptor: edge case — single-element dimension
+// ============================================================================
+TEST(QTTMappingDescriptor, EdgeCaseDimensionOne) {
+    // grid_sizes = [1, 3]; padded = [1, 4]; bit_depths = [0→1 min, 2] → [1, 2]
+    // calculateBitDepth(1) = 1 (minimum); padded = 2
+    themis::tensor::QTTMappingDescriptor desc;
+    desc.grid_sizes        = {1u, 3u};
+    desc.padded_grid_sizes = {2u, 4u};
+    desc.bit_depths        = {1u, 2u};
+
+    const std::size_t total_physical = 1u * 3u; // 3
+    for (std::size_t p = 0; p < total_physical; ++p) {
+        const auto q    = desc.physicalToQTT(p);
+        const auto back = desc.qttToPhysical(q);
+        ASSERT_TRUE(back.has_value())
+            << "physical_idx " << p << " should not map to padding";
+        EXPECT_EQ(*back, p);
+    }
+
+    // QTT indices where dim-0 reconstructed index = 1 (>= grid_sizes[0]=1) are padding.
+    const std::size_t total_padded = 2u * 4u; // 8
+    std::size_t padding_count = 0;
+    for (std::size_t q = 0; q < total_padded; ++q) {
+        if (!desc.qttToPhysical(q).has_value()) ++padding_count;
+    }
+    EXPECT_EQ(padding_count, total_padded - total_physical);
+}
+
+// ============================================================================
+// THSS-18  exposeQuantics populates QTTrain::mapping correctly
+// ============================================================================
+TEST(HissReshaper, ExposeQuanticsPopulatesMapping) {
+    const auto train = makeNonPowerOfTwoModeTrain(); // mode_sizes = {3, 4, 5}
+    const auto qt    = themis::tensor::HissReshaper::exposeQuantics(train, {});
+
+    // Mapping descriptor must mirror the QTTrain metadata fields.
+    EXPECT_EQ(qt.mapping.grid_sizes,        qt.grid_sizes);
+    EXPECT_EQ(qt.mapping.padded_grid_sizes, qt.padded_grid_sizes);
+    EXPECT_EQ(qt.mapping.bit_depths,        qt.bit_depths);
+
+    // grid_sizes = {3, 4, 5}; padded = {4, 4, 8}; bit_depths = {2, 2, 3}
+    EXPECT_EQ(qt.mapping.grid_sizes,        (std::vector<std::size_t>{3u, 4u, 5u}));
+    EXPECT_EQ(qt.mapping.padded_grid_sizes, (std::vector<std::size_t>{4u, 4u, 8u}));
+    EXPECT_EQ(qt.mapping.bit_depths,        (std::vector<std::size_t>{2u, 2u, 3u}));
+
+    // Every physical index must survive the roundtrip.
+    const std::size_t n_phys = qt.original_element_count;
+    for (std::size_t p = 0; p < n_phys; ++p) {
+        const auto q    = qt.mapping.physicalToQTT(p);
+        const auto back = qt.mapping.qttToPhysical(q);
+        ASSERT_TRUE(back.has_value()) << "physical_idx " << p << " must not be padding";
+        EXPECT_EQ(*back, p);
+    }
+}
+
+// ============================================================================
+// THSS-19  Dense roundtrip via QTTMappingDescriptor: values match exactly
+// ============================================================================
+TEST(HissReshaper, DenseRoundtripViaMapping) {
+    // Use a non-power-of-two train to exercise the padding path.
+    const auto train = makeNonPowerOfTwoModeTrain(); // mode_sizes = {3, 4, 5}
+    const auto qt    = themis::tensor::HissReshaper::exposeQuantics(train, {});
+
+    const auto original = train.reconstruct();
+    const auto qtt_dense = qt.toTTTrain().reconstruct();
+
+    // For each physical index, look up the QTT index and compare values.
+    const auto& desc = qt.mapping;
+    for (std::size_t p = 0; p < original.size(); ++p) {
+        const auto q = desc.physicalToQTT(p);
+        ASSERT_LT(q, qtt_dense.size());
+        EXPECT_NEAR(original[p], qtt_dense[q], 1e-3f)
+            << "value mismatch at physical_idx=" << p << " / qtt_idx=" << q;
+    }
+
+    // No valid physical index should map to a padding QTT slot (which holds 0).
+    for (std::size_t q = 0; q < qtt_dense.size(); ++q) {
+        const auto back = desc.qttToPhysical(q);
+        if (!back.has_value()) {
+            EXPECT_NEAR(qtt_dense[q], 0.0f, 1e-3f)
+                << "padding slot at qtt_idx=" << q << " must be ≈ 0";
+        }
+    }
+}
 
 // ============================================================================
 // TNSR-01  Constructor rejects null engine

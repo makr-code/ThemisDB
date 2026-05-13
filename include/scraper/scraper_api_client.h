@@ -71,6 +71,12 @@ struct ApiEndpointConfig {
 // API result
 // ============================================================================
 
+/**
+ * @brief One item collected from a JSON REST or GraphQL API response.
+ *
+ * Common fields (url, title, date) are extracted from well-known JSON keys;
+ * all top-level string values are also stored in fields for downstream access.
+ */
 struct ApiResult {
     std::string url;             ///< Source endpoint URL (with page params)
     std::string raw_json;        ///< Raw JSON response text
@@ -178,6 +184,12 @@ private:
 // In-memory mock (tests)
 // ============================================================================
 
+/**
+ * @brief Test double for IScraperApiClient.
+ *
+ * Returns pre-injected results regardless of the endpoint configuration.
+ * Tracks call count and the last query string for test assertions.
+ */
 class InMemoryScraperApiClient : public IScraperApiClient {
 public:
     InMemoryScraperApiClient() = default;

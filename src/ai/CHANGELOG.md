@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Security sandbox pipeline for generated code artefacts (Target: Q3 2026)
 - Extended prompt validation for `required_capabilities` and `dependencies` (Target: Q3 2026)
 
+## [1.9.1] — 2026-05-13
+
+### Changed
+- `src/ai/ROADMAP.md`: documentation-consolidation task moved from `[~]` to `[x]` — all Phase-1 docs complete.
+- `src/ai/ROADMAP.md`: Phase 6 checklist updated with `ARCHITECTURE.md`, `AUDIT.md`, `SECURITY.md`, `CHANGELOG.md`, `PERFORMANCE_EXPECTATIONS.md` confirmation.
+- All module docs validated: 0 lint errors, 0 broken links (`docs-lint.py` + `link-check.py --internal-only`).
+
 ## [1.9.0] — 2026-05-11
 
 ### Added

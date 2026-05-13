@@ -23,7 +23,7 @@ namespace themis {
 namespace tensor {
 
 // ============================================================================
-// Static bridge slots — STUB #254 (QuanticsFn)
+// Static bridge slots — QuanticsFn
 // ============================================================================
 
 namespace {
@@ -118,34 +118,112 @@ static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
     return std::max<std::size_t>(depth, 1);
 }
 
-/**
- * @brief Decomposes @p grid_size into quantics mode sizes for the residual-factor fallback.
- *
- * Strategy: repeatedly extract factors of 2; the remaining odd residual is appended as
- * a single final mode.  Examples: 8 → {2,2,2}, 12 → {2,2,3}, 15 → {15}, 1 → {1}.
- *
- * @param grid_size  Physical dimension size; must be > 0.
- * @return Vector of mode sizes whose product equals @p grid_size.
- * @throws std::invalid_argument if @p grid_size is 0.
- */
-[[nodiscard]] std::vector<std::size_t> quanticsFactors(std::size_t grid_size) {
-    if (grid_size == 0) {
-        throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
+} // namespace
+
+// ============================================================================
+// QTTMappingDescriptor — reversible physical ↔ QTT index mapping
+// ============================================================================
+
+std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const {
+    const auto ndims = grid_sizes.size();
+    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+        throw std::invalid_argument(
+            "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
+            "must all be non-empty and have the same length");
     }
 
-    std::vector<std::size_t> factors;
-    auto remaining = grid_size;
-    while (remaining > 1 && (remaining % 2U) == 0U) {
-        factors.push_back(2);
-        remaining /= 2U;
+    // Compute total physical element count and validate input.
+    std::size_t total_physical = 1;
+    for (const auto n : grid_sizes) total_physical *= n;
+    if (physical_idx >= total_physical) {
+        throw std::out_of_range(
+            "physical_idx " + std::to_string(physical_idx) +
+            " >= product(grid_sizes) " + std::to_string(total_physical));
     }
-    if (remaining > 1 || factors.empty()) {
-        factors.push_back(remaining);
+
+    // Convert flat physical index to C-contiguous multi-index in grid_sizes.
+    std::vector<std::size_t> multi_idx(ndims);
+    {
+        auto remaining = physical_idx;
+        std::size_t stride = total_physical;
+        for (std::size_t d = 0; d < ndims; ++d) {
+            stride /= grid_sizes[d];
+            multi_idx[d] = remaining / stride;
+            remaining -= multi_idx[d] * stride;
+        }
     }
-    return factors;
+
+    // Total number of QTT bits B = sum(bit_depths).
+    std::size_t B = 0;
+    for (const auto b : bit_depths) B += b;
+
+    // Encode each per-dimension index into bit_depths[d] bits (MSB first)
+    // and accumulate into the QTT flat index.
+    std::size_t qtt_idx = 0;
+    std::size_t bit_pos = B; // counts down from B; bit at bit_pos-1 has weight 2^(bit_pos-1)
+    for (std::size_t d = 0; d < ndims; ++d) {
+        const auto bd = bit_depths[d];
+        for (std::size_t b = 0; b < bd; ++b) {
+            --bit_pos;
+            const auto bit = (multi_idx[d] >> (bd - 1u - b)) & 1ULL;
+            qtt_idx |= bit << bit_pos;
+        }
+    }
+
+    return qtt_idx;
 }
 
-} // namespace
+std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_idx) const {
+    const auto ndims = grid_sizes.size();
+    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+        throw std::invalid_argument(
+            "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
+            "must all be non-empty and have the same length");
+    }
+
+    // Validate input against total padded element count.
+    std::size_t total_padded = 1;
+    for (const auto p : padded_grid_sizes) total_padded *= p;
+    if (qtt_idx >= total_padded) {
+        throw std::out_of_range(
+            "qtt_idx " + std::to_string(qtt_idx) +
+            " >= product(padded_grid_sizes) " + std::to_string(total_padded));
+    }
+
+    // Total number of QTT bits B = sum(bit_depths).
+    std::size_t B = 0;
+    for (const auto b : bit_depths) B += b;
+
+    // Decode per-dimension indices from the packed QTT bit sequence (MSB first).
+    std::vector<std::size_t> multi_idx(ndims);
+    std::size_t bit_pos = B; // counts down
+    for (std::size_t d = 0; d < ndims; ++d) {
+        const auto bd = bit_depths[d];
+        std::size_t idx_d = 0;
+        for (std::size_t b = 0; b < bd; ++b) {
+            --bit_pos;
+            const auto bit = (qtt_idx >> bit_pos) & 1ULL;
+            idx_d = (idx_d << 1u) | bit;
+        }
+        // Any per-dimension index in the padding region has no physical counterpart.
+        if (idx_d >= grid_sizes[d]) return std::nullopt;
+        multi_idx[d] = idx_d;
+    }
+
+    // Convert C-contiguous multi-index in grid_sizes back to a flat physical index.
+    std::size_t physical_idx = 0;
+    std::size_t stride = 1;
+    for (std::size_t d = ndims; d-- > 0;) {
+        physical_idx += multi_idx[d] * stride;
+        stride *= grid_sizes[d];
+    }
+
+    return physical_idx;
+}
+
+// ============================================================================
+// TensorNetworkGraph
+// ============================================================================
 
 std::size_t TensorNetworkGraph::addNode(TensorGraphNode node) {
     nodes_.push_back(std::move(node));
@@ -364,6 +442,13 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     qt.quantics_mode_sizes = quantics_mode_sizes;
     qt.original_element_count = dense_tensor.size();
     qt.tt_train = std::move(reshaped_train);
+
+    // Populate the reversible mapping descriptor so callers can convert
+    // between flat physical indices and flat QTT indices without data loss.
+    qt.mapping.grid_sizes        = qt.grid_sizes;
+    qt.mapping.padded_grid_sizes = qt.padded_grid_sizes;
+    qt.mapping.bit_depths        = qt.bit_depths;
+
     return qt;
 }
 

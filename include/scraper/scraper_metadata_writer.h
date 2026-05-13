@@ -113,29 +113,59 @@ struct ScraperVectorRecord {
 // Write result
 // ============================================================================
 
+/**
+ * @brief Outcome of a single IScraperMetadataWriter::write() call.
+ *
+ * Inspect the individual `*_written` flags to determine which storage layers
+ * succeeded.  When `success == false`, `error` contains a diagnostic message.
+ */
 struct WriteResult {
-    bool        success     = false;
-    std::string doc_id;
-    std::string error;
-    bool        relational_written = false;
-    bool        graph_written      = false;
-    bool        vector_written     = false;
+    bool        success            = false;  ///< True when all layers wrote without error
+    std::string doc_id;                      ///< doc_id of the written record (from ScraperRelationalRecord)
+    std::string error;                       ///< Non-empty when success == false
+    bool        relational_written = false;  ///< Relational layer write succeeded
+    bool        graph_written      = false;  ///< Property-graph layer write succeeded
+    bool        vector_written     = false;  ///< Vector / ANN layer write succeeded
 };
 
 // ============================================================================
 // Interface
 // ============================================================================
 
+/**
+ * @brief Persistence interface for scraper output records.
+ *
+ * A single write() call persists one document to all three storage layers
+ * (relational, property graph, and vector).  Partial-write failures are
+ * reported via WriteResult without aborting the overall scraper run.
+ */
 class IScraperMetadataWriter {
 public:
     virtual ~IScraperMetadataWriter() = default;
 
+    /**
+     * @brief Persist one scraped document to all storage layers.
+     *
+     * Implementations must set provenance fields before writing and must
+     * not modify the `rel.is_scraper_ingested`,
+     * `rel.ingestion_source_type`, or `rel.ingestion_plugin_version` fields.
+     *
+     * @param rel    Relational record with full document metadata.
+     * @param node   Property-graph node derived from the document.
+     * @param edges  Property-graph edges (e.g. FILLS_GAP, PUBLISHED_BY).
+     * @param vec    Vector record for ANN indexing.
+     * @return WriteResult indicating per-layer success and the assigned doc_id.
+     */
     virtual WriteResult write(
         const ScraperRelationalRecord& rel,
         const ScraperGraphNode&        node,
         const std::vector<ScraperGraphEdge>& edges,
         const ScraperVectorRecord&     vec) = 0;
 
+    /**
+     * @brief Flush any buffered writes to durable storage.
+     * @return true when all buffered writes were persisted successfully.
+     */
     virtual bool flush() = 0;
 };
 
