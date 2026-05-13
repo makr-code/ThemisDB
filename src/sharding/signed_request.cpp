@@ -32,6 +32,7 @@
 #include <fstream>
 #include <filesystem>
 #include <regex>
+#include <cctype>
 #include <spdlog/spdlog.h>
 
 // OpenSSL for signing / verification
@@ -46,6 +47,46 @@
 namespace themis::sharding {
 
 namespace {
+    constexpr const char* kAuditInvalidSignatureFormat = "SRV_INVALID_SIGNATURE_FORMAT";
+    constexpr const char* kAuditInvalidKeyId = "SRV_INVALID_KEY_ID";
+    constexpr const char* kAuditInvalidSignatureBase64 = "SRV_INVALID_SIGNATURE_BASE64";
+    constexpr const char* kAuditUnknownKeyId = "SRV_UNKNOWN_KEY_ID";
+    constexpr const char* kAuditTimestampExpired = "SRV_TIMESTAMP_EXPIRED";
+    constexpr const char* kAuditNonceReplay = "SRV_NONCE_REPLAY";
+    constexpr const char* kAuditNonceCacheFull = "SRV_NONCE_CACHE_FULL";
+
+    bool rejectWithAuditCode(const char* code, const std::string& details) {
+        spdlog::warn("SignedRequestVerifier reject [{}]: {}", code, details);
+        return false;
+    }
+
+    bool isStrictBase64(const std::string& input) {
+        if (input.empty() || (input.size() % 4) != 0) {
+            return false;
+        }
+
+        size_t padding = 0;
+        for (size_t i = input.size(); i > 0 && input[i - 1] == '='; --i) {
+            ++padding;
+        }
+        if (padding > 2) {
+            return false;
+        }
+
+        for (size_t i = 0; i < input.size(); ++i) {
+            const unsigned char ch = static_cast<unsigned char>(input[i]);
+            const bool is_base64_char = std::isalnum(ch) || ch == '+' || ch == '/' || ch == '=';
+            if (!is_base64_char) {
+                return false;
+            }
+            if (ch == '=' && i < input.size() - padding) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Base64 encode helper
     std::string base64Encode(const unsigned char* data, size_t len) {
         BIO* bmem = BIO_new(BIO_s_mem());
@@ -93,6 +134,13 @@ namespace {
         static const std::regex kPattern("^[0-9A-Fa-f]{1,80}$");
         return kPattern;
     }
+
+    // Key IDs are used as trust-store file names (<key_id>.pem).
+    // Restrict to a safe subset to prevent path traversal.
+    const std::regex& keyIdPattern() {
+        static const std::regex kPattern("^[A-Za-z0-9._-]{1,128}$");
+        return kPattern;
+    }
 }
 
 // ============================================================================
@@ -107,6 +155,8 @@ nlohmann::json SignedRequest::toJSON() const {
         {"body", body},
         {"timestamp_ms", timestamp_ms},
         {"nonce", nonce},
+        {"signature_format", signature_format},
+        {"key_id", key_id},
         {"signature_b64", signature_b64},
         {"cert_serial", cert_serial}
     };
@@ -121,8 +171,13 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
         req.body = j.value("body", nlohmann::json{});
         req.timestamp_ms = j.at("timestamp_ms").get<uint64_t>();
         req.nonce = j.at("nonce").get<uint64_t>();
+        req.signature_format = j.value("signature_format", std::string(SignedRequest::kSignatureFormatV1));
+        req.key_id = j.value("key_id", std::string{});
         req.signature_b64 = j.at("signature_b64").get<std::string>();
         req.cert_serial = j.at("cert_serial").get<std::string>();
+        if (req.key_id.empty()) {
+            req.key_id = req.cert_serial;
+        }
         
         return req;
     } catch (const nlohmann::json::exception&) {
@@ -132,12 +187,15 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
 
 std::string SignedRequest::getCanonicalString() const {
     std::ostringstream oss;
-    oss << shard_id << "|"
-        << operation << "|"
-        << path << "|"
-        << body.dump() << "|"
-        << timestamp_ms << "|"
-        << nonce;
+    oss << "signature_format=" << signature_format << '\n'
+        << "shard_id=" << shard_id << '\n'
+        << "operation=" << operation << '\n'
+        << "path=" << path << '\n'
+        << "body=" << body.dump() << '\n'
+        << "timestamp_ms=" << timestamp_ms << '\n'
+        << "nonce=" << nonce << '\n'
+        << "key_id=" << key_id << '\n'
+        << "cert_serial=" << cert_serial << '\n';
     return oss.str();
 }
 
@@ -166,6 +224,8 @@ bool SignedRequestSigner::sign(SignedRequest& request) {
     
     // Set certificate serial
     request.cert_serial = cert_serial_;
+    request.key_id = cert_serial_;
+    request.signature_format = SignedRequest::kSignatureFormatV1;
     
     // Create canonical string
     std::string canonical = request.getCanonicalString();
@@ -268,8 +328,23 @@ SignedRequestVerifier::SignedRequestVerifier(const Config& config)
 
 bool SignedRequestVerifier::verify(const SignedRequest& request,
                                    const std::string& expected_shard_id) {
+    // 0. Verify versioned request metadata (fail-closed)
+    if (request.signature_format != SignedRequest::kSignatureFormatV1) {
+        return rejectWithAuditCode(
+            kAuditInvalidSignatureFormat,
+            "unsupported signature_format='" + request.signature_format + "'");
+    }
+    if (request.key_id.empty() || !std::regex_match(request.key_id, keyIdPattern())) {
+        return rejectWithAuditCode(
+            kAuditInvalidKeyId,
+            "invalid key_id='" + request.key_id + "'");
+    }
+
     // 1. Verify timestamp
     if (!verifyTimestamp(request.timestamp_ms)) {
+        rejectWithAuditCode(
+            kAuditTimestampExpired,
+            "timestamp_ms=" + std::to_string(request.timestamp_ms));
         return false;
     }
     
@@ -293,11 +368,15 @@ bool SignedRequestVerifier::verify(const SignedRequest& request,
 
 void SignedRequestVerifier::cleanupExpiredNonces() {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
-    
-    // In production, would track (nonce, timestamp) pairs and expire old ones
-    // For Phase 2, we keep it simple
-    if (seen_nonces_.size() > config_.max_nonce_cache) {
-        seen_nonces_.clear();
+
+    const uint64_t now = getCurrentTimestampMs();
+    for (auto it = seen_nonces_.begin(); it != seen_nonces_.end();) {
+        const uint64_t ts = it->second;
+        if (now > ts && (now - ts) > config_.nonce_expiry_ms) {
+            it = seen_nonces_.erase(it);
+        } else {
+            ++it;
+        }
     }
 }
 
@@ -310,37 +389,57 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
 }
 
 bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
-    // Future: implement timestamp-based nonce expiry
     std::lock_guard<std::mutex> lock(nonce_mutex_);
-    
-    // Check if nonce was seen before
+
+    const uint64_t now = getCurrentTimestampMs();
+
+    // Fail-closed: reject stale requests outside replay window.
+    if (now > timestamp_ms && (now - timestamp_ms) > config_.nonce_expiry_ms) {
+        return false;
+    }
+
+    // Expire old nonces first.
+    for (auto it = seen_nonces_.begin(); it != seen_nonces_.end();) {
+        const uint64_t ts = it->second;
+        if (now > ts && (now - ts) > config_.nonce_expiry_ms) {
+            it = seen_nonces_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Check if nonce was seen before within replay window.
     if (seen_nonces_.find(nonce) != seen_nonces_.end()) {
-        return false; // Replay attack detected
+        rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
+        return false;
     }
-    
-    // Add nonce to seen set
-    seen_nonces_.insert(nonce);
-    
-    // Cleanup if cache is too large
-    if (seen_nonces_.size() > config_.max_nonce_cache) {
-        // Remove oldest half (simplified cleanup)
-        auto it = seen_nonces_.begin();
-        std::advance(it, config_.max_nonce_cache / 2);
-        seen_nonces_.erase(seen_nonces_.begin(), it);
+
+    if (seen_nonces_.size() >= config_.max_nonce_cache) {
+        rejectWithAuditCode(kAuditNonceCacheFull, "max_nonce_cache reached");
+        return false;
     }
+
+    // Add nonce to replay cache.
+    seen_nonces_[nonce] = timestamp_ms;
     
     return true;
 }
 
 bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
+    if (!isStrictBase64(request.signature_b64)) {
+        return rejectWithAuditCode(
+            kAuditInvalidSignatureBase64,
+            "signature_b64 is not strict Base64");
+    }
+
     // Decode base64 signature; reject if empty or malformed
     auto signature_bytes = base64DecodeBytes(request.signature_b64);
     if (!signature_bytes || signature_bytes->empty()) {
         return false;
     }
 
-    // Step 1: Locate the peer certificate by serial number.
-    // Certs are stored as <trusted_certs_dir>/<cert_serial>.pem.
+    // Step 1: Locate the peer certificate by key-id.
+    // Certs are stored as <trusted_certs_dir>/<key_id>.pem.
     if (config_.trusted_certs_dir.empty()) {
         // Cannot verify without a cert directory; reject the request.
         // Warn once per process so operators know why verification is failing.
@@ -355,20 +454,16 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         return false;
     }
 
-    // Sanitize cert_serial: only allow hexadecimal characters (certificate serial
-    // numbers are hex strings per RFC 5280 §4.1.2.2).  Reject anything that could
-    // be used to escape the trusted_certs_dir via path traversal (e.g. "../",
-    // absolute paths, null bytes).  RFC 5280 caps at 20 octets (40 hex chars);
-    // allow up to 80 to accommodate non-conformant enterprise CAs.
-    if (!std::regex_match(request.cert_serial, certSerialPattern())) {
-        THEMIS_WARN("verifySignature: rejected invalid cert_serial (path-traversal guard): '{}'",
-                    request.cert_serial);
+    // Sanitize key_id: only allow safe trust-store file-name characters.
+    if (!std::regex_match(request.key_id, keyIdPattern())) {
+        THEMIS_WARN("verifySignature: rejected invalid key_id (path-traversal guard): '{}'",
+                    request.key_id);
         return false;
     }
 
     // Use std::filesystem::path for safe concatenation.
     namespace fs = std::filesystem;
-    fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.cert_serial + ".pem");
+    fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.key_id + ".pem");
 
     // Verify the resolved certificate path is actually inside trusted_certs_dir
     // (defence-in-depth).  Compare parent_path() rather than doing string-prefix
@@ -393,8 +488,8 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
         canonical_cert = fs::weakly_canonical(cert_path);
     } catch (const fs::filesystem_error& e) {
-        spdlog::warn("SignedRequestVerifier: path canonicalization failed for cert_serial='{}': {}",
-                     request.cert_serial, e.what());
+        spdlog::warn("SignedRequestVerifier: path canonicalization failed for key_id='{}': {}",
+                     request.key_id, e.what());
         return false;
     }
     if (canonical_cert.parent_path() != canonical_dir) {
@@ -410,9 +505,9 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     std::ifstream cert_file(canonical_cert);
     if (!cert_file.good()) {
         // Log only the serial number to avoid leaking internal directory paths.
-        spdlog::warn("SignedRequestVerifier: certificate not found or unreadable for serial='{}'",
-                     request.cert_serial);
-        return false;
+        return rejectWithAuditCode(
+            kAuditUnknownKeyId,
+            "certificate not found for key_id='" + request.key_id + "'");
     }
     std::string cert_pem((std::istreambuf_iterator<char>(cert_file)),
                           std::istreambuf_iterator<char>());
@@ -443,6 +538,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 4: Check Certificate Revocation List if configured.
     if (!config_.crl_path.empty() &&
+        std::regex_match(request.cert_serial, certSerialPattern()) &&
         PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
         return false;
     }
@@ -455,6 +551,21 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     const std::string canonical = request.getCanonicalString();
     auto md_ctx = utils::make_evp_md_ctx();
     if (!md_ctx) return false;
+    const int key_type = EVP_PKEY_base_id(pubkey.get());
+    if (key_type == EVP_PKEY_ED25519) {
+        if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, nullptr, nullptr, pubkey.get()) != 1) {
+            return false;
+        }
+        return EVP_DigestVerify(md_ctx.get(),
+                                signature_bytes->data(),
+                                signature_bytes->size(),
+                                reinterpret_cast<const unsigned char*>(canonical.data()),
+                                canonical.size()) == 1;
+    }
+
+    if (key_type != EVP_PKEY_RSA && key_type != EVP_PKEY_EC) {
+        return false;
+    }
     if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
         return false;
     }
@@ -471,4 +582,3 @@ uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {
 }
 
 } // namespace themis::sharding
-
