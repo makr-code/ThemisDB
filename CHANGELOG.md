@@ -54,6 +54,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Root Governance Consolidation 📚 — 2026-05-13**
+  - Einheitliche Terminologie auf Root-Ebene abgestimmt:
+    - `ROADMAP.md` = Features/Milestones
+    - `FUTURE_ENHANCEMENTS.md` = offene Enhancements/Stub-Replacements
+    - `FEATURE_ENHANCEMENT.md` = generierter Reifegrad-Report (nicht backlog-führend)
+    - Breaking Changes in `ROADMAP.md` + `CHANGELOG.md`
+  - Release-Strategie mit Milestone-Modell synchronisiert: `RELEASE_STRATEGY.md` enthält Mapping `RELEASE_TYPE` ↔ Tag ↔ Milestone ↔ Changelog-Schnitt.
+  - Traceability-Referenzen ergänzt:
+    - [ROADMAP.md](ROADMAP.md) (Milestone-Planung)
+    - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) (Enhancement-Backlog)
+    - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) (Maturity Snapshot)
+    - [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) (Release-/Milestone-Regeln)
+  - Dokumentations-/Auditnachweis gemäß Referenzen:
+    - [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
+    - [docs/SYSTEMATISCHER_REVIEWPLAN.md](docs/SYSTEMATISCHER_REVIEWPLAN.md)
+    - [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
+    - [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)
+    - [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
+
 - **Module-Docs Sync 📚 — 2026-04-17**
   - 58 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
   - 0 Module ohne Sekundärdokumentation erkannt; Issues erzeugt

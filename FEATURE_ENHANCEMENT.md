@@ -1,5 +1,9 @@
 # ThemisDB - Code Maturity Analysis
 
+> **Governance note:** This document is a generated maturity snapshot (reporting artifact).
+> Planning source-of-truth remains `ROADMAP.md` (features/milestones) and `FUTURE_ENHANCEMENTS.md` (open enhancements/stub replacements).
+> Breaking-change communication is tracked in `ROADMAP.md` and `CHANGELOG.md`.
+
 **Last Updated:** 2026-04-15 18:58:55 UTC  
 **Analyzed Files:** 5426  
 **Average Maturity Score:** 98.7/100
