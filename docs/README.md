@@ -26,6 +26,10 @@ Diese Datei ist der Einstiegspunkt fuer die Doku-Navigation im `docs/` Verzeichn
 - Strukturregeln: [DOCS_ORGANIZATION_PLAN.md](DOCS_ORGANIZATION_PLAN.md)
 - Docs-PR-Policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 
+## Dokumentations-Toolchain
+
+- Konsolidierter Build-/Preview-/Publish-Flow: [README-DOCUMENTATION.md](README-DOCUMENTATION.md)
+
 ## Root-Aufraeumregel
 
 Der `docs/` Root enthaelt nur:
