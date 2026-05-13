@@ -23,6 +23,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | Section | Description |
 |---------|-------------|
 | [🤝 Code of Conduct](#-code-of-conduct) | Community guidelines |
+| [🧭 Governance Roles & Escalation](#governance-roles--escalation) | Role model, contribution path, and escalation channels |
 | [🚀 Getting Started](#-getting-started) | Set up development environment |
 | [💻 Development Workflow](#-development-workflow) | Branching and committing |
 | [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
@@ -46,6 +47,24 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 > - **Focus on what is best** for the community and project
 >
 > Please read the full [Code of Conduct](CODE_OF_CONDUCT.md) for details.
+
+---
+
+## 🧭 Governance Roles & Escalation
+
+Use this unified path for both external and internal contributors:
+
+1. Follow this document for setup, workflow, quality checks, and PR process.
+2. Use [GOVERNANCE.md](GOVERNANCE.md) for role boundaries and final decision authority.
+3. Use [MAINTAINERS.md](MAINTAINERS.md) to identify module ownership and review routing.
+4. Use [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for behavior and moderation rules.
+5. Use [SECURITY.md](SECURITY.md) and [SOP.md](SOP.md) for private vulnerability and incident response processes.
+
+Canonical channels:
+
+- **General questions / governance discussion:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Bug reports / feature requests / contributor blockers:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Security vulnerabilities (private):** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
 
 ---
 
@@ -227,7 +246,7 @@ cmake --build build
 
 </details>
 
-See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for third-party dependency information.
+See [docs/de/legal/ATTRIBUTIONS.md](docs/de/legal/ATTRIBUTIONS.md) for third-party dependency information.
 
 **Running tests under Windows / WSL (developer tips)**
 
@@ -273,7 +292,7 @@ choco install llvm cppcheck gitleaks
 > - `main` = Production-ready release branch (protected)
 > - `develop` = Active development branch (integration)
 > - All features branch from `develop` and merge back to `develop`
-> - See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+> - See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1. Create a Feature Branch
 
@@ -369,7 +388,7 @@ git push origin feature/your-feature-name
 > - 🎯 `main` = Production-ready release branch (protected)
 > - 🚧 `develop` = Active development branch (integration)  
 > - 🌿 All features branch from `develop` and merge back to `develop`
-> - 📖 See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+> - 📖 See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1️⃣ Create a Feature Branch
 
@@ -1467,6 +1486,7 @@ Use provided scripts to prepare new releases:
 |----------|---------|------|
 | 💬 **GitHub Discussions** | General questions | [Discussions](https://github.com/makr-code/ThemisDB/discussions) |
 | 🐛 **GitHub Issues** | Bug reports & features | [Issues](https://github.com/makr-code/ThemisDB/issues) |
+| 🔒 **GitHub Security Advisories** | Private vulnerability reports | [Report](https://github.com/makr-code/ThemisDB/security/advisories/new) |
 | 📚 **Documentation** | Detailed guides | [docs/](docs/) |
 
 ---

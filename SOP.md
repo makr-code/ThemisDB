@@ -2,8 +2,8 @@
 
 > **Version:** 1.0  
 > **Status:** Active  
-> **Owner:** ThemisDB Release Management Team  
-> **Last Updated:** 2026-04-13
+> **Owner:** Project Lead + delegated maintainers (see MAINTAINERS.md)  
+> **Last Updated:** 2026-05-13
 
 This document defines the standard operating procedures for recurring operational tasks in the ThemisDB project. Each SOP is self-contained and links to related documents where applicable.
 
@@ -19,6 +19,25 @@ This document defines the standard operating procedures for recurring operationa
 6. [SOP-06 — Dependency Update](#sop-06--dependency-update)
 7. [SOP-07 — New Contributor Onboarding](#sop-07--new-contributor-onboarding)
 8. [SOP-08 — Incident Response](#sop-08--incident-response)
+9. [Governance Alignment and Escalation Paths](#governance-alignment-and-escalation-paths)
+
+---
+
+## Governance Alignment and Escalation Paths
+
+This SOP document is operational guidance and uses the same role model and escalation paths as:
+
+- [GOVERNANCE.md](GOVERNANCE.md) for decision authority
+- [MAINTAINERS.md](MAINTAINERS.md) for role ownership
+- [CONTRIBUTING.md](CONTRIBUTING.md) for contributor workflow
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community behavior enforcement
+- [SECURITY.md](SECURITY.md) for security disclosure process
+
+Canonical escalation channels:
+
+- **General/project process:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Bug/features/process issues:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Security vulnerabilities:** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
 
 ---
 
