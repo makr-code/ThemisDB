@@ -1,19 +1,19 @@
-# [Docs][Meta] Final Report – QA- und Governance-Struktur
+# Documentation Governance Structure - Final Report
 
 **Stand:** 2026-05-13
 **Scope:** `docs/_generated/`, `docs/_standards/`, `docs/issues/`, `docs/reviews/`, `docs/reports/`, `docs/website/`
 
 ---
 
-## 1) Ergebnisueberblick
+## 1) Ergebnisüberblick
 
 Die Meta-Bereiche der Dokumentation sind nun mit klarer QA-/Governance-Zuordnung dokumentiert:
 
 - Zweck pro Bereich ist beschrieben
 - Pflegeverantwortung pro Bereich ist benannt
 - Generierte und manuell gepflegte Inhalte sind getrennt
-- Review- und Qualitaetskriterien sind zentral referenziert
-- Archivierungs- und Aufraeumregeln fuer Reports sind definiert
+- Review- und Qualitätskriterien sind zentral referenziert
+- Archivierungs- und Aufräumregeln für Reports sind definiert
 
 ---
 
@@ -43,21 +43,21 @@ Diese Referenzen sind in den betroffenen Meta-README-Dateien verankert.
 
 ---
 
-## 4) Archivierungs- und Aufraeumregeln fuer Reports
+## 4) Archivierungs- und Aufräumregeln für Reports
 
-Verbindlich fuer `docs/reports/`:
+Verbindlich für `docs/reports/`:
 
 1. Reports enthalten Datum + Scope.
 2. Pro Themenbereich bleibt ein aktiver Hauptreport im Hauptpfad.
-3. Quartalsweise Pruefung auf veraltete, nicht mehr aktiv verlinkte Reports.
-4. Archivierung ueber `git mv` nach `docs/archive/` gemaess `docs/DOCUMENTATION_ARCHIVAL_PROCESS.md`.
+3. Quartalsweise Prüfung auf veraltete, nicht mehr aktiv verlinkte Reports.
+4. Archivierung über `git mv` nach `docs/archive/` gemäß `docs/DOCUMENTATION_ARCHIVAL_PROCESS.md`.
 5. Nach Verschiebungen ist ein Link-Check verpflichtend.
 
 ---
 
-## 5) Durchgefuehrter Doku-Audit (fuer dieses Issue)
+## 5) Durchgeführter Doku-Audit (für dieses Issue)
 
-**Pruefumfang (Dateien):**
+**Prüfumfang (Dateien):**
 
 - `docs/_generated/README.md`
 - `docs/_standards/README.md`
@@ -69,4 +69,4 @@ Verbindlich fuer `docs/reports/`:
 - `docs/FINAL_SUMMARY.md`
 - `docs/DOCUMENTATION_MERGE_PROTOCOL.md`
 
-**Pruefart:** Dokumentationsaudit gegen die oben genannten Checklisten/Runbooks.
+**Prüfart:** Dokumentationsaudit gegen die oben genannten Checklisten/Runbooks.

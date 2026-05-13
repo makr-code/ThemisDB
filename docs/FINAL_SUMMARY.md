@@ -1,10 +1,10 @@
-# [Docs][Meta] Final Summary
+# Documentation Governance Structure - Final Summary
 
 ## Zielstatus
 
-Die Meta-Bereiche sind strukturell geklaert und fuer QA/Governance eindeutig klassifiziert.
+Die Meta-Bereiche sind strukturell geklärt und für QA/Governance eindeutig klassifiziert.
 
-## Schnelle Zuordnung fuer AI und Maintainer
+## Schnelle Zuordnung für AI und Maintainer
 
 | Pfad | Klassifikation | Kurzregel |
 |---|---|---|
@@ -28,7 +28,7 @@ Alle Meta-Bereiche verweisen auf:
 - Datum + Scope je Report verpflichtend
 - Quartalsweise Bereinigung in `docs/reports/`
 - Veraltete Reports nach `docs/archive/` verschieben
-- Nach Verschiebung Link-Check ausfuehren
+- Nach Verschiebung Link-Check ausführen
 
 ## Betroffene Governance-Dateien
 
@@ -40,4 +40,3 @@ Alle Meta-Bereiche verweisen auf:
 - `docs/website/README.md`
 - `docs/DOCUMENTATION_MERGE_PROTOCOL.md`
 - `docs/FINAL_REPORT.md`
-

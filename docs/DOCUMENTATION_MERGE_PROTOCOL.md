@@ -12,20 +12,20 @@ This document defines the merge protocol for pull requests that include document
 
 ## Verbindliche Meta-Bereich-Klassifizierung
 
-Vor dem Merge muss fuer alle betroffenen Doku-Pfade klar sein, ob es sich um:
+Vor dem Merge muss für alle betroffenen Doku-Pfade klar sein, ob es sich um:
 
 - **Generierte Inhalte** (`docs/_generated/**`)
 - **Manuell gepflegte Standards/Inhalte** (`docs/_standards/**`, `docs/website/**`)
 - **Review-/Issue-/Report-Artefakte** (`docs/reviews/**`, `docs/issues/**`, `docs/reports/**`)
 
-handelt. Mischungen ohne klare Ablagebegruendung sind nicht merge-faehig.
+handelt. Mischungen ohne klare Ablagebegründung sind nicht mergefähig.
 
 ## Verbindlicher Review- und Audit-Nachweis
 
-Fuer Docs-Meta-Aenderungen ist folgender Nachweis Pflicht (im PR-Text oder verlinktem Report):
+Für Docs-Meta-Änderungen ist folgender Nachweis Pflicht (im PR-Text oder verlinktem Report):
 
 - Fachreview gegen passende Doku-/Code-Checklisten
-- Dokumentationsaudit bzw. Sourcecode-Audit
+- Dokumentationsaudit bzw. Source-Code-Audit
 - Ergebnisdokumentation mit betroffenen Dateien/Bereichen
 
 Referenzen:
@@ -370,9 +370,9 @@ Documentation PR must meet these criteria to merge:
 ### Report-Lifecycle-Regeln (bei `docs/reports/**`)
 
 - Reports enthalten Datum + Scope
-- Veraltete Reports quartalsweise pruefen
+- Veraltete Reports quartalsweise prüfen
 - Nicht mehr aktive Reports nach `docs/archive/` verschieben (siehe [DOCUMENTATION_ARCHIVAL_PROCESS.md](DOCUMENTATION_ARCHIVAL_PROCESS.md))
-- Nach Moves internen Link-Check durchfuehren
+- Nach Moves internen Link-Check durchführen (z. B. `python3 scripts/link-check.py --internal-only docs/reports/README.md docs/FINAL_REPORT.md docs/FINAL_SUMMARY.md`)
 
 ### Blocking Issues
 

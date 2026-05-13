@@ -1,7 +1,7 @@
 # docs/reviews
 
 ## Zweck
-`docs/reviews/` enthaelt formale Review-Artefakte (Fachreviews, Architektur-Reviews, Code-Review-Berichte).
+`docs/reviews/` enthält formale Review-Artefakte (Fachreviews, Architektur-Reviews, Code-Review-Berichte).
 
 ## Pflegeverantwortung
 - **Owner:** Review Leads / Architekturteam
@@ -20,7 +20,7 @@
 
 ## Mindestinhalt eines Review-Artefakts
 - Scope (Dateien/Bereiche)
-- Pruefgrundlage (Checklisten/Runbook)
+- Prüfgrundlage (Checklisten/Runbook)
 - Findings inkl. Prioritaet
 - Entscheidung/Sign-off
 - Verweis auf Folge-Issues (falls offen)

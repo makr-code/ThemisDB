@@ -1,11 +1,11 @@
 # docs/issues
 
 ## Zweck
-`docs/issues/` sammelt issue-nahe Arbeitsdokumente (Umsetzungsplaene, Scoping, Nachverfolgung je Themenbereich).
+`docs/issues/` sammelt issue-nahe Arbeitsdokumente (Umsetzungspläne, Scoping, Nachverfolgung je Themenbereich).
 
 ## Pflegeverantwortung
 - **Owner:** jeweils verantwortliche Modul-/Themen-Owner
-- **Co-Owner:** Documentation Governance Maintainer (Struktur- und Qualitaetskontrolle)
+- **Co-Owner:** Documentation Governance Maintainer (Struktur- und Qualitätskontrolle)
 
 ## Aktuelle Struktur
 - `MASTER_IMPLEMENTATION_PLAN.md`
