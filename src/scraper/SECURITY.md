@@ -5,7 +5,7 @@
 
 # Security — Scraper Module
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+> Report vulnerabilities via the project-level [SECURITY.md](../../SECURITY.md).
 
 ## Threat Model
 
