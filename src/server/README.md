@@ -1267,7 +1267,7 @@ sse_manager.closeConnection(connection_id);
 - **Server startet nicht wegen TLS-Fehlern**: `tls_cert_path` und `tls_key_path` in `HTTPServer::Config` auf existierende Zertifikatsdateien setzen.
 - **`429 Too Many Requests` bei Burst-Traffic**: Bucket-Parameter (`capacity`, `refill_rate`) im Rate Limiter erhöhen oder verteiltes Redis-Backend nutzen.
 - **Instabile Echtzeit-Streams unter Last**: `num_threads` erhöhen und für One-Way-Updates SSE statt bidirektionalem WebSocket bevorzugen.
-- **gRPC-Endpunkte liefern `UNIMPLEMENTED`**: Status in `FUTURE_ENHANCEMENTS.md` und `../../docs/de/server/MISSING_IMPLEMENTATIONS.md` prüfen.
+- **gRPC-Endpunkte liefern `UNIMPLEMENTED`**: Status in [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) und [`docs/de/server/MISSING_IMPLEMENTATIONS.md`](../../docs/de/server/MISSING_IMPLEMENTATIONS.md) prüfen.
 
 ---
 
@@ -1416,9 +1416,9 @@ option(THEMIS_ENABLE_POSTGRES_PROTOCOL "Enable PostgreSQL wire protocol" ON)
 
 ## Related Documentation
 
-- [Server Architektur](ARCHITECTURE.md)
-- [Server Roadmap](ROADMAP.md)
-- [Server Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Server Architektur](./ARCHITECTURE.md)
+- [Server Roadmap](./ROADMAP.md)
+- [Server Future Enhancements](./FUTURE_ENHANCEMENTS.md)
 - [Server Modulübersicht (de)](../../docs/de/server/README.md)
 - [Server Missing Implementations (de)](../../docs/de/server/MISSING_IMPLEMENTATIONS.md)
 - [TLS Setup Guide](../../docs/de/guides/guides_tls_setup.md)

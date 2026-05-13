@@ -949,7 +949,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 ## See Also
 
 - [ROADMAP.md](../../src/server/ROADMAP.md) - Geplanter Ausbau des Server-Moduls
-- [FUTURE_ENHANCEMENTS.md](../../src/server/FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [FUTURE_ENHANCEMENTS.md](../../src/server/FUTURE_ENHANCEMENTS.md) - Geplante Interface-Verbesserungen
 - [Implementation README](../../src/server/README.md) - Server implementation guide
 - [Core Headers](../core/README.md) - Core module interfaces
 - [Storage Headers](../storage/README.md) - Storage module interfaces
