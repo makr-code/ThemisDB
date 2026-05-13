@@ -1,4 +1,5 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
+> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 <!-- Status: current | validated: 2026-04-07 | Primary: src/llama_cpp/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->

@@ -1,4 +1,5 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
+> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 # llama_cpp Module Headers
 
