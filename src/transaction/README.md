@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build:** `cmake --preset <platform>-release && cmake --build --preset <platform>-release` (e.g. `linux-release`, `windows-release`)
 
 # ThemisDB Transaction Module
 
@@ -1078,7 +1078,7 @@ if (!result.success) {
 | Commit returns `Deadlock detected` | Writers acquired locks in conflicting order | Enforce deterministic lock ordering and enable deadlock detection |
 | `OCC version conflict` on `optimisticPut`/`optimisticErase` | Concurrent update changed entity version | Re-read version with `getEntityVersion(...)` and retry |
 | `Serialization conflict` with `IsolationLevel::Serializable` | Predicate-lock overlap with concurrent writers | Retry with backoff and reduce wide range predicates |
-| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use either anonymous *or* named savepoints in one transaction |
+| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use either anonymous or named savepoints in one transaction |
 
 ---
 

@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build:** `cmake --preset <platform>-release && cmake --build --preset <platform>-release` (e.g. `linux-release`, `windows-release`)
 
 # ThemisDB Transaction Module - Header Files
 
@@ -127,7 +127,7 @@ if (!result.success) {
 | `saga_orchestrator.h` | `SagaOrchestrator` | Choreography-based SAGA orchestration |
 | `transaction_auditor.h` | `TransactionAuditor` | Audit trail recording for compliance |
 | `transaction_batcher.h` | `TransactionBatcher` | Micro-batching for throughput optimisation |
-| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Semantic batch-affinity and conflict-probability hints for pending transactions |
+| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Semantic batch-affinity (shared-entity grouping) and conflict-probability hints for pending transactions |
 | `in_doubt_recovery_coordinator.h` | `IInDoubtRecoveryCoordinator` | Recovery interface for in-doubt distributed transactions |
 
 ---
