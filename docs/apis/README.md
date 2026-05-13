@@ -2,9 +2,9 @@
 
 ## Spezifikationsquelle & Ownership
 
-- **OpenAPI Source of Truth:** [`/docs/openapi.yaml`](../openapi.yaml)
+- **OpenAPI Source of Truth:** [`/docs/openapi.yaml`](/docs/openapi.yaml)
 - **Ownership:** API-Dokumentationspflege erfolgt über `docs/apis/**` und `docs/api/**`
-- **Generator-Konfiguration:** [`/openapitools.json`](../../openapitools.json)
+- **Generator-Konfiguration:** [`/openapitools.json`](/openapitools.json)
 
 ## Generator-Workflow (Inputs / Outputs)
 

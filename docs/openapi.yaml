@@ -11,7 +11,9 @@ info:
     name: MIT
   x-api-governance:
     source_of_truth: docs/openapi.yaml
-    owner: docs/api + docs/apis maintainers
+    owner:
+      - docs/api maintainers
+      - docs/apis maintainers
     reference_docs:
       - docs/api/README.md
       - docs/apis/README.md

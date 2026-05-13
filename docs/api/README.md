@@ -24,8 +24,8 @@
 
 ## OpenAPI Source of Truth und Generator-Workflow
 
-- **Spezifikationsquelle:** [`../openapi.yaml`](../openapi.yaml)
-- **Generator-Konfiguration:** [`../../openapitools.json`](../../openapitools.json)
+- **Spezifikationsquelle:** [`/docs/openapi.yaml`](/docs/openapi.yaml)
+- **Generator-Konfiguration:** [`/openapitools.json`](/openapitools.json)
 - **Generierte SDK-Artefakte:** `openapi/generated/{python,javascript,go}`
 - **Lokale Generierung:** `scripts/generate-sdks.sh`
 
