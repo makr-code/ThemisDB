@@ -33,7 +33,7 @@
 
 *Architektonischer Entwurf eines hochperformanten Multi-Modell-Datenbanksystems: Eine Kernel-Level-Analyse von kanonischem Speicher, Projektionsschichten und Speicherhierarchien in C++.*
 
-*Hinweis zur Implementierungssprache: ThemisDB ist in C++ implementiert (Boost.Beast/Asio). Rust-Alternativen werden der Vollständigkeit halber als Vergleich erwähnt, sind jedoch nicht Teil der produktiven Implementierung.*
+*Hinweis zur Implementierungssprache: ThemisDB ist in C++ implementiert (Boost.Beast/Asio). Dieses Dokument wurde ursprünglich als sprachunabhängiges Forschungsdokument verfasst und erwähnt Rust-Äquivalente als Vergleich. Diese Vergleiche sind rein informativ; alle produktiven Implementierungsentscheidungen sind auf C++ festgelegt (siehe [Teil 7.2](#72-c-vs-rust-eine-strategische-empfehlung)).*
 
 ---
 
@@ -591,6 +591,7 @@ Benchmarking Vector, Graph and Hybrid Retrieval Augmented Generation (RAG) Pipel
 **Fachreview:** durchgeführt 2026-05-13
 **Sourcecode-/Dokumentationsaudit:** durchgeführt 2026-05-13
 **Auditor:** Copilot (automatisiert, gesteuert durch Issue [Docs][Module] server - VCCDB Design.md aktualisieren)
+**Human Review Sign-off:** _erforderlich vor Merge — Reviewer bitte hier eintragen und Ergebnis bestätigen_
 
 ### Gegenstand des Reviews
 
