@@ -1,7 +1,7 @@
 # ThemisDB — Quick Start
 
 > **Version:** 1.8.x  
-> Get ThemisDB running in minutes. For a full development-environment setup see [SETUP.md](SETUP.md).
+> Get ThemisDB running in minutes. This is the canonical **Step 1** from [README.md](README.md). For full development-environment setup, continue with [SETUP.md](SETUP.md).
 
 ---
 

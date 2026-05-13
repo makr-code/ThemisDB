@@ -5,6 +5,19 @@
 
 ---
 
+## Root Onboarding (Canonical)
+
+For onboarding, start at root before diving into deep docs:
+
+1. [../README.md](../README.md)
+2. [../QUICKSTART.md](../QUICKSTART.md)
+3. [../SETUP.md](../SETUP.md)
+4. [../SUPPORT.md](../SUPPORT.md)
+5. [../RELEASE_STRATEGY.md](../RELEASE_STRATEGY.md)
+6. [../INDEX.md](../INDEX.md)
+
+---
+
 ## 🗂️ Documentation Structure
 
 ```
@@ -86,4 +99,3 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) and [governance/DOCS_PR_POLICY.md](gov
 - [00_DOCUMENTATION_INDEX.md](00_DOCUMENTATION_INDEX.md) – master index of all docs
 - [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md) – role-based navigation hub
 - [CATEGORY_INDEX.md](CATEGORY_INDEX.md) – docs grouped by topic
-

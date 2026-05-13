@@ -2,6 +2,8 @@
 
 > Status: Active
 > Purpose: compact, manual, CI-free release process
+>
+> Canonical root onboarding path: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md) → [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) → [INDEX.md](INDEX.md)
 
 ## 1. Principles
 
