@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release --target <target>`
 
 # Process Module – API Reference
 
@@ -8,7 +8,9 @@
 
 ---
 
-## Quick Start
+## Usage
+
+### Quick Start
 
 ```cpp
 #include "process/process_model_manager.h"
@@ -28,8 +30,12 @@ ProcessLinker       linker(db);
 ProcessGraphRag     rag(db, engine, models, linker);
 
 // --- Import a BPMN process model ---
-models.importBpmn("bauantrag.xml", ProcessDomain::ADMINISTRATION,
-                  {"DSGVO", "§34 BauO NRW"});
+ProcessModelRecord meta;
+meta.id = "bauantrag_standard";
+meta.name = "Bauantrag Standard";
+meta.domain = ProcessDomain::ADMINISTRATION;
+meta.compliance_tags = {"DSGVO", "§34 BauO NRW"};
+auto import_res = models.importBpmn("<bpmn:definitions>...</bpmn:definitions>", meta);
 
 // --- Attach a document to a running instance ---
 auto [ok, attach_id] = linker.attachObject(
@@ -105,18 +111,19 @@ LLM endpoint (via KnowledgeGraphRetriever or direct)
 
 | Method | Description |
 |---|---|
-| `importBpmn(xml, domain, tags)` | Import BPMN 2.0 XML; returns `{bool, model_id}` |
-| `importEpk(text, domain, tags)` | Import EPK text notation |
-| `importVccVpb(yaml, domain)` | Import VCC-VPB YAML |
+| `importBpmn(xml, meta)` | Import BPMN 2.0 XML; returns `ProcessModelResult` |
+| `importEpk(text, meta)` | Import EPK text or JSON notation |
+| `importVccVpb(yaml, meta)` | Import VCC-VPB YAML |
+| `importArisXml(aml_xml, meta)` | Import ARIS AML XML |
 | `save(record)` | Store/update a `ProcessModelRecord` (versioned) |
-| `get(id)` | Return `optional<ProcessModelRecord>` |
+| `load(id)` | Return `optional<ProcessModelRecord>` |
 | `remove(id)` | Soft-delete (sets state to ARCHIVED) |
-| `list(domain, state, notation)` | Filtered list of models |
-| `search(query)` | Full-text search (substring; inverted index planned) |
-| `findSimilar(embedding, k)` | Nearest-neighbour by embedding vector |
+| `list(domain, state, limit)` | Filtered list of models |
+| `search(query, limit)` | Keyword/BM25 search (if `InvertedIndex` integration enabled) |
+| `findSimilar(embedding, k, min_similarity)` | Nearest-neighbour search (linear or HNSW if configured) |
 | `deployToEngine(model_id, engine)` | Register model with `ProcessGraphManager` |
 | `exportBpmn(id)` | Export model as BPMN 2.0 XML string |
-| `exportEpk(id)` | Export model as EPK JSON |
+| `exportEpk(id)` | Export model as EPK text |
 | `generateLlmDescriptor(id)` | Return `LlmProcessDescriptor` output JSON |
 
 ---
@@ -169,6 +176,19 @@ LLM endpoint (via KnowledgeGraphRetriever or direct)
 | `summarizeVerwaltungsvorgang(instance_id)` | Structured JSON summary for UI/API |
 | `checkCompliance(instance_id)` | Compliance check (docs, SLA, state) |
 | `findSimilarCases(instance_id, k, min_similarity)` | Similar historical cases |
+
+## Public Header Entry Points
+
+| Header | Role |
+|---|---|
+| `process_model_manager.h` | Core CRUD/import/export manager for process definitions |
+| `process_linker.h` | Attachments, process-to-process links, required-document registry |
+| `process_graph_rag.h` | Graph-RAG context assembly, compliance checks, similar case retrieval |
+| `process_agentic_rag.h` | Iterative AgenticRAG loop over process contexts |
+| `llm_process_descriptor.h` | LLM-oriented descriptor generation contracts |
+| `bpmn_serializer.h` / `epk_serializer.h` / `epk_aris_xml_importer.h` / `vcc_vpb_importer.h` | Format import/export surfaces |
+| `dmn_evaluator.h` / `cmmn_serializer.h` / `ocel_exporter.h` / `object_centric_tracer.h` | Decision, case modeling, and process-mining integrations |
+| `process_model_generator.h` / `process_light_retriever.h` / `process_community_detector.h` | Advanced retrieval and generation components |
 
 ### ProcessRagConfig fields
 
@@ -256,42 +276,32 @@ FOR task IN _process_tokens
 | `proc:req_doc:<model_id>:<node_id>:<doc_type>` | Required document entry |
 | `proc:inst_emb:<instance_id>` | Instance embedding (float array JSON) |
 
-## Additional Headers
+## Runtime Behavior, Error Cases, and Limits
 
-### bpmn_serializer.h
-Serializes process model records to and from BPMN 2.0 XML. <!-- TODO: verify -->
+- **Storage contract:** keys use `proc:def:`, `proc:attach:`, `proc:link:`, `proc:req_doc:`, `proc:inst_emb:`.
+- **BPMN/AML parser guards:** importer paths are guarded by bounded input handling (notably the 10 MiB XML guard for BPMN/ARIS flows).
+- **Similarity behavior:** `findSimilarCases()` prefers stored embeddings (`proc:inst_emb:<id>`) and falls back to Jaccard-style heuristics when embeddings are unavailable.
+- **Retrieval shape controls:** `ProcessRagConfig` limits depth, similar-case count, and prompt size budget (`max_prompt_tokens`).
+- **Lifecycle behavior:** `remove(model_id)` archives model definitions (`ProcessModelState::ARCHIVED`) instead of deleting revision history.
 
-### dmn_evaluator.h
-Evaluates DMN (Decision Model and Notation) decision tables linked to process models. <!-- TODO: verify -->
+## Troubleshooting
 
-### epk_aris_xml_importer.h
-Imports EPK process models from ARIS XML export files. <!-- TODO: verify -->
+| Symptom | Likely cause | Action |
+|---|---|---|
+| `importBpmn` / `importArisXml` returns failure | Invalid XML or unsupported structure | Validate input BPMN/AML and retry with a reduced, schema-conform payload |
+| `retrieve()` returns little context | Query too broad or depth too low | Increase `max_subgraph_depth`, `max_similar_cases`, or enable attachments/history in `ProcessRagConfig` |
+| Similar-case output is weak | Missing instance embeddings | Ensure embedding generation pipeline populates `proc:inst_emb:<instance_id>` |
+| Missing required documents are always reported | Required docs registered on a different `model_id`/`node_id` | Verify `registerRequiredDocument(...)` and attachment node/model IDs |
 
-### epk_serializer.h
-Serializes process model records to and from EPK notation. <!-- TODO: verify -->
+## Documentation Links
 
-### llm_process_adapter.h
-Adapter layer for feeding process-model context into LLM prompt pipelines. <!-- TODO: verify -->
-
-### llm_process_descriptor.h
-**Header:** `include/process/llm_process_descriptor.h`
-
-Output structure returned by `ProcessModelManager::generateLlmDescriptor()`; contains a structured JSON representation of a process model for LLM consumption.
-
-### ocel_exporter.h
-Exports process event logs in OCEL (Object-Centric Event Log) format for process mining tools. <!-- TODO: verify -->
-
-### process_agentic_rag.h
-Agentic RAG integration for process instances; orchestrates multi-step retrieval and LLM reasoning over process graphs. <!-- TODO: verify -->
-
-### process_model_generator.h
-Generates process model skeletons from natural-language descriptions or templates. <!-- TODO: verify -->
-
-### vcc_vpb_importer.h
-Imports VCC-VPB YAML process definitions into the `ProcessModelManager`. <!-- TODO: verify -->
-
-### xpdl_importer.h
-Imports XPDL (XML Process Definition Language) process definitions. <!-- TODO: verify -->
+- Module implementation overview: [`../../src/process/README.md`](../../src/process/README.md)
+- Module architecture: [`../../src/process/ARCHITECTURE.md`](../../src/process/ARCHITECTURE.md)
+- Module roadmap: [`../../src/process/ROADMAP.md`](../../src/process/ROADMAP.md)
+- Future enhancements: [`../../src/process/FUTURE_ENHANCEMENTS.md`](../../src/process/FUTURE_ENHANCEMENTS.md)
+- Security notes: [`../../src/process/SECURITY.md`](../../src/process/SECURITY.md)
+- Primary source index (DE): [`../../docs/de/process/PRIMARY_SOURCES.md`](../../docs/de/process/PRIMARY_SOURCES.md)
+- Primary source index (EN): [`../../docs/en/process/PRIMARY_SOURCES.md`](../../docs/en/process/PRIMARY_SOURCES.md)
 
 ## Installation
 
