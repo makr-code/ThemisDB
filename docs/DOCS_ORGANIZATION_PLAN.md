@@ -29,11 +29,23 @@ Stand: 2026-04-18
 ## Aufraeumregeln
 
 - Keine neuen `tmp_*.md` Dateien im Root.
+- Dateien mit Build-/Test-/Security-Output (`build_*.txt`, `test_*.txt`, `scout_cves_*.sarif`, `sec_block.txt`) sind keine Leitdokumente und duerfen nicht als redaktionelle Quelle behandelt werden.
 - Implementierungszusammenfassungen und Ad-hoc-Review-Dumps nicht im Root halten.
 - Neue Root-Dateien nur, wenn sie langfristiger Navigation dienen.
 - Dokumente mit kurzer Halbwertszeit in `archive/` oder modulspezifische Unterordner verschieben.
 - Relevanz-Triage immer mit zwei Signalen: interne Referenzen + Datum.
 - Wenn Dateisystem-Zeitstempel vereinheitlicht sind, fuer Datumsbewertung Git-Historie (`git log -1 --format=%cs`) verwenden.
+
+## Root-Artefakt-Regel (Build/Test/Security)
+
+- `tmp_*.md` (Arbeitsnotizen) -> `docs/archive/tmp-notes/`
+- `build_*.txt` (Build-Ausgaben) -> `logs/archive/`
+- `test_*.txt` (Test-Ausgaben) -> `tests/outputs/` bzw. `tests/outputs/archive/`
+- `scout_cves_*.sarif` (Scan-Rohdaten) -> `docs/audit-framework/evidence/<version>/scans/`
+- `sec_block.txt` (temporäre Security-Hinweise) -> `docs/ARCHIVED/root-drafts/`
+
+Detail-Inventar und aktuelle Triage siehe:
+- `docs/de/reports/ROOT_ARTEFAKT_INVENTAR_2026-05.md`
 
 ## Durchgefuehrte Bereinigung (2026-04-18)
 
