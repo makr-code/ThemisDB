@@ -5,6 +5,19 @@
 
 ---
 
+## Consolidation Scope (Root Performance Docs)
+
+- **Document role:** Umsetzungsplan (Priorisierung, Phasen, technische Maßnahmen).
+- **Not covered here:** KPI-Definitionen als Single Source of Truth und finale Benchmark-Nachweise.
+- **Canonical KPI + methodology:** [`PERFORMANCE_EXPECTATIONS.md#kpi-and-measurement-methodology-canonical`](PERFORMANCE_EXPECTATIONS.md#kpi-and-measurement-methodology-canonical)
+- **Ist-Analyse als Input:** [`PERFORMANCE_BOTTLENECKS.md`](PERFORMANCE_BOTTLENECKS.md)
+- **Resultatnachweis nach Umsetzung:** [`BENCHMARK_IMPLEMENTATION_REPORT.md`](BENCHMARK_IMPLEMENTATION_REPORT.md)
+- **Benchmark docs + test paths:** [`docs/benchmarks/README.md`](docs/benchmarks/README.md), [`benchmarks/`](benchmarks), [`tests/performance/test_wire_perf_benchmark.cpp`](tests/performance/test_wire_perf_benchmark.cpp), [`tests/llm/test_inference_performance.cpp`](tests/llm/test_inference_performance.cpp)
+
+> **Historical status marker:** Dieser Plan ist ein Snapshot vom `2026-05-10`. Umsetzungsstatus und Effektstärke müssen gegen den neuesten Benchmark-Report verifiziert werden.
+
+---
+
 ## Executive Summary
 
 Performance logging completed across all benchmark suites reveals:
