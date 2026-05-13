@@ -242,6 +242,7 @@ TEST(HSMStartupPolicy, RuntimeSecurityAllowsRealPkcs11Classification) {
     const auto decision = evaluateHSMRuntimeSecurity(policy, /*runtime_stub_active=*/false, "");
     EXPECT_TRUE(decision.allow_startup);
     EXPECT_EQ(decision.security_classification, "HSM-HARDENED-PKCS11");
+    EXPECT_THAT(decision.audit_event, HasSubstr("hardened PKCS#11"));
 }
 
 TEST(HSMStartupPolicy, RuntimeSecurityBlocksImplicitStubFallbackForPkcs11Policy) {

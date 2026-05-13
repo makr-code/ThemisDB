@@ -36,9 +36,13 @@ struct HSMStartupPolicyResult {
  *   be blocked unless explicit insecure opt-in is present.
  */
 struct HSMRuntimeSecurityDecision {
-    bool        allow_startup{false};
-    bool        runtime_stub_active{true};
+    /// True when startup may continue; false means startup must abort.
+    bool allow_startup{false};
+    /// True when the active runtime provider is the software stub.
+    bool runtime_stub_active{true};
+    /// Stable security class string (e.g. HSM-HARDENED-PKCS11, HSM-DEGRADED-EXPLICIT-STUB).
     std::string security_classification;
+    /// Human-readable audit trail message for logs/audit sinks.
     std::string audit_event;
 };
 
@@ -60,6 +64,14 @@ struct HSMRuntimeSecurityDecision {
     return value == "1" || value == "true" || value == "yes" || value == "on";
 }
 
+/**
+ * @brief Evaluate runtime HSM security posture against resolved startup policy.
+ *
+ * @param policy Policy intent resolved from config/CLI/environment.
+ * @param runtime_stub_active Observed runtime provider state (`true` when stub is active).
+ * @param runtime_error Provider initialization/runtime error string used for audit context.
+ * @return Startup decision including hard gate result, classification, and audit event.
+ */
 [[nodiscard]] inline HSMRuntimeSecurityDecision evaluateHSMRuntimeSecurity(
     const HSMStartupPolicyResult& policy,
     bool                          runtime_stub_active,
