@@ -580,7 +580,7 @@ High-performance clients use the wire protocol:
 - **Module loading (`themis/base/module_loader.h`)** is fail-closed by design: hash/signature verification failures return an unsuccessful load result and prevent activation of the module.
 - **License checks (`themis/license_info.h`, `themis/runtime_license_gate.h`)** deny gated features when no valid license is embedded or when license constraints are violated.
 - **Edition gates (`themis/edition.h`, `themis/edition_manager.h`)** are compile-time + runtime constraints: unavailable features remain disabled in Community builds even when referenced by callers.
-- **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a documented maximum payload size of **64 MB** per message.
+- **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a maximum payload size of **64 MB** per message (`themis::wire::MAX_PAYLOAD_SIZE`).
 - **Operational limit:** `WireProtocolServer` is intended for a single-threaded `io_context` event loop unless external synchronization is provided (see [Roadmap Known Issues](../../src/themis/ROADMAP.md)).
 
 ## Public Entry Points (Quick Reference)
@@ -843,7 +843,7 @@ bool verify_deployment(const std::string& modules_dir) {
 - [Roadmap](../../src/themis/ROADMAP.md) - Delivery status, phases, limits, and known issues
 - [Future Enhancements](../../src/themis/FUTURE_ENHANCEMENTS.md) - Planned improvements
 - [Architecture Overview](../../ARCHITECTURE.md) - System architecture
-- [Modularization Plan (DE)](../../docs/de/architecture/MODULARIZATION_PLAN.md) - Module strategy
+- [Modularization Plan (German / DE)](../../docs/de/architecture/MODULARIZATION_PLAN.md) - Module strategy
 - [German Themis Index](../../docs/de/themis/index.md) - Secondary module docs and verification
 - [English Themis Index](../../docs/en/themis/index.md) - Secondary module docs and verification
 
