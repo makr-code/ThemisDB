@@ -704,6 +704,33 @@ private:
     bool return_empty_;
 };
 
+/// ITextEncoder stub that calls back a flag and returns a constant embedding.
+class TrackingTextEncoder final : public themis::tensor::ITextEncoder {
+public:
+    explicit TrackingTextEncoder(bool& flag, float fill = 0.5f)
+        : flag_(flag), fill_(fill) {}
+
+    [[nodiscard]] std::vector<float>
+    encode(const std::string& /*seg*/, std::size_t dim) const override {
+        flag_ = true;
+        return std::vector<float>(dim, fill_);
+    }
+
+    [[nodiscard]] bool isAvailable() const noexcept override { return true; }
+
+    [[nodiscard]] themis::tensor::EncoderQuality quality() const noexcept override {
+        return themis::tensor::EncoderQuality::SEMANTIC;
+    }
+
+    [[nodiscard]] std::string_view description() const noexcept override {
+        return "TrackingTextEncoder (test stub)";
+    }
+
+private:
+    bool& flag_;
+    float fill_;
+};
+
 } // namespace
 
 // UTR-22: registered ITextEncoder is called and produces a valid HTTrain
@@ -711,24 +738,7 @@ TEST(UTRConverter, TextEncoderBridgeIsCalledFromDocument) {
     using namespace themis::tensor;
 
     bool called = false;
-    auto enc = std::make_shared<ConstTextEncoder>(0.5f, true);
-    // Wrap in a lambda-based proxy to track call
-    class TrackingEncoder final : public ITextEncoder {
-    public:
-        explicit TrackingEncoder(bool& flag) : flag_(flag) {}
-        std::vector<float>
-        encode(const std::string& /*seg*/, std::size_t dim) const override {
-            flag_ = true;
-            return std::vector<float>(dim, 0.5f);
-        }
-        bool isAvailable() const noexcept override { return true; }
-        EncoderQuality quality() const noexcept override { return EncoderQuality::SEMANTIC; }
-        std::string_view description() const noexcept override { return "tracking"; }
-    private:
-        bool& flag_;
-    };
-
-    UTRConverter::setTextEncoder(std::make_shared<TrackingEncoder>(called));
+    UTRConverter::setTextEncoder(std::make_shared<TrackingTextEncoder>(called));
 
     UTRConfig cfg;
     cfg.embed_dim = 16;
@@ -874,22 +884,7 @@ TEST(UTRConverter, TextEncoderTakesPriorityOverEmbedFn) {
     bool encoder_called = false;
     bool embed_fn_called = false;
 
-    class PriorityCheckEncoder final : public ITextEncoder {
-    public:
-        explicit PriorityCheckEncoder(bool& flag) : flag_(flag) {}
-        std::vector<float>
-        encode(const std::string& /*seg*/, std::size_t dim) const override {
-            flag_ = true;
-            return std::vector<float>(dim, 0.9f);
-        }
-        bool isAvailable() const noexcept override { return true; }
-        EncoderQuality quality() const noexcept override { return EncoderQuality::SEMANTIC; }
-        std::string_view description() const noexcept override { return "priority-check"; }
-    private:
-        bool& flag_;
-    };
-
-    UTRConverter::setTextEncoder(std::make_shared<PriorityCheckEncoder>(encoder_called));
+    UTRConverter::setTextEncoder(std::make_shared<TrackingTextEncoder>(encoder_called, 0.9f));
     UTRConverter::setEmbedFn(
         [&embed_fn_called](const std::string& /*seg*/, std::size_t dim) {
             embed_fn_called = true;

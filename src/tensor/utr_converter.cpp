@@ -235,9 +235,20 @@ static uint64_t fnv1a(std::string_view s) noexcept {
     return h;
 }
 
-/// Scatter a hashed feature with `weight` into the embedding vector using
-/// multi-lane projection to reduce hash collisions.
-/// @pre `vec` must be non-empty (embed_dim > 0).
+/**
+ * @brief Scatter a hashed feature into the embedding vector via multi-lane projection.
+ *
+ * Uses a multi-lane hashing scheme to spread a single feature across up to 8
+ * independent dimensions, reducing the probability of hash collisions causing
+ * systematic cancellation.
+ *
+ * @param vec      Output embedding vector (must be non-empty).
+ * @param feature  String feature to hash and scatter.
+ * @param weight   Signed scalar weight applied to each projected dimension
+ *                 (e.g. 1.0 for unigrams, 0.5 for bigrams, 0.35 for trigrams).
+ *
+ * @pre `vec.size() > 0`; if zero, the function returns without modification.
+ */
 static void scatterFeature(std::vector<float>& vec,
                             std::string_view    feature,
                             float               weight) {
@@ -253,7 +264,14 @@ static void scatterFeature(std::vector<float>& vec,
     }
 }
 
-/// Normalise a token: lowercase + remove non-alphanumeric characters.
+/**
+ * @brief Normalise a raw token for embedding: lowercase + remove non-alphanumeric characters.
+ *
+ * Passed by value so callers can move lvalue strings in; the modified value is returned.
+ *
+ * @param token  Raw token (may contain punctuation, mixed case).
+ * @return Lowercased, alphanumeric-only version of the input.
+ */
 static std::string normalizeToken(std::string token) {
     token.erase(std::remove_if(token.begin(), token.end(),
                                [](unsigned char c) {
@@ -265,8 +283,9 @@ static std::string normalizeToken(std::string token) {
     return token;
 }
 
-/// Delimiter byte used to separate the two tokens in a bigram key.
-/// Chosen as a control character (0x01) that cannot appear in normalised tokens.
+/// @brief Delimiter byte separating the two tokens in a bigram feature key.
+/// Uses ASCII SOH (0x01) — a control character that cannot appear in
+/// normalised (alphanumeric-only, lowercase) tokens.
 constexpr char kBigramDelimiter = '\x01';
 
 /**
