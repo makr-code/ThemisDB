@@ -35,7 +35,7 @@ struct HSMStartupPolicyResult {
  * - If PKCS#11 was configured but runtime still fell back to stub, startup must
  *   be blocked unless explicit insecure opt-in is present.
  */
-struct HSMRuntimeSecurityDecision {
+struct [[nodiscard]] HSMRuntimeSecurityDecision {
     /// True when startup may continue; false means startup must abort.
     bool allow_startup{false};
     /// True when the active runtime provider is the software stub.
@@ -75,7 +75,7 @@ struct HSMRuntimeSecurityDecision {
 [[nodiscard]] inline HSMRuntimeSecurityDecision evaluateHSMRuntimeSecurity(
     const HSMStartupPolicyResult& policy,
     bool                          runtime_stub_active,
-    const std::string&            runtime_error)
+    std::string_view              runtime_error)
 {
     HSMRuntimeSecurityDecision decision;
     decision.runtime_stub_active = runtime_stub_active;
@@ -107,7 +107,7 @@ struct HSMRuntimeSecurityDecision {
     }
 
     if (!runtime_error.empty()) {
-        decision.audit_event += " Provider error: " + runtime_error;
+        decision.audit_event += " Provider error: " + std::string(runtime_error);
     }
     return decision;
 }
