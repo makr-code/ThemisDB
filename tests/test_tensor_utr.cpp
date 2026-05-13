@@ -121,11 +121,17 @@ themis::tensor::HyperIndexTensor buildFkAwareHyperIndex(std::size_t max_hops) {
     customer_id.range_min = 0.0;
     customer_id.range_max = 100.0;
 
-    ColumnSchema order_customer_fk = customer_id;
+    ColumnSchema order_customer_fk;
     order_customer_fk.name = "order_customer_fk";
+    order_customer_fk.type = ColumnType::NUMERIC;
+    order_customer_fk.range_min = 0.0;
+    order_customer_fk.range_max = 100.0;
 
-    ColumnSchema line_order_fk = customer_id;
+    ColumnSchema line_order_fk;
     line_order_fk.name = "line_order_fk";
+    line_order_fk.type = ColumnType::NUMERIC;
+    line_order_fk.range_min = 0.0;
+    line_order_fk.range_max = 100.0;
 
     std::vector<TableRow> rows;
     TableRow r0;

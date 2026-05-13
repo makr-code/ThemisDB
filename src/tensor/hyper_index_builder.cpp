@@ -416,9 +416,9 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
 
     for (const auto root : roots) {
         struct NodeState {
-            std::size_t node;
-            std::size_t depth;
-            double path_weight;
+            std::size_t node = 0;
+            std::size_t depth = 0;
+            double path_weight = 0.0;
         };
 
         std::queue<NodeState> q;
@@ -459,7 +459,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
             continue;
         }
         const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];
-        // Blend base discretisation with FK-propagated signal at 50/50 so
+        // Blend base discretization with FK-propagated signal at 50/50 so
         // FK links can influence, but not fully override, local evidence.
         const auto blended = (static_cast<double>(buckets[k]) + propagated_bucket) / 2.0;
         buckets[k] = clampBucketFromSignal(blended, bucket_count);

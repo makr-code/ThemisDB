@@ -145,7 +145,7 @@ struct HyperIndexConfig {
          * - `std::nullopt` triggers `missing_stats_fallback` handling.
          * - Self-loops (`from_column == to_column`) are ignored during resolution.
          */
-        std::optional<double> join_strength;
+        std::optional<double> join_strength = std::nullopt;
     };
 
     struct ForeignKeyGraphConfig {
