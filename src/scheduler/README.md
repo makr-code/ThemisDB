@@ -97,7 +97,7 @@ Primary scheduler API entry points from `include/scheduler/`:
 
 | Header | Purpose |
 |---|---|
-| `task_scheduler.h` | Core scheduler API, task model, retry and SLA controls, metrics |
+| `task_scheduler.h` | Core scheduler API, `ScheduledTask` model, registration/execution lifecycle, retry and SLA controls, metrics |
 | `hybrid_retention_manager.h` | Three-stage retention lifecycle management |
 | `distributed_task_coordinator.h` | Cluster leader election and distributed scheduling control |
 | `external_scheduler_adapter.h` | Kubernetes/Airflow adapter interfaces and manifest conversion |
@@ -111,7 +111,7 @@ For full API details and examples, see [Scheduler Headers](../../include/schedul
 
 ## Runtime Behaviour, Error Cases, and Limits
 
-- Scheduler loop polls on `Config::check_interval` and dispatches up to the current concurrency limit (`max_concurrent_tasks` or dynamic limit when scaling is enabled).
+- Scheduler loop polls on `TaskScheduler::Config::check_interval` and dispatches up to the current concurrency limit (`max_concurrent_tasks` or dynamic limit when scaling is enabled).
 - DAG execution runs dependency-safe tasks in parallel and skips dependents after upstream failures.
 - Retry behaviour uses legacy `max_retries` or `ScheduledTask::retry_policy` when configured.
 - Event-trigger execution is protected with circuit-breaker thresholds in `event_trigger.h`.

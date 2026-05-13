@@ -456,7 +456,7 @@ for (const auto& evt : history) {
 }
 ```
 
-Schedule data compression:
+### Schedule Data Compression
 ```cpp
 ScheduledTask compression_task;
 compression_task.name = "Compress Old Data";
@@ -673,12 +673,12 @@ The following headers are present in `include/scheduler/` and supplement the com
 ### distributed_task_coordinator.h
 **Location:** `distributed_task_coordinator.h`
 
-Coordinates task execution across a cluster: leader election for scheduler role, task ownership assignment, and cross-node heartbeat. Used internally by `TaskScheduler` for one-runner-per-cluster scheduling.
+Coordinates task execution across a cluster: leader election for scheduler role, task ownership assignment, and cross-node heartbeat. Used internally by `TaskScheduler` to enforce a single active scheduler leader per cluster.
 
 ### event_trigger.h
 **Location:** `event_trigger.h`
 
-Defines `EventTrigger` and `EventTriggerManager` for firing tasks from CDC events with callback metrics and circuit-breaker safeguards.
+Defines `EventTrigger` and `EventTriggerManager` for firing tasks from CDC events with callback success/failure counters and circuit-breaker safeguards.
 
 ### external_scheduler_adapter.h
 **Location:** `external_scheduler_adapter.h`
