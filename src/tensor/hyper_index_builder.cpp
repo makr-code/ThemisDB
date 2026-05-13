@@ -279,7 +279,7 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
  * @return Bucket index in [0, bucket_count-1].
  */
 [[nodiscard]] std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
-    if (!(value >= 0.0)) {
+    if (std::isnan(value) || value < 0.0) {
         return 0U;
     }
     const auto max_bucket = static_cast<double>(bucket_count - 1U);
@@ -350,7 +350,7 @@ struct FkResolvedEdge {
                 std::to_string(edge.to_column) + ", join_strength=" +
                 std::to_string(weight));
         }
-        if (!(weight > 0.0)) {
+        if (std::isnan(weight) || weight <= 0.0) {
             continue;
         }
         resolved.push_back({edge.from_column, edge.to_column, weight});
@@ -446,7 +446,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 // Additional hops apply configurable decay to attenuate distant joins.
                 const auto hop_decay = (cur.depth == 0U) ? kFullWeightMultiplier : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
-                if (!(next_weight > 0.0)) {
+                if (std::isnan(next_weight) || next_weight <= 0.0) {
                     continue;
                 }
 
@@ -458,7 +458,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     }
 
     for (std::size_t k = 0; k < buckets.size(); ++k) {
-        if (!(signal_weight[k] > 0.0)) {
+        if (std::isnan(signal_weight[k]) || signal_weight[k] <= 0.0) {
             continue;
         }
         const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];
