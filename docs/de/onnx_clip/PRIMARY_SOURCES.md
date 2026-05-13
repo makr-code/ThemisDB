@@ -1,7 +1,8 @@
-[docs](../../index.md) > [de](../index.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../README.md) > [de](../INDEX.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-13
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
+- `include/onnx_clip/README.md`
 - `src/onnx_clip/ARCHITECTURE.md`
 - `src/onnx_clip/AUDIT.md`
 - `src/onnx_clip/CHANGELOG.md`
@@ -21,6 +22,12 @@
 Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`onnx_clip`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
+
+### `include/onnx_clip/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/onnx_clip/README.md`](../../../include/onnx_clip/README.md) |
 
 ### `src/onnx_clip/`
 

@@ -1,7 +1,8 @@
-[docs](../../index.md) > [en](../index.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
+[docs](../../README.md) > [en](../INDEX.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-13
+**Status:** draft
 **Primary Source:**
+- `include/onnx_clip/README.md`
 - `src/onnx_clip/ARCHITECTURE.md`
 - `src/onnx_clip/AUDIT.md`
 - `src/onnx_clip/CHANGELOG.md`
@@ -21,6 +22,12 @@
 This index lists all Markdown documentation files for module **`onnx_clip`** from the detected source directories for that module.
 
 ## Primary Markdown Files
+
+### `include/onnx_clip/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`include/onnx_clip/README.md`](../../../include/onnx_clip/README.md) |
 
 ### `src/onnx_clip/`
 
