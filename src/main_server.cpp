@@ -1045,7 +1045,7 @@ int main(int argc, char* argv[]) {
 
         // Keep build-info module status aligned with runtime HSM state.
         themis::build_info::setHsmModuleStatusFn([provider = std::weak_ptr<themis::security::HSMProvider>(g_hsm_provider),
-                                                  policy = hsm_policy]() {
+                                                  policy = hsm_policy]() { // Intentional copy: callback outlives local stack scope.
             const auto provider_locked = provider.lock();
             if (!provider_locked) {
                 return std::make_pair(false,
@@ -1079,7 +1079,7 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  Security Classification: {}", hsm_runtime_security.security_classification);
         
         // Perform startup security validation
-        if (hsm_runtime_security.runtime_stub_active) {
+        if (runtime_stub_active) {
             THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
             startHSMWarningThread();
         } else {
