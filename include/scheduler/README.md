@@ -454,7 +454,7 @@ auto history = scheduler.getExecutionHistory("my_task_id", 50);
 for (const auto& evt : history) {
     std::cout << evt.task_id << " " << evt.success << "\n";
 }
- 
+
 // Schedule data compression
 ScheduledTask compression_task;
 compression_task.name = "Compress Old Data";
