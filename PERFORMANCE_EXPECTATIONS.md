@@ -1,4 +1,43 @@
+# ThemisDB Performance Expectations (Root Canonical)
 
+## Consolidation Scope (Root Performance Docs)
+
+- **Document role:** Verbindliche KPI-Definitionen, Messmethodik und Zielwerte (Release Gates).
+- **Not covered here:** Root-cause Engpassdetails und konkrete Implementierungsarbeitspakete.
+- **Ist-Analyse:** [`PERFORMANCE_BOTTLENECKS.md`](PERFORMANCE_BOTTLENECKS.md)
+- **Optimierungsplan:** [`PERFORMANCE_OPTIMIZATION_PLAN.md`](PERFORMANCE_OPTIMIZATION_PLAN.md)
+- **Benchmark-Resultate:** [`BENCHMARK_IMPLEMENTATION_REPORT.md`](BENCHMARK_IMPLEMENTATION_REPORT.md)
+
+## KPI and Measurement Methodology (Canonical)
+
+### KPI Definitions (uniform for all root performance docs)
+
+| KPI | Definition | Gate Interpretation |
+|---|---|---|
+| Throughput (ops/s) | Erfolgreiche Operationen pro Sekunde in steady-state Last | Muss den jeweiligen Modul-/Systemzielwert erreichen oder übertreffen |
+| Latency P95 (ms) | 95. Perzentil der End-to-End-Latenz pro Operation | Muss <= dokumentiertem P95-Ziel bleiben |
+| Latency P99 (ms) | 99. Perzentil der End-to-End-Latenz pro Operation | Muss <= dokumentiertem P99-Ziel bleiben |
+| Regression (%) | Relative Abweichung gegen Baseline-Run unter gleicher Methodik | Standard-Gate: <= 10 % Regression, sofern kein strengeres Modulziel existiert |
+
+### Measurement Methodology (uniform baseline)
+
+- Benchmark-Läufe verwenden die projektweiten Benchmarks unter `benchmarks/` und die zugeordneten Testpfade unter `tests/`.
+- Jeder Messlauf dokumentiert Warmup, unabhängige Runs, Percentile (P50/P95/P99), Plattform/Binary und Konfigurationsparameter.
+- Messwerte sind nur vergleichbar bei identischer oder explizit dokumentierter Abweichung von Hardware/Edition/Build-Typ.
+- Primäre Referenzen:
+  - [`docs/benchmarks/README.md`](docs/benchmarks/README.md)
+  - [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md)
+  - [`benchmarks/benchmark_target_mapping.json`](benchmarks/benchmark_target_mapping.json)
+- Relevante Testpfade (Beispiele):
+  - [`tests/performance/test_wire_perf_benchmark.cpp`](tests/performance/test_wire_perf_benchmark.cpp)
+  - [`tests/llm/test_inference_performance.cpp`](tests/llm/test_inference_performance.cpp)
+  - [`tests/test_ethics_ai_benchmark.cpp`](tests/test_ethics_ai_benchmark.cpp)
+  - [`tests/test_performance_allocator.cpp`](tests/test_performance_allocator.cpp)
+
+### Historical Data Policy
+
+- Messwerte aus älteren Releases ohne aktuellen Re-Run sind als **historisch** zu lesen.
+- Der jeweils neueste konsolidierte Nachweis liegt in [`BENCHMARK_IMPLEMENTATION_REPORT.md`](BENCHMARK_IMPLEMENTATION_REPORT.md); ältere Tabellen in diesem Dokument bleiben zur Nachvollziehbarkeit bestehen.
 
 ---
 **Title:** ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.9.0)
@@ -37,6 +76,15 @@ v1.9.0 documentation update: all `src/*` module expectation files are now presen
 Release gate interpretation:
 - Global numeric gates are minimum thresholds and apply only where no stricter module-local targets are documented.
 - `proxy` and `not_measurable` items remain release-relevant and must be validated through the documented proxy path.
+
+### Root-Dokument-Abgleich (Architektur / Security / Audit / CTest)
+
+Für Root-Konsistenz gelten diese verbindlichen Rahmenbedingungen:
+
+1. Performance-SLOs werden unter denselben Sicherheitsannahmen bewertet, die in `ARCHITECTURE.md` und `SECURITY.md` beschrieben sind (Hardening, Zugriffskontrolle, Auditierbarkeit).
+2. Optimierungsmaßnahmen aus `PERFORMANCE_OPTIMIZATION_PLAN.md` dürfen Security-Kontrollen nicht umgehen.
+3. Bottleneck-Befunde aus `PERFORMANCE_BOTTLENECKS.md` werden zusammen mit Audit-/Security-Nachweisen bewertet.
+4. Reproduzierbare Verifikationspfade laufen über `CTEST.md` und das Audit-Runbook (`docs/audit-framework/AUDIT_RUNBOOK.md`).
 
 | Symbol | Bedeutung |
 |--------|-----------|
@@ -1207,7 +1255,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 > **Wave2 (2026-04-15):** SLO-zu-Benchmark-Matrix vollständig aufgebaut.
 > Jede Ziel-ID hat `primary_case` + `fallback_case` in `benchmarks/benchmark_target_mapping.json` (v2.0).
 > v1.9.0-Profile-JSONs: `benchmarks/baselines/distributed/`.
-> Vollständige Matrix + Gap-Analyse: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](../docs/benchmarks/slo_benchmark_matrix_v190.md)
+> Vollständige Matrix + Gap-Analyse: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md)
 
 #### 11. Replication-Modul
 
@@ -2024,7 +2072,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 > **Wave2 (2026-04-15):** SLO-zu-Benchmark-Matrix vollständig aufgebaut.
 > Alle 28 Ziel-IDs (R-1..R-8 + SH-1..SH-12 + TX-1..TX-8) haben `primary_case` + `fallback_case`.
 > v1.9.0-Profile-JSONs: `benchmarks/baselines/distributed/`.
-> Matrix-Dokument: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](../docs/benchmarks/slo_benchmark_matrix_v190.md)
+> Matrix-Dokument: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md)
 > Gesamt-Aufwand offene Gap-Tickets: 72 Tage (Replication 13d + Sharding 46d + Transaction 13d).
 
 ### 6.14 AI/ML Module (LLM, RAG, Search) Results

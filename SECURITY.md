@@ -103,6 +103,20 @@ Canonical contact/escalation channels:
 
 ---
 
+## 🔁 Root-Dokument-Abgleich (Architektur / Audit / Tests / Performance)
+
+Zur Auflösung von Widersprüchen zwischen Root-Leitdokumenten gilt folgende
+gemeinsame Baseline:
+
+| Bereich | Verbindliche Aussage | Primäre Nachweise |
+|---|---|---|
+| Architekturkonsistenz | Sicherheitsmodell (Hardening, Transportschutz, AuthN/AuthZ, Audit-Trail) ist mit der Root-Architektur synchronisiert | [ARCHITECTURE.md](ARCHITECTURE.md), [audit/AUDIT.md](audit/AUDIT.md) |
+| Technische Kontrollen | Auditierbare Kontrollen umfassen mindestens RBAC, verschlüsselte Audit-Logs, SAST/Secret/Container-Scans | [audit/AUDIT.md](audit/AUDIT.md), [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
+| Verifikationspfade | Security-relevante Test-/Nachweiswege werden in CTest nachvollziehbar geführt | [CTEST.md](CTEST.md) |
+| Performance-Randbedingungen | Performance-Ziele und Optimierungen dürfen Sicherheitskontrollen nicht abschalten oder umgehen | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
+
+---
+
 ## 🛡️ Security Measures
 
 ThemisDB implements **defense-in-depth** security across all layers:

@@ -1,3 +1,6 @@
+<!-- Unterstützende Datei: primäres Cover-Template für step2_generate_html.py. -->
+<!-- Kein kanonischer Navigationseinstieg; siehe preface.md und index.md. -->
+
 <div class="cover-page">
   <div class="cover-band"></div>
   <div class="cover-content">

@@ -36,6 +36,19 @@ Rules:
 - `PATCH`: backward-compatible fix
 - `alpha`, `beta`, `rc`: pre-release stages
 
+## 2.1 Milestone Model Alignment (ROADMAP / FUTURE / CHANGELOG)
+
+- Release scope is planned in `ROADMAP.md` milestone sections.
+- Open enhancement backlog is tracked in `FUTURE_ENHANCEMENTS.md`.
+- `CHANGELOG.md` entries must map to the milestone scope and reference the related enhancement/backlog item when applicable.
+
+| `RELEASE_TYPE` value | Tag suffix example | Milestone naming pattern | Changelog entry pattern |
+|---|---|---|---|
+| `alpha` | `v1.9.0-alpha` | `v1.9.0-alpha` | `## [Unreleased]` until cut, then `## [1.9.0-alpha] - YYYY-MM-DD` |
+| `beta` | `v1.9.0-beta.1` | `v1.9.0-beta.1` | `## [Unreleased]` until cut, then `## [1.9.0-beta.1] - YYYY-MM-DD` |
+| `rc` | `v1.9.0-rc.1` | `v1.9.0-rc.1` | `## [Unreleased]` until cut, then `## [1.9.0-rc.1] - YYYY-MM-DD` |
+| `stable` | `v1.9.0` | `v1.9.0` | `## [Unreleased]` until cut, then `## [1.9.0] - YYYY-MM-DD` |
+
 ## 3. Tags
 
 Community tags:

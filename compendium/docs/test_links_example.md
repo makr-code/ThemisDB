@@ -1,5 +1,8 @@
 # Test: Link-Beispiele im Fließtext (konsolidiert)
 
+Hinweis: Diese Datei ist eine **unterstützende Linktest-Datei** und kein kanonischer Einstiegspunkt.
+Kanonische Einstiegspunkte: [Vorwort](preface.md), [Inhaltsverzeichnis](index.md).
+
 Dieses Dokument demonstriert interne Links auf den aktuellen Compendium-Stand.
 
 ## 1. Links zu anderen Kapiteln
