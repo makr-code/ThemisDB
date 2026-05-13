@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Temporal Module
 
@@ -27,6 +27,21 @@ Implements temporal and bitemporal data management for ThemisDB, enabling transa
 - `interval_tree_index.cpp` — augmented interval tree, O(log n + k) overlap detection for valid-time period predicates
 - `temporal_compressor.cpp` — DELTA/ZSTD/Gorilla/dictionary compression for historical version payloads
 - `temporal_cdc.cpp` — versioned change data capture; typed ChangeEvent (INSERT/UPDATE/DELETE/VERSION_CREATED), pub/sub subscriptions, ring-buffer replay
+
+## Public API Entry Points (`include/temporal`)
+
+| Header | Primary responsibility |
+|---|---|
+| `temporal/system_versioned_table.h` | System-time history tracking for mutable rows |
+| `temporal/bi_temporal.h` | Bi-temporal rows with valid-time + system-time APIs |
+| `temporal/temporal_query_engine.h` | `AS OF`, `FROM...TO`, `BETWEEN...AND`, semantics-aware temporal queries |
+| `temporal/retention_manager.h` | Time/count/storage based retention policy execution |
+| `temporal/temporal_cdc.h` | Temporal change event streaming and replay |
+| `temporal/temporal_compressor.h` | Compression/decompression for historical payloads |
+| `temporal/snapshot_manager.h` | Consistent point-in-time snapshots across multiple tables |
+| `temporal/temporal_migrator.h` | Migration tooling from non-temporal to temporal tables |
+
+See [`../../include/temporal/README.md`](../../include/temporal/README.md) for usage snippets per header.
 
 ## Current Delivery Status
 
@@ -206,6 +221,14 @@ SELECT * FROM employees
 FOR SYSTEM_TIME FROM '2024-01-01' TO '2024-12-31';
 ```
 
+## Runtime Behavior, Error Cases, and Limits
+
+- **Versioning model:** updates and deletes create/close versions instead of mutating history in place.
+- **Concurrency:** conflict resolution uses HLC ordering policies; manual/conflict queues must be drained by operators when MANUAL policy is configured.
+- **Retention behavior:** `RetentionManager` enforcement can run in background intervals; deletion/archive behavior depends on configured policy type.
+- **Parser boundary:** SQL/AQL temporal syntax (`PERIOD FOR`, `FOR SYSTEM_TIME`, `FOR APPLICATION_TIME`) is still deferred; use C++ APIs for production usage today.
+- **Operational limits:** history growth is workload-dependent and requires explicit retention + compression tuning to keep storage bounded.
+
 ## Integration Points
 
 - **Storage Layer**: Extended key schema for version tracking
@@ -234,6 +257,7 @@ For detailed implementation documentation, see:
 - [Architecture Guide](ARCHITECTURE.md) - Temporal module architecture and data flow
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
 - [ROADMAP](ROADMAP.md) - Implementation roadmap and status
+- [German Overview](../../docs/de/temporal/README.md) - Modulzusammenfassung und Navigationshilfe
 
 ## Version History
 
@@ -271,3 +295,9 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/temporal/README.md`](../../include/temporal/README.md) for the public API.
+
+## Troubleshooting
+
+- **No rows returned for past timestamps:** verify whether requested timestamp is within system-valid range (`sys_start`/`sys_end`) and whether retention already purged older versions.
+- **Unexpected conflict winner:** validate HLC progression and configured `ConflictPolicy`.
+- **High storage usage:** enable/use `TemporalCompressor` and enforce explicit retention rules (`RetentionManager`).
