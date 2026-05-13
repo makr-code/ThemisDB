@@ -237,10 +237,12 @@ static uint64_t fnv1a(std::string_view s) noexcept {
 
 /// Scatter a hashed feature with `weight` into the embedding vector using
 /// multi-lane projection to reduce hash collisions.
+/// @pre `vec` must be non-empty (embed_dim > 0).
 static void scatterFeature(std::vector<float>& vec,
                             std::string_view    feature,
-                            float               weight) noexcept {
+                            float               weight) {
     const std::size_t embed_dim = vec.size();
+    if (embed_dim == 0) return; // guard: no-op for zero-dim vectors
     const uint64_t h = fnv1a(feature);
     for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
         const auto shift = (lane % 4) * 16U;
@@ -262,6 +264,10 @@ static std::string normalizeToken(std::string token) {
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return token;
 }
+
+/// Delimiter byte used to separate the two tokens in a bigram key.
+/// Chosen as a control character (0x01) that cannot appear in normalised tokens.
+constexpr char kBigramDelimiter = '\x01';
 
 /**
  * @brief Built-in lexical embedding for a text segment.
@@ -310,7 +316,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
 
     // Bigram features (consecutive word pairs)
     for (std::size_t i = 0; i + 1 < tokens.size(); ++i) {
-        const std::string bigram = tokens[i] + '\x01' + tokens[i + 1];
+        const std::string bigram = tokens[i] + kBigramDelimiter + tokens[i + 1];
         scatterFeature(vec, bigram, 0.5f);
     }
 

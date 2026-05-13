@@ -806,7 +806,7 @@ TEST(UTRConverter, ImageEncoderBridgeIsCalledFromImage) {
     std::vector<float> pixels(4 * 4 * 3, 128.0f);
     const auto train = UTRConverter::fromImage(pixels, 4, 4, 3);
 
-    EXPECT_EQ(UTRConverter::getImageEncoder().get() != nullptr, true);
+    EXPECT_NE(UTRConverter::getImageEncoder(), nullptr);
 
     UTRConverter::clearImageEncoder();
 

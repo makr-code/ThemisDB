@@ -36,6 +36,7 @@ structural rounding.
 | [`tensor_butterfly_operator.h`](#tensor_butterfly_operatorh) | `TensorButterflyOperator`, `ButterflyConfig` | 3 | 🟡 FOURIER only |
 | [`hiss_structural_search.h`](#hiss_structural_searchh) | `HissStructuralSearchEngine`, `HissReshaper`, `TemplateCatalog` | 6 | 🟡 Experimental |
 | [`tnsr_task.h`](#tnsr_taskh) | `TNSRTask`, `TNSRConfig`, `TNSRReport` | 6 | 🟡 Experimental |
+| [`encoder_interface.h`](#encoder_interfaceh) | `ITextEncoder`, `IImageEncoder`, `EncoderQuality` | 7 | 🟡 Experimental |
 | [`utr_converter.h`](#utr_converterh) | `UTRConverter`, `RasterGrid`, `UTRConfig` | 7 | 🟡 Experimental |
 | [`hyper_index_builder.h`](#hyper_index_builderh) | `HyperIndexBuilder`, `HyperIndexTensor`, `ColumnSchema` | 7 | 🟡 Experimental |
 | [`ht_train.h`](#ht_trainh) | `HTTrain`, `HTNode`, `HTContractionEngine` | 5 | 🟡 Experimental |
@@ -641,6 +642,62 @@ is deferred to Q3 2028.
 
 ---
 
+### encoder_interface.h
+
+**Purpose:** Abstract encoder interfaces enabling pluggable text and image encoding
+backends for `UTRConverter::fromDocument()` and `UTRConverter::fromImage()`.
+Implementing these interfaces replaces the built-in lexical / patch-statistics
+fallbacks without changing any caller code.
+
+**Key Types:**
+
+| Type | Description |
+|------|-------------|
+| `EncoderQuality` | Quality tier: `SEMANTIC` (learned), `LEXICAL` (statistical), `HASH` (hash-projection fallback) |
+| `ITextEncoder` | Abstract interface for text segment encoders; `encode(segment, embed_dim)` + `isAvailable()` + `quality()` + `description()` |
+| `IImageEncoder` | Abstract interface for image-to-TTTrain encoders; same lifecycle methods |
+
+**Key API:**
+```cpp
+#include "tensor/encoder_interface.h"
+#include "tensor/utr_converter.h"
+
+// Implement ITextEncoder for a custom semantic backend
+class MySentenceEncoder final : public themis::tensor::ITextEncoder {
+public:
+    std::vector<float> encode(const std::string& seg, std::size_t dim) const override {
+        // ... call quantised BERT, sentence-transformers, etc.
+    }
+    bool isAvailable() const noexcept override { return model_loaded_; }
+    themis::tensor::EncoderQuality quality() const noexcept override {
+        return themis::tensor::EncoderQuality::SEMANTIC;
+    }
+    std::string_view description() const noexcept override { return "BERT-base Q4_0"; }
+private:
+    bool model_loaded_ = true;
+};
+
+// Register the encoder — takes priority over EmbedFn bridge and built-in fallback
+themis::tensor::UTRConverter::setTextEncoder(std::make_shared<MySentenceEncoder>());
+
+// Remove the encoder; reverts to EmbedFn bridge or built-in lexical encoder
+themis::tensor::UTRConverter::clearTextEncoder();
+```
+
+**Encoder Priority Chain (for both `fromDocument` and `fromImage`):**
+1. Registered `ITextEncoder` / `IImageEncoder` (if `isAvailable()` returns true)
+2. Injected `EmbedFn` / `ImageEmbedFn` bridge function (STUB #257 / #258)
+3. Built-in lexical / patch-statistics encoder (degraded mode)
+
+**Error Handling:**
+- If a registered encoder is unavailable (`isAvailable() == false`), the system
+  silently falls back to the next tier without throwing.
+- If an encoder returns a vector of the wrong size (dimension mismatch), a
+  `std::runtime_error` is thrown immediately (**fail-closed**).
+- If an `IImageEncoder` returns an empty `TTTrain`, a `std::runtime_error` is thrown.
+
+---
+
 ### utr_converter.h
 
 **Purpose:** Unified Tensor Representation (UTR) pipeline — converts geospatial, tabular,
@@ -680,14 +737,20 @@ TTTrain img_tt = UTRConverter::fromImage(pixels, h, w, c, cfg);
 HTTrain doc_ht = UTRConverter::fromDocument(text,
     DocumentStructureHint::PARAGRAPHS, cfg);
 
-// Inject custom text-segment encoder (STUB #257)
+// Register a learned encoder (preferred API — see encoder_interface.h)
+UTRConverter::setTextEncoder(std::make_shared<MySentenceEncoder>());
+UTRConverter::clearTextEncoder();
+
+UTRConverter::setImageEncoder(std::make_shared<MyPatchEncoder>());
+UTRConverter::clearImageEncoder();
+
+// Inject raw bridge functions (legacy API — STUB #257 / #258)
 UTRConverter::setEmbedFn(
     [](const std::string& seg, size_t dim) -> std::vector<float> {
         return /* real sentence encoder output */;
     });
 UTRConverter::clearEmbedFn();
 
-// Inject custom image encoder (STUB #258)
 UTRConverter::setImageEmbedFn(
     [](const auto& pixels, size_t h, size_t w, size_t c,
        const UTRConfig& cfg) -> TTTrain { return /* custom */; });
@@ -959,8 +1022,8 @@ by an internal mutex.
 | #178 | `ht_train.h` | `toTTTrain()` full reconstruction path | Phase 5 Q2 2028 |
 | #252 | `tnsr_task.h` | Topology mutations not persisted without `RerouteSerializeFn` | Phase 6 Q3 2028 |
 | #254 | `hiss_structural_search.h` | `exposeQuantics()` residual-factor fallback | Phase 6 Q2 2028 |
-| #257 | `utr_converter.h` | `fromDocument()` uses FNV-1a hash embedding fallback | Phase 7 Q4 2028 |
-| #258 | `utr_converter.h` | `fromImage()` uses raw-pixel TT; no semantic encoder | Phase 7 Q4 2028 |
+| #257 | `utr_converter.h` | `fromDocument()` built-in lexical encoder (FNV-hash + bigrams + L2 norm); superseded by registered `ITextEncoder` | Phase 7 — pluggable via `setTextEncoder()` |
+| #258 | `utr_converter.h` | `fromImage()` built-in patch-statistics encoder; superseded by registered `IImageEncoder` | Phase 7 — pluggable via `setImageEncoder()` |
 | #265 | `adapter_repository.h` | `setMmapLoadFn` bridge not wired | Phase 3 Q1 2027 |
 | #266 | `adapter_repository.h` | `setExactSimilarityFn` bridge not wired | Phase 4 Q3 2027 |
 | #267 | `tensor_butterfly_operator.h` | `setFourierTransformFn` bridge | Phase 3 Q2 2027 |
