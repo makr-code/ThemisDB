@@ -1,4 +1,4 @@
-> **Build:** Linux: `cmake --preset linux-release && cmake --build --preset linux-release` · Windows: `cmake --preset windows-release && cmake --build --preset windows-release`
+> **Build:** Linux: `cmake --preset linux-release && cmake --build --preset linux-release --parallel 4` · Windows: `cmake --preset windows-release && cmake --build --preset windows-release --parallel 4`
 
 # ThemisDB Core Framework Implementation
 
@@ -134,7 +134,7 @@ Implements the binary TCP protocol for high-performance client connections.
 - **Module loading errors** (`module_loader*.cpp`): hash mismatch, signature failures, missing exports, or platform loader failures result in explicit load failures (no partial activation).
 - **License and feature gate errors** (`license_info.cpp`, `edition_manager.cpp`, `runtime_license_gate` integration): invalid/expired licenses deny restricted features while allowing permitted baseline functionality.
 - **Wire protocol limits** (`wire_protocol_server.cpp`): malformed frames, unsupported opcodes, checksum mismatches, or payloads above limits are rejected.
-- **Concurrency limit**: current wire protocol server implementation expects a single-threaded `io_context` unless guarded by external synchronization (tracked in `ROADMAP.md` Known Issues).
+- **Concurrency limit**: current wire protocol server implementation expects a single-threaded `io_context` unless guarded by external synchronization (tracked in [ROADMAP Known Issues](ROADMAP.md)).
 
 ## Usage Snippets
 

@@ -581,7 +581,7 @@ High-performance clients use the wire protocol:
 - **License checks (`themis/license_info.h`, `themis/runtime_license_gate.h`)** deny gated features when no valid license is embedded or when license constraints are violated.
 - **Edition gates (`themis/edition.h`, `themis/edition_manager.h`)** are compile-time + runtime constraints: unavailable features remain disabled in Community builds even when referenced by callers.
 - **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a documented maximum payload size of **64 MB** per message.
-- **Operational limit:** `WireProtocolServer` is intended for a single-threaded `io_context` event loop unless external synchronization is provided (see `src/themis/ROADMAP.md`, Known Issues).
+- **Operational limit:** `WireProtocolServer` is intended for a single-threaded `io_context` event loop unless external synchronization is provided (see [Roadmap Known Issues](../../src/themis/ROADMAP.md)).
 
 ## Public Entry Points (Quick Reference)
 
