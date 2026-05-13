@@ -109,11 +109,11 @@ Primary scheduler API entry points from `include/scheduler/`:
 
 For full API details and examples, see [Scheduler Headers](../../include/scheduler/README.md).
 
-## Runtime Behaviour, Error Cases, and Limits
+## Runtime Behavior, Error Cases, and Limits
 
 - Scheduler loop polls on `TaskScheduler::Config::check_interval` and dispatches up to the current concurrency limit (`max_concurrent_tasks` or dynamic limit when scaling is enabled).
 - DAG execution runs dependency-safe tasks in parallel and skips dependents after upstream failures.
-- Retry behaviour uses legacy `max_retries` or `ScheduledTask::retry_policy` when configured.
+- Retry behavior uses legacy `max_retries` or `ScheduledTask::retry_policy` when configured.
 - Event-trigger execution is protected with circuit-breaker thresholds in `event_trigger.h`.
 - Registration/validation failures include invalid cron expressions, unsafe AQL patterns, and missing function handlers.
 - `executeDAG(...)` throws on unknown task IDs and cyclic dependency graphs.

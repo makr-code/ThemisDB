@@ -542,7 +542,7 @@ Important `TaskScheduler::Config` controls:
 
 Operational boundaries:
 
-- Legacy retries are bounded by `ScheduledTask::max_retries`; advanced behaviour uses `ScheduledTask::retry_policy`.
+- Legacy retries are bounded by `ScheduledTask::max_retries`; advanced behavior uses `ScheduledTask::retry_policy`.
 - SLA monitoring is opt-in via `ScheduledTask::sla_deadline`.
 - `executeDAG(...)` validates task IDs and cycle-freedom before execution.
 
