@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Server Module Headers
 
@@ -796,6 +796,14 @@ private:
 
 ---
 
+## Troubleshooting
+
+- **Header wird nicht gefunden (`server/...`)**: Sicherstellen, dass das Projekt `${CMAKE_SOURCE_DIR}/include` im Include-Path führt.
+- **Typkonflikte zwischen Handlern und Middleware**: Für Handler-Signaturen ausschließlich die in `http_handler.h`/`auth_middleware.h` definierten Request-/Auth-Typen verwenden.
+- **Rate-Limit-Konfiguration greift nicht clusterweit**: In `rate_limiter_v2.h` `Backend::REDIS` plus gültige Redis-Verbindungsdaten setzen.
+
+---
+
 ## Integration Points
 
 ### With Core Module
@@ -912,7 +920,10 @@ For implementation details, see:
 ## Related Documentation
 
 - [Server Module Implementation](../../src/server/README.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Server Architektur](../../src/server/ARCHITECTURE.md)
+- [Server Roadmap](../../src/server/ROADMAP.md)
+- [Server Future Enhancements](../../src/server/FUTURE_ENHANCEMENTS.md)
+- [Server Modulübersicht (de)](../../docs/de/server/README.md)
 - [Architecture Overview](../../ARCHITECTURE.md)
 - [API Documentation](../../docs/api/)
 - [Core Module Headers](../core/README.md)
@@ -937,7 +948,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [ROADMAP.md](../../src/server/ROADMAP.md) - Geplanter Ausbau des Server-Moduls
+- [FUTURE_ENHANCEMENTS.md](../../src/server/FUTURE_ENHANCEMENTS.md) - Planned interface improvements
 - [Implementation README](../../src/server/README.md) - Server implementation guide
 - [Core Headers](../core/README.md) - Core module interfaces
 - [Storage Headers](../storage/README.md) - Storage module interfaces

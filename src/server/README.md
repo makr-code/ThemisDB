@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Server Module
 
@@ -1262,6 +1262,15 @@ sse_manager.closeConnection(connection_id);
 
 ---
 
+## Troubleshooting
+
+- **Server startet nicht wegen TLS-Fehlern**: `tls_cert_path` und `tls_key_path` in `HTTPServer::Config` auf existierende Zertifikatsdateien setzen.
+- **`429 Too Many Requests` bei Burst-Traffic**: Bucket-Parameter (`capacity`, `refill_rate`) im Rate Limiter erhöhen oder verteiltes Redis-Backend nutzen.
+- **Instabile Echtzeit-Streams unter Last**: `num_threads` erhöhen und für One-Way-Updates SSE statt bidirektionalem WebSocket bevorzugen.
+- **gRPC-Endpunkte liefern `UNIMPLEMENTED`**: Status in `FUTURE_ENHANCEMENTS.md` und `../../docs/de/server/MISSING_IMPLEMENTATIONS.md` prüfen.
+
+---
+
 ## Dependencies
 
 ### Internal Dependencies
@@ -1407,17 +1416,16 @@ option(THEMIS_ENABLE_POSTGRES_PROTOCOL "Enable PostgreSQL wire protocol" ON)
 
 ## Related Documentation
 
-- [API Gateway Architecture](../../docs/server/api_gateway_architecture.md)
-- [Authentication Guide](../../docs/server/authentication.md)
-- [Rate Limiting Strategies](../../docs/server/rate_limiting.md)
-- [Multi-Tenancy Setup](../../docs/server/multi_tenancy.md)
-- [WebSocket Integration](../../docs/server/websocket.md)
-- [PostgreSQL Protocol](../../docs/server/postgres_protocol.md)
-- [gRPC Services](../../docs/server/grpc_services.md)
-- [HTTP Server Refactoring Plan](../../HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+- [Server Architektur](ARCHITECTURE.md)
+- [Server Roadmap](ROADMAP.md)
+- [Server Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Server Modulübersicht (de)](../../docs/de/server/README.md)
+- [Server Missing Implementations (de)](../../docs/de/server/MISSING_IMPLEMENTATIONS.md)
+- [TLS Setup Guide](../../docs/de/guides/guides_tls_setup.md)
+- [OpenAPI Referenz](../../docs/de/apis/apis_openapi.md)
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Storage Module](../storage/README.md) - Data persistence
-- [Query Module](../../docs/query/README.md) - Query execution
+- [Query Module](../query/README.md) - Query execution
 
 ---
 
