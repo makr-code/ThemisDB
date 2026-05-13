@@ -23,6 +23,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 using namespace themis::sharding;
 
@@ -82,7 +83,13 @@ AQcttznszBO+ug2ilJnGRic=
 
 std::filesystem::path writePem(const std::filesystem::path& path, const std::string& content) {
     std::ofstream out(path);
+    if (!out.is_open()) {
+        throw std::runtime_error("failed to open PEM output file: " + path.string());
+    }
     out << content;
+    if (!out.good()) {
+        throw std::runtime_error("failed to write PEM content: " + path.string());
+    }
     out.close();
     return path;
 }

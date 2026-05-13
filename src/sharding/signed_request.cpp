@@ -53,7 +53,8 @@ namespace {
     constexpr const char* kAuditUnknownKeyId = "SRV_UNKNOWN_KEY_ID";
     constexpr const char* kAuditTimestampExpired = "SRV_TIMESTAMP_EXPIRED";
     constexpr const char* kAuditNonceReplay = "SRV_NONCE_REPLAY";
-    constexpr const char* kAuditNonceCacheFull = "SRV_NONCE_CACHE_FULL";
+    constexpr const char* kAuditNonceEviction = "SRV_NONCE_EVICTION";
+    constexpr const char* kAuditInvalidCertSerial = "SRV_INVALID_CERT_SERIAL";
 
     bool rejectWithAuditCode(const char* code, const std::string& details) {
         spdlog::warn("SignedRequestVerifier reject [{}]: {}", code, details);
@@ -368,16 +369,7 @@ bool SignedRequestVerifier::verify(const SignedRequest& request,
 
 void SignedRequestVerifier::cleanupExpiredNonces() {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
-
-    const uint64_t now = getCurrentTimestampMs();
-    for (auto it = seen_nonces_.begin(); it != seen_nonces_.end();) {
-        const uint64_t ts = it->second;
-        if (now > ts && (now - ts) > config_.nonce_expiry_ms) {
-            it = seen_nonces_.erase(it);
-        } else {
-            ++it;
-        }
-    }
+    purgeExpiredNoncesLocked(getCurrentTimestampMs());
 }
 
 bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
@@ -391,6 +383,10 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
 bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
 
+    if (config_.max_nonce_cache == 0) {
+        return false;
+    }
+
     const uint64_t now = getCurrentTimestampMs();
 
     // Fail-closed: reject stale requests outside replay window.
@@ -399,14 +395,7 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
     }
 
     // Expire old nonces first.
-    for (auto it = seen_nonces_.begin(); it != seen_nonces_.end();) {
-        const uint64_t ts = it->second;
-        if (now > ts && (now - ts) > config_.nonce_expiry_ms) {
-            it = seen_nonces_.erase(it);
-        } else {
-            ++it;
-        }
-    }
+    purgeExpiredNoncesLocked(now);
 
     // Check if nonce was seen before within replay window.
     if (seen_nonces_.find(nonce) != seen_nonces_.end()) {
@@ -414,13 +403,21 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
         return false;
     }
 
-    if (seen_nonces_.size() >= config_.max_nonce_cache) {
-        rejectWithAuditCode(kAuditNonceCacheFull, "max_nonce_cache reached");
-        return false;
+    while (seen_nonces_.size() >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
+        const NonceEntry oldest = nonce_fifo_.front();
+        nonce_fifo_.pop_front();
+        const auto it = seen_nonces_.find(oldest.nonce);
+        if (it != seen_nonces_.end() && it->second == oldest.timestamp_ms) {
+            seen_nonces_.erase(it);
+            rejectWithAuditCode(
+                kAuditNonceEviction,
+                "evicted nonce due to cache pressure: " + std::to_string(oldest.nonce));
+        }
     }
 
     // Add nonce to replay cache.
     seen_nonces_[nonce] = timestamp_ms;
+    nonce_fifo_.push_back(NonceEntry{nonce, timestamp_ms});
     
     return true;
 }
@@ -471,7 +468,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // (e.g. /trusted/certs vs /trusted/certs_evil).
     // Note on TOCTOU: there is an inherent window between weakly_canonical() and
     // the subsequent ifstream open below.  This is mitigated by (a) the regex
-    // filter which rejects any non-hex character before path construction, and
+    // filter which rejects any non-safe key-id character before path construction, and
     // (b) running ThemisDB under a process user that has no write access to
     // trusted_certs_dir.
     // DEPLOYMENT REQUIREMENT: the process user MUST NOT have write access to
@@ -538,7 +535,12 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 4: Check Certificate Revocation List if configured.
     if (!config_.crl_path.empty() &&
-        std::regex_match(request.cert_serial, certSerialPattern()) &&
+        !std::regex_match(request.cert_serial, certSerialPattern())) {
+        return rejectWithAuditCode(
+            kAuditInvalidCertSerial,
+            "CRL check requires valid cert_serial, got '" + request.cert_serial + "'");
+    }
+    if (!config_.crl_path.empty() &&
         PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
         return false;
     }
@@ -561,18 +563,32 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
                                 signature_bytes->size(),
                                 reinterpret_cast<const unsigned char*>(canonical.data()),
                                 canonical.size()) == 1;
+    } else if (key_type == EVP_PKEY_RSA || key_type == EVP_PKEY_EC) {
+        if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
+            return false;
+        }
+        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
+            return false;
+        }
+        return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
     }
 
-    if (key_type != EVP_PKEY_RSA && key_type != EVP_PKEY_EC) {
-        return false;
+    return false;
+}
+
+void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
+    while (!nonce_fifo_.empty()) {
+        const NonceEntry oldest = nonce_fifo_.front();
+        if (!(now_ms > oldest.timestamp_ms && (now_ms - oldest.timestamp_ms) > config_.nonce_expiry_ms)) {
+            break;
+        }
+
+        nonce_fifo_.pop_front();
+        const auto it = seen_nonces_.find(oldest.nonce);
+        if (it != seen_nonces_.end() && it->second == oldest.timestamp_ms) {
+            seen_nonces_.erase(it);
+        }
     }
-    if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
-        return false;
-    }
-    if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
-        return false;
-    }
-    return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
 }
 
 uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {

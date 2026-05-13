@@ -22,6 +22,7 @@
 #include <string>
 #include <cstdint>
 #include <optional>
+#include <deque>
 #include <unordered_map>
 #include <mutex>
 #include <nlohmann/json.hpp>
@@ -60,7 +61,7 @@ struct SignedRequest {
     
     std::string signature_format = kSignatureFormatV1; // Signature/canonicalization format version
     std::string key_id;         // Trust-store key identifier (supports key rotation)
-    std::string signature_b64;  // RSA-SHA256 signature (base64 encoded)
+    std::string signature_b64;  // Signature (base64 encoded; algorithm implied by key type/format)
     std::string cert_serial;    // Certificate serial number (hex)
     
     /**
@@ -203,6 +204,7 @@ private:
         uint64_t timestamp_ms;
     };
     std::unordered_map<uint64_t, uint64_t> seen_nonces_;
+    std::deque<NonceEntry> nonce_fifo_;
     mutable std::mutex nonce_mutex_;
     
     /**
@@ -219,6 +221,12 @@ private:
      * Verify signature using certificate
      */
     bool verifySignature(const SignedRequest& request);
+
+    /**
+     * Expire nonce entries older than the configured replay window.
+     * Must be called with nonce_mutex_ held.
+     */
+    void purgeExpiredNoncesLocked(uint64_t now_ms);
     
     /**
      * Get current timestamp in milliseconds
