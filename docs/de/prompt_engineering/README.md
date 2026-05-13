@@ -2,9 +2,9 @@
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/prompt_engineering/ -->
 
-**Stand:** 6. April 2026  
-**Version:** 1.1  
-**Kategorie:** LLM Prompt-Management  
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** LLM Prompt-Management
 **Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
@@ -237,7 +237,7 @@ Testdateien in `tests/`:
 - [ARCHITECTURE (src/prompt_engineering)](../../../src/prompt_engineering/ARCHITECTURE.md) — Architektur-Leitfaden
 - [ROADMAP (src/prompt_engineering)](../../../src/prompt_engineering/ROADMAP.md) — Entwicklungs-Roadmap, verifiziert gegen Sourcecode
 - [FUTURE_ENHANCEMENTS (src/prompt_engineering)](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) — Geplante Features mit Performance-Zielen und IEEE-Referenzen
-- [FUTURE_ENHANCEMENTS (include/prompt_engineering)](../../../include/prompt_engineering/FUTURE_ENHANCEMENTS.md) — Header-API-Enhancements
+- [README (include/prompt_engineering)](../../../include/prompt_engineering/README.md) — Öffentliche Header-API und Konfigurationsflächen
 
 ### Verwandte Module
 
