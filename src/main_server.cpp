@@ -1035,16 +1035,45 @@ int main(int argc, char* argv[]) {
                             g_hsm_provider->getLastError());
             return 1;
         }
+
+        const bool runtime_stub_active = g_hsm_provider->isStubProvider();
+        const auto hsm_runtime_security = themis::security::evaluateHSMRuntimeSecurity(
+            hsm_policy, runtime_stub_active, g_hsm_provider->getLastError());
+
+        THEMIS_INFO("HSM security classification: {}", hsm_runtime_security.security_classification);
+        THEMIS_WARN("[SECURITY-AUDIT][HSM] {}", hsm_runtime_security.audit_event);
+
+        // Keep build-info module status aligned with runtime HSM state.
+        themis::build_info::setHsmModuleStatusFn([provider = std::weak_ptr<themis::security::HSMProvider>(g_hsm_provider),
+                                                  classification = hsm_runtime_security.security_classification]() {
+            const auto provider_locked = provider.lock();
+            const bool runtime_stub = provider_locked ? provider_locked->isStubProvider() : true;
+            const bool real_hsm = !runtime_stub;
+            const std::string description = real_hsm
+                ? "HSM PKCS#11 (hardware-backed; security_class=" + classification + ")"
+                : "HSM PKCS#11 (software stub; security_class=" + classification
+                    + "; explicit insecure override required)";
+            return std::make_pair(real_hsm, description);
+        });
+
+        if (!hsm_runtime_security.allow_startup) {
+            THEMIS_CRITICAL("[SECURITY-AUDIT][HSM] Startup gate rejected runtime state: {}",
+                            hsm_runtime_security.audit_event);
+            g_hsm_provider->finalize();
+            g_hsm_provider.reset();
+            return 1;
+        }
         
         // Display HSM status
         THEMIS_INFO("HSM Provider Status:");
         THEMIS_INFO("  Provider Type: {}", g_hsm_provider->isStubProvider() ? "stub (DEVELOPMENT ONLY)" : "real HSM");
         THEMIS_INFO("  Token Info: {}", g_hsm_provider->getTokenInfo());
         THEMIS_INFO("  Production Mode: {}", themis::security::HSMSecurityChecker::isProductionMode() ? "YES" : "NO");
+        THEMIS_INFO("  Security Classification: {}", hsm_runtime_security.security_classification);
         
         // Perform startup security validation
         if (g_hsm_provider->isStubProvider()) {
-            const bool allow_stub = themis::security::isHSMStubOptInEnabled(argc, argv);
+            const bool allow_stub = hsm_policy.explicit_stub_opt_in;
             
             if (!allow_stub) {
                 // Display startup warning banner
@@ -2979,4 +3008,3 @@ int main(int argc, char* argv[]) {
     utils::Logger::shutdown();
     return 0;
 }
-

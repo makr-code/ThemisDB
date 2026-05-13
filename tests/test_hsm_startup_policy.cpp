@@ -234,4 +234,35 @@ TEST(HSMStartupPolicy, SecurityConfigTakesPrecedenceOverMainConfig) {
     EXPECT_EQ(result.config.slot_id, 1u);
 }
 
+TEST(HSMStartupPolicy, RuntimeSecurityAllowsRealPkcs11Classification) {
+    HSMStartupPolicyResult policy;
+    policy.config.library_path = "/usr/lib/libpkcs11.so";
+    policy.explicit_stub_opt_in = false;
+
+    const auto decision = evaluateHSMRuntimeSecurity(policy, /*runtime_stub_active=*/false, "");
+    EXPECT_TRUE(decision.allow_startup);
+    EXPECT_EQ(decision.security_classification, "HSM-HARDENED-PKCS11");
+}
+
+TEST(HSMStartupPolicy, RuntimeSecurityBlocksImplicitStubFallbackForPkcs11Policy) {
+    HSMStartupPolicyResult policy;
+    policy.config.library_path = "/usr/lib/libpkcs11.so";
+    policy.explicit_stub_opt_in = false;
+
+    const auto decision = evaluateHSMRuntimeSecurity(policy, /*runtime_stub_active=*/true,
+                                                     "Failed to load PKCS#11 library");
+    EXPECT_FALSE(decision.allow_startup);
+    EXPECT_EQ(decision.security_classification, "HSM-BLOCKED-PKCS11-FALLBACK");
+    EXPECT_THAT(decision.audit_event, HasSubstr("Provider error"));
+}
+
+TEST(HSMStartupPolicy, RuntimeSecurityAllowsExplicitStubOverride) {
+    HSMStartupPolicyResult policy;
+    policy.explicit_stub_opt_in = true;
+
+    const auto decision = evaluateHSMRuntimeSecurity(policy, /*runtime_stub_active=*/true, "");
+    EXPECT_TRUE(decision.allow_startup);
+    EXPECT_EQ(decision.security_classification, "HSM-DEGRADED-EXPLICIT-STUB");
+}
+
 } // namespace themis::security::test

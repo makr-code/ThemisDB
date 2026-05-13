@@ -23,6 +23,25 @@ struct HSMStartupPolicyResult {
     [[nodiscard]] bool ok() const noexcept { return error.empty(); }
 };
 
+/**
+ * @brief Evaluates the effective startup security class after HSM initialization.
+ *
+ * This maps policy intent (`resolveHSMStartupPolicy`) and the observed runtime
+ * provider state (real PKCS#11 vs. stub) into a hard gate decision.
+ *
+ * Failure/edge cases:
+ * - If a stub provider is active without explicit insecure opt-in, startup must
+ *   be blocked.
+ * - If PKCS#11 was configured but runtime still fell back to stub, startup must
+ *   be blocked unless explicit insecure opt-in is present.
+ */
+struct HSMRuntimeSecurityDecision {
+    bool        allow_startup{false};
+    bool        runtime_stub_active{true};
+    std::string security_classification;
+    std::string audit_event;
+};
+
 [[nodiscard]] inline bool isHSMStubOptInEnabled(int argc, char* argv[]) {
     if (HSMSecurityChecker::hasAllowStubFlag(argc, argv)) {
         return true;
@@ -39,6 +58,46 @@ struct HSMStartupPolicyResult {
     }
 
     return value == "1" || value == "true" || value == "yes" || value == "on";
+}
+
+[[nodiscard]] inline HSMRuntimeSecurityDecision evaluateHSMRuntimeSecurity(
+    const HSMStartupPolicyResult& policy,
+    bool                          runtime_stub_active,
+    const std::string&            runtime_error)
+{
+    HSMRuntimeSecurityDecision decision;
+    decision.runtime_stub_active = runtime_stub_active;
+
+    if (!runtime_stub_active) {
+        decision.allow_startup = true;
+        decision.security_classification = "HSM-HARDENED-PKCS11";
+        decision.audit_event = "HSM runtime classified as hardened PKCS#11.";
+        return decision;
+    }
+
+    if (policy.explicit_stub_opt_in) {
+        decision.allow_startup = true;
+        decision.security_classification = "HSM-DEGRADED-EXPLICIT-STUB";
+        decision.audit_event =
+            "HSM runtime uses explicit insecure stub override; hardware key protection is disabled.";
+        return decision;
+    }
+
+    decision.allow_startup = false;
+    if (!policy.config.library_path.empty()) {
+        decision.security_classification = "HSM-BLOCKED-PKCS11-FALLBACK";
+        decision.audit_event =
+            "HSM policy requires PKCS#11 but runtime fell back to stub without explicit override.";
+    } else {
+        decision.security_classification = "HSM-BLOCKED-IMPLICIT-STUB";
+        decision.audit_event =
+            "HSM runtime attempted implicit stub startup without explicit insecure override.";
+    }
+
+    if (!runtime_error.empty()) {
+        decision.audit_event += " Provider error: " + runtime_error;
+    }
+    return decision;
 }
 
 [[nodiscard]] inline std::optional<std::string> applyConfiguredHSMProvider(
