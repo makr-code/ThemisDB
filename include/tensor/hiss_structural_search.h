@@ -97,7 +97,7 @@ struct QTTrain {
 class HissReshaper {
 public:
     // -------------------------------------------------------------------------
-    // STUB #254 bridge — pure-binary QTT quantics encoder
+    // STUB #254 bridge hook — plug in a pure-binary QTT quantics encoder
     // -------------------------------------------------------------------------
 
     /**
@@ -130,20 +130,20 @@ public:
      * physical dimension into a sequence of quantics factors, and decomposes
      * the tensor again in the reshaped layout.
      *
-      * Factorisation strategy:
-      * - powers of two become repeated `2` modes
-      * - non-power-of-two dimensions are padded with trailing zeros (appended
-      *   in flattened lexicographic element order after the original dense payload)
-      *   to the next power of
-      *   two and decomposed into pure-binary quantics modes; `QTTrain` records
-      *   both the original and padded physical extents plus the original element
-      *   count so callers can distinguish valid payload from padding
+      * Factorisation strategy (built-in residual-factor fallback, STUB #254):
+      * - dimensions that are powers of two become repeated `2` modes
+      *   (e.g., 8 → {2,2,2})
+      * - non-power-of-two dimensions are factored into their prime/residual
+      *   factors (e.g., 12 → {2,2,3}); no zero-padding occurs in this path
+      *
+      * When a pure-binary `QuanticsFn` bridge is installed via `setQuanticsFn()`,
+      * non-power-of-two dimensions are padded to the next power of two and
+      * decomposed into pure-binary quantics modes; `QTTrain` records both the
+      * original and padded physical extents plus the original element count so
+      * callers can distinguish valid payload from padding.
       *
       * This exposes latent low-rank structure to later Hiss/QTT phases while
       * preserving the exact dense element count.
-     *
-     * When a `QuanticsFn` bridge is installed via `setQuanticsFn()`, the
-     * bridge is called instead of the built-in padded-binary path.
      */
     [[nodiscard]] static QTTrain
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);
