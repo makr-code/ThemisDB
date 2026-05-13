@@ -28,6 +28,10 @@ docs/website/
 
 ## Verwendung
 
+> Hinweis zur Toolchain: Inhalte unter `docs/website/**` sind Marketing-Quellen und
+> nicht Teil des MkDocs-Navigationsbaums aus `mkdocs.yml`.
+> Der konsolidierte Docs-Build-/Publish-Flow ist in `docs/README-DOCUMENTATION.md` beschrieben.
+
 ### WordPress / Gutenberg
 
 Jede `.md`-Datei enthält:

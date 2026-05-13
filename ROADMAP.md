@@ -31,6 +31,8 @@ Traceability rules:
 - Open enhancement backlog stays in `FUTURE_ENHANCEMENTS.md`.
 - `CHANGELOG.md` entries must reference milestone scope and, where applicable, the related enhancement/backlog item.
 - `RELEASE_STRATEGY.md` defines milestone naming and release-type alignment with `VERSION`/`RELEASE_TYPE`.
+- `VERSIONING.md` defines the canonical release-type vocabulary (`alpha`, `beta`, `rc`, `stable`) and pre-release suffix rules.
+- `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
 - `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
 
 ---

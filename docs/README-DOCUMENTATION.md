@@ -1,101 +1,111 @@
-# ThemisDB Documentation Guide
+# ThemisDB Documentation Toolchain (MkDocs, Preview, Publish)
 
-> This page describes the documentation structure and how to navigate it.
-> Start reading here if you want to understand where to find things.
+Stand: 2026-05-13
 
----
+Diese Seite konsolidiert den aktuellen, verbindlichen Build-/Preview-/Publish-Flow fuer die Dokumentation.
 
-## Root Onboarding (Canonical)
+## 1) Steuerdateien und Zustaendigkeit
 
-For onboarding, start at root before diving into deep docs:
+| Datei | Aufgabe |
+|---|---|
+| `mkdocs.yml` | Hauptkonfiguration (Theme, Navigation, `with-pdf`, `print-site`) |
+| `mkdocs-nopdf.yml` | Build ohne PDF-Plugin (INHERIT + Plugin-Override) |
+| `requirements-docs.txt` | Reproduzierbar gepinnte Python-Doku-Abhaengigkeiten |
+| `docs/print-banner.html` | Banner fuer die Druck-/Print-Seite |
+| `docs/print-cover.html` | Cover fuer die Print/PDF-Ausgabe |
+| `docs/_Sidebar.md`, `docs/_Footer.md` | Wiki-Navigation/-Footer |
+| `docs/website/**` | Marketing-Website-Quellen (nicht Teil des MkDocs-Builds) |
+| `docs/_generated/**` | Generierte Doku-Indizes/Artefakte (z. B. `primary_index.json`) |
 
-1. [../README.md](../README.md)
-2. [../QUICKSTART.md](../QUICKSTART.md)
-3. [../SETUP.md](../SETUP.md)
-4. [../SUPPORT.md](../SUPPORT.md)
-5. [../RELEASE_STRATEGY.md](../RELEASE_STRATEGY.md)
-6. [../INDEX.md](../INDEX.md)
+## 2) Build- und Preview-Workflow (lokal)
 
----
+### 2.1 Abhaengigkeiten installieren
 
-## 🗂️ Documentation Structure
-
-```
-docs/
-├── README.md                   ← navigation entry point for docs/
-├── README-DOCUMENTATION.md     ← You are here (how docs are organized)
-├── QUICK_REFERENCE.md          ← One-page cheat sheet (commands & API)
-├── FAQ.md                      ← Frequently asked questions
-├── EXAMPLES_INDEX.md           ← Full index of 37+ example projects
-├── EXAMPLES_QUICKSTART.md      ← Guided tour through example projects
-├── INTEGRATION_GUIDE.md        ← Integrating ThemisDB with other systems
-│
-├── guides/                     ← How-to guides (task-oriented)
-├── tutorials/                  ← Step-by-step tutorials (learning-oriented)
-├── api/                        ← API reference documentation
-├── de/                         ← German (authoritative) documentation
-│   ├── guides/                 ← German guides (QUICKSTART, USER_GUIDE …)
-│   └── …
-├── en/                         ← English documentation
-├── security/                   ← Security, HSM, encryption guides
-├── deployment/                 ← Docker, Kubernetes, on-premise
-├── architecture/               ← System architecture docs
-└── troubleshooting/            ← Problem-specific fix guides
+```bash
+python3 -m pip install -r requirements-docs.txt
 ```
 
----
+### 2.2 Preview (ohne PDF, schnell fuer Autoren)
 
-## 🧭 Entry Points by Audience
+```bash
+python3 -m mkdocs serve --config-file mkdocs-nopdf.yml
+```
 
-### New users
-1. [de/guides/QUICKSTART.md](de/guides/QUICKSTART.md) – 5-minute setup
-2. [tutorials/GETTING_STARTED_TUTORIAL.md](tutorials/GETTING_STARTED_TUTORIAL.md) – 45-minute full walkthrough
-3. [EXAMPLES_QUICKSTART.md](EXAMPLES_QUICKSTART.md) – hands-on examples tour
+- URL: `http://127.0.0.1:8000/`
+- Nutzt `print-site`, aber **kein** `with-pdf`.
 
-### Application developers
-1. [api/API_REFERENCE.md](api/API_REFERENCE.md) – complete API reference
-2. [tutorials/CRUD_TUTORIAL.md](tutorials/CRUD_TUTORIAL.md) – CRUD patterns
-3. [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) – integration patterns
-4. [tutorials/BEST_PRACTICES.md](tutorials/BEST_PRACTICES.md) – production patterns
+### 2.3 Produktions-Build ohne PDF
 
-### Operators / DevOps
-1. [de/guides/guides_deployment.md](de/guides/guides_deployment.md) – deployment guide
-2. [de/guides/ADMINISTRATOR_GUIDE.md](de/guides/ADMINISTRATOR_GUIDE.md) – admin guide
-3. [security/HSM_PRODUCTION_SETUP.md](security/HSM_PRODUCTION_SETUP.md) – production security
-4. [de/guides/guides_tls_setup.md](de/guides/guides_tls_setup.md) – TLS configuration
+```bash
+python3 -m mkdocs build --config-file mkdocs-nopdf.yml --clean
+```
 
-### Architects
-1. [de/architecture/ARCHITECTURE_OVERVIEW.md](de/architecture/ARCHITECTURE_OVERVIEW.md) – system design
-2. [tutorials/SCHEMA_DESIGN.md](tutorials/SCHEMA_DESIGN.md) – schema patterns
-3. [de/guides/SYSTEM_ARCHITECT_GUIDE.md](de/guides/SYSTEM_ARCHITECT_GUIDE.md) – architect guide
+- Output: `site/`
 
----
+### 2.4 Produktions-Build mit PDF
 
-## 📐 Documentation Conventions
+```bash
+ENABLE_PDF_EXPORT=1 python3 -m mkdocs build --clean
+```
 
-| Convention | Meaning |
-|------------|---------|
-| `de/` prefix | German-language docs (authoritative for this project) |
-| `en/` prefix | English translations (may lag behind German) |
-| `⚠️ WARNING` callouts | Security-critical information — read before production use |
-| `_Automatisch erzeugt` footer | Auto-generated README, content may be minimal |
+- Site-Output: `site/`
+- PDF-Output: `artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf`
 
----
+## 3) Publish-Workflow (aktueller Stand)
 
-## ✏️ Contributing to Docs
+## 3.1 CI/Workflow-Status
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) and [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md) for the full contribution workflow.
+- Der aktive Workflow-Kern ist in `.github/WORKFLOW_REGISTRY.md` dokumentiert.
+- Es gibt aktuell **keinen aktiven GitHub-Pages-Deploy-Workflow** fuer MkDocs in `.github/workflows/`.
+- Die dokumentierten historischen Pipelines (`docs/ci-cd/workflows/docs/docs-pipeline.md`, `docs/ci-cd/GITHUB_PAGES_SETUP.md`) sind Legacy-Referenz und nicht der aktive Ist-Stand.
 
-**Quick rules:**
-- German docs go in `docs/de/`, English in `docs/en/`
-- User-facing guides belong in `docs/guides/` or `docs/tutorials/`
-- Update the relevant index file when adding a new page
-- Run the doc linter before submitting: `python3 scripts/docs-lint.py <file>`
+## 3.2 Verfuegbare Publikationspfade
 
----
+1. **Static Site Artefakt**: `site/` nach lokalem/CI-Build bereitstellen.
+2. **Wiki-Pfad**:
+   - `python3 tools/publish_wiki.py`
+   - alternativ `scripts/sync-wiki.ps1`
+3. **Print/PDF-Pfad**:
+   - `site/print_page/index.html` fuer Browser-Druck
+   - optionales PDF in `artifacts/docs/` bei `ENABLE_PDF_EXPORT=1`
 
-## 🔗 Key Navigation Hubs
+## 4) PDF-/Print-Pfade und Unterschiede
 
-- [00_DOCUMENTATION_INDEX.md](00_DOCUMENTATION_INDEX.md) – master index of all docs
-- [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md) – role-based navigation hub
-- [CATEGORY_INDEX.md](CATEGORY_INDEX.md) – docs grouped by topic
+| Thema | `mkdocs-nopdf.yml` (Standard) | `mkdocs.yml` + `ENABLE_PDF_EXPORT=1` |
+|---|---|---|
+| Ziel | schnelle Site-Builds ohne PDF-Plugin | Site + PDF-Artefakt |
+| Plugins | `search`, `exclude`, `print-site` | `search`, `with-pdf`, `print-site` |
+| `print_page` | Ja (`site/print_page/index.html`) | Ja (`site/print_page/index.html`) |
+| PDF-Datei | nein | `artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf` |
+
+## 5) Troubleshooting (haeufige Build-Fehler)
+
+| Symptom | Ursache | Behebung |
+|---|---|---|
+| `No module named mkdocs` / Plugin fehlt | Abhaengigkeiten nicht installiert/inkonsistent | `python3 -m pip install -r requirements-docs.txt` |
+| `Template file docs/print-*.html not found` | Pfad/Datei fuer Print-Templates fehlt | `docs/print-banner.html` und `docs/print-cover.html` pruefen |
+| PDF wird nicht erzeugt | `ENABLE_PDF_EXPORT` nicht gesetzt | Build mit `ENABLE_PDF_EXPORT=1` starten |
+| Viele Warnungen bei `--strict` | Altlasten in Navigation/Ankern | Warnungen gezielt im betroffenen Bereich bereinigen; Build ohne `--strict` nur fuer lokale Diagnose |
+| Build bricht bei WeasyPrint-Systemlibs | Plattformabhaengigkeit von `mkdocs-with-pdf` | fuer Authoring `mkdocs-nopdf.yml` nutzen; PDF in passender Build-Umgebung erzeugen |
+
+## 6) Review-/Audit-Nachweis fuer diese Konsolidierung
+
+**Referenzen (verbindlich):**
+- [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md)
+- [SYSTEMATISCHER_REVIEWPLAN.md](SYSTEMATISCHER_REVIEWPLAN.md)
+- [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md)
+- [de/development/SOURCE_CODE_AUDIT.md](de/development/SOURCE_CODE_AUDIT.md)
+- [audit-framework/AUDIT_RUNBOOK.md](audit-framework/AUDIT_RUNBOOK.md)
+
+**Gepruefte Bereiche in diesem Change:**
+- `mkdocs.yml`
+- `mkdocs-nopdf.yml`
+- `requirements-docs.txt`
+- `docs/print-banner.html`
+- `docs/print-cover.html`
+- `docs/README-DOCUMENTATION.md`
+- `docs/README.md`
+- `docs/website/README.md`
+- `docs/_generated/README.md`
+- `docs/_Sidebar.md`
+- `docs/_Footer.md`

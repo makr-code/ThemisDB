@@ -6,23 +6,23 @@
 #   - scripts/build-docs.ps1
 #   - .github/workflows/docs-pipeline.yml
 
-# MkDocs core
-mkdocs>=1.5.0
+# MkDocs core (pinned for reproducible docs builds)
+mkdocs==1.6.1
 
 # Material theme
-mkdocs-material>=9.5.0
+mkdocs-material==9.7.6
 
 # PDF export plugin (requires ENABLE_PDF_EXPORT=1 to activate)
-mkdocs-with-pdf>=0.9.3
+mkdocs-with-pdf==0.9.3
 
 # Print-site plugin (for print/PDF view within the site)
-mkdocs-print-site-plugin>=2.3.6
+mkdocs-print-site-plugin==2.8
 
 # Exclude plugin (used in mkdocs-nopdf.yml)
-mkdocs-exclude>=1.0.2
+mkdocs-exclude==1.0.2
 
 # YAML validation (used by docs-lint.py, toc-check.py)
-pyyaml>=6.0
+pyyaml==6.0.3
 
 # HTTP requests (used by link-check.py for external links)
-requests>=2.31.0
+requests==2.32.5
