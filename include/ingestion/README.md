@@ -90,8 +90,8 @@ Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration
 
 using namespace themis::ingestion;
 
+// IngestionBuilder delegates this storage URI to the document-store backend.
 auto manager = IngestionBuilder("rocksdb://./data")
-    // IngestionBuilder delegates this storage URI to the document-store backend.
     .withFilesystemSource("local", "/data/docs", {{"extensions", ".txt,.md"}}, 1)
     .withRetryConfig({.max_attempts = 3, .initial_delay_ms = 500, .backoff_factor = 2.0})
     .withRateLimitConfig({.requests_per_second = 10.0, .enabled = true})
