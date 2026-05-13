@@ -543,7 +543,8 @@ via `setRadonTransformFn()` / `setGreensTransformFn()`.
 ### hiss_structural_search.h
 
 **Purpose:** Tensor-network graph primitives for Hiss/TNSR Phase-6 structural search.
-Provides entropy-guided topology search, quantics-based reshape, and a domain template catalog.
+Provides entropy-guided topology search, pure-binary quantics-based reshape with
+reversible index mapping, and a domain template catalog.
 
 **Key Types:**
 
@@ -554,8 +555,9 @@ Provides entropy-guided topology search, quantics-based reshape, and a domain te
 | `TensorGraphNode` | Node descriptor: mode_index, rank_left, rank_right, entropy_score |
 | `TensorGraphEdge` | Edge descriptor: from, to, weight, topology |
 | `HissConfig` | Tuning: `num_samples`, `entropy_threshold`, `max_reshape_depth`, `diversity_budget` |
-| `HissReshaper` | Quantics-based mode-layout reshape via `exposeQuantics()` |
-| `QTTrain` | Quantics TT representation: bit_depths, grid_sizes, quantics_mode_sizes, original_element_count |
+| `HissReshaper` | Pure-binary quantics reshape via `exposeQuantics()`; optional custom backend via `setQuanticsFn()` |
+| `QTTrain` | Quantics TT: bit_depths, grid_sizes, padded_grid_sizes, quantics_mode_sizes, original_element_count, **mapping** |
+| `QTTMappingDescriptor` | Reversible physical↔QTT flat-index map: `physicalToQTT()`, `qttToPhysical()` |
 | `TemplateCatalog` | Thread-safe domain→graph registry for TN template reuse |
 
 **Key API:**
@@ -569,12 +571,22 @@ cfg.num_samples       = 64;
 cfg.entropy_threshold = 0.35;
 TensorNetworkGraph tng = engine.search(train, cfg);
 
-// Quantics reshape (STUB #254 bridge)
-HissReshaper::setQuanticsFn([](const TTTrain& t, const std::vector<size_t>& gs) {
-    return /* pure-binary QTT encode */;
-});
+// Quantics reshape — pure-binary padded QTT (built-in path)
 QTTrain qtt = HissReshaper::exposeQuantics(train, {8, 8});
-// qtt.original_element_count — use to distinguish payload from zero-padding
+// qtt.original_element_count — number of valid (non-padding) elements
+// qtt.mapping                — reversible physical↔QTT index map
+
+// Reversible index mapping
+size_t physical_idx = 42;
+size_t qtt_idx      = qtt.mapping.physicalToQTT(physical_idx);
+auto   back         = qtt.mapping.qttToPhysical(qtt_idx); // == 42
+// Padding slots: qttToPhysical() returns std::nullopt for zero-padded QTT indices
+
+// Optional custom quantics backend
+HissReshaper::setQuanticsFn([](const TTTrain& t, const std::vector<size_t>& gs) {
+    // Custom pure-binary QTT encode; populate QTTrain::mapping as needed.
+    return /* ... */;
+});
 
 // Template catalog
 TemplateCatalog catalog;
