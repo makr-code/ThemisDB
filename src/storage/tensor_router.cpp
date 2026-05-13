@@ -254,7 +254,11 @@ struct TensorRouter::Impl {
     {
         // Priority order:
         // 1. hard category overrides (e.g. RELATIONAL -> KEEP, GEODATA -> LIFT)
-        // 2. domain-template promotion with topology validation (TemplateCatalog hit -> LIFT)
+        // 2. domain-template promotion with topology validation:
+        //    - template is looked up in catalog by domain_tag
+        //    - validateTemplate() must pass (validation failure → heuristic fallback,
+        //      TemplateTopologyApplyFn is NOT invoked for an invalid template)
+        //    - TemplateTopologyApplyFn must return true → LIFT
         // 3. rank-cap guard
         // 4. κ + compression-ratio heuristic
         // Category override has highest priority

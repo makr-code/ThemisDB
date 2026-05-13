@@ -284,7 +284,8 @@ public:
      */
     struct TemplateValidationResult {
         bool        valid  = false; ///< `true` if the template is compatible.
-        std::string reason;         ///< Non-empty diagnostic when `valid` is `false`.
+        std::string reason;         ///< Human-readable diagnostic; empty when `valid` is `true`,
+                                    ///< non-empty when `valid` is `false`.
     };
 
     /**
