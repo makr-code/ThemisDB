@@ -1,12 +1,38 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Sharding Module Headers
 
 This directory contains public header files for the ThemisDB sharding module.
 
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: ../../src/sharding/README.md · ../../src/sharding/ROADMAP.md · ../../src/sharding/FUTURE_ENHANCEMENTS.md -->
+
 ## Purpose
 
 Public interfaces and declarations for sharding, distributed consensus, replication, and cluster management functionality.
+
+## Primary API Entry Points
+
+- `consensus_factory.h` + `consensus_module.h` — select and drive consensus (`Raft`/`Gossip`/`Paxos`).
+- `shard_router.h` + `adaptive_shard_router.h` — routing entry points for key/query placement.
+- `cross_shard_transaction.h` — cross-shard transaction coordinator contract (2PC/3PC/SAGA/Percolator-style).
+- `shard_repair_engine.h` + `redundancy_strategy.h` — anti-entropy orchestration and erasure-coding repair APIs.
+- `admin_api.h` + `prometheus_metrics.h` — operational/admin integration surfaces.
+
+## Configuration Surfaces (Selected)
+
+The sharding public API exposes many config structs; the most commonly integrated entry points are:
+
+- `ConsensusConfig` (`consensus_module.h`)
+- `CrossShardTransactionConfig` (`cross_shard_transaction.h`)
+- `RepairConfig` (`shard_repair_engine.h`)
+- `AdaptiveShardRouter::AdaptiveConfig` (`adaptive_shard_router.h`)
+- `RaftConfig` (`raft_state.h`)
+- `MetadataShardConfig` (`metadata_shard.h`)
+- `PartitionDetectorConfig` (`partition_detector.h`)
+- `WALManagerConfig` / `TransactionWALConfig` (`wal_manager.h`, `transaction_wal.h`)
+
+Use module-level docs in `src/sharding/` for runtime behavior and operational constraints.
 
 ## Headers
 
@@ -137,6 +163,34 @@ Public interfaces and declarations for sharding, distributed consensus, replicat
 - `sharding_interfaces.h` — Core sharding interfaces
 - `sharding_manager.h` — Top-level sharding manager
 
+## Usage
+
+### Include and initialize consensus
+
+```cpp
+#include "sharding/consensus_factory.h"
+#include "sharding/consensus_module.h"
+
+themis::sharding::ConsensusConfig cfg;
+cfg.type = themis::sharding::ConsensusType::RAFT;
+cfg.node_id = "node-a";
+cfg.cluster_nodes = {"node-a", "node-b", "node-c"};
+
+auto consensus = themis::sharding::ConsensusFactory::create(cfg);
+consensus->initialize(cfg.node_id, cfg.cluster_nodes);
+consensus->start();
+```
+
+### Include and configure repair
+
+```cpp
+#include "sharding/shard_repair_engine.h"
+
+themis::sharding::RepairConfig cfg;
+cfg.enable_auto_repair = true;
+cfg.scan_interval = std::chrono::seconds(300);
+```
+
 ## Implementation
 
 See `../../src/sharding/` for the implementation code.
@@ -148,3 +202,18 @@ This module is included as part of ThemisDB. Add the module headers to your incl
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
+
+## Troubleshooting
+
+- Header not found (`sharding/...`): verify `${THEMISDB_INCLUDE_DIR}` and target include directories.
+- Ambiguous types between modules: prefer explicit `themis::sharding::...` qualification in integration code.
+- Transaction compile errors after upgrades: re-check `CrossShardTransactionConfig` fields and protocol enum usage.
+- Consensus integration mismatch: ensure `ConsensusConfig::cluster_nodes` and `node_id` are both populated.
+
+## Related Docs
+
+- Runtime module overview: [`../../src/sharding/README.md`](../../src/sharding/README.md)
+- Architecture: [`../../src/sharding/ARCHITECTURE.md`](../../src/sharding/ARCHITECTURE.md)
+- Module roadmap: [`../../src/sharding/ROADMAP.md`](../../src/sharding/ROADMAP.md)
+- Module future enhancements: [`../../src/sharding/FUTURE_ENHANCEMENTS.md`](../../src/sharding/FUTURE_ENHANCEMENTS.md)
+- Distributed architecture overview: [`../../docs/de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md`](../../docs/de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)
