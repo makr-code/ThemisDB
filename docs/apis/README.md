@@ -22,9 +22,10 @@
 
 ## Konsistenz-Regeln
 
-- Jede API-Änderung in `docs/openapi.yaml` muss in der Referenzdoku unter [`docs/api`](../api/README.md) nachvollziehbar dokumentiert werden.
+- Jede API-Änderung in `docs/openapi.yaml` muss in der Referenzdoku unter [`docs/api`](../api/README.md) nachvollziehbar dokumentiert werden (betroffene Endpunkte, Request/Response-Auswirkung, Versioning-/Deprecation-Auswirkung).
 - API-spezifische Ergänzungen in `docs/apis/**` (z. B. Import API) dürfen nicht der OpenAPI-Spezifikation widersprechen.
 - Änderungen an Generator-Pfaden oder Generator-Version müssen in `openapitools.json` und in der API-Referenz dokumentiert werden.
+- Für Forks/Transfers muss der Go-`moduleName` in `openapitools.json` (und analog in `scripts/generate-sdks.sh`) auf den Ziel-Repositorypfad angepasst werden.
 
 ## Breaking-Change-Prozess
 

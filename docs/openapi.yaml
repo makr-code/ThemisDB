@@ -14,6 +14,7 @@ info:
     owner:
       - docs/api maintainers
       - docs/apis maintainers
+    maintainers_reference: .github/CODEOWNERS
     reference_docs:
       - docs/api/README.md
       - docs/apis/README.md
