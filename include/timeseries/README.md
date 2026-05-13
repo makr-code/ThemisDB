@@ -169,7 +169,12 @@ Hypertable ht(rocksdb_wrapper, htcfg);
 auto* cf = ht.getOrCreateChunk(timestamp_ms); // returns CF handle
 ```
 
-> **Note:** `listChunks()` currently returns an empty list (stub — see FUTURE_ENHANCEMENTS.md).
+> **Note:** `listChunks()` currently returns an empty list.
+> **Stub documentation:**
+> - *Purpose:* placeholder — chunk metadata scan not yet implemented
+> - *Activation:* all builds (no feature gate)
+> - *Production delta:* callers that depend on chunk enumeration (compaction, tiering, retention) receive an empty list and silently skip those operations
+> - *Removal plan:* tracked in [`../../src/timeseries/FUTURE_ENHANCEMENTS.md` — "Hypertable listChunks"](../../src/timeseries/FUTURE_ENHANCEMENTS.md#hypertable-listchunks-target-future-milestone-stub-removal) section
 
 ---
 
