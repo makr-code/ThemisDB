@@ -16,7 +16,7 @@ info:
       - docs/api/README.md
       - docs/apis/README.md
     generator_config: openapitools.json
-    breaking_change_process: docs/api/API_VERSIONING.md#deprecation-policy
+    breaking_change_process: docs/api/API_VERSIONING.md
 
 servers:
   - url: http://localhost:8080
