@@ -34,6 +34,9 @@ namespace scraper {
 // JS renderer types
 // ============================================================================
 
+/**
+ * @brief Parameters for a single JavaScript page rendering request.
+ */
 struct JsRenderRequest {
     std::string url;
     int         timeout_ms      = 10000;
@@ -44,12 +47,18 @@ struct JsRenderRequest {
     std::vector<std::string> extra_args;
 };
 
+/**
+ * @brief Result of a single JavaScript page rendering request.
+ *
+ * When success == false, html is empty and error contains a diagnostic
+ * string (e.g. timeout message or non-zero exit code).
+ */
 struct JsRenderResult {
-    bool        success     = false;
-    std::string html;
-    std::string error;
-    int         status_code = 0;
-    long        elapsed_ms  = 0;
+    bool        success     = false;  ///< True when rendering succeeded and HTML was captured
+    std::string html;                 ///< Fully-rendered HTML (empty on failure)
+    std::string error;                ///< Non-empty diagnostic string when success == false
+    int         status_code = 0;      ///< HTTP status code reported by the renderer (0 = unknown)
+    long        elapsed_ms  = 0;      ///< Wall-clock rendering time in milliseconds
 };
 
 // ============================================================================
@@ -68,7 +77,22 @@ struct JsRenderResult {
 class IScraperJSRenderer {
 public:
     virtual ~IScraperJSRenderer() = default;
+
+    /**
+     * @brief Render a URL using a headless browser and return the resulting HTML.
+     * @param req  Render request with URL, timeout, and optional CSS wait selector.
+     * @return JsRenderResult — success==false with an error message on timeout
+     *         or subprocess failure.  Never throws.
+     */
     virtual JsRenderResult render(const JsRenderRequest& req) = 0;
+
+    /**
+     * @brief Returns true when the renderer backend is available and usable.
+     *
+     * For SubprocessJSRenderer this means the renderer command is non-empty
+     * and its first token resolves to an executable on PATH.  Call before
+     * ScraperPlugin::initialize() to validate JS rendering mode.
+     */
     virtual bool isAvailable() const = 0;
 };
 

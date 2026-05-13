@@ -79,17 +79,24 @@ struct ScrapedDocument {
 // Run statistics
 // ============================================================================
 
+/**
+ * @brief Counters and timing returned by ScraperPlugin::scrape().
+ *
+ * All fields are zero-initialised and incremented atomically during a run.
+ * Inspect after scrape() returns to measure throughput, acceptance rate,
+ * and error counts.
+ */
 struct ScraperRunStats {
-    int urls_visited      = 0;
-    int forms_submitted   = 0;
-    int result_pages_parsed = 0;
-    int api_pages_fetched = 0;
-    int docs_scraped      = 0;
-    int docs_accepted     = 0;
-    int docs_discarded    = 0;
-    int docs_written      = 0;
-    int write_errors      = 0;
-    long elapsed_ms       = 0;
+    int  urls_visited       = 0;  ///< Total URLs fetched (includes discarded and policy-blocked URLs)
+    int  forms_submitted    = 0;  ///< HTML search forms submitted with gap keywords
+    int  result_pages_parsed= 0;  ///< Search result pages paginated through
+    int  api_pages_fetched  = 0;  ///< JSON REST / GraphQL API pages fetched
+    int  docs_scraped       = 0;  ///< Raw documents collected before quality filtering
+    int  docs_accepted      = 0;  ///< Documents that met the quality threshold
+    int  docs_discarded     = 0;  ///< Documents rejected by the LLM/heuristic evaluator
+    int  docs_written       = 0;  ///< Documents successfully persisted to the DB
+    int  write_errors       = 0;  ///< Persistence failures (run continues despite errors)
+    long elapsed_ms         = 0;  ///< Total wall-clock duration of the scrape() call
 };
 
 // ============================================================================
@@ -98,15 +105,57 @@ struct ScraperRunStats {
 
 /**
  * @brief Interface for the agentic scraper plugin.
+ *
+ * Lifecycle:
+ *  1. Call initialize(config) — returns false on invalid config.
+ *  2. Call scrape() — blocks until the run completes.
+ *  3. Inspect getResults() for the accepted documents.
+ *  4. Call reset() before reusing the same instance with a new config.
  */
 class IScraperPlugin {
 public:
     virtual ~IScraperPlugin() = default;
 
+    /**
+     * @brief Initialise the plugin from a configuration.
+     * @param config  Complete scraper configuration (seed URLs, crawl options, …).
+     * @return true on success; false when the config is structurally invalid.
+     * @throws std::runtime_error  When config.loadFromFile/Yaml parsing fails.
+     */
     virtual bool initialize(const ScraperConfig& config) = 0;
+
+    /**
+     * @brief Execute the agentic scraper loop.
+     *
+     * Blocks until all seeds and search forms have been processed or the
+     * max_pages limit is reached.  Error isolation guarantees that per-URL
+     * failures do not abort the run.
+     *
+     * @pre initialize() must have been called and returned true.
+     * @return Run statistics (URLs visited, documents accepted/discarded, …).
+     * @throws std::logic_error  When called before a successful initialize().
+     */
     virtual ScraperRunStats scrape() = 0;
+
+    /**
+     * @brief Returns all documents collected in the most recent scrape() call.
+     *
+     * Includes both accepted (discarded=false) and discarded (discarded=true)
+     * documents.  The vector is cleared by reset().
+     */
     virtual const std::vector<ScrapedDocument>& getResults() const = 0;
+
+    /**
+     * @brief Reset state so the plugin can be re-initialised for a new run.
+     *
+     * Clears results, resets statistics, and sets initialized=false.
+     * Injected dependencies (evaluator, writer, …) are preserved.
+     */
     virtual void reset() = 0;
+
+    /**
+     * @brief Returns true after a successful call to initialize().
+     */
     virtual bool isInitialized() const = 0;
 };
 
@@ -150,11 +199,16 @@ public:
     void reset() override;
     bool isInitialized() const override;
 
-    // Dependency injection (for tests)
+    // Dependency injection (for tests / custom backends)
+    /// Replace the LLM quality evaluator (default: ScraperLLMEvaluator with heuristic fallback).
     void setEvaluator(std::shared_ptr<IScraperLLMEvaluator> e);
+    /// Replace the metadata persistence layer (default: InMemoryScraperMetadataWriter).
     void setWriter(std::shared_ptr<IScraperMetadataWriter> w);
+    /// Replace the HTML search-form engine (default: HtmlSearchEngine).
     void setSearchEngine(std::shared_ptr<IScraperSearchEngine> se);
+    /// Replace the headless JS renderer (default: nullptr — JS_RENDERED mode disabled).
     void setJsRenderer(std::shared_ptr<IScraperJSRenderer> r);
+    /// Replace the REST/GraphQL API client (default: HttpScraperApiClient).
     void setApiClient(std::shared_ptr<IScraperApiClient> c);
     /// Inject a custom HTTP fetch function (replaces libcurl in tests).
     using HttpFn = std::function<std::string(const std::string& url,
