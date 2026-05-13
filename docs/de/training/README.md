@@ -110,6 +110,7 @@ Weitere Beispiele: [`src/training/README.md`](../../../src/training/README.md#us
 
 - Verteiltes/Multi-GPU-Training noch nicht koordiniert (Single-Node)
 - Adapter-Serving (Inferenz) wird durch das LLM-Integrationsmodul übernommen
+- Höchste Modellqualität ist für juristische deutschsprachige Korpora validiert; andere Domänen/Sprachen benötigen eigene Evaluierung und Kalibrierung.
 
 ---
 
