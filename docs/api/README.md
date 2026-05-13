@@ -30,6 +30,7 @@
 - **Lokale Generierung:** `scripts/generate-sdks.sh`
 
 Für API-Änderungen gilt: OpenAPI-Spezifikation, Referenzdokumentation in diesem Ordner und ergänzende API-Dokumente in `docs/apis/**` werden im selben Change synchron gehalten.
+Zur Mindestvalidierung werden die in `docs/apis/README.md` dokumentierten Repo-Skripte (`scripts/docs-lint.py`, `scripts/link-check.py`) auf die geänderten API-Dokumente ausgeführt.
 
 ## Breaking Changes
 

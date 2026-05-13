@@ -12,7 +12,7 @@ info:
     name: MIT
   x-api-governance:
     source_of_truth: docs/openapi.yaml
-    owner: themisdb-api-documentation-maintainers
+    owner: themisdb-api-maintainers
     maintainers_reference: .github/CODEOWNERS
     reference_docs:
       - docs/api/README.md

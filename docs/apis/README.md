@@ -3,7 +3,7 @@
 ## Spezifikationsquelle & Ownership
 
 - **OpenAPI Source of Truth:** [`/docs/openapi.yaml`](/docs/openapi.yaml)
-- **Ownership:** API-Dokumentationspflege erfolgt über `docs/apis/**` und `docs/api/**`
+- **Ownership:** `themisdb-api-maintainers` (siehe `.github/CODEOWNERS`); `docs/apis/**` für spezifikationsnahe Ergänzungen, `docs/api/**` für Referenz-/Policy-Dokumentation.
 - **Generator-Konfiguration:** [`/openapitools.json`](/openapitools.json)
 
 ## Generator-Workflow (Inputs / Outputs)
@@ -26,7 +26,7 @@
 - API-spezifische Ergänzungen in `docs/apis/**` (z. B. Import API) dürfen nicht der OpenAPI-Spezifikation widersprechen.
 - Änderungen an Generator-Pfaden oder Generator-Version müssen in `openapitools.json` und in der API-Referenz dokumentiert werden.
 - Mindestvalidierung nach API-Doku-Änderungen mit den vorhandenen Repository-Skripten: `python3 scripts/docs-lint.py <changed-docs...>` und `python3 scripts/link-check.py --internal-only <changed-docs...>`.
-- Für Forks/Transfers muss der Go-`moduleName` in `openapitools.json` (und analog in `scripts/generate-sdks.sh`) auf den Ziel-Repositorypfad angepasst werden.
+- Für Forks/Transfers: siehe Maintenance-Hinweis in `openapitools.json` zur Anpassung des Go-`moduleName` (analog auch in `scripts/generate-sdks.sh`).
 
 ## Breaking-Change-Prozess
 
