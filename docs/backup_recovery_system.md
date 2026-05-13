@@ -382,3 +382,154 @@ echo $THEMIS_SHARDS
 - PITR Manager: `include/storage/pitr_manager.h`
 - Error Registry: `include/utils/error_registry.h`
 - Test Examples: `tests/test_backup_manager_enhanced.cpp`
+
+---
+
+## Operational Procedures
+
+This section describes the admin-facing backup and restore procedures. For the programmatic C++ API, see sections above.
+
+### Install / Initial Setup
+
+Before taking the first backup, ensure:
+
+1. **Storage destination is provisioned** with sufficient capacity (at minimum 2× DB size for full backups + incremental retention)
+2. **Backup user credentials** are configured if using remote storage destinations
+3. **Schedules are enabled** via the maintenance API (see [Maintenance Schedule](maintenance/README.md))
+
+```bash
+# Verify DB size
+du -sh /var/lib/themis/data
+
+# Verify backup destination is writable
+touch /backups/.write_test && rm /backups/.write_test
+
+# Enable daily incremental backup schedule
+curl -X PATCH -H "Authorization: Bearer $TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{"enabled": true}' \
+     https://themisdb/api/v1/maintenance/schedules/<daily-schedule-id>
+```
+
+### Upgrade Procedure (Pre/Post Backup)
+
+Always create a full backup before and after a major upgrade:
+
+```bash
+# 1. Pre-upgrade full backup
+themisdb-cli backup create --type full --dest /backups/pre-upgrade-$(date +%Y%m%d)
+
+# 2. Verify backup integrity
+themisdb-cli backup verify /backups/pre-upgrade-$(date +%Y%m%d)
+
+# 3. Perform upgrade (see Upgrade Runbook)
+
+# 4. Post-upgrade verification backup
+themisdb-cli backup create --type full --dest /backups/post-upgrade-$(date +%Y%m%d)
+```
+
+→ Full upgrade procedure: [production/RUNBOOKS/UPGRADE_RUNBOOK.md](production/RUNBOOKS/UPGRADE_RUNBOOK.md)
+
+### Backup Execution (Manual)
+
+```bash
+# Full backup
+themisdb-cli backup create --type full --dest /backups
+
+# Incremental backup (since last backup)
+themisdb-cli backup create --type incremental --dest /backups
+
+# Differential backup (since last full backup)
+themisdb-cli backup create --type differential --dest /backups
+
+# Verify a backup
+themisdb-cli backup verify /backups/full_<timestamp>
+
+# List available backups
+themisdb-cli backup list /backups
+```
+
+### Restore Procedure
+
+```bash
+# 1. Stop the ThemisDB service
+sudo systemctl stop themisdb
+
+# 2. Identify the target backup
+themisdb-cli backup list /backups
+
+# 3. Restore from full backup
+themisdb-cli backup restore /backups/full_<timestamp>
+
+# 4. Apply incrementals if needed (for Full+Incremental strategy)
+themisdb-cli backup restore --apply-incrementals /backups/incr_<timestamp>
+
+# 5. Verify restored data
+themisdb-cli health
+
+# 6. Restart service
+sudo systemctl start themisdb
+```
+
+→ Full restore guide: [production/RUNBOOKS/RESTORE_RUNBOOK.md](production/RUNBOOKS/RESTORE_RUNBOOK.md)
+
+### Point-in-Time Recovery (PITR)
+
+```bash
+# Restore to a specific timestamp
+themisdb-cli pitr restore --timestamp "2026-05-12T14:00:00Z"
+
+# Restore to a specific sequence number
+themisdb-cli pitr restore --sequence 1234567
+
+# Restore to a named snapshot tag
+themisdb-cli pitr restore --tag before_migration
+```
+
+### Disaster Recovery
+
+In a disaster scenario, follow the full DR plan:
+
+1. Consult the [Disaster Recovery Plan](production/DISASTER_RECOVERY_PLAN.md) for RTO/RPO targets
+2. Execute [DR Checklists](operations/disaster-recovery/DR_CHECKLISTS.md)
+3. Use the [Restore Runbook](production/RUNBOOKS/RESTORE_RUNBOOK.md) for step-by-step recovery
+4. Run [DR Testing](operations/disaster-recovery/DR_TESTING.md) quarterly to validate readiness
+
+### Monitoring Backup Health
+
+Configure alerts for backup failures via Prometheus:
+
+```yaml
+# prometheus/alerts/backup-rules.yml
+- alert: BackupFailed
+  expr: themis_backup_last_success_seconds > 86400  # No successful backup in 24h
+  for: 1h
+  labels:
+    severity: critical
+  annotations:
+    summary: "ThemisDB backup has not completed in 24 hours"
+
+- alert: BackupVerificationFailed
+  expr: themis_backup_verification_errors_total > 0
+  for: 5m
+  labels:
+    severity: warning
+  annotations:
+    summary: "ThemisDB backup integrity verification failed"
+```
+
+→ Full monitoring setup: [production/MONITORING.md](production/MONITORING.md)
+
+---
+
+**Related Documentation**
+
+| Document | Purpose |
+|----------|---------|
+| [production/RUNBOOKS/RESTORE_RUNBOOK.md](production/RUNBOOKS/RESTORE_RUNBOOK.md) | Full step-by-step restore procedure |
+| [production/RUNBOOKS/UPGRADE_RUNBOOK.md](production/RUNBOOKS/UPGRADE_RUNBOOK.md) | Pre/post-upgrade backup procedures |
+| [production/DISASTER_RECOVERY_PLAN.md](production/DISASTER_RECOVERY_PLAN.md) | DR plan with RTO/RPO targets |
+| [operations/disaster-recovery/DR_CHECKLISTS.md](operations/disaster-recovery/DR_CHECKLISTS.md) | DR execution checklists |
+| [maintenance/README.md](maintenance/README.md) | Automated maintenance and backup schedules |
+| [production/MONITORING.md](production/MONITORING.md) | Backup health monitoring and alerting |
+| [CDC_OPERATIONS_RUNBOOK.md](CDC_OPERATIONS_RUNBOOK.md) | CDC-specific backup and recovery procedures |
