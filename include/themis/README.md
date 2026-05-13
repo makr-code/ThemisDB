@@ -868,7 +868,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 ## See Also
 
 - [Source Roadmap](../../src/themis/ROADMAP.md) - Current status and next phases
-- [Source Future Enhancements](../../src/themis/FUTURE_ENHANCEMENTS.md) - Planned enhancements
+- [Source Security Notes](../../src/themis/SECURITY.md) - Threat model and security controls
 - [Storage Module](../storage/README.md) - Storage interfaces
 - [Query Module](../query/README.md) - Query interfaces
 - [Server Module](../server/README.md) - Server interfaces
