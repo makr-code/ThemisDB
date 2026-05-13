@@ -68,7 +68,7 @@ models, integrated with ThemisDB storage and query infrastructure.
 - Checkpoint paths use rotating, integrity-checked writes through `LoRACheckpointManager`.
 - Distributed scheduling/orchestration is an external dependency and not provided by this module.
 - Production serving orchestration is handled by integration layers outside `training`.
-- Adapter inference routing is exposed via `adapter_serving.h` and expected to be wired by the LLM module/runtime.
+- Adapter inference routing is exposed via `adapter_serving.h` and expected to be wired by the LLM integration runtime (see `src/llm/` plus `../../src/training/README.md` integration section).
 
 ## Quick-Start
 
