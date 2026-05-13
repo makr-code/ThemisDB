@@ -9,8 +9,8 @@
 
 ```
 docs/
-├── README.md                   ← You are here (navigation entry point)
-├── README-DOCUMENTATION.md     ← This file (how docs are organized)
+├── README.md                   ← navigation entry point for docs/
+├── README-DOCUMENTATION.md     ← You are here (how docs are organized)
 ├── QUICK_REFERENCE.md          ← One-page cheat sheet (commands & API)
 ├── FAQ.md                      ← Frequently asked questions
 ├── EXAMPLES_INDEX.md           ← Full index of 37+ example projects

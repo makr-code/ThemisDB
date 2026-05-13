@@ -24,7 +24,7 @@ docker start themisdb  # restart
 
 # Health check
 curl http://localhost:8080/health
-# → {"status":"ok","version":"1.9.0-beta"}
+# Expected: {"status":"ok","version":"1.9.0-beta"}
 ```
 
 ---
@@ -115,7 +115,7 @@ curl -X POST $BASE/vector/search \
 ```bash
 # Begin
 curl -X POST $BASE/transaction/begin
-# → {"tx_id":"txn-abc123"}
+# Expected: {"tx_id":"txn-abc123"}
 
 # Operate within transaction
 curl -X PUT $BASE/entities/products:p1 \
@@ -174,7 +174,7 @@ vector:
 curl -X POST $BASE/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"changeme"}'
-# → {"token":"<jwt>","expires_in":3600}
+# Expected: {"token":"<jwt>","expires_in":3600}
 
 # Use token
 curl $BASE/entities/users:alice \
@@ -204,7 +204,7 @@ curl http://localhost:8080/info
 ```bash
 # Backup
 curl -X POST $BASE/admin/backup
-# → {"status":"ok","path":"/data/backups/backup-<timestamp>.tar.gz"}
+# Expected: {"status":"ok","path":"/data/backups/backup-<timestamp>.tar.gz"}
 
 # Flush WAL
 curl -X POST $BASE/admin/wal/flush

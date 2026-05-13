@@ -61,7 +61,7 @@ docker run -d \
 ```bash
 # Check health
 curl http://localhost:8080/health
-# → {"status":"ok","version":"1.9.0-beta"}
+# Expected response: {"status":"ok","version":"1.9.0-beta"}
 ```
 
 ### 3. Your First Query

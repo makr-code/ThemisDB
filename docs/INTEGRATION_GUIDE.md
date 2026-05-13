@@ -41,7 +41,7 @@ docker run -d --name themisdb -p 8080:8080 themisdb/themisdb:latest
 
 # 2. Verify connectivity
 curl http://localhost:8080/health
-# → {"status":"ok","version":"1.9.0-beta"}
+# Expected: {"status":"ok","version":"1.9.0-beta"}
 
 # 3. Write your first record
 curl -X PUT http://localhost:8080/entities/myapp:record-1 \
@@ -186,7 +186,7 @@ Refer to [`helm/themisdb/values.yaml`](../helm/themisdb/values.yaml) for all con
 curl -X POST http://localhost:8080/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"changeme"}'
-# → {"token":"<jwt>","expires_in":3600}
+# Expected: {"token":"<jwt>","expires_in":3600}
 
 # 2. Use the token
 curl http://localhost:8080/entities/users:alice \
@@ -360,7 +360,7 @@ See [`proto/`](../proto/) for all `.proto` files and [`docs/de/rpc_grpc/`](de/rp
 ```bash
 # Liveness
 curl http://localhost:8080/health
-# → {"status":"ok","version":"1.9.0-beta"}
+# Expected: {"status":"ok","version":"1.9.0-beta"}
 
 # Readiness (storage ready)
 curl http://localhost:8080/ready
