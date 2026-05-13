@@ -13,7 +13,7 @@
 Alle aktuell gefundenen Dateien im Root mit `tmp_*.md` sind **temporär** und **nicht-kanonisch**:
 
 | Datei | Klassifikation | Entscheidung | Zielpfad |
-|---|---|---|---|
+|-------|----------------|--------------|----------|
 | `tmp_acceleration_blueprint.md` | temporär | aus Root entfernen | `docs/archive/tmp-notes/` |
 | `tmp_ai_blueprint_4931.md` | temporär | aus Root entfernen | `docs/archive/tmp-notes/` |
 | `tmp_analytics_blueprint.md` | temporär | aus Root entfernen | `docs/archive/tmp-notes/` |
@@ -32,7 +32,7 @@ Diese Muster sind weiterhin als **nicht-kanonische Root-Artefakte** definiert, a
 Pruefkontext: Root-Scan im Repository-Root (`find . -maxdepth 1 ...`) am **2026-05-13**.
 
 | Muster | Aktueller Root-Status | Klassifikation | Zielpfad |
-|---|---|---|---|
+|--------|----------------------|----------------|----------|
 | `build_*.txt` | 0 Treffer | temporär (Build-Output) | `logs/archive/` |
 | `test_*.txt` | 0 Treffer | temporär (Test-Output) | `tests/outputs/` bzw. `tests/outputs/archive/` |
 | `sec_block.txt` | 0 Treffer | temporär (Hilfsartefakt) | `docs/ARCHIVED/root-drafts/` |
