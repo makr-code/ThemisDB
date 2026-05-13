@@ -11,6 +11,8 @@
 - Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
 - Security: [`SECURITY.md`](SECURITY.md)
 - Changelog: [`CHANGELOG.md`](CHANGELOG.md)
+- Performance expectations: [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md)
+- Audit: [`AUDIT.md`](AUDIT.md)
 
 ## Overview
 

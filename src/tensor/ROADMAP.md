@@ -28,7 +28,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] `HnswTTBridge` header + skeleton with two-layer architecture
 - [x] TT inner-product sweep (Holtz 2012) in O(d·r²)
 - [x] First-core sketch extraction for HNSW navigation layer
-- [x] Module docs: README, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT
+- [x] Module docs: README, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY, CHANGELOG, PERFORMANCE_EXPECTATIONS
 - [x] Research docs: boundary analysis, arXiv draft, AdaLoRA bridge
 - [x] STUB_INVENTORY #150–#157 registered (STUB/SIMULATION NOTEs in all stubs)
 - [x] **`TensorIngestionBridge`** — production `ITensorDecompositionBackend`:

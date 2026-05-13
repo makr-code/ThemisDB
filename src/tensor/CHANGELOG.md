@@ -1,7 +1,7 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
 <!-- Status: current | validated: 2026-05-13 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · SECURITY.md · PERFORMANCE_EXPECTATIONS.md -->
 
 # Changelog — Tensor Module
 
@@ -19,6 +19,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Phase-5 Hierarchical Tucker index production implementation (Target Q2 2028)
 - Phase-6 TNSR topology persistence bridge (Target Q3 2028)
 - Phase-7 semantic encoder for `UTRConverter::fromDocument/fromImage` (Target Q4 2028)
+
+## [1.2.0] — 2026-05-13
+
+### Added
+- `SECURITY.md` — threat model, security controls, Phase-2/3 security requirements,
+  known limitations, and dependency security for the tensor module.
+- `CHANGELOG.md` — Keep-a-Changelog tracking for all tensor module releases.
+- Cross-reference links added to `ARCHITECTURE.md` (Related-docs block) and
+  `README.md` (PERFORMANCE_EXPECTATIONS.md and AUDIT.md entries).
+
+### Changed
+- `AUDIT.md` updated to reflect current scope: 14 source files, 15 headers,
+  16 open stubs (Phases 1–7); compliance table extended with SECURITY.md,
+  CHANGELOG.md, and PERFORMANCE_EXPECTATIONS.md rows; last-audit date set to 2026-05-13.
+- `ROADMAP.md` completed docs entry extended to include SECURITY, CHANGELOG,
+  PERFORMANCE_EXPECTATIONS.
 
 ## [1.1.0] — 2026-05-05
 

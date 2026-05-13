@@ -178,7 +178,7 @@ struct QTTrain {
 class HissReshaper {
 public:
     // -------------------------------------------------------------------------
-    // Optional external quantics encoder bridge
+    // Optional external quantics encoder bridge (STUB #254)
     // -------------------------------------------------------------------------
 
     /**
