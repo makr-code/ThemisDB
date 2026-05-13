@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/openapitools/openapi-generator-cli/master/apps/generator-cli/src/config.schema.json",
+  "x-maintenance-note": "When forking/transferring this repository, update generator-cli.generators.themisdb-go.additionalProperties.moduleName accordingly (see docs/apis/README.md).",
   "spaces": 2,
   "generator-cli": {
     "version": "7.10.0",

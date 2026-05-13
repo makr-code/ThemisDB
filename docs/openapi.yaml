@@ -7,7 +7,7 @@ info:
   version: 0.1.0
   contact:
     name: ThemisDB API Maintainers
-    email: support@themisdb.com
+    url: https://github.com/makr-code/ThemisDB/issues
   license:
     name: MIT
   x-api-governance:
