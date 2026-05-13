@@ -260,3 +260,30 @@ All connectors are implemented and production-ready. Known limitations:
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Troubleshooting
+
+### Connector reports `SOURCE_UNAVAILABLE` or `CONNECTOR_INIT_FAILED`
+
+Validate `SourceConfig::location` and connector-specific credentials/options first. For API/HuggingFace sources, verify token scopes and network reachability; for filesystem sources, verify path readability.
+
+### API/crawler run does not stop
+
+`max_pages = 0` means unlimited traversal. Set explicit `max_pages` (and `max_depth` for web crawler sources) to cap runtime on large/untrusted sources.
+
+### PDF/DOCX documents are not ingested
+
+`FileSystemIngester` requires external converter binaries (`pdftotext` for PDF, `pandoc` for DOCX). Configure `SourceConfig::options["pdf_converter"]` / `["docx_converter"]` or install the tools on PATH.
+
+### Quarantine keeps growing
+
+Review `IngestionErrorCode` patterns in failed records and raise `RetryConfig`/input quality accordingly. Persistently invalid documents should be fixed at source or filtered before ingestion.
+
+## See Also
+
+- Header/API overview: [`../../include/ingestion/README.md`](../../include/ingestion/README.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Architecture guide: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Security notes: [`SECURITY.md`](SECURITY.md)
+- German docs overview: [`../../docs/de/ingestion/README.md`](../../docs/de/ingestion/README.md)
