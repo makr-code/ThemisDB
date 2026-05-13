@@ -65,6 +65,7 @@ function(themis_add_module MODULE_NAME)
     target_compile_definitions(themis_${MODULE_NAME} 
         PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS
         PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
+        PUBLIC THEMIS_SERVER_PROFILE_DEFAULT="${THEMIS_SERVER_PROFILE}"
     )
     
     # Include directories

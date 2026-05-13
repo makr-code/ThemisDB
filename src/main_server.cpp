@@ -107,6 +107,7 @@
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
 #endif
+#include "server/server_activation_profile.h"
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "sharding/wal_applier.h"
@@ -224,6 +225,7 @@ struct ServerCommandLineOptions {
     bool show_version = false;
     bool show_build_info = false;
     bool show_license_info = false;
+    std::optional<std::string> server_profile;
 };
 
 using themis::cli::is_help_flag;
@@ -238,6 +240,7 @@ void print_usage(std::ostream& out, const char* prog) {
         << "  --port PORT          Server port (default: 8765)\n"
         << "  --threads N          Number of worker threads (default: auto)\n"
         << "  --config FILE        Load server/storage config from JSON or YAML file\n"
+        << "  --server-profile P   Server activation profile: minimal|standard|enterprise\n"
         << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
         << "  --allow-degraded-build  Allow startup with missing production build features\n"
         << "  --version, -v        Show version information and exit\n"
@@ -254,6 +257,7 @@ bool parse_server_command_line(int argc,
                                std::string& error_message) {
     constexpr std::string_view kDataDirPrefix = "--data-dir=";
     constexpr std::string_view kConfigPrefix = "--config=";
+    constexpr std::string_view kServerProfilePrefix = "--server-profile=";
 
     for (int index = 1; index < argc; ++index) {
         const std::string arg = argv[index];
@@ -354,6 +358,20 @@ bool parse_server_command_line(int argc,
             continue;
         }
 
+        if (arg_view == "--server-profile") {
+            std::string profile_value;
+            if (!consume_next_value(argc, argv, index, arg_view, profile_value, error_message)) {
+                return false;
+            }
+            options.server_profile = std::move(profile_value);
+            continue;
+        }
+
+        if (arg_view.rfind(kServerProfilePrefix, 0) == 0) {
+            options.server_profile = arg.substr(kServerProfilePrefix.size());
+            continue;
+        }
+
         // Leave unknown options untouched so feature-specific subsystems can
         // continue to inspect argc/argv without parser regressions.
     }
@@ -370,58 +388,35 @@ bool parse_server_command_line(int argc,
     return false;
 }
 
-[[nodiscard]] std::vector<std::string> collect_missing_production_build_flags() {
-    std::vector<std::string> missing;
-#ifndef THEMIS_ENABLE_HTTP_SERVER
-    missing.emplace_back("THEMIS_ENABLE_HTTP_SERVER");
+[[nodiscard]] themis::server::ServerBuildCapabilities collect_server_build_capabilities() {
+    themis::server::ServerBuildCapabilities capabilities{};
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+    capabilities.http_server = true;
 #endif
-#ifndef THEMIS_ENABLE_GRPC
-    missing.emplace_back("THEMIS_ENABLE_GRPC");
+#ifdef THEMIS_ENABLE_GRPC
+    capabilities.grpc = true;
 #endif
-#ifndef THEMIS_HAS_PROMETHEUS
-    missing.emplace_back("THEMIS_HAS_PROMETHEUS");
+#ifdef THEMIS_HAS_PROMETHEUS
+    capabilities.prometheus = true;
 #endif
-#ifndef THEMIS_ENABLE_LLM
-    missing.emplace_back("THEMIS_ENABLE_LLM");
+#ifdef THEMIS_ENABLE_LLM
+    capabilities.llm = true;
 #endif
-#ifndef THEMIS_ENABLE_MIMALLOC
-    missing.emplace_back("THEMIS_ENABLE_MIMALLOC");
+#ifdef THEMIS_ENABLE_MIMALLOC
+    capabilities.mimalloc = true;
 #endif
-    return missing;
+#ifdef THEMIS_ENABLE_HSM_REAL
+    capabilities.hsm_real = true;
+#endif
+    return capabilities;
 }
 
-[[nodiscard]] bool validate_production_build_capabilities(int argc, char* argv[]) {
-    const auto missing = collect_missing_production_build_flags();
-    if (missing.empty()) {
-        return true;
+[[nodiscard]] std::optional<std::string> get_env_server_profile() {
+    const char* profile = std::getenv("THEMIS_SERVER_PROFILE");
+    if (!profile || std::string_view(profile).empty()) {
+        return std::nullopt;
     }
-
-    std::ostringstream missing_joined;
-    for (size_t i = 0; i < missing.size(); ++i) {
-        if (i > 0) {
-            missing_joined << ", ";
-        }
-        missing_joined << missing[i];
-    }
-
-    const bool allow_degraded_build = has_allow_degraded_build_flag(argc, argv);
-    const bool production_mode = themis::security::HSMSecurityChecker::isProductionMode();
-    if (!production_mode) {
-        THEMIS_WARN("Build capability warning (development mode): missing production build flags: {}",
-                    missing_joined.str());
-        return true;
-    }
-
-    if (allow_degraded_build) {
-        THEMIS_WARN("Production startup override active (--allow-degraded-build); missing build flags: {}",
-                    missing_joined.str());
-        return true;
-    }
-
-    THEMIS_CRITICAL("Critical build capability failure: missing required production build flags: {}",
-                    missing_joined.str());
-    THEMIS_CRITICAL("Override for development/emergency only: --allow-degraded-build");
-    return false;
+    return std::string(profile);
 }
 
 } // namespace
@@ -685,11 +680,6 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    if (!validate_production_build_capabilities(argc, argv)) {
-        THEMIS_CRITICAL("Server startup aborted due to missing production build capabilities");
-        return 1;
-    }
-    
     // Display build configuration and edition information (startup logging)
     try {
         auto build_config = themis::build_info::getBuildConfiguration();
@@ -920,6 +910,59 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        const bool allow_degraded_build = has_allow_degraded_build_flag(argc, argv);
+        const bool production_mode = themis::security::HSMSecurityChecker::isProductionMode();
+        const auto build_capabilities = collect_server_build_capabilities();
+        const auto runtime_requests = themis::server::extractRuntimeFeatureRequests(
+            cfg, themis::security::isHSMStubOptInEnabled(argc, argv));
+
+#ifdef THEMIS_SERVER_PROFILE_DEFAULT
+        constexpr std::string_view kDefaultServerProfile = THEMIS_SERVER_PROFILE_DEFAULT;
+#else
+        constexpr std::string_view kDefaultServerProfile = "standard";
+#endif
+        const auto profile_resolution = themis::server::resolveServerActivationProfile(
+            command_line_options.server_profile,
+            cfg,
+            get_env_server_profile(),
+            std::string(kDefaultServerProfile));
+
+        if (!profile_resolution.ok) {
+            THEMIS_CRITICAL("Invalid server profile: {} (source: {}, value: '{}')",
+                            profile_resolution.error,
+                            profile_resolution.source,
+                            profile_resolution.raw_value);
+            return 1;
+        }
+
+        const auto profile_validation = themis::server::validateServerActivationProfile(
+            profile_resolution.profile,
+            build_capabilities,
+            runtime_requests,
+            allow_degraded_build);
+
+        const auto startup_capability_report = themis::server::makeStartupCapabilityReport(
+            profile_resolution.profile,
+            profile_resolution,
+            build_capabilities,
+            runtime_requests,
+            profile_validation,
+            allow_degraded_build,
+            production_mode);
+
+        THEMIS_INFO("Startup capability report: {}", startup_capability_report.dump());
+        for (const auto& warning : profile_validation.warnings) {
+            THEMIS_WARN("Startup capability warning: {}", warning);
+        }
+
+        if (!profile_validation.ok()) {
+            THEMIS_CRITICAL("Server startup aborted: capability/profile validation failed");
+            for (const auto& error : profile_validation.errors) {
+                THEMIS_CRITICAL("  - {}", error);
+            }
+            return 1;
+        }
+
         THEMIS_INFO("Database path: {}", db_path);
         THEMIS_INFO("Server: {}:{}", host, port);
         
@@ -1043,32 +1086,46 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  Production Mode: {}", themis::security::HSMSecurityChecker::isProductionMode() ? "YES" : "NO");
         
         // Perform startup security validation
+        const bool allow_stub = themis::security::isHSMStubOptInEnabled(argc, argv);
         if (g_hsm_provider->isStubProvider()) {
-            const bool allow_stub = themis::security::isHSMStubOptInEnabled(argc, argv);
-            
-            if (!allow_stub) {
-                // Display startup warning banner
-                THEMIS_WARN("╔════════════════════════════════════════════════════════════════════════════╗");
-                THEMIS_WARN("║  ⚠️  WARNING: INSECURE HSM CONFIGURATION DETECTED                          ║");
-                THEMIS_WARN("║                                                                            ║");
-                THEMIS_WARN("║  The HSM provider is set to 'stub' which is DEVELOPMENT ONLY.              ║");
-                THEMIS_WARN("║  Master encryption keys are NOT protected by hardware security.            ║");
-                THEMIS_WARN("║                                                                            ║");
-                THEMIS_WARN("║  FOR PRODUCTION USE:                                                       ║");
-                THEMIS_WARN("║  - Configure a real HSM provider (PKCS#11, AWS KMS, Azure Key Vault)       ║");
-                THEMIS_WARN("║  - See: docs/security/HSM_PRODUCTION_SETUP.md                              ║");
-                THEMIS_WARN("║                                                                            ║");
-                THEMIS_WARN("║  To suppress this warning in development, use: --allow-stub-hsm            ║");
-                THEMIS_WARN("╚════════════════════════════════════════════════════════════════════════════╝");
-                
-                // Start periodic warning thread (every 5 minutes)
+            if (allow_stub) {
+                THEMIS_WARN("HSM stub provider allowed by explicit opt-in (DEVELOPMENT ONLY)");
                 startHSMWarningThread();
-            } else {
-                THEMIS_WARN("HSM stub provider allowed by --allow-stub-hsm flag (DEVELOPMENT ONLY)");
             }
         } else {
             THEMIS_INFO("HSM provider is hardware-backed - production ready");
         }
+
+        const auto hsm_profile_validation = themis::server::validateHsmRuntimeForProfile(
+            profile_resolution.profile,
+            g_hsm_provider->isStubProvider(),
+            allow_stub);
+        if (!hsm_profile_validation.ok()) {
+            THEMIS_CRITICAL("Server startup aborted: HSM profile policy validation failed");
+            for (const auto& error : hsm_profile_validation.errors) {
+                THEMIS_CRITICAL("  - {}", error);
+            }
+            if (g_hsm_provider) {
+                g_hsm_provider->finalize();
+                g_hsm_provider.reset();
+            }
+            stopHSMWarningThread();
+            return 1;
+        }
+
+        auto runtime_capability_report = themis::server::makeStartupCapabilityReport(
+            profile_resolution.profile,
+            profile_resolution,
+            build_capabilities,
+            runtime_requests,
+            hsm_profile_validation,
+            allow_degraded_build,
+            production_mode);
+        runtime_capability_report["hsm_runtime"] = {
+            {"stub_provider_active", g_hsm_provider->isStubProvider()},
+            {"explicit_stub_opt_in", allow_stub}
+        };
+        THEMIS_INFO("Startup capability report (post-HSM): {}", runtime_capability_report.dump());
         
         // Validate production safety (will fail startup if stub in production without flag)
         if (!themis::security::HSMSecurityChecker::validateProductionSafety(*g_hsm_provider, argc, argv)) {
@@ -2979,4 +3036,3 @@ int main(int argc, char* argv[]) {
     utils::Logger::shutdown();
     return 0;
 }
-
