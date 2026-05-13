@@ -1172,7 +1172,7 @@ The primary runtime configuration surface is the C++ API:
 | `TransactionManager::setDeadlockTimeout(std::chrono::milliseconds)` | `1000ms` | Deadlock timeout and victim handling threshold |
 | `TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Applies default timeout to newly started transactions |
 | `TransactionManager::setTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Timeout sweep over active transactions |
-| `TransactionManager::setSSIConfig(const SSIConfig&)` | `max_predicate_locks=10000` | Tunes SERIALIZABLE predicate-lock behavior |
+| `TransactionManager::setSSIConfig(const SSIConfig&)` | `predicate_locking=true`, `max_predicate_locks=10000` | Tunes SERIALIZABLE predicate-lock behavior |
 | `Transaction::setTimeout(std::chrono::milliseconds)` | `0ms` | Per-transaction timeout override |
 | `Transaction::setReadOnly(bool)` | `false` | Enables read-only fast path for a transaction |
 
