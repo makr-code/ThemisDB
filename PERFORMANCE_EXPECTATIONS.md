@@ -24,8 +24,15 @@
 - Benchmark-Läufe verwenden die projektweiten Benchmarks unter `benchmarks/` und die zugeordneten Testpfade unter `tests/`.
 - Jeder Messlauf dokumentiert Warmup, unabhängige Runs, Percentile (P50/P95/P99), Plattform/Binary und Konfigurationsparameter.
 - Messwerte sind nur vergleichbar bei identischer oder explizit dokumentierter Abweichung von Hardware/Edition/Build-Typ.
-- Primäre Referenzen: [`docs/benchmarks/README.md`](docs/benchmarks/README.md), [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md), [`benchmarks/benchmark_target_mapping.json`](benchmarks/benchmark_target_mapping.json).
-- Relevante Testpfade (Beispiele): [`tests/performance/test_wire_perf_benchmark.cpp`](tests/performance/test_wire_perf_benchmark.cpp), [`tests/llm/test_inference_performance.cpp`](tests/llm/test_inference_performance.cpp), [`tests/test_ethics_ai_benchmark.cpp`](tests/test_ethics_ai_benchmark.cpp), [`tests/test_performance_allocator.cpp`](tests/test_performance_allocator.cpp).
+- Primäre Referenzen:
+  - [`docs/benchmarks/README.md`](docs/benchmarks/README.md)
+  - [`docs/benchmarks/slo_benchmark_matrix_v190.md`](docs/benchmarks/slo_benchmark_matrix_v190.md)
+  - [`benchmarks/benchmark_target_mapping.json`](benchmarks/benchmark_target_mapping.json)
+- Relevante Testpfade (Beispiele):
+  - [`tests/performance/test_wire_perf_benchmark.cpp`](tests/performance/test_wire_perf_benchmark.cpp)
+  - [`tests/llm/test_inference_performance.cpp`](tests/llm/test_inference_performance.cpp)
+  - [`tests/test_ethics_ai_benchmark.cpp`](tests/test_ethics_ai_benchmark.cpp)
+  - [`tests/test_performance_allocator.cpp`](tests/test_performance_allocator.cpp)
 
 ### Historical Data Policy
 

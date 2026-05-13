@@ -42,7 +42,7 @@ stubs masquerading as functional code on critical paths.
 7. [Stubs on Critical Paths](#7-stubs-on-critical-paths)
 8. [Parallelism Gaps](#8-parallelism-gaps)
 9. [Data Races](#9-data-races)
-10. SIMD / CPU Feature Detection (Section 10)
+10. [SIMD / CPU Feature Detection](#10-simd--cpu-feature-detection)
 11. [Summary Table](#11-summary-table)
 12. [Recommended Fix Priority](#12-recommended-fix-priority)
 
@@ -652,6 +652,7 @@ static const auto& table = [] {
 
 ---
 
+<a id="10-simd--cpu-feature-detection"></a>
 ## 10. SIMD / CPU Feature Detection
 
 ### F-022 (details in §6 above)
