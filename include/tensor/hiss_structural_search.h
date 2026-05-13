@@ -131,10 +131,10 @@ public:
      * the tensor again in the reshaped layout.
      *
       * Factorisation strategy (built-in residual-factor fallback, STUB #254):
-      * - dimensions that are powers of two become repeated `2` modes
+      * - all factors of 2 are extracted as repeated `2` modes
       *   (e.g., 8 → {2,2,2})
-      * - non-power-of-two dimensions are factored into their prime/residual
-      *   factors (e.g., 12 → {2,2,3}); no zero-padding occurs in this path
+      * - the remaining odd residual is appended as a single mode
+      *   (e.g., 12 → {2,2,3}, 15 → {15}); no zero-padding occurs in this path
       *
       * When a pure-binary `QuanticsFn` bridge is installed via `setQuanticsFn()`,
       * non-power-of-two dimensions are padded to the next power of two and

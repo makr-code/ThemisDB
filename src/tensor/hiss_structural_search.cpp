@@ -118,6 +118,16 @@ static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
     return std::max<std::size_t>(depth, 1);
 }
 
+/**
+ * @brief Decomposes @p grid_size into quantics mode sizes for the residual-factor fallback.
+ *
+ * Strategy: repeatedly extract factors of 2; the remaining odd residual is appended as
+ * a single final mode.  Examples: 8 → {2,2,2}, 12 → {2,2,3}, 15 → {15}, 1 → {1}.
+ *
+ * @param grid_size  Physical dimension size; must be > 0.
+ * @return Vector of mode sizes whose product equals @p grid_size.
+ * @throws std::invalid_argument if @p grid_size is 0.
+ */
 [[nodiscard]] std::vector<std::size_t> quanticsFactors(std::size_t grid_size) {
     if (grid_size == 0) {
         throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
