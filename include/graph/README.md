@@ -8,6 +8,25 @@ This directory contains the public header files for ThemisDB's Graph module. The
 
 ## Header Files
 
+## Public Header Entry Points
+
+| Header | Primary Public Entry Points | Backing Implementation |
+|--------|------------------------------|------------------------|
+| `graph_query_optimizer.h` | `GraphQueryOptimizer`, `QueryConstraints`, `OptimizationPlan` | `src/graph/graph_query_optimizer.cpp` |
+| `path_constraints.h` | `PathConstraints`, `PathResult` | `src/graph/path_constraints.cpp` |
+| `distributed_graph.h` | `DistributedGraph`, `DistributedGraphConfig` | `src/graph/distributed_graph.cpp` |
+| `parallel_traversal.h` | `ParallelTraversal`, `ParallelTraversal::Config` | `src/graph/parallel_traversal.cpp` |
+| `gpu_traversal.h` | `GPUGraphTraversal`, `GPUGraphTraversal::Config` | `src/graph/gpu_traversal.cpp`, `src/graph/gpu_traversal_cuda.cu` |
+| `scheduled_edge_refresh.h` | `ScheduledGraphEdgeRefreshEngine`, `RefreshPolicy`, `RefreshStats` | `src/graph/scheduled_edge_refresh.cpp` |
+| `graph_query_rewriter.h` | `GraphQueryRewriter`, `RewriteConfig` | `src/graph/graph_query_rewriter.cpp` |
+| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner`, inference/LoRA integration API | `src/graph/knowledge_graph_reasoner.cpp` |
+| `ontology_manager.h` | `OntologyManager`, semantic ontology loading/lookup | `src/graph/ontology_manager.cpp` |
+| `graph_embedding.h` | `GraphEmbeddingModel`, `GraphEmbeddingConfig` | (header-level API; module implementation integrated via consumers) |
+| `graph_watermark.h` | `GraphWatermark` | `src/graph/graph_watermark.cpp` |
+| `explain_plan.h` | `ExplainPlan` | `src/graph/explain_plan.cpp` |
+| `tensor_fingerprint_graph.h` | `TensorFingerprintGraph`, `FingerprintGraphConfig` | `src/graph/tensor_fingerprint_graph.cpp` |
+| `tensor_deduplication_manager.h` | `TensorDeduplicationManager`, `DeduplicationConfig` | `src/graph/tensor_deduplication_manager.cpp` |
+
 ### graph_query_optimizer.h
 **Purpose:** Cost-based graph query optimization and algorithm selection
 
@@ -490,24 +509,62 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 ## Related Documentation
 
 - [Graph Module Implementation](../../src/graph/README.md) - Detailed implementation documentation
+- [Graph Module Roadmap](../../src/graph/ROADMAP.md) - Delivery phases and production-readiness checklist
 - [Graph Future Enhancements](../../src/graph/FUTURE_ENHANCEMENTS.md) - Planned features
+- [Graph Architecture](../../src/graph/ARCHITECTURE.md) - Runtime design and control flow
+- [Graph Performance Expectations](../../src/graph/PERFORMANCE_EXPECTATIONS.md) - Targets and benchmark mappings
+- [Graph Security Notes](../../src/graph/SECURITY.md) - Security assumptions and controls
 - [Index Module](../index/README.md) - Graph infrastructure (GraphIndexManager, GraphAnalytics)
 - [Query Module](../query/README.md) - AQL integration
+- [German Graph Overview](../../docs/de/graph/README.md) - Einstieg, Usage, Troubleshooting (DE)
 
 ## Additional Public Headers
 
 | Header | Purpose |
 |--------|---------|
-| `distributed_graph.h` | `DistributedGraph` — partitioned graph across cluster nodes <!-- TODO: verify --> |
+| `distributed_graph.h` | `DistributedGraph` — partitioned graph execution across shards |
 | `explain_plan.h` | `ExplainPlan` — human-readable query plan explanation output |
-| `gpu_traversal.h` | `GpuTraversal` — CUDA/HIP-accelerated graph traversal kernels <!-- TODO: verify --> |
+| `gpu_traversal.h` | `GPUGraphTraversal` — GPU-accelerated traversal with CPU fallback |
 | `graph_embedding.h` | `GraphEmbedding` — node and edge embedding computation |
 | `graph_query_rewriter.h` | `GraphQueryRewriter` — rewrite rules for graph query optimisation |
 | `graph_watermark.h` | `GraphWatermark` — temporal watermark tracking for streaming graph updates |
+| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner` — rule-based + LoRA-assisted graph inference |
+| `ontology_manager.h` | `OntologyManager` — ontology loading and semantic type checks |
 | `parallel_traversal.h` | `ParallelTraversal` — multi-threaded BFS/DFS traversal engine |
 | `scheduled_edge_refresh.h` | `ScheduledEdgeRefresh` — periodic refresh of derived/cached edges |
+| `tensor_fingerprint_graph.h` | `TensorFingerprintGraph` — tensor-similarity graph via MinHash/LSH |
+| `tensor_deduplication_manager.h` | `TensorDeduplicationManager` — similarity-based tensor deduplication |
 
-*Last Updated: April 2026*
+## Configuration Surfaces (Runtime)
+
+| API | Configuration Surface | Typical Knobs |
+|-----|------------------------|---------------|
+| `GraphQueryOptimizer` | `QueryConstraints` + setter APIs | `max_depth`, `max_results`, `edge_type`, `graph_id`, cache size/TTL, adaptive learning, QPS limits |
+| `PathConstraints` | constraint builder methods | Min/max length, required/forbidden nodes or edges, acyclic/unique, semantic constraints |
+| `ParallelTraversal` | `ParallelTraversal::Config` | `max_depth`, `num_threads`, `fan_out_threshold`, `timeout_ms`, `max_results` |
+| `GPUGraphTraversal` | `GPUGraphTraversal::Config` | `gpu_device`, `min_vertices_for_gpu`, `max_depth`, `max_results`, forbidden vertices |
+| `ScheduledGraphEdgeRefreshEngine` | `RefreshPolicy` | `refresh_interval`, thresholds, add/remove limits, anomaly threshold, ANN switch |
+| `GraphQueryRewriter` | `RewriteConfig` | enabled rules, aggressive mode, rewrite-time budget |
+| Tensor redundancy APIs | `FingerprintGraphConfig`, `DeduplicationConfig` | similarity threshold, LSH parameters, top-k candidates, delta constraints |
+
+## Runtime Behavior, Failure Cases, and Limits
+
+- All fallible graph APIs return `Result<T>`; inspect `error().message` and code paths from `utils/error_registry.h`.
+- `GraphQueryOptimizer`, `PathConstraints`, and traversal helpers are not safe for concurrent mutation on the same instance.
+- GPU traversal can return valid results via CPU fallback when GPU runtime or size thresholds do not qualify for device execution.
+- `PathConstraints` and optimizer constraints can intentionally return empty results (`NOT_FOUND`) when filters are contradictory.
+- Refresh engine safety gates can abort a cycle before commit when removal/addition thresholds are exceeded.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Action |
+|---------|--------------|--------|
+| `INVALID_STATE` on optimization/constraint calls | Graph manager not set or object lifecycle mismatch | Ensure `GraphIndexManager` is configured before calling optimization/traversal APIs. |
+| Unexpectedly empty constrained paths | Contradictory `required_*` + `forbidden_*` constraints or too low `max_depth` | Relax constraints and inspect `describeConstraints()` output. |
+| No GPU path observed | `min_vertices_for_gpu` not reached or runtime without GPU support | Tune config for tests and rely on documented CPU fallback behavior in production. |
+| Refresh cycles repeatedly abort | `RefreshPolicy` thresholds too strict for current graph churn | Increase removal/add limits or rebalance thresholds incrementally. |
+
+*Last Updated: May 2026*
 *Module Version: v1.5.0*
 
 ## Installation
