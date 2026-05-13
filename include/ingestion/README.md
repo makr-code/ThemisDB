@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build (Linux example):** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-05-13 -->
 <!-- Links: ../../src/ingestion/README.md · ../../src/ingestion/ROADMAP.md · ../../src/ingestion/FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
@@ -91,6 +91,7 @@ Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration
 using namespace themis::ingestion;
 
 auto manager = IngestionBuilder("rocksdb://./data")
+    // Storage URI consumed by the underlying document store backend.
     .withFilesystemSource("local", "/data/docs", {{"extensions", ".txt,.md"}}, 1)
     .withRetryConfig({.max_attempts = 3, .initial_delay_ms = 500, .backoff_factor = 2.0})
     .withRateLimitConfig({.requests_per_second = 10.0, .enabled = true})
