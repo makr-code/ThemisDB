@@ -140,7 +140,7 @@ struct HyperIndexConfig {
     struct ForeignKeyEdge {
         std::size_t from_column = 0;                 ///< Source mode index
         std::size_t to_column   = 0;                 ///< Target mode index
-        std::optional<double> join_strength = 1.0;   ///< Optional [0,1] signal weight
+        std::optional<double> join_strength;         ///< Optional [0,1] signal weight
     };
 
     struct ForeignKeyGraphConfig {

@@ -541,6 +541,7 @@ TEST(UTRConverter, HyperIndexBuilderFkJoinSignalPropagatesAcrossTwoHopPath) {
     const auto two_hop_mid_bucket = two_hop.contract({{2u, 2u}});
     EXPECT_EQ(one_hop.total_rows, two_hop.total_rows);
     EXPECT_GT(two_hop_mid_bucket, one_hop_mid_bucket);
+    EXPECT_GT(two_hop_mid_bucket, 0.25);
 }
 
 TEST(UTRConverter, HyperIndexBuilderFkCycleTraversalIsProtected) {

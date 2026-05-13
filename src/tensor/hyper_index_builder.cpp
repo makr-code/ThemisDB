@@ -324,10 +324,17 @@ std::vector<FkResolvedEdge> resolveForeignKeyEdges(
             }
         }
 
+        if (weight < 0.0 || weight > 1.0) {
+            throw std::invalid_argument(
+                "fk_graph edge has invalid join_strength outside [0,1]: from=" +
+                std::to_string(edge.from_column) + ", to=" +
+                std::to_string(edge.to_column) + ", join_strength=" +
+                std::to_string(weight));
+        }
         if (!(weight > 0.0)) {
             continue;
         }
-        resolved.push_back({edge.from_column, edge.to_column, std::min(weight, 1.0)});
+        resolved.push_back({edge.from_column, edge.to_column, weight});
     }
     return resolved;
 }
@@ -399,6 +406,8 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 if (!visited.insert(next).second) {
                     continue; // cycle-protected traversal
                 }
+                // First hop models direct FK linkage and keeps full edge weight.
+                // Additional hops apply configurable decay to attenuate distant joins.
                 const auto hop_decay = (cur.depth == 0U) ? 1.0 : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
                 if (!(next_weight > 0.0)) {
@@ -417,6 +426,8 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
             continue;
         }
         const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];
+        // Blend base discretisation with FK-propagated signal at 50/50 so
+        // FK links can influence, but not fully override, local evidence.
         const auto blended = (static_cast<double>(buckets[k]) + propagated_bucket) / 2.0;
         buckets[k] = clampBucketFromSignal(blended, bucket_count);
     }
