@@ -118,3 +118,15 @@ Die Kapitelreihenfolge, Abgrenzung überlappender Kapitelnummern, Appendix-Refer
 - `compendium/mkdocs-nav.yml`
 - `compendium/docs/appendix_h_glossary.md`
 - `compendium/docs/appendix_literatur.md`
+
+## Kanonische Einstiegspunkte vs. unterstützende Dateien
+
+### Kanonische Einstiegspunkte
+- `index.md` (diese Datei): verbindliches Inhaltsverzeichnis und Navigationsquelle.
+- `preface.md`: inhaltlicher Einstieg vor den Kapiteln.
+
+### Unterstützende Dateien (nicht-kanonisch für Kapitelnavigation)
+- `cover_book.md`: primäres Cover-Template für die PDF/HTML-Generierung.
+- `cover.md`: vereinfachte Cover-Variante für alternative Renderpfade.
+- `INTEGRATION_MAPPING.md`: redaktionelles Synchronisations- und Audit-Dokument.
+- `test_links_example.md`: Link-Validierungsbeispiele, kein Kapitelinhalt.

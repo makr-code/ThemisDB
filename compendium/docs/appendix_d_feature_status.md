@@ -159,7 +159,7 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 
 **Module:** `src/rag/`, `include/rag/`, `src/server/`, `include/server/`  
 **Compendium:** [chapter_17_llm_integration.md](chapter_17_llm_integration.md)  
-**Referenz:** [flare_retrieval_callback_bridge.md](../../docs/flare_retrieval_callback_bridge.md)
+**Referenz:** [flare_retrieval_callback_bridge.md](../../docs/ARCHIVED/implementation-summaries/flare_retrieval_callback_bridge.md)
 
 ---
 
@@ -813,8 +813,8 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 ## Vollständige Feature-Matrix
 
 **Vollständige Feature-Matrix siehe:**
-- Admin Tools: [`feature_matrix.md`](../admin_tools/feature_matrix.md)
-- Features Overview: [`features_overview.md`](../features/features_overview.md)
+- Admin Tools: [`feature_matrix.md`](../../docs/de/admin_tools/feature_matrix.md)
+- Features Overview: [`features_overview.md`](../../docs/de/features/features_overview.md)
 - Sharding Status: Chapter 16 (Horizontal Scaling)
 - Security Status: Chapter 10 (Section 10.2)
 - Query Optimization: Chapter 15 (Section 15.4)

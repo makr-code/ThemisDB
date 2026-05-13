@@ -5,6 +5,10 @@
 
 ---
 
+Kanonischer Navigationseinstieg: [Inhaltsverzeichnis](index.md)
+
+---
+
 ## Warum dieses Buch?
 
 Als wir ThemisDB entwickelten, hatten wir eine Vision: Eine Datenbank, die alles kann, was moderne Anwendungen brauchen - relational, Graph, Dokument und Vektor - in einem System, ohne Kompromisse.
@@ -199,7 +203,9 @@ Datenbanken sind mächtige Werkzeuge. ThemisDB macht sie zugänglich.
 
 *Ready to become a ThemisDB expert?*
 
-**[→ Kapitel 1: Einführung in ThemisDB](chapter_01_introduction.md)**
+**[→ Zum konsolidierten Inhaltsverzeichnis](index.md)**
+
+Empfohlener Startpfad: [Kapitel 1: Einführung in ThemisDB](chapter_01_introduction.md)
 
 ---
 
