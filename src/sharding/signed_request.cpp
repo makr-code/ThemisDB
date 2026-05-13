@@ -56,12 +56,12 @@ namespace {
     constexpr const char* kAuditNonceEviction = "SRV_NONCE_EVICTION";
     constexpr const char* kAuditInvalidCertSerial = "SRV_INVALID_CERT_SERIAL";
 
-    bool rejectWithAuditCode(const char* code, const std::string& details) {
+    [[nodiscard]] bool rejectWithAuditCode(const char* code, const std::string& details) {
         spdlog::warn("SignedRequestVerifier reject [{}]: {}", code, details);
         return false;
     }
 
-    bool isStrictBase64(const std::string& input) {
+    [[nodiscard]] bool isStrictBase64(const std::string& input) {
         if (input.empty() || (input.size() % 4) != 0) {
             return false;
         }
@@ -89,7 +89,7 @@ namespace {
     }
 
     // Base64 encode helper
-    std::string base64Encode(const unsigned char* data, size_t len) {
+    [[nodiscard]] std::string base64Encode(const unsigned char* data, size_t len) {
         BIO* bmem = BIO_new(BIO_s_mem());
         if (!bmem) return "";
         BIO* b64 = BIO_new(BIO_f_base64());
@@ -553,8 +553,8 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     const std::string canonical = request.getCanonicalString();
     auto md_ctx = utils::make_evp_md_ctx();
     if (!md_ctx) return false;
-    const int key_type = EVP_PKEY_base_id(pubkey.get());
-    if (key_type == EVP_PKEY_ED25519) {
+    const int pubkey_type = EVP_PKEY_base_id(pubkey.get());
+    if (pubkey_type == EVP_PKEY_ED25519) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, nullptr, nullptr, pubkey.get()) != 1) {
             return false;
         }
@@ -563,7 +563,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
                                 signature_bytes->size(),
                                 reinterpret_cast<const unsigned char*>(canonical.data()),
                                 canonical.size()) == 1;
-    } else if (key_type == EVP_PKEY_RSA || key_type == EVP_PKEY_EC) {
+    } else if (pubkey_type == EVP_PKEY_RSA || pubkey_type == EVP_PKEY_EC) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
             return false;
         }
@@ -579,7 +579,10 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
-        if (!(now_ms > oldest.timestamp_ms && (now_ms - oldest.timestamp_ms) > config_.nonce_expiry_ms)) {
+        const bool is_expired =
+            now_ms > oldest.timestamp_ms &&
+            (now_ms - oldest.timestamp_ms) > config_.nonce_expiry_ms;
+        if (!is_expired) {
             break;
         }
 

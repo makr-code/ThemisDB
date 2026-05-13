@@ -81,7 +81,7 @@ AQcttznszBO+ug2ilJnGRic=
 -----END CERTIFICATE-----
 )";
 
-std::filesystem::path writePem(const std::filesystem::path& path, const std::string& content) {
+[[nodiscard]] std::filesystem::path writePem(const std::filesystem::path& path, const std::string& content) {
     std::ofstream out(path);
     if (!out.is_open()) {
         throw std::runtime_error("failed to open PEM output file: " + path.string());
@@ -94,7 +94,7 @@ std::filesystem::path writePem(const std::filesystem::path& path, const std::str
     return path;
 }
 
-std::filesystem::path makeTempDir(const std::string& prefix) {
+[[nodiscard]] std::filesystem::path makeTempDir(const std::string& prefix) {
     const auto suffix = std::to_string(
         std::chrono::steady_clock::now().time_since_epoch().count());
     const auto dir = std::filesystem::temp_directory_path() / (prefix + "_" + suffix);
