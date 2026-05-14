@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This reviewed article aligns geospatial best practices with the current ThemisDB implementation status. The focus is practical: what is already implemented, what is measurable today, and which next steps are realistic without overstating capability. Core findings: (1) ThemisDB already exposes substantial geospatial functionality in AQL (`ST_*` and `GEO_*` functions), (2) the content ingestion path uses GDAL/OGR with `/vsimem/`-based parsing and optional spatial filtering, and (3) the geospatial indexing stack combines Morton (Z-order) encoding and R-tree structures with bulk-load support. Claimed performance values in this document are explicitly tied to repository benchmark artifacts, not external assumptions.
+This reviewed article aligns geospatial best practices with the current ThemisDB state using repository-verifiable evidence only. It summarizes what is implemented, what is measurable in existing benchmark artifacts, and which next steps are realistic without over-claiming. All core claims are tied to concrete code paths, documentation, or benchmark sources.
 
 ## Introduction
 
@@ -25,14 +25,14 @@ Primary objective: provide a review-ready, evidence-backed baseline for geospati
 The review used three evidence classes:
 
 1. **Code verification** (authoritative for implementation state)
-   - `include/index/spatial_index.h`
-   - `include/query/functions/geo_functions.h`
-   - `src/content/geo_processor.cpp`
+   - `../include/index/spatial_index.h`
+   - `../include/query/functions/geo_functions.h`
+   - `../src/content/geo_processor.cpp`
 2. **Product documentation** (authoritative for public architecture/feature language)
-   - `README.md`
-   - `docs/features/geo_gdal_integration.md`
+   - `../README.md`
+   - `../docs/features/geo_gdal_integration.md`
 3. **Benchmark artifacts** (authoritative for published performance claims)
-   - `docs/de/geo/geo_benchmarks.md`
+   - `../docs/de/geo/geo_benchmarks.md`
 
 Validation criteria:
 
@@ -46,7 +46,7 @@ Validation criteria:
 
 The geospatial function surface includes OGC-style `ST_*` and Arango-style `GEO_*` patterns, including distance and predicate operations (`ST_DISTANCE`, `ST_INTERSECTS`, `ST_WITHIN`, `GEO_DISTANCE`, `GEO_CONTAINS`) in:
 
-- `include/query/functions/geo_functions.h`
+- `../include/query/functions/geo_functions.h`
 
 ### 2) Spatial index primitives and operations
 
@@ -58,7 +58,7 @@ The index layer provides:
 
 Source:
 
-- `include/index/spatial_index.h`
+- `../include/index/spatial_index.h`
 
 ### 3) GDAL/OGR ingestion path
 
@@ -70,8 +70,8 @@ The geospatial content processor (`GeoProcessor`) supports GeoJSON/KML/GPX/Shape
 
 Source:
 
-- `src/content/geo_processor.cpp`
-- `include/content/geo_processor.h`
+- `../src/content/geo_processor.cpp`
+- `../include/content/geo_processor.h`
 
 ### 4) Multi-Model and consistency context
 
@@ -79,7 +79,7 @@ Geospatial functionality exists within ThemisDB's documented multi-model and ACI
 
 Source:
 
-- `README.md`
+- `../README.md`
 
 ## Evaluation
 
@@ -87,16 +87,16 @@ Source:
 
 | Claim | Status | Evidence |
 |---|---|---|
-| ThemisDB supports geospatial query functions in AQL. | **Verified** | `include/query/functions/geo_functions.h` |
-| ThemisDB provides Morton + R-tree based index support. | **Verified** | `include/index/spatial_index.h` |
-| Bulk loading for spatial index exists in the public API. | **Verified** | `include/index/spatial_index.h` (`SpatialIndexManager::bulkLoad`) |
-| GDAL parsing uses in-memory `/vsimem/` paths. | **Verified** | `src/content/geo_processor.cpp` (`VSIFileFromMemBuffer`, `VSIUnlink`) |
-| Optional spatial prefiltering exists in ingestion. | **Verified** | `src/content/geo_processor.cpp` (`SetSpatialFilterRect`) |
-| ThemisDB benchmark documents report CPU/GPU geo scenarios. | **Verified (artifact-level)** | `docs/de/geo/geo_benchmarks.md` |
+| ThemisDB supports geospatial query functions in AQL. | **Verified** | `../include/query/functions/geo_functions.h` |
+| ThemisDB provides Morton + R-tree based index support. | **Verified** | `../include/index/spatial_index.h` |
+| Bulk loading for spatial index exists in the public API. | **Verified** | `../include/index/spatial_index.h` (`SpatialIndexManager::bulkLoad`) |
+| GDAL parsing uses in-memory `/vsimem/` paths. | **Verified** | `../src/content/geo_processor.cpp` (`VSIFileFromMemBuffer`, `VSIUnlink`) |
+| Optional spatial prefiltering exists in ingestion. | **Verified** | `../src/content/geo_processor.cpp` (`SetSpatialFilterRect`) |
+| ThemisDB benchmark documents report CPU/GPU geo scenarios. | **Verified (artifact-level)** | `../docs/de/geo/geo_benchmarks.md` |
 
 ### 2) Performance interpretation (artifact-backed)
 
-The repository benchmark artifact (`docs/de/geo/geo_benchmarks.md`) reports scenario-specific runtimes for point-in-polygon, K-NN, radius search, and spatial joins. These numbers can be used as **published internal measurements**, but should be interpreted with the hardware/setup constraints stated in that document.
+The repository benchmark artifact (`../docs/de/geo/geo_benchmarks.md`) reports scenario-specific runtimes for point-in-polygon, K-NN, radius search, and spatial joins. These numbers can be used as **published internal measurements**, but should be interpreted with the hardware/setup constraints stated in that document.
 
 For this reason, this review does **not** generalize those numbers into universal speedup guarantees. Instead, they should be used as baseline inputs for reproducible benchmark pipelines in CI or controlled lab runs.
 
@@ -113,14 +113,14 @@ However, implementation maturity differs across features; therefore, each future
 ## Recommended Next Steps (Evidence-Driven)
 
 1. **Benchmark reproducibility first**
-   - Convert selected scenarios from `docs/de/geo/geo_benchmarks.md` into repeatable benchmark automation with versioned datasets and fixed hardware notes.
+   - Convert selected scenarios from `../docs/de/geo/geo_benchmarks.md` into repeatable benchmark automation with versioned datasets and fixed hardware notes.
 2. **Index strategy evolution with measurable gates**
    - Evaluate R*-tree-style improvements only behind explicit metrics (query latency percentiles, memory overhead, build/insert costs).
 3. **CRS/transform operational hardening**
    - Standardize error reporting and fallback behavior for invalid CRS input across query and ingestion paths.
 4. **Documentation hygiene**
    - Keep geospatial architecture, benchmark docs, and enhancement plans synchronized.
-   - Canonical enhancement planning reference: `docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md`.
+   - Canonical enhancement planning reference: `../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md`.
 
 ## Limitations / Known Issues
 
@@ -138,19 +138,19 @@ ThemisDB's geospatial stack is not a greenfield prototype; it already contains m
 ### Internal ThemisDB sources
 
 1. ThemisDB README (system scope, multi-model + ACID context):
-   https://github.com/makr-code/ThemisDB/blob/main/README.md
+   [../README.md](../README.md)
 2. Geospatial query functions (`ST_*`, `GEO_*`):
-   https://github.com/makr-code/ThemisDB/blob/main/include/query/functions/geo_functions.h
+   [../include/query/functions/geo_functions.h](../include/query/functions/geo_functions.h)
 3. Spatial index manager (`MortonEncoder`, `RTreeConfig`, `bulkLoad`):
-   https://github.com/makr-code/ThemisDB/blob/main/include/index/spatial_index.h
+   [../include/index/spatial_index.h](../include/index/spatial_index.h)
 4. GDAL geo processor (`/vsimem/`, spatial filter integration):
-   https://github.com/makr-code/ThemisDB/blob/main/src/content/geo_processor.cpp
+   [../src/content/geo_processor.cpp](../src/content/geo_processor.cpp)
 5. Geospatial benchmark artifact (documented scenarios/results):
-   https://github.com/makr-code/ThemisDB/blob/main/docs/de/geo/geo_benchmarks.md
+   [../docs/de/geo/geo_benchmarks.md](../docs/de/geo/geo_benchmarks.md)
 6. Geospatial GDAL integration overview:
-   https://github.com/makr-code/ThemisDB/blob/main/docs/features/geo_gdal_integration.md
+   [../docs/features/geo_gdal_integration.md](../docs/features/geo_gdal_integration.md)
 7. Future enhancement planning document:
-   https://github.com/makr-code/ThemisDB/blob/main/docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md
+   [../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md](../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md)
 
 ### External standards and literature
 
