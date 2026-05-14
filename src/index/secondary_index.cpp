@@ -3075,7 +3075,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	}
 
 	// Step 3.0: Total entities under <table>:
-	const std::string entityPrefix = table + ":";
+	const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
 	size_t total = 0;
 	db_.scanPrefix(entityPrefix, [&total](std::string_view /*k*/, std::string_view /*v*/) {
 		++total;
@@ -3360,7 +3360,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	}
 
 	// Step 4: Count entities for progress reporting
-	const std::string entityPrefix = table + ":";
+	const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
 	size_t total = 0;
 	db_.scanPrefix(entityPrefix, [&total](std::string_view, std::string_view) { ++total; return true; });
 

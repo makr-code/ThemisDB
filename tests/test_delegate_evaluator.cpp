@@ -80,24 +80,26 @@ static RoundTripEditPair makeEditPair() {
 
 class FailingRoundTripEditor final : public themis::document::IRoundTripEditor {
 public:
-    Result<void> beginRelay(const std::string& /*relay_id*/,
-                            const std::string& /*seed_document*/) override {
-        return tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND, "beginRelay failed"));
+    themis::Result<void> beginRelay(const std::string& /*relay_id*/,
+                                    const std::string& /*seed_document*/) override {
+        return tl::unexpected(themis::Error(themis::errors::ErrorCode::ERR_DOC_NOT_FOUND,
+                                            "beginRelay failed"));
     }
 
-    Result<void> saveInteraction(const std::string& /*relay_id*/,
-                                 std::size_t /*interaction_index*/,
-                                 const std::string& /*instruction*/,
-                                 const std::string& /*document*/) override {
-        return tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND, "saveInteraction failed"));
+    themis::Result<void> saveInteraction(const std::string& /*relay_id*/,
+                                         std::size_t /*interaction_index*/,
+                                         const std::string& /*instruction*/,
+                                         const std::string& /*document*/) override {
+        return tl::unexpected(themis::Error(themis::errors::ErrorCode::ERR_DOC_NOT_FOUND,
+                                            "saveInteraction failed"));
     }
 
-    Result<std::optional<themis::document::RoundTripSnapshot>> loadInteraction(
+    themis::Result<std::optional<themis::document::RoundTripSnapshot>> loadInteraction(
         const std::string& /*relay_id*/, std::size_t /*interaction_index*/) const override {
         return std::optional<themis::document::RoundTripSnapshot>{std::nullopt};
     }
 
-    Result<std::size_t> countSnapshots(const std::string& /*relay_id*/) const override {
+    themis::Result<std::size_t> countSnapshots(const std::string& /*relay_id*/) const override {
         return std::size_t{0};
     }
 };

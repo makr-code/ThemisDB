@@ -87,7 +87,7 @@ TEST_F(AdvancedVectorIntegrationTest, TrainingAndSearch) {
         training_data[i] = static_cast<float>(i % 128) / 128.0f;
     }
     
-    #ifdef THEMIS_GPU_ENABLED
+    #ifdef THEMIS_HAS_FAISS
     // Only test if FAISS is available
     bool trained = index.train(training_data.data(), 500);
     EXPECT_TRUE(trained);
@@ -140,7 +140,7 @@ TEST_F(AdvancedVectorIntegrationTest, Statistics) {
     EXPECT_EQ(stats.total_vectors, 0);
     EXPECT_FALSE(stats.is_trained);
     
-    #ifdef THEMIS_GPU_ENABLED
+    #ifdef THEMIS_HAS_FAISS
     // Train and add vectors
     std::vector<float> data(500 * 128, 0.5f);
     index.train(data.data(), 500);
@@ -169,7 +169,7 @@ TEST_F(AdvancedVectorIntegrationTest, SaveAndLoad) {
     std::string save_path = "./data/themis_advanced_vector_test/index_save";
     std::filesystem::create_directories(save_path);
     
-    #ifdef THEMIS_GPU_ENABLED
+    #ifdef THEMIS_HAS_FAISS
     // Create and train index
     themis::AdvancedVectorIndex index1(128, config);
     
@@ -214,7 +214,7 @@ TEST_F(AdvancedVectorIntegrationTest, BatchSearch) {
     config.index_type = themis::AdvancedVectorIndex::Config::Type::IVF_FLAT;
     config.use_gpu = false;
     
-    #ifdef THEMIS_GPU_ENABLED
+    #ifdef THEMIS_HAS_FAISS
     themis::AdvancedVectorIndex index(128, config);
     
     // Train
@@ -248,6 +248,7 @@ TEST_F(AdvancedVectorIntegrationTest, BatchSearch) {
 }
 
 TEST_F(AdvancedVectorIntegrationTest, StubCallbacksProvideNonFaissBridge) {
+#ifndef THEMIS_HAS_FAISS
     themis::AdvancedVectorIndex::StubCallbacks callbacks;
     callbacks.initialize = [](size_t dimension, const themis::AdvancedVectorIndex::Config&) {
         return dimension == 128;
@@ -280,11 +281,14 @@ TEST_F(AdvancedVectorIntegrationTest, StubCallbacksProvideNonFaissBridge) {
     EXPECT_TRUE(index.load("/tmp/adv-index"));
 
     themis::AdvancedVectorIndex::setStubCallbacks({});
+#else
+    GTEST_SKIP() << "Non-FAISS stub callback bridge only applies when FAISS is unavailable";
+#endif
 }
 
 // Test different index types
 TEST_F(AdvancedVectorIntegrationTest, DifferentIndexTypes) {
-    #ifdef THEMIS_GPU_ENABLED
+    #ifdef THEMIS_HAS_FAISS
     std::vector<themis::AdvancedVectorIndex::Config::Type> types = {
         themis::AdvancedVectorIndex::Config::Type::IVF_FLAT,
         themis::AdvancedVectorIndex::Config::Type::IVF_PQ,
@@ -330,7 +334,7 @@ TEST_F(AdvancedVectorIntegrationTest, ErrorHandling) {
     
     themis::AdvancedVectorIndex index(128, config);
     
-    #ifndef THEMIS_GPU_ENABLED
+    #ifndef THEMIS_HAS_FAISS
     // Without FAISS, all operations should return false
     std::vector<float> data(100 * 128, 0.5f);
     EXPECT_FALSE(index.train(data.data(), 100));

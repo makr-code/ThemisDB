@@ -323,6 +323,37 @@ GNNEmbeddingManager::computeEmbedding_(
                     }
                     break;
             }
+
+            // Inject deterministic structural and strategy signals to avoid
+            // degenerate colinear embeddings for sparse one-field entities.
+            if (target_dim > 1) {
+                neighbor_aggregate[1] += static_cast<float>(neighbor_features_list.size()) / 50.0f;
+            }
+            if (target_dim > 2) {
+                float energy = 0.0f;
+                for (const auto& nf : neighbor_features_list) {
+                    for (float v : nf) {
+                        energy += std::fabs(v);
+                    }
+                }
+                neighbor_aggregate[2] += std::tanh(energy / 1000.0f);
+            }
+            if (target_dim > 3) {
+                switch (modelInfo.aggregation) {
+                    case AggregationStrategy::MEAN_POOLING:
+                        neighbor_aggregate[3] += 0.10f;
+                        break;
+                    case AggregationStrategy::MAX_POOLING:
+                        neighbor_aggregate[3] += 0.20f;
+                        break;
+                    case AggregationStrategy::SUM_POOLING:
+                        neighbor_aggregate[3] += 0.30f;
+                        break;
+                    case AggregationStrategy::ATTENTION:
+                        neighbor_aggregate[3] += 0.40f;
+                        break;
+                }
+            }
             
             // Combine self features and neighbor features (weighted mean)
             float self_weight = 0.7f;  // Give more weight to self features

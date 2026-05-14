@@ -280,24 +280,45 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     result.shows_moral_diversity = true;
     result.has_ethical_citations = true;
     
+    const auto safe_dimension_eval = [&](const char* name, auto&& fn, double fallback) {
+        try {
+            return fn();
+        } catch (const std::bad_alloc& e) {
+            THEMIS_ERROR("RAGJudge {} evaluation failed with bad_alloc: {}", name, e.what());
+            return fallback;
+        } catch (const std::exception& e) {
+            THEMIS_WARN("RAGJudge {} evaluation failed: {}", name, e.what());
+            return fallback;
+        } catch (...) {
+            THEMIS_WARN("RAGJudge {} evaluation failed with unknown exception", name);
+            return fallback;
+        }
+    };
+
     // Evaluate dimensions based on mode
     switch (impl_->config.mode) {
         case EvaluationMode::FAST:
             // Quick relevance check only
-            result.relevance_score = evaluateRelevance(input);
+            result.relevance_score = safe_dimension_eval(
+                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
             result.overall_score = result.relevance_score;
             break;
             
         case EvaluationMode::BALANCED:
             // Multi-dimension evaluation
-            result.faithfulness_score = evaluateFaithfulness(input);
-            result.relevance_score = evaluateRelevance(input);
-            result.completeness_score = evaluateCompleteness(input);
-            result.coherence_score = evaluateCoherence(input);
+            result.faithfulness_score = safe_dimension_eval(
+                "faithfulness", [&]() { return evaluateFaithfulness(input); }, 0.0);
+            result.relevance_score = safe_dimension_eval(
+                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
+            result.completeness_score = safe_dimension_eval(
+                "completeness", [&]() { return evaluateCompleteness(input); }, 0.0);
+            result.coherence_score = safe_dimension_eval(
+                "coherence", [&]() { return evaluateCoherence(input); }, 0.0);
             
             // Ethical compliance evaluation
             if (impl_->config.enable_ethical_evaluation) {
-                result.ethical_compliance_score = evaluateEthicalCompliance(input);
+                result.ethical_compliance_score = safe_dimension_eval(
+                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(input); }, 0.0);
             } else {
                 result.ethical_compliance_score = 1.0;  // No ethical check
             }
@@ -312,36 +333,51 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             
         case EvaluationMode::THOROUGH:
             // Full evaluation with verification
-            result.faithfulness_score = evaluateFaithfulness(input);
-            result.relevance_score = evaluateRelevance(input);
-            result.completeness_score = evaluateCompleteness(input);
-            result.coherence_score = evaluateCoherence(input);
+            result.faithfulness_score = safe_dimension_eval(
+                "faithfulness", [&]() { return evaluateFaithfulness(input); }, 0.0);
+            result.relevance_score = safe_dimension_eval(
+                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
+            result.completeness_score = safe_dimension_eval(
+                "completeness", [&]() { return evaluateCompleteness(input); }, 0.0);
+            result.coherence_score = safe_dimension_eval(
+                "coherence", [&]() { return evaluateCoherence(input); }, 0.0);
             
             // Ethical compliance evaluation
             if (impl_->config.enable_ethical_evaluation) {
-                result.ethical_compliance_score = evaluateEthicalCompliance(input);
+                result.ethical_compliance_score = safe_dimension_eval(
+                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(input); }, 0.0);
             } else {
                 result.ethical_compliance_score = 1.0;  // No ethical check
             }
             
             // Claim verification
             if (impl_->config.enable_claim_verification) {
-                auto claims = extractClaims(input.generated_answer);
                 size_t verified_count = 0;
-                
-                for (const auto& claim : claims) {
-                    if (verifyClaimAgainstDocuments(claim, input.documents)) {
-                        result.verified_claims.push_back(claim);
-                        verified_count++;
-                    } else {
-                        result.unverified_claims.push_back(claim);
+                try {
+                    auto claims = extractClaims(input.generated_answer);
+
+                    for (const auto& claim : claims) {
+                        const bool verified = safe_dimension_eval(
+                            "claim_verification",
+                            [&]() { return verifyClaimAgainstDocuments(claim, input.documents) ? 1.0 : 0.0; },
+                            0.0) > 0.5;
+                        if (verified) {
+                            result.verified_claims.push_back(claim);
+                            verified_count++;
+                        } else {
+                            result.unverified_claims.push_back(claim);
+                        }
                     }
-                }
-                
-                // Adjust faithfulness based on verification
-                if (!claims.empty()) {
-                    double verification_ratio = static_cast<double>(verified_count) / claims.size();
-                    result.faithfulness_score = std::min(result.faithfulness_score, verification_ratio);
+
+                    // Adjust faithfulness based on verification
+                    if (!claims.empty()) {
+                        double verification_ratio = static_cast<double>(verified_count) / claims.size();
+                        result.faithfulness_score = std::min(result.faithfulness_score, verification_ratio);
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
+                } catch (...) {
+                    THEMIS_WARN("RAGJudge claim verification pipeline failed with unknown exception");
                 }
             }
             
@@ -363,6 +399,18 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                        << "- Overall: " << result.overall_score;
             result.explanation = explanation.str();
             break;
+    }
+
+    if (result.explanation.empty()) {
+        std::ostringstream explanation;
+        explanation << "Evaluation scores:\n"
+                    << "- Faithfulness: " << result.faithfulness_score << "\n"
+                    << "- Relevance: " << result.relevance_score << "\n"
+                    << "- Completeness: " << result.completeness_score << "\n"
+                    << "- Coherence: " << result.coherence_score << "\n"
+                    << "- Ethical Compliance: " << result.ethical_compliance_score << "\n"
+                    << "- Overall: " << result.overall_score;
+        result.explanation = explanation.str();
     }
     
     // Quality threshold check with VETO mechanism

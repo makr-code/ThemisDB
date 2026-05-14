@@ -74,17 +74,17 @@ Grammar::Grammar(const std::string& ebnf_text,
         error_ = "Start symbol cannot be empty";
         return;
     }
+
+    if (model == nullptr) {
+        error_ = "Grammar compilation failed: model pointer is null; cannot bind vocabulary";
+        spdlog::error("Grammar compilation failed: null model passed to model-aware constructor");
+        return;
+    }
     
     if (!themis_llama_grammar_available()) {
         // Hard error: the API is required for model-aware compilation.
         error_ = "Grammar support is unavailable (llama.cpp grammar API not present)";
         spdlog::error("Grammar compilation failed (model-aware constructor): {}", error_);
-        return;
-    }
-    
-    if (model == nullptr) {
-        error_ = "Grammar compilation failed: model pointer is null; cannot bind vocabulary";
-        spdlog::error("Grammar compilation failed: null model passed to model-aware constructor");
         return;
     }
     

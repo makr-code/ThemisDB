@@ -138,6 +138,8 @@ public:
      * Performs pre-flight check before allowing write operations.
      * 
      * @param bytes_to_write Size of planned write operation
+        * @note Zero-byte writes are always allowed because they do not consume
+        *       disk capacity.
      * @return true if write should proceed, false if blocked
      */
     bool canWrite(size_t bytes_to_write = 0);

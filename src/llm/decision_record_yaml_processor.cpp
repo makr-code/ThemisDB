@@ -243,6 +243,22 @@ void DecisionRecordYamlProcessor::writeRecord(const DecisionRecord& r) {
     try {
         auto path = recordPath(r);
 
+        // Prevent accidental overwrite when multiple records resolve to the
+        // same base filename (e.g. identical record_id/timestamp in tests).
+        if (std::filesystem::exists(path)) {
+            const auto parent = path.parent_path();
+            const auto stem = path.stem().string();
+            const auto ext = path.extension().string();
+
+            for (size_t suffix = 1; suffix <= 10'000; ++suffix) {
+                const auto candidate = parent / (stem + "_" + std::to_string(suffix) + ext);
+                if (!std::filesystem::exists(candidate)) {
+                    path = candidate;
+                    break;
+                }
+            }
+        }
+
         // Create parent directory on demand (including daily subdir)
         std::error_code ec;
         std::filesystem::create_directories(path.parent_path(), ec);

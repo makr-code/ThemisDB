@@ -221,7 +221,8 @@ TEST(GGUFMetadata, GMD08_size_and_keys) {
 TEST(GGUFMetadata, GMD09_injected_hmacfn_overrides_default_path) {
     auto rec = makeRecord();
     const std::string key = "custom-key";
-    const std::string signature = "injected-signature";
+    // constantTimeEquals requires exactly 64 lowercase hex chars (SHA-256 output length).
+    const std::string signature = std::string(64, 'a');  // "aaa...a" — valid 64-char hex string
 
     GGUFMetadata::setHmacFn(
         [signature]([[maybe_unused]] const std::string& data,
