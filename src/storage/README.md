@@ -717,39 +717,54 @@ option(THEMIS_ENABLE_WEBDAV "Enable WebDAV blob backend" ON)
 - **Total**: ~3.5GB minimum for production
 
 ### Tuning Recommendations
-See [PERFORMANCE_TIPS.md](../../docs/PERFORMANCE_TIPS.md) for detailed tuning guide.
+See [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for module-specific SLOs and benchmarking guidance.
 
 ## Known Limitations
 
 1. **LSM-Tree Characteristics**
-   - High write amplification (10-30x)
-   - Compaction CPU overhead
-   - Point updates slower than key-value inserts
+   - Write amplification remains workload-dependent (typically 10-30x)
+   - Background compaction can increase CPU and disk I/O usage
+   - Long-running range scans and heavy write bursts compete for cache and background threads
 
-2. **RocksDB Constraints**
-   - No distributed transactions (single-node only)
-   - No built-in replication (use external replication)
-   - Limited secondary index support (manual management)
+2. **Distributed Consistency Boundaries**
+   - Cross-shard atomic writes require `DistributedTransactionManager` with registered shard participants
+   - Cluster-level durability/replication still depends on upper-layer Raft/replication modules
+   - Misconfigured shard participant mappings fail fast during prepare/commit
 
 3. **Blob Storage**
-   - External backends require network latency
-   - No automatic blob migration between backends
-   - No erasure coding (mirroring only)
+   - External backends add network latency and cloud-provider error modes (timeouts, throttling)
+   - Redundancy `MIRROR` and `PARITY` both depend on backend quorum/healthy shard count
+   - Large blob transfer throughput is backend and network bound
 
 4. **Backup & Recovery**
-   - Backups are point-in-time (not continuous)
-   - Restore requires downtime
-   - No online backup verification
+   - Backups are point-in-time snapshots; they do not provide continuous WAL shipping by themselves
+   - Restore and PITR operations are operationally heavy and should be executed in controlled maintenance windows
+   - Cloud restore/upload paths depend on compile-time backend flags (`THEMIS_ENABLE_S3`, `THEMIS_ENABLE_AZURE`, `THEMIS_ENABLE_GCS`)
 
-5. **Encryption**
-   - Field-level only (not full-database encryption)
-   - No automatic key rotation
-   - Performance overhead (5-15% for encryption)
+5. **Encryption & Key Management**
+   - Field-level encryption protects selected fields; full-database-at-rest encryption is environment-dependent
+   - Key rotation policy must be provided by the configured key provider
+   - Insecure defaults are blocked in production mode (`THEMIS_PRODUCTION_MODE=1`)
 
-6. **Default Implementations**
-   - Default StorageEngine factory uses no-op encryption
-   - Production mode prevents insecure defaults
-   - Must use DI constructor for production
+## Troubleshooting
+
+1. **`open()` fails on startup**
+   - Verify `db_path`/`wal_dir` permissions and available disk space
+   - Check whether RocksDB lock files are still held by another process
+
+2. **Unexpected high write latency**
+   - Inspect compaction pressure (`max_background_jobs`, compaction stats)
+   - Revisit memtable and block cache sizing in `RocksDBWrapper::Config`
+   - Compare against [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
+
+3. **Blob retrieval errors from cloud backends**
+   - Confirm backend-specific credentials and endpoint configuration
+   - Validate that the related backend feature flag is enabled at build time
+   - For redundancy mode, check backend health and shard availability
+
+4. **PITR restore cannot reach target timestamp**
+   - Ensure WAL retention window covers the requested timestamp
+   - Confirm required base backup exists and is readable before replay
 
 ## Status
 
@@ -792,9 +807,9 @@ See [PERFORMANCE_TIPS.md](../../docs/PERFORMANCE_TIPS.md) for detailed tuning gu
 ### Quick Links
 
 - **Core Components:**
-  - [Base Entity](../../docs/de/src/storage/base_entity.cpp.md) - Entity storage abstractions
-  - [Key Schema](../../docs/de/src/storage/key_schema.cpp.md) - Key encoding and organization
-  - [RocksDB Wrapper](../../docs/de/src/storage/rocksdb_wrapper.cpp.md) - RocksDB integration
+  - [Storage Architecture](ARCHITECTURE.md) - Component boundaries and data flow
+  - [Public Storage Headers](../../include/storage/README.md) - Public API and entry points
+  - [Primary Source Index (DE)](../../docs/de/storage/PRIMARY_SOURCES.md) - Source-to-doc mapping
 - **Architecture:**
   - [RocksDB Layout](../../docs/storage/rocksdb_layout.md) - Key prefixes and physical layout
   - [RocksDB Storage Operations (DE)](../../docs/de/storage/storage_rocksdb.md) - Detailed operations guide
@@ -806,9 +821,9 @@ See [PERFORMANCE_TIPS.md](../../docs/PERFORMANCE_TIPS.md) for detailed tuning gu
 - **Operations:**
   - [Backup & Recovery](../../docs/backup_recovery_system.md) - Backup strategies and PITR
   - [Index Maintenance (DE)](../../docs/de/features/features_index_maintenance.md) - Index operations
-  - [Performance Tips](../../docs/PERFORMANCE_TIPS.md) - RocksDB tuning guide
+  - [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) - Storage SLOs and benchmarks
 - **Audit Reports:**
-  - [RocksDB Wrapper Audit](../../docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md) - Security and correctness analysis
+  - [RocksDB Hardening Audit (DE)](../../docs/de/storage/ROCKSDB_HARDENING_AUDIT.md) - Security and correctness analysis
 
 ## Contributing
 
@@ -827,8 +842,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Component architecture and data flow diagrams
 - [ROADMAP.md](ROADMAP.md) - Implementation phases and planned features
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage improvements
-- [Secondary Docs (docs/de)](../../../docs/de/storage/README.md) - German-language overview
-- [Missing Implementations Report](../../../docs/de/storage/MISSING_IMPLEMENTATIONS.md) - Reality-check findings
+- [Secondary Docs (docs/de)](../../docs/de/storage/README.md) - German-language overview
+- [Missing Implementations Report](../../docs/de/storage/MISSING_IMPLEMENTATIONS.md) - Reality-check findings
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols and APIs
 

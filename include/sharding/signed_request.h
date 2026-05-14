@@ -22,7 +22,8 @@
 #include <string>
 #include <cstdint>
 #include <optional>
-#include <set>
+#include <deque>
+#include <unordered_map>
 #include <mutex>
 #include <nlohmann/json.hpp>
 
@@ -47,6 +48,10 @@ namespace themis::sharding {
  * Signed Request Structure
  */
 struct SignedRequest {
+    /// Versioned signature format identifier for canonicalization/verification.
+    /// Current required value: "themis-shard-sig-v1".
+    static constexpr const char* kSignatureFormatV1 = "themis-shard-sig-v1";
+
     std::string shard_id;       // Sender shard ID
     std::string operation;      // HTTP method (GET, POST, PUT, DELETE)
     std::string path;           // Request path (e.g., URN or API endpoint)
@@ -54,7 +59,9 @@ struct SignedRequest {
     uint64_t timestamp_ms;      // Unix timestamp in milliseconds
     uint64_t nonce;             // Random nonce for uniqueness
     
-    std::string signature_b64;  // RSA-SHA256 signature (base64 encoded)
+    std::string signature_format = kSignatureFormatV1; // Signature/canonicalization format version
+    std::string key_id;         // Trust-store key identifier (supports key rotation)
+    std::string signature_b64;  // Signature (base64 encoded; algorithm implied by key type/format)
     std::string cert_serial;    // Certificate serial number (hex)
     
     /**
@@ -69,7 +76,17 @@ struct SignedRequest {
     
     /**
      * Get canonical string representation for signing
-     * Format: shard_id|operation|path|body_json|timestamp_ms|nonce
+     *
+     * Format (v1, strict):
+     * signature_format=<format>\n
+     * shard_id=<shard_id>\n
+     * operation=<operation>\n
+     * path=<path>\n
+     * body=<normalized_json>\n
+     * timestamp_ms=<timestamp_ms>\n
+     * nonce=<nonce>\n
+     * key_id=<key_id>\n
+     * cert_serial=<cert_serial>\n
      */
     std::string getCanonicalString() const;
 };
@@ -144,7 +161,7 @@ public:
     struct Config {
         std::string ca_cert_path;       ///< Root CA certificate path (used to validate peer certs)
         std::string trusted_certs_dir;  ///< Directory of trusted shard certificates (PEM files)
-                                        ///<   named `<cert_serial>.pem`. Required for signature
+                                        ///<   named `<key_id>.pem`. Required for signature
                                         ///<   verification; `verifySignature()` returns false when empty.
         std::string crl_path;           ///< Optional: path to CRL file (PEM) for revocation checks
         uint64_t max_time_skew_ms = 60000;  // Max timestamp deviation (60s default)
@@ -186,7 +203,8 @@ private:
         uint64_t nonce;
         uint64_t timestamp_ms;
     };
-    std::set<uint64_t> seen_nonces_;
+    std::unordered_map<uint64_t, uint64_t> seen_nonces_;
+    std::deque<NonceEntry> nonce_fifo_;
     mutable std::mutex nonce_mutex_;
     
     /**
@@ -203,6 +221,12 @@ private:
      * Verify signature using certificate
      */
     bool verifySignature(const SignedRequest& request);
+
+    /**
+     * Expire nonce entries older than the configured replay window.
+     * Must be called with nonce_mutex_ held.
+     */
+    void purgeExpiredNoncesLocked(uint64_t now_ms);
     
     /**
      * Get current timestamp in milliseconds

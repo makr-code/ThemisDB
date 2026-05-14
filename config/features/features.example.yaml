@@ -16,6 +16,11 @@
 
 edition: COMMUNITY
 
+server:
+  # Runtime activation profile (validated against compile-time capabilities)
+  # Allowed values: minimal, standard, enterprise
+  profile: standard
+
 # =============================================================================
 # CORE FEATURES
 # =============================================================================

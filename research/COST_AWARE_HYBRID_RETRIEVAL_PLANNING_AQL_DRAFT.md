@@ -1,9 +1,9 @@
 # Cost-Aware Hybrid Retrieval Planning in AQL
 
-**Status**: Draft  
-**Version**: 0.2  
-**Last Updated**: 2026-04-27  
-**Target Venue**: SIGMOD 2027 / VLDB 2027 / EDBT 2027  
+**Status**: Pre-Registered Research Protocol
+**Version**: 0.3
+**Last Updated**: 2026-05-14
+**Target Venue**: SIGMOD 2027 / VLDB 2027 / EDBT 2027
 **Companion to**: `THEMISDB_SYSTEM_PAPER_ARXIV_2026.md` §IV.D (IndexAdvisor), `HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md`
 
 ---
@@ -70,10 +70,11 @@ trade-offs. Malkov & Yashunin [4] characterised HNSW graph construction and quer
 complexity. These studies treat ANN in isolation; we integrate them into a joint
 retrieval plan cost model.
 
-**Hybrid retrieval**: Lin et al. [5] (RRF) and Ma et al. [6] (hybrid BM25+dense) show
-that fusion improves recall but at cost of double index reads. Neither models the
-*planning* decision for when to activate each index. ThemisDB's `HybridRetriever`
-(E3) implements RRF fusion but does not currently select which indexes to activate.
+**Hybrid retrieval**: Lin et al. [5] (RRF) and Ma et al. [6] (pre-trained dense
+representations that complement BM25 in hybrid pipelines) show that fusion improves recall
+but at cost of double index reads. Neither models the *planning* decision for when to
+activate each index. ThemisDB's `HybridRetriever` (E3) implements RRF fusion but does not
+currently select which indexes to activate.
 
 **Learned query optimisers**: Bao [7] (bandit-based hint selection) and DNN-based
 cardinality estimators [8] show that ML can improve upon hand-tuned cost models. We
@@ -87,10 +88,10 @@ treat the learned approach as a Phase 2 extension; Phase 1 uses analytic cost fu
 
 | Operator | Implementation | Cost Class | Primary Cost Driver |
 |---|---|---|---|
-| BM25 | `src/rag/hybrid_retriever.cpp::bm25Score()` | O(|posting|) | Posting list I/O + term scoring |
-| HNSW | `src/acceleration/hnsw_gpu_manager.cpp` | O(ef · d) | Distance computations × ef-search |
+| BM25 | `src/rag/hybrid_retriever.cpp` | O(|posting|) | Posting list I/O + term scoring |
+| HNSW | `src/index/cuda_hnsw_graph_traversal.cpp` | O(ef · d) | Distance computations × ef-search |
 | IVF+PQ | `src/index/product_quantizer.cpp` | O(nprobe · m · n_codes) | ADC table lookups × nprobe |
-| GraphTraversal | `src/graph/graph_index.cpp` | O(e · E_k) | Edge expansions × branching factor |
+| GraphTraversal | `src/index/graph_index.cpp` | O(e · E_k) | Edge expansions × branching factor |
 
 ### B. Cost Model
 
@@ -208,10 +209,10 @@ settings (ef_search, nprobe, max_hops), and the RRF weight vector.
 |----|------|-------|-------|
 | E1 | `aql/README.md` | AQL query language | AQL plan execution framework exists |
 | E2 | `benchmarks/bench_rag_hybrid_retriever.cpp` | Hybrid retrieval bench | Benchmark harness exists for W-HR-1..4 |
-| E3 | `src/rag/hybrid_retriever.cpp` | HybridRetriever::retrieve() | BM25+HNSW+RRF implemented |
+| E3 | `src/rag/hybrid_retriever.cpp` | HybridRetriever::fuse()/fuseRRF() | BM25+HNSW+RRF implemented |
 | E4 | `src/index/product_quantizer.cpp` | IVF+PQ | ADC + compression path implemented |
-| E5 | `src/graph/graph_index.cpp` | GraphIndex traversal | Graph edge expansion implemented |
-| E6 | `include/index/index_analysis_advisor.h` | IIndexAnalysisAdvisor | Adaptive index advisor interface defined |
+| E5 | `src/index/graph_index.cpp` | GraphIndex traversal | Graph edge expansion implemented |
+| E6 | `include/storage/index_analyzer.h` | IIndexAnalysisAdvisor | Adaptive index advisor interface defined |
 | E7 | `compendium/docs/chapter_34_query_optimization.md` | Query optimization | Cost-based optimizer documented |
 | E8 | `benchmarks/ann/README.md` | ANN benchmark protocol | Recall@k + latency framework defined |
 | E9 | `research/ACID_CONSTRAINED_RAG_DRAFT.md` | ACID+RAG integration | Retrieval isolation model (companion paper) |
@@ -221,39 +222,45 @@ settings (ef_search, nprobe, max_hops), and the RRF weight vector.
 
 ## VII. Results Schema (Pre-defined)
 
+> **Pre-registration note**: All cells marked *not yet collected* below are intentional
+> pre-registration placeholders. Table schemas and expected-ranking hypotheses (§V) are
+> fixed before any benchmark execution to guard against outcome-reporting bias. Values will
+> be filled upon completion of the instrumented benchmark run described in §IX and the
+> document version will advance to v1.0.
+
 ### Table HR-1: Recall@10 × Workload × Plan
 
 | Workload | Plan | Recall@10 | NDCG@10 | N |
 |---|---|---|---|---|
-| W-HR-1 | BM25-only | *pending* | *pending* | 30 |
-| W-HR-1 | HNSW-only | *pending* | *pending* | 30 |
-| W-HR-1 | Full hybrid | *pending* | *pending* | 30 |
-| W-HR-1 | Cost-aware | *pending* | *pending* | 30 |
-| W-HR-2 | BM25-only | *pending* | *pending* | 30 |
-| W-HR-2 | HNSW-only | *pending* | *pending* | 30 |
-| W-HR-2 | Full hybrid | *pending* | *pending* | 30 |
-| W-HR-2 | Cost-aware | *pending* | *pending* | 30 |
-| W-HR-3 | Full hybrid | *pending* | *pending* | 30 |
-| W-HR-3 | HNSW+Graph | *pending* | *pending* | 30 |
-| W-HR-3 | Cost-aware | *pending* | *pending* | 30 |
+| W-HR-1 | BM25-only | *not yet collected* | *not yet collected* | 30 |
+| W-HR-1 | HNSW-only | *not yet collected* | *not yet collected* | 30 |
+| W-HR-1 | Full hybrid | *not yet collected* | *not yet collected* | 30 |
+| W-HR-1 | Cost-aware | *not yet collected* | *not yet collected* | 30 |
+| W-HR-2 | BM25-only | *not yet collected* | *not yet collected* | 30 |
+| W-HR-2 | HNSW-only | *not yet collected* | *not yet collected* | 30 |
+| W-HR-2 | Full hybrid | *not yet collected* | *not yet collected* | 30 |
+| W-HR-2 | Cost-aware | *not yet collected* | *not yet collected* | 30 |
+| W-HR-3 | Full hybrid | *not yet collected* | *not yet collected* | 30 |
+| W-HR-3 | HNSW+Graph | *not yet collected* | *not yet collected* | 30 |
+| W-HR-3 | Cost-aware | *not yet collected* | *not yet collected* | 30 |
 
 ### Table HR-2: Latency × Workload × Plan
 
 | Workload | Plan | P50 (ms) | P95 (ms) | P99 (ms) | Plan-Sel. Acc. |
 |---|---|---|---|---|---|
-| W-HR-1 | Cost-aware (λ=0.5) | *pending* | *pending* | *pending* | *pending* |
-| W-HR-2 | Cost-aware (λ=0.5) | *pending* | *pending* | *pending* | *pending* |
-| W-HR-3 | Cost-aware (λ=0.5) | *pending* | *pending* | *pending* | *pending* |
-| W-HR-4 | Full hybrid | *pending* | *pending* | *pending* | — |
+| W-HR-1 | Cost-aware (λ=0.5) | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| W-HR-2 | Cost-aware (λ=0.5) | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| W-HR-3 | Cost-aware (λ=0.5) | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| W-HR-4 | Full hybrid | *not yet collected* | *not yet collected* | *not yet collected* | — |
 
 ### Table HR-3: Cost Model Validation
 
 | Operator | Estimated Cost (μ) | Measured Latency (μ ms) | Pearson ρ | MAPE |
 |---|---|---|---|---|
-| BM25 | *pending* | *pending* | *pending* | *pending* |
-| HNSW | *pending* | *pending* | *pending* | *pending* |
-| IVF+PQ | *pending* | *pending* | *pending* | *pending* |
-| GraphTraversal | *pending* | *pending* | *pending* | *pending* |
+| BM25 | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| HNSW | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| IVF+PQ | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
+| GraphTraversal | *not yet collected* | *not yet collected* | *not yet collected* | *not yet collected* |
 
 ---
 
@@ -268,7 +275,9 @@ propose a **one-time offline calibration run** (`bench_cost_calibration`) that:
 3. Persists calibration coefficients to `config/cost_model_<hw_profile>.json`.
 
 This calibration is rerun automatically when a hardware change is detected (GPU model
-change, RAM reduction) via the `IIndexAnalysisAdvisor::detectHardwareChange()` hook.
+change, RAM reduction) via a planned extension to the `IIndexAnalysisAdvisor` interface
+(`include/storage/index_analyzer.h`). The existing `advise()` hook provides the integration
+point; a `detectHardwareChange()` callback is planned for Phase 2.
 
 ### B. Distribution-Shift Robustness
 
@@ -354,7 +363,7 @@ The core claim — that static hybrid pipelines waste 20–40% of retrieval late
 unnecessary operator activations without recall benefit — is testable via the H1–H5
 hypotheses. Pre-registered expected ranges and a λ policy table provide actionable
 guidance for production configuration. Upon experimental execution, result tables HR-1
-through HR-3 will be filled and this paper upgraded to v0.3.
+through HR-3 will be filled and this paper upgraded to v1.0.
 
 ---
 
@@ -362,28 +371,38 @@ through HR-3 will be filled and this paper upgraded to v0.3.
 
 [1] Selinger, P. G., Astrahan, M. M., Chamberlin, D. D., Lorie, R. A., & Price, T. G.
 (1979). Access path selection in a relational database management system. *SIGMOD 1979*.
+DOI: https://doi.org/10.1145/582095.582099
 
 [2] Soliman, M. A., Antova, L., Raghavan, V., El-Helw, A., Gu, Z., Shen, E., … &
 Graefe, G. (2014). Orca: A modular query optimizer architecture for big data. *SIGMOD 2014*.
+DOI: https://doi.org/10.1145/2588555.2595637
 
 [3] Jégou, H., Douze, M., & Schmid, C. (2011). Product Quantization for Nearest Neighbor
 Search. *IEEE TPAMI, 33*(1), 117–128.
+DOI: https://doi.org/10.1109/TPAMI.2010.57
 
 [4] Malkov, Y. A., & Yashunin, D. A. (2020). Efficient and Robust Approximate Nearest
 Neighbor Search Using Hierarchical Navigable Small World Graphs. *IEEE TPAMI, 42*(4),
 824–836.
+arXiv: https://arxiv.org/abs/1603.09320
+DOI: https://doi.org/10.1109/TPAMI.2018.2889473
 
 [5] Cormack, G. V., Clarke, C. L., & Buettcher, S. (2009). Reciprocal rank fusion
 outperforms condorcet and individual rank learning methods. *SIGIR 2009*.
+DOI: https://doi.org/10.1145/1571941.1572114
 
 [6] Ma, X., et al. (2021). PROP: Pre-training with Representative Words Prediction for
 Ad-hoc Retrieval. *WSDM 2021*.
+DOI: https://doi.org/10.1145/3437963.3441786
 
 [7] Marcus, R., et al. (2021). Bao: Making Learned Query Optimization Practical.
 *SIGMOD 2021*.
+arXiv: https://arxiv.org/abs/2004.03814
+DOI: https://doi.org/10.1145/3448016.3452838
 
 [8] Dutt, A., Wang, C., Nazi, A., Kandula, S., Narasayya, V., & Chaudhuri, S. (2019).
 Selectivity estimation for range predicates using lightweight models. *VLDB 2019*.
+DOI: https://doi.org/10.14778/3352063.3352113
 
 ---
 
@@ -394,7 +413,7 @@ Selectivity estimation for range predicates using lightweight models. *VLDB 2019
 - [x] All four workloads specified with expected plan rankings (§IV)
 - [x] Statistical analysis plan pre-registered (§IV.D)
 - [x] Hypotheses H1–H5 with expected ranges (§V)
-- [x] Implementation evidence registry E1–E10 (§VI)
+- [x] Implementation evidence registry E1–E10 verified against codebase (§VI)
 - [x] Result table schemas pre-defined (§VII)
 - [x] λ policy recommendations specified (§VIII.C)
 - [x] Reproducibility commands provided (§IX)
@@ -408,8 +427,8 @@ Selectivity estimation for range predicates using lightweight models. *VLDB 2019
 | Claim | Evidence IDs |
 |-------|-------------|
 | AQL plan execution framework exists | E1 |
-| HybridRetriever (BM25+HNSW+RRF) implemented | E3 |
+| HybridRetriever (BM25+HNSW+RRF) implemented via fuse()/fuseRRF() | E3 |
 | IVF+PQ ADC path implemented | E4 |
 | Graph edge expansion implemented | E5 |
-| Index advisor interface defined | E6 |
+| Cost-aware query advisor interface defined (`IIndexAnalysisAdvisor`) | E6 |
 | Benchmark harness for workloads W-HR-1..4 | E2, E8 |

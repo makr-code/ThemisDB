@@ -1,8 +1,8 @@
 ---
 category: "📋 Guides"
-version: "v1.3.0"
+version: "v1.9.0-beta"
 status: "✅"
-date: "22.12.2025"
+date: "2026-05"
 audience: "Application developers, data engineers, AI/ML engineers"
 ---
 
@@ -32,8 +32,8 @@ ThemisDB ist eine Multi-Model Datenbank für moderne Anwendungen mit:
 - GPU-Beschleunigung für Vector Search
 
 **Target Audience:** Application developers, data engineers, AI/ML engineers  
-**Version:** 1.3.0  
-**Last Updated:** April 2026
+**Version:** 1.9.0-beta  
+**Last Updated:** May 2026
 
 ---
 

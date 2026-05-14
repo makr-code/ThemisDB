@@ -8,6 +8,19 @@ stubs masquerading as functional code on critical paths.
 
 ---
 
+## Consolidation Scope (Root Performance Docs)
+
+- **Document role:** Ist-Analyse der Engpässe (Root-Cause-Katalog).
+- **Not covered here:** KPI-Grenzwerte, Messmethodik, Sprint-Planung, Benchmark-Laufnachweise.
+- **Canonical KPI + methodology:** [`PERFORMANCE_EXPECTATIONS.md#kpi-and-measurement-methodology-canonical`](PERFORMANCE_EXPECTATIONS.md#kpi-and-measurement-methodology-canonical)
+- **Canonical optimization plan:** [`PERFORMANCE_OPTIMIZATION_PLAN.md`](PERFORMANCE_OPTIMIZATION_PLAN.md)
+- **Canonical benchmark results:** [`BENCHMARK_IMPLEMENTATION_REPORT.md`](BENCHMARK_IMPLEMENTATION_REPORT.md)
+- **Benchmark docs + test paths:** [`docs/benchmarks/README.md`](docs/benchmarks/README.md), [`benchmarks/`](benchmarks), [`tests/performance/test_wire_perf_benchmark.cpp`](tests/performance/test_wire_perf_benchmark.cpp)
+
+> **Historical status marker:** Findings in this document reflect analysis snapshots up to `2026-05-04`. Use benchmark evidence from `BENCHMARK_IMPLEMENTATION_REPORT.md` to decide whether a finding is still active.
+
+---
+
 ## Legend
 
 | Severity | Meaning |
@@ -32,6 +45,18 @@ stubs masquerading as functional code on critical paths.
 10. [SIMD / CPU Feature Detection](#10-simd--cpu-feature-detection)
 11. [Summary Table](#11-summary-table)
 12. [Recommended Fix Priority](#12-recommended-fix-priority)
+
+---
+
+## Root-Dokument-Abgleich (Architektur / Security / Audit / CTest / Performance)
+
+Diese Bottleneck-Analyse ist an dieselben Root-Randbedingungen gebunden wie
+`ARCHITECTURE.md`, `SECURITY.md`, `AUDIT.md`, `CTEST.md`,
+`PERFORMANCE_EXPECTATIONS.md` und `PERFORMANCE_OPTIMIZATION_PLAN.md`:
+
+- Befunde auf kritischen Pfaden dürfen nicht mit Sicherheitskontrollen kollidieren.
+- Priorisierung berücksichtigt neben Performance-Impact auch Audit-/Compliance-Relevanz.
+- Verifikation erfolgt über nachvollziehbare Test- und Audit-Pfade, nicht nur über rohe Throughput-Werte.
 
 ---
 
@@ -639,6 +664,7 @@ static const auto& table = [] {
 
 ---
 
+<a id="10-simd--cpu-feature-detection"></a>
 ## 10. SIMD / CPU Feature Detection
 
 ### F-022 (details in §6 above)

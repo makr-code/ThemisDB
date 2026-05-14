@@ -858,7 +858,7 @@ for (const auto& result : nearby) {
 - **HIP**: AMD GPU acceleration (optional)
   - Requires: ROCm 5.0+
 
-### Build Configuration
+## Build Configuration
 ```cmake
 # Enable GPU acceleration
 option(THEMIS_GPU_ENABLED "Enable GPU acceleration" ON)
@@ -871,6 +871,16 @@ find_package(FAISS QUIET)
 find_package(Vulkan QUIET)
 find_package(CUDAToolkit QUIET)
 ```
+
+## Runtime Configuration Options (Selection)
+
+| Component | Option(s) | Effect |
+|-----------|-----------|--------|
+| `VectorIndexManager::AdvancedIndexConfig` | `index_type`, `nlist`, `nprobe`, `use_pq`, `pq_m`, `use_gpu` | Controls ANN backend mode (IVF/PQ), recall/latency tradeoff, and optional GPU path |
+| `GPUVectorIndex::Config` | `backend`, `metric`, `M`, `efConstruction`, `efSearch`, `batchSize` | Selects GPU backend and HNSW/GPU search behavior |
+| `GPUVectorIndex::Config` | `enable_oversubscription`, `vram_budget_mb`, `prefetch_strategy` | Enables VRAM oversubscription and paging/prefetch behavior |
+| `HnswParameterTuner::Config` | `adaptive`, `target_recall` | Enables workload-adaptive construction parameter tuning |
+| `SecondaryIndexManager::Config` | `enable_compression`, `compression_algorithm`, `compression_level` | Controls index compression behavior and space/speed balance |
 
 ## Performance Characteristics
 
@@ -953,6 +963,22 @@ find_package(CUDAToolkit QUIET)
 3. **LineString/Polygon**: Limited to MBR approximation
    - Workaround: Post-filter results with exact geometry checks
 
+## Runtime Behavior, Error Cases, and Limits
+
+- **Vector dimension validation:** `addVector()` and `search()` require the initialized dimension; mismatches are rejected and the operation fails.
+- **GPU runtime fallback:** If selected GPU backend initialization fails or no compatible device is available, search falls back to CPU when fallback is enabled.
+- **Atomic write behavior:** Secondary index updates are expected to run inside RocksDB `WriteBatch`; skipping batched writes can produce inconsistent data/index state on failures.
+- **Topology limits:** Graph traversals are bounded by input constraints such as `max_depth`; high-degree graphs can increase latency and memory usage.
+- **Spatial approximation boundary:** Polygon and complex geometry handling remains bounding-box-first in core paths; exact geometry filtering is a caller responsibility where needed.
+
+## Troubleshooting
+
+- **No vector search results:** Verify metric/dimension alignment between indexed vectors and query vector; check that index initialization succeeded before ingestion.
+- **Lower-than-expected ANN recall:** Increase `efSearch`, review `M`/`efConstruction`, and validate workload-specific defaults via `HnswProductionDefaults`.
+- **GPU path not active:** Confirm build flags (`THEMIS_GPU_ENABLED`, backend-specific options), runtime driver availability, and selected `GPUVectorIndex::Backend`.
+- **High memory usage:** Enable PQ/quantization, tune HNSW parameters, and for GPU-heavy workloads use oversubscription and/or multi-GPU distribution.
+- **Stale secondary index entries:** Ensure all writes/deletes update indexes in the same write batch and schedule TTL cleanup for expiring datasets.
+
 ## Status
 
 **Current Version:** v1.7.0+
@@ -1004,9 +1030,15 @@ find_package(CUDAToolkit QUIET)
 - [Core Module](../core/README.md) - Dependency injection, concerns context
 
 ### Technical Documentation
-- [Vector Indexing Architecture](../../VECTOR_INDEXING_ARCHITECTURE.md) - Deep dive into HNSW, FAISS, GPU acceleration
-- [Vector Advanced Features](VECTOR_ADVANCED_FEATURES_README.md) - Quantization, rotary embeddings, multi-vector search
-- [Benchmark Best Practices](../../BENCHMARK_BEST_PRACTICES.md) - Performance tuning, benchmarking
+- [Implementation Overview](../../src/index/README.md) - Source-level module walkthrough and usage
+- [Index Roadmap](../../src/index/ROADMAP.md) - Module status, phases, production-readiness checklist
+- [Index Future Enhancements](../../src/index/FUTURE_ENHANCEMENTS.md) - Planned features, constraints, interfaces, targets
+- [Cross-Module Roadmap](../../src/ROADMAP.md) - Consolidated roadmap across all modules
+- [Cross-Module Future Enhancements](../../src/FUTURE_ENHANCEMENTS.md) - Cross-module enhancement backlog
+- [Index Roadmap Review (DE)](../../docs/de/roadmap/index_roadmap.md) - Production-readiness review and phased gap analysis
+- [Vector Indexing Architecture (DE)](../../docs/de/architecture/VECTOR_INDEXING_ARCHITECTURE.md) - Deep dive into HNSW, FAISS, GPU acceleration
+- [Vector Advanced Features](../../src/index/VECTOR_ADVANCED_FEATURES_README.md) - Quantization, rotary embeddings, multi-vector search
+- [Benchmark Best Practices (DE)](../../docs/de/guides/BENCHMARK_BEST_PRACTICES.md) - Performance tuning and benchmarking workflow
 
 ### API References
 - [IIndexManager Interface](../../include/themis/base/interfaces/index_interface.h)
@@ -1014,10 +1046,10 @@ find_package(CUDAToolkit QUIET)
 - [IStorageEngine Interface](../../include/themis/base/interfaces/storage_interface.h)
 
 ### Examples
-- [RAG Pipeline Example](../../examples/rag_pipeline.cpp) - End-to-end RAG implementation
-- [Graph Knowledge Base](../../examples/graph_knowledge_base.cpp) - Hybrid vector + graph
-- [Geospatial Queries](../../examples/geospatial_queries.cpp) - Spatial index usage
-- [GPU Acceleration](../../examples/gpu_vector_search.cpp) - Vulkan/CUDA usage
+- [HNSW Recall Integration Test](../../tests/index/test_hnsw_recall_integration.cpp) - End-to-end ANN quality validation
+- [Spatial Correctness Integration Test](../../tests/index/test_spatial_correctness_integration.cpp) - Spatial query behavior and edge cases
+- [GPU Oversubscription Test](../../tests/index/test_gpu_memory_oversubscription.cpp) - GPU fallback/oversubscription behavior
+- [Distributed Vector Index Test](../../tests/index/test_distributed_vector_index.cpp) - Sharding and distributed index flow
 
 ### External Resources
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Malkov & Yashunin (2018)

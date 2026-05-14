@@ -1,198 +1,107 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-# Sharding Module
+# sharding module
 
-Horizontal scaling and sharding implementation for ThemisDB v1.4+.
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: ../../include/sharding/README.md · ./ARCHITECTURE.md · ./ROADMAP.md · ./FUTURE_ENHANCEMENTS.md -->
 
-## Module Purpose
+Status: active hardening and production-readiness work for distributed sharding.
 
-Implements horizontal scaling and distributed sharding for ThemisDB, providing pluggable consensus algorithms (Raft, Gossip, Multi-Paxos), cross-shard SAGA transactions, automatic shard rebalancing, and the ShardRepairEngine for self-healing shard topology.
+## Current Implementation Layout
 
-## Subsystem Scope
+| Component | Implementation Location | Runtime Role |
+|----------|--------------------------|--------------|
+| Topology and routing core | `src/sharding/shard_router.cpp`, `src/sharding/shard_topology.cpp`, `src/sharding/consistent_hash.cpp` | Maps keys/queries to shards and keeps routing decisions aligned with topology updates |
+| Consensus selection + adapters | `src/sharding/consensus_factory.cpp`, `src/sharding/raft_consensus_adapter.cpp`, `src/sharding/gossip_consensus_adapter.cpp` | Selects and starts Raft/Gossip/Paxos implementations at runtime |
+| Consensus engines | `src/sharding/raft_consensus.cpp`, `src/sharding/gossip_protocol.cpp`, `src/sharding/paxos_consensus.cpp` | Coordinates distributed writes and membership decisions |
+| Cross-shard transactions | `src/sharding/cross_shard_transaction.cpp`, `src/sharding/two_phase_commit_coordinator.cpp` | Executes 2PC/3PC/SAGA/Percolator-like flows for multi-shard operations |
+| Repair + anti-entropy | `src/sharding/shard_repair_engine.cpp`, `src/sharding/redundancy_strategy.cpp` | Detects degraded shards, schedules repair jobs, and reconstructs lost shards/chunks |
+| Rebalancing and migration | `src/sharding/auto_rebalancer.cpp`, `src/sharding/data_migrator.cpp`, `src/sharding/hardware_migration_manager.cpp` | Moves data and endpoints during scaling or hardware replacement |
+| Operational APIs and metrics | `src/sharding/admin_api.cpp`, `src/sharding/operational_metrics.cpp`, `src/sharding/prometheus_metrics.cpp` | Exposes admin controls and observability endpoints for sharding state |
 
-**In scope:** Hash-based and range-based shard routing, pluggable consensus (Raft, Gossip, Paxos), cross-shard SAGA transactions, shard rebalancing and repair, virtual node management.
+## Runtime Behavior, Error Cases, and Limits
 
-**Out of scope:** Data replication at the storage layer (handled by replication module), network transport (handled by rpc module), query planning (handled by aql module).
+### Routing + topology
 
-## Relevant Interfaces
+- Hash-based and locality-aware routing are used to select target shards.
+- Topology changes are eventually propagated; during transitions, requests can be re-routed or retried by higher layers.
+- Invalid shard IDs, missing topology entries, or unresolved URNs return failure results instead of silently falling back.
 
-- `shard_manager.cpp` — shard topology and routing management
-- `consensus_factory.cpp` — runtime consensus algorithm selection (Raft/Gossip/Paxos)
-- `cross_shard_transaction_coordinator.cpp` — cross-shard SAGA/2PC/3PC transactions
-- `shard_repair_engine.cpp` — self-healing shard repair and rebalancing
-- `adaptive_shard_router.cpp` — capability-based and domain-score routing; `updateAdapterCapability()` ingests gossip announcements; `routeByDomain(domain)` routes to the shard with highest `accuracy_delta` for a given `AdapterDomainType`
+### Consensus
 
-## Current Delivery Status
+- Runtime consensus choice is configured via `ConsensusFactory` (`Raft`, `Gossip`, `Paxos`).
+- Quorum-based operation requires enough healthy peers; insufficient quorum causes proposals/commits to fail.
+- WAL/persistence failures are treated as hard errors in consensus write paths.
 
-**Maturity:** 🚧 In Active Hardening — Core consensus and repair capabilities are operational; full RPC integration, persistent Paxos acceptor state, and failover orchestration remain in progress.
+### Cross-shard transactions
 
-## Components
+- The transaction coordinator supports 2PC, 3PC, SAGA, and Percolator-style paths.
+- Prepare/commit/abort timeouts and deadlock detection windows are bounded by configuration.
+- Participant unavailability and timeout conditions lead to abort/recovery paths.
 
-### Core Infrastructure
-- Shard manager and topology
-- Data distribution strategies
-- Consistent hashing
-- Shard rebalancing
-- TrueTime integration for global consistency
+### Repair and durability
 
-### NEW in v1.4+ - Pluggable Consensus Architecture
-- **Consensus Module Interface** - Abstract interface for pluggable consensus
-- **Raft Consensus Adapter** - Adapter for existing Raft implementation
-- **Gossip Consensus Adapter** - Adapter for Gossip protocol
-- **Paxos Consensus** - New Multi-Paxos implementation
-- **Consensus Factory** - Runtime consensus selection
+- `ShardRepairEngine` can run periodic scans and on-demand repair jobs (`triggerRepair`, `triggerFullScan`, `triggerDocumentRepair`).
+- Jobs expose status via `job_id` polling; failed jobs report explicit failure states.
+- Erasure coding recovery can fail for irrecoverable failure sets (for example when missing shards exceed parity/recovery capability).
 
-### NEW in v1.4+ - Enhanced Transaction Support
-- **Cross-Shard Transaction Coordinator** - Pluggable transaction protocols
-  - Two-Phase Commit (2PC)
-  - Three-Phase Commit (3PC)
-  - SAGA (compensating transactions)
-  - Percolator (optimistic concurrency)
-- **Distributed Deadlock Detection**
-- **Snapshot Isolation** across shards
+## Usage Snippets
 
-### NEW in v1.4+ - Metadata Sharding
-- **Metadata Shard** - Horizontally partitioned metadata
-- **Metadata Shard Router** - Consistent hashing for metadata routing
-- Partitioned by type: SCHEMA, INDEX, SHARD_MAP, TRANSACTION_LOG, etc.
+### 1) Select and start a consensus module
 
-### NEW in v1.5+ - Repair / Anti-Entropy Engine
-- **ShardRepairEngine** (`include/sharding/shard_repair_engine.h`) – automated
-  self-healing for Parity (RAID-5/6) and Mirror shard setups.
-- **Improved Reed-Solomon Decoder** – Vandermonde matrix-based erasure recovery
-  supporting up to `parity_shards` simultaneous chunk failures (previously
-  limited to 1).
-- **HammingCoder** (`include/sharding/redundancy_strategy.h`) — RAID-2 style
-  shard-level error-correction using pure XOR parity; no Galois-Field arithmetic.
-  Supports iterative multi-shard recovery via Hamming parity-bit assignment.
+```cpp
+#include "sharding/consensus_factory.h"
+#include "sharding/consensus_module.h"
 
-#### Key capabilities
-| Capability | Details |
-|---|---|
-| Background scan | Configurable periodic anti-entropy scan across all shards |
-| Auto-repair | Degraded documents detected during scan are queued for recovery |
-| On-demand triggers | `triggerRepair(shard_id)`, `triggerFullScan()`, `triggerDocumentRepair(doc_id)` |
-| Per-shard health | `ShardHealthReport` with status enum: `HEALTHY` / `DEGRADED` / `FAILED` / `REBUILDING` |
-| Job tracking | Every trigger returns a `job_id`; `getJobStatus(job_id)` polls progress |
-| Prometheus metrics | `exportPrometheusMetrics()` or via `ShardingMetricsHandler::getRepairMetrics()` |
+themis::sharding::ConsensusConfig cfg;
+cfg.type = themis::sharding::ConsensusType::RAFT;
+cfg.node_id = "node-a";
+cfg.cluster_nodes = {"node-a", "node-b", "node-c"};
 
-#### Prometheus metrics exposed
-| Metric | Type | Description |
-|---|---|---|
-| `themis_shard_repair_scans_total` | counter | Anti-entropy scans performed |
-| `themis_shard_repair_attempts_total` | counter | Repair attempts |
-| `themis_shard_repair_successes_total` | counter | Successful repairs |
-| `themis_shard_repair_failures_total` | counter | Failed repair attempts |
-| `themis_shard_repair_documents_scanned_total` | counter | Documents checked |
-| `themis_shard_repair_avg_duration_ms` | gauge | Rolling average repair time (ms) |
-| `themis_shard_health{shard="..."}` | gauge | Per-shard health (0–3) |
-| `themis_shard_degraded_documents{shard="..."}` | gauge | Degraded document count |
+auto consensus = themis::sharding::ConsensusFactory::create(cfg);
+consensus->initialize(cfg.node_id, cfg.cluster_nodes);
+consensus->start();
+```
 
-#### Admin API endpoints
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/admin/repair` | Trigger repair (body: `{"shard_id":"..."}` or `{}` for all) |
-| `POST` | `/admin/repair/scan` | Trigger full anti-entropy scan |
-| `GET`  | `/admin/repair/{job_id}` | Poll repair job status |
+### 2) Run anti-entropy repair
 
-#### Quick start
 ```cpp
 #include "sharding/shard_repair_engine.h"
 
 themis::sharding::RepairConfig cfg;
-cfg.scan_interval = std::chrono::seconds(300);   // scan every 5 min
 cfg.enable_auto_repair = true;
+cfg.scan_interval = std::chrono::seconds(300);
 
 auto engine = std::make_shared<themis::sharding::ShardRepairEngine>(
     cfg, strategy, ring, topology, read_handler, write_handler);
 
-// Provide document list so the scanner knows what to check
-engine->setDocumentListProvider([](const std::string& shard_id) {
-    return myStorage.listDocuments(shard_id);
-});
-
 engine->start();
-
-// On-demand repair
-std::string job_id = engine->triggerRepair("shard_3");
+const std::string job_id = engine->triggerRepair("shard-3");
 auto status = engine->getJobStatus(job_id);
-
-// Wire up to existing Prometheus scrape endpoint
-metricsHandler->setRepairEngine(engine);
 ```
-
-## Features
-
-### Scalability
-- Horizontal data partitioning
-- Consistent hashing for shard assignment
-- Dynamic shard rebalancing
-- Metadata sharding prevents bottlenecks
-
-### Consistency
-- **Pluggable consensus algorithms** (Raft, Gossip, Paxos)
-- **Multiple transaction protocols** (2PC, 3PC, SAGA, Percolator)
-- **ACID guarantees across multiple shards**
-- **TrueTime-based external consistency**
-- **Snapshot isolation** for distributed reads
-
-### Availability
-- Automatic failover with hot spares
-- Partition detection and split-brain prevention
-- Deadlock detection and resolution
-- Multi-datacenter support
-- **Self-healing via ShardRepairEngine** (v1.5+)
-
-## Implementation Status
-
-### ✅ Completed (v1.4)
-- Pluggable consensus module architecture
-- Raft, Gossip, and Paxos consensus implementations
-- Cross-shard transaction coordinator
-- Transaction protocol abstraction (2PC, 3PC, SAGA, Percolator)
-- Deadlock detection framework
-- Metadata sharding design
-- Comprehensive documentation
-
-### ✅ Completed (v1.5)
-- **ShardRepairEngine** – anti-entropy background scan + repair queue
-- **Vandermonde-based Reed-Solomon decoder** – full multi-chunk recovery
-- **HammingCoder** — RAID-2 / Hamming shard-level XOR error-correction; `HAMMING` in `ErasureCodingAlgorithm`; 16 focused tests (HC_01..HC_16)
-- **Prometheus metrics integration** for repair health
-- **Admin API repair endpoints** (POST /admin/repair, /admin/repair/scan, GET /admin/repair/{id})
-
-### 🚧 Partial (requires integration)
-- Full RPC integration for cross-shard operations
-- Persistent state management for Paxos
-- Complete metadata shard implementation
-- Advanced query optimization
-
-## Documentation
-
-For comprehensive sharding documentation, see:
-- **[Distributed Sharding Architecture](../../docs/de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)** - NEW v1.4!
-- **[Consensus Module Architecture](../../docs/de/sharding/CONSENSUS_MODULE.md)** - NEW v1.4!
-- **[Data Migration Guide](../../docs/de/migration/DATA_MIGRATION_COMPATIBILITY.md)** - NEW v1.4!
-- [Distributed Transactions with 2PC](../../docs/DISTRIBUTED_TRANSACTIONS.md)
-- [Sharding Implementation Summary](../../docs/SHARDING_IMPLEMENTATION_SUMMARY.md)
-- [Sharding Phase 1 Report](../../docs/SHARDING_PHASE1_REPORT.md)
-- [Sharding Phases 1-3 Summary](../../docs/SHARDING_PHASES_1-3_SUMMARY.md)
-- [Horizontal Scaling Strategy](../../docs/horizontal_scaling_implementation_strategy.md)
-
-## Quick Start
-
-See usage examples in the architecture documentation above.
-
-## Scientific References
-
-1. Karger, D., Lehman, E., Leighton, T., Panigrahy, R., Levine, M., & Lewin, D. (1997). **Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web**. *Proceedings of the 29th Annual ACM Symposium on Theory of Computing (STOC)*, 654–663. https://doi.org/10.1145/258533.258660
-
-2. DeCandia, G., Hastorun, D., Jampani, M., Kakulapati, G., Lakshman, A., Pilchin, A., … Vogels, W. (2007). **Dynamo: Amazon's Highly Available Key-Value Store**. *Proceedings of SOSP 2007*, 205–220. https://doi.org/10.1145/1294261.1294281
-
-3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
-
-4. Curino, C., Jones, E., Zhang, Y., & Madden, S. (2010). **Schism: A Workload-Driven Approach to Database Replication and Partitioning**. *Proceedings of the VLDB Endowment*, 3(1–2), 48–57. https://doi.org/10.14778/1920841.1920853
 
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Troubleshooting
+
+- Consensus does not elect a leader or commit proposals: verify cluster size/quorum and peer reachability.
+- Frequent cross-shard aborts: inspect participant timeouts and deadlock detection settings.
+- Repair jobs stay in non-terminal states: check document-list providers and read/write handler wiring.
+- Unexpected hotspotting on a subset of shards: inspect hash-ring and rebalancer telemetry before forcing migrations.
+
+## Related Docs
+
+- Public headers: [`../../include/sharding/README.md`](../../include/sharding/README.md)
+- Architecture: [`./ARCHITECTURE.md`](./ARCHITECTURE.md)
+- Security notes: [`./SECURITY.md`](./SECURITY.md)
+- Audit log: [`./AUDIT.md`](./AUDIT.md)
+- Module roadmap: [`./ROADMAP.md`](./ROADMAP.md)
+- Module future enhancements: [`./FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- Distributed architecture overview: [`../../docs/de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md`](../../docs/de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)
+- Consensus details: [`../../docs/de/sharding/CONSENSUS_MODULE.md`](../../docs/de/sharding/CONSENSUS_MODULE.md)
+- Quick start guide: [`../../docs/de/sharding/QUICK_START_GUIDE.md`](../../docs/de/sharding/QUICK_START_GUIDE.md)
+- Shard repair deep dive: [`../../docs/de/sharding/SHARD_REPAIR_ENGINE.md`](../../docs/de/sharding/SHARD_REPAIR_ENGINE.md)
+- Root roadmap: [`../../ROADMAP.md`](../../ROADMAP.md)
+- Root future enhancements: [`../../FUTURE_ENHANCEMENTS.md`](../../FUTURE_ENHANCEMENTS.md)

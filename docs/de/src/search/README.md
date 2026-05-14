@@ -1,7 +1,7 @@
 # Search-Modul — Übersicht
 
-**Stand:** 2026-03-10
-**Version:** v2.2.0
+**Stand:** 2026-05-13
+**Version:** v2.4.0
 **Status:** ✅ Production Ready
 **Kategorie:** 🔍 Suche
 
@@ -21,7 +21,7 @@
 
 ## Zweck
 
-Das Search-Modul implementiert **Volltext- und hybride semantische Suche** für ThemisDB. Es verbindet BM25-Keyword-Suche mit HNSW-Vektorsuche über Reciprocal Rank Fusion (RRF) und bietet LLM-gestützte Query-Umschreibung, LLM-Re-Ranking, facettierte Suche, Fuzzy-Matching, Autovervollständigung und personalisiertes Ranking.
+Das Search-Modul implementiert **Volltext- und hybride semantische Suche** für ThemisDB. Es verbindet BM25-Keyword-Suche mit HNSW-Vektorsuche über Reciprocal Rank Fusion (RRF) und bietet LLM-gestützte Query-Umschreibung, LLM-Re-Ranking, facettierte Suche, Fuzzy-Matching, Autovervollständigung, personalisiertes Ranking, Konversationssuche, föderierte Suche und Streaming-Ergebnislieferung.
 
 Hauptziele:
 - Hybride BM25+Vektor-Suche mit ≥ 85 % Recall@10
@@ -30,6 +30,9 @@ Hauptziele:
 - Mehrsprachige Suche über multilinguale Embedding-Modelle
 - Personalisiertes Re-Ranking auf Basis von Nutzerinteraktionshistorie
 - NOT-Operator-Filterung mit negativen Keywords
+- Multi-Turn-Konversationssuche mit kontextbasierter Query-Reformulierung (v2.4.0)
+- Tenant-isolierte föderierte Suche mit per-Tenant-Gewichtung (v2.4.0)
+- Cursor-basiertes Streaming für große Ergebnismengen (v2.4.0)
 
 ---
 
@@ -37,6 +40,9 @@ Hauptziele:
 
 ```
 Search API  (src/server/)
+        │
+        ▼
+ConversationalSearch / FederatedSearch (v2.4.0 — optionale Wrapper)
         │
         ▼
 HybridSearch (Hauptfassade)
@@ -57,7 +63,7 @@ HybridSearch (Hauptfassade)
         │
   PersonalizedRanker → LearningToRank → LlmReranker (optional)
         │
-  SearchHighlighter → SearchAnalytics → return results
+  SearchHighlighter → SearchAnalytics → SearchResultStream → return results
 ```
 
 | Komponente | Funktion |
@@ -68,6 +74,9 @@ HybridSearch (Hauptfassade)
 | RRF | Reciprocal Rank Fusion (O(k log k), keine Score-Normalisierung) |
 | LlmQueryRewriter | LLM-basierte Query-Umschreibung mit Fallback |
 | LlmReranker | LLM-basiertes Re-Ranking der Top-N Ergebnisse |
+| ConversationalSearch | Multi-Turn-Kontext-Reformulierung (v2.4.0) |
+| FederatedSearch | Tenant-isolierte parallele Suche mit RRF-Fusion (v2.4.0) |
+| SearchResultStream | Cursor-basiertes Streaming-Paging (v2.4.0) |
 
 ---
 
@@ -91,6 +100,9 @@ HybridSearch (Hauptfassade)
 | `cross_lingual_search.h/cpp` | Mehrsprachige Suche via multilinguale Embedding-Modelle |
 | `search_highlighter.h/cpp` | Highlight- und Snippet-Generierung für gefundene Terme |
 | `negative_keyword_filter.h/cpp` | NOT-Operator-Filterung negativer Keywords |
+| `conversational_search.h/cpp` | Multi-Turn-kontextbewusste Query-Reformulierung mit History-Eviction |
+| `federated_search.h/cpp` | Tenant-isolierte parallele Suche mit per-Tenant-Gewichtung und RRF-Fusion |
+| `search_result_stream.h/cpp` | Cursor-basiertes Streaming-Paging für große Ergebnismengen |
 
 ---
 
@@ -185,3 +197,25 @@ Erklärende Dokumentation und Reality-Check in `docs/de/`:
 | Dokument | Pfad | Inhalt |
 |----------|------|--------|
 | **Fehlende Implementierungen** | [`docs/de/src/search/MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md) | Reality-Check: offene Punkte (nur Distributed Search, Issue #2280) |
+
+---
+
+## Installation
+
+Das Search-Modul wird als Teil von ThemisDB gebaut. Ausführliche Anweisungen befinden sich in der primären Dokumentation:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+Siehe [`src/search/README.md`](../../../../src/search/README.md) und das Root-`CMakeLists.txt` für vollständige Build-Konfiguration.
+
+---
+
+## Usage
+
+Einstiegsbeispiel sowie vollständige API-Referenz sind in der primären Entwicklerdokumentation zu finden:
+
+- **Schnellstart / Usage-Snippets:** Abschnitt [Schnellstart](#schnellstart) oben und [`include/search/README.md`](../../../../include/search/README.md)
+- **Konfigurationsreferenz:** Abschnitt [Konfiguration](#konfiguration) oben und `HybridSearch::Config` in [`include/search/README.md`](../../../../include/search/README.md)
+- **Troubleshooting:** [`include/search/README.md` — Troubleshooting](../../../../include/search/README.md)

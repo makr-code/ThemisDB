@@ -1,226 +1,158 @@
-# ThemisDB as a Distributed ACID Multi-Model AI Database: Architecture, Trade-offs, and Evaluation Plan
+# ThemisDB as a Distributed ACID Multi-Model AI Database: Repository-Grounded Review and Evaluation Scope
 
-**Status**: Draft  
-**Version**: 0.1  
-**Last Updated**: 2026-04-19  
+**Status**: Review Ready
+**Version**: 0.2
+**Last Updated**: 2026-05-14
 **Target Venue**: arXiv (cs.DB / cs.DC)
+**Authors**: ThemisDB Research Team
 
 ---
 
 ## Abstract
 
-Modern enterprise AI stacks frequently separate transactional data management and model-driven processing into distinct systems, creating consistency and operational complexity gaps. This paper presents a systems study of ThemisDB as a distributed ACID multi-model database with integrated AI/LLM capabilities. The contribution is an architecture-centric and measurement-driven framework for analyzing trade-offs across consistency, scalability, and AI workload performance. We focus on consensus-backed sharding, transactional semantics (including MVCC and SAGA patterns), and native support for vector/graph/retrieval-aware AI paths. The paper is repository-grounded and provides explicit evidence mapping to architecture and capability definitions. Rather than claiming final benchmark-optimal behavior, we define reproducible evaluation protocols and claim boundaries to support rigorous comparison with decoupled data-plus-serving architectures.
+This paper reviews whether the current ThemisDB repository supports describing the system as a distributed ACID multi-model database with integrated AI capabilities. The review is intentionally claim-bounded: only statements that can be tied to current repository architecture documents, benchmark mappings, or published benchmark summaries are retained. Repository documentation consistently presents ThemisDB as a system that combines Advanced Query Language (AQL) processing, ACID transaction control, distributed coordination, multi-model storage, and AI/LLM-oriented retrieval paths in one architecture.
+
+Current empirical evidence is strongest for single-node and component-level benchmarks, with the canonical performance report documenting a 9.67 ms query p99, 1.177 M graph edge operations per second, and 61.0 M time-series inserts per second, while also recording unresolved gaps in secondary-index insert throughput and peak query throughput. Several distributed-sharding metrics remain proxy-mapped or hardware-gated, and no public end-to-end mixed distributed AI workload study in the repository yet justifies superiority claims over decoupled architectures. The article is therefore positioned as a verified architecture-and-evidence review plus a publication-ready evaluation scope, not as a completed comparative performance paper.
 
 ## I. Introduction
 
-Enterprise AI systems often split transactional storage and model serving into separate stacks. This architectural split enables independent scaling, but it also creates consistency, latency, and operational complexity gaps at integration boundaries.
+Modern AI data stacks are often assembled from separate transactional databases, vector stores, graph engines, and model-serving components. That split improves local specialization, but it also creates synchronization boundaries, additional operational surfaces, and ambiguity about which consistency guarantees apply to retrieval and inference paths.
 
-For regulated or mission-critical workloads, these trade-offs are increasingly problematic: systems must provide strict transactional correctness while also supporting retrieval and LLM-assisted processing at production latency.
+ThemisDB is explicitly documented as an attempt to collapse these boundaries into one system. The repository root describes a multi-model engine with native AI/LLM integration; the architecture documentation expands this into API, query, storage, and distributed layers; and the canonical performance report defines system-level service objectives and benchmark mappings for transaction, search, RAG, and sharding subsystems. The central review question is therefore not whether such a system is conceptually attractive, but which claims are already supported by repository evidence and which still require dedicated measurement.
 
-Existing literature typically emphasizes one side of this boundary, either distributed transaction correctness or AI-serving performance. This paper evaluates their co-existence in one runtime model by studying ThemisDB as a distributed ACID multi-model AI database.
+This revised paper contributes three concrete outputs:
+1. A repository-grounded verification of the architectural claim that ThemisDB co-locates distributed, transactional, multi-model, and AI-oriented functionality.
+2. A terminology-grounded description of the current system using the repository's own canonical terms: AQL, multi-model, MVCC, OCC, SAGA, Raft/Paxos/Gossip, hybrid search, and RAG.
+3. A publication-grounded claim boundary that separates what is already documented or measured from what is only benchmark-mapped or still awaiting live distributed experiments.
 
-### Contributions
+## II. Related Work and Positioning
 
-1. A unified systems model for distributed ACID + multi-model + AI-native execution.
-2. A trade-off framework connecting consistency choices with AI workload performance.
-3. Repository-grounded evidence and reproducibility roadmap for benchmark-driven validation.
+The distributed-systems and database literature provides the classical building blocks for this topic: Raft and Paxos for replicated coordination [1, 2], Sagas and transaction-commit protocols for distributed transactional workflows [3, 4], and multiversion or serializable isolation techniques for correctness under concurrency [5, 6]. In information retrieval and AI systems, BM25-style lexical ranking, dense retrieval, and RAG pipelines motivate the retrieval-native AI portion of the discussion [7, 8, 9].
 
-### Research Questions and Hypotheses
+What distinguishes ThemisDB in the current repository is not a new consensus or retrieval algorithm. The distinguishing claim is architectural composition: the same documented system surface includes AQL query processing, multi-model operators, transactional semantics, sharding and consensus options, hybrid retrieval, and LLM-adjacent components. The paper is therefore best framed as a systems-integration review. It should not claim benchmark superiority over best-of-breed separate stacks until the repository publishes comparable end-to-end measurements.
 
-RQ1: How do consistency policies affect AI-path latency and throughput under mixed distributed workloads?
+## III. Verified Repository Snapshot
 
-RQ2: Which shard/replication configurations provide the best balance between fault resilience and end-to-end performance?
+### A. Architectural Co-Presence
 
-RQ3: How much additional overhead is introduced during transition windows after failures compared with steady-state operation?
+Table 1 summarizes the central capabilities that are simultaneously documented in the repository.
 
-H1: Mixed transaction+AI workloads can preserve strict correctness while meeting latency SLOs within a bounded coordination-overhead regime.
+| Capability area | Repository evidence | Review conclusion |
+|---|---|---|
+| Query surface | `README.md`, `ARCHITECTURE.md` describe AQL plus REST, GraphQL, gRPC, WebSocket, and wire protocols | The system is documented as more than a storage engine; it exposes a unified query and API surface [10, 11] |
+| Transaction model | `README.md` lists MVCC, SSI, 2PC, and SAGA; `ARCHITECTURE.md` documents MVCC, snapshot isolation, OCC, rollback, and SAGA | ACID and distributed-transaction terminology are first-class repository concepts, not incidental notes [10, 11] |
+| Distributed control | `README.md` and `ARCHITECTURE.md` describe sharding, Raft, Paxos, Gossip, failover, and cross-shard execution | The repository consistently positions ThemisDB as a distributed system with selectable coordination models [10, 11] |
+| Multi-model data model | Root docs describe relational, graph, vector, document, geospatial, and time-series support | "Multi-model" is a supported product-level description in the current documentation [10, 11] |
+| AI / retrieval layer | Root docs and architecture docs describe hybrid search, RAG evaluation, and LLM integration | AI support is documented as part of the same runtime architecture rather than an external add-on [10, 11] |
 
-H2: Transition-window overhead after failures dominates steady-state overhead and must be modeled explicitly for realistic SLO planning.
+### B. Evidence Classes Used in This Review
 
-## II. Related Work
+To keep the article reviewable, all retained claims are classified into one of four evidence classes.
 
-Distributed systems research established robust foundations for consensus, replication, and transactional correctness. Multi-model database work expanded operator diversity across relational, graph, and document/vector paradigms. In parallel, AI-serving research improved throughput and latency for model inference.
+| Class | Meaning | Accepted examples in this paper |
+|---|---|---|
+| **Documented** | Canonical repository documents describe the capability | `README.md`, `ARCHITECTURE.md` |
+| **Measured** | Canonical benchmark reports publish concrete numbers | `PERFORMANCE_EXPECTATIONS.md` |
+| **Mapped** | A benchmark target is tied to an implemented benchmark case | `benchmarks/benchmark_target_mapping.json` |
+| **Proxy / Deferred** | Only indirect coverage exists, or the measurement has not yet been published | proxy-marked sharding and transaction targets in the benchmark mapping |
 
-Despite this progress, end-to-end evaluations that jointly model strict transactional guarantees and integrated AI paths remain limited. Most practical architectures still rely on cross-system composition, where correctness and AI performance are tuned separately.
+This classification removes a common problem in draft systems papers: blending architecture intentions, benchmark harness availability, and actual measured outcomes into one unsupported headline claim.
 
-Our novelty is a unified systems treatment: we analyze correctness, scalability, and AI-path performance as interacting dimensions in a single distributed runtime.
+## IV. Methodology / Review Approach
 
-## III. System Model / Architecture
+### A. Claim-Verification Procedure
 
-The model is composed of four layers. The distributed layer handles consensus, replication, and shard placement. The transaction layer provides MVCC and distributed transaction orchestration. The multi-model layer executes relational, graph, and vector operators. The AI layer adds retrieval-aware LLM paths.
+The review procedure is intentionally conservative.
 
-The co-presence and capability claims in this section are anchored to evidence E1-E4.
+1. A claim is kept only if it can be anchored to a canonical repository document or benchmark artifact.
+2. Architectural co-presence claims are supported by `README.md` and `ARCHITECTURE.md`.
+3. Quantitative performance claims are supported only by values published in `PERFORMANCE_EXPECTATIONS.md`.
+4. Claims about benchmark readiness or subsystem coverage are supported by `benchmarks/benchmark_target_mapping.json` and the referenced benchmark source files.
+5. Any statement that implied unpublished distributed mixed-workload results, existing benchmark artifact directories, or demonstrated superiority over external architectures has been removed or narrowed.
 
-We assume heterogeneous workloads and node capabilities, reflecting realistic cluster operation. Queries can traverse multiple layers in one request path, making cross-layer contention an expected behavior rather than an exception.
+### B. Evaluation Dimensions for Publication-Grade Follow-Up
 
-The failure model covers node loss, partial network partition, and contention bursts. We evaluate both steady-state behavior and degraded regimes, because many practical incidents are dominated by transition dynamics rather than static throughput limits.
+A future publication-grade experiment should measure ThemisDB along four dimensions that are already motivated by the repository layout and benchmark mappings.
 
-## IV. Method / Design
+1. **Correctness and consistency**: how MVCC/OCC/SSI and distributed commit choices affect abort behavior and tail latency.
+2. **Distributed coordination cost**: how shard routing, scatter-gather paths, failover, and topology changes affect steady-state and transition-window behavior.
+3. **Multi-model execution**: how relational, graph, vector, document, and time-series paths interact under shared load rather than isolated microbenchmarks.
+4. **AI-path overhead**: how hybrid retrieval and RAG-oriented components behave when coupled to transactional and distributed pressure.
 
-The design principle is shared primitives: data and AI workloads use the same storage, query, and coordination substrate. This removes cross-system synchronization boundaries but introduces explicit trade-offs between correctness guarantees and tail-latency objectives.
+This paper keeps that evaluation scope explicit, but it does not present fabricated or placeholder results for those dimensions.
 
-Decision policies map workload class and risk profile to consistency and routing strategy. For example, stricter policies are applied to correctness-critical operations, while latency-sensitive analytical paths may use less restrictive strategies when acceptable.
+## V. Evaluation / Current Evidence
 
-Scaling analysis characterizes both horizontal shard gains and coordination overhead growth. Edge-case design includes deterministic failover handling and compensation workflows for multi-step distributed operations.
+### A. What the Repository Already Supports
 
-## V. Implementation Evidence (Repository-Grounded)
+Table 2 lists the strongest claims that are already supportable from current public artifacts.
 
-| Evidence ID | File | Scope | What It Proves | Status |
-|-------------|------|-------|----------------|--------|
-| E1 | `README.md` | capability matrix | ACID, distributed, and AI/LLM capabilities co-declared | ready |
-| E2 | `ARCHITECTURE.md` | Distributed & Sharding section | Raft/Paxos/Gossip and distributed coordination are architectural core | ready |
-| E3 | `ARCHITECTURE.md` | Transaction section | MVCC and SAGA are explicit transaction features | ready |
-| E4 | `ARCHITECTURE.md` | Index/LLM/RAG sections | Multi-model plus AI integration within one architecture | ready |
-| E5 | `PERFORMANCE_EXPECTATIONS.md` | v1.8.2 abstract + benchmark summary | Root-level measured throughput/latency and explicit open performance gaps | ready |
-| E6 | `ARCHITECTURE.md` | single-node benchmark table + scalability section | Baseline and scalability targets for distributed systems discussion | ready |
+| Supported claim | Evidence | Status |
+|---|---|---|
+| ThemisDB is documented as a distributed ACID multi-model database with integrated AI/LLM capabilities | `README.md`, `ARCHITECTURE.md` | documented |
+| Core query latency is already measured below the published target | `PERFORMANCE_EXPECTATIONS.md` reports query p99 = 9.67 ms against a < 50 ms target | measured [12] |
+| Strong single-node baselines exist for some non-AI primitives | `PERFORMANCE_EXPECTATIONS.md` reports 1.177 M graph edge ops/s and 61.0 M time-series inserts/s | measured [12] |
+| Transaction throughput benchmarking is not merely planned; direct benchmark mappings exist | `benchmark_target_mapping.json` maps TX-1, TX-2, TX-3, and TX-8 to `bench_transaction_throughput.cpp`; TX-3 records 6.4 k/s as measured v1.3.4 | mapped / partly measured [13] |
+| Hybrid retrieval and search benchmarking are implemented in the repository | RAG and search targets are mapped to `bench_rag_hybrid_retriever.cpp` | mapped [13] |
+| Distributed sharding benchmarking exists, but much of it is still indirect | SH-1 is directly mapped, while many SH-* targets are explicitly marked `proxy` or `not_measurable` | mapped / proxy [13] |
 
-Rules:
-- Every major claim in Sections III-VII must map to >=1 evidence ID.
-- Prefer tests/benchmarks over comments as claim support.
+### B. What the Repository Explicitly Does **Not** Yet Prove
 
-## VI. Experimental Methodology
+The revised article removes several unsupported statements from the earlier draft.
 
-### A. Setup
-Evaluation uses 3-9 node cluster profiles with controlled heterogeneity scenarios (uniform nodes versus mixed-capability nodes). Hardware and network metadata are recorded per run to interpret failover and coordination effects correctly.
+1. **No completed mixed distributed AI benchmark suite execution is publicly reported.** The canonical performance report states that benchmark implementations are production-ready, but measurement runs for several module groups have not yet been published [12].
+2. **No claim of superiority over decoupled architectures is currently supportable.** The repository contains architectural scope and benchmark infrastructure, not a published comparative study against external distributed data-plus-serving stacks.
+3. **No claim is made that benchmark JSON artifacts already exist in this checkout.** The previously cited `artifacts/perf_nv/targeted_validation/` and `artifacts/perf_nv/repro_validation_20260412_211053/` paths are not present in the current tree and have therefore been removed from the evidence chain.
 
-Software state is pinned by commit hash, cluster configuration bundle, and workload-generator version. Dataset design combines transactional records with retrieval-oriented content so cross-layer request paths are exercised in one benchmark protocol.
+### C. Interpreting the Current Measurement Picture
 
-Reproducibility controls include deterministic workload generation, repeated trials, fixed failure-injection schedules, and synchronized clock/telemetry collection across nodes.
+The available evidence is strong enough for a careful architecture paper, but not for an aggressive performance paper.
 
-### B. Workloads
-W1 is transaction-heavy and establishes correctness and throughput baselines for distributed ACID paths. W2 is retrieval/AI-heavy and stresses vector/graph/LLM-associated operators. W3 combines both workloads under failure injection (node loss, delayed links, transient partitions).
+- The measured baselines show that important core paths are already fast on published single-node benchmarks [12].
+- The benchmark mapping file shows that transaction, sharding, RAG, and search areas are connected to specific benchmark cases rather than undefined future work [13].
+- The same mapping file also makes the current limits visible: several distributed claims are backed by proxies, fallbacks, or hardware-gated measurements rather than live end-to-end cluster runs [13].
 
-All workloads are run across shard-count and replication-policy sweeps to quantify scaling and coordination overhead.
+That combination supports a defensible thesis: ThemisDB is already documented and partially benchmarked as a unified distributed ACID multi-model AI system, but the public evidence base remains uneven across subsystems.
 
-### C. Metrics
-Core metrics include p50/p95/p99 latency, throughput, and tail-amplification under mixed load. AI-path quality metrics include retrieval quality and response quality checks. Reliability metrics include failover time, abort ratio, recovery convergence time, and detected consistency violations.
+## VI. Limitations and Known Issues
 
-We report both steady-state and transition-window statistics because many production failures are dominated by transient behavior.
+The limitations of the current evidence base should be stated directly.
 
-## VII. Results
+1. **Distributed evidence is incomplete.** The strongest public measurements are single-node or component-level; many sharding and coordination targets remain proxy-backed [12, 13].
+2. **Performance gaps remain in core subsystems.** The canonical performance report still documents secondary-index insert throughput below target (254.9 k/s vs. 1.0 M/s) and query peak throughput below target (796.4 M/s vs. 900 M/s) [12].
+3. **GPU-dependent conclusions are conditional.** Some benchmark targets are explicitly hardware-gated, so open-source CPU-only review cannot generalize those outcomes [12, 13].
+4. **Comparative external baselines are absent.** The repository does not yet publish a controlled comparison against separate transactional-database + vector-store + model-serving stacks, so any such claim would be speculative.
+5. **Architecture breadth exceeds current public measurement depth.** The documentation covers a wide feature surface; not every documented subsystem has equally mature empirical validation in public artifacts.
 
-### A. Primary Results
-Repository baselines confirm strong single-node module performance and therefore provide a robust anchor for distributed extrapolation. Query, graph, and time-series values indicate that core primitives are not the primary bottleneck in isolation.
+These limitations are not weaknesses of the paper structure; they are the central facts a credible review must preserve.
 
-At the same time, open throughput gaps in index insert and query peak performance highlight where distributed coordination overhead could compound existing pressure points. This informs where to prioritize deep instrumentation during mixed-workload runs.
+## VII. Conclusion
 
-Result schema is predefined: Table D1 reports throughput/latency by shard count and workload class; Table D2 reports failover and recovery metrics under fault injection; Figure D1 plots consistency-latency trade-offs across policy settings.
-
-### D. Reporting Tables and Figure Plan
-
-Table D1. Throughput and latency by shard count and workload class.
-
-| Shard Count | Workload | Throughput | p50 (ms) | p95 (ms) | p99 (ms) | Abort Rate |
-|-------------|----------|------------|----------|----------|----------|------------|
-| 3 | W1/W2/W3 | pending | pending | pending | pending | pending |
-| 6 | W1/W2/W3 | pending | pending | pending | pending | pending |
-| 9 | W1/W2/W3 | pending | pending | pending | pending | pending |
-
-Table D2. Fault-injection reliability outcomes.
-
-| Fault Scenario | Consistency Policy | Failover Time | Recovery Convergence | Consistency Violations | AI-Path p99 Delta |
-|----------------|--------------------|---------------|----------------------|------------------------|-------------------|
-| Node Loss | pending | pending | pending | pending | pending |
-| Link Delay | pending | pending | pending | pending | pending |
-| Partial Partition | pending | pending | pending | pending | pending |
-
-Figure D1. Consistency-latency trade-off frontier across workload classes and fault scenarios.
-
-### B. Ablations / Sensitivity
-Sensitivity sweeps include shard count, replication policy, and isolation settings, with emphasis on interaction effects during fault transitions.
-
-### C. Negative Results
-Negative findings will explicitly report conditions where stricter consistency substantially harms AI-path latency without commensurate correctness benefits for the target workload class.
-
-## VIII. Discussion
-
-Practical implications: integrated architecture is viable but requires policy-driven adaptation.
-
-Operational constraints: balancing correctness guarantees with AI-serving SLOs requires explicit policy selection by workload class and risk level.
-
-Measurement scope note: current measured values are strong single-node and module-level baselines; full distributed mixed-workload wave measurements remain the decisive next step for final claims.
-
-### Threats to Validity
-
-Internal validity: distributed measurements are sensitive to failure-injection timing and background infrastructure noise; we mitigate with repeated synchronized trials and transition-window isolation.
-
-Construct validity: consistency and quality objectives can conflict under mixed load; we therefore report both correctness and AI-path performance metrics in the same result matrix.
-
-External validity: cluster topology and network characteristics vary across deployments; we include topology manifests and fault-scenario metadata for transferability analysis.
-
-In this section, baseline performance interpretation maps to E5-E6, while integrated-architecture scope maps to E1-E4.
-
-### Claim Boundaries
-
-**Supported claims:**
-- Repository evidence confirms the architectural co-presence of distributed, transactional, multi-model, and AI layers (E1-E4).
-
-**Deferred claims:**
-- Quantified superiority versus decoupled architectures pending full comparative benchmarks.
-
-## IX. Reproducibility & Artifact
-
-The final artifact bundle will pin commit hash, cluster topology manifests, and failure-injection scripts. Baseline rerun flow:
-
-```powershell
-# Configure + build
-cmake --preset msvc-ninja-release
-cmake --build --preset build-msvc-ninja-release
-
-# Optional: execute core tests before distributed benchmark wave
-$env:PATH = "C:\Projects\ThemisDB\build-msvc-ninja-release\bin;C:\Projects\ThemisDB\build-msvc-ninja-release\cmake;" + $env:PATH
-.\build-msvc-ninja-release\bin\themis_tests.exe --gtest_color=yes
-```
-
-Artifact anchors include root baseline documentation plus JSON validation outputs in `artifacts/perf_nv/targeted_validation/` and `artifacts/perf_nv/repro_validation_20260412_211053/`. End-to-end distributed runs typically require 6-24 hours depending on fault scenario matrix size. Known pitfalls are noisy failover timing and shared-infrastructure interference.
-
-## X. Limitations, Risk, Ethics
-
-- Misuse risk: incorrect policy tuning can sacrifice either consistency or service quality.
-- Safety/compliance: auditability and policy transparency required in regulated domains.
-- Boundary conditions: extreme-scale deployments may need specialized control-plane tuning.
-
-## XI. Conclusion
-
-This draft establishes a publication-ready structure for evaluating ThemisDB as a distributed ACID multi-model AI database. The architecture and evidence anchors are present; the remaining work is end-to-end comparative benchmarking and artifact hardening.
+After repository review, the strongest defensible formulation is the following: ThemisDB is presently documented as a distributed ACID multi-model database with integrated AI capabilities, and the repository already contains measurable evidence for important query, graph, time-series, transaction, search, and retrieval-related subsystems. However, the current public evidence does not yet justify broad superiority claims for end-to-end distributed mixed AI workloads. A review-ready paper should therefore emphasize verified architectural integration, measured baseline anchors, benchmark coverage status, and explicit claim boundaries. This revised article adopts that framing and removes unsupported draft material.
 
 ## References
 
-1. D. Ongaro and J. Ousterhout, "In Search of an Understandable Consensus Algorithm (Raft)," 2014. URL: https://raft.github.io/raft.pdf
-2. L. Lamport, "The Part-Time Parliament," ACM TOCS, 1998. URL: https://dl.acm.org/doi/10.1145/279227.279229
-3. H. Garcia-Molina and K. Salem, "Sagas," SIGMOD 1987. URL: https://dl.acm.org/doi/10.1145/38713.38742
-4. A. Fekete et al., "Making Snapshot Isolation Serializable," ACM TODS, 2005. URL: https://dl.acm.org/doi/10.1145/1071610.1071615
-5. M. J. Cahill, U. Rohm, and A. Fekete, "Serializable Isolation for Snapshot Databases," SIGMOD 2008. URL: https://dl.acm.org/doi/10.1145/1376616.1376690
-6. D. Karger et al., "Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web," STOC 1997. URL: https://dl.acm.org/doi/10.1145/258533.258660
-7. M. Stonebraker et al., "MapReduce and Parallel DBMSs: Friends or Foes?," Communications of the ACM, 2010. URL: https://doi.org/10.1145/1629175.1629198
-8. ThemisDB Contributors, "ThemisDB," GitHub repository, 2026. URL: https://github.com/makr-code/ThemisDB
+1. Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm (Extended Version)." URL: <https://raft.github.io/raft.pdf>
+2. Lamport, L. (1998). "The Part-Time Parliament." *ACM Transactions on Computer Systems*, 16(2), 133-169. DOI: [10.1145/279227.279229](https://doi.org/10.1145/279227.279229)
+3. Garcia-Molina, H., & Salem, K. (1987). "Sagas." *Proceedings of SIGMOD*, 249-259. DOI: [10.1145/38713.38742](https://doi.org/10.1145/38713.38742)
+4. Gray, J., & Lamport, L. (2006). "Consensus on Transaction Commit." *ACM Transactions on Database Systems*, 31(1), 133-160. DOI: [10.1145/1132863.1132867](https://doi.org/10.1145/1132863.1132867)
+5. Fekete, A., O'Neil, E., O'Neil, P., & Shasha, D. (2005). "Making Snapshot Isolation Serializable." *ACM Transactions on Database Systems*, 30(2), 492-528. DOI: [10.1145/1071610.1071615](https://doi.org/10.1145/1071610.1071615)
+6. Cahill, M. J., Rohm, U., & Fekete, A. D. (2008). "Serializable Isolation for Snapshot Databases." *Proceedings of SIGMOD*, 729-738. DOI: [10.1145/1376616.1376690](https://doi.org/10.1145/1376616.1376690)
+7. Robertson, S. E., & Walker, S. (1994). "Some Simple Effective Approximations to the 2-Poisson Model for Probabilistic Weighted Retrieval." *Proceedings of SIGIR*, 232-241. DOI: [10.1007/978-1-4471-2099-5_24](https://doi.org/10.1007/978-1-4471-2099-5_24)
+8. Karpukhin, V., Oğuz, B., Min, S., Lewis, P., Wu, L., Edunov, S., Chen, D., & Yih, W.-T. (2020). "Dense Passage Retrieval for Open-Domain Question Answering." *Proceedings of EMNLP*, 6769-6781. DOI: [10.18653/v1/2020.emnlp-main.550](https://doi.org/10.18653/v1/2020.emnlp-main.550)
+9. Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-T., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems*, 33. URL: <https://arxiv.org/abs/2005.11401>
+10. ThemisDB Contributors. (2026). "ThemisDB" GitHub repository. URL: <https://github.com/makr-code/ThemisDB>
+11. ThemisDB Contributors. (2026). "ThemisDB Architecture Documentation." URL: <https://github.com/makr-code/ThemisDB/blob/main/ARCHITECTURE.md>
+12. ThemisDB Engineering Team. (2026). "ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.9.0)." URL: <https://github.com/makr-code/ThemisDB/blob/main/PERFORMANCE_EXPECTATIONS.md>
+13. ThemisDB Engineering Team. (2026). "Benchmark target mapping." URL: <https://github.com/makr-code/ThemisDB/blob/main/benchmarks/benchmark_target_mapping.json>
 
 ---
 
-## Appendix A. arXiv Submission Readiness Checklist
+## Appendix A. Claim-to-Evidence Traceability
 
-- [x] Title is specific and technically scoped
-- [x] Abstract states measurable contribution
-- [x] All headline claims are evidence-backed
-- [x] Related work includes closest baselines and novelty delta
-- [x] Method and assumptions are explicitly stated
-- [ ] Experimental setup is reproducible
-- [x] Limitations and threat model are transparent
-- [x] Figures/tables are referenced in text
-- [x] References are complete and consistent
-- [ ] Artifact path and commit hash documented
-
-## Appendix B. Quick Start for ThemisDB Drafts
-
-1. Finalize distributed workload and failure-injection harness.
-2. Run mixed workload benchmarks at multiple shard counts.
-3. Populate results with statistical reporting.
-4. Lock artifact metadata and finalize references.
-
-## Appendix C. Claim-to-Evidence Traceability
-
-| Claim ID | Claim Summary | Evidence IDs |
-|----------|---------------|--------------|
-| C1 | ThemisDB architecture co-locates distributed ACID, multi-model operators, and AI execution paths. | E1, E2, E3, E4 |
-| C2 | Measured baselines provide a credible anchor for distributed mixed-workload evaluation. | E5, E6 |
-| C3 | Quantified superiority versus decoupled architectures remains deferred pending full comparative wave runs. | E5 |
+| Claim ID | Claim summary | Evidence |
+|---|---|---|
+| C1 | ThemisDB documents a unified AQL, transaction, distributed, multi-model, and AI-capable architecture. | [10], [11] |
+| C2 | Published benchmark results already provide credible baseline evidence for core query, graph, and time-series paths. | [12] |
+| C3 | Transaction, sharding, RAG, and search benchmark coverage exists in code and mapping metadata, but evidence maturity differs by subsystem. | [13] |
+| C4 | Broad superiority claims over decoupled architectures remain unsupported in the current public repository state. | [12], [13] |

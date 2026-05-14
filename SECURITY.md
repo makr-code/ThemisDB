@@ -85,6 +85,38 @@ Help us reproduce and verify the issue:
 
 ---
 
+## 🧭 Governance and Escalation Ownership
+
+To keep governance and community processes consistent across root-level documents:
+
+- **Decision authority and role model:** [GOVERNANCE.md](GOVERNANCE.md)
+- **Maintainer ownership and module responsibilities:** [MAINTAINERS.md](MAINTAINERS.md)
+- **Contributor workflow and review path:** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Community conduct and behavioral escalation:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **Operational execution (hotfix/security/incident):** [SOP.md](SOP.md)
+
+Canonical contact/escalation channels:
+
+- **Security vulnerabilities (private):** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
+- **Non-sensitive security questions:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **General governance/process discussion:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+
+---
+
+## 🔁 Root-Dokument-Abgleich (Architektur / Audit / Tests / Performance)
+
+Zur Auflösung von Widersprüchen zwischen Root-Leitdokumenten gilt folgende
+gemeinsame Baseline:
+
+| Bereich | Verbindliche Aussage | Primäre Nachweise |
+|---|---|---|
+| Architekturkonsistenz | Sicherheitsmodell (Hardening, Transportschutz, AuthN/AuthZ, Audit-Trail) ist mit der Root-Architektur synchronisiert | [ARCHITECTURE.md](ARCHITECTURE.md), [audit/AUDIT.md](audit/AUDIT.md) |
+| Technische Kontrollen | Auditierbare Kontrollen umfassen mindestens RBAC, verschlüsselte Audit-Logs, SAST/Secret/Container-Scans | [audit/AUDIT.md](audit/AUDIT.md), [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
+| Verifikationspfade | Security-relevante Test-/Nachweiswege werden in CTest nachvollziehbar geführt | [CTEST.md](CTEST.md) |
+| Performance-Randbedingungen | Performance-Ziele und Optimierungen dürfen Sicherheitskontrollen nicht abschalten oder umgehen | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
+
+---
+
 ## 🛡️ Security Measures
 
 ThemisDB implements **defense-in-depth** security across all layers:
@@ -234,7 +266,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 <details>
 <summary><b>Core Security Guides</b></summary>
 
-- 🔐 [TLS Setup Guide](docs/guides/guides_tls_setup.md)
+- 🔐 [TLS Setup Guide](docs/de/guides/guides_tls_setup.md)
 - 👥 [RBAC Configuration](docs/security/api_authentication_authorization.md)
 - 🔒 [Encryption Strategy](docs/security/encryption_strategy.md)
 - 🔑 [Key Management](docs/security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md)
@@ -246,10 +278,10 @@ ThemisDB implements **defense-in-depth** security across all layers:
 <details>
 <summary><b>Advanced Security Topics</b></summary>
 
-- 📝 [Audit Logging](docs/features/features_audit_logging.md)
-- ⚠️ [Threat Model](docs/security/security_threat_model.md)
+- 📝 [Audit Logging](docs/de/features/features_audit_logging.md)
+- ⚠️ [Threat Model](docs/de/security/security_threat_model.md)
 - 🛡️ [Hardware Attack Vectors](docs/de/security/security_hardware_attack_vectors.md) - USB, PCIe, CPU, RAM, I/O threats
-- ✅ [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/compliance/compliance_full_checklist.md)
+- ✅ [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/de/compliance/compliance_full_checklist.md)
 
 </details>
 
@@ -405,13 +437,13 @@ semgrep --config=auto src/ include/
 - ✅ 7 critical vulnerabilities fixed (use-after-free, null-pointer, memory leaks)
 - ✅ 8 medium-severity issues resolved (deadlocks, resource leaks)
 - 📊 100% elimination of segfault risks
-- 📖 [Full Audit Report](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+- 📖 [Full Audit Report](audit/docs/Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 
 **Docker Security Improvements:**
 - ✅ Ubuntu 24.04 LTS base image (extended security support)
 - ✅ Automated security updates during build
 - ✅ 80%+ reduction in CVEs
-- 📖 [Docker Security Fixes](/docs/DOCKER_SECURITY_FIXES.md)
+- 📖 [Docker Security Fixes](docs/en/deployment/DOCKER_SECURITY_FIXES.md)
 
 **Update Checker Security:**
 - ✅ Token masking and secure handling

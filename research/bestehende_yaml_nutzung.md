@@ -1,729 +1,256 @@
 # Bestehende YAML-Nutzung in ThemisDB
 
-**Stand:** 6. April 2026  
-**Version:** 1.0  
+**Stand:** 14. Mai 2026
+**Version:** 1.1
 **Kategorie:** 🔍 Research
-
----
-
-## Übersicht
-
-ThemisDB nutzt bereits an vielen Stellen YAML als deklarative Konfigurationssprache, sowohl für externe Schnittstellen (PII-Erkennung, Compliance) als auch für interne Konfigurationen (Server, Indizes, Sharding). Dieses Dokument erfasst die bestehende YAML-Nutzung und zeigt, wie diese als Grundlage für erweiterte Schema-Definitionen dienen kann.
-
----
-
-## Externe YAML-Nutzung
-
-### 1. PII (Personally Identifiable Information) Patterns
-
-**Datei:** `config/pii_patterns.yaml`
-
-**Zweck:** Deklarative Definition von Mustern zur Erkennung personenbezogener Daten
-
-**Struktur:**
-```yaml
-version: "1.0"
-
-detection_engines:
-  - type: "regex"
-    enabled: true
-    version: "1.0.0"
-    
-    patterns:
-      - name: EMAIL
-        regex: '[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}'
-        confidence: 0.95
-        redaction_mode: "partial"
-        field_hints:
-          - "email"
-          - "e_mail"
-          - "mail"
-      
-      - name: PHONE
-        regex: '(?:\+\d{1,3}[\-.\s]?)?(?:\(\d{2,4}\)?[\-.\s]?)?[\d\-.\s]{7,15}'
-        confidence: 0.85
-        field_hints:
-          - "phone"
-          - "telephone"
-      
-      - name: SSN
-        regex: '\b\d{3}\-?\d{2}\-?\d{4}\b'
-        confidence: 0.98
-        redaction_mode: "strict"
-      
-      - name: CREDIT_CARD
-        regex: '(?:\b|^)[3456][0-9]{3}(?:-[0-9]{4}){3}(?:\b|$)'
-        validation: "luhn"
-        confidence: 0.90
-```
-
-**Features:**
-- ✅ Plugin-basierte Architektur
-- ✅ PKI-Signaturen für Konfigurationen
-- ✅ Runtime Reload mit Validierung
-- ✅ Fallback zu sicheren Defaults
-- ✅ Field hints für kontextbasierte Erkennung
-
-### 2. Retention Policies (GDPR/eIDAS Compliance)
-
-**Datei:** `config/retention_policies.yaml`
-
-**Zweck:** Deklarative Datenlöschungsrichtlinien gemäß GDPR/eIDAS
-
-**Struktur:**
-```yaml
-global:
-  enabled: true
-  check_interval_hours: 24
-  default_retention_days: 2555  # 7 Jahre
-  audit_enabled: true
-
-policies:
-  - name: "user_personal_data"
-    description: "Personal data subject to GDPR right to erasure"
-    retention_days: 1095  # 3 Jahre
-    archive_days: 730     # 2 Jahre
-    auto_purge: false
-    legal_basis: "GDPR Art. 6(1)(b) - Contract performance"
-    categories:
-      - "user_profiles"
-      - "contact_information"
-    compliance:
-      - "GDPR"
-      - "DSGVO"
-  
-  - name: "transaction_logs"
-    retention_days: 3650  # 10 Jahre (HGB §147)
-    archive_days: 2555
-    auto_purge: true
-    legal_basis: "HGB §147, AO §147"
-    categories:
-      - "invoices"
-      - "payment_records"
-    compliance:
-      - "HGB"
-      - "AO"
-      - "GoBD"
-
-archive:
-  storage_path: "./data/archive"
-  compression:
-    enabled: true
-    algorithm: "zstd"
-  encryption:
-    enabled: true
-    algorithm: "AES-256-GCM"
-
-purge:
-  strategy: "batch"
-  batch_size: 1000
-  secure_delete:
-    enabled: true
-    overwrite_passes: 3
-```
-
-**Features:**
-- ✅ GDPR/eIDAS-konforme Löschfristen
-- ✅ Automatisierte Archivierung
-- ✅ Sichere Löschung (DoD 5220.22-M)
-- ✅ Audit Trail für alle Aktionen
-- ✅ Legal Holds für Ermittlungen
-
-### 3. Ethical Guidelines (KI-Ethik)
-
-**Datei:** `config/ethical_guidelines.yaml`
-
-**Zweck:** Ethische Richtlinien für LLM-Antworten basierend auf UN-Menschenrechten
-
-**Struktur:**
-```yaml
-foundation:
-  basis: "Universal Declaration of Human Rights (UN, 1948)"
-  key_articles:
-    - article: 1
-      text_de: "Alle Menschen sind frei und gleich an Würde"
-      relevance: "AI respecting human dignity and autonomy"
-    
-    - article: 18
-      text_de: "Gedanken-, Gewissens- und Religionsfreiheit"
-      relevance: "AI must not impose moral views"
-
-core_principles:
-  - id: "human_autonomy"
-    description: "Die KI unterstützt Entscheidungen, ersetzt sie nie"
-    priority: 1
-    basis: "Asimov's Second Law (adapted)"
-  
-  - id: "no_patronizing"
-    description: "Präsentiert Fakten, gibt keine Befehle"
-    priority: 1
-  
-  - id: "respect_for_moral_diversity"
-    description: "Verschiedene moralische Perspektiven respektieren"
-    priority: 1
-
-context_detection:
-  ethical_keywords:
-    german:
-      - "ethisch"
-      - "moralisch"
-      - "Gewissen"
-      - "Entscheidung"
-    english:
-      - "ethical"
-      - "moral"
-      - "conscience"
-      - "decision"
-
-prompt_augmentation:
-  default:
-    system_prefix: |
-      GRUNDLAGE: Menschenrechte (UN, 1948)
-      
-      1. Menschliche Autonomie respektieren
-      2. Keine Bevormundung bei moralischen Imperativen
-      3. Moralische Vielfalt anerkennen
-```
-
-**Features:**
-- ✅ Basierend auf UN-Menschenrechten
-- ✅ Asimov's Robotergesetze (angepasst)
-- ✅ Kontext-Erkennung via Keywords
-- ✅ LLM-as-Judge für implizite Ethik-Erkennung
-- ✅ Automatische Prompt-Augmentierung
-
-### 4. Dokumenten-Metadaten-Schema
-
-**Datei:** `projects/Themis.DocumentManager/Config/metadata_dokument.yaml`
-
-**Zweck:** Strukturierte Metadaten für Dokumente im Verwaltungssystem
-
-**Struktur:**
-```yaml
-entityType: Dokument
-version: 1.0
-description: "Metadatenschema für offizielle Dokumente"
-
-fields:
-  - name: dokumentnummer
-    displayName: "Dokumentnummer"
-    type: Text
-    required: true
-    description: "Eindeutige Dokumentnummer"
-  
-  - name: dokumenttyp
-    displayName: "Dokumenttyp"
-    type: Dropdown
-    required: true
-    options:
-      - "Vertrag"
-      - "Rechnung"
-      - "Protokoll"
-      - "Bericht"
-  
-  - name: ausstellDatum
-    displayName: "Ausstellungsdatum"
-    type: DateTime
-    required: true
-  
-  - name: gültigkeitsstatus
-    displayName: "Gültigkeitsstatus"
-    type: Dropdown
-    options:
-      - "Draft"
-      - "For Signature"
-      - "Signed"
-      - "Expired"
-      - "Revoked"
-  
-  - name: klassifizierung
-    displayName: "Klassifizierung"
-    type: Dropdown
-    options:
-      - "Public"
-      - "Internal"
-      - "Confidential"
-      - "Restricted"
-```
-
-**Features:**
-- ✅ Typisierte Felder (Text, DateTime, Dropdown, MultiSelect)
-- ✅ Validierung (required, readonly)
-- ✅ Mehrsprachige Display-Namen
-- ✅ Vordefinierte Optionen für Dropdowns
-- ✅ Verwaltungsspezifische Felder (Aussteller, Unterzeichner)
-
----
-
-## Interne YAML-Nutzung
-
-### 1. Server-Hauptkonfiguration
-
-**Datei:** `config/config.yaml`
-
-**Zweck:** Zentrale Server-Konfiguration
-
-**Struktur:**
-```yaml
-storage:
-  rocksdb_path: "./data/rocksdb"
-  wal_dir: ""
-  memtable_size_mb: 256
-  block_cache_mb: 512
-  
-server:
-  host: "0.0.0.0"
-  port: 8080
-  binary_port: 18765
-  max_connections: 1000
-  
-llm:
-  enabled: true
-  model_path: "./models/llama-2-7b-chat.gguf"
-  context_size: 4096
-  threads: 8
-  
-security:
-  tls_enabled: true
-  cert_file: "/certs/server.crt"
-  key_file: "/certs/server.key"
-```
-
-### 2. Kubernetes Custom Resource Definition (CRD)
-
-**Datei:** `deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml`
-
-**Zweck:** Kubernetes-Operator für deklarative ThemisDB-Deployments
-
-**Struktur:**
-```yaml
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  name: themisdbs.vcc.io
-spec:
-  group: vcc.io
-  names:
-    kind: ThemisDB
-    plural: themisdbs
-    shortNames:
-      - tdb
-  versions:
-    - name: v1alpha1
-      schema:
-        openAPIV3Schema:
-          type: object
-          properties:
-            spec:
-              properties:
-                replicas:
-                  type: integer
-                  minimum: 1
-                  maximum: 99
-                version:
-                  type: string
-                  default: "latest"
-                storage:
-                  properties:
-                    size:
-                      type: string
-                      default: "100Gi"
-                sharding:
-                  properties:
-                    enabled:
-                      type: boolean
-                      default: false
-                    shards:
-                      type: integer
-                      default: 3
-```
-
-**Features:**
-- ✅ GitOps-kompatibel (kubectl apply)
-- ✅ Validierung via OpenAPI Schema
-- ✅ Default-Werte
-- ✅ Min/Max-Constraints
-- ✅ Declarative Sharding Configuration
-
-### 3. NLP-Konfiguration
-
-**Datei:** `config/nlp/nlp_config.yaml`
-
-**Zweck:** Natural Language Processing Konfiguration
-
-**Struktur:**
-```yaml
-stopwords:
-  enabled: true
-  languages:
-    - de: config/nlp/stopwords/de.yaml
-    - en: config/nlp/stopwords/en.yaml
-    - fr: config/nlp/stopwords/fr.yaml
-
-tokenization:
-  method: "unicode"
-  lowercase: true
-
-stemming:
-  enabled: true
-  algorithm: "porter"
-```
-
-### 4. LLM-Modell-Konfiguration
-
-**Datei:** `config/llm-models.yaml`
-
-**Zweck:** Verfügbare LLM-Modelle und deren Parameter
-
-**Struktur:**
-```yaml
-models:
-  - id: "llama-2-7b"
-    name: "Llama 2 7B Chat"
-    path: "./models/llama-2-7b-chat.gguf"
-    type: "gguf"
-    context_size: 4096
-    default_temperature: 0.7
-    capabilities:
-      - "chat"
-      - "completion"
-  
-  - id: "codellama-13b"
-    name: "CodeLlama 13B"
-    path: "./models/codellama-13b.gguf"
-    type: "gguf"
-    context_size: 16384
-    capabilities:
-      - "code_completion"
-      - "code_review"
-```
-
-### 5. Sharding-Konfiguration
-
-**Datei:** `config/sharding/shard-router-example.yaml`
-
-**Zweck:** RAID-Sharding-Konfiguration
-
-**Struktur:**
-```yaml
-sharding:
-  enabled: true
-  mode: "raid5"  # raid0, raid1, raid5, raid6
-  
-shards:
-  - id: "shard-1"
-    host: "localhost"
-    port: 18766
-    weight: 1.0
-  
-  - id: "shard-2"
-    host: "localhost"
-    port: 18767
-    weight: 1.0
-  
-  - id: "shard-3"
-    host: "localhost"
-    port: 18768
-    weight: 1.0
-
-routing:
-  strategy: "consistent_hashing"
-  virtual_nodes: 150
-```
-
-### 6. OpenAPI-Spezifikation
-
-**Datei:** `docs/openapi.yaml` und `openapi/openapi.yaml`
-
-**Zweck:** REST-API-Definition
-
-**Struktur:**
-```yaml
-openapi: 3.0.0
-info:
-  title: ThemisDB API
-  version: 1.4.0
-  description: Multi-Model Database with AI Integration
-
-paths:
-  /entities/{table}:{pk}:
-    get:
-      summary: Get entity by primary key
-      parameters:
-        - name: table
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseEntity'
-  
-  /pii/classify:
-    post:
-      summary: Classify PII in text
-      tags: [pii]
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
-```
-
----
-
-## Analyse: Muster und Best Practices
-
-### Gemeinsame Muster
-
-1. **Versionierung**
-   ```yaml
-   version: "1.0"
-   ```
-   - Alle Konfigurationen haben eine Version
-   - Ermöglicht Migration und Kompatibilitätsprüfung
-
-2. **Hierarchische Struktur**
-   ```yaml
-   global:
-     ...
-   policies:
-     - name: ...
-       settings: ...
-   ```
-   - Klare Trennung global/spezifisch
-   - Verschachtelte Konfigurationen
-
-3. **Typed Configuration**
-   ```yaml
-   - name: field_name
-     type: Text | DateTime | Dropdown | Integer
-     required: true | false
-     default: "value"
-   ```
-   - Starke Typisierung
-   - Validierungsregeln embedded
-
-4. **Lists vs. Objects**
-   ```yaml
-   policies:         # List
-     - name: policy1
-       ...
-   
-   archive:          # Object
-     storage_path: ...
-     compression:
-       enabled: true
-   ```
-   - Listen für mehrere gleichartige Elemente
-   - Objekte für strukturierte Konfigurationen
-
-5. **Beschreibungen und Kommentare**
-   ```yaml
-   # Human-readable comments
-   description: "Machine-readable description"
-   ```
-   - Inline-Dokumentation
-   - Self-documenting configuration
-
-### Best Practices in ThemisDB
-
-**1. Plugin-Architektur mit YAML**
-```yaml
-detection_engines:
-  - type: "regex"
-    enabled: true
-    settings:
-      ...
-```
-- Erweiterbar ohne Code-Änderungen
-- Hot-Reload-fähig
-
-**2. Compliance-First Design**
-```yaml
-legal_basis: "GDPR Art. 6(1)(b)"
-compliance: ["GDPR", "DSGVO"]
-```
-- Gesetzesreferenzen direkt im Config
-- Auditierbarkeit
-
-**3. Security-by-Default**
-```yaml
-auto_purge: false  # Requires manual review
-require_confirmation: true
-```
-- Sichere Defaults
-- Explizite Opt-ins für kritische Features
-
-**4. Mehrsprachigkeit**
-```yaml
-text_de: "Deutsche Beschreibung"
-text_en: "English description"
-```
-- i18n direkt in Config
-- Mehrsprachige Deployment-Optionen
-
----
-
-## Erweiterungspotential
-
-### 1. Schema-Definition (wie vorgeschlagen)
-
-**Aktuell:** Dokumenten-Metadaten nutzen bereits YAML-Schemas  
-**Erweiterung:** Auf Datenbank-Tabellen/Entitäten ausweiten
-
-```yaml
-# Bestehend (DocumentManager):
-entityType: Dokument
-fields:
-  - name: dokumentnummer
-    type: Text
-
-# Vorgeschlagen (ThemisDB Core):
-tables:
-  documents:
-    primary_key: doc_id
-    fields:
-      doc_id:
-        type: string
-        format: uuid
-    indexes:
-      - name: idx_doc_nummer
-        columns: [doc_number]
-        type: secondary
-```
-
-**Vorteil:** Konzept ist bereits etabliert und verstanden!
-
-### 2. Index-Definition
-
-**Aktuell:** Imperative API
-```bash
-curl -X POST /index/create -d '{"table":"users","column":"email"}'
-```
-
-**Vorgeschlagen:** Deklarativ via YAML
-```yaml
-indexes:
-  users:
-    - name: idx_users_email
-      columns: [email]
-      type: secondary
-      unique: true
-    
-    - name: idx_users_embedding
-      columns: [embedding]
-      type: vector
-      algorithm: hnsw
-      config:
-        m: 16
-        ef_construction: 200
-```
-
-**Vorbild:** Sharding-Config nutzt bereits ähnliches Format
-
-### 3. Migration-Files
-
-**Aktuell:** Manuelles SQL/API
-**Vorgeschlagen:** Git-ähnliche Migrations
-```yaml
-# migrations/001_add_users_table.yaml
-version: "001"
-up:
-  - create_table:
-      name: users
-      columns:
-        - name: user_id
-          type: string
-down:
-  - drop_table:
-      name: users
-```
-
-**Vorbild:** Kubernetes CRD Updates funktionieren ähnlich
-
-### 4. Policies as Code
-
-**Aktuell:** retention_policies.yaml (extern)  
-**Erweiterung:** Inline table policies
-
-```yaml
-tables:
-  user_sessions:
-    ttl:
-      enabled: true
-      column: created_at
-      duration: 30d
-    
-    pii_detection:
-      enabled: true
-      fields: [email, phone]
-    
-    audit:
-      enabled: true
-      track_changes: true
-```
-
-**Vorbild:** Ethical Guidelines nutzen bereits Policy-Pattern
-
----
-
-## Zusammenfassung
-
-### ✅ ThemisDB nutzt YAML bereits umfangreich:
-
-**Extern (Compliance & Security):**
-- PII-Patterns mit Regex und Confidence
-- Retention Policies (GDPR/eIDAS)
-- Ethical Guidelines (UN-Menschenrechte)
-- Dokumenten-Metadaten-Schemas
-
-**Intern (Betrieb & Konfiguration):**
-- Server-Konfiguration
-- Kubernetes CRDs
-- NLP-Konfiguration
-- LLM-Modell-Definitionen
-- Sharding-Router
-- OpenAPI-Spezifikation
-
-### 🚀 Erweiterungsmöglichkeiten:
-
-1. **Schema-Definition** - Datenbank-Tabellen deklarativ definieren
-2. **Index-Management** - Indizes via YAML statt API
-3. **Migration-System** - Git-ähnliche Versionierung
-4. **Policy-Integration** - TTL, PII, Audit direkt im Schema
-
-### 💡 Lessons Learned:
-
-- YAML ist bereits **etablierte Praxis** in ThemisDB
-- **Plugin-Architektur** ermöglicht Hot-Reload
-- **Compliance-First**: Gesetzesreferenzen im Config
-- **Security-by-Default**: Sichere Defaults, Opt-in für kritische Features
-- **Mehrsprachigkeit**: i18n direkt in Konfiguration
-- **Self-Documenting**: Beschreibungen und Kommentare embedded
-
----
-
-## Empfehlung
-
-Die vorgeschlagene YAML-basierte Schema-Definition in [git_gitops_themis_vergleich.md](git_gitops_themis_vergleich.md) ist **nicht neu**, sondern eine **logische Erweiterung** bestehender Patterns:
-
-1. **DocumentManager nutzt bereits YAML-Schemas** für Metadaten
-2. **Kubernetes CRD zeigt** deklaratives Deployment funktioniert
-3. **PII/Retention Policies** demonstrieren komplexe Regelwerke
-4. **Plugin-Architektur** ist Hot-Reload-fähig
-
-→ **Umsetzung ist evolutionär, nicht revolutionär!**
-
----
-
-**Autoren:** ThemisDB Research Team  
-**Erstellt:** 2026-01-14  
 **Status:** Research Complete
+
+---
+
+## Abstract
+
+Dieser Artikel überprüft die bestehende YAML-Nutzung im Repository `makr-code/ThemisDB` gegen den aktuellen Code- und Dokumentationsstand. Das Ergebnis ist eindeutig: YAML ist in ThemisDB bereits breit etabliert, aber nicht jede YAML-Datei hat denselben Status. Ein Teil der Artefakte ist produktiv bzw. laufzeitrelevant (z. B. PII-, Retention-, Ethical- und Core-Konfigurationen), ein weiterer Teil dient API-/Deployment-Beschreibung (OpenAPI, Kubernetes-CRD), und ein dritter Teil ist klar als Beispiel, Profil oder Zukunftskonzept zu lesen. Die frühere Fassung dieses Dokuments vermischte diese Ebenen teilweise. Die vorliegende Überarbeitung trennt deshalb strikt zwischen **verifiziertem Ist-Zustand**, **belegbaren Codepfaden** und **nicht als implementiert bestätigten Zukunftsideen**.
+
+---
+
+## 1. Einleitung
+
+ThemisDB beschreibt sich selbst als **Multi-Model-Datenbank** mit nativer AI/LLM-Integration und modularer Architektur. In diesem Umfeld ist YAML im Repository an vielen Stellen sichtbar: als Konfigurationsformat, als Austauschformat, als API-/Deployment-Beschreibung und als Testartefakt.
+
+Für eine review-fähige Aussage reicht reine Dateiexistenz jedoch nicht aus. Entscheidend ist, ob ein YAML-Artefakt
+
+1. im aktuellen Repository vorhanden ist,
+2. über einen konkreten Codepfad geladen, validiert oder referenziert wird, und
+3. nicht bloß als Beispiel oder Zukunftskonzept dokumentiert ist.
+
+Ziel dieses Dokuments ist daher **nicht**, YAML pauschal als „überall produktiv“ darzustellen, sondern den aktuellen Stand belastbar einzuordnen.
+
+---
+
+## 2. Methodik / Ansatz
+
+Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Während der Analyse wurde lokal per `git rev-parse HEAD` verifiziert, welcher Commit der geprüften Arbeitskopie zugrunde lag; zusätzlich wurden die im Text genannten Dateien und Pfade in diesem Arbeitsstand direkt gegen Repository-Inhalt, Code und Tests abgeglichen. Die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit.
+
+Anschließend kombiniert die Untersuchung vier Prüfschritte:
+
+1. **Artefaktprüfung:** Sichtung der YAML-Dateien unter `config/`, `deploy/`, `docs/` und `openapi/`.
+2. **Codeabgleich:** Prüfung, welche Komponenten YAML aktiv laden, validieren, mappen oder exportieren.
+3. **Testabgleich:** Sichtung vorhandener Unit-/Integrationstests, die YAML-Verarbeitung direkt prüfen.
+4. **Abgrenzung von Konzepten:** Abgleich mit Forschungs- und Readme-Dateien, um Zukunftsideen nicht als Ist-Funktion zu missverstehen.
+
+Verwendete Leitfrage: **„Ist dies ein reales YAML-Artefakt mit nachweisbarem Bezug zum aktuellen ThemisDB-Stand?“**
+
+Wichtig für die Einordnung:
+
+- Diese Untersuchung ist **repository-basiert**, nicht benchmark-basiert.
+- Es wurden **keine dedizierten Performance-Benchmarks zur YAML-Nutzung** gefunden, die für diesen Artikel belastbar zitierbar wären.
+- Performance-Benchmarks sind für diese Bestandsaufnahme **methodisch out of scope**; bewertet wird die Existenz, Einbindung und Testbarkeit von YAML-Artefakten, nicht deren Parse- oder Laufzeitkosten.
+- Aussagen zu Laufzeitverhalten werden deshalb nur dort getroffen, wo der Codepfad oder Tests dies direkt stützen.
+
+---
+
+## 3. Verifizierter Ist-Stand
+
+## 3.1 Laufzeit- und Betriebskonfigurationen
+
+Die stärkste, direkt belegbare YAML-Nutzung liegt im Konfigurationsbereich.
+
+| Bereich | Primäres Artefakt | Code-/Systembezug | Einordnung |
+|---|---|---|---|
+| PII / Security | `config/security/pii_patterns.yaml` | `PIIRedactionPolicy` nutzt standardmäßig `config/pii_patterns.yaml`; `ConfigPathResolver` mappt Altpfad auf neuen Pfad | **Produktionsnah / laufzeitrelevant** |
+| Retention / Data Management | `config/data_management/retention_policies.yaml` | `HttpServer` und `main_server` referenzieren `config/retention_policies.yaml` und nutzen den Resolver | **Produktionsnah / laufzeitrelevant** |
+| Ethics / LLM | `config/compliance/ethical_guidelines.yaml` | `EthicalGuidelinesManager` verwendet standardmäßig `config/ethical_guidelines.yaml`; Altpfad wird gemappt | **Produktionsnah / laufzeitrelevant** |
+| Core-Server-Konfiguration | `config/core/config.yaml` | `main_server` sucht explizit nach `./config/core/config.yaml` und Legacy-Pfaden | **Produktionsnah / laufzeitrelevant** |
+| NLP | `config/nlp/nlp_config.yaml` | Reales Artefakt im Konfigurationsbaum; Teil der NLP-Konfigurationslandschaft | **Vorhanden; konkrete Aktivierung im Artikel nur vorsichtig behauptbar** |
+| LLM-Modelle | `config/llm-models.yaml` | Reales Modellregister im Repo; dient als deklaratives Modell-/Profilartefakt | **Vorhanden; nicht pauschal als einziger Laufzeitpfad darstellen** |
+| Sharding | `config/sharding/shard-router-example.yaml` | Beispielhafte Cluster-/Router-Topologie | **Beispiel-/Referenzartefakt, nicht automatisch Default-Runtime** |
+
+### Kernaussage
+
+YAML ist in ThemisDB bereits **kanonisches Konfigurationsmedium** für mehrere Sicherheits-, Compliance- und Betriebsbereiche. Diese Aussage ist belegbar. **Nicht belegbar** ist dagegen die frühere pauschale Behauptung, praktisch alle relevanten Konfigurationen seien gleichförmig versioniert, hot-reload-fähig oder sicherheitsmäßig identisch abgesichert.
+
+---
+
+## 3.2 YAML im Code: Laden, Validieren, Migrieren, Exportieren
+
+Neben reinen Konfigurationsdateien existieren mehrere konkrete YAML-Codepfade:
+
+### 1. Allgemeine YAML/JSON-Validierung
+
+`ConfigSchemaValidator` lädt `.yaml`- und `.yml`-Dateien über `yaml-cpp`, wandelt sie in JSON um und validiert sie anschließend gegen JSON Schema. Dazu gehören sowohl dateibasierte als auch stringbasierte Eingänge.
+
+**Bedeutung:** YAML ist nicht bloß Ablageformat, sondern Teil einer generischen Validierungsstrecke.
+
+### 2. Pfadmigration zwischen Legacy- und Zielstruktur
+
+`ConfigPathResolver` mappt mehrere historische Pfade auf die aktuelle Ordnerstruktur, u. a.:
+
+- `config/pii_patterns.yaml` → `config/security/pii_patterns.yaml`
+- `config/ethical_guidelines.yaml` → `config/compliance/ethical_guidelines.yaml`
+- `config/retention_policies.yaml` → `config/data_management/retention_policies.yaml`
+- `config/config.yaml` → `config/core/config.yaml`
+
+**Bedeutung:** Die YAML-Nutzung ist gewachsen und wird aktiv migrationskompatibel gehalten. Das spricht für reale Nutzung über mehrere Entwicklungsstände hinweg.
+
+### 3. Sicherheits- und Compliance-Pfade
+
+`PIIRedactionPolicy` dokumentiert explizit einen Zero-Configuration-Default für `config/pii_patterns.yaml`. `HttpServer` und `main_server` initialisieren Retention-Komponenten über den aufgelösten Pfad zu `retention_policies.yaml`. `EthicalGuidelinesManager` besitzt ebenfalls einen Standardpfad auf YAML-Basis.
+
+**Bedeutung:** Für diese Teilbereiche ist YAML nicht nur Dokumentation, sondern Teil des erwarteten Betriebsmodells.
+
+### 4. YAML als Import-/Exportformat
+
+`PromptLibraryIO` exportiert Prompt-Bibliotheken nach YAML und importiert sie wieder zurück. Das ist ein anderer Nutzungstyp als klassische Serverkonfiguration: YAML dient hier als **portable Austauschrepräsentation** für semantische Inhalte.
+
+### 5. Testbare YAML-Verarbeitung
+
+Die Tests `test_config_schema_validator.cpp`, `test_index_analyzer.cpp` und `test_prompt_library_io.cpp` prüfen explizit das Laden, Validieren bzw. Rundtrippen von YAML-Inhalten.
+
+**Bedeutung:** YAML-Verarbeitung ist in mehreren Bereichen nicht nur implementiert, sondern auch regressionsgesichert.
+
+---
+
+## 3.3 YAML für API- und Deployment-Beschreibung
+
+Nicht jede YAML-Datei ist Konfiguration im engeren Sinn. Zwei weitere Klassen sind relevant:
+
+### 1. Kubernetes-CRD
+
+`deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml` beschreibt ein deklaratives Deployment-Modell für ThemisDB als Kubernetes Custom Resource. Das ist **kein DB-Schema**, aber ein starkes Indiz dafür, dass ThemisDB deklarative Betriebsbeschreibungen auf YAML-Basis systematisch nutzt.
+
+### 2. OpenAPI-Spezifikationen
+
+Im Repository existieren zwei OpenAPI-YAML-Dateien:
+
+- `docs/openapi.yaml`
+- `openapi/openapi.yaml`
+
+Dabei weist `docs/openapi.yaml` selbst per `x-api-governance.source_of_truth` auf sich als Source of Truth aus. `openapi/openapi.yaml` ist damit nicht automatisch obsolet, aber die frühere Darstellung als gleichrangige, einheitliche REST-Beschreibung war zu ungenau.
+
+### Einordnung
+
+Diese Artefakte zeigen: YAML wird in ThemisDB **nicht nur für interne Settings**, sondern auch für **Schnittstellen- und Infrastrukturverträge** verwendet.
+
+---
+
+## 3.4 Was im aktuellen Stand **nicht** als implementiert gelten sollte
+
+Die frühere Fassung enthielt mehrere Aussagen, die im aktuellen Repository-Stand nicht belastbar genug sind. Für Review-Zwecke sollten diese Punkte **nicht** als bestehende Produktfunktion formuliert werden:
+
+1. **Dokumenten-Metadaten-Schema unter `projects/Themis.DocumentManager/Config/metadata_dokument.yaml`**
+   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden. Für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln. Ob es nie committed wurde, zwischenzeitlich entfernt wurde oder heute unter einem anderen Namen existiert, lässt sich aus dieser Bestandsaufnahme allein nicht belastbar ableiten.
+
+2. **YAML-basierte Schema-Definition für ThemisDB-Core**
+   In `research/schema/README.md` ist die YAML-Schema-Definition weiterhin ausdrücklich als **Konzept** markiert, nicht als implementiertes Feature.
+
+3. **Pauschale Behauptungen wie „alle Konfigurationen haben eine Version“**
+   In mehreren YAML-Dateien existieren Versionsfelder, aber nicht konsistent über sämtliche Artefaktklassen hinweg.
+
+4. **Generische Aussagen wie „Hot-Reload-fähig“ oder „Security-by-Default“ für alle YAML-Nutzungen**
+   Solche Eigenschaften sind nur dann belastbar, wenn der jeweilige konkrete Codepfad oder die jeweilige Komponente das explizit belegt.
+
+---
+
+## 4. Evaluation / Experimente
+
+Da für die YAML-Nutzung selbst keine dedizierten Benchmark-Artefakte gefunden wurden und Performance-Messungen für diesen Dokumenttyp bewusst nicht Ziel der Untersuchung sind, erfolgt die Evaluation als **Repository-basierte Bestandsaufnahme** statt als Performance-Experiment.
+
+### 4.1 Quantitativer Überblick des gesichteten Bestands
+
+Für den geprüften Snapshot ergab die Sichtung mindestens:
+
+- **181 YAML-Dateien** unter `config/`
+- **13 YAML-Dateien** unter `deploy/`
+- **2 OpenAPI-YAML-Dateien** unter `docs/` bzw. `openapi/`
+
+Diese Zahlen wurden per Dateisystemzählung der jeweiligen Verzeichnisse (`config/`, `deploy/`, `docs/`, `openapi/`) nach `*.yaml`/`*.yml` ermittelt. Sie beweisen noch keine Laufzeitrelevanz im Einzelfall, zeigen aber klar: YAML ist im Repository kein Randphänomen.
+
+### 4.2 Qualitative Bewertung
+
+| Prüffrage | Ergebnis | Begründung |
+|---|---|---|
+| Ist YAML im Produktkern vorhanden? | **Ja** | Core-, Security-, Ethics- und Retention-Pfade sind direkt im Code referenziert. |
+| Wird YAML generisch verarbeitet? | **Ja** | `ConfigSchemaValidator` und `PromptLibraryIO` laden bzw. emittieren YAML. |
+| Ist YAML testseitig abgesichert? | **Ja** | Mehrere Tests prüfen YAML-Laden, Parsing und Rundtrips. |
+| Ist YAML bereits das deklarative Datenbankschema von ThemisDB? | **Nein, nicht belegt** | Das Schema-README bezeichnet dies weiterhin als Konzept. |
+| Liegen belastbare YAML-Performance-Benchmarks vor? | **Nein** | Für diesen Artikel wurden keine direkt zitierbaren Benchmark-Artefakte gefunden. |
+
+### 4.3 Schluss aus der Evaluation
+
+Die belastbare Aussage lautet daher:
+
+> **ThemisDB nutzt YAML heute bereits breit und in mehreren produktionsnahen Codepfaden, aber die YAML-basierte Definition des eigentlichen Datenbankschemas ist nach aktuellem Repository-Stand weiterhin eine Zukunftsidee und kein eingeführter Kernmechanismus.**
+
+---
+
+## 5. Limitations / Known Issues
+
+1. **Repository-Sicht statt Laufzeitbeobachtung:** Diese Analyse beruht auf Code, Konfigurationsdateien und Tests, nicht auf einem vollständigen End-to-End-Betrieb aller Module.
+2. **Nicht jede vorhandene YAML-Datei ist automatisch aktiv:** Einige Artefakte sind Beispiele, Profile, Referenzdateien oder Deployment-Beschreibungen.
+3. **Kein globaler Hot-Reload-Nachweis:** Einzelne Komponenten sprechen von Reload oder Default-Pfaden; daraus darf kein universelles Verhalten für alle YAML-Artefakte abgeleitet werden.
+4. **Keine eigene YAML-Performance-Evaluation:** Aussagen zu Performance, Skalierung oder Parse-Kosten wären ohne dedizierte Messungen spekulativ.
+5. **Historische Pfade bleiben sichtbar:** Durch `ConfigPathResolver` existieren Legacy- und Zielpfade nebeneinander. Das erhöht Kompatibilität, erschwert aber eine rein dateibasierte Interpretation des Ist-Stands.
+
+---
+
+## 6. Fazit
+
+Die überarbeitete Bewertung fällt differenziert aus:
+
+- **Ja:** YAML ist in ThemisDB bereits fest verankert — insbesondere für Security-, Compliance-, Core- und Betriebs-Konfigurationen sowie für API-/Deployment-Beschreibungen und einzelne Import-/Exportpfade.
+- **Ja:** Diese Nutzung ist durch konkrete Codepfade und Tests belegbar.
+- **Nein:** Daraus folgt **nicht**, dass YAML bereits das allgemeine ThemisDB-Schema-, Migrations- oder Index-Management des Datenbankkerns steuert.
+
+Für Folgearbeiten wie `git_gitops_themis_vergleich.md` bedeutet das: YAML-basierte Schema- oder GitOps-Ideen können plausibel an bestehende Muster anschließen, müssen aber weiterhin sauber als **Erweiterung** und nicht als bereits vorhandene Kernfunktion beschrieben werden.
+
+---
+
+## 7. References / Quellen
+
+### Externe Standards und Bibliotheken
+
+1. YAML Language Development Team: **YAML Ain’t Markup Language (YAML) Version 1.2.2**.
+   URL: https://yaml.org/spec/1.2.2/
+2. jbeder et al.: **yaml-cpp** (C++ YAML parser/emitter).
+   URL: https://github.com/jbeder/yaml-cpp
+3. OpenAPI Initiative: **OpenAPI Specification**.
+   URL: https://spec.openapis.org/oas/latest.html
+4. Kubernetes Documentation: **CustomResourceDefinitions**.
+   URL: https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/
+5. JSON Schema: **Understanding JSON Schema**.
+   URL: https://json-schema.org/understanding-json-schema/
+
+### Repository-Artefakte (prüfbarer Snapshot)
+
+6. ThemisDB README — Projektpositionierung als Multi-Model-Datenbank.
+   URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/README.md
+7. ThemisDB ARCHITECTURE — Modulübersicht inkl. `config/`, `query/`, `server/`, `security/`.
+   URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/ARCHITECTURE.md
+8. `config/security/pii_patterns.yaml` — PII-Detektionskonfiguration.
+   URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/security/pii_patterns.yaml
+9. `config/data_management/retention_policies.yaml` — Retention-/Compliance-Konfiguration.
+   URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/data_management/retention_policies.yaml
+10. `config/compliance/ethical_guidelines.yaml` — Ethische Leitlinien auf YAML-Basis.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/compliance/ethical_guidelines.yaml
+11. `src/config/config_schema_validator.cpp` — generisches Laden von YAML/JSON und Schema-Validierung.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/src/config/config_schema_validator.cpp
+12. `src/config/config_path_resolver.cpp` — Legacy-/Zielpfad-Mapping für YAML-Konfigurationen.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/src/config/config_path_resolver.cpp
+13. `include/security/pii_redaction_policy.h` — Default-Pfad und Reload-Kontext für PII-YAML.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/include/security/pii_redaction_policy.h
+14. `include/llm/ethical_guidelines_manager.h` — Default-Pfad für `ethical_guidelines.yaml`.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/include/llm/ethical_guidelines_manager.h
+15. `deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml` — deklarativer Kubernetes-Vertrag.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml
+16. `docs/openapi.yaml` — OpenAPI Source of Truth.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/docs/openapi.yaml
+17. `openapi/openapi.yaml` — weitere OpenAPI-Spezifikation im Repository.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/openapi/openapi.yaml
+18. `research/schema/README.md` — Abgrenzung: YAML-Schema-Definition. Derzeit nur Konzept.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/research/schema/README.md
+19. `tests/test_config_schema_validator.cpp` — Tests für YAML-Parsing/Schema-Validierung.
+    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/tests/test_config_schema_validator.cpp
+20. `tests/test_index_analyzer.cpp` und `tests/test_prompt_library_io.cpp` — Tests für YAML-Konfigurationsladung bzw. YAML-Roundtrip.
+    URLs:
+    - https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/tests/test_index_analyzer.cpp
+    - https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/tests/test_prompt_library_io.cpp

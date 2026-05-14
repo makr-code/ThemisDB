@@ -19,6 +19,24 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ---
 
+## Root Governance: Terminology and Traceability
+
+- **Feature:** a delivered or currently shipping capability mapped to a release milestone in this roadmap.
+- **Enhancement:** planned follow-up work not yet shipped; tracked in `FUTURE_ENHANCEMENTS.md` and module-level `src/<module>/FUTURE_ENHANCEMENTS.md`.
+- **Breaking Change:** incompatible API/ABI/configuration change; must be listed in this file (`## Breaking Changes`) and in `CHANGELOG.md`.
+
+Traceability rules:
+
+- Release scope starts in roadmap milestones (for example `## Milestone: v1.9.0`).
+- Open enhancement backlog stays in `FUTURE_ENHANCEMENTS.md`.
+- `CHANGELOG.md` entries must reference milestone scope and, where applicable, the related enhancement/backlog item.
+- `RELEASE_STRATEGY.md` defines milestone naming and release-type alignment with `VERSION`/`RELEASE_TYPE`.
+- `VERSIONING.md` defines the canonical release-type vocabulary (`alpha`, `beta`, `rc`, `stable`) and pre-release suffix rules.
+- `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
+- `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
+
+---
+
 ## Documentation Quality Delta (2026-05-11)
 
 Status: [x] completed
@@ -836,3 +854,5 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - [SECURITY.md](SECURITY.md) — Security policy and vulnerability reporting
 - [src/README.md](src/README.md) — Source directory overview
 - [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
+- [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)

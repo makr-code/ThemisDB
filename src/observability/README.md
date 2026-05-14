@@ -2,7 +2,7 @@
 
 # Observability Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 <!-- Primärdokumentation: src/observability/ -->
 
@@ -55,13 +55,12 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 1. [Overview](#overview)
 2. [Components](#components)
 3. [Architecture](#architecture)
-4. [Configuration](#configuration)
-5. [Usage Examples](#usage-examples)
-6. [Integration with Core](#integration-with-core)
-7. [Monitoring Best Practices](#monitoring-best-practices)
-8. [Alerting Rules](#alerting-rules)
-9. [Debugging Workflows](#debugging-workflows)
-10. [Performance Profiling](#performance-profiling)
+4. [Configuration](#configuration-file-themisdbyaml)
+5. [Integration with Core](#integration-with-core)
+6. [Monitoring Best Practices](#monitoring-best-practices)
+7. [Alerting Rules](#alerting-rules)
+8. [Debugging Workflows](#debugging-workflows)
+9. [Performance Profiling](#performance-profiling)
 
 ## Overview
 
@@ -1170,8 +1169,11 @@ curl http://themisdb:8000/api/v1/profiling/heap/diff
 
 ## See Also
 
+- [ROADMAP.md](ROADMAP.md) — implementation status and planned features
+- [ARCHITECTURE.md](ARCHITECTURE.md) — module architecture guide
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned observability features
-- [../../docs/monitoring/](../../docs/monitoring/) - Monitoring documentation
+- [../../docs/de/observability/README.md](../../docs/de/observability/README.md) — module overview (DE)
+- [../../docs/observability/README.md](../../docs/observability/README.md) — observability docs index
 - [../../grafana/](../../grafana/) - Grafana dashboard definitions
 - [../../prometheus/](../../prometheus/) - Prometheus configuration
 - [Core Module](../core/README.md) - ILogger, ITracer, IMetrics interfaces

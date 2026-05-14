@@ -2,7 +2,7 @@
 
 # Prompt Engineering Module
 <!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
+<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · include/prompt_engineering/README.md · docs/de/prompt_engineering/README.md -->
 
 ## Module Purpose
 
@@ -36,8 +36,8 @@ The Prompt Engineering module provides a complete lifecycle management system fo
 
 **Out of Scope:**
 - LLM inference itself (callers supply the model inference function)
-- Multi-modal prompts (images, audio)
-- Token counting or context-window management
+- Long-running training/fine-tuning of model weights
+- Distributed workflow orchestration outside `PromptEngineeringIntegration`
 
 ## Key Components
 
@@ -355,6 +355,13 @@ PromptEngineeringIntegration integration(config, &db, cf);
 auto exec_result = integration.execute("sql_generation_v1",
     {{"schema", schema_str}, {"user_query", "count documents"}});
 ```
+
+## Troubleshooting
+
+- **Template not found / empty prompt output**: verify template id/version in `PromptManager` and ensure placeholders in `getPromptWithContext()` receive all required keys.
+- **Budget exceptions**: configure `ModelTokenBudget` and chunk sizes (`RAGPromptBuilder::selectChunks`) to stay under context limits.
+- **Unstable A/B or regression outcomes**: increase sample sizes and validate fixture quality before acting on p-values.
+- **Injection detector blocks benign prompts**: tune `PromptInjectionDetector::Config::custom_patterns` and review matched patterns in `DetectionResult`.
 
 ## Production Readiness
 

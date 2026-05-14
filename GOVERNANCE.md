@@ -1,8 +1,8 @@
 # ThemisDB — Project Governance
 
 > **Status:** Active  
-> **Version:** 1.0  
-> **Last Updated:** 2026-04-13
+> **Version:** 1.1  
+> **Last Updated:** 2026-05-13
 
 This document describes how the ThemisDB project is governed: how decisions are made, who has authority over what, and how contributors can advance to positions of greater responsibility.
 
@@ -16,7 +16,8 @@ This document describes how the ThemisDB project is governed: how decisions are 
 4. [Contribution Policy](#4-contribution-policy)
 5. [Code Review Standards](#5-code-review-standards)
 6. [Conflict Resolution](#6-conflict-resolution)
-7. [Changes to Governance](#7-changes-to-governance)
+7. [Unified Contribution and Escalation Paths](#7-unified-contribution-and-escalation-paths)
+8. [Changes to Governance](#8-changes-to-governance)
 
 ---
 
@@ -138,7 +139,31 @@ All participants must comply with the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
-## 7. Changes to Governance
+## 7. Unified Contribution and Escalation Paths
+
+### External contributors
+
+1. Use [CONTRIBUTING.md](CONTRIBUTING.md) for contribution workflow, PR process, and quality gates.
+2. Respect [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) in all community interactions.
+3. For module-specific review ownership, see [MAINTAINERS.md](MAINTAINERS.md).
+4. For security vulnerabilities, use the private process in [SECURITY.md](SECURITY.md) and [SOP.md](SOP.md).
+
+### Internal maintainers and project roles
+
+1. Follow [SOP.md](SOP.md) for release, security response, and incident response operations.
+2. Apply role boundaries and decision authority defined in this document and [MAINTAINERS.md](MAINTAINERS.md).
+3. Escalate unresolved technical or process conflicts to the Project Lead.
+
+### Contact and escalation channels (canonical)
+
+- **General questions and design discussion:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Bugs and feature requests:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Security vulnerabilities:** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
+- **Code of Conduct reports:** Follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md#project-specific-reporting-channels)
+
+---
+
+## 8. Changes to Governance
 
 This document can be changed by:
 1. Opening a pull request targeting `develop`.
@@ -157,4 +182,5 @@ Every change must be recorded in the document's version header and noted in [CHA
 - [VERSIONING.md](VERSIONING.md) — Versioning and release policy
 - [SOP.md](SOP.md) — Standard operating procedures
 - [SECURITY.md](SECURITY.md) — Security policy
+- [docs/ROOT_GOVERNANCE_COMMUNITY_REVIEW_AUDIT_2026-05-13.md](docs/ROOT_GOVERNANCE_COMMUNITY_REVIEW_AUDIT_2026-05-13.md) — Review and documentation audit evidence for root governance/community harmonization
 - [.github/GOVERNANCE.md](.github/GOVERNANCE.md) — Issue/PR label schema and milestone standards

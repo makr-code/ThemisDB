@@ -37,8 +37,9 @@
 
 - [~] ML/AI Impact Assessment & Governance framework (Target: Q2 2026)
   - Scope: full inventory of ML/AI touchpoints across retrieval, ranking, inference, embeddings, query-assist, and content pipelines
-  - Deliverable: `src/governance/AI_ML_IMPACT_ASSESSMENT.md` (impact map, risk register, control stack, KPIs, pilot/scale path)
-  - Exit criteria: critical touchpoints have guardrail policy, hard-fallback definition, and audit/trace requirements
+  - Deliverable: `src/governance/AI_ML_IMPACT_ASSESSMENT.md` (impact map, risk register, control stack, KPIs, escalation paths, audit evidence, pilot/scale path)
+  - Exit criteria: critical touchpoints have guardrail policy, hard-fallback definition, audit/trace requirements, and documented escalation path
+  - **Progress (2026-05-13):** v3 — demarcation section, escalation paths, KPI current-state, audit evidence section all added; 7 S0/S1 gaps resolved; 4 S1/S2 gaps remain for Q4 2026
 
 ## Planned Features 📋
 
@@ -84,11 +85,15 @@
 - [x] Deterministic vs probabilistic decision taxonomy and criticality classes (S0–S3) documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 3)
 - [x] Chance/risk catalog including hallucination, drift, injection, cost/latency, and coupling risks documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 4/5)
 - [x] Defense-in-depth control framework (policy, runtime guardrails, observability/audit, governance process) defined (`AI_ML_IMPACT_ASSESSMENT.md`, Section 6/7)
+- [x] Escalation paths per criticality class (S0–S3) documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 7)
+- [x] Demarcation from general AI/Ethics documents documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 0)
+- [x] KPI current-state column added and audit evidence section added (`AI_ML_IMPACT_ASSESSMENT.md`, Sections 8/10)
 - [ ] Pilot rollout for 2–3 critical AI paths with KPI baseline and incident drill evidence (Target: Q3 2026)
 
 ### Phase 6: Documentation & Acceptance (Status: In Progress 🚧)
 
 - [x] Deliverables bundle documented: impact map, prioritized risks, control framework, KPI set, backlog seeds (`AI_ML_IMPACT_ASSESSMENT.md`)
+- [x] AI_ML_IMPACT_ASSESSMENT.md updated to v3: demarcation, escalation paths, KPI current-state, audit evidence (2026-05-13)
 - [ ] Governance runbooks/playbooks finalized and linked to operations docs (Target: Q3 2026)
 - [ ] Acceptance gate review: all critical touchpoints show fallback + audit trace + owner sign-off (Target: Q3 2026)
 

@@ -5,6 +5,14 @@ Stand: 2026-05-06
 
 ---
 
+## Governance-Verknüpfung (Root)
+
+- Dokumenttyp: Enhancement-Backlog (tensor-spezifische offene Punkte), kein Release-Log.
+- Planungsbezug: `ROADMAP.md` (Milestones/Features) und `FUTURE_ENHANCEMENTS.md` (offene Enhancements).
+- Abschlussregel: Umgesetzte Punkte zusätzlich in `CHANGELOG.md` unter `[Unreleased]` mit Milestone-Bezug dokumentieren.
+
+---
+
 ## #154 — `tensor/hnsw_tt_bridge.cpp::HnswLayer` linear-scan ersetzen
 **Priorität:** Phase 2 (Q4 2026)  
 **Stub-ID:** HTB-01

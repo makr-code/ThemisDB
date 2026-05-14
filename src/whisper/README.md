@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-04-16 | Primary: src/whisper/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
@@ -101,10 +101,12 @@ runtime dependency is available.
 
 | Suite | Count | Labels |
 |---|---|---|
-| `WhisperPluginFocusedTests` | 44 | `plugins;whisper;audio;v2.1.0` |
+| `WhisperPluginFocusedTests` | 55 | `plugins;whisper;audio;v2.2.0` |
+| `WhisperPluginRegistrarTests` | 12 | `plugins;whisper;registrar` |
 
 ```bash
 ctest -R WhisperPluginFocusedTests --output-on-failure
+ctest -R WhisperPluginRegistrarTests --output-on-failure
 ```
 
 ## Dependencies
@@ -113,6 +115,7 @@ ctest -R WhisperPluginFocusedTests --output-on-failure
 |---|---|---|
 | `nlohmann_json` | ✅ | config / stats |
 | `whisper.cpp` | ❌ optional | real model inference |
+| `ffmpeg` (runtime) | ❌ optional | MP3/OGG/FLAC decoding via subprocess |
 
 ## Provenance Fields
 
@@ -123,3 +126,32 @@ Every `TranscriptionResult` carries mandatory provenance:
 | `ingestion_source_type` | `"WHISPER"` |
 | `plugin_version` | `"2.0.0"` |
 | `generation_timestamp` | Unix epoch milliseconds |
+
+## Troubleshooting
+
+**Build fails with undefined reference to whisper_init_from_file**
+→ Ensure `THEMIS_ENABLE_WHISPER=ON` is set and `libwhisper` is available at link time. Without the flag the stub transcriber is used and no whisper.cpp symbols are needed.
+
+**`transcribeFile()` returns empty text in CI**
+→ Expected for stub mode. The `WhisperStubTranscriber` always returns empty text unless a real model is loaded (`THEMIS_ENABLE_WHISPER=ON` + valid `model_path`).
+
+**`detectLanguage()` returns `"unknown"` with confidence 0**
+→ Audio may be too short or silent, or `language_confidence_threshold` in `WhisperConfig` is set above the raw confidence. Lower the threshold or use longer audio.
+
+**FFmpeg reader fails with "ffmpeg not available"**
+→ Install `ffmpeg` and add it to `PATH`. WAV files use `WavAudioChunkReader` directly and bypass FFmpeg.
+
+**Tests hang or timeout**
+→ Run with `-j 1` or reduce `n_threads` in `WhisperConfig`. Concurrent whisper.cpp calls require one `whisper_context*` per thread.
+
+## Related Documentation
+
+| Document | Description |
+|---|---|
+| [`../../include/whisper/README.md`](../../include/whisper/README.md) | Public header surface, per-header API reference, config options, usage snippets |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Component diagram, data flows, design principles |
+| [`ROADMAP.md`](ROADMAP.md) | Feature roadmap, implementation phases, production readiness checklist |
+| [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) | Planned enhancements (streaming, diarisation, VAD) with design constraints |
+| [`SECURITY.md`](SECURITY.md) | Security considerations (model loading, FFmpeg subprocess, path traversal) |
+| [`../../docs/de/whisper/README.md`](../../docs/de/whisper/README.md) | German-language module overview |
+| [`../../docs/en/whisper/README.md`](../../docs/en/whisper/README.md) | English-language module overview |

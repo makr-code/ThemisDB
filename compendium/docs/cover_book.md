@@ -1,9 +1,12 @@
+<!-- Unterstützende Datei: primäres Cover-Template für step2_generate_html.py. -->
+<!-- Kein kanonischer Navigationseinstieg; siehe preface.md und index.md. -->
+
 <div class="cover-page">
   <div class="cover-band"></div>
   <div class="cover-content">
     <div class="cover-eyebrow">ThemisDB</div>
     <h1>ThemisDB Kompendium</h1>
-    <h2>Whitebook & Technisches Handbuch</h2>
+    <h2>Whitebook & Technisches Handbuch (Version 1.8.0)</h2>
     <p class="cover-tagline">Ein praxisnaher Leitfaden für Planung, Betrieb und Skalierung der ThemisDB Multi-Model Datenbank – von Grundlagen bis Enterprise-Patterns.</p>
 
     <div class="cover-meta-grid">

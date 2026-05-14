@@ -127,9 +127,9 @@ Neue Bedrohungen für Wissensgraphen und Vektor-Embeddings erfordern erweiterte 
 > [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md) für Details.
 
 **Referenzen:**
-- [Multi-LoRa Manager](../../include/llm/multi_lora_manager.h) - Adapter-Verwaltung
-- [Security Validator](../../include/llm/lora_security_validator.h) - Sicherheitsvalidierung
-- [RAID LoRa Implementation](../../docs/RAID_LORA_IMPLEMENTATION_REPORT.md) - Verteilte Adapter
+- [Multi-LoRa Manager](../../../include/llm/multi_lora_manager.h) - Adapter-Verwaltung
+- [Security Validator](../../../include/llm/lora_security_validator.h) - Sicherheitsvalidierung
+- [RAID LoRa Implementation](../../en/sharding/RAID_LORA_IMPLEMENTATION_REPORT.md) - Verteilte Adapter
 
 **Implementierungsdetails:**
 - **[COMPLETE_IMPLEMENTATION_SUMMARY.md](COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Vollständige Übersicht aller Phasen
@@ -352,3 +352,15 @@ Siehe [ANGRIFFSVEKTOREN_ANALYSE.md](ANGRIFFSVEKTOREN_ANALYSE.md) für detaillier
 
 **Letzte Aktualisierung:** 2026-01-07  
 **Maintained by:** Security Team
+
+---
+
+## 📂 Modulquellen & Public API
+
+| Ressource | Pfad | Beschreibung |
+|-----------|------|--------------|
+| **Modul-README** | [`src/security/README.md`](../../../src/security/README.md) | Implementierungsübersicht, Architektur, Troubleshooting |
+| **Public Headers** | [`include/security/README.md`](../../../include/security/README.md) | API-Dokumentation aller öffentlichen Header |
+| **Roadmap** | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) | Geplante Features und Milestones |
+| **Future Enhancements** | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) | Detaillierte Erweiterungskonzepte |
+| **Architektur** | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) | Technische Architekturdetails |

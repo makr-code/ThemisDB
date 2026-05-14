@@ -3,6 +3,25 @@
 > Preset: `msvc-ninja-release` · Stand: 2026-03-30 · Build: `build-msvc-ninja-release`
 > Letzter Komplett-Run: `ctest --preset msvc-ninja-release --output-on-failure --parallel 4`
 > Laufzeit: 1338 Sek (~22 Min) · Datum: 30.03.2026 17:43 UTC
+>
+> Einstiegspfad fuer neue Nutzer/Admins: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md)
+
+---
+
+## Root-Dokument-Abgleich: Security-/Audit-Verifikationspfade
+
+Die folgenden Pfade sind der nachvollziehbare Test-/Nachweisbezug für
+Security-relevante Aussagen in Root-Dokumenten:
+
+| Nachweisziel | Verifikationspfad |
+|---|---|
+| Authentifizierung/Autorisierung (JWT, LDAP, TOTP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(JWTValidatorTests|LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` |
+| Plugin-/PKI-Sicherheitsprüfungen (inkl. CRL/OCSP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests)$"` |
+| Root-Audit-Toolchain (SAST/Secrets/Dependencies) | `./scripts/comprehensive-code-audit.sh` (siehe [SECURITY.md](SECURITY.md) und [audit/AUDIT.md](audit/AUDIT.md)) |
+| Audit-Evidenzmodell / Reporting | [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
+
+Diese Pfade dienen als Referenz für den Root-Dokument-Abgleich zwischen
+`ARCHITECTURE.md`, `SECURITY.md`, `AUDIT.md` und den Performance-Leitdokumenten.
 
 ---
 
@@ -16,15 +35,15 @@ Total Test time (real) = 1338.74 sec
 ## Update 2026-04-01 (Graph-Preset stabilisiert)
 
 - Ursache fuer instabile `graph-tests-*` Laeufe war ein zu breiter Label-Filter (`label: graph`), der viele nicht gebaute Tests einschloss und als `Not Run` zaehlte.
-- Fix: `graph-tests-debug` und `graph-tests-release` in [CMakeUserPresets.json](CMakeUserPresets.json) auf expliziten Namensfilter der gebauten 9 Graph-Targets umgestellt.
+- Fix: `graph-tests-debug` und `graph-tests-release` in `CMakeUserPresets.json` auf expliziten Namensfilter der gebauten 9 Graph-Targets umgestellt.
 - Ergebnis nach Fix:
     - Debug: `ctest --preset graph-tests-debug --output-on-failure --parallel 2` -> **9/9 Passed, 0 Failed**
     - Release: `ctest --preset graph-tests-release --output-on-failure --parallel 2` -> **9/9 Passed, 0 Failed**
 
 ## Update 2026-04-02 (Cache/CDC-Presets stabilisiert)
 
-- `cache-tests-release` Test-Preset in [CMakeUserPresets.json](CMakeUserPresets.json) hinzugefuegt (expliziter Namensfilter auf 6 gebaute Cache-Tests).
-- `cdc-tests-release` Test-Preset in [CMakeUserPresets.json](CMakeUserPresets.json) hinzugefuegt (expliziter Namensfilter auf 11 gebaute CDC-Tests).
+- `cache-tests-release` Test-Preset in `CMakeUserPresets.json` hinzugefuegt (expliziter Namensfilter auf 6 gebaute Cache-Tests).
+- `cdc-tests-release` Test-Preset in `CMakeUserPresets.json` hinzugefuegt (expliziter Namensfilter auf 11 gebaute CDC-Tests).
 - Fix fuer `CacheReplicationCoordinatorTest.RefreshPeersUpdatesRemoteList` in [src/cache/cache_replication_coordinator.cpp](src/cache/cache_replication_coordinator.cpp):
     - `refreshPeers()` wiederverwendet bestehende Peers per Address-Mapping statt alle Peers jedes Mal neu ueber Factory zu erzeugen.
 - Fix fuer parallele CDC-Retention-Instabilitaet in [tests/test_cdc_retention.cpp](tests/test_cdc_retention.cpp):
@@ -36,7 +55,7 @@ Total Test time (real) = 1338.74 sec
 
 ## Update 2026-04-02 (Transaction-Preset: Teilweise stabilisiert)
 
-- `transaction-tests-release` Test-Preset in [CMakeUserPresets.json](CMakeUserPresets.json) hinzugefuegt (expliziter Namensfilter auf 12 gebaute Transaction-Tests).
+- `transaction-tests-release` Test-Preset in `CMakeUserPresets.json` hinzugefuegt (expliziter Namensfilter auf 12 gebaute Transaction-Tests).
 - Fixture-Fix fuer OCC/SSI in
         - [tests/test_transaction_occ.cpp](tests/test_transaction_occ.cpp)
         - [tests/test_transaction_ssi.cpp](tests/test_transaction_ssi.cpp)
@@ -52,7 +71,7 @@ Total Test time (real) = 1338.74 sec
 
 ## Update 2026-04-02 (Replication-Preset stabilisiert)
 
-- `replication-tests-release` Test-Preset in [CMakeUserPresets.json](CMakeUserPresets.json) hinzugefuegt (expliziter Namensfilter auf 7 gebaute Replication-Tests).
+- `replication-tests-release` Test-Preset in `CMakeUserPresets.json` hinzugefuegt (expliziter Namensfilter auf 7 gebaute Replication-Tests).
 - API/UI-Testanpassung in [tests/test_replication_topology_api_handler.cpp](tests/test_replication_topology_api_handler.cpp):
     - Fehler-JSON als String-Feld `error` statt bool geprueft.
     - UI-Assertions auf aktuelles HTML-Template angepasst (`<!doctype html>`, JSON-Previews, `API_BASE` aus URL-Prefix).
@@ -66,7 +85,7 @@ Total Test time (real) = 1338.74 sec
 
 ## Update 2026-04-02 (Main-Preset aggregiert und stabil)
 
-- `main-tests-release` Test-Preset in [CMakeUserPresets.json](CMakeUserPresets.json) hinzugefuegt (kombiniert Graph + Cache + CDC + Transaction + Replication in einem Lauf).
+- `main-tests-release` Test-Preset in `CMakeUserPresets.json` hinzugefuegt (kombiniert Graph + Cache + CDC + Transaction + Replication in einem Lauf).
 - Zusaetzliche Stabilisierung fuer parallelen Main-Lauf:
         - [tests/test_replication_ha.cpp](tests/test_replication_ha.cpp):
             `PersistentStateTest` und `ReplicationStreamCompressionTest` auf eindeutige Temp-Pfade + robustes Cleanup (`error_code`, Retry) umgestellt.
@@ -151,7 +170,7 @@ Total Test time (real) = 1338.74 sec
 
 - Vollrun erneut gestartet mit `ctest --preset msvc-ninja-release --output-on-failure --parallel 4`.
 - Registrierte Tests: **617** (`ctest --preset msvc-ninja-release -N`).
-- Aktuelle Failure-Liste aus [build-msvc-ninja-release/Testing/Temporary/LastTestsFailed.log](build-msvc-ninja-release/Testing/Temporary/LastTestsFailed.log): **556** Eintraege (davon **24** `_NOT_BUILT`).
+- Aktuelle Failure-Liste aus `build-msvc-ninja-release/Testing/Temporary/LastTestsFailed.log`: **556** Eintraege (davon **24** `_NOT_BUILT`).
 - Interpretation:
     - Der Run ist aktuell **nicht 1:1** mit dem Baseline-Run vom 30.03.2026 vergleichbar, weil sehr viele Tests als `Not Run` gelistet sind (fehlende, nicht gebaute Binaries ausserhalb der fokussierten Presets).
     - Die zuvor stabilisierten Fokusbereiche bleiben weiterhin gruen (Graph/Cache/CDC/Transaction/Replication in ihren jeweiligen Presets inkl. Main 45/45).

@@ -9,6 +9,7 @@
 - [Home](home.md)
 - [Dokumentations-Index](DOCUMENTATION_INDEX.md)
 - [Quick Reference](DOCS_QUICKREF.md)
+- [Toolchain: Build/Preview/Publish](README-DOCUMENTATION.md)
 
 ### 🚀 v1.8.0-rc1 Release
 - [Release Notes](de/releases/RELEASE_NOTES_v1.8.0.md)

@@ -1,6 +1,7 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
+> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
-<!-- Status: current | validated: 2026-04-07 | Primary: src/stable_diffusion/ -->
+<!-- Status: current | validated: 2026-05-13 | Primary: src/stable_diffusion/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Stable Diffusion Image Generation Plugin
@@ -126,3 +127,14 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/stable_diffusion/README.md`](../../include/stable_diffusion/README.md) for the public API.
+
+## See Also
+
+- [`../../include/stable_diffusion/README.md`](../../include/stable_diffusion/README.md) — public API reference (headers, config, usage, troubleshooting)
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component diagram and data-flow
+- [`ROADMAP.md`](./ROADMAP.md) — delivery status and planned features
+- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — planned enhancements (ControlNet, LoRA, pHash)
+- [`SECURITY.md`](./SECURITY.md) — module security notes
+- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — benchmark expectations
+- [`../../docs/en/stable_diffusion/index.md`](../../docs/en/stable_diffusion/index.md) — English secondary overview
+- [`../../docs/de/stable_diffusion/index.md`](../../docs/de/stable_diffusion/index.md) — Deutsche Sekundärübersicht
