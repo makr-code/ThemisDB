@@ -74,7 +74,7 @@ Im restlichen Dokument werden die folgenden Begriffe einheitlich verwendet:
 - **Kandidat:** alternative Implementierung, Bibliothek oder Konfiguration
 - **Regression Gate:** automatisierte Prüfung in CI gegen Baseline oder SLO
 - **ADR:** Architecture Decision Record für Adopt/Reject-Entscheidungen
-- **AQL:** Query-Sprache von ThemisDB; keine alternativen Schreibweisen verwenden
+- **AQL (ArangoDB Query Language):** Query-Sprache von ThemisDB; keine alternativen Schreibweisen verwenden
 - **Multi-Model-Datenbank:** bevorzugter Systembegriff für ThemisDB
 
 ## 3. Validierungsprozess
@@ -146,10 +146,6 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
 - Ausreißerbehandlung nur mit offengelegter Regel
 
-**Wichtig:** Statistische Vergleiche müssen im Experimentprotokoll immer mit einem explizit dokumentierten Auswertungspfad hinterlegt werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, muss das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden. Für den Pfad `tools/benchmark_compare.py` gibt es im aktuellen Repository kein Standard-Skript.
-
-**Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden. Die erwartete Struktur für dieses Protokoll ist in [`experiments/README.md`](experiments/README.md) beschrieben.
-
 **Praktischer Mindest-Output pro Experiment:**
 
 - Rohdaten (JSON)
@@ -157,13 +153,19 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Interpretation der gemessenen Deltas
 - klare Empfehlung: Adopt, Reject oder weiterer Test
 
+#### 3.4.1 Anforderungen an die statistische Auswertung
+
+Statistische Vergleiche müssen im Experimentprotokoll immer mit einem explizit dokumentierten Auswertungspfad hinterlegt werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, muss das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden. Für den Pfad `tools/benchmark_compare.py` gibt es im aktuellen Repository kein Standard-Skript.
+
+Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden. Die erwartete Struktur für dieses Protokoll ist in [`experiments/README.md`](experiments/README.md) beschrieben.
+
 ### 3.5 Schritt 5 — Regression Gates an die bestehende CI anbinden
 
 Ein Kandidat gilt nicht als übernommen, solange die Verbesserung nicht gegen spätere Regressionen abgesichert ist. ThemisDB besitzt dafür bereits eine funktionierende Infrastruktur:
 
 - [`../.github/workflows/performance-regression-check.yml`](../.github/workflows/performance-regression-check.yml) führt einen zentralen PR-Regressionstest aus.
 - [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml) führt Nightly-Benchmarks aus und prüft die Abdeckung.
-- [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py) unterstützt konfigurierbare Schwellenwerte; die Defaults liegen bei 5 % / 10 % / 20 % für minor / major / critical.
+- [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py) ist die autoritative Quelle für die Regressionseinstufung; Stand dieses Reviews (2026-05-14) liegen die Default-Schwellenwerte dort bei 5 % / 10 % / 20 % für minor / major / critical.
 
 **Verpflichtend vor Adoption:**
 
@@ -204,7 +206,7 @@ Bei der Review dieses Dokuments wurden mehrere Aussagen entschärft oder korrigi
 
 1. **Nicht vorhandenes Hilfsskript entfernt:** Ein Verweis auf `tools/benchmark_compare.py` war nicht belegbar und wurde gestrichen; stattdessen fordert das Dokument nun einen versionierten, im Experimentprotokoll referenzierten Auswertungspfad.
 2. **Relative Pfade korrigiert:** Verweise auf Root- und `src/`-Artefakte nutzen nun gültige Pfade aus `research/` heraus.
-3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Dieses Prozessdokument behauptet jedoch nicht mehr, dass `research/ALGORITHM_VALIDATION_PROCESS.md` selbst bereits ein vollständig nachprüfbares, in sich abgeschlossenes End-to-End-Fallbeispiel enthält.
+3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Dieses Prozessdokument beschreibt den Prozess; vollständige Fallbeispiele gehören in die referenzierten ADRs und Experimentprotokolle.
 4. **CI-Aussagen auf belegte Artefakte reduziert:** Es wird nur auf Workflows und Skripte verwiesen, die aktuell im Repository existieren.
 5. **Statistikempfehlungen von Repository-Automation getrennt:** Methodische Empfehlungen bleiben erlaubt, werden aber nicht als bereits implementierte Standardtoolchain dargestellt.
 
