@@ -11,7 +11,7 @@
 
 Diese Review bewertet den tatsächlichen Stand von „Error Awareness and Introspection“ in ThemisDB anhand von Code, Tests und Doku-Artefakten. Der zentrale Befund ist, dass die ursprünglich als „fehlend“ beschriebenen Kernbausteine inzwischen weitgehend implementiert sind: Es existiert eine zentrale `ErrorRegistry` mit strukturierten `ErrorCode`-Bereichen und Metadaten, eine HTTP Error API (`/api/v1/errors`, Kategorien, Suche, Lookup per Code) sowie MCP-Tools (`get_error_info`, `search_errors`) für agentische Nutzung.
 
-Die verbleibenden Lücken liegen nicht primär in fehlender Grundfunktionalität, sondern in Reife und Konsistenz über Integrationspfade hinweg: Einige Antworten bleiben fallback-orientiert, und für „Error Awareness Quality“ (z. B. Genauigkeit/Abdeckung/Latenz über alle Oberflächen) fehlt im vorliegenden Scope ein dedizierter End-to-End-Benchmarkbericht. Damit verschiebt sich der Fokus von „Neuimplementierung“ zu „Konsolidierung, Messbarkeit und Außenvertrag“.
+Die verbleibenden Lücken liegen nicht primär in fehlender Grundfunktionalität, sondern in Reife und Konsistenz über Integrationspfade hinweg: In introspektiven Pfaden (insbesondere `introspect_database`) werden bei fehlenden Komponenten wie `PromptManager`/`SchemaManager` reduzierte Fallback-Antworten geliefert, und für „Error Awareness Quality“ (z. B. Genauigkeit/Abdeckung/Latenz über alle Oberflächen) fehlt im vorliegenden Scope ein dedizierter End-to-End-Benchmarkbericht. Damit verschiebt sich der Fokus von „Neuimplementierung“ zu „Konsolidierung, Messbarkeit und Außenvertrag“.
 
 ---
 
@@ -122,14 +122,14 @@ Implementierung in `src/server/error_api_handler.cpp`, Routing in `src/server/ht
 | „Error-Introspection-API fehlt“ | **Falsch** | `src/server/error_api_handler.cpp`, `src/server/http_server.cpp` |
 | „MCP kann keine Fehler introspektieren“ | **Falsch** | `src/server/mcp_server.cpp`, `include/server/mcp_server.h` |
 | „Error Awareness ist ungetestet“ | **Zu stark** | `tests/test_error_registry.cpp`, `tests/test_http_error_api.cpp` |
-| „Messbare End-to-End-Qualität vollständig belegt“ | **Nicht vollständig belegt** | Kein dedizierter protokollübergreifender Qualitätsbenchmark im Scope |
+| „Messbare End-to-End-Qualität vollständig belegt“ | **Teilweise verifiziert** | Funktionale Tests vorhanden, aber kein dedizierter protokollübergreifender Qualitätsbenchmark |
 
 ---
 
 ## Limitations / Known Issues
 
-1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert; es ist damit primär eine Artefakt-/Implementierungslücke, nicht nur eine Doku-Auslassung.
-2. **Fallback-Verhalten bleibt relevant:** Introspektionspfade können je nach Komponentenverfügbarkeit variieren (z. B. reduzierte Antworten in bestimmten Laufzeitkonfigurationen).
+1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert; diese Lücke bleibt als Folgethema für Roadmap/Benchmarks zu tracken.
+2. **Fallback-Verhalten bleibt relevant:** Introspektionspfade können je nach Komponentenverfügbarkeit variieren; konkret liefert `introspect_database` bei fehlendem `PromptManager` oder `SchemaManager` eine reduzierte Fallback-Antwort statt voller kontextreicher Analyse.
 3. **Außenvertrag nicht als einzelnes „Error-Awareness-Standarddokument“ konsolidiert:** Implementierungen sind vorhanden, aber Spezifikation/Versionierung als einheitlicher öffentlicher Vertrag ist ausbaufähig.
 4. **Terminologie driftet in älteren Research-Drafts:** Begriffe wie „fehlt komplett“ sind in Teilen historisch überholt und sollten bei Folgearbeiten vermieden werden.
 
