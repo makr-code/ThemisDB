@@ -1,9 +1,10 @@
 # Continuous Batching in Database-Native LLM Pipelines
 
-**Status**: Draft  
-**Version**: 0.2  
-**Last Updated**: 2026-04-27  
-**Target Venue**: MLSys 2027 / EuroSys 2027  
+**Status**: Pre-Registration Complete
+**Version**: 1.0
+**Last Updated**: 2026-05-14
+**Authors**: ThemisDB Research Team
+**Target Venue**: MLSys 2027 / EuroSys 2027
 **Companion to**: `THEMISDB_SYSTEM_PAPER_ARXIV_2026.md` §III Tier 4, `DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md`
 
 ---
@@ -25,8 +26,10 @@ The study answers four research questions: (1) how throughput and tail-latency r
 batch-size and token-budget configurations; (2) at what request rate KV-cache pressure
 triggers degraded-mode fallback; (3) how chunked prefill interacts with the retrieval
 pipeline latency budget; and (4) which guardrail parameters (timeout, downgrade threshold)
-maximise throughput while bounding P99. Empirical execution is pending GPU hardware;
-all instrumentation is in place.
+maximise throughput while bounding P99. This paper constitutes a pre-registration of the
+experimental design and expected operating points; GPU hardware procurement for empirical
+validation is in progress, and all instrumentation and benchmark harnesses are in place
+(§V, §IX).
 
 ---
 
@@ -83,9 +86,11 @@ added paged KV attention (PagedAttention) enabling virtually unlimited concurren
 sequences. TensorRT-LLM [2] provides CUDA kernel-level optimisations; S-LoRA [3] extends
 paging to concurrent LoRA adapters.
 
-**Database-native AI serving**: Zhao et al. [5] survey in-database ML inference; ONNX
-Runtime in SQL Server and Greenplum's MADlib are examples but do not support
-autoregressive decoding with continuous batching.
+**Database-native AI serving**: Zhao et al. [5] demonstrate in-database machine learning
+for privacy-preserving text-to-SQL generation, showing that ML computation can be
+co-located with database query execution; ONNX Runtime in SQL Server and Greenplum's MADlib
+are further examples. None of these systems support autoregressive decoding with continuous
+batching.
 
 **Speculative decoding**: Leviathan et al. [6] and Chen et al. [7] define speculative
 decoding; ThemisDB's `SpeculativeDecoder` implements a draft-model variant targetted at
@@ -162,7 +167,7 @@ Target switch latency: < 50 ms. This is the W8 workload claim in the flagship pa
 ### A. Hardware
 
 - CPU: 20-core Intel @ 3.7 GHz, AVX2/AVX-512, 64 GB RAM.
-- GPU (pending procurement): NVIDIA RTX 3090 or A100 (24 GB VRAM).
+- GPU (procurement in progress): NVIDIA RTX 3090 or A100 (24 GB VRAM).
 - Storage: NVMe SSD (PCIe 4.0, 3.5 GB/s).
 
 ### B. Workloads
@@ -225,43 +230,68 @@ preemption policies = 36 cells, 10 reps = 360 points.
 
 ---
 
-## VI. Results Schema (Pre-defined)
+## VI. Evaluation Design and Pre-Registered Expected Results
+
+This section constitutes the formal pre-registration of expected experimental outcomes.
+All quantitative ranges are derived from (a) the analytical memory model in §VII,
+(b) published vLLM and S-LoRA benchmarks on comparable GPU hardware, and (c) the
+ThemisDB scheduler design (§III). Pre-registered values are denoted `[pre-reg: …]`.
+Empirical measurements will replace these ranges in v1.1 (post-GPU procurement).
 
 ### Table CB-1: Throughput × Concurrency × BatchSize (W-CB-1..4)
 
 | Concurrency | max_batch_size | max_tokens_per_batch | tokens/s | TTFT (ms) | P99 (ms) |
 |---|---|---|---|---|---|
-| 10 | 8 | 512 | *pending* | *pending* | *pending* |
-| 10 | 32 | 2048 | *pending* | *pending* | *pending* |
-| 50 | 16 | 1024 | *pending* | *pending* | *pending* |
-| 50 | 64 | 4096 | *pending* | *pending* | *pending* |
-| 100 | 32 | 2048 | *pending* | *pending* | *pending* |
-| 250 | 64 | 4096 | *pending* | *pending* | *pending* |
+| 10 | 8 | 512 | [pre-reg: ≥ 800] | [pre-reg: ≤ 80] | [pre-reg: ≤ 200] |
+| 10 | 32 | 2048 | [pre-reg: ≥ 1 200] | [pre-reg: ≤ 60] | [pre-reg: ≤ 150] |
+| 50 | 16 | 1024 | [pre-reg: ≥ 900] | [pre-reg: ≤ 120] | [pre-reg: ≤ 280] |
+| 50 | 64 | 4096 | [pre-reg: ≥ 1 400] | [pre-reg: ≤ 100] | [pre-reg: ≤ 250] |
+| 100 | 32 | 2048 | [pre-reg: ≥ 1 500] | [pre-reg: ≤ 100] | [pre-reg: ≤ 400] |
+| 250 | 64 | 4096 | [pre-reg: ≥ 800] | [pre-reg: ≤ 250] | [pre-reg: ≤ 900] |
+
+Basis: §VII stability-zone analysis (concurrency=100 anchor point) scaled via
+published vLLM throughput curves [1]. Database-native sharing of GPU memory between
+inference, HNSW index acceleration, and retrieval operators (§VIII.A) reduces effective
+VRAM available for KV cache; expected throughput ranges therefore apply a conservative
+10–20% downward adjustment relative to vLLM dedicated-serving results on equivalent
+hardware.
 
 ### Table CB-2: Degraded-Mode Onset (W-CB-4)
 
 | preemption_policy | Concurrency | Degraded-Mode Rate (%) | Δ Faithfulness | P99 (ms) |
 |---|---|---|---|---|
-| SWAP_CPU | 100 | *pending* | *pending* | *pending* |
-| SWAP_NONE | 100 | *pending* | *pending* | *pending* |
-| RECOMPUTE | 100 | *pending* | *pending* | *pending* |
-| SWAP_CPU | 250 | *pending* | *pending* | *pending* |
-| SWAP_NONE | 250 | *pending* | *pending* | *pending* |
+| SWAP_CPU | 100 | [pre-reg: ~0–2%] | [pre-reg: ~0] | [pre-reg: ≤ 400] |
+| SWAP_NONE | 100 | [pre-reg: ~0%] | [pre-reg: ~0] | [pre-reg: ≤ 400] |
+| RECOMPUTE | 100 | [pre-reg: ~0%] | [pre-reg: ~0] | [pre-reg: ≤ 450] |
+| SWAP_CPU | 250 | [pre-reg: ~0–5%] | [pre-reg: 0 to −0.05] | [pre-reg: ≤ 600] |
+| SWAP_NONE | 250 | [pre-reg: ~30–60%] | [pre-reg: −0.10 to −0.20] | [pre-reg: ≤ 900] |
+
+Basis: §VII memory model predicts SWAP_NONE onset at ~150–180 concurrent requests;
+SWAP_CPU extends stable region to ~220–250 requests. Δ Faithfulness ranges are estimated
+from RAGJudge FAST-mode quality bucket analysis (§III.C, §IV.D) for the head-truncation
+degraded-mode scenario, where context window reduction disproportionately removes
+supporting evidence tokens.
 
 ### Table CB-3: LoRA Adapter-Switch Latency (W8 claim)
 
 | Adapter Size | In-flight Requests | Switch P50 (ms) | Switch P99 (ms) | SLO (< 50 ms) |
 |---|---|---|---|---|
-| 4-bit LoRA (7B) | 0 | *pending* | *pending* | — |
-| 4-bit LoRA (7B) | 10 | *pending* | *pending* | — |
-| 4-bit LoRA (7B) | 50 | *pending* | *pending* | — |
+| 4-bit LoRA (7B) | 0 | [pre-reg: ≤ 30] | [pre-reg: < 50] | ✓ expected |
+| 4-bit LoRA (7B) | 10 | [pre-reg: ≤ 45] | [pre-reg: ≤ 75] | ✓ expected |
+| 4-bit LoRA (7B) | 50 | [pre-reg: ≤ 80] | [pre-reg: ≤ 120] | ✗ drain-limited |
+
+Basis: §VII LoRA switch analysis; drain time at 50 in-flight requests dominates swap
+cost. SLO met only when in-flight count is limited to ≤ 16 during switch windows (§VIII.B).
 
 ---
 
-## VII. Expected Results and Stability Zones
+## VII. Analytical Basis for Pre-Registered Operating Points
 
-Based on published vLLM/S-LoRA results and the ThemisDB scheduler design, we pre-register
-the following expected operating points:
+The pre-registered expected values in §VI are grounded in the following analytical
+derivations, which will be validated against empirical measurements in v1.1.
+
+Based on published vLLM/S-LoRA results [1, 3] and the ThemisDB scheduler design, we
+pre-register the following expected operating points:
 
 **Throughput-latency stability zone** (RQ4):
 - At max_batch_size=32, max_tokens=2048, concurrency=100: tokens/s ≥ 1 500, P99 ≤ 400 ms.
@@ -367,13 +397,15 @@ LoRA switch ≈ 5 min. Full sweep ≈ 3 h on GPU.
 ## XI. Conclusion
 
 This paper specifies the continuous batching measurement methodology for ThemisDB's
-database-native LLM serving layer. The core claim — that database-native scheduling
-involves three new interactions (retrieval back-pressure, LoRA lifecycle, transaction
-serialisation) absent from dedicated serving — is grounded in the system model (§III)
-and supported by implementation evidence (§V). Pre-registered expected operating points
-and guardrail recommendations provide a concrete performance target for the empirical
-execution sprint. Upon GPU hardware availability, result tables CB-1–CB-3 and W8 adapter
-switch latency will be populated and this paper upgraded to v0.3.
+database-native LLM serving layer and constitutes a formal pre-registration of the
+experimental design and expected operating points. The core claim — that database-native
+scheduling involves three new interactions (retrieval back-pressure, LoRA lifecycle,
+transaction serialisation) absent from dedicated serving — is grounded in the system model
+(§III) and supported by implementation evidence (§V). Pre-registered expected operating
+points (§VI, §VII) and guardrail recommendations (§VIII.B) provide concrete performance
+targets for the empirical execution phase. Upon completion of GPU hardware procurement,
+result Tables CB-1–CB-3 will be populated with empirical measurements and the paper
+upgraded to v1.1 (empirical validation release).
 
 ---
 
@@ -381,30 +413,35 @@ switch latency will be populated and this paper upgraded to v0.3.
 
 [1] Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C. H., … & Stoica, I. (2023).
 Efficient Memory Management for Large Language Model Serving with PagedAttention.
-*SOSP 2023*.
+*SOSP 2023*. arXiv:2309.06180. https://arxiv.org/abs/2309.06180
 
 [2] NVIDIA TensorRT-LLM. https://github.com/NVIDIA/TensorRT-LLM (2024).
 
 [3] Sheng, Y., et al. (2024). S-LoRA: Serving Thousands of Concurrent LoRA Adapters.
-*MLSys 2024*.
+*MLSys 2024*. arXiv:2311.03285. https://arxiv.org/abs/2311.03285
 
 [4] Yu, G., Kim, J., Jeong, G., Kim, S., Kim, H., Chun, B.-G., … & Jeong, J. (2022).
 Orca: A Distributed Serving System for Transformer-Based Generative Models. *OSDI 2022*.
+https://www.usenix.org/conference/osdi22/presentation/yu
 
 [5] Zhao, Z., et al. (2023). In-Database Machine Learning with DP-BART for Privacy-
 Preserving Text-to-SQL Generation. *EMNLP 2023*.
+https://aclanthology.org/2023.emnlp-main.43
 
 [6] Leviathan, Y., Kalman, M., & Matias, Y. (2023). Fast Inference from Transformers via
-Speculative Decoding. *ICML 2023*.
+Speculative Decoding. *ICML 2023*. arXiv:2211.17192.
+https://arxiv.org/abs/2211.17192
 
 [7] Chen, C., et al. (2023). Accelerating Large Language Model Decoding with Speculative
-Sampling. *arXiv:2302.01318*.
+Sampling. *arXiv:2302.01318*. https://arxiv.org/abs/2302.01318
 
 [8] Agrawal, A., et al. (2024). Taming Throughput-Latency Tradeoff in LLM Inference with
-Sarathi-Serve. *OSDI 2024*.
+Sarathi-Serve. *OSDI 2024*. arXiv:2308.16369.
+https://www.usenix.org/conference/osdi24/presentation/agrawal
 
 [9] Zhong, Y., et al. (2024). DistServe: Disaggregating Prefill and Decoding for
-Goodput-Optimized Large Language Model Serving. *OSDI 2024*.
+Goodput-Optimized Large Language Model Serving. *OSDI 2024*. arXiv:2401.09670.
+https://www.usenix.org/conference/osdi24/presentation/zhong-yinmin
 
 ---
 
@@ -415,14 +452,15 @@ Goodput-Optimized Large Language Model Serving. *OSDI 2024*.
 - [x] Full configuration sweep specified (§IV.C)
 - [x] Metrics formally defined (§IV.D)
 - [x] Implementation evidence registry with source files (§V)
-- [x] Result table schemas pre-defined (§VI)
-- [x] Expected operating points pre-registered (§VII)
+- [x] Pre-registered expected results in evaluation tables CB-1–CB-3 (§VI)
+- [x] Analytical basis for pre-registered values documented (§VII)
 - [x] Guardrail recommendations specified (§VIII.B)
 - [x] Reproducibility commands provided (§IX)
 - [x] Limitations and threats documented (§VIII.C, §X)
-- [ ] W-CB-1..4 experiments executed and Table CB-1 filled
-- [ ] Degraded-mode onset measured and Table CB-2 filled
-- [ ] LoRA switch latency (W8) measured and Table CB-3 filled
+- [x] All references include DOI or URL (§XII)
+- [ ] W-CB-1..4 experiments executed and Table CB-1 filled with empirical data
+- [ ] Degraded-mode onset measured and Table CB-2 filled with empirical data
+- [ ] LoRA switch latency (W8) measured and Table CB-3 filled with empirical data
 
 ## Appendix B. Claim-to-Evidence Traceability
 
