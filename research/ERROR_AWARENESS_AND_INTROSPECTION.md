@@ -40,7 +40,7 @@ Agentic-AI-Workflows benötigen verlässliche Antworten auf Fragen wie:
 - **Konsistenzmodell**: ACID/MVCC als zentrale Transaktionsgrundlage im Projektnarrativ.
 - **Error Awareness**: Fähigkeit, Fehlerwissen (Code, Ursache, Lösung, Kategorie) strukturiert bereitzustellen.
 - **Introspection**: Programmatischer Zugriff auf System- und Fehler-Metadaten (z. B. HTTP, MCP).
-- **Public API contract (öffentliche API-Spezifikation)**: Versionierbare, öffentlich dokumentierte Spezifikation von Endpunkten, Feldern und Semantik für externe Clients.
+- **Public API contract**: Versionierbare, öffentlich dokumentierte Spezifikation von Endpunkten, Feldern und Semantik für externe Clients.
 
 ---
 
@@ -128,7 +128,7 @@ Implementierung in `src/server/error_api_handler.cpp`, Routing in `src/server/ht
 
 ## Limitations / Known Issues
 
-1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert. Diese Lücke soll als konkretes Folgethema in `ROADMAP.md` (Planned Features) und `FUTURE_ENHANCEMENTS.md` (Test Strategy/Performance Targets) nachverfolgt werden.
+1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert. Die Nachverfolgung soll als konkretes Folgethema in `ROADMAP.md` (Planned Features) und `FUTURE_ENHANCEMENTS.md` (Test Strategy/Performance Targets) ergänzt werden; diese Tracking-Items sind derzeit noch nicht angelegt.
 2. **Fallback-Verhalten bleibt relevant:** Introspektionspfade können je nach Komponentenverfügbarkeit variieren. Konkret liefert `introspect_database` bei fehlendem `PromptManager` oder `SchemaManager` eine reduzierte Fallback-Antwort statt voller kontextreicher Analyse.
 3. **Außenvertrag nicht als einzelnes „Error-Awareness-Standarddokument“ konsolidiert:** Implementierungen sind vorhanden, aber Spezifikation/Versionierung als einheitlicher öffentlicher Vertrag ist ausbaufähig.
 4. **Terminologie driftet in älteren Research-Drafts:** Begriffe wie „fehlt komplett“ sind in Teilen historisch überholt und sollten bei Folgearbeiten vermieden werden.
