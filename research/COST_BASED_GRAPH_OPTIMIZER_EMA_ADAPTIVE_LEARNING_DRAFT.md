@@ -464,7 +464,7 @@ We presented ThemisDB's adaptive graph query optimizer — a cost model for grap
 
 [1] Graefe G. "The Cascades Framework for Query Optimization." *IEEE Data Engineering Bulletin*, 18(3):19–29, 1995. URL: <https://cs.uwaterloo.ca/~tozsu/courses/CS848/W09/readings/cascades.pdf>
 
-[2] Soliman M.A., Antova L., Raghavan V., El-Helw A., Gu Z., Shen E., Caragea G.C., Garcia-Alvarado C., Rahman F., Petropoulos M., Waas F., Narayanan S., Krikellas K., Baldwin R. "Orca: A Modular Query Optimizer Architecture for Big Data." *Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data*, pp. 337–348, 2014. DOI: [10.1145/2588555.2595637](https://doi.org/10.1145/2588555.2595637)
+[2] Soliman M.A. et al. "Orca: A Modular Query Optimizer Architecture for Big Data." *Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data*, pp. 337–348, 2014. DOI: [10.1145/2588555.2595637](https://doi.org/10.1145/2588555.2595637)
 
 [3] Ullmann J.R. "An Algorithm for Subgraph Isomorphism." *Journal of the ACM*, 23(1):31–42, 1976. DOI: [10.1145/321921.321925](https://doi.org/10.1145/321921.321925)
 
@@ -480,7 +480,7 @@ We presented ThemisDB's adaptive graph query optimizer — a cost model for grap
 
 [9] Angles R., Gutierrez C. "Survey of Graph Database Models." *ACM Computing Surveys*, 40(1):1–39, 2008. DOI: [10.1145/1322432.1322433](https://doi.org/10.1145/1322432.1322433)
 
-[10] Boncz P., Neumann T., Mühleisen H., et al. "LDBC Social Network Benchmark." *Proceedings of the 2013 ACM SIGMOD International Conference on Management of Data*, 2013. URL: <https://ldbcouncil.org/benchmarks/snb/>
+[10] Boncz P., Neumann T., Mühleisen H., et al. "LDBC Social Network Benchmark." *Proceedings of the 2013 ACM SIGMOD International Conference on Management of Data*, pp. 1041–1045, 2013. URL: <https://ldbcouncil.org/benchmarks/snb/>
 
 ---
 
