@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This paper reviews whether the current ThemisDB repository supports describing the system as a distributed ACID multi-model database with integrated AI capabilities. The review is intentionally claim-bounded: only statements that can be tied to current repository architecture documents, benchmark mappings, or published benchmark summaries are retained. The repository documentation consistently presents ThemisDB as a system that combines Advanced Query Language (AQL) processing, ACID transaction control, distributed coordination, multi-model storage, and AI/LLM-oriented retrieval paths in one architecture. Current empirical evidence is strongest for single-node and component-level benchmarks: the canonical performance report documents a 9.67 ms query p99, 1.177 M graph edge operations per second, and 61.0 M time-series inserts per second, while also recording unresolved gaps in secondary-index insert throughput and peak query throughput. By contrast, several distributed-sharding metrics remain proxy-mapped or hardware-gated, and no public end-to-end mixed distributed AI workload study in the repository yet justifies superiority claims over decoupled architectures. The resulting article is therefore positioned as a verified architecture-and-evidence review plus a publication-ready evaluation scope, not as a completed comparative performance paper.
+This paper reviews whether the current ThemisDB repository supports describing the system as a distributed ACID multi-model database with integrated AI capabilities. The review is intentionally claim-bounded: only statements that can be tied to current repository architecture documents, benchmark mappings, or published benchmark summaries are retained. The repository documentation consistently presents ThemisDB as a system that combines Advanced Query Language (AQL) processing, ACID transaction control, distributed coordination, multi-model storage, and AI/LLM-oriented retrieval paths in one architecture. Current empirical evidence is strongest for single-node and component-level benchmarks. The canonical performance report documents a 9.67 ms query p99, 1.177 M graph edge operations per second, and 61.0 M time-series inserts per second, while also recording unresolved gaps in secondary-index insert throughput and peak query throughput. By contrast, several distributed-sharding metrics remain proxy-mapped or hardware-gated, and no public end-to-end mixed distributed AI workload study in the repository yet justifies superiority claims over decoupled architectures. The resulting article is therefore positioned as a verified architecture-and-evidence review plus a publication-ready evaluation scope, not as a completed comparative performance paper.
 
 ## I. Introduction
 
@@ -21,8 +21,8 @@ ThemisDB is explicitly documented as an attempt to collapse these boundaries int
 This revised paper contributes three concrete outputs:
 
 1. A repository-grounded verification of the architectural claim that ThemisDB co-locates distributed, transactional, multi-model, and AI-oriented functionality.
-2. A terminology-normalized description of the current system using the repository's own canonical terms: AQL, multi-model, MVCC, OCC, SAGA, Raft/Paxos/Gossip, hybrid search, and RAG.
-3. A claim boundary for publication: what is already documented or measured, what is only benchmark-mapped, and what must remain future work until live distributed experiments are published.
+2. A terminology-grounded description of the current system using the repository's own canonical terms: AQL, multi-model, MVCC, OCC, SAGA, Raft/Paxos/Gossip, hybrid search, and RAG.
+3. A publication-grounded claim boundary that separates what is already documented or measured from what is only benchmark-mapped or still awaiting live distributed experiments.
 
 ## II. Related Work and Positioning
 
@@ -63,18 +63,18 @@ This classification removes a common problem in draft systems papers: blending a
 
 The review procedure is intentionally conservative.
 
-1. A claim is kept only if it can be anchored to a canonical repository document or benchmark artefact.
+1. A claim is kept only if it can be anchored to a canonical repository document or benchmark artifact.
 2. Architectural co-presence claims are supported by `README.md` and `ARCHITECTURE.md`.
 3. Quantitative performance claims are supported only by values published in `PERFORMANCE_EXPECTATIONS.md`.
 4. Claims about benchmark readiness or subsystem coverage are supported by `benchmarks/benchmark_target_mapping.json` and the referenced benchmark source files.
-5. Any statement that implied unpublished distributed mixed-workload results, existing benchmark artefact directories, or demonstrated superiority over external architectures has been removed or narrowed.
+5. Any statement that implied unpublished distributed mixed-workload results, existing benchmark artifact directories, or demonstrated superiority over external architectures has been removed or narrowed.
 
 ### B. Evaluation Dimensions for Publication-Grade Follow-Up
 
 A future publication-grade experiment should measure ThemisDB along four dimensions that are already motivated by the repository layout and benchmark mappings.
 
-1. **Correctness and consistency**: how MVCC/OCC/SSI and distributed commit choices affect abort behaviour and tail latency.
-2. **Distributed coordination cost**: how shard routing, scatter-gather paths, failover, and topology changes affect steady-state and transition-window behaviour.
+1. **Correctness and consistency**: how MVCC/OCC/SSI and distributed commit choices affect abort behavior and tail latency.
+2. **Distributed coordination cost**: how shard routing, scatter-gather paths, failover, and topology changes affect steady-state and transition-window behavior.
 3. **Multi-model execution**: how relational, graph, vector, document, and time-series paths interact under shared load rather than isolated microbenchmarks.
 4. **AI-path overhead**: how hybrid retrieval and RAG-oriented components behave when coupled to transactional and distributed pressure.
 
@@ -84,7 +84,7 @@ This paper keeps that evaluation scope explicit, but it does not present fabrica
 
 ### A. What the Repository Already Supports
 
-Table 2 lists the strongest claims that are already supportable from current public artefacts.
+Table 2 lists the strongest claims that are already supportable from current public artifacts.
 
 | Supported claim | Evidence | Status |
 |---|---|---|
@@ -99,9 +99,9 @@ Table 2 lists the strongest claims that are already supportable from current pub
 
 The revised article removes several unsupported statements from the earlier draft.
 
-1. **No completed mixed distributed AI benchmark wave is publicly reported.** The canonical performance report states that benchmark implementations are production-ready, but measurement runs for several module groups are still open [12].
+1. **No completed mixed distributed AI benchmark wave is publicly reported.** The canonical performance report states that benchmark implementations are production-ready, but measurement runs for several module groups have not yet been published [12].
 2. **No claim of superiority over decoupled architectures is currently supportable.** The repository contains architectural scope and benchmark infrastructure, not a published comparative study against external distributed data-plus-serving stacks.
-3. **No claim is made that benchmark JSON artefacts already exist in this checkout.** The previously cited `artifacts/perf_nv/targeted_validation/` and `artifacts/perf_nv/repro_validation_20260412_211053/` paths are not present in the current tree and have therefore been removed from the evidence chain.
+3. **No claim is made that benchmark JSON artifacts already exist in this checkout.** The previously cited `artifacts/perf_nv/targeted_validation/` and `artifacts/perf_nv/repro_validation_20260412_211053/` paths are not present in the current tree and have therefore been removed from the evidence chain.
 
 ### C. Interpreting the Current Measurement Picture
 
@@ -121,7 +121,7 @@ The limitations of the current evidence base should be stated directly.
 2. **Performance gaps remain in core subsystems.** The canonical performance report still documents secondary-index insert throughput below target (254.9 k/s vs. 1.0 M/s) and query peak throughput below target (796.4 M/s vs. 900 M/s) [12].
 3. **GPU-dependent conclusions are conditional.** Some benchmark targets are explicitly hardware-gated, so open-source CPU-only review cannot generalize those outcomes [12, 13].
 4. **Comparative external baselines are absent.** The repository does not yet publish a controlled comparison against separate transactional-database + vector-store + model-serving stacks, so any such claim would be speculative.
-5. **Architecture breadth exceeds current public measurement depth.** The documentation covers a wide feature surface; not every documented subsystem has equally mature empirical validation in public artefacts.
+5. **Architecture breadth exceeds current public measurement depth.** The documentation covers a wide feature surface; not every documented subsystem has equally mature empirical validation in public artifacts.
 
 These limitations are not weaknesses of the paper structure; they are the central facts a credible review must preserve.
 
