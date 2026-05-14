@@ -1,240 +1,154 @@
-# AdaLoRA ↔ Tensor-Train Bridge: Research & Benefit Analysis
+# AdaLoRA ↔ Tensor-Train Bridge: Research Review (ThemisDB)
 
-**Status:** Internal Research — Implementation Planned Q2 2027  
-**Stand:** 2026-05-05  
-**Korrespondierender Code:** `include/training/adalora_tt_bridge.h`
-
----
-
-## 1. Kernthese
-
-AdaLoRA (Zhang et al. 2023) und die Tensor-Train-Zerlegung (Oseledets 2011) lösen  
-dasselbe mathematische Problem: **kompakte Darstellung und adaptive Rangsteuerung von  
-Gewichtsmatrizen**. Für 2D-Matrizen (alle LoRA-Adapterebenen) sind beide Formalismen  
-**exakt äquivalent**. Diese Äquivalenz ermöglicht einen verlustfreien, zero-copy  
-Datenaustausch zwischen ThemisDB-TT-Storage und dem AdaLoRA-Trainingspfad.
+**Status:** Review-ready research note (codebase-aligned)
+**Stand:** 2026-05-13
+**Korrespondierende Artefakte:** `include/training/adalora_tt_bridge.h`, `src/training/adalora_tt_bridge.cpp`, `tests/test_adalora_tt_bridge.cpp`
 
 ---
 
-## 2. Mathematische Äquivalenz
+## Abstract / Zusammenfassung
 
-### 2.1 AdaLoRA-Parameterisierung (Zhang et al. 2023, §3)
+Dieses Dokument prüft die AdaLoRA↔Tensor-Train-(TT)-Bridge fachlich gegen den aktuellen ThemisDB-Stand und trennt klar zwischen **bereits implementiertem Verhalten** und **Roadmap-Zielen**. Mathematisch bleibt die 2D-Abbildung zwischen low-rank Faktorisierung und rank-2 TT-Darstellung konsistent. In der aktuellen Implementierung sind `exportToTT()`, `importFromTT()`, `roundAndReallocate()`, `findSimilarAdapters()` sowie injizierbare Bridge-Hooks (`mapAdapter`, `TrainingStepFn`) vorhanden.
 
-AdaLoRA parametrisiert das Gewichtsdelta einer Schicht als:
-
-```
-ΔW = P · Λ · Q^T
-
-P ∈ ℝ^{d × r}   (linke Singulärvektoren — orthogonal)
-Λ ∈ ℝ^{r × r}   (Diagonale der Singulärwerte λ₁ ≥ λ₂ ≥ … ≥ λ_r)
-Q ∈ ℝ^{k × r}   (rechte Singulärvektoren — orthogonal)
-```
-
-Das Pruning-Verfahren nullt die unwichtigsten λᵢ aus, wodurch der effektive  
-Rang r_eff ≤ r schrittweise sinkt.
-
-### 2.2 Tensor-Train-Zerlegung für 2D-Matrizen
-
-Für eine Matrix ΔW ∈ ℝ^{d × k} lautet die TT-Darstellung (d=2):
-
-```
-ΔW(i, j) = G₀[1, i, :] · G₁[:, j, 1]
-
-G₀ ∈ ℝ^{1 × d × r}   (TT-Core 0 — der "B"-Kern)
-G₁ ∈ ℝ^{r × k × 1}   (TT-Core 1 — der "A"-Kern)
-```
-
-Damit gilt die **direkte Identifikation**:
-
-```
-G₀[1, :, i] = P[:, i] · √λᵢ      (i = 1, …, r)
-G₁[i, :, 1] = Q[:, i] · √λᵢ      (i = 1, …, r)
-```
-
-Oder in Matrixform: **G₀ = (P · √Λ)^T** (umgeformt) und **G₁ = √Λ · Q^T**.
-
-Dieses Mapping ist bijektiv für Matrizen positiven (Semi-)definiten Rangs.
-
-### 2.3 Konsequenzen der Äquivalenz
-
-| AdaLoRA-Operation | TT-Äquivalent |
-|-------------------|--------------|
-| Singular-Value-Pruning (λᵢ → 0) | TT-Rounding mit ε-Schwelle |
-| Rank-Reallokation | Adaptive Wahl von r_max pro Core |
-| Importance-Score ‖P·Λ‖² · ‖Q‖² | TT-Core-Norm ‖G₀‖_F · ‖G₁‖_F |
-| Forward-Pass: P·Λ·Q^T · x | TT-Kontraktion G₀ ×₁ G₁ · x |
-| Checkpoint-Serialisierung | TT-Core-Speicherung in RocksDB |
-| QLoRA (NF4-Basisgewichte) | NF4-TTQuantizer auf G₀, G₁ |
+Die zentrale Korrektur gegenüber der vorherigen Fassung: Aussagen zu "vollständig zero-copy", harter Hot-Load-Latenz im einstelligen Millisekundenbereich und produktiver FLARE-Live-Umschaltung sind derzeit **nicht als gemessene Produktionswerte belegt**, sondern als Zielpfade dokumentiert. Dieses Review liefert dafür eine evidenzbasierte Argumentationskette mit Code- und Benchmark-Bezug.
 
 ---
 
-## 3. Nutzenanalyse für ThemisDB
+## Introduction / Einleitung
 
-### 3.1 Zero-Copy Adapter-Serving (Inference)
+### Problemstellung
 
-**Problem heute:** Adapter laden = deserialize JSON/binary → reconstruct float32 matrices  
-→ inject into llama.cpp via `llama_lora_apply()`.
+ThemisDB benötigt einen robusten Pfad, um AdaLoRA-Adapter effizient zu serialisieren, wiederzuverwenden und perspektivisch für schnelles Adapter-Switching im Multi-Model-Kontext bereitzustellen. Frühere Entwürfe des Bridge-Dokuments mischten jedoch theoretische Vorteile, Zielwerte und aktuellen Implementierungsstand.
 
-**Mit TT-Bridge:**  
-AdaLoRA-Checkpoints werden direkt als TT-Cores in `TensorNetworkStorageEngine` gespeichert.  
-`GgmlTensorBridge::mapAdapter()` liefert einen mmap-Pointer. `llama_lora_apply()` erhält  
-den Pointer ohne eine einzige Kopie.
+### Ziel dieser Review-Version
 
-**Quantitative Schätzung (Adapter-Hot-Load, 7B, Rank 64):**
+1. Terminologie und Komponenten-Namen mit dem Quellcode vereinheitlichen.
+2. Nicht belegte Leistungsbehauptungen entfernen oder als Zielwerte markieren.
+3. Eine nachvollziehbare Struktur herstellen: **Problem → Ansatz → Evaluation → Grenzen → Fazit**.
 
-| Schritt | Klassisch | TT-Bridge |
-|---------|-----------|-----------|
-| Disk-Read | 50–200 ms | < 1 ms (mmap, cached) |
-| Deserialise | 20–80 ms | 0 ms |
-| Matrix-Reconstruct | 5–30 ms | 0 ms |
-| llama_lora_apply | 2–10 ms | 2–10 ms |
-| **Gesamt Hot-Load** | **77–320 ms** | **2–11 ms** |
+### Einheitliche Terminologie (ThemisDB)
 
-Laut `src/training/PERFORMANCE_EXPECTATIONS.md` (L-3) ist das Ziel: Adapter Hot-Load  
-7B Rank 64 ≤ 50 ms. TT-Bridge liefert **2–11 ms** — Ziel 4× unterschritten.
-
-### 3.2 Adapter-Deduplication via TensorFingerprintGraph
-
-Viele AdaLoRA-Adapter für verwandte Aufgaben teilen Singulärvektoren  
-(z. B. zwei Legal-Domänen-Adapter mit ähnlicher Semantik teilen P-Spalten).
-
-**TensorDeduplicationManager** erkennt diese Überlappung:
-
-```
-Adapter A:  ΔW_A = G₀_A · G₁_A   (r=16)
-Adapter B:  ΔW_B = G₀_B · G₁_B   (r=16)
-
-Wenn ‖G₀_A - G₀_B‖_F / ‖G₀_A‖_F < δ_sim (=0.001):
-→ Speichere G₀ einmal + Delta-Core G₀_Δ = G₀_B - G₀_A
-```
-
-**Erwartete Speicherreduktion** für eine Sammlung von 100 domänenverwandten Adaptern:  
-40–60% (analog zu TIES-Merging-Befunden, Yadav et al. 2023).
-
-### 3.3 Unified Rank-Pruning: AdaLoRA ↔ TT-Rounding
-
-**Bisher:** AdaLoRA-Pruning (nullt λᵢ) und TT-Rounding (Oseledets Algorithmus 2)  
-sind separate Codepfade mit identischer Semantik.
-
-**Bridge:** `AdaLoraTTBridge::exportToTT()` konvertiert den pruned Adapter in einen  
-TT-Train mit r_eff Cores (λᵢ > ε werden beibehalten). `TensorTrainDecomposer::round()`  
-kann dann während des Trainings als Drop-in für `reallocateRanks()` verwendet werden.
-
-```
-ThemisDB TT-Rounding:  round(train, ε) = TT-SVD mit Schwelle ε
-AdaLoRA Pruning:       mask(Λ, budget) = setze λᵢ=0 für unwichtige i
-
-→ Beide minimieren ‖ΔW - ΔW_approx‖_F unter Rang-Budget-Constraint
-→ TT-Rounding ist global-optimal (SVD-basiert), AdaLoRA-Pruning ist greedy
-→ Vorteil TT: garantiert ε-Fehlerbound; AdaLoRA: garantiert Rang-Budget
-```
-
-**Potenzial:** Kombination beider Mechanismen in `AdaLoraTTBridge::roundAndReallocate()`:
-1. TT-Rounding → findet den optimalen globalen Rang-Cut
-2. Ergebnis-Rang → wird als neues Budget für `reallocateRanks()` übergeben
-
-### 3.4 TT-RAG mit Live-Adapter-Wechsel (FLARE)
-
-Im FLARE-Verfahren entscheidet das Modell mid-generation, ob es Wissen nachladen soll.  
-Mit der TT-Bridge kann es gleichzeitig **den Adapter wechseln**:
-
-```
-Inferenz-Schritt 73:
-  ThemisDB-Abfrage: "Finde ähnlichsten Adapter für Thema 'Steuerrecht'"
-  → TensorFingerprintGraph.findSimilar(current_adapter_train, k=1)
-  → GgmlTensorBridge.mapAdapter(ctx, "steuerrecht_v3")
-  → llama_lora_apply(llama_ctx, adapter_tensor, scale=1.0)
-  → Inferenz läuft weiter mit neuem Adapter — kein Neustart
-```
-
-**Latenz:** ~5–15 ms für Adapter-Switch (vs. 300–2000 ms für Modell-Reload).
+- **AdaLoRA-Bridge-Komponente:** `AdaLoraTTBridge`
+- **TT-Speicherkomponente (API-Ziel):** `TensorNetworkStorageEngine`
+- **Ähnlichkeit/Dedup-Komponente:** `TensorFingerprintGraph`
+- **GGML-Adapter-Mapping:** `GgmlTensorBridge::mapAdapter()`
+- **Rangreduktion im TT-Raum:** `TensorTrainDecomposer::round()`
 
 ---
 
-## 4. Implementierungsplan
+## Methodik / Ansatz
 
-### Phase 1 (Q2 2027): Konvertierung AdaLoRA → TT
+### M1 — Codebasierter Faktencheck
 
-- `AdaLoraTTBridge::exportToTT(adapter, layer)` — G₀=P·√Λ, G₁=√Λ·Q^T
-- `AdaLoraTTBridge::importFromTT(train, layer)` — inverse Transformation
-- Verlustfreie Round-trip-Tests (TTD-äquivalent, Fehler < ε_machine)
+Die inhaltlichen Claims wurden gegen folgende Artefakte geprüft:
 
-### Phase 2 (Q2 2027): Storage-Integration
+- API-Vertrag: `include/training/adalora_tt_bridge.h`
+- Laufzeitverhalten: `src/training/adalora_tt_bridge.cpp`
+- Bridge-/Stub-Grenzen im Serving-Pfad: `include/storage/ggml_tensor_bridge.h`, `src/storage/ggml_tensor_bridge.cpp`
+- Testabdeckung für Phase-3/4-Bridge-Hooks: `tests/test_adalora_tt_bridge.cpp`
+- Zielwerte statt Messwerte: `src/training/PERFORMANCE_EXPECTATIONS.md`, `src/training/ROADMAP.md`
 
-- `AdaLoraTTBridge::storeAdapter(engine, adapter, tenant, name)` — alle Layer als TT-Cores
-- `AdaLoraTTBridge::loadAdapter(engine, tenant, name)` → `AdaLoRAAdapter`
-- `LoRACheckpointManager`-Integration: neues Backend `CheckpointBackend::TT_STORAGE`
+### M2 — Claim-Klassifikation
 
-### Phase 3 (Q3 2027): Deduplication und Serving
+Jeder zentrale Claim wurde in eine der Kategorien einsortiert:
 
-- `TensorDeduplicationManager`-Integration: auto-dedup beim `storeAdapter()`
-- `GgmlTensorBridge::mapAdapter()` direkt aus TT-Storage (Phase-3-Spezifikation)
-- Live-Adapter-Switch im FLARE-Retrieval-Callback
+- **Implementiert (Code-verifiziert)**
+- **Geplant (Roadmap/Zielwert)**
+- **Unbelegt (entfernt oder umformuliert)**
 
-### Phase 4 (Q4 2027): Unified Rank-Control
+### M3 — Mathematische Konsistenzprüfung
 
-- `AdaLoraTTBridge::roundAndReallocate()` — gemeinsamer SVD-Schritt
-- Training-Loop-Integration: TT-Rounding als optionaler Schritt nach jedem Epoch
-- Vergleichsstudie: AdaLoRA-Pruning vs. TT-Rounding vs. kombiniert
+Die 2D-Abbildung bleibt als Arbeitsmodell gültig:
 
----
+- AdaLoRA-Form: \(\Delta W = P \Lambda Q^T\)
+- TT-Form (2 Kerne): \(G_0 \in \mathbb{R}^{1 \times d \times r},\; G_1 \in \mathbb{R}^{r \times k \times 1}\)
 
-## 5. Risiken & Einschränkungen
+Im aktuellen Code erfolgt die praktische Konstruktion über normbasierte Approximationen (`approximateSingularValues`, `buildG0`, `buildG1`) und nicht über eine explizite vollständige SVD-Rekonstruktion jeder Schicht.
 
-### 5.1 Orthogonalitätsverlust
+### M4 — Bewertungsregeln für Performance-Claims
 
-AdaLoRA erzwingt Orthogonalität von P und Q via Regularisierungsverlust  
-(Zhang et al. 2023, Gl. 5). Die TT-Darstellung ist nicht inhärent orthogonal.
-
-**Mitigation:** `exportToTT()` wendet vor der Konvertierung eine QR-Orthogonalisierung an.  
-`importFromTT()` validiert ‖P^T·P - I‖_F < ε_orth = 1e-4.
-
-### 5.2 Vorzeichen-Ambiguität der Singular-Zerlegung
-
-Die SVD ist nicht eindeutig (Vorzeichen der Vektoren). Dies kann zu  
-Fingerprint-Diskordanz im `TensorFingerprintGraph` führen.
-
-**Mitigation:** Normalisierung auf positive erste Komponente (P[:,0] > 0) in `exportToTT()`.
-
-### 5.3 Höherrangige Adapter (r > 64)
-
-TT-Kontraktion mit r > 64 und d_modes=2 liefert r³-skalierte Kosten.  
-Für r=64: 64³ = 262,144 FLops/innerProduct → noch performant.  
-Für r=256: 256³ ≈ 16M FLops → HNSW-Grenze überschritten → KEEP empfohlen.
-
-**Regel:** `AdaLoraTTBridge` empfiehlt TT-Storage nur für r ≤ 64  
-(entspricht `TensorRoutingPolicy::max_lift_rank = 48–64`).
-
-### 5.4 Gradientenfluss durch TT-Representation
-
-Während des Trainings (Backpropagation) muss der Gradient durch die TT-Kontraktion  
-propagiert werden. Dies erfordert eine differenzierbare TT-Schicht in der  
-Trainings-Engine (ggml-Autograd oder libtorch).
-
-**Mitigation:** TT-Storage ist nur für Inference/Serving; Training läuft weiterhin  
-im klassischen AdaLoRA-Format. `exportToTT()` wird nur post-training aufgerufen.
+- Nur als "gemessen" bezeichnen, wenn im Repository ein reproduzierbarer Benchmarkpfad + Ergebnisartefakt vorliegt.
+- Ohne Messartefakt nur als **Zielwert** (SLO/Target) ausweisen.
 
 ---
 
-## 6. Zusammenfassung Nutzen
+## Evaluation / Experimente
 
-| Metrik | Ohne Bridge | Mit Bridge |
-|--------|-------------|------------|
-| Adapter Hot-Load (7B, r=64) | 77–320 ms | 2–11 ms |
-| Adapter-Storage für 100 Varianten | 100% | ~50% (dedup) |
-| FLARE Adapter-Switch Latenz | 300–2000 ms | 5–15 ms |
-| TT-RAG TTFT (mit Adapter-Inject) | 150–400 ms | 40–90 ms |
-| Rank-Pruning-Qualität | Greedy (AdaLoRA) | Global-Optimal (TT-SVD) |
+### E1 — Implementierungsstand (Ist)
+
+| Bereich | Status | Evidenz |
+|---|---|---|
+| Export/Import AdaLoRA↔TT (`exportToTT`, `importFromTT`) | Implementiert | `src/training/adalora_tt_bridge.cpp` |
+| Layer-basierte TT-Rundung (`roundAndReallocate`) | Implementiert (Built-in + injizierbarer Hook) | `src/training/adalora_tt_bridge.cpp`, `tests/test_adalora_tt_bridge.cpp` |
+| Adapter-Ähnlichkeit (`findSimilarAdapters`) | Implementiert via `TensorFingerprintGraph` | `src/training/adalora_tt_bridge.cpp` |
+| `mapAdapter`-Integration an GGML-Pfad | Als injizierbare Bridge vorhanden | `include/training/adalora_tt_bridge.h`, `tests/test_adalora_tt_bridge.cpp` |
+| GGML-Bridge als vollproduktiver Zero-Copy-Backendpfad | Noch nicht vollständig (Stub-/Simulation-Hinweise dokumentiert) | `src/storage/ggml_tensor_bridge.cpp` |
+
+### E2 — Performance-Aussagen: Evidenz vs. Ziel
+
+| Aussage | Einstufung | Begründung |
+|---|---|---|
+| "Adapter-Hot-Load 2–11 ms" | Nicht als Messwert belegbar | Im geprüften Stand liegt hierfür kein direktes Benchmark-Ergebnisartefakt in dieser Research-Datei vor; Zielwerte sind separat dokumentiert. |
+| LoRA Hot-Load hat definierte Ziel-ID | Belegt als Zielpfad | `L-3` in `src/training/PERFORMANCE_EXPECTATIONS.md` verweist auf `BM_Storage_LoadMetadata`. |
+| Numerische Trainingsmodul-Grenze für Adapter-Load | Belegt als Zielwert | `TRNG-3 <= 85 ms` in `src/training/PERFORMANCE_EXPECTATIONS.md`. |
+| Zero-copy / FLARE-Live-Switch als Roadmap-Ziel | Geplant, nicht als heutiger Produktivstatus | Phase-2/3/4-Plan in `src/training/ROADMAP.md`; GGML-Bridge enthält explizite Stub-/Delta-Hinweise. |
+
+### E3 — Testlage
+
+Vorhanden sind fokussierte Tests für Bridge-Injections (Phase 3/4):
+
+- `ALTB-P3-01..03`: Verhalten von `mapAdapter()` mit/ohne injiziertes Callback
+- `ALTB-P4-01..03`: Verhalten von `roundAndReallocate()` mit/ohne `TrainingStepFn`
+
+Damit ist die API-Mechanik belegt; ein Ende-zu-Ende-Benchmark für produktive GGML-Adapter-Injektion ist im hier geprüften Stand nicht Teil dieser Datei.
 
 ---
 
-## 7. Referenzen
+## Limitations / Known Issues
 
-- Zhang, Q. et al. (2023). **AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient  
-  Fine-Tuning**. ICLR 2023. arXiv:2303.10512.
-- Oseledets, I. V. (2011). Tensor-Train Decomposition. SIAM J. Sci. Comput. 33(5).  
-  DOI:10.1137/090752142
-- Holtz, S. et al. (2012). ALS in TT format. SIAM J. Sci. Comput. 34(2). DOI:10.1137/100818893
-- Hu, E. J. et al. (2022). LoRA: Low-Rank Adaptation of Large Language Models. ICLR 2022.
-- Dettmers, T. et al. (2023). QLoRA. NeurIPS 2023. arXiv:2305.14314
-- Yadav, P. et al. (2023). TIES-Merging. NeurIPS 2023. arXiv:2306.01708
+1. **Statusdifferenz zwischen Forschungstext und Produktivpfad**
+   Einige historisch formulierte Claims (z. B. harte Latenzzahlen im einstelligen ms-Bereich) sind aktuell eher Zielwerte als reproduziert dokumentierte Messwerte.
+
+2. **Storage-Pfad in Bridge-Komponente**
+   Der aktuelle `AdaLoraTTBridge::store()`-Pfad nutzt in der Implementierung primär Cache/Fingerprint-Graph-Logik; die dauerhafte End-to-End-Persistenz über den finalen Produktionspfad bleibt ein Integrationspunkt gemäß Roadmap.
+
+3. **GGML-Backend-Integration**
+   `GgmlTensorBridge` dokumentiert weiterhin Stub-/Simulationsteile (insbesondere rund um echte GGML-Typregistrierung und produktive Tensor-Injektion).
+
+4. **Benchmark-Evidenz für dedizierte Bridge-Kennzahlen**
+   Für Claims wie "Adapter-Switch-Latenz" oder "Dedup-Speichergewinn" fehlen in diesem Dokument reproduzierbare Messprotokolle; diese sollten als Experimente unter `research/experiments/` nachgeführt werden.
+
+---
+
+## Fazit
+
+Die AdaLoRA↔TT-Bridge ist in ThemisDB **konzeptionell tragfähig** und in zentralen API-Bausteinen bereits implementiert. Für ein belastbares Architektur-Review muss jedoch klar zwischen Ist-Stand und Roadmap-Ziel unterschieden werden. Nach dieser Überarbeitung ist das Dokument konsistent mit dem aktuellen Code: mathematische Argumentation bleibt erhalten, unbelegte Performance-Claims wurden entschärft, und die Grenzen sind explizit benannt.
+
+---
+
+## References / Quellen
+
+### Externe Fachquellen (aufloesbare DOI/URL)
+
+1. Zhang, Q. et al. (2023). *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning*. ICLR 2023.
+   URL: https://arxiv.org/abs/2303.10512
+2. Oseledets, I. V. (2011). *Tensor-Train Decomposition*. SIAM Journal on Scientific Computing, 33(5).
+   DOI: https://doi.org/10.1137/090752142
+3. Holtz, S., Rohwedder, T., Schneider, R. (2012). *On Manifolds of Tensors of Fixed TT-Rank*. SIAM Journal on Matrix Analysis and Applications, 33(4).
+   DOI: https://doi.org/10.1137/110835336
+4. Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models*. ICLR 2022.
+   URL: https://arxiv.org/abs/2106.09685
+5. Dettmers, T. et al. (2023). *QLoRA: Efficient Finetuning of Quantized LLMs*. NeurIPS 2023.
+   URL: https://arxiv.org/abs/2305.14314
+6. Yadav, P. et al. (2023). *TIES-Merging: Resolving Interference When Merging Models*. NeurIPS 2023.
+   URL: https://arxiv.org/abs/2306.01708
+
+### Interne Artefakte (Code-/Benchmark-Bezug)
+
+- `include/training/adalora_tt_bridge.h`
+- `src/training/adalora_tt_bridge.cpp`
+- `tests/test_adalora_tt_bridge.cpp`
+- `include/storage/ggml_tensor_bridge.h`
+- `src/storage/ggml_tensor_bridge.cpp`
+- `src/training/PERFORMANCE_EXPECTATIONS.md`
+- `src/training/ROADMAP.md`
