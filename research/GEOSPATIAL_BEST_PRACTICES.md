@@ -39,6 +39,7 @@ Validation criteria:
 - Remove or qualify statements that cannot be tied to code or benchmark artifacts.
 - Avoid speculative "will definitely" claims for unimplemented features.
 - Keep comparisons to external systems at the level of referenced literature and ThemisDB's own measured artifacts.
+- Verification method: symbol/path inspection in source headers and implementations, cross-reference checks against product docs, and markdown/link validation of this review document.
 
 ## Current ThemisDB Geospatial Baseline (Code-Verified)
 
@@ -87,16 +88,18 @@ Source:
 
 | Claim | Status | Evidence |
 |---|---|---|
-| ThemisDB supports geospatial query functions in AQL. | **Verified** | `../include/query/functions/geo_functions.h` |
-| ThemisDB provides Morton + R-tree based index support. | **Verified** | `../include/index/spatial_index.h` |
-| Bulk loading for spatial index exists in the public API. | **Verified** | `../include/index/spatial_index.h` (`SpatialIndexManager::bulkLoad`) |
-| GDAL parsing uses in-memory `/vsimem/` paths. | **Verified** | `../src/content/geo_processor.cpp` (`VSIFileFromMemBuffer`, `VSIUnlink`) |
-| Optional spatial prefiltering exists in ingestion. | **Verified** | `../src/content/geo_processor.cpp` (`SetSpatialFilterRect`) |
-| ThemisDB benchmark documents report CPU/GPU geo scenarios. | **Verified (artifact-level)** | `../docs/de/geo/geo_benchmarks.md` |
+| ThemisDB supports geospatial query functions in AQL. | **Verified** | [../include/query/functions/geo_functions.h](../include/query/functions/geo_functions.h) |
+| ThemisDB provides Morton + R-tree based index support. | **Verified** | [../include/index/spatial_index.h](../include/index/spatial_index.h) |
+| Bulk loading for spatial index exists in the public API. | **Verified** | [../include/index/spatial_index.h](../include/index/spatial_index.h) (`SpatialIndexManager::bulkLoad`) |
+| GDAL parsing uses in-memory `/vsimem/` paths. | **Verified** | [../src/content/geo_processor.cpp](../src/content/geo_processor.cpp) (`VSIFileFromMemBuffer`, `VSIUnlink`) |
+| Optional spatial prefiltering exists in ingestion. | **Verified** | [../src/content/geo_processor.cpp](../src/content/geo_processor.cpp) (`SetSpatialFilterRect`) |
+| ThemisDB benchmark documents report CPU/GPU geo scenarios. | **Verified (artifact-level)** | [../docs/de/geo/geo_benchmarks.md](../docs/de/geo/geo_benchmarks.md) |
 
 ### 2) Performance interpretation (artifact-backed)
 
 The repository benchmark artifact (`../docs/de/geo/geo_benchmarks.md`) reports scenario-specific runtimes for point-in-polygon, K-NN, radius search, and spatial joins. These numbers can be used as **published internal measurements**, but should be interpreted with the hardware/setup constraints stated in that document.
+
+Note: the current benchmark artifact is maintained in German (`docs/de/...`); this is intentional because it is the canonical benchmark source currently available in the repository.
 
 For this reason, this review does **not** generalize those numbers into universal speedup guarantees. Instead, they should be used as baseline inputs for reproducible benchmark pipelines in CI or controlled lab runs.
 
@@ -149,8 +152,6 @@ ThemisDB's geospatial stack is not a greenfield prototype; it already contains m
    [../docs/de/geo/geo_benchmarks.md](../docs/de/geo/geo_benchmarks.md)
 6. Geospatial GDAL integration overview:
    [../docs/features/geo_gdal_integration.md](../docs/features/geo_gdal_integration.md)
-7. Future enhancement planning document:
-   [../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md](../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md)
 
 ### External standards and literature
 
@@ -166,3 +167,8 @@ ThemisDB's geospatial stack is not a greenfield prototype; it already contains m
     DOI: https://doi.org/10.1145/1272743.1272747
 13. GDAL/OGR official documentation.
     https://gdal.org/
+
+### Planning document (non-evidence roadmap input)
+
+14. Geospatial future enhancements roadmap:
+    [../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md](../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md)
