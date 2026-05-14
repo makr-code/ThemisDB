@@ -6,9 +6,19 @@
 
 ## Abstract
 
-Dieses Dokument beschreibt den verbindlichen Validierungsprozess für algorithmische Änderungen in ThemisDB. Der Prozess ist nur dann abgeschlossen, wenn ein messbares Ziel aus den Performance-Erwartungen oder einem gleichwertigen Modul-Artefakt abgeleitet, eine reproduzierbare Baseline eingefroren, Alternativen strukturiert verglichen, Ergebnisse statistisch ausgewertet, Regression-Gates an die bestehende Benchmark-Infrastruktur angebunden und die Entscheidung als Research-/ADR-Artefakt dokumentiert wurden.
+Dieses Dokument beschreibt den verbindlichen Validierungsprozess für algorithmische Änderungen in ThemisDB. Der Prozess ist erst dann abgeschlossen, wenn folgende Punkte erfüllt sind:
 
-Der Text wurde gegen den aktuellen Repository-Stand verifiziert. Bestätigt sind insbesondere die kanonischen SLO- und KPI-Quellen, das Ziel-ID-zu-Benchmark-Mapping, der Validierer für dieses Mapping, der Performance-Regression-Detektor, der zentrale PR-Regression-Check, der Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index. Aussagen über nicht im Repository nachweisbare Hilfsskripte oder vollständig dokumentierte End-to-End-Fallstudien waren dagegen nicht belastbar. Solche Behauptungen wurden entfernt oder explizit eingegrenzt.
+- ein messbares Ziel aus den Performance-Erwartungen oder einem gleichwertigen Modul-Artefakt ist festgelegt
+- eine reproduzierbare Baseline ist eingefroren
+- Alternativen sind strukturiert verglichen
+- Ergebnisse sind nachvollziehbar ausgewertet
+- Regression-Gates sind an die bestehende Benchmark-Infrastruktur angebunden
+- die Entscheidung ist als Research- und ADR-Artefakt dokumentiert
+
+Der Text wurde gegen den aktuellen Repository-Stand verifiziert.
+
+- **Bestätigt:** kanonische SLO- und KPI-Quellen, Ziel-ID-zu-Benchmark-Mapping, Mapping-Validierer, Performance-Regression-Detektor, zentraler PR-Regression-Check, Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index.
+- **Entfernt oder eingegrenzt:** Aussagen über nicht im Repository nachweisbare Hilfsskripte oder bereits vollständig dokumentierte End-to-End-Fallstudien.
 
 ## 1. Einleitung
 
@@ -131,9 +141,9 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
 - Ausreißerbehandlung nur mit offengelegter Regel
 
-**Wichtig:** Das aktuelle Repository enthält kein Standard-Skript `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
+**Wichtig:** Das aktuelle Repository enthält kein Standard-Skript unter `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
 
-**Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden.
+**Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden. Die erwartete Struktur für dieses Protokoll ist in [`experiments/README.md`](experiments/README.md) beschrieben.
 
 **Praktischer Mindest-Output pro Experiment:**
 
