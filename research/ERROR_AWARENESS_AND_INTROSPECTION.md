@@ -11,7 +11,7 @@
 
 Diese Review bewertet den tatsächlichen Stand von „Error Awareness and Introspection“ in ThemisDB anhand von Code, Tests und Doku-Artefakten. Der zentrale Befund ist, dass die ursprünglich als „fehlend“ beschriebenen Kernbausteine inzwischen weitgehend implementiert sind: Es existiert eine zentrale `ErrorRegistry` mit strukturierten `ErrorCode`-Bereichen und Metadaten, eine HTTP Error API (`/api/v1/errors`, Kategorien, Suche, Lookup per Code) sowie MCP-Tools (`get_error_info`, `search_errors`) für agentische Nutzung.
 
-Die verbleibenden Lücken liegen nicht primär in fehlender Grundfunktionalität, sondern in Reife und Konsistenz über Integrationspfade hinweg. In introspektiven Pfaden (insbesondere `introspect_database`) werden bei fehlenden Komponenten wie `PromptManager`/`SchemaManager` reduzierte Fallback-Antworten geliefert. Für „Error Awareness Quality“ (z. B. Genauigkeit/Abdeckung/Latenz über alle Oberflächen) fehlt im vorliegenden Scope ein dedizierter End-to-End-Benchmarkbericht. Damit verschiebt sich der Fokus von „Neuimplementierung“ zu „Konsolidierung, Messbarkeit und Außenvertrag“.
+Die verbleibenden Lücken liegen nicht primär in fehlender Grundfunktionalität. Sie liegen vor allem in Reife und Konsistenz über Integrationspfade hinweg. In introspektiven Pfaden (insbesondere `introspect_database`) werden bei fehlenden Komponenten wie `PromptManager`/`SchemaManager` reduzierte Fallback-Antworten geliefert. Für „Error Awareness Quality“ (z. B. Genauigkeit/Abdeckung/Latenz über alle Oberflächen) fehlt im vorliegenden Scope ein dedizierter End-to-End-Benchmarkbericht. Damit verschiebt sich der Fokus von „Neuimplementierung“ zu „Konsolidierung, Messbarkeit und Außenvertrag“.
 
 ---
 
@@ -128,7 +128,7 @@ Implementierung in `src/server/error_api_handler.cpp`, Routing in `src/server/ht
 
 ## Limitations / Known Issues
 
-1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert. Die Nachverfolgung soll als konkretes Folgethema in `ROADMAP.md` (Planned Features) und `FUTURE_ENHANCEMENTS.md` (Test Strategy/Performance Targets) ergänzt werden; diese Tracking-Items sind derzeit noch nicht angelegt.
+1. **Kein einheitlicher Qualitätsbenchmark über alle Oberflächen:** Im aktuellen Repository-Stand liegt kein konsolidierter End-to-End-Artefaktbericht vor, der HTTP + MCP (und weitere Interfaces) gemeinsam entlang Abdeckung/Korrektheit/Latenz quantifiziert. Wir ergänzen die Nachverfolgung als konkretes Folgethema in `ROADMAP.md` (Planned Features) und `FUTURE_ENHANCEMENTS.md` (Test Strategy/Performance Targets); diese Tracking-Items sind derzeit noch nicht angelegt.
 2. **Fallback-Verhalten bleibt relevant:** Introspektionspfade können je nach Komponentenverfügbarkeit variieren. Konkret liefert `introspect_database` bei fehlendem `PromptManager` oder `SchemaManager` eine reduzierte Fallback-Antwort statt voller kontextreicher Analyse.
 3. **Außenvertrag nicht als einzelnes „Error-Awareness-Standarddokument“ konsolidiert:** Implementierungen sind vorhanden, aber Spezifikation/Versionierung als einheitlicher öffentlicher Vertrag ist ausbaufähig.
 4. **Terminologie driftet in älteren Research-Drafts:** Begriffe wie „fehlt komplett“ sind in Teilen historisch überholt und sollten bei Folgearbeiten vermieden werden.
