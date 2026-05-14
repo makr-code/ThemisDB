@@ -10,7 +10,7 @@
 
 ## Abstract
 
-This paper reviews whether the current ThemisDB repository supports describing the system as a distributed ACID multi-model database with integrated AI capabilities. The review is intentionally claim-bounded: only statements that can be tied to current repository architecture documents, benchmark mappings, or published benchmark summaries are retained. The repository documentation consistently presents ThemisDB as a system that combines Advanced Query Language (AQL) processing, ACID transaction control, distributed coordination, multi-model storage, and AI/LLM-oriented retrieval paths in one architecture. Current empirical evidence is strongest for single-node and component-level benchmarks. The canonical performance report documents a 9.67 ms query p99, 1.177 M graph edge operations per second, and 61.0 M time-series inserts per second, while also recording unresolved gaps in secondary-index insert throughput and peak query throughput. By contrast, several distributed-sharding metrics remain proxy-mapped or hardware-gated, and no public end-to-end mixed distributed AI workload study in the repository yet justifies superiority claims over decoupled architectures. The resulting article is therefore positioned as a verified architecture-and-evidence review plus a publication-ready evaluation scope, not as a completed comparative performance paper.
+This paper reviews whether the current ThemisDB repository supports describing the system as a distributed ACID multi-model database with integrated AI capabilities. The review is intentionally claim-bounded: only statements that can be tied to current repository architecture documents, benchmark mappings, or published benchmark summaries are retained. Repository documentation consistently presents ThemisDB as a system that combines Advanced Query Language (AQL) processing, ACID transaction control, distributed coordination, multi-model storage, and AI/LLM-oriented retrieval paths in one architecture. Current empirical evidence is strongest for single-node and component-level benchmarks, with the canonical performance report documenting a 9.67 ms query p99, 1.177 M graph edge operations per second, and 61.0 M time-series inserts per second, while also recording unresolved gaps in secondary-index insert throughput and peak query throughput. Several distributed-sharding metrics remain proxy-mapped or hardware-gated, and no public end-to-end mixed distributed AI workload study in the repository yet justifies superiority claims over decoupled architectures. The article is therefore positioned as a verified architecture-and-evidence review plus a publication-ready evaluation scope, not as a completed comparative performance paper.
 
 ## I. Introduction
 
@@ -99,7 +99,7 @@ Table 2 lists the strongest claims that are already supportable from current pub
 
 The revised article removes several unsupported statements from the earlier draft.
 
-1. **No completed mixed distributed AI benchmark wave is publicly reported.** The canonical performance report states that benchmark implementations are production-ready, but measurement runs for several module groups have not yet been published [12].
+1. **No completed mixed distributed AI benchmark suite execution is publicly reported.** The canonical performance report states that benchmark implementations are production-ready, but measurement runs for several module groups have not yet been published [12].
 2. **No claim of superiority over decoupled architectures is currently supportable.** The repository contains architectural scope and benchmark infrastructure, not a published comparative study against external distributed data-plus-serving stacks.
 3. **No claim is made that benchmark JSON artifacts already exist in this checkout.** The previously cited `artifacts/perf_nv/targeted_validation/` and `artifacts/perf_nv/repro_validation_20260412_211053/` paths are not present in the current tree and have therefore been removed from the evidence chain.
 
@@ -131,7 +131,7 @@ After repository review, the strongest defensible formulation is the following: 
 
 ## References
 
-1. Ongaro, D., & Ousterhout, J. (2014). *In Search of an Understandable Consensus Algorithm (Extended Version).* URL: <https://raft.github.io/raft.pdf>
+1. Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm (Extended Version)." URL: <https://raft.github.io/raft.pdf>
 2. Lamport, L. (1998). "The Part-Time Parliament." *ACM Transactions on Computer Systems*, 16(2), 133-169. DOI: [10.1145/279227.279229](https://doi.org/10.1145/279227.279229)
 3. Garcia-Molina, H., & Salem, K. (1987). "Sagas." *Proceedings of SIGMOD*, 249-259. DOI: [10.1145/38713.38742](https://doi.org/10.1145/38713.38742)
 4. Gray, J., & Lamport, L. (2006). "Consensus on Transaction Commit." *ACM Transactions on Database Systems*, 31(1), 133-160. DOI: [10.1145/1132863.1132867](https://doi.org/10.1145/1132863.1132867)
@@ -140,10 +140,10 @@ After repository review, the strongest defensible formulation is the following: 
 7. Robertson, S. E., & Walker, S. (1994). "Some Simple Effective Approximations to the 2-Poisson Model for Probabilistic Weighted Retrieval." *Proceedings of SIGIR*, 232-241. DOI: [10.1007/978-1-4471-2099-5_24](https://doi.org/10.1007/978-1-4471-2099-5_24)
 8. Karpukhin, V., Oğuz, B., Min, S., Lewis, P., Wu, L., Edunov, S., Chen, D., & Yih, W.-T. (2020). "Dense Passage Retrieval for Open-Domain Question Answering." *Proceedings of EMNLP*, 6769-6781. DOI: [10.18653/v1/2020.emnlp-main.550](https://doi.org/10.18653/v1/2020.emnlp-main.550)
 9. Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-T., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems*, 33. URL: <https://arxiv.org/abs/2005.11401>
-10. ThemisDB Contributors. (2026). *ThemisDB* GitHub repository. URL: <https://github.com/makr-code/ThemisDB>
-11. ThemisDB Contributors. (2026). *ThemisDB Architecture Documentation.* URL: <https://github.com/makr-code/ThemisDB/blob/main/ARCHITECTURE.md>
-12. ThemisDB Engineering Team. (2026). *ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.9.0).* URL: <https://github.com/makr-code/ThemisDB/blob/main/PERFORMANCE_EXPECTATIONS.md>
-13. ThemisDB Engineering Team. (2026). *Benchmark target mapping.* URL: <https://github.com/makr-code/ThemisDB/blob/main/benchmarks/benchmark_target_mapping.json>
+10. ThemisDB Contributors. (2026). "ThemisDB" GitHub repository. URL: <https://github.com/makr-code/ThemisDB>
+11. ThemisDB Contributors. (2026). "ThemisDB Architecture Documentation." URL: <https://github.com/makr-code/ThemisDB/blob/main/ARCHITECTURE.md>
+12. ThemisDB Engineering Team. (2026). "ThemisDB Performance Evaluation: Service Level Objectives, Benchmark Methodology, and Empirical Measurement Results (v1.9.0)." URL: <https://github.com/makr-code/ThemisDB/blob/main/PERFORMANCE_EXPECTATIONS.md>
+13. ThemisDB Engineering Team. (2026). "Benchmark target mapping." URL: <https://github.com/makr-code/ThemisDB/blob/main/benchmarks/benchmark_target_mapping.json>
 
 ---
 
