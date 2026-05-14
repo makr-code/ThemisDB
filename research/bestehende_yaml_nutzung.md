@@ -29,7 +29,9 @@ Ziel dieses Dokuments ist daher **nicht**, YAML pauschal als „überall produkt
 
 ## 2. Methodik / Ansatz
 
-Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`) und kombiniert vier Prüfschritte:
+Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Dieser Snapshot wurde während der Analyse lokal per `git rev-parse HEAD` verifiziert; die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit. Eine zusätzliche Langzeit-Konservierung per Tag wäre sinnvoll, liegt aber außerhalb des Scopes dieses Dokuments.
+
+Anschließend kombiniert die Untersuchung vier Prüfschritte:
 
 1. **Artefaktprüfung:** Sichtung der YAML-Dateien unter `config/`, `deploy/`, `docs/` und `openapi/`.
 2. **Codeabgleich:** Prüfung, welche Komponenten YAML aktiv laden, validieren, mappen oder exportieren.
