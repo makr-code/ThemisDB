@@ -1,447 +1,243 @@
 # Algorithm Validation Process — ThemisDB
 
-> **Zweck:** Dieses Dokument kodifiziert das systematische Vorgehen zur Validierung
-> bestehender Algorithmen / Methoden in ThemisDB und zur strukturierten Suche nach
-> effizienteren Alternativen nach dem Stand der Wissenschaft.
->
-> **Vorbild:** Die Einführung von [mimalloc](../../src/performance/ROADMAP.md) in das
-> Performance-Modul — reproduzierbar über Benchmarks, CI-Gates und Research-Dokumentation
-> abgesichert — gilt als internes Erfolgsbeispiel für diesen Prozess.
+**Status:** reviewed, repository-aligned process note
+**Last updated:** 2026-05-14
+**Scope:** algorithmic changes with measurable performance, latency, memory, or quality impact in ThemisDB modules
+
+## Abstract
+
+Dieses Dokument beschreibt den verbindlichen Validierungsprozess für algorithmische Änderungen in ThemisDB. Der Prozess ist nur dann abgeschlossen, wenn ein messbares Ziel aus den Performance-Erwartungen oder einem gleichwertigen Modul-Artefakt abgeleitet, eine reproduzierbare Baseline eingefroren, Alternativen strukturiert verglichen, Ergebnisse statistisch ausgewertet, Regression-Gates an die bestehende Benchmark-Infrastruktur angebunden und die Entscheidung als Research-/ADR-Artefakt dokumentiert wurden.
+
+Der Text wurde gegen den aktuellen Repository-Stand verifiziert. Bestätigt sind insbesondere die kanonischen SLO- und KPI-Quellen, das Ziel-ID-zu-Benchmark-Mapping, der Validierer für dieses Mapping, der Performance-Regression-Detektor, der zentrale PR-Regression-Check, der Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index. Nicht belastbar sind dagegen Aussagen über nicht im Repository nachweisbare Hilfsskripte oder vollständig dokumentierte End-to-End-Fallstudien; solche Behauptungen wurden entfernt oder explizit eingegrenzt.
+
+## 1. Einleitung
+
+ThemisDB wird im Repository konsistent als **Multi-Model-Datenbank** mit modulbezogenen Performance-Zielen, Benchmark-Harnesses und Research-Artefakten geführt. Für algorithmische Änderungen genügt daher weder ein isolierter Mikrobenchmark noch eine unbelegte Literaturbehauptung. Erforderlich ist eine nachvollziehbare Kette aus Problem, Methodik, Evaluation, Grenzen und Entscheidung.
+
+Der folgende Prozess ist auf Änderungen zugeschnitten, die mindestens eines der folgenden Ziele betreffen:
+
+- P95- oder P99-Latenz
+- Throughput bzw. `items_per_second`
+- Speicherverbrauch bzw. Peak RSS
+- Ergebnisqualität bei algorithmisch relevanten Ranking-, Retrieval- oder Optimierungsverfahren
+- Regression-Resistenz in CI
+
+Nicht jede kleine Refaktorierung braucht einen vollständigen Research-Zyklus. Sobald aber ein Change als algorithmische Verbesserung kommuniziert, in Roadmaps priorisiert oder über SLOs gerechtfertigt wird, ist dieser Prozess verpflichtend.
+
+## 2. Methodik und Verifikationsbasis
+
+### 2.1 Verifikationsprinzip
+
+Dieses Dokument trennt bewusst zwischen zwei Evidenzarten:
+
+1. **Repository-Evidenz:** reale Dateien, Workflows, Skripte und Research-Artefakte in ThemisDB.
+2. **Methodische Evidenz:** allgemein anerkannte Bench­marking- und Statistikquellen für Versuchsdesign, Signifikanztests und Ausreißerbehandlung.
+
+Repository-spezifische Aussagen in diesem Dokument wurden gegen die aktuelle Codebasis geprüft. Methodische Empfehlungen werden als Leitplanken formuliert; sie ersetzen keine Modul-spezifische Fachprüfung.
+
+### 2.2 Gegen den aktuellen Stand bestätigte Prozessbausteine
+
+| Prozessbaustein | Repository-Artefakt | Verifikationsstatus |
+|---|---|---|
+| Kanonische KPI-/SLO-Definitionen | [`../PERFORMANCE_EXPECTATIONS.md`](../PERFORMANCE_EXPECTATIONS.md) | Bestätigt |
+| Ziel-ID → Benchmark-Mapping | [`../benchmarks/benchmark_target_mapping.json`](../benchmarks/benchmark_target_mapping.json) | Bestätigt |
+| Mapping-Validierung | [`../tools/verify_benchmark_mapping.py`](../tools/verify_benchmark_mapping.py) | Bestätigt |
+| Regression-Detektor | [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py) | Bestätigt |
+| PR-Gate für Regressionen | [`../.github/workflows/performance-regression-check.yml`](../.github/workflows/performance-regression-check.yml) | Bestätigt |
+| Nightly-Benchmark-Sweep | [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml) | Bestätigt |
+| Experiment-Protokolle | [`experiments/README.md`](experiments/README.md) | Bestätigt |
+| Entscheidungslogik | [`architecture_decisions/adr_009_algorithm_validation_framework.md`](architecture_decisions/adr_009_algorithm_validation_framework.md) | Bestätigt |
+| Research-Traceability | [`implementation_influence/README.md`](implementation_influence/README.md) | Bestätigt |
+
+### 2.3 Terminologie
+
+Im restlichen Dokument werden die folgenden Begriffe einheitlich verwendet:
+
+- **Ziel-ID:** kanonischer Identifier für ein messbares Ziel
+- **SLO:** quantifizierter Zielwert für Latenz, Throughput, Speicher oder Qualität
+- **Baseline:** eingefrorener Ausgangszustand mit reproduzierbaren Messdaten
+- **Kandidat:** alternative Implementierung, Bibliothek oder Konfiguration
+- **Regression Gate:** automatisierte Prüfung in CI gegen Baseline oder SLO
+- **ADR:** Architecture Decision Record für Adopt/Reject-Entscheidungen
+- **AQL:** Query-Sprache von ThemisDB; keine alternativen Schreibweisen verwenden
+- **Multi-Model-Datenbank:** bevorzugter Systembegriff für ThemisDB
+
+## 3. Validierungsprozess
+
+### 3.1 Schritt 1 — Ziel-ID und Akzeptanzkriterium festlegen
+
+Jede algorithmische Arbeit beginnt mit einer expliziten Ziel-ID oder einem äquivalenten, bereits dokumentierten Modulziel. Für modulübergreifende Performance-Ziele ist die kanonische Root-Quelle [`../PERFORMANCE_EXPECTATIONS.md`](../PERFORMANCE_EXPECTATIONS.md); zusätzlich können modulinterne `PERFORMANCE_EXPECTATIONS.md`-Dateien oder klar definierte Zieltabellen herangezogen werden.
+
+**Pflichtartefakte:**
+
+- referenzierte Ziel-ID oder ein explizit dokumentiertes Ersatzkriterium
+- konkreter SLO-Wert
+- betroffener Hot Path oder betroffene API/Operation
+- geplanter Roadmap-/FUTURE_ENHANCEMENTS-Eintrag im Modul
+
+**Mindestfragen:**
+
+- Welches Verhalten ist heute zu langsam, zu speicherintensiv oder qualitativ unzureichend?
+- Welche Metrik entscheidet über Erfolg oder Misserfolg?
+- Welche reale Query, welches Dataset oder welcher Benchmark-Fall repräsentiert das Problem?
+
+### 3.2 Schritt 2 — Baseline einfrieren
+
+Vor jeder Änderung muss die bestehende Implementierung als reproduzierbare Baseline erfasst werden. Maßgeblich sind dabei dieselben Binärartefakte, Build-Flags und Eingabedaten, die später auch für Kandidatenmessungen verwendet werden.
+
+**Erforderliche Baseline-Bestandteile:**
+
+| Artefakt | Erwarteter Inhalt |
+|---|---|
+| Benchmark-JSON | maschinenlesbare Messwerte des Ausgangszustands |
+| Hardware-/Build-Profil | CPU/GPU, Speicher, OS, Compiler, relevante Flags |
+| Problemkontext | Modul, Ziel-ID, Hot Path, bekannte Engpässe |
+| Commit-Bezug | exakte Version der Baseline |
+
+**Repository-Bezug:**
+
+- Mappings zwischen Ziel-ID und Benchmarks stehen in [`../benchmarks/benchmark_target_mapping.json`](../benchmarks/benchmark_target_mapping.json).
+- Das Repository validiert diese Zuordnung mit [`../tools/verify_benchmark_mapping.py`](../tools/verify_benchmark_mapping.py).
+- Experimentprotokolle sind unter [`experiments/README.md`](experiments/README.md) strukturiert beschrieben.
+
+### 3.3 Schritt 3 — Kandidaten systematisch sammeln
+
+Eine Optimierung wird nicht gegen eine einzige Lieblingsidee validiert. Stattdessen werden mehrere realistische Kandidaten gesammelt und nach denselben Kriterien beschrieben. Geeignete Kandidaten sind:
+
+- alternative Datenstrukturen oder Algorithmen
+- bewährte Bibliotheken oder Runtime-Konfigurationen
+- parameterisierte Varianten derselben Implementierung
+- best-practice-getriebene Änderungen mit klarer Messhypothese
+
+**Pflichtinhalt pro Kandidat:**
+
+- Quelle mit URL oder DOI
+- Kernidee in einem Satz
+- erwarteter Effekt auf Latenz, Throughput, Speicher oder Qualität
+- Integrationsaufwand und technische Risiken
+- Annahmen und Abhängigkeiten
+
+Dafür nutzt ThemisDB die bestehenden Vorlagen unter [`papers/_template_paper.md`](papers/_template_paper.md) und [`best_practices/_template_best_practice.md`](best_practices/_template_best_practice.md).
+
+### 3.4 Schritt 4 — Experimente standardisiert ausführen
+
+Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweichungen von Hardware, Compiler, Datensätzen oder Lastprofilen müssen im Protokoll explizit erklärt werden.
+
+**Empfohlene Mindestmethodik:**
+
+- mehrere unabhängige Runs statt Einzelmessung
+- dokumentierter Warmup und Messdauer
+- Auswertung mindestens von P50, P95, P99, Throughput und Peak RSS, sofern die Metriken für das Modul sinnvoll sind
+- Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
+- Ausreißerbehandlung nur mit offengelegter Regel
+
+**Wichtig:** Das aktuelle Repository enthält keinen nachgewiesenen Standard-Helfer `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
+
+**Praktischer Mindest-Output pro Experiment:**
+
+- Rohdaten (JSON)
+- tabellarischer Vergleich Baseline vs. Kandidat
+- Interpretation der gemessenen Deltas
+- klare Empfehlung: Adopt, Reject oder weiterer Test
+
+### 3.5 Schritt 5 — Regression Gates an die bestehende CI anbinden
+
+Ein Kandidat gilt nicht als übernommen, solange die Verbesserung nicht gegen spätere Regressionen abgesichert ist. ThemisDB besitzt dafür bereits eine funktionierende Infrastruktur:
+
+- [`../.github/workflows/performance-regression-check.yml`](../.github/workflows/performance-regression-check.yml) führt einen zentralen PR-Regressionstest aus.
+- [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml) sweeped Nightly-Benchmarks und prüft Abdeckung.
+- [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py) unterstützt konfigurierbare Schwellenwerte; die Defaults liegen bei 5 % / 10 % / 20 % für minor / major / critical.
+
+**Verpflichtend vor Adoption:**
+
+- Ziel-ID-Mapping ist aktualisiert und validiert.
+- Der relevante Benchmark läuft in CI.
+- Der Failure-Modus ist dokumentiert (z. B. Block bei major regression).
+- Die Interpretation des Gates ist identisch mit dem im Experimentbericht ausgewiesenen SLO.
+
+### 3.6 Schritt 6 — Entscheidung dokumentieren und rückverfolgbar machen
+
+Am Ende steht keine lose Notiz, sondern eine belastbare Entscheidung. Dafür müssen mindestens diese Artefakte aktualisiert werden:
+
+- ADR unter [`architecture_decisions/`](architecture_decisions/README.md)
+- Experimentprotokoll unter [`experiments/`](experiments/README.md)
+- Research- oder Best-Practice-Eintrag für die Quellenlage
+- Eintrag im [`implementation_influence/README.md`](implementation_influence/README.md)
+- Modul-Roadmap und ggf. `FUTURE_ENHANCEMENTS.md`
+
+Adopt- und Reject-Entscheidungen sind gleichermaßen dokumentationspflichtig. Auch ein verworfener Kandidat spart künftige Doppelarbeit, wenn die Begründung nachvollziehbar archiviert ist.
+
+## 4. Evaluation des aktuellen ThemisDB-Prozessstands
+
+### 4.1 Was der aktuelle Repository-Stand bereits gut abdeckt
+
+Der Prozess ist im Repository nicht rein theoretisch, sondern institutionell verankert:
+
+- Root-Performance-Erwartungen und modulare Zieldefinitionen existieren.
+- Ziel-ID-Mapping und Mapping-Validierung sind produktiv vorhanden.
+- Es gibt sowohl ein zentrales PR-Gate als auch einen Nightly-Sweep für Benchmarks.
+- Experimente, ADRs und der Influence-Index besitzen eigene, dokumentierte Verzeichnisse.
+- ADR-009 beschreibt das 6-Schritte-Framework als akzeptierte Architekturentscheidung.
+
+Damit ist die Infrastruktur für reproduzierbare algorithmische Entscheidungen grundsätzlich vorhanden.
+
+### 4.2 Wo frühere Formulierungen zu stark waren
+
+Bei der Review dieses Dokuments wurden mehrere Aussagen entschärft oder korrigiert:
+
+1. **Nicht vorhandenes Hilfsskript entfernt:** Ein Verweis auf `tools/benchmark_compare.py` war nicht belegbar und wurde gestrichen.
+2. **Relative Pfade korrigiert:** Verweise auf Root- und `src/`-Artefakte nutzen nun gültige Pfade aus `research/` heraus.
+3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Diese Datei behauptet jedoch nicht mehr, dass hier bereits ein vollständig nachprüfbares, in sich abgeschlossenes End-to-End-Fallbeispiel im selben Dokument vorliegt.
+4. **CI-Aussagen auf belegte Artefakte reduziert:** Es wird nur auf Workflows und Skripte verwiesen, die aktuell im Repository existieren.
+5. **Statistikempfehlungen von Repository-Automation getrennt:** Methodische Empfehlungen bleiben erlaubt, werden aber nicht als bereits implementierte Standardtoolchain dargestellt.
+
+## 5. Limitations / Known Issues
+
+- Dieses Dokument definiert einen verbindlichen Prozess, ersetzt aber keine modul-spezifische Fachprüfung der Metriken oder Datensätze.
+- Nicht jedes Modul besitzt denselben Reifegrad an Benchmark-Harnesses; der Prozess darf deshalb nicht behaupten, dass jede Ziel-ID bereits vollständig automatisiert messbar ist.
+- Statistische Tests sind nur belastbar, wenn Stichprobengröße, Datenverteilung und Auswertungsweg dokumentiert werden.
+- Manche Qualitätsziele sind proxy-basiert oder nur indirekt messbar; in solchen Fällen muss das Protokoll die Proxy-Begründung explizit festhalten.
+- Externe Literatur verbessert die Kandidatensuche, ist aber nie Ersatz für eine reproduzierbare ThemisDB-interne Messung.
+
+## 6. Abschlusskriterium
+
+Eine algorithmische Änderung gilt in ThemisDB erst dann als **gewonnen**, wenn alle folgenden Fragen mit `ja` beantwortet werden können:
+
+- Ist das Problem an eine Ziel-ID oder ein gleichwertiges Akzeptanzkriterium gebunden?
+- Existiert eine reproduzierbare Baseline?
+- Wurden mehrere Kandidaten mit dokumentierter Quellenlage verglichen?
+- Liegen Messdaten und eine nachvollziehbare Interpretation vor?
+- Blockiert CI spätere Regressionen für den relevanten Benchmarkpfad?
+- Ist die Entscheidung in ADR, Experimentprotokoll, Research-Index und Modulplanung rückverfolgbar dokumentiert?
+
+Wenn eine dieser Fragen offen bleibt, befindet sich die Änderung weiterhin im Experiment- oder Explorationsstadium.
+
+## References
+
+### Interne ThemisDB-Quellen
+
+1. ThemisDB: [`../PERFORMANCE_EXPECTATIONS.md`](../PERFORMANCE_EXPECTATIONS.md)
+2. ThemisDB: [`../benchmarks/benchmark_target_mapping.json`](../benchmarks/benchmark_target_mapping.json)
+3. ThemisDB: [`../tools/verify_benchmark_mapping.py`](../tools/verify_benchmark_mapping.py)
+4. ThemisDB: [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py)
+5. ThemisDB: [`../.github/workflows/performance-regression-check.yml`](../.github/workflows/performance-regression-check.yml)
+6. ThemisDB: [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml)
+7. ThemisDB: [`architecture_decisions/adr_009_algorithm_validation_framework.md`](architecture_decisions/adr_009_algorithm_validation_framework.md)
+8. ThemisDB: [`experiments/README.md`](experiments/README.md)
+9. ThemisDB: [`implementation_influence/README.md`](implementation_influence/README.md)
+10. ThemisDB: [`papers/_template_paper.md`](papers/_template_paper.md)
+11. ThemisDB: [`best_practices/_template_best_practice.md`](best_practices/_template_best_practice.md)
+
+### Externe Methoden- und Benchmark-Referenzen
+
+12. Google Benchmark project. <https://github.com/google/benchmark>
+13. B. L. Welch. *The Generalization of “Student's” Problem when Several Different Population Variances are Involved.* Biometrika, 34(1/2), 1947. DOI: <https://doi.org/10.2307/2332510>
+14. H. B. Mann, D. R. Whitney. *On a Test of Whether one of Two Random Variables is Stochastically Larger than the Other.* Annals of Mathematical Statistics, 18(1), 1947. DOI: <https://doi.org/10.1214/aoms/1177730491>
+15. J. W. Tukey. *Exploratory Data Analysis.* Addison-Wesley, 1977. URL: <https://books.google.com/books?id=R-1QAAAAMAAJ>
+16. TPC Benchmark C. Transaction Processing Performance Council. <https://www.tpc.org/tpcc/>
+17. TPC Benchmark H. Transaction Processing Performance Council. <https://www.tpc.org/tpch/>
+18. ANN-Benchmarks project. <https://github.com/erikbern/ann-benchmarks>
 
 ---
 
-## Inhaltsverzeichnis
-
-1. [Überblick & Motivation](#1-überblick--motivation)
-2. [Schritt 1 — Ziel-ID + SLO fixieren](#2-schritt-1--ziel-id--slo-fixieren)
-3. [Schritt 2 — Baseline einfrieren](#3-schritt-2--baseline-einfrieren)
-4. [Schritt 3 — Kandidaten aus "State of Science" sammeln](#4-schritt-3--kandidaten-aus-state-of-science-sammeln)
-5. [Schritt 4 — Experiment-Design standardisieren](#5-schritt-4--experiment-design-standardisieren)
-6. [Schritt 5 — Gates in CI erzwingen](#6-schritt-5--gates-in-ci-erzwingen)
-7. [Schritt 6 — Entscheidung dokumentieren](#7-schritt-6--entscheidung-dokumentieren)
-8. [Praktische Regel: Definition of "Won"](#8-praktische-regel-definition-of-won)
-9. [Prompt-Templates](#9-prompt-templates)
-10. [Integration in ThemisDB-Infrastruktur](#10-integration-in-themisdb-infrastruktur)
-11. [Beispiele](#11-beispiele)
-
----
-
-## 1. Überblick & Motivation
-
-Algorithmische Verbesserungen müssen **messbar, reproduzierbar, CI-abgesichert und dokumentiert**
-sein, bevor sie als "gewonnen" gelten.  
-Gefühlt bessere Algorithmen, Benchmarks ohne Baseline-Vergleich und unkontrollierte Einzel-Experimente
-werden **abgelehnt**, da sie die Regression-Erkennung korrumpieren.
-
-Der Prozess besteht aus **sechs Schritten**, die für jede Modul-Optimierung vollständig durchlaufen werden müssen:
-
-```
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Step 1  │──▶│  Step 2  │──▶│  Step 3  │──▶│  Step 4  │──▶│  Step 5  │──▶│  Step 6  │
-│ Ziel-ID  │   │ Baseline │   │Kandidaten│   │Experiment│   │CI-Gates  │   │ ADR/Doc  │
-│ + SLO    │   │einfrieren│   │sammeln   │   │-Design   │   │erzwingen │   │          │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
-```
-
----
-
-## 2. Schritt 1 — Ziel-ID + SLO fixieren
-
-### Was zu tun ist
-
-Vor jeder Optimierungsarbeit muss eine **konkrete Ziel-ID** aus `PERFORMANCE_EXPECTATIONS.md`
-(§1.2, Tabellen nach Modul) oder `benchmarks/benchmark_target_mapping.json` identifiziert
-und explizit in den folgenden Artefakten referenziert werden:
-
-- `src/<modul>/ROADMAP.md` (als Checkbox-Task mit Target-Quartal)
-- `src/<modul>/FUTURE_ENHANCEMENTS.md` (mit Acceptance-Kriterien)
-- Dem ADR / Research-Dokument, das die Entscheidung festhält
-
-### Checkliste
-
-- [ ] Ziel-ID aus `PERFORMANCE_EXPECTATIONS.md §1.2` identifiziert (z. B. `Q-SimpleWhere`, `I-L2Distance`, `TS-2`)
-- [ ] SLO-Wert (Throughput-Ziel, Latenz P99, Memory-Budget) notiert
-- [ ] Checkbox-Task in `src/<modul>/ROADMAP.md` angelegt: `- [ ] <Optimierung> [Ziel-ID: <ID>] (Target: <Q/Jahr>)`
-- [ ] Kein "gefühltes" Problem — immer von einem messbaren SLO-Gap ausgehen
-
-### Format für ROADMAP-Tasks
-
-```markdown
-- [ ] Ersetze <Algorithmus A> durch <Algorithmus B> für <Hot Path>
-      [Ziel-ID: <ID>] [SLO: <Wert>] [Gap: <aktuell vs. Ziel>] (Target: Q3 2026)
-```
-
----
-
-## 3. Schritt 2 — Baseline einfrieren
-
-### Was zu tun ist
-
-Der **aktuelle Algorithmus** muss vollständig dokumentiert und als reproduzierbarer Benchmark
-eingefroren werden, bevor irgendeine Alternative getestet wird.
-
-### Artefakte der Baseline
-
-| Artefakt | Speicherort | Inhalt |
-|----------|-------------|--------|
-| Benchmark-Ergebnis (JSON) | `benchmarks/baselines/<modul>/<id>_baseline.json` | Google Benchmark JSON-Output |
-| Hardware-Profil | `benchmarks/baselines/<modul>/<id>_hw_profile.md` | CPU, Kerne, Takt, L3-Cache, DRAM, OS |
-| Algorithmus-Beschreibung | `research/FUTURE_ENHANCEMENTS.md` im Modul | Komplexität, Hot Path, bekannte Limitierungen |
-| Commit-SHA | Im `<id>_baseline.json` als Metadatum | Exakte Code-Version der Baseline |
-
-### Checkliste
-
-- [ ] Benchmark für Ziel-ID läuft clean durch (`--benchmark_format=json --benchmark_out=<datei>`)
-- [ ] Hardware-Profil (CPU-Modell, Kerne, Takt, L3, DRAM, OS, Kernel) dokumentiert
-- [ ] Baseline-JSON nach `benchmarks/baselines/<modul>/` eingecheckt
-- [ ] Aktueller Algorithmus mit Komplexität (O-Notation), Hot Path und Engpass beschrieben
-- [ ] Bekannte Limitierungen notiert (z. B. "Single-threaded", "No SIMD", "malloc pressure")
-
-### Minimal-Format für `<id>_hw_profile.md`
-
-```markdown
-# Hardware-Profil — <Ziel-ID> Baseline
-
-**Datum:** YYYY-MM-DD  
-**Commit:** <SHA>
-
-| Eigenschaft | Wert |
-|-------------|------|
-| CPU | Intel/AMD <Modell>, <N> Kerne @ <GHz> |
-| L3-Cache | <MB> |
-| DRAM | <GB> @ <MHz> |
-| OS | Ubuntu <Version> / Linux <Kernel> |
-| Compiler | GCC <Version> / Clang <Version> |
-| CMake-Flags | `-DCMAKE_BUILD_TYPE=Release -DTHEMIS_ENABLE_MIMALLOC=ON …` |
-```
-
----
-
-## 4. Schritt 3 — Kandidaten aus "State of Science" sammeln
-
-### Was zu tun ist
-
-Mindestens **5 Kandidaten** aus der aktuellen Literatur (2023–heute bevorzugt) werden
-systematisch erfasst. Jeder Kandidat erhält einen **Research-Eintrag** im `research/`-System.
-
-### Quellen
-
-| Quelle-Typ | Wo suchen |
-|------------|-----------|
-| Konferenz-Papers | SIGMOD, VLDB, OSDI, SOSP, NeurIPS, ICML (ArXiv-Preprints akzeptiert) |
-| Bibliotheken / Frameworks | GitHub Stars ≥ 1k, produktiv eingesetzt in ClickHouse, RocksDB, DuckDB, PostgreSQL |
-| Best Practices | AWS Builder's Library, Google SRE, CNCF Guides |
-| Quarterly Landscape | `research/stand_der_technik/` (vierteljährlich aktualisiert) |
-
-### Kandidaten-Steckbrief (pro Kandidat)
-
-Für jeden Kandidaten wird ein Steckbrief angelegt — entweder als:
-- `research/papers/<name>_<jahr>.md` (aus `_template_paper.md`), oder
-- `research/best_practices/<name>.md` (aus `_template_best_practice.md`)
-
-Der Steckbrief enthält mindestens:
-
-```markdown
-| Eigenschaft | Inhalt |
-|-------------|--------|
-| Quelle | Paper-Titel / Bibliothek-Name + URL |
-| Kernidee | Ein Satz: was macht den Algorithmus besser? |
-| Erwarteter Vorteil | Latenz, Throughput, Memory — mit Zahlen aus Paper |
-| Risiken | Constraints, Portabilität, Lizenzen, Regressions-Risiko |
-| Integrationsaufwand | klein (<1 Woche) / mittel (1–4 Wochen) / groß (>4 Wochen) |
-| Voraussetzungen | SIMD-Flags, CUDA, externe Libs, ABI-Änderungen? |
-```
-
-### Vergleichsmatrix
-
-Nach der Steckbrief-Runde wird eine **Vergleichsmatrix** erstellt:
-
-| Kandidat | Quelle | Erwartete Latenz-Verbesserung | Throughput | Memory Delta | Risiko | Aufwand |
-|----------|--------|-------------------------------|------------|--------------|--------|---------|
-| A (aktuell / Baseline) | — | 0 % | 100 % | Baseline | — | — |
-| B | Paper 2024 | -30 % P99 | +40 % | +10 % | Mittel | Klein |
-| C | Lib 2023 | -15 % P99 | +20 % | -5 % | Klein | Klein |
-| … | | | | | | |
-
-### Checkliste
-
-- [ ] ≥ 5 Kandidaten aus Literatur 2023–heute identifiziert
-- [ ] Für jeden Kandidaten: Research-Dokument erstellt
-- [ ] Vergleichsmatrix ausgefüllt
-- [ ] Primärkandidat + Fallback-Kandidat benannt
-- [ ] Offene Fragen / Abhängigkeiten notiert
-
----
-
-## 5. Schritt 4 — Experiment-Design standardisieren
-
-### Was zu tun ist
-
-Alle Kandidaten werden unter **identischen Bedingungen** gegen die Baseline gemessen.
-Abweichungen vom Standard-Experiment-Design müssen explizit begründet werden.
-
-### Standard-Experiment-Parameter
-
-| Parameter | Wert | Begründung |
-|-----------|------|------------|
-| Warmup | ≥ 60 s | IEEE Std 2807-2022 |
-| Messdauer | ≥ 300 s oder `--benchmark_min_time=5.0s` | Stationäre Phase |
-| Wiederholungen | ≥ 5 unabhängige Runs | CI: 95 %-Konfidenzintervall |
-| Input-Set | Fixiert (gleiches Dateiformat / Seed / Größe) | Vergleichbarkeit |
-| Hardware | Selbe Maschine wie Baseline (oder HW-Profil dokumentiert) | Reproduzierbarkeit |
-| Compiler | Selbe Flags wie Baseline | Build-Konsistenz |
-| Statistik | Welch's t-Test + Mann-Whitney U für signifikante Unterschiede | IEEE 2807-2022 §4.3 |
-| Metriken | **P50, P95, P99** Latenz + Throughput (ops/s) + Peak RSS | Vollständiges Bild |
-| Ausreißer-Bereinigung | IQR × 1.5 (Tukey 1977) | Robustheit |
-
-### Benchmark-Aufruf (Template)
-
-```bash
-# Candidate benchmark
-./build/release/<bench_binary> \
-  --benchmark_filter='^<BM_Function>($|/)' \
-  --benchmark_min_time=5.0s \
-  --benchmark_repetitions=5 \
-  --benchmark_format=json \
-  --benchmark_out=benchmarks/experiments/<ziel_id>/<kandidat>_<datum>.json
-
-# Statistical comparison
-python3 tools/benchmark_compare.py \
-  benchmarks/baselines/<modul>/<ziel_id>_baseline.json \
-  benchmarks/experiments/<ziel_id>/<kandidat>_<datum>.json \
-  --test welch --alpha 0.05 --effect-size cohens-d
-```
-
-### Experiment-Protokoll
-
-Pro Experiment wird ein **Protokoll** in `research/experiments/<ziel_id>/` angelegt:
-
-```markdown
-# Experiment: <Ziel-ID> — <Kandidat>
-
-**Datum:** YYYY-MM-DD  
-**Baseline-Commit:** <SHA>  
-**Kandidat-Commit:** <SHA>  
-**Hardware:** [Link zu hw_profile.md]
-
-## Ergebnisse
-
-| Metrik | Baseline | Kandidat | Delta | p-Wert | Signifikant? |
-|--------|----------|----------|-------|--------|--------------|
-| P99-Latenz (ms) | | | | | |
-| Throughput (ops/s) | | | | | |
-| Peak RSS (MB) | | | | | |
-
-## Interpretation
-
-...
-
-## Empfehlung
-
-[ ] Adopt  [ ] Reject  [ ] Weiterer Test erforderlich
-```
-
-### Checkliste
-
-- [ ] Benchmark-Binaries für Baseline + alle Kandidaten gebaut (Release-Build)
-- [ ] ≥ 5 Runs pro Kandidat auf selber Hardware wie Baseline
-- [ ] Welch's t-Test + Mann-Whitney U berechnet (p < 0.05 gilt als signifikant)
-- [ ] P50 / P95 / P99 Latenz + Throughput + Peak RSS dokumentiert
-- [ ] Experiment-Protokoll nach `research/experiments/<ziel_id>/` eingecheckt
-
----
-
-## 6. Schritt 5 — Gates in CI erzwingen
-
-### Was zu tun ist
-
-Jeder Algorithmus-Kandidat, der die Experimente besteht, muss **sofort mit CI-Gates**
-abgesichert werden. Ohne Gate kann eine spätere Code-Änderung die Verbesserung
-unbemerkt rückgängig machen.
-
-### Gate-Implementierung
-
-```yaml
-# .github/workflows/performance-regression-<modul>-<ziel_id>.yml (Beispiel)
-- name: Enforce <Ziel-ID> SLO
-  run: |
-    python3 - << 'PY'
-    import json
-    from pathlib import Path
-
-    data = json.loads(Path("benchmark_results/<ziel_id>.json").read_text())
-    threshold = <SLO_WERT>   # aus PERFORMANCE_EXPECTATIONS.md
-    for bench in data["benchmarks"]:
-        if bench["name"] == "<BM_Function>":
-            measured = bench["items_per_second"]  # oder real_time
-            if measured < threshold:
-                raise SystemExit(f"SLO-Regression: {measured:.2f} < {threshold:.2f}")
-    print(f"SLO erfüllt: {measured:.2f}")
-    PY
-```
-
-### Mapping in `benchmark_target_mapping.json`
-
-Der neue Benchmark muss in `benchmarks/benchmark_target_mapping.json` eingetragen werden
-und mit `tools/verify_benchmark_mapping.py` validiert werden:
-
-```json
-"<Ziel-ID>": {
-  "label": "<Bezeichnung>",
-  "primary_benchmark": "<BM_Function>",
-  "file": "<bench_file>.cpp",
-  "status": "mapped"
-}
-```
-
-### Regression-Schwellen
-
-| Threshold-Typ | Grenze | Aktion bei Überschreitung |
-|---------------|--------|---------------------------|
-| Minor | > 5 % Verschlechterung | WARN in CI-Log |
-| Major | > 10 % Verschlechterung | CI-Failure (Block PR) |
-| Critical | > 20 % Verschlechterung | CI-Failure + Slack-Alert |
-
-Diese Schwellen werden von `benchmarks/performance_regression_detector.py` ausgewertet.
-
-### Checkliste
-
-- [ ] Workflow-Datei `.github/workflows/performance-regression-<modul>-<ziel_id>.yml` angelegt
-- [ ] SLO-Wert im Workflow korrekt aus `PERFORMANCE_EXPECTATIONS.md` übernommen
-- [ ] Eintrag in `benchmark_target_mapping.json` ergänzt
-- [ ] `python3 tools/verify_benchmark_mapping.py` läuft fehlerfrei durch
-- [ ] `performance_regression_detector.py` mit `--fail-on major` konfiguriert
-- [ ] Nightly Benchmark Sweep (07-quality_nightly-benchmark-sweep.yml) deckt neue Benchmark-Funktion ab
-
----
-
-## 7. Schritt 6 — Entscheidung dokumentieren
-
-### Was zu tun ist
-
-Jede abgeschlossene Experiment-Runde — ob Adopt oder Reject — wird als
-**Architecture Decision Record (ADR)** dauerhaft festgehalten.
-
-### ADR-Vorlage für Algorithmus-Entscheidungen
-
-```bash
-cp research/architecture_decisions/_template_decision.md \
-   research/architecture_decisions/adr_<NNN>_<algorithmus>_fuer_<modul>.md
-```
-
-Der ADR enthält mindestens:
-- **Context:** Ziel-ID, SLO-Gap, Baseline-Ergebnis
-- **Considered Options:** Alle Kandidaten aus Schritt 3 mit Vergleichsmatrix
-- **Decision:** Adopt / Reject mit quantitativem Begründung (gemessener Vorteil)
-- **Consequences:** Positive + Negative + Neutral
-- **Validation:** Verweise auf Benchmark-Protokolle und CI-Gate
-
-### Roadmap & FUTURE_ENHANCEMENTS aktualisieren
-
-```markdown
-# In src/<modul>/ROADMAP.md
-- [x] Ersetze <Algorithmus A> durch <Algorithmus B> für <Hot Path>
-      [Ziel-ID: <ID>] [ADR: ADR-<NNN>] (Abgeschlossen: YYYY-MM-DD)
-
-# Bei Reject:
-- [~] <Alternative C> getestet, abgelehnt wegen <Begründung>
-      [Ziel-ID: <ID>] [ADR: ADR-<NNN>] (Abgeschlossen: YYYY-MM-DD)
-```
-
-### Implementation Influence Index aktualisieren
-
-Der Eintrag muss in `research/implementation_influence/README.md` ergänzt werden:
-
-```markdown
-| <Paper/Lib-Titel> | Paper/Best Practice | `src/<modul>/` | v<Version>+ | ✅ Implemented | [ref](...) |
-```
-
-### Checkliste
-
-- [ ] ADR erstellt unter `research/architecture_decisions/adr_<NNN>_…md`
-- [ ] `research/architecture_decisions/decision_log.md` aktualisiert
-- [ ] Research-Dokumente für alle adoptierten Kandidaten vollständig
-- [ ] `research/implementation_influence/README.md` aktualisiert
-- [ ] `src/<modul>/ROADMAP.md` Checkbox auf `[x]` gesetzt
-- [ ] `src/<modul>/FUTURE_ENHANCEMENTS.md` Status aktualisiert
-- [ ] Modul-README: Abschnitt *Wissenschaftliche Grundlagen & Einflüsse* ergänzt
-- [ ] Commit-Prefix: `ref(research): <Algorithmus> adopted/rejected for src/<modul>/`
-
----
-
-## 8. Praktische Regel: Definition of "Won"
-
-> **Eine Optimierungsidee gilt erst als "gewonnen", wenn alle 6 Schritte abgeschlossen sind.**
-
-| Kriterium | Gate |
-|-----------|------|
-| Messbare SLO-ID vorhanden | ✅ Schritt 1 |
-| Reproduzierbare Baseline existiert | ✅ Schritt 2 |
-| ≥ 5 Kandidaten evaluiert | ✅ Schritt 3 |
-| Experiment mit Welch's t-Test (p < 0.05) | ✅ Schritt 4 |
-| CI-Gate blockiert Regressionen | ✅ Schritt 5 |
-| ADR + Research-Doku vollständig | ✅ Schritt 6 |
-
-Kandidaten, die nur 1–5 Schritte bestehen, befinden sich **noch im Experiment-Stadium** und
-dürfen nicht als abgeschlossene Optimierungen kommuniziert oder in Release Notes erwähnt werden.
-
----
-
-## 9. Prompt-Templates
-
-Für die konkrete Nutzung mit Copilot / Ollama / anderen LLMs: → [`PROMPTING_TEMPLATES.md`](PROMPTING_TEMPLATES.md)
-
----
-
-## 10. Integration in ThemisDB-Infrastruktur
-
-| Infra-Komponente | Rolle im Prozess |
-|------------------|-----------------|
-| `PERFORMANCE_EXPECTATIONS.md` | Ziel-IDs + SLO-Werte (Schritt 1) |
-| `benchmarks/benchmark_target_mapping.json` | Ziel-ID → Benchmark-Mapping (Schritt 5) |
-| `tools/verify_benchmark_mapping.py` | Validiert Mapping-Vollständigkeit (Schritt 5) |
-| `benchmarks/performance_regression_detector.py` | Regression-Erkennung (Schritt 5) |
-| `.github/workflows/07-quality_nightly-benchmark-sweep.yml` | Nightly Sweep (Schritt 5) |
-| `.github/workflows/performance-regression-check.yml` | PR-Gate (Schritt 5) |
-| `research/papers/` | Kandidaten-Papers (Schritt 3) |
-| `research/best_practices/` | Kandidaten-Best-Practices (Schritt 3) |
-| `research/architecture_decisions/` | ADR für Entscheidung (Schritt 6) |
-| `research/implementation_influence/README.md` | Master-Index (Schritt 6) |
-| `research/stand_der_technik/` | Vierteljährliche Kandidaten-Recherche (Schritt 3) |
-| `src/<modul>/ROADMAP.md` | Tracking + Status (Schritte 1, 6) |
-| `src/<modul>/FUTURE_ENHANCEMENTS.md` | Acceptance-Kriterien (Schritte 1, 6) |
-
----
-
-## 11. Beispiele
-
-### Beispiel A: mimalloc → Performance-Modul (Erfolgsbeispiel)
-
-| Schritt | Ergebnis |
-|---------|----------|
-| 1. Ziel-ID | `PERF-MEM-1`: Peak RSS unter sustained load ≤ 4 GB |
-| 2. Baseline | tcmalloc / glibc malloc; baseline JSON eingecheckt |
-| 3. Kandidaten | mimalloc, jemalloc, tcmalloc (neu), SnakeMalloc, Scudo |
-| 4. Experiment | mimalloc: -18 % RSS, +12 % Throughput (p < 0.001, Cohen's d = 1.4) |
-| 5. CI-Gate | `THEMIS_ENABLE_MIMALLOC=ON` im nightly sweep; Regression-Gate aktiv |
-| 6. Entscheidung | mimalloc adoptiert, jemalloc als Fallback dokumentiert |
-
-→ Implementiert in `src/performance/ROADMAP.md` Phase 1, `benchmarks/performance/`
-
-### Beispiel B: HNSW-Parameter-Tuning → Index-Modul
-
-| Schritt | Ergebnis |
-|---------|----------|
-| 1. Ziel-ID | `I-TopK`: TopK 5000×50 P99 < 8 ms |
-| 2. Baseline | `ef_search=64, M=16`; baseline JSON in `benchmarks/baselines/index/` |
-| 3. Kandidaten | ef_search-Sweep, DiskANN, ScaNN (Kandidaten-Papers vorhanden) |
-| 4. Experiment | Adaptiver ef-Tuner: -22 % P99 (p < 0.01) |
-| 5. CI-Gate | `BM_TopK_5000_50` im Mapping, Regression-Gate 10 % |
-| 6. Entscheidung | ADR-001-Extension geplant für Auto-Tuner |
-
-→ Tracking in `src/performance/ROADMAP.md` (WorkloadAdaptiveOptimizer)
-
----
-
-*Erstellt: 2026-04-22 | Prozess-Version: 1.0*  
-*Nächste Review: 2026-07-01 (Q3 quarterly update)*
+*Review-Hinweis:* Dieses Dokument beschreibt den Prozess. Konkrete Messergebnisse gehören in modul- oder zielbezogene Experimentprotokolle und ADRs, nicht in diese Übersichtsseite.
