@@ -34,6 +34,8 @@ This paper addresses the following gap: RAG quality studies usually assume stati
 - **H1:** Under moderate/high contention, stricter visibility semantics improve faithfulness compared with weaker semantics.
 - **H2:** A Pareto frontier emerges where stricter consistency eventually increases p99 latency beyond practical SLO budgets.
 
+Expected directional outcome: quality improvements should be strongest in high-overlap/high-contention workloads (W3), while latency costs should grow from W1 to W3 as visibility guarantees tighten.
+
 ## II. Related Work
 
 RAG foundations (Lewis et al.) and dense retrieval systems (Karpukhin et al.) define the quality-centric retrieval-generation paradigm. Evaluation frameworks such as RAGAS make automated faithfulness/relevancy analysis practical at scale. Active retrieval work (Jiang et al.) further motivates adaptive retrieval under changing context.
@@ -59,7 +61,7 @@ We define a dual-workload experiment:
 - **W_q (query workload):** RAG question-answer requests with fixed query sets.
 - **W_u (update workload):** concurrent writes to document subsets with configurable overlap to retrieved contexts.
 
-Each workload profile is executed under identical query batches while sweeping isolation settings supported by the Transaction module (documented as ReadCommitted and Snapshot in current module docs).
+Each workload profile is executed under identical query batches while sweeping isolation settings supported by the Transaction module (`src/transaction/README.md` documents `ReadCommitted` and `Snapshot`).
 
 ### B. Metrics
 
@@ -107,21 +109,23 @@ Each workload is evaluated across transaction visibility configurations and retr
 
 ### B. Reporting Tables (Schema)
 
+**Note:** In the current repository snapshot, dedicated contention experiment runs for W1-W3 have not been executed yet.
+
 Table R1. Quality metrics by workload and isolation policy.
 
 | Workload | Isolation Policy | Faithfulness | Answer Relevancy | Context Precision | Context Recall | N | 95% CI |
 |----------|------------------|--------------|------------------|-------------------|----------------|---|--------|
-| W1 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | n/a | n/a |
-| W2 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | n/a | n/a |
-| W3 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | n/a | n/a |
+| W1 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a |
+| W2 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a |
+| W3 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a |
 
 Table R2. Systems and reliability metrics by workload and isolation policy.
 
 | Workload | Isolation Policy | p50 (ms) | p95 (ms) | p99 (ms) | Throughput | Abort Rate | Timeout Rate | Retry Amplification |
 |----------|------------------|----------|----------|----------|------------|------------|--------------|---------------------|
-| W1 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | not executed | not executed | not executed |
-| W2 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | not executed | not executed | not executed |
-| W3 | not executed in current repository snapshot | not executed | not executed | not executed | not executed | not executed | not executed | not executed |
+| W1 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| W2 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| W3 | ReadCommitted/Snapshot sweep planned | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
 
 ### C. Baseline Anchors Already Available
 
@@ -151,7 +155,7 @@ A result is considered actionable only if quality gains and latency/reliability 
 
 ## IX. Reproducibility Notes
 
-Build and test flow (Windows example from repository conventions):
+**Windows (repository default preset example):**
 
 ```powershell
 cmake --preset windows-release
@@ -159,13 +163,18 @@ cmake --build --preset windows-release --parallel 4
 ctest --preset windows-release --output-on-failure -j 1 --timeout 60
 ```
 
-RAG benchmark harness entry point (when benchmark target is enabled):
+**Linux (benchmark harness target example):**
 
 ```bash
 cmake --build --preset linux-release --target bench_rag_evaluation
 ```
 
-For publication finalization, include commit hash, exact benchmark command lines, workload manifests, and exported raw result files.
+Publication finalization checklist:
+
+- [ ] Record commit hash used for experiments.
+- [ ] Archive exact benchmark command lines.
+- [ ] Archive workload manifests/config snapshots.
+- [ ] Export and retain raw result files.
 
 ## X. Conclusion
 
