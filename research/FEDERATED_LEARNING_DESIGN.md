@@ -55,9 +55,9 @@ A statement is kept only if at least one criterion is satisfied:
 1. **Aggregation algorithms:** `aggregateUpdates()` supports `"FedAvg"` and `"median"`; unknown algorithms fall back to `"FedAvg"`.
 2. **Aggregated output contract:** Numeric fields are reduced; schema contributions are merged into `_schema`; participant count is emitted as `_participants`.
 3. **Gaussian mechanism:** `addDifferentialPrivacy()` computes
-   `sigma = sqrt(2 * ln(1.25 / delta)) / epsilon` (with sensitivity fixed to 1.0) and adds normal noise to numeric JSON fields.
+   `sigma = sqrt(2 * ln(1.25 / delta)) / epsilon` (with sensitivity fixed to 1.0) and adds normal noise to numeric JSON fields; the `1.25` constant follows the standard Gaussian-mechanism bound described in Dwork/Roth (Ref. 4).
 4. **Input validation:** `addDifferentialPrivacy()` rejects invalid `(epsilon, delta)` via `std::invalid_argument`.
-5. **Budget policy:** `verifyPrivacyBudget(epsilon_total, delta)` accepts only `epsilon_total <= 1.0` and `0 < delta <= 1e-5`; `spendBudget()` accumulates epsilon and rejects negative values.
+5. **Budget policy:** `verifyPrivacyBudget(epsilon_total, delta)` accepts only `epsilon_total <= 1.0` and `0 < delta <= 1e-5`; `spendBudget()` accumulates epsilon and rejects negative epsilon increments.
 6. **Test coverage exists:** The `FederatedLearning` tests validate empty aggregation, FedAvg averaging, noise application, invalid epsilon rejection, budget check, and budget accumulation.
 
 ---
@@ -91,7 +91,7 @@ This review uses code inspection rather than runtime model-quality experiments.
 
 1. **No robust aggregation beyond median/FedAvg:** Outlier resistance is limited to coordinate-wise median; no trimmed mean/Krum/Bulyan implementation in this module.
 2. **Schema union semantics are permissive:** Conflicting field names/types across participants are merged by first-seen key behavior, which may require downstream normalization.
-3. **Budget model is simple composition:** Current budget gate is a threshold check; advanced accounting (for example RDP accounting) is not implemented in this module.
+3. **Budget model is simple composition:** Current budget gate is a threshold check; advanced accounting (for example RDP accounting as in Ref. 6) is not implemented in this module.
 4. **Importer-level scope:** This component is not a full federated-training platform by itself; it is a reusable aggregation/privacy utility used by higher-level modules.
 
 ---
@@ -107,7 +107,7 @@ The current ThemisDB implementation provides a concrete and test-backed federate
 ### Scientific literature
 
 1. McMahan, H. B., et al. (2017). *Communication-Efficient Learning of Deep Networks from Decentralized Data* (AISTATS).
-   URL: https://proceedings.mlr.press/v54/mcmahan17a.html
+   DOI: https://doi.org/10.5555/3305890.3306006
 2. Kairouz, P., et al. (2021). *Advances and Open Problems in Federated Learning* (Foundations and Trends in Machine Learning).
    DOI: https://doi.org/10.1561/2200000083
 3. Dwork, C., McSherry, F., Nissim, K., Smith, A. (2006). *Calibrating Noise to Sensitivity in Private Data Analysis* (TCC).
@@ -115,7 +115,7 @@ The current ThemisDB implementation provides a concrete and test-backed federate
 4. Dwork, C., Roth, A. (2014). *The Algorithmic Foundations of Differential Privacy*.
    URL: https://www.cis.upenn.edu/~aaroth/privacybook.html
 5. McMahan, H. B., et al. (2018). *Learning Differentially Private Recurrent Language Models* (ICLR Workshop).
-   URL: https://arxiv.org/abs/1710.06963
+   URL: https://arxiv.org/abs/1710.06963v2
 6. Mironov, I. (2017). *Rényi Differential Privacy* (IEEE CSF).
    DOI: https://doi.org/10.1109/CSF.2017.11
 
