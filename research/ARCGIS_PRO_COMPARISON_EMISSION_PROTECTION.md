@@ -18,6 +18,8 @@ The resulting conclusion is narrower and more defensible: ThemisDB is a strong g
 
 ## Introduction
 
+Emission-protection workflows in GIS typically combine several layers of work: spatial data ingestion, coordinate normalization, proximity and overlap screening, raster- or terrain-derived context, and domain-specific follow-up analysis such as plume dispersion, noise propagation, or monitoring-network design. Comparing ThemisDB with ArcGIS Pro is therefore relevant because the two systems occupy different but potentially complementary roles: database/query backend versus full GIS analysis environment.
+
 ### Problem Statement
 
 The previous version mixed together three different claim classes:
@@ -61,6 +63,8 @@ Claims were checked against repository artifacts instead of prior narrative text
 - `PERFORMANCE_EXPECTATIONS.md` and `artifacts/perf_local/bench_geo_v182_reference.json` for recorded benchmark results
 - `README.md` and `ARCHITECTURE.md` for documented protocol frontends and ports
 
+Repository snapshot reviewed for this note: commit `5070d6da057c47ce053c34b98dc9edf2b9eae263`.
+
 ### M2 — Claim Classification
 
 Every central statement was assigned to one of three classes:
@@ -103,7 +107,7 @@ Projected GPU speedups without repository measurements were removed.
 | CPU/GPU backend model | Implemented with CPU fallback behavior | `src/geo/ARCHITECTURE.md`, `src/geo/ROADMAP.md` | GPU exists, but several set operations still fall back to CPU |
 | Raster query building blocks | Implemented | `src/geo/ROADMAP.md`, `src/geo/ARCHITECTURE.md` | Repository evidence supports raster query support, not full ArcGIS-style raster analyst parity |
 | Spatial join primitive | Implemented and benchmarked | `src/geo/ROADMAP.md`, `benchmarks/bench_spatial_join.cpp` | Useful for proximity/receptor matching workloads |
-| Protocol frontends relevant for integration | Documented | `README.md`, `ARCHITECTURE.md` | REST, GraphQL, gRPC, PostgreSQL wire compatibility, and custom Wire V2 are documented |
+| Protocol frontends relevant for integration | Documented | `README.md`, `ARCHITECTURE.md` | REST, GraphQL, gRPC, PostgreSQL wire compatibility, and custom Wire V2 are documented at system-doc level; this note does not independently trace each frontend to code paths |
 
 ### E2 — What the Repository Actually Proves About Geo Performance
 
@@ -131,7 +135,7 @@ Benchmark context matters: `bench_spatial_index.cpp` uses synthetic lon/lat poin
 | Dispersion modeling / regulatory plume calculation | Typically handled through specialist workflows and external models | No repository evidence for built-in dispersion engine | Must remain application/external-tool scope |
 | Network / service-area analysis | Available in ArcGIS Network Analyst | No geo-module evidence for network/service-area implementation | Not a defensible ThemisDB parity claim |
 | OGC WMS/WFS/WMTS publishing | Standard GIS ecosystem capability | No source-backed implementation found in open repository | The prior document's proposed OGC architecture was hypothetical, not current state |
-| Direct ArcGIS provider integration | ArcGIS-native | Only documentation references to an enterprise plugin were found (`docs/de/integrations/arcgis_data_provider.md`); matching source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state; readers should rely on the enterprise documentation path for further verification |
+| Direct ArcGIS provider integration | ArcGIS-native | The documentation file `docs/de/integrations/arcgis_data_provider.md` is present in the repository, but the referenced source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state; readers should rely on the enterprise documentation path for further verification |
 
 ### E4 — Emission-Protection Use Cases: What ThemisDB Can Realistically Support
 
@@ -223,7 +227,7 @@ The following statements are **not** justified as present-tense open-repository 
 ## Limitations
 
 1. **Open-repository visibility is incomplete for ArcGIS-specific integration claims.**
-   The open-source clone contains documentation references to an enterprise ArcGIS data provider—most directly `docs/de/integrations/arcgis_data_provider.md`—but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here. Readers who need to assess that path should start with `docs/de/integrations/arcgis_data_provider.md` and request the corresponding non-open artifacts through the appropriate product channel.
+   The open-source clone contains the documentation file `docs/de/integrations/arcgis_data_provider.md`, but no matching header or source files were found under `include/` or `src/` even though the document references such artifacts. This may indicate enterprise-only artifacts outside the reviewed tree or an outdated documentation pointer; in either case, the integration cannot be treated as source-verified here. Readers who need to assess that path should start with `docs/de/integrations/arcgis_data_provider.md` and request the corresponding non-open artifacts through the appropriate product channel.
 
 2. **Benchmark evidence is narrow.**
    The repository contains solid evidence for R-tree queries and spatial join primitives, but not for full environmental analysis pipelines.
