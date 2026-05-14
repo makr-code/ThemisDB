@@ -137,23 +137,23 @@ Interpretation: Der frühere Stand hatte v. a. Struktur-/Hierarchieprobleme; der
 ## Interne ThemisDB-Artefakte
 
 1. ThemisDB README (Multi-Model, ACID/MVCC-Claims):
-   `../README.md`
+   `README.md`
 2. Architektur-Übersicht:
-   `../ARCHITECTURE.md`
+   `ARCHITECTURE.md`
 3. Query-Modul (AQL-Terminologie):
-   `../src/query/README.md`
+   `src/query/README.md`
 4. Metadata-Roadmap (Status/Limitations):
-   `../src/metadata/ROADMAP.md`
+   `src/metadata/ROADMAP.md`
 5. Schema-Versionierung und Dry-Run:
-   `../include/metadata/schema_version_manager.h`, `../src/metadata/schema_version_manager.cpp`
+   `include/metadata/schema_version_manager.h`, `src/metadata/schema_version_manager.cpp`
 6. Online Schema Migration:
-   `../include/storage/online_schema_migration.h`, `../src/storage/online_schema_migration.cpp`
+   `include/storage/online_schema_migration.h`, `src/storage/online_schema_migration.cpp`
 7. In-place additive Migration:
-   `../include/updates/in_place_schema_migrator.h`, `../src/updates/in_place_schema_migrator.cpp`
+   `include/updates/in_place_schema_migrator.h`, `src/updates/in_place_schema_migrator.cpp`
 8. Schema API:
-   `../include/server/schema_api_handler.h`, `../src/server/schema_api_handler.cpp`
+   `include/server/schema_api_handler.h`, `src/server/schema_api_handler.cpp`
 9. Fokus-Tests:
-   `../tests/test_schema_version_dryrun.cpp`, `../tests/test_schema_migration_script.cpp`, `../tests/test_online_schema_migration.cpp`, `../tests/test_in_place_schema_migrator.cpp`
+   `tests/test_schema_version_dryrun.cpp`, `tests/test_schema_migration_script.cpp`, `tests/test_online_schema_migration.cpp`, `tests/test_in_place_schema_migrator.cpp`
 
 ## Externe Literatur und Systeme (validierbare URL/DOI)
 
