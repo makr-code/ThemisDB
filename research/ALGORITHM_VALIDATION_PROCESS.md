@@ -1,6 +1,6 @@
 # Algorithm Validation Process — ThemisDB
 
-**Status:** reviewed, repository-aligned process note
+**Status:** reviewed, repository-aligned process document
 **Last updated:** 2026-05-14
 **Scope:** algorithmic changes with measurable performance, latency, memory, or quality impact in ThemisDB modules
 
@@ -17,7 +17,12 @@ Dieses Dokument beschreibt den verbindlichen Validierungsprozess für algorithmi
 
 Der Text wurde gegen den aktuellen Repository-Stand verifiziert.
 
-- **Bestätigt:** kanonische SLO- und KPI-Quellen, Ziel-ID-zu-Benchmark-Mapping, Mapping-Validierer, Performance-Regression-Detektor, zentraler PR-Regression-Check, Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index.
+- **Bestätigt:**
+  - kanonische SLO- und KPI-Quellen
+  - Ziel-ID-zu-Benchmark-Mapping und Mapping-Validierer
+  - Performance-Regression-Detektor und zentraler PR-Regression-Check
+  - Nightly-Benchmark-Sweep
+  - Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index
 - **Entfernt oder eingegrenzt:** Aussagen über nicht im Repository nachweisbare Hilfsskripte oder bereits vollständig dokumentierte End-to-End-Fallstudien.
 
 ## 1. Einleitung
@@ -141,7 +146,7 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
 - Ausreißerbehandlung nur mit offengelegter Regel
 
-**Wichtig:** Das aktuelle Repository enthält kein Standard-Skript unter `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
+**Wichtig:** Statistische Vergleiche müssen im Experimentprotokoll immer mit einem explizit dokumentierten Auswertungspfad hinterlegt werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden. Für den Pfad `tools/benchmark_compare.py` gibt es im aktuellen Repository kein Standard-Skript.
 
 **Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden. Die erwartete Struktur für dieses Protokoll ist in [`experiments/README.md`](experiments/README.md) beschrieben.
 
@@ -222,7 +227,7 @@ Eine algorithmische Änderung gilt in ThemisDB erst dann als **gewonnen**, wenn 
 - Blockiert CI spätere Regressionen für den relevanten Benchmarkpfad?
 - Ist die Entscheidung in ADR, Experimentprotokoll, Research-Index und Modulplanung rückverfolgbar dokumentiert?
 
-Wenn eine dieser Fragen offen bleibt, befindet sich die Änderung weiterhin im Experiment- oder Explorationsstadium.
+Wenn eine dieser Fragen offen bleibt, befindet sich die Änderung weiterhin in der Experiment- oder Explorationsphase.
 
 ## References
 
