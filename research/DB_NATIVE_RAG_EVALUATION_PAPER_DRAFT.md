@@ -174,11 +174,11 @@ This revised draft is aligned with the current ThemisDB repository state and cle
 ## References
 
 1. Lewis, P. et al. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*. NeurIPS. URL: https://arxiv.org/abs/2005.11401
-2. Karpukhin, V. et al. (2020). *Dense Passage Retrieval for Open-Domain Question Answering*. EMNLP. DOI: https://doi.org/10.18653/v1/2020.emnlp-main.550
+2. Karpukhin, V. et al. (2020). *Dense Passage Retrieval for Open-Domain Question Answering*. EMNLP. URL: https://doi.org/10.18653/v1/2020.emnlp-main.550
 3. Es, S. et al. (2023). *RAGAS: Automated Evaluation of Retrieval Augmented Generation*. URL: https://arxiv.org/abs/2309.15217
 4. Jiang, Z. et al. (2023). *Active Retrieval Augmented Generation*. EMNLP. URL: https://arxiv.org/abs/2305.06983
-5. Fekete, A. et al. (2005). *Making Snapshot Isolation Serializable*. ACM TODS. DOI: https://dl.acm.org/doi/10.1145/1071610.1071615
-6. Cahill, M. J., Rohm, U., & Fekete, A. (2008). *Serializable Isolation for Snapshot Databases*. SIGMOD. DOI: https://dl.acm.org/doi/10.1145/1376616.1376690
+5. Fekete, A. et al. (2005). *Making Snapshot Isolation Serializable*. ACM TODS. URL: https://dl.acm.org/doi/10.1145/1071610.1071615
+6. Cahill, M. J., Rohm, U., & Fekete, A. (2008). *Serializable Isolation for Snapshot Databases*. SIGMOD. URL: https://dl.acm.org/doi/10.1145/1376616.1376690
 7. Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models*. ICLR. URL: https://arxiv.org/abs/2106.09685
 8. ThemisDB Contributors (2026). *ThemisDB Repository*. URL: https://github.com/makr-code/ThemisDB
 
