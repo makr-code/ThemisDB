@@ -63,7 +63,7 @@ Claims were checked against repository artifacts instead of prior narrative text
 - `PERFORMANCE_EXPECTATIONS.md` and `artifacts/perf_local/bench_geo_v182_reference.json` for recorded benchmark results
 - `README.md` and `ARCHITECTURE.md` for documented protocol frontends and ports
 
-Repository snapshot reviewed for this note: commit `5070d6da057c47ce053c34b98dc9edf2b9eae263`.
+Repository snapshot reviewed for this note: commit `5070d6da057c47ce053c34b98dc9edf2b9eae263` on 2026-05-14.
 
 ### M2 — Claim Classification
 
@@ -135,7 +135,7 @@ Benchmark context matters: `bench_spatial_index.cpp` uses synthetic lon/lat poin
 | Dispersion modeling / regulatory plume calculation | Typically handled through specialist workflows and external models | No repository evidence for built-in dispersion engine | Must remain application/external-tool scope |
 | Network / service-area analysis | Available in ArcGIS Network Analyst | No geo-module evidence for network/service-area implementation | Not a defensible ThemisDB parity claim |
 | OGC WMS/WFS/WMTS publishing | Standard GIS ecosystem capability | No source-backed implementation found in open repository | The prior document's proposed OGC architecture was hypothetical, not current state |
-| Direct ArcGIS provider integration | ArcGIS-native | The documentation file `docs/de/integrations/arcgis_data_provider.md` is present in the repository, but the referenced source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state; readers should rely on the enterprise documentation path for further verification |
+| Direct ArcGIS provider integration | ArcGIS-native | The documentation file `docs/de/integrations/arcgis_data_provider.md` is present in the repository, but the referenced source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state (documentation-only evidence in this clone); readers should rely on the enterprise documentation path for further verification |
 
 ### E4 — Emission-Protection Use Cases: What ThemisDB Can Realistically Support
 
