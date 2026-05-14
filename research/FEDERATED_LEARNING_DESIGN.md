@@ -55,7 +55,7 @@ A statement is kept only if at least one criterion is satisfied:
 1. **Aggregation algorithms:** `aggregateUpdates()` supports `"FedAvg"` and `"median"`; unknown algorithms fall back to `"FedAvg"`.
 2. **Aggregated output contract:** Numeric fields are reduced; schema contributions are merged into `_schema`; participant count is emitted as `_participants`.
 3. **Gaussian mechanism:** `addDifferentialPrivacy()` computes
-   `sigma = sqrt(2 * ln(1.25 / delta)) / epsilon` (with sensitivity fixed to 1.0) and adds normal noise to numeric JSON fields. In current code this fixed sensitivity is an implementation simplification for normalized count/average-style statistics, not a universal bound for every possible statistic. The `1.25 / delta` term comes from the Gaussian tail-bound used to satisfy `(epsilon, delta)`-DP in the standard mechanism derivation (Ref. 4).
+   `sigma = sqrt(2 * ln(1.25 / delta)) / epsilon` with sensitivity fixed to 1.0, then adds normal noise to numeric JSON fields. In current code, the fixed sensitivity is an implementation simplification for normalized count/average-style statistics, not a universal bound for every possible statistic. The `1.25 / delta` term comes from the Gaussian tail-bound used to satisfy `(epsilon, delta)`-DP in the standard mechanism derivation (Ref. 4).
 4. **Input validation:** `addDifferentialPrivacy()` rejects invalid `(epsilon, delta)` via `std::invalid_argument`.
 5. **Budget policy:** `verifyPrivacyBudget(epsilon_total, delta)` accepts only `epsilon_total <= 1.0` and `0 < delta <= 1e-5`; `spendBudget()` accumulates epsilon and rejects negative epsilon increments (throws `std::invalid_argument`).
 6. **Test coverage exists:** The `FederatedLearning` tests validate empty aggregation, FedAvg averaging, noise application, invalid epsilon rejection, budget check, and budget accumulation.
@@ -90,8 +90,8 @@ This review uses code inspection rather than runtime model-quality experiments.
 ## Limitations / Known Issues
 
 1. **No robust aggregation beyond median/FedAvg:** Outlier resistance is limited to coordinate-wise median; no trimmed mean/Krum/Bulyan implementation in this module.
-2. **Schema union semantics are permissive:** Conflicting field names/types across participants are merged by first-seen key behavior (first contributor wins for a duplicate key in current implementation), which may require downstream normalization.
-3. **Budget model is simple composition:** Current budget gate is a threshold check; advanced accounting (for example RDP accounting as in Ref. 6, which provides tighter privacy-loss bounds under composition) is not implemented in this module. Practically, simple composition is typically more conservative and can force either fewer rounds or stronger noise for the same target privacy level; tighter accounting can permit materially more rounds under the same budget.
+2. **Schema union semantics are permissive:** Conflicting field names/types across participants are merged using first-contributor-wins semantics for duplicate keys, which may require downstream normalization.
+3. **Budget model is simple composition:** Current budget enforcement is a threshold check based on simple composition. Advanced accounting (for example RDP accounting as in Ref. 6) is not implemented here and would provide tighter privacy-loss bounds under composition. In practice, simple composition is more conservative and can force fewer rounds or stronger noise for the same privacy target.
 4. **Importer-level scope:** This component is not a full federated-training platform by itself; it is a reusable aggregation/privacy utility used by higher-level modules.
 
 ---
