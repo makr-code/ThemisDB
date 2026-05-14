@@ -1,528 +1,183 @@
-# Bi-Temporal Change Data Capture with At-Least-Once Delivery, Schema Evolution, and Exactly-Once Semantics
+# ThemisDB CDC Implementation: Bi-Temporal Event Delivery, Schema Evolution, and GDPR Redaction
 
-**Status**: Draft  
-**Version**: 0.1  
-**Last Updated**: 2026-05-04  
-**Target Venue**: SIGMOD 2027 / VLDB 2027 / IEEE Data Engineering Bulletin  
+**Status**: Review-ready
+**Version**: 1.0
+**Last Updated**: 2026-05-14
 **Authors**: ThemisDB Research Team
 
-> **Source Validation Note**: Every technical claim is backed by a concrete source code reference. All performance targets derive from `src/chaos/PERFORMANCE_EXPECTATIONS.md` (shared with replication benchmarks). No fabricated measurements.
+---
+
+## Abstract
+
+This paper reviews the current ThemisDB implementation state for bi-temporal change data capture (CDC) and focuses on three engineering concerns: (1) reliable event transport under failures, (2) schema evolution compatibility for downstream consumers, and (3) GDPR-aligned redaction handling in append-oriented logs.
+
+The current codebase provides production-oriented primitives for these concerns, but with clearly scoped limits:
+
+- Transport paths provide at-least-once guarantees (`DeliveryTracker`, outbox relay semantics).
+- Exactly-once behavior is supported as an application pattern via deduplication configuration (`IDeliveryGuaranteeConfig`) and idempotent downstream processing, not as a single global end-to-end guarantee.
+- Schema evolution is exposed through explicit interfaces (`ICDCEventSchema`, schema registry integration).
+- GDPR operations are implemented through `CDCAdmin::redactByKeyPrefix(...)` with optional audit-log and tombstone propagation wiring.
+
+All claims in this document are tied to concrete source artifacts (headers, module roadmaps, benchmark expectation files, and tests) to keep the narrative reviewable and reproducible.
 
 ---
 
-## I. Abstract
+## Introduction
 
-Change Data Capture (CDC) systems face three compounding challenges when deployed in bi-temporal databases: (1) **Delivery semantics** — downstream consumers require exactly-once delivery, but network failures and consumer restarts create duplicate-delivery scenarios; (2) **Schema evolution** — the structure of change events must evolve without breaking downstream consumers; and (3) **GDPR right-to-erasure** — personal data in historical change events must be redactable without breaking the append-only log invariant.
+ThemisDB is positioned as a multi-model database with an AQL-based query layer and distributed operation modes ([README.md](../README.md), [ARCHITECTURE.md](../ARCHITECTURE.md)). In this context, CDC serves as an integration boundary between transactional writes and downstream systems (replication, streaming, analytics, audit).
 
-We present ThemisDB's **bi-temporal CDC engine** — the first complete implementation of all three guarantees in a production database system. The engine comprises 11 production-ready components (all `[x]`-complete in `src/cdc/ROADMAP.md`, v2.0.0):
+For a bi-temporal setting, CDC events must preserve both system-time commit context and valid-time semantics where available (for example in temporal components such as `TemporalCDC`). At the same time, operational expectations in enterprise environments require:
 
-**Delivery guarantees**: Debezium-compatible `ChangeEvent` formatter (23 unit tests), Dead-Letter Queue (RocksDB `dlq:` prefix), `BatchCommitCoordinator` with FIFO commit history (16 tests), and `IDeliveryGuaranteeConfig` with rolling dedup hash window for `ExactlyOnce` mode.
+1. robust delivery behavior under network and consumer failures,
+2. schema evolution compatibility over long-lived streams,
+3. compliance workflows such as GDPR erasure/redaction with traceability.
 
-**Schema and replay**: `ICDCFilterPipeline` with composable fail-fast stages (15 tests), `ICDCReplayController` for temporal replay sessions (15 tests), and `ICDCEventSchema` with `MigrationStrategy` enum.
+From a distributed-systems perspective, this aligns with established practice around ordered event processing and clock-aware consistency models [1, 7].
 
-**Transactional and GDPR**: `OutboxWriter/OutboxRelay` for atomic transactional publishing (16 tests), Kafka CDC Producer (opt-in `THEMIS_ENABLE_KAFKA`), GDPR redaction audit log in the `cdc_redactions` RocksDB column family, and Kafka tombstone propagation for post-redaction downstream cleanup.
-
-Documented benchmark target (`src/chaos/PERFORMANCE_EXPECTATIONS.md`): ≤ 1 ms Commit→CDC Queue latency (`ChangefeedBenchmarkFixture_EventRecordingThroughput`, R-7). All components carry Production Readiness Checklist `[x]`: > 80% unit coverage, integration tests, performance benchmarks, and security audit complete.
-
----
-
-## II. Problem Statement
-
-### A. The Temporal CDC Challenge
-
-Standard CDC captures changes as they happen (system time only). Bi-temporal CDC must additionally capture:
-- **Valid time**: when the fact was true in the real world (e.g., when a contract took effect)
-- **System time**: when the fact was recorded in the database
-
-This introduces complexity: a retroactive data correction (inserting a valid-time row backdated to yesterday) must generate a CDC event that correctly propagates both temporal dimensions to downstream consumers.
-
-### B. Exactly-Once in a Distributed System
-
-Network partitions, consumer restarts, and producer retries all create scenarios where the same change event is delivered multiple times. The standard solution — an idempotency key per event — requires maintaining a deduplication state across consumer restarts. Rolling hash-window deduplication provides bounded memory cost at the price of a finite deduplication horizon.
-
-### C. GDPR Erasure in Append-Only Logs
-
-CDC logs are append-only by design (new events do not modify past events). GDPR Article 17 (right to erasure) requires that personal data be removed on request. This creates a fundamental tension: how to redact PII from historical change events without: (a) breaking downstream consumers that have already processed those events, and (b) invalidating the audit trail integrity.
+This review updates and restructures the previous draft into a publication-ready state and removes unsupported superlative claims.
 
 ---
 
-## III. System Architecture
+## Methodology
 
-### A. Debezium-Compatible ChangeEvent Format
+### M1. Evidence model
 
-**Source**: `include/cdc/debezium_format.h` (header-only), `tests/test_cdc_debezium_format.cpp` (23 tests)
+We validate each central statement using at least one of the following artifact classes:
 
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`]
+- public API headers in `include/cdc/` and `include/temporal/`,
+- implementation files in `src/cdc/` and `src/temporal/`,
+- module roadmap/status documents (`src/cdc/ROADMAP.md`),
+- benchmark expectation documents (`src/cdc/PERFORMANCE_EXPECTATIONS.md`),
+- dedicated CDC test targets listed in roadmap and tests.
 
-```
-Issue: #1614 — Debezium-compatible change event format
-Tests: 23 unit tests in tests/test_cdc_debezium_format.cpp
-```
+### M2. Terminology normalization
 
-**API** (from ROADMAP):
-```cpp
-DebeziumFormatter::toEnvelope(change_event)    // Debezium envelope JSON
-DebeziumFormatter::toJson(change_event)         // Simple JSON format
-DebeziumFormatter::toJsonWithSchema(...)        // JSON + Confluent Schema Registry schema
-```
+To keep terminology consistent across ThemisDB documentation and this article:
 
-The `before`/`after` document snapshot fields are populated from `ChangeEvent::before_snapshot` and `ChangeEvent::after_snapshot` [SRC: `src/cdc/ROADMAP.md`, Issue #1611].
+- **ThemisDB**: multi-model database platform.
+- **AQL**: query-layer language/component term; not used as a synonym for CDC.
+- **Delivery semantics**: transport-level at-least-once vs. exactly-once-oriented processing.
+- **Idempotent exactly-once-oriented processing**: achieved through deduplication and idempotent consumer contracts; not assumed as universal end-to-end transport semantics.
+- **Schema evolution**: compatibility and migration signaling via CDC schema interfaces and registry tooling.
 
-### B. Dead-Letter Queue (DLQ)
+### M3. Claim validation policy
 
-**Source**: `include/cdc/dead_letter_queue.h`, `src/cdc/dead_letter_queue.cpp`
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Issue #1610]
-
-Implementation details (from ROADMAP):
-- RocksDB key prefix: `dlq:`
-- API: `listEntries()`, `replay()`, `drain()`
-- Failed deliveries are written to the DLQ with exponential backoff metadata
-
-### C. BatchCommitCoordinator
-
-**Source**: `include/cdc/icdc_batch_commit_coordinator.h` (v2.0.0, Phase 6)
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Phase 6, 16 tests in `tests/test_cdc_batch_commit_coordinator.cpp`]
-
-**Interface** (from ROADMAP):
-```cpp
-class ICDCBatchCommitCoordinator {
-    BatchId beginBatch();
-    AddEventResult addEvent(BatchId, ChangeEvent);
-    CommitResult   commitBatch(BatchId);
-    RollbackResult rollbackBatch(BatchId);
-    BatchStatus    status(BatchId);
-    BatchInfo      info(BatchId);
-    uint64_t       committedEvents();
-    bool           isCommitted(BatchId);
-};
-```
-
-`BatchConfig` (from ROADMAP): `max_batch_size`, `commit_history_size`. `InMemoryBatchCommitCoordinator` uses FIFO commit history for bounded memory.
-
-Enums (from ROADMAP): `AddEventResult`, `CommitResult`, `RollbackResult`, `BatchStatus`.
-
-### D. FilterPipeline
-
-**Source**: `include/cdc/icdc_filter_pipeline.h` (v2.0.0, Phase 6)
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Phase 6, 15 tests in `tests/test_cdc_filter_pipeline.cpp`]
-
-**Interface** (from ROADMAP):
-```cpp
-class ICDCFilterPipeline {
-    void   addFilter(std::string name, std::shared_ptr<IEventFilter> filter);
-    void   removeFilter(const std::string& name);
-    bool   apply(const ChangeEvent&);   // fail-fast short-circuit
-    size_t applyBatch(const std::vector<ChangeEvent>&, std::vector<ChangeEvent>& out);
-    uint64_t totalPassed();
-    uint64_t totalDropped();
-};
-```
-
-Built-in filter stages (from ROADMAP):
-- `PredicateFilter` — `std::function`-backed predicate
-- `KeyPrefixFilter` — key prefix whitelist/blacklist
-- `EventTypeFilter` — event type filter (INSERT/UPDATE/DELETE)
-
-**Fail-fast short-circuit**: Once a filter rejects an event, subsequent filters are not evaluated.
-
-### E. ExactlyOnce Deduplication (DeliveryGuaranteeConfig)
-
-**Source**: `include/cdc/idelivery_guarantee_config.h` (v1.8.0, Phase 5)
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Phase 5]
-
-**DeliveryMode enum** (from ROADMAP):
-```cpp
-enum class DeliveryMode { AtLeastOnce, ExactlyOnce };
-```
-
-**Rolling dedup hash window** (from ROADMAP): `InMemoryDeliveryGuaranteeConfig` maintains a sliding window of event hashes for `isDuplicate()` detection, bounded by `setDeduplicationWindow()`.
-
-**Interface** (from ROADMAP):
-```cpp
-class IDeliveryGuaranteeConfig {
-    void setMode(DeliveryMode);
-    void setAckTimeout(std::chrono::milliseconds);
-    void setDeduplicationWindow(size_t window_size);
-    bool isDuplicate(const ChangeEvent&);  // rolling hash window check
-};
-```
-
-### F. ReplayController
-
-**Source**: `include/cdc/icdc_replay_controller.h` (v2.0.0, Phase 6)
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Phase 6, 15 tests in `tests/test_cdc_replay_controller.cpp`]
-
-**ReplayOptions** struct (from ROADMAP):
-```cpp
-struct ReplayOptions {
-    std::optional<uint64_t> from_sequence;
-    std::optional<uint64_t> to_sequence;
-    std::optional<int64_t>  from_timestamp_ms;
-    std::optional<int64_t>  to_timestamp_ms;
-    std::string             key_prefix;
-    std::vector<std::string> event_types;  // INSERT / UPDATE / DELETE
-    size_t batch_size;
-    size_t max_events_per_session;
-};
-```
-
-**IReplaySession** state machine (from ROADMAP):
-```
-CREATED → RUNNING → (COMPLETED | CANCELLED)
-```
-`nextBatch()`, `done()`, `cancel()`, `state()`, `deliveredCount()`.
-
-### G. Schema Evolution Hook
-
-**Source**: `include/cdc/icdc_event_schema.h` (v1.8.0, Phase 5)
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Phase 5]
-
-**SchemaEvolutionDescriptor** (from ROADMAP):
-```cpp
-struct SchemaEvolutionDescriptor {
-    std::string old_version;
-    std::string new_version;
-    MigrationStrategy strategy;     // ADD_FIELD | REMOVE_FIELD | RENAME_FIELD | TYPE_CHANGE
-    std::vector<std::string> affected_fields;
-};
-```
-
-`ISchemaEvolutionCallback` — pure-virtual interface fired on every schema evolution event. `InMemoryEventSchemaRegistry` stores registered schemas and callbacks.
-
-### H. GDPR Redaction with Audit Trail
-
-**Source**: `include/cdc/cdc_admin.h` (v0.0.47, Production-Ready, Quality Score: 100/100)
-
-**Commit provenance**: `c1118dfd68` and `13a305368a` (2026-04-13): "feat(cdc): GDPR redaction audit log (cdc_redactions CF)"
-
-**Audit trail** (from ROADMAP):
-> "GDPR redaction audit log in `cdc_redactions` column family (v2.0.0): audit record `{"key_prefix":..., "redacted_count":..., "timestamp_ms":..., "operator":..., "tenant_id":...}` written to `cdc_redactions` CF on every `redactByKeyPrefix()` call"
-
-**Kafka tombstone** (from ROADMAP):
-> "Kafka tombstone propagation after GDPR redaction (v2.0.0): `EVENT_DELETE` tombstone published for each distinct affected key via wired `ICDCTransport`; deduplicated before publishing"
-
-**Full API and result structs** (verbatim from `include/cdc/cdc_admin.h`):
-```cpp
-// GDPR redaction result — all fields verbatim from cdc_admin.h
-struct GDPRRedactionResult {
-    size_t   events_scanned = 0;    ///< Total events examined
-    size_t   events_redacted = 0;   ///< Events whose value was scrubbed
-    uint64_t elapsed_time_ms = 0;   ///< Wall-clock time of the operation
-    std::string key_prefix;         ///< Key prefix that was matched
-    std::string tenant_id;          ///< Tenant context (for multi-tenant deployments)
-    std::string operator_id;        ///< Identity of the requesting operator
-    int64_t  timestamp_ms = 0;      ///< Epoch ms when redaction completed
-};
-
-// Health status — verbatim from cdc_admin.h
-struct HealthStatus {
-    bool is_healthy = true;
-    bool changefeed_healthy = true;
-    bool buffer_healthy = true;
-    bool retention_healthy = true;
-    double buffer_utilization = 0.0;   // 0.0 to 1.0
-    uint64_t error_count = 0;
-    uint64_t error_rate_per_sec = 0;
-};
-
-// Retention status — verbatim from cdc_admin.h
-struct RetentionStatus {
-    uint64_t total_events = 0;
-    size_t   total_size_bytes = 0;
-    int64_t  oldest_event_age_ms = 0;
-    bool     policy_enabled = false;
-    uint32_t policy_max_age_hours = 168;   // 7 days default
-    uint64_t policy_max_event_count = 1000000;
-    bool     cleanup_thread_running = false;
-};
-
-class CDCAdmin {
-    void setAuditStorage(RocksDBWrapper*);   // enable cdc_redactions CF writing
-    void setTransport(ICDCTransport*);        // enable Kafka tombstone propagation
-
-    // GDPR Article 17 right-to-erasure
-    GDPRRedactionResult redactByKeyPrefix(const std::string& tenant_id,
-                                          const std::string& key_prefix,
-                                          const std::string& operator_id);
-
-    // Retention management
-    PurgeResult purgeAll();
-    PurgeResult purgeBySequenceRange(uint64_t from_seq, uint64_t to_seq);
-    PurgeResult purgeByTimestamp(int64_t before_timestamp_ms);
-    PurgeResult purgeTenant(const std::string& tenant_id);
-
-    // Observability
-    CompactionResult  compactLog();
-    RetentionStatus   getRetentionStatus();
-    HealthStatus      healthCheck();
-    DiagnosticsInfo   getDiagnostics();
-};
-```
-
-**CDCAdmin dependency wiring** [SRC: `include/cdc/cdc_admin.h`]:
-- `setAuditStorage(RocksDBWrapper*)` — must be called before `redactByKeyPrefix()` to enable the `cdc_redactions` column family write path
-- `setTransport(ICDCTransport*)` — must be called before `redactByKeyPrefix()` to enable Kafka tombstone propagation
-- Both are optional: if not wired, redaction still scrubs the in-process changefeed but skips audit persistence and downstream propagation
-
-### I. Outbox Pattern
-
-**Source**: `include/cdc/outbox.h`, `src/cdc/outbox.cpp`
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Issue #1612, 16 tests in `tests/test_cdc_outbox.cpp`]
-
-`OutboxWriter` — Writes change events transactionally (same RocksDB WriteBatch as the data write).
-`OutboxRelay` — Polls the outbox and publishes events to the CDC transport.
-
-This implements the transactional outbox pattern: data writes and event publication share the same atomic transaction, eliminating dual-write inconsistencies.
-
-### J. At-Least-Once Delivery
-
-**Source**: `include/cdc/delivery_tracker.h`, `src/cdc/delivery_tracker.cpp`
-
-**Status**: [x] complete [SRC: `src/cdc/ROADMAP.md`, Issue #1606, 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`]
-
-SSE at-least-once integration (from ROADMAP):
-- `consumer_id` + `ack_timeout_ms` query params on `GET /changefeed/stream`
-- `POST /changefeed/stream/ack` — consumer acknowledgement endpoint
-- 5 integration tests in `tests/test_http_changefeed_sse.cpp`
+Claims are treated as valid only when they have direct linkage to code, module docs, benchmarks, or external literature in this manuscript.
 
 ---
 
-## IV. Source Code Evidence
+## System Findings (Code-Backed)
 
-### A. ROADMAP Implementierungsstand — vollständig belegt
+### 1) Delivery and replay primitives
 
-**Quelle**: `src/cdc/ROADMAP.md`
+The CDC module documents implemented delivery and streaming capabilities, including SSE streaming, WebSocket transport, consumer groups, delivery tracker support, DLQ support, and replay interfaces ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)).
 
-```
-[x] Phase 1: Changefeed + SSE streaming (changefeed.cpp, changefeed.h)
-[x] Phase 2: WebSocket transport + at-least-once delivery (delivery_tracker.cpp, 18 tests)
-[x] Phase 3: Consumer groups + Kafka CDC + Debezium format (23 tests) + GDPR redaction
-[x] Phase 4: Build system audit (all CDC sources in CMakeLists.txt)
-[x] Phase 5: Public interface headers (ICDCPauseControl, ICDCBackpressureSignal,
-    ICDCFanIn, ICDCEventSchema, IDeliveryGuaranteeConfig — 5 focused test executables)
-[x] Phase 6: Advanced interface headers (ICDCReplayController: 15 tests,
-    ICDCFilterPipeline: 15 tests, ICDCBatchCommitCoordinator: 16 tests)
-[x] GDPR redaction audit log (cdc_redactions CF, v2.0.0, commit c1118dfd68)
-[x] Kafka tombstone propagation (v2.0.0)
-[x] Dead-letter queue (RocksDB dlq: prefix, Issue #1610)
-[x] Outbox pattern (OutboxWriter/OutboxRelay, 16 tests, Issue #1612)
-[x] Debezium format (DebeziumFormatter, 23 tests, Issue #1614)
-[x] Cross-collection change aggregation (19 tests, Issue #1615)
-```
+Relevant concrete interfaces/components:
 
-**Production Readiness** (from ROADMAP):
-```
-[x] Unit tests > 80% coverage (Issue #1623)
-[x] Integration tests (SSE streaming, change replay, subscription filtering)
-[x] Performance benchmarks (Issue #1624)
-[x] Security audit (Issue #1625)
-```
+- `IDeliveryGuaranteeConfig` with delivery mode and deduplication-window configuration ([include/cdc/idelivery_guarantee_config.h](../include/cdc/idelivery_guarantee_config.h)).
+- `DeliveryTracker` (at-least-once acknowledgement/redelivery flow in module roadmap and tests) ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)).
+- `ICDCReplayController` and replay session model for bounded replay sessions ([include/cdc/icdc_replay_controller.h](../include/cdc/icdc_replay_controller.h)).
 
-### B. Dokumentierte Performance-Targets
+These components map to common CDC ecosystem expectations from Kafka and Debezium deployments [1, 2].
 
-**Quelle**: `src/chaos/PERFORMANCE_EXPECTATIONS.md` (shared CDC/Replication benchmarks)
+### 2) Schema evolution support
 
-| Ziel-ID | Dokumentiertes Target | Benchmark-Case |
-|---------|----------------------|----------------|
-| R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
-| R-1 | ≤ 50 ms Replikations-Lag @ 10K Writes/s (LAN) | `WalBenchFixture_Append` |
-| R-4 | < 5 µs/Write (WAL-Entry Serialisierung) | `BM_WALEntry_Serialize` |
+The codebase exposes explicit schema-evolution contracts:
 
-**Benchmark-Datei**: `benchmarks/bench_changefeed_throughput.cpp` [SRC: `src/chaos/PERFORMANCE_EXPECTATIONS.md`].
+- `ICDCEventSchema` and `SchemaEvolutionDescriptor` (migration strategies and callbacks) ([include/cdc/icdc_event_schema.h](../include/cdc/icdc_event_schema.h)).
+- Schema registry integration (`SchemaRegistryClient`, `CdcSchemaEncoder`) for Confluent-compatible framing and schema ID handling ([include/cdc/schema_registry.h](../include/cdc/schema_registry.h)).
 
-### C. CDCAdmin API — Datei-Beleg
+This supports versioned event compatibility workflows, while rollout policy (e.g., backward/forward compatibility governance) remains an operational responsibility.
 
-**Quelle**: `include/cdc/cdc_admin.h` (v0.0.47, Quality Score: 100/100)
+### 3) GDPR redaction and auditability
 
-`PurgeResult` und `HealthStatus` structs (aus Header direkt zitiert):
-```cpp
-struct PurgeResult {
-    uint64_t events_deleted = 0;
-    uint64_t elapsed_time_ms = 0;
-};
-struct HealthStatus {
-    bool is_healthy = true;
-    bool changefeed_healthy = true;
-    bool buffer_healthy = true;
-    bool retention_healthy = true;
-    double buffer_utilization = 0.0;  // 0.0 to 1.0
-    uint64_t error_count = 0;
-    uint64_t error_rate_per_sec = 0;
-};
-```
+`CDCAdmin` exposes redaction operations and optional dependency wiring for persistence/propagation:
 
-### D. Bi-Temporal CDC — Temporale Integration
+- `setAuditStorage(...)`: writes structured redaction records (when wired).
+- `setTransport(...)`: publishes delete tombstones (when wired).
+- `redactByKeyPrefix(tenant_id, key_prefix, operator_id)`: redaction entry point.
 
-**Quelle**: `src/cdc/ROADMAP.md` + `include/temporal/temporal_cdc.h`
+See [include/cdc/cdc_admin.h](../include/cdc/cdc_admin.h) and [src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md).
 
-`TemporalCDC` und `temporal_cdc.cpp` verbinden die CDC-Changefeed-Infrastruktur mit dem `BiTemporalTable`-DML-Layer: jede `insertWithValidTime()`-, `update()`- und `delete()`-Operation erzeugt einen `ChangeEvent` mit sowohl `valid_time_range` als auch `sys_time` Feldern im Debezium-Envelope.
+### 4) DLQ and outbox operational pattern
 
-### E. DLQ Storage Layout — Verbatim Header-Zitat
+- Dead-letter queue storage layout and replay lifecycle are defined in `DeadLetterQueue` (RocksDB key format `dlq:{20-digit-zero-padded-sequence}`) ([include/cdc/dead_letter_queue.h](../include/cdc/dead_letter_queue.h)).
+- Transactional outbox (`OutboxWriter` / `OutboxRelay`) is documented in CDC roadmap/future-enhancement docs and implemented in module sources ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md), [src/cdc/FUTURE_ENHANCEMENTS.md](../src/cdc/FUTURE_ENHANCEMENTS.md)).
 
-**Quelle**: `include/cdc/dead_letter_queue.h` (verbatim aus Header, v0.0.15, Quality Score: 100/100):
+The patterns are consistent with established integration guidance for transactional outbox and dead-letter handling [4, 5].
 
-```cpp
-// Storage layout (RocksDB):
-//   Key:   "dlq:{20-digit-zero-padded-sequence}"
-//   Value: JSON — DLQEntry::toJson()
-//   Counter key: "dlq_sequence"
-```
+### 5) Bi-temporal CDC linkage
 
-**DLQEntry struct** (verbatim aus `include/cdc/dead_letter_queue.h`):
-```cpp
-struct DLQEntry {
-    uint64_t    dlq_sequence;       ///< DLQ-internal sequence (unique within DLQ)
-    Changefeed::ChangeEvent event;  ///< Original change event that failed delivery
-    std::string failure_reason;     ///< Human-readable reason (last error message)
-    int         attempt_count;      ///< Number of delivery attempts that were made
-    int64_t     enqueued_at_ms;     ///< Wall-clock timestamp when enqueued (ms since epoch)
-};
-```
-
-The DLQ is non-copyable and non-movable (contains a `std::mutex`). The `enqueue()` → `listEntries()` → `replay()` → `remove()` lifecycle is the canonical operator workflow for recovering failed events [SRC: `include/cdc/dead_letter_queue.h`].
-
-### F. FilterPipeline Thread-Safety — Verbatim Header-Zitat
-
-**Quelle**: `include/cdc/icdc_filter_pipeline.h` (verbatim aus Header, v0.0.10, Quality Score: 100/100):
-
-```
-Design constraints:
- - Filter stages are applied in insertion order; the first stage that
-   drops an event short-circuits the rest (fail-fast semantics).
- - Filter names are unique within a pipeline; adding a filter with the
-   same name as an existing one is a no-op that returns false.
- - Filters must be noexcept; exceptions from filter implementations
-   are caught and treated as FilterResult::Pass to avoid blocking the
-   event stream.
- - All ICDCFilterPipeline methods are thread-safe.
-```
-
-**Built-in filter implementations** (verbatim from `include/cdc/icdc_filter_pipeline.h`):
-
-```cpp
-// PredicateFilter — std::function-backed, fail-open on exception:
-FilterResult evaluate(const Changefeed::ChangeEvent& event) const noexcept override {
-    try {
-        return pred_(event) ? FilterResult::Pass : FilterResult::Drop;
-    } catch (...) {
-        return FilterResult::Pass; // fail-open on exception
-    }
-}
-
-// KeyPrefixFilter — prefix whitelist:
-FilterResult evaluate(const Changefeed::ChangeEvent& event) const noexcept override {
-    if (prefix_.empty()) return FilterResult::Pass;
-    return (event.key.substr(0, prefix_.size()) == prefix_)
-           ? FilterResult::Pass
-           : FilterResult::Drop;
-}
-```
-
-**FilterResult enum** [SRC: `include/cdc/icdc_filter_pipeline.h`]:
-```cpp
-enum class FilterResult {
-    Pass, ///< Forward the event to the next stage / subscriber
-    Drop, ///< Discard the event; do not deliver it
-};
-```
-
-The `InMemoryFilterPipeline` implementation uses a `std::mutex` for mutation operations (`addFilter`, `removeFilter`) and atomic `passed_` / `dropped_` counters for observability — ensuring thread-safe concurrent read/write access [SRC: `include/cdc/icdc_filter_pipeline.h`].
+`TemporalCDC` provides event structures including transaction time and valid-time fields (`valid_from`, `valid_to`), plus replay APIs ([include/temporal/temporal_cdc.h](../include/temporal/temporal_cdc.h), [src/temporal/temporal_cdc.cpp](../src/temporal/temporal_cdc.cpp)).
 
 ---
 
-## V. Related Work
+## Evaluation
 
-### A. Debezium
+### E1. Artifact-backed evaluation scope
 
-Debezium (Red Hat, 2016) is the reference implementation of CDC-via-WAL for PostgreSQL, MySQL, and MongoDB. ThemisDB implements Debezium-compatible event format (`DebeziumFormatter`) without requiring the Debezium JVM runtime, enabling native integration with Kafka Connect pipelines.
+This revision evaluates implementation readiness against documented module gates and test artifacts.
 
-### B. Exactly-Once Kafka
+### E2. Verification matrix
 
-Kafka's exactly-once semantics (Kreps, 2017; KIP-98) use transactional producer + idempotent delivery. ThemisDB's `InMemoryDeliveryGuaranteeConfig` implements a rolling hash window for in-memory deduplication — complementing (not replacing) Kafka's transactional producer when used with the `KafkaCDCProducer` backend.
+| Claim area | Verified artifact(s) | Result |
+|---|---|---|
+| CDC transport/replay components are implemented | `src/cdc/ROADMAP.md`, CDC headers in `include/cdc/` | Supported |
+| Exactly-once is scoped and configuration-based, not global magic | `include/cdc/idelivery_guarantee_config.h`, roadmap delivery notes | Supported (scoped wording required) |
+| Schema evolution hooks exist in public API | `include/cdc/icdc_event_schema.h`, `include/cdc/schema_registry.h` | Supported |
+| GDPR redaction flow + optional audit/tombstone wiring exist | `include/cdc/cdc_admin.h`, `src/cdc/ROADMAP.md` | Supported |
+| DLQ key format and replay lifecycle are concretely defined | `include/cdc/dead_letter_queue.h` | Supported |
+| CDC performance targets are documented as module-specific gates | `src/cdc/PERFORMANCE_EXPECTATIONS.md` | Supported |
 
-### C. Transactional Outbox Pattern
+### E3. Benchmark interpretation
 
-Richardson (2018) described the transactional outbox pattern for microservices. ThemisDB's `OutboxWriter` + `OutboxRelay` implements this pattern within a RocksDB transaction, providing at-least-once delivery without dual-write inconsistency.
-
-### D. GDPR-Compliant Event Streaming
-
-Pochmara et al. (2021) analyzed GDPR erasure propagation delays in Kafka-based event streaming. ThemisDB addresses this with: (a) immediate in-process redaction via `redactByKeyPrefix()`, (b) Kafka tombstone propagation for downstream cleanup, and (c) tamper-evident audit in `cdc_redactions` column family.
-
-### E. Dead-Letter Queue Patterns
-
-The DLQ pattern (Enterprise Integration Patterns, Hohpe & Woolf 2003) routes undeliverable messages to a secondary queue for operator inspection. ThemisDB's `DeadLetterQueue` is the first database-native DLQ implementation backed directly by RocksDB with a zero-padded sequence key (`dlq:{20-digit-sequence}`) for ordered enumeration and bounded replay.
-
----
-
-## VI. Open Problems and Future Work
-
-1. **Runtime Retention Config**: `CDCAdmin::purgeOlderThan()` requires manual invocation; automatic runtime retention configuration (TTL-based auto-purge) is a Known Issue [SRC: `src/cdc/ROADMAP.md`].
-2. **Bi-Temporal Replay**: `ICDCReplayController` currently replays by system time and sequence; temporal-aware replay by valid-time range (e.g., "replay all events valid between T1 and T2") requires `TemporalCDC` integration.
-3. **Cross-DC GDPR Propagation**: `cdc_redactions` audit trail is single-node; multi-DC replication of redaction events needs causal ordering.
-4. **FilterPipeline Persistence**: Current `InMemoryFilterPipeline` is ephemeral; persisting filter configurations across server restarts needs a configuration store.
-5. **DLQ Automated Replay**: Current DLQ replay is operator-triggered (`replay(dlq_sequence, changefeed)`). Automatic exponential-backoff replay with configurable `max_retry_count` is a future enhancement.
-6. **GDPR Batch Redaction**: `redactByKeyPrefix()` is a synchronous single-pass scan; large tenants with millions of events would benefit from async batch redaction with progress tracking.
+For CDC, documented expectations emphasize regression gates and module thresholds (e.g., throughput and latency envelopes) rather than universally claimed absolute results in this paper ([src/cdc/PERFORMANCE_EXPECTATIONS.md](../src/cdc/PERFORMANCE_EXPECTATIONS.md)).
 
 ---
 
-## VII. Conclusion
+## Limitations
 
-We presented ThemisDB's bi-temporal CDC engine — the first complete implementation of exactly-once delivery, schema evolution hooks, and GDPR-compliant redaction with audit trail in a production database CDC system. The system comprises 11 fully implemented and tested components: Debezium formatter (23 tests), Dead-Letter Queue (RocksDB-backed, key format `dlq:{20-digit-zero-padded-sequence}`) [SRC: `include/cdc/dead_letter_queue.h`], BatchCommitCoordinator (16 tests), FilterPipeline with fail-fast and thread-safe atomic counters [SRC: `include/cdc/icdc_filter_pipeline.h`] (15 tests), ExactlyOnce rolling-hash deduplication, ReplayController (15 tests), Schema Evolution Hook, OutboxWriter/Relay (16 tests), Kafka CDC Producer, GDPR `cdc_redactions` audit log with `GDPRRedactionResult` [SRC: `include/cdc/cdc_admin.h`], and Kafka tombstone propagation via `setTransport(ICDCTransport*)`. The documented performance target is ≤ 1 ms Commit→CDC Queue latency (`ChangefeedBenchmarkFixture_EventRecordingThroughput`) [SRC: `src/chaos/PERFORMANCE_EXPECTATIONS.md`, R-7]. All components passed security audit and have > 80% unit test coverage (Production Readiness Checklist: all [x]).
+The current implementation remains production-oriented but not without operational limits:
+
+1. **In-memory in-flight state**: parts of at-least-once and outbox relay runtime state are in-memory and can replay after restart (at-least-once behavior) ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)).
+2. **Retention automation gap**: runtime retention automation remains limited; manual/admin flows are still relevant in practice ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)).
+3. **Tenant purge path constraints**: roadmap notes a tenant-purge limitation tied to current build/linking context ([src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)).
+4. **Exactly-once boundary**: dedup-window approaches have finite memory windows and require downstream idempotency discipline.
+5. **Compliance operations**: GDPR redaction duties impose requirements for audit retention, downstream tombstone propagation, and tenant-scoped traceability; these constraints go beyond pure transport mechanics [3].
+---
+
+## Discussion and Conclusion
+
+ThemisDB provides a substantial CDC foundation for bi-temporal and enterprise integration scenarios, including delivery tracking, replay control, schema evolution hooks, DLQ/outbox patterns, and GDPR redaction controls. The strongest evidence-supported wording is:
+
+- transport is robust and at-least-once capable,
+- exactly-once behavior is achievable as a scoped end-to-end design pattern,
+- schema evolution and compliance hooks are implemented but require disciplined operational rollout.
+
+This revised article is structured for review and avoids unsupported absolute claims.
 
 ---
+
+## Source Artifacts (ThemisDB)
+
+- README and architecture context: [README.md](../README.md), [ARCHITECTURE.md](../ARCHITECTURE.md)
+- CDC module status and limits: [src/cdc/ROADMAP.md](../src/cdc/ROADMAP.md)
+- CDC performance gates: [src/cdc/PERFORMANCE_EXPECTATIONS.md](../src/cdc/PERFORMANCE_EXPECTATIONS.md)
+- CDC public APIs:
+  - [include/cdc/cdc_admin.h](../include/cdc/cdc_admin.h)
+  - [include/cdc/dead_letter_queue.h](../include/cdc/dead_letter_queue.h)
+  - [include/cdc/idelivery_guarantee_config.h](../include/cdc/idelivery_guarantee_config.h)
+  - [include/cdc/icdc_event_schema.h](../include/cdc/icdc_event_schema.h)
+  - [include/cdc/schema_registry.h](../include/cdc/schema_registry.h)
+- Temporal CDC linkage: [include/temporal/temporal_cdc.h](../include/temporal/temporal_cdc.h), [src/temporal/temporal_cdc.cpp](../src/temporal/temporal_cdc.cpp)
 
 ## References
 
-[1] Overholt L., et al. "Debezium: Change Data Capture for a Low Latency Data Lake." *Proceedings of the VLDB Workshop on Real-Time Business Intelligence and Analytics, 2019*.
-
-[2] Kreps J. "Exactly-Once Semantics Are Possible: Here's How Kafka Does It." *Confluent Engineering Blog, 2017*.
-
-[3] Richardson C. "Microservices Patterns: With Examples in Java." Manning, 2018.
-
-[4] Gao J., et al. "The Bi-Temporal Data Model for Historical Information." *IEEE Data Engineering Bulletin 15(4), 1992*.
-
-[5] Pochmara J., Mazurkiewicz J., Wierzbicki A. "GDPR Enforcement in Distributed Event Streaming Systems." *DEXA 2021*.
-
-[6] Jensen C.S., Snodgrass R.T. "Temporal Data Management." *IEEE TKDE 11(1), 1999*.
-
-[7] Apache Software Foundation. "Apache Kafka: A Distributed Streaming Platform." https://kafka.apache.org, 2021.
-
-[8] Chandy K.M., Misra J. "Distributed Simulation: A Case Study in Design and Verification of Distributed Programs." *IEEE Transactions on Software Engineering 5(5), 1979*.
-
-[9] Hohpe G., Woolf B. *Enterprise Integration Patterns*. Addison-Wesley, 2003. (Dead-Letter Channel pattern).
-
-[9] European Parliament. *General Data Protection Regulation (GDPR), Article 17: Right to Erasure*. Official Journal of the EU, 2016.
-
-[10] Helland P. "Immutability Changes Everything." *USENIX Queue 13(9), 2015*.
-
----
-
-## Appendix A: Key Source File Map
-
-| Component | Header | Tests |
-|-----------|--------|-------|
-| CDCAdmin | `include/cdc/cdc_admin.h` | `tests/test_cdc_changefeed_buffer.cpp` |
-| DebeziumFormatter | `include/cdc/debezium_format.h` | `tests/test_cdc_debezium_format.cpp` (23) |
-| DeadLetterQueue | `include/cdc/dead_letter_queue.h` | — |
-| DeliveryTracker | `include/cdc/delivery_tracker.h` | `tests/test_cdc_delivery_tracker.cpp` (18) |
-| IDeliveryGuaranteeConfig | `include/cdc/idelivery_guarantee_config.h` | dedicated focused test |
-| ICDCFilterPipeline | `include/cdc/icdc_filter_pipeline.h` | `tests/test_cdc_filter_pipeline.cpp` (15) |
-| ICDCBatchCommitCoordinator | `include/cdc/icdc_batch_commit_coordinator.h` | `tests/test_cdc_batch_commit_coordinator.cpp` (16) |
-| ICDCReplayController | `include/cdc/icdc_replay_controller.h` | `tests/test_cdc_replay_controller.cpp` (15) |
-| ICDCEventSchema | `include/cdc/icdc_event_schema.h` | dedicated focused test |
-| OutboxWriter/Relay | `include/cdc/outbox.h` | `tests/test_cdc_outbox.cpp` (16) |
-| KafkaCDCProducer | `include/cdc/kafka_cdc_producer.h` | `tests/CDCKafkaProducerFocusedTests` |
-| TemporalCDC | `include/temporal/temporal_cdc.h` | `src/temporal/temporal_cdc.cpp` |
-
----
-
-*ThemisDB CDC Module — Production-Ready, Apache 2.0*  
-*Module: `include/cdc/`, `src/cdc/`*  
-*Version: v2.0.0 | Quality Score: 100/100 (cdc_admin.h)*
+1. Apache Kafka documentation (delivery semantics): https://kafka.apache.org/documentation/#semantics (Accessed: 2026-05-14)
+2. Debezium documentation: https://debezium.io/documentation/reference/stable/ (Accessed: 2026-05-14)
+3. European GDPR legal text (EUR-Lex): https://eur-lex.europa.eu/eli/reg/2016/679/oj (Accessed: 2026-05-14)
+4. Transactional Outbox pattern: https://microservices.io/patterns/data/transactional-outbox.html (Accessed: 2026-05-14)
+5. Dead Letter Channel pattern: https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html (Accessed: 2026-05-14)
+6. Kreps, J. Exactly-Once Semantics Are Possible: https://www.confluent.io/blog/simplified-robust-exactly-one-semantics-in-kafka-2-5/ (Accessed: 2026-05-14)
+7. Kulkarni et al., Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases: https://arxiv.org/abs/1407.4765 (Accessed: 2026-05-14)
+8. Jensen, C. S., Snodgrass, R. T. Temporal Data Management. IEEE TKDE (1999), DOI: https://doi.org/10.1109/69.755613
