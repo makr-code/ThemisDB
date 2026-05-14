@@ -1,6 +1,6 @@
-# Chaos Engineering for Byzantine-Resilient Distributed Consensus: Source-Backed Fault Injection in ThemisDB
+# Chaos Engineering in ThemisDB: Source-Backed Fault Injection Review
 
-**Status**: Review Candidate
+**Status**: Technical Review Candidate
 **Version**: 0.2
 **Last Updated**: 2026-05-14
 **Scope**: ThemisDB OSS repository (`include/chaos`, `src/chaos`, related module roadmaps)
@@ -42,7 +42,6 @@ This revised article answers four repository-grounded questions:
 - **Fault Injection**: Registration and lifecycle management of simulated faults via `FaultInjector`.
 - **Scheduler**: Time-driven fault triggering via `ChaosScheduler`.
 - **Consensus / Federated Learning integration**: Existing module-level capabilities and roadmap references; not automatically equivalent to end-to-end validated chaos experiments.
-- **AQL**: ThemisDB query language used across modules; not a direct API of the chaos module itself.
 
 ---
 
