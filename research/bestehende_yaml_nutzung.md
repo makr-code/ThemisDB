@@ -29,7 +29,7 @@ Ziel dieses Dokuments ist daher **nicht**, YAML pauschal als „überall produkt
 
 ## 2. Methodik / Ansatz
 
-Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands und kombiniert vier Prüfschritte:
+Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`) und kombiniert vier Prüfschritte:
 
 1. **Artefaktprüfung:** Sichtung der YAML-Dateien unter `config/`, `deploy/`, `docs/` und `openapi/`.
 2. **Codeabgleich:** Prüfung, welche Komponenten YAML aktiv laden, validieren, mappen oder exportieren.
@@ -42,6 +42,7 @@ Wichtig für die Einordnung:
 
 - Diese Untersuchung ist **repository-basiert**, nicht benchmark-basiert.
 - Es wurden **keine dedizierten Performance-Benchmarks zur YAML-Nutzung** gefunden, die für diesen Artikel belastbar zitierbar wären.
+- Performance-Benchmarks sind für diese Bestandsaufnahme **methodisch out of scope**; bewertet wird die Existenz, Einbindung und Testbarkeit von YAML-Artefakten, nicht deren Parse- oder Laufzeitkosten.
 - Aussagen zu Laufzeitverhalten werden deshalb nur dort getroffen, wo der Codepfad oder Tests dies direkt stützen.
 
 ---
@@ -150,7 +151,7 @@ Die frühere Fassung enthielt mehrere Aussagen, die im aktuellen Repository-Stan
 
 ## 4. Evaluation / Experimente
 
-Da für die YAML-Nutzung selbst keine dedizierten Benchmark-Artefakte gefunden wurden, erfolgt die Evaluation als **Repository-basierte Bestandsaufnahme** statt als Performance-Experiment.
+Da für die YAML-Nutzung selbst keine dedizierten Benchmark-Artefakte gefunden wurden und Performance-Messungen für diesen Dokumenttyp bewusst nicht Ziel der Untersuchung sind, erfolgt die Evaluation als **Repository-basierte Bestandsaufnahme** statt als Performance-Experiment.
 
 ### 4.1 Quantitativer Überblick des gesichteten Bestands
 
