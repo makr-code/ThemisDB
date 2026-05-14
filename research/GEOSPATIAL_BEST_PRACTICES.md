@@ -24,6 +24,11 @@ Primary objective: provide a review-ready, evidence-backed baseline for geospati
 
 The review used three evidence classes:
 
+Repository state for this review:
+
+- Review date: 2026-05-14
+- Working tree basis: `makr-code/ThemisDB` (local checkout state at review time)
+
 1. **Code verification** (authoritative for implementation state)
    - `../include/index/spatial_index.h`
    - `../include/query/functions/geo_functions.h`
@@ -40,6 +45,7 @@ Validation criteria:
 - Avoid speculative "will definitely" claims for unimplemented features.
 - Keep comparisons to external systems at the level of referenced literature and ThemisDB's own measured artifacts.
 - Verification method: symbol/path inspection in source headers and implementations, cross-reference checks against product docs, and markdown/link validation of this review document.
+- Path convention: all repository references are relative to this file (`research/`) and were validated via internal link checking.
 
 ## Current ThemisDB Geospatial Baseline (Code-Verified)
 
@@ -93,7 +99,7 @@ Source:
 | Bulk loading for spatial index exists in the public API. | **Verified** | [../include/index/spatial_index.h](../include/index/spatial_index.h) (`SpatialIndexManager::bulkLoad`) |
 | GDAL parsing uses in-memory `/vsimem/` paths. | **Verified** | [../src/content/geo_processor.cpp](../src/content/geo_processor.cpp) (`VSIFileFromMemBuffer`, `VSIUnlink`) |
 | Optional spatial prefiltering exists in ingestion. | **Verified** | [../src/content/geo_processor.cpp](../src/content/geo_processor.cpp) (`SetSpatialFilterRect`) |
-| ThemisDB benchmark documents report CPU/GPU geo scenarios. | **Verified (artifact-level)** | [../docs/de/geo/geo_benchmarks.md](../docs/de/geo/geo_benchmarks.md) |
+| ThemisDB benchmark document reports CPU/GPU geo scenarios in its published tables. | **Verified (artifact-level)** | [../docs/de/geo/geo_benchmarks.md](../docs/de/geo/geo_benchmarks.md) |
 
 ### 2) Performance interpretation (artifact-backed)
 
@@ -111,7 +117,7 @@ Current implementation choices are broadly aligned with established geospatial D
 - R-tree family indexing as a practical baseline for spatial workloads
 - Optional simplification and CRS-aware processing in ingestion pipelines
 
-However, implementation maturity differs across features; therefore, each future enhancement must be tied to explicit acceptance criteria and reproducible benchmarks.
+However, implementation maturity differs across features. Example: core ingestion + index primitives are code-verified today, while roadmap targets such as R*-tree migration and broader operational hardening remain planning work. Therefore, each future enhancement must be tied to explicit acceptance criteria and reproducible benchmarks.
 
 ## Recommended Next Steps (Evidence-Driven)
 
@@ -155,20 +161,20 @@ ThemisDB's geospatial stack is not a greenfield prototype; it already contains m
 
 ### External standards and literature
 
-8. Open Geospatial Consortium. *OpenGIS Simple Features Access*.
+7. Open Geospatial Consortium. *OpenGIS Simple Features Access*.
    https://www.ogc.org/standards/sfa
-9. Butler, H. et al. (2016). *The GeoJSON Format* (RFC 7946).
+8. Butler, H. et al. (2016). *The GeoJSON Format* (RFC 7946).
    https://datatracker.ietf.org/doc/html/rfc7946
-10. Guttman, A. (1984). *R-trees: A Dynamic Index Structure for Spatial Searching*. SIGMOD.
+9. Guttman, A. (1984). *R-trees: A Dynamic Index Structure for Spatial Searching*. SIGMOD.
     DOI: https://doi.org/10.1145/602259.602266
-11. Beckmann, N. et al. (1990). *The R*-tree: An Efficient and Robust Access Method for Points and Rectangles*. SIGMOD.
+10. Beckmann, N. et al. (1990). "The R*-tree: An Efficient and Robust Access Method for Points and Rectangles". SIGMOD.
     DOI: https://doi.org/10.1145/93597.98741
-12. Jacox, E., Samet, H. (2007). *Spatial Join Techniques*. ACM TODS.
+11. Jacox, E., Samet, H. (2007). *Spatial Join Techniques*. ACM TODS.
     DOI: https://doi.org/10.1145/1272743.1272747
-13. GDAL/OGR official documentation.
+12. GDAL/OGR official documentation.
     https://gdal.org/
 
 ### Planning document (non-evidence roadmap input)
 
-14. Geospatial future enhancements roadmap:
+13. Geospatial future enhancements roadmap:
     [../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md](../docs/GEOSPATIAL_FUTURE_ENHANCEMENTS.md)
