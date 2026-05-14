@@ -2635,17 +2635,17 @@ Prompt Coordination" (MSD-01..10, Target: Q3 2026).
 | E5 | `src/ethics_ai/discourse_engine.cpp` | `generateArgument()` lines 100-145 | Strength-from-thesis-count heuristic | ready |
 | E6 | `src/ethics_ai/discourse_engine.cpp` | `continueDebate()` lines 160-220 | Multi-round PRO/REBUTTAL/SYNTHESIS with cross-round ID linking | ready |
 | E7 | `src/ethics_ai/ethics_evaluator.cpp` | `evaluateDecision()` | 5-dimension weighted scoring with normalised Config | ready |
-| E8 | `src/ethics_ai/ethics_aql_queries.h` | `EthicsAQLQueries` templates | AQL template set for ethics retrieval patterns | ready |
+| E8 | `src/ethics_ai/ethics_aql_queries.h` | `EthicsAQLQueries` templates | AQL template set covering 7 ethics retrieval/query patterns used by the module | ready |
 | E9 | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` | §3 | ONNX embedding provider design (Q3 2026) | pending |
 | E10 | `src/ethics_ai/chain_visualizer.cpp` | `exportDot()` / `exportMermaid()` | DOT + Mermaid argument chain export | ready |
-| E11 | `tests/test_ethics_ai_benchmark.cpp` | `PB-01..PB-06` | Benchmark coverage and guardrail thresholds for core paths (p95 thresholds per test) | ready |
+| E11 | `tests/test_ethics_ai_benchmark.cpp` | `PB-01..PB-06` | Benchmark guardrails: p95 thresholds (500 ms decision paths, 1 ms scoring ops, 5 ms vector search overhead, 1 s buildContext) | ready |
 | E12 | `src/ethics_ai/philosophy_loader.cpp` | `reloadProfiles()` | Atomic hot-reload via temp-loader + mutex swap | ready |
 | E13 | `src/ethics_ai/ethics_evaluator.h` | `computeConfidence()` / `computeConsensus()` | Strength-weighted confidence; inter-school consensus | ready |
 | E14 | `src/ethics_ai/ethics_evaluator.cpp` | `getMetricsText()` | Prometheus text v0.0.4 export; 5 metric families | ready |
 | E15 | `src/ethics_ai/argument_store.cpp` | `storeDebateRound()` / `getDebateTranscript()` | Ordered debate transcript; round-number ordering | ready |
 | E16 | `plugins/ethics_ai/philosophies/` | Bundled YAML profiles | Versioned philosophy profiles (kant, utilitarianism, contractualism, etc.) | ready |
 | E17 | `src/ethics_ai/ethics_evaluator.h` | `Config` struct | Configurable normalised dimension weights | ready |
-| E18 | `src/llm/llama_lora_adapter.cpp` | `loadLoraModel()` / `isLoraActive()` / `loraModelPath()` | LoRA adapter loading infrastructure for future domain-LoRA integration | ready |
+| E18 | `src/llm/llama_lora_adapter.cpp` | `loadLoraModel()` / `isLoraActive()` / `loraModelPath()` | Existing LoRA adapter loading infrastructure (candidate reuse point for future domain-LoRA integration) | ready |
 | E19 | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` | §4: LoRA Registry + lora_stack schema | Domain LoRA composition design spec (Q3–Q4 2026) | pending |
 | E20 | `src/prompt_engineering/context_window_manager.cpp` | `ContextWindowBudgetManager` / `CharDivisionCounter` / `PromptBudgetExceededError` | Token-budget enforcement for monocle construction (`T_budget` in §3-B.2); reused across all LLM calls | ready |
 | E21 | `src/prompt_engineering/system_prompt_manager.cpp` | `SystemPromptManager::buildSystemPrompt()` | Architecture B persona injection (§IV-B.3); `Persona` role with context-variable substitution | ready |
