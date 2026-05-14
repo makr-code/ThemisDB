@@ -29,7 +29,7 @@ Ziel dieses Dokuments ist daher **nicht**, YAML pauschal als „überall produkt
 
 ## 2. Methodik / Ansatz
 
-Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Dieser Snapshot wurde während der Analyse lokal per `git rev-parse HEAD` verifiziert; die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit. Eine zusätzliche Langzeit-Konservierung per Tag wäre sinnvoll, liegt aber außerhalb des Scopes dieses Dokuments.
+Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Dieser Snapshot wurde während der Analyse lokal per `git rev-parse HEAD` verifiziert; die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit.
 
 Anschließend kombiniert die Untersuchung vier Prüfschritte:
 
@@ -138,7 +138,7 @@ Diese Artefakte zeigen: YAML wird in ThemisDB **nicht nur für interne Settings*
 Die frühere Fassung enthielt mehrere Aussagen, die im aktuellen Repository-Stand nicht belastbar genug sind. Für Review-Zwecke sollten diese Punkte **nicht** als bestehende Produktfunktion formuliert werden:
 
 1. **Dokumenten-Metadaten-Schema unter `projects/Themis.DocumentManager/Config/metadata_dokument.yaml`**
-   Dieses konkrete Artefakt konnte im aktuellen Repository nicht verifiziert werden.
+   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden; für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln.
 
 2. **YAML-basierte Schema-Definition für ThemisDB-Core**
    In `research/schema/README.md` ist die YAML-Schema-Definition weiterhin ausdrücklich als **Konzept** markiert, nicht als implementiertes Feature.
