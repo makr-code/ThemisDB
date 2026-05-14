@@ -29,7 +29,7 @@ Ziel dieses Dokuments ist daher **nicht**, YAML pauschal als „überall produkt
 
 ## 2. Methodik / Ansatz
 
-Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Dieser Snapshot wurde während der Analyse lokal per `git rev-parse HEAD` verifiziert; die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit.
+Die Analyse basiert auf einem Repository-Snapshot des lokalen Arbeitsstands (Code- und Dateireferenzen: ThemisDB-Branch `copilot/review-bestehende-yaml-nutzung`, Snapshot `3af441821703119a9c24107b8d666dcbae9b4956`). Während der Analyse wurde lokal per `git rev-parse HEAD` verifiziert, welcher Commit der geprüften Arbeitskopie zugrunde lag; zusätzlich wurden die im Text genannten Dateien und Pfade in diesem Arbeitsstand direkt gegen Repository-Inhalt, Code und Tests abgeglichen. Die Quellenlisten nutzen commit-gepinnte GitHub-URLs zur Reproduzierbarkeit.
 
 Anschließend kombiniert die Untersuchung vier Prüfschritte:
 
@@ -138,7 +138,7 @@ Diese Artefakte zeigen: YAML wird in ThemisDB **nicht nur für interne Settings*
 Die frühere Fassung enthielt mehrere Aussagen, die im aktuellen Repository-Stand nicht belastbar genug sind. Für Review-Zwecke sollten diese Punkte **nicht** als bestehende Produktfunktion formuliert werden:
 
 1. **Dokumenten-Metadaten-Schema unter `projects/Themis.DocumentManager/Config/metadata_dokument.yaml`**
-   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden; für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln.
+   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden; für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln. Ob es nie committed wurde, zwischenzeitlich entfernt wurde oder heute unter einem anderen Namen existiert, lässt sich aus dieser Bestandsaufnahme allein nicht belastbar ableiten.
 
 2. **YAML-basierte Schema-Definition für ThemisDB-Core**
    In `research/schema/README.md` ist die YAML-Schema-Definition weiterhin ausdrücklich als **Konzept** markiert, nicht als implementiertes Feature.
@@ -163,7 +163,7 @@ Für den geprüften Snapshot ergab die Sichtung mindestens:
 - **13 YAML-Dateien** unter `deploy/`
 - **2 OpenAPI-YAML-Dateien** unter `docs/` bzw. `openapi/`
 
-Diese Zahlen beweisen noch keine Laufzeitrelevanz im Einzelfall, zeigen aber klar: YAML ist im Repository kein Randphänomen.
+Diese Zahlen wurden per Dateisystemzählung der jeweiligen Verzeichnisse (`config/`, `deploy/`, `docs/`, `openapi/`) nach `*.yaml`/`*.yml` ermittelt. Sie beweisen noch keine Laufzeitrelevanz im Einzelfall, zeigen aber klar: YAML ist im Repository kein Randphänomen.
 
 ### 4.2 Qualitative Bewertung
 
