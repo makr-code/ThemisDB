@@ -31,7 +31,7 @@ Nicht jede kleine Refaktorierung braucht einen vollständigen Research-Zyklus. S
 Dieses Dokument trennt bewusst zwischen zwei Evidenzarten:
 
 1. **Repository-Evidenz:** reale Dateien, Workflows, Skripte und Research-Artefakte in ThemisDB.
-2. **Methodische Evidenz:** allgemein anerkannte Bench­marking- und Statistikquellen für Versuchsdesign, Signifikanztests und Ausreißerbehandlung.
+2. **Methodische Evidenz:** allgemein anerkannte Benchmarking- und Statistikquellen für Versuchsdesign, Signifikanztests und Ausreißerbehandlung.
 
 Repository-spezifische Aussagen in diesem Dokument wurden gegen die aktuelle Codebasis geprüft. Methodische Empfehlungen werden als Leitplanken formuliert; sie ersetzen keine Modul-spezifische Fachprüfung.
 
@@ -133,6 +133,8 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 
 **Wichtig:** Das aktuelle Repository enthält keinen nachgewiesenen Standard-Helfer `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
 
+**Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden.
+
 **Praktischer Mindest-Output pro Experiment:**
 
 - Rohdaten (JSON)
@@ -185,7 +187,7 @@ Damit ist die Infrastruktur für reproduzierbare algorithmische Entscheidungen g
 
 Bei der Review dieses Dokuments wurden mehrere Aussagen entschärft oder korrigiert:
 
-1. **Nicht vorhandenes Hilfsskript entfernt:** Ein Verweis auf `tools/benchmark_compare.py` war nicht belegbar und wurde gestrichen.
+1. **Nicht vorhandenes Hilfsskript entfernt:** Ein Verweis auf `tools/benchmark_compare.py` war nicht belegbar und wurde gestrichen; stattdessen fordert das Dokument nun einen versionierten, im Experimentprotokoll referenzierten Auswertungspfad.
 2. **Relative Pfade korrigiert:** Verweise auf Root- und `src/`-Artefakte nutzen nun gültige Pfade aus `research/` heraus.
 3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Diese Datei behauptet jedoch nicht mehr, dass hier bereits ein vollständig nachprüfbares, in sich abgeschlossenes End-to-End-Fallbeispiel im selben Dokument vorliegt.
 4. **CI-Aussagen auf belegte Artefakte reduziert:** Es wird nur auf Workflows und Skripte verwiesen, die aktuell im Repository existieren.
