@@ -1,4 +1,4 @@
-# ArcGIS Pro vs ThemisDB for Emission-Protection Workflows: Repository-Grounded Review
+# ArcGIS Pro and ThemisDB Geospatial Capabilities: Emission-Protection Workflow Assessment
 
 **Status:** Review-ready research note (codebase-aligned)
 **Last Updated:** 2026-05-14
@@ -8,7 +8,7 @@
 
 ## Abstract
 
-This review replaces a speculative comparison draft with a repository-grounded assessment of how ThemisDB currently relates to ArcGIS Pro in emission-protection workflows. The central correction is that ThemisDB already implements more geospatial database functionality than the previous draft claimed: the AQL function registry exposes core constructors, measurements, predicates, `ST_BUFFER`, `ST_UNION`, `ST_INTERSECTION`, GeoJSON/WKT export, and CRS transformation via `ST_TRANSFORM`.
+This review provides a repository-grounded assessment of how ThemisDB currently relates to ArcGIS Pro in emission-protection workflows. The central result is that ThemisDB already implements substantial geospatial database functionality: the AQL function registry exposes core constructors, measurements, predicates, `ST_BUFFER`, `ST_UNION`, `ST_INTERSECTION`, GeoJSON/WKT export, and CRS transformation via `ST_TRANSFORM`.
 
 At the same time, the codebase does **not** justify describing ThemisDB as a replacement for ArcGIS Pro's analyst toolboxes. The repository supports the database side of environmental workflows well—storage, indexing, spatial filtering, proximity checks, buffering, CRS normalization, raster query building blocks, and spatial join primitives—but it does not provide code-verified viewshed analysis, kriging, dispersion modeling, network/service-area analysis, or OGC WMS/WFS/WMTS publishing in the open-source tree.
 
@@ -98,8 +98,8 @@ Projected GPU speedups without repository measurements were removed.
 | Core geometry construction and parsing (`ST_POINT`, `ST_LINESTRING`, `ST_POLYGON`, `ST_GEOMFROMTEXT`, `ST_GEOMFROMGEOJSON`) | Implemented | `include/query/functions/geo_functions.h` | Suitable as database-side ingestion and normalization layer |
 | Measurement and predicate functions (`ST_DISTANCE`, `ST_LENGTH`, `ST_AREA`, `ST_PERIMETER`, `ST_INTERSECTS`, `ST_CONTAINS`, `ST_WITHIN`, `ST_TOUCHES`, `ST_OVERLAPS`, `ST_DWITHIN`) | Implemented | `include/query/functions/geo_functions.h` | Covers the core screening/filtering primitives needed in many environmental workflows |
 | Output/accessor functions (`ST_ASGEOJSON`, `ST_ASTEXT`, `ST_SRID`, `ST_HASZ`) | Implemented | `include/query/functions/geo_functions.h`, `include/query/functions/crs_functions.h` | Important for interoperability and result export |
-| Processing functions (`ST_BUFFER`, `ST_CENTROID`, `ST_ENVELOPE`, `ST_SIMPLIFY`, `ST_UNION`, `ST_INTERSECTION`) | Implemented in AQL surface | `include/query/functions/geo_functions.h` | The previous draft incorrectly treated `ST_BUFFER` as missing |
-| CRS transformation (`ST_TRANSFORM`) | Implemented | `include/query/functions/crs_functions.h` | The previous draft incorrectly listed reprojection as absent |
+| Processing functions (`ST_BUFFER`, `ST_CENTROID`, `ST_ENVELOPE`, `ST_SIMPLIFY`, `ST_UNION`, `ST_INTERSECTION`) | Implemented in AQL surface | `include/query/functions/geo_functions.h` | Provides essential buffering and overlay capability for backend-side proximity analysis |
+| CRS transformation (`ST_TRANSFORM`) | Implemented | `include/query/functions/crs_functions.h` | Supports projection normalization for official datasets and mixed-source ingestion |
 | CPU/GPU backend model | Implemented with CPU fallback behavior | `src/geo/ARCHITECTURE.md`, `src/geo/ROADMAP.md` | GPU exists, but several set operations still fall back to CPU |
 | Raster query building blocks | Implemented | `src/geo/ROADMAP.md`, `src/geo/ARCHITECTURE.md` | Repository evidence supports raster query support, not full ArcGIS-style raster analyst parity |
 | Spatial join primitive | Implemented and benchmarked | `src/geo/ROADMAP.md`, `benchmarks/bench_spatial_join.cpp` | Useful for proximity/receptor matching workloads |
@@ -115,6 +115,8 @@ Projected GPU speedups without repository measurements were removed.
 
 These results support claims about **indexing and spatial filtering primitives**. They do **not** support claims about end-to-end emission dispersion, kriging, viewshed throughput, or ArcGIS-like analyst workloads.
 
+Benchmark context matters: `bench_spatial_index.cpp` uses synthetic lon/lat point distributions and an MBR query, while `bench_spatial_join.cpp` uses two generated Berlin-centered point collections with a 1 km threshold and a capped first-result workload. `PERFORMANCE_EXPECTATIONS.md` remains the authoritative place for SLO framing and result interpretation.
+
 ### E3 — ArcGIS Pro vs ThemisDB: Corrected Comparison Matrix
 
 | Workflow / feature class | ArcGIS Pro | ThemisDB (repo-evidenced) | Review judgement |
@@ -129,7 +131,7 @@ These results support claims about **indexing and spatial filtering primitives**
 | Dispersion modeling / regulatory plume calculation | Typically handled through specialist workflows and external models | No repository evidence for built-in dispersion engine | Must remain application/external-tool scope |
 | Network / service-area analysis | Available in ArcGIS Network Analyst | No geo-module evidence for network/service-area implementation | Not a defensible ThemisDB parity claim |
 | OGC WMS/WFS/WMTS publishing | Standard GIS ecosystem capability | No source-backed implementation found in open repository | The prior document's proposed OGC architecture was hypothetical, not current state |
-| Direct ArcGIS provider integration | ArcGIS-native | Only documentation references to an enterprise plugin were found; matching source/header artifacts are absent in this clone | Treat as non-verifiable from the open repository state |
+| Direct ArcGIS provider integration | ArcGIS-native | Only documentation references to an enterprise plugin were found; matching source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state |
 
 ### E4 — Emission-Protection Use Cases: What ThemisDB Can Realistically Support
 
@@ -221,7 +223,7 @@ The following statements are **not** justified as present-tense open-repository 
 ## Limitations
 
 1. **Open-repository visibility is incomplete for ArcGIS-specific integration claims.**
-   The clone contains documentation references to an enterprise ArcGIS data provider, but no matching header or source files were found under `include/` or `src/`. This means the integration cannot be treated as source-verified in this review.
+   The open-source clone contains documentation references to an enterprise ArcGIS data provider, but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here.
 
 2. **Benchmark evidence is narrow.**
    The repository contains solid evidence for R-tree queries and spatial join primitives, but not for full environmental analysis pipelines.
@@ -239,7 +241,7 @@ The following statements are **not** justified as present-tense open-repository 
 
 ## Conclusion
 
-After aligning the document with the current ThemisDB repository, the defensible conclusion is straightforward: ThemisDB is already stronger than the prior draft suggested on the **database side** of geospatial work. Core AQL geo functions, buffering, CRS transformation, spatial indexing, raster query building blocks, and spatial joins are present and partly benchmarked.
+After aligning the document with the current ThemisDB repository, the defensible conclusion is straightforward: ThemisDB is materially capable on the **database side** of geospatial work. Core AQL geo functions, buffering, CRS transformation, spatial indexing, raster query building blocks, and spatial joins are present and partly benchmarked.
 
 However, ArcGIS Pro still holds the advantage for full analyst workflows, especially where interactive GIS tooling, geostatistics, viewshed/surface analysis, network analysis, or specialized environmental models are required. For emission-protection workloads, ThemisDB should therefore be positioned as a **geospatial data backend and query engine**, not as a drop-in replacement for ArcGIS Pro.
 
