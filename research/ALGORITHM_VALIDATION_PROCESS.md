@@ -8,7 +8,7 @@
 
 Dieses Dokument beschreibt den verbindlichen Validierungsprozess für algorithmische Änderungen in ThemisDB. Der Prozess ist nur dann abgeschlossen, wenn ein messbares Ziel aus den Performance-Erwartungen oder einem gleichwertigen Modul-Artefakt abgeleitet, eine reproduzierbare Baseline eingefroren, Alternativen strukturiert verglichen, Ergebnisse statistisch ausgewertet, Regression-Gates an die bestehende Benchmark-Infrastruktur angebunden und die Entscheidung als Research-/ADR-Artefakt dokumentiert wurden.
 
-Der Text wurde gegen den aktuellen Repository-Stand verifiziert. Bestätigt sind insbesondere die kanonischen SLO- und KPI-Quellen, das Ziel-ID-zu-Benchmark-Mapping, der Validierer für dieses Mapping, der Performance-Regression-Detektor, der zentrale PR-Regression-Check, der Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index. Nicht belastbar sind dagegen Aussagen über nicht im Repository nachweisbare Hilfsskripte oder vollständig dokumentierte End-to-End-Fallstudien; solche Behauptungen wurden entfernt oder explizit eingegrenzt.
+Der Text wurde gegen den aktuellen Repository-Stand verifiziert. Bestätigt sind insbesondere die kanonischen SLO- und KPI-Quellen, das Ziel-ID-zu-Benchmark-Mapping, der Validierer für dieses Mapping, der Performance-Regression-Detektor, der zentrale PR-Regression-Check, der Nightly-Benchmark-Sweep sowie die Research-Verzeichnisse für Experimente, ADRs und den Implementation-Influence-Index. Aussagen über nicht im Repository nachweisbare Hilfsskripte oder vollständig dokumentierte End-to-End-Fallstudien waren dagegen nicht belastbar. Solche Behauptungen wurden entfernt oder explizit eingegrenzt.
 
 ## 1. Einleitung
 
@@ -131,7 +131,7 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
 - Ausreißerbehandlung nur mit offengelegter Regel
 
-**Wichtig:** Das aktuelle Repository enthält keinen nachgewiesenen Standard-Helfer `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
+**Wichtig:** Das aktuelle Repository enthält kein Standard-Skript `tools/benchmark_compare.py`. Statistische Vergleiche dürfen deshalb nicht als bereits automatisierter Repository-Standard behauptet werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden.
 
 **Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden.
 
@@ -147,7 +147,7 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 Ein Kandidat gilt nicht als übernommen, solange die Verbesserung nicht gegen spätere Regressionen abgesichert ist. ThemisDB besitzt dafür bereits eine funktionierende Infrastruktur:
 
 - [`../.github/workflows/performance-regression-check.yml`](../.github/workflows/performance-regression-check.yml) führt einen zentralen PR-Regressionstest aus.
-- [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml) sweeped Nightly-Benchmarks und prüft Abdeckung.
+- [`../.github/workflows/07-quality_nightly-benchmark-sweep.yml`](../.github/workflows/07-quality_nightly-benchmark-sweep.yml) führt Nightly-Benchmarks aus und prüft die Abdeckung.
 - [`../benchmarks/performance_regression_detector.py`](../benchmarks/performance_regression_detector.py) unterstützt konfigurierbare Schwellenwerte; die Defaults liegen bei 5 % / 10 % / 20 % für minor / major / critical.
 
 **Verpflichtend vor Adoption:**
@@ -189,7 +189,7 @@ Bei der Review dieses Dokuments wurden mehrere Aussagen entschärft oder korrigi
 
 1. **Nicht vorhandenes Hilfsskript entfernt:** Ein Verweis auf `tools/benchmark_compare.py` war nicht belegbar und wurde gestrichen; stattdessen fordert das Dokument nun einen versionierten, im Experimentprotokoll referenzierten Auswertungspfad.
 2. **Relative Pfade korrigiert:** Verweise auf Root- und `src/`-Artefakte nutzen nun gültige Pfade aus `research/` heraus.
-3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Diese Datei behauptet jedoch nicht mehr, dass hier bereits ein vollständig nachprüfbares, in sich abgeschlossenes End-to-End-Fallbeispiel im selben Dokument vorliegt.
+3. **Beispielcharakter des mimalloc-Falls eingegrenzt:** ADR-009 nennt mimalloc als internes Vorbild. Dieses Prozessdokument behauptet jedoch nicht mehr, dass `research/ALGORITHM_VALIDATION_PROCESS.md` selbst bereits ein vollständig nachprüfbares, in sich abgeschlossenes End-to-End-Fallbeispiel enthält.
 4. **CI-Aussagen auf belegte Artefakte reduziert:** Es wird nur auf Workflows und Skripte verwiesen, die aktuell im Repository existieren.
 5. **Statistikempfehlungen von Repository-Automation getrennt:** Methodische Empfehlungen bleiben erlaubt, werden aber nicht als bereits implementierte Standardtoolchain dargestellt.
 
