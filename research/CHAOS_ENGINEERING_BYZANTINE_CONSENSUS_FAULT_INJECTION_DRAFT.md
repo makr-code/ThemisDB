@@ -11,7 +11,7 @@
 
 This article documents and reviews the current ThemisDB chaos-engineering implementation with a strict source-first method. The verified core is an **in-process fault-injection framework** composed of `FaultInjector` and `ChaosScheduler` (`include/chaos/chaos_framework.h`, `src/chaos/chaos_framework.cpp`). The framework provides seven typed fault categories, callback hooks, expiry handling, and a scheduler with configurable wake behavior (`FIXED_TICK` and `CONDVAR`).
 
-The contribution of this review is not a new algorithm. It is a reproducible evidence map where each central claim is linked to concrete source artifacts, roadmap state, or benchmark expectation documents. Earlier draft statements were broader (for example, hard latency outcomes or fully validated cross-module consensus/FL behavior). This revision narrows those claims to what is directly evidenced in the current repository and marks the remaining scope as future work.
+The contribution of this review is a reproducible evidence map where each central claim is linked to concrete source artifacts, roadmap state, or benchmark expectation documents. This gives engineering and research teams a verifiable baseline for resilience testing, and it clearly separates implemented behavior from future validation scope.
 
 ---
 
