@@ -2,7 +2,7 @@
 
 **Status:** Review-ready research note (codebase-aligned)
 **Last Updated:** 2026-05-14
-**Primary Artifacts:** `include/query/functions/geo_functions.h`, `include/query/functions/crs_functions.h`, `src/geo/ARCHITECTURE.md`, `src/geo/ROADMAP.md`, `benchmarks/bench_spatial_index.cpp`, `benchmarks/bench_spatial_join.cpp`, `PERFORMANCE_EXPECTATIONS.md`, `artifacts/perf_local/bench_geo_v182_reference.json`, `README.md`, `ARCHITECTURE.md`
+**Evidence Base:** See Methodology for the source-backed artifact set used in this assessment.
 
 ---
 
@@ -10,7 +10,7 @@
 
 This review provides a repository-grounded assessment of how ThemisDB currently relates to ArcGIS Pro in emission-protection workflows. The central result is that ThemisDB already implements substantial geospatial database functionality: the AQL function registry exposes core constructors, measurements, predicates, `ST_BUFFER`, `ST_UNION`, `ST_INTERSECTION`, GeoJSON/WKT export, and CRS transformation via `ST_TRANSFORM`.
 
-At the same time, the codebase does **not** justify describing ThemisDB as a replacement for ArcGIS Pro's analyst toolboxes. The repository supports the database side of environmental workflows well—storage, indexing, spatial filtering, proximity checks, buffering, CRS normalization, raster query building blocks, and spatial join primitives—but it does not provide **open-repository, code-verified** viewshed analysis, kriging, dispersion modeling, network/service-area analysis, or OGC WMS/WFS/WMTS publishing. Where enterprise-only or roadmap-adjacent documentation exists, that status is treated explicitly as a limitation rather than as present-tense feature availability.
+At the same time, the codebase does **not** justify describing ThemisDB as a replacement for ArcGIS Pro's analyst toolboxes. The repository supports the database side of environmental workflows well—storage, indexing, spatial filtering, proximity checks, buffering, CRS normalization, raster query building blocks, and spatial join primitives—but it does not provide **open-repository, code-verified** viewshed analysis, kriging, dispersion modeling, network/service-area analysis, or OGC WMS/WFS/WMTS publishing. Here, "open-repository, code-verified" means evidenced by concrete files or benchmark artifacts inside the reviewed tree, not merely by forward-looking narrative text. Where enterprise-only or roadmap-adjacent documentation exists, that status is treated explicitly as a limitation rather than as present-tense feature availability.
 
 The resulting conclusion is narrower and more defensible: ThemisDB is a strong geospatial data and query backend for emission-protection applications, while ArcGIS Pro remains the more complete interactive GIS and advanced analysis environment.
 
@@ -223,7 +223,7 @@ The following statements are **not** justified as present-tense open-repository 
 ## Limitations
 
 1. **Open-repository visibility is incomplete for ArcGIS-specific integration claims.**
-   The open-source clone contains documentation references to an enterprise ArcGIS data provider—most directly `docs/de/integrations/arcgis_data_provider.md`—but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here. Readers who need to assess that path should start with the enterprise documentation entry point and request the corresponding non-open artifacts through the appropriate product channel.
+   The open-source clone contains documentation references to an enterprise ArcGIS data provider—most directly `docs/de/integrations/arcgis_data_provider.md`—but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here. Readers who need to assess that path should start with `docs/de/integrations/arcgis_data_provider.md` and request the corresponding non-open artifacts through the appropriate product channel.
 
 2. **Benchmark evidence is narrow.**
    The repository contains solid evidence for R-tree queries and spatial join primitives, but not for full environmental analysis pipelines.
@@ -267,6 +267,8 @@ However, ArcGIS Pro still holds the advantage for full analyst workflows, especi
    URL: [https://onlinelibrary.wiley.com/doi/book/10.1002/9781119115151](https://onlinelibrary.wiley.com/doi/book/10.1002/9781119115151)
 
 ### Internal repository artifacts
+
+The entries below mix **source-backed artifacts** (headers, architecture docs, benchmarks, result files) with one explicitly marked **documentation-only** entry for an enterprise integration path that is not source-verifiable in this clone.
 
 - `include/query/functions/geo_functions.h`
 - `include/query/functions/crs_functions.h`
