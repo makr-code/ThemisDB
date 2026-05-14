@@ -138,7 +138,7 @@ Diese Artefakte zeigen: YAML wird in ThemisDB **nicht nur für interne Settings*
 Die frühere Fassung enthielt mehrere Aussagen, die im aktuellen Repository-Stand nicht belastbar genug sind. Für Review-Zwecke sollten diese Punkte **nicht** als bestehende Produktfunktion formuliert werden:
 
 1. **Dokumenten-Metadaten-Schema unter `projects/Themis.DocumentManager/Config/metadata_dokument.yaml`**
-   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden; für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln. Ob es nie committed wurde, zwischenzeitlich entfernt wurde oder heute unter einem anderen Namen existiert, lässt sich aus dieser Bestandsaufnahme allein nicht belastbar ableiten.
+   Dieses konkrete Artefakt konnte im aktuellen Repository weder unter `projects/` noch per gezielter Pfadsuche verifiziert werden. Für den aktuellen Stand ist es daher als fehlendes bzw. nicht mehr vorhandenes Artefakt zu behandeln. Ob es nie committed wurde, zwischenzeitlich entfernt wurde oder heute unter einem anderen Namen existiert, lässt sich aus dieser Bestandsaufnahme allein nicht belastbar ableiten.
 
 2. **YAML-basierte Schema-Definition für ThemisDB-Core**
    In `research/schema/README.md` ist die YAML-Schema-Definition weiterhin ausdrücklich als **Konzept** markiert, nicht als implementiertes Feature.
