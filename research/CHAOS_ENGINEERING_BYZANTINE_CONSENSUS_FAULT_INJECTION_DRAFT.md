@@ -89,7 +89,7 @@ Unbacked numeric outcomes and unverified end-to-end assertions are removed.
 
 ---
 
-## 3. Verified System Description
+## 3. Verified System Description / Verifizierte Systembeschreibung
 
 ### 3.1 Implemented Fault Model
 
@@ -186,7 +186,7 @@ These artifacts support architectural relevance, but they are not by themselves 
 
 ---
 
-## 6. Conclusion
+## 6. Conclusion / Fazit
 
 ThemisDB currently provides a concrete and usable in-process chaos-engineering core (`FaultInjector` + `ChaosScheduler`) with clear API contracts, fault lifecycle semantics, and documented benchmark targets. The framework is suitable for deterministic test-harness fault simulation and resilience testing at module/integration level.
 
@@ -194,7 +194,7 @@ For publication-grade systems claims beyond this scope (for example, precise Raf
 
 ---
 
-## References
+## References / Referenzen
 
 ### A. External Literature
 
