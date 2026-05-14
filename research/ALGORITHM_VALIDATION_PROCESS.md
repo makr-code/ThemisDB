@@ -146,7 +146,7 @@ Alle Kandidaten werden unter möglichst identischen Bedingungen gemessen. Abweic
 - Signifikanztest nur dann berichten, wenn Eingangsgrößen, Stichprobengröße und Testannahmen dokumentiert sind
 - Ausreißerbehandlung nur mit offengelegter Regel
 
-**Wichtig:** Statistische Vergleiche müssen im Experimentprotokoll immer mit einem explizit dokumentierten Auswertungspfad hinterlegt werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, müssen das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden. Für den Pfad `tools/benchmark_compare.py` gibt es im aktuellen Repository kein Standard-Skript.
+**Wichtig:** Statistische Vergleiche müssen im Experimentprotokoll immer mit einem explizit dokumentierten Auswertungspfad hinterlegt werden. Wenn Welch-Test, Mann-Whitney-U-Test oder Effektstärken berichtet werden, muss das verwendete Skript, Notebook oder der Auswertungspfad im Experimentprotokoll mit angegeben werden. Für den Pfad `tools/benchmark_compare.py` gibt es im aktuellen Repository kein Standard-Skript.
 
 **Empfohlener Ersatzpfad:** Die Auswertung kann mit einem versionierten SciPy-/Python-Skript, einem R-Skript oder einem eingecheckten Notebook erfolgen. Entscheidend ist nicht das Tool selbst, sondern dass Eingabedaten, Testparameter, Signifikanzniveau und erzeugte Kennzahlen zusammen mit dem Experimentprotokoll reproduzierbar abgelegt werden. Die erwartete Struktur für dieses Protokoll ist in [`experiments/README.md`](experiments/README.md) beschrieben.
 
