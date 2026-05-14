@@ -10,7 +10,7 @@
 
 This review provides a repository-grounded assessment of how ThemisDB currently relates to ArcGIS Pro in emission-protection workflows. The central result is that ThemisDB already implements substantial geospatial database functionality: the AQL function registry exposes core constructors, measurements, predicates, `ST_BUFFER`, `ST_UNION`, `ST_INTERSECTION`, GeoJSON/WKT export, and CRS transformation via `ST_TRANSFORM`.
 
-At the same time, the codebase does **not** justify describing ThemisDB as a replacement for ArcGIS Pro's analyst toolboxes. The repository supports the database side of environmental workflows well—storage, indexing, spatial filtering, proximity checks, buffering, CRS normalization, raster query building blocks, and spatial join primitives—but it does not provide code-verified viewshed analysis, kriging, dispersion modeling, network/service-area analysis, or OGC WMS/WFS/WMTS publishing in the open-source tree.
+At the same time, the codebase does **not** justify describing ThemisDB as a replacement for ArcGIS Pro's analyst toolboxes. The repository supports the database side of environmental workflows well—storage, indexing, spatial filtering, proximity checks, buffering, CRS normalization, raster query building blocks, and spatial join primitives—but it does not provide **open-repository, code-verified** viewshed analysis, kriging, dispersion modeling, network/service-area analysis, or OGC WMS/WFS/WMTS publishing. Where enterprise-only or roadmap-adjacent documentation exists, that status is treated explicitly as a limitation rather than as present-tense feature availability.
 
 The resulting conclusion is narrower and more defensible: ThemisDB is a strong geospatial data and query backend for emission-protection applications, while ArcGIS Pro remains the more complete interactive GIS and advanced analysis environment.
 
@@ -131,7 +131,7 @@ Benchmark context matters: `bench_spatial_index.cpp` uses synthetic lon/lat poin
 | Dispersion modeling / regulatory plume calculation | Typically handled through specialist workflows and external models | No repository evidence for built-in dispersion engine | Must remain application/external-tool scope |
 | Network / service-area analysis | Available in ArcGIS Network Analyst | No geo-module evidence for network/service-area implementation | Not a defensible ThemisDB parity claim |
 | OGC WMS/WFS/WMTS publishing | Standard GIS ecosystem capability | No source-backed implementation found in open repository | The prior document's proposed OGC architecture was hypothetical, not current state |
-| Direct ArcGIS provider integration | ArcGIS-native | Only documentation references to an enterprise plugin were found; matching source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state |
+| Direct ArcGIS provider integration | ArcGIS-native | Only documentation references to an enterprise plugin were found (`docs/de/integrations/arcgis_data_provider.md`); matching source/header artifacts are not present in the open-source clone reviewed here | Treat as documented but not source-verifiable in this repository state; readers should rely on the enterprise documentation path for further verification |
 
 ### E4 — Emission-Protection Use Cases: What ThemisDB Can Realistically Support
 
@@ -223,7 +223,7 @@ The following statements are **not** justified as present-tense open-repository 
 ## Limitations
 
 1. **Open-repository visibility is incomplete for ArcGIS-specific integration claims.**
-   The open-source clone contains documentation references to an enterprise ArcGIS data provider, but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here.
+   The open-source clone contains documentation references to an enterprise ArcGIS data provider—most directly `docs/de/integrations/arcgis_data_provider.md`—but no matching header or source files were found under `include/` or `src/`. This may indicate enterprise-only artifacts outside the reviewed tree; in either case, the integration cannot be treated as source-verified here. Readers who need to assess that path should start with the enterprise documentation entry point and request the corresponding non-open artifacts through the appropriate product channel.
 
 2. **Benchmark evidence is narrow.**
    The repository contains solid evidence for R-tree queries and spatial join primitives, but not for full environmental analysis pipelines.
