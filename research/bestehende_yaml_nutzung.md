@@ -228,7 +228,7 @@ Für Folgearbeiten wie `git_gitops_themis_vergleich.md` bedeutet das: YAML-basie
    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/security/pii_patterns.yaml
 9. `config/data_management/retention_policies.yaml` — Retention-/Compliance-Konfiguration.
    URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/data_management/retention_policies.yaml
-10. `config/compliance/ethical_guidelines.yaml` — ethische Leitlinien auf YAML-Basis.
+10. `config/compliance/ethical_guidelines.yaml` — Ethische Leitlinien auf YAML-Basis.
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/config/compliance/ethical_guidelines.yaml
 11. `src/config/config_schema_validator.cpp` — generisches Laden von YAML/JSON und Schema-Validierung.
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/src/config/config_schema_validator.cpp
@@ -244,7 +244,7 @@ Für Folgearbeiten wie `git_gitops_themis_vergleich.md` bedeutet das: YAML-basie
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/docs/openapi.yaml
 17. `openapi/openapi.yaml` — weitere OpenAPI-Spezifikation im Repository.
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/openapi/openapi.yaml
-18. `research/schema/README.md` — Abgrenzung: YAML-Schema-Definition derzeit nur Konzept.
+18. `research/schema/README.md` — Abgrenzung: YAML-Schema-Definition. Derzeit nur Konzept.
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/research/schema/README.md
 19. `tests/test_config_schema_validator.cpp` — Tests für YAML-Parsing/Schema-Validierung.
     URL: https://github.com/makr-code/ThemisDB/blob/3af441821703119a9c24107b8d666dcbae9b4956/tests/test_config_schema_validator.cpp
