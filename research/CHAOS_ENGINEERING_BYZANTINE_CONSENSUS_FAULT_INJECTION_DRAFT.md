@@ -1,445 +1,228 @@
-# Chaos Engineering for Byzantine-Resilient Distributed Consensus: Deterministic Fault Injection at Scale
+# Chaos Engineering for Byzantine-Resilient Distributed Consensus: Source-Backed Fault Injection in ThemisDB
 
-**Status**: Draft  
-**Version**: 0.1  
-**Last Updated**: 2026-05-04  
-**Target Venue**: USENIX OSDI 2026 / EuroSys 2027  
-**Authors**: ThemisDB Research Team
-
----
-
-## I. Abstract
-
-Distributed consensus protocols (Raft, Paxos, Gossip) are routinely proven correct in theory but exhibit subtle failure modes — split-brain, livelock, and Byzantine gradient poisoning — only under carefully crafted fault combinations that production testing rarely exercises. We present ThemisDB's **Chaos Engineering Framework** for deterministic fault injection, designed for systematic resilience validation of consensus and federated learning protocols. Our system provides: (1) a typed `FaultSpec` registry with seven fault types (`NODE_FAILURE`, `NETWORK_PARTITION`, `LEADER_CRASH`, `DELAYED_RESPONSE`, `DISK_FAILURE`, `RANDOM_FAILURE`, `DISASTER_RECOVERY_DRILL`); (2) a time-driven `ChaosScheduler` with two wake strategies (`FIXED_TICK`, `CONDVAR`) and a configurable tick interval; (3) a probability-weighted `RANDOM_FAILURE` model enabling stochastic resilience testing; (4) a seeded deterministic execution mode for reproducible fault scenarios; and (5) cross-layer integration with the sharding consensus engine (Raft/Paxos), the federated learning gradient aggregator, and the distributed failover orchestrator. We evaluate Byzantine-resilience under targeted fault injection: Raft leader re-election completes in < 500 ms under `LEADER_CRASH`, Paxos maintains consistency under `NETWORK_PARTITION` affecting up to n/2 − 1 nodes, and federated gradient aggregation rejects poisoned updates from up to f = ⌊(n−1)/3⌋ Byzantine nodes. Our framework is the first to unify deterministic chaos scheduling with Byzantine federated learning validation in a production database engine.
+**Status**: Review Candidate
+**Version**: 0.2
+**Last Updated**: 2026-05-14
+**Scope**: ThemisDB OSS repository (`include/chaos`, `src/chaos`, related module roadmaps)
 
 ---
 
-## II. Problem Statement
+## Abstract / Zusammenfassung
 
-### A. The Gap Between Theory and Production Resilience
+This article documents and reviews the current ThemisDB chaos-engineering implementation with a strict source-first method. The verified core is an **in-process fault-injection framework** composed of `FaultInjector` and `ChaosScheduler` (`include/chaos/chaos_framework.h`, `src/chaos/chaos_framework.cpp`). The framework provides seven typed fault categories, callback hooks, expiry handling, and a scheduler with configurable wake behavior (`FIXED_TICK` and `CONDVAR`).
 
-Distributed systems research proves consensus protocols correct under abstract fault models (crash-stop, Byzantine, omission). Production deployments reveal gaps:
-
-1. **Split-brain under leader election**: A network partition concurrent with leader crash can cause two nodes to simultaneously claim leadership.
-2. **Livelock under repeated partitions**: Rapid partition/heal cycles prevent Raft candidates from reaching election timeout while also preventing forward progress.
-3. **Byzantine gradient poisoning in federated learning**: A malicious federation participant submits gradient updates with adversarially crafted L2-norm outliers that survive naive averaging.
-
-Manual failure testing is insufficient: it is non-reproducible, limited to obvious scenarios, and cannot explore the combinatorial fault space systematically.
-
-### B. Existing Chaos Engineering Tools
-
-| Tool | Deterministic | DB-Native | Byzantine FL | Consensus Integration |
-|---|---|---|---|---|
-| Netflix Chaos Monkey | ✗ | ✗ | ✗ | ✗ |
-| Jepsen | Partial | ✗ | ✗ | Partial |
-| Gremlin | ✗ | ✗ | ✗ | ✗ |
-| Bytedance Chaosblade | ✗ | ✗ | ✗ | ✗ |
-| **ThemisDB ChaosFramework** | **✓ (seeded RNG)** | **✓** | **✓** | **✓ (Raft+Paxos+Gossip)** |
-
-### C. Research Questions
-
-1. **RQ1**: What is the minimum set of fault types needed to achieve systematic coverage of distributed consensus failure modes?
-2. **RQ2**: Under what fault injection patterns does Raft leader election violate the < 500 ms recovery target?
-3. **RQ3**: How many simultaneous Byzantine participants can the federated gradient aggregator tolerate before the global model diverges?
-4. **RQ4**: What deterministic fault schedule reproduces the split-brain scenario in Paxos with a network partition of exactly ⌈n/2⌉ nodes?
+The contribution of this review is not a new algorithm, but a reproducible evidence map: each central claim is linked to concrete source artifacts, roadmap state, or benchmark expectation documents. Where previously broader statements existed (for example, hard latency outcomes or fully validated cross-module consensus/FL behavior), this revision narrows claims to what is directly evidenced in the current repository and marks the remaining scope as future work.
 
 ---
 
-## III. System Architecture
+## 1. Introduction / Einleitung
 
-### A. FaultSpec Registry
+### 1.1 Problem Context
 
-The `FaultInjector` maintains an in-process fault registry — a typed map from `(node_id, FaultType)` to `ActiveFault`. The design is deliberately in-process: the SUT (System Under Test) queries `isFaultActive()` before performing cluster operations, enabling white-box testing without OS-level network manipulation.
+Chaos engineering in distributed systems is valuable only when failure scenarios are reproducible and claims are traceable to implementation. In practice, many documents mix:
 
-**Seven fault types** cover the principal fault dimensions of distributed systems:
+- protocol theory (Raft/Paxos/Byzantine tolerance),
+- product intent (roadmaps), and
+- implemented behavior.
 
-| FaultType | Simulated Condition | Consensus Impact |
-|-----------|---------------------|------------------|
-| `NODE_FAILURE` | Complete node crash | Consensus quorum reduction |
-| `NETWORK_PARTITION` | Node network isolation | Split-brain risk |
-| `LEADER_CRASH` | Leader node abrupt termination | Re-election trigger |
-| `DELAYED_RESPONSE` | Artificial RPC latency injection | Election timeout sensitivity |
-| `DISK_FAILURE` | Storage I/O failure simulation | WAL recovery path |
-| `RANDOM_FAILURE` | Probability-weighted stochastic fault | Monte Carlo resilience sweep |
-| `DISASTER_RECOVERY_DRILL` | DR restore procedure simulation | Failover orchestrator testing |
+This review addresses that gap for ThemisDB by separating **implemented mechanics** from **planned or theoretical extensions**.
 
-**ActiveFault lifecycle**:
-```
-inject() → ActiveFault{expires_at = now() + duration}
-         → duration=0: permanent until recoverFault()
-isExpired() → steady_clock::now() >= expires_at
-pruneExpired() → called on every getActiveFaults() access
-```
+### 1.2 Research Questions
 
-**Event callbacks**: `registerEventCallback(fn)` fires on every inject/recover event, enabling test harness notification and metrics emission.
+This revised article answers four repository-grounded questions:
 
-### B. ChaosScheduler: Time-Driven Fault Orchestration
+1. Which chaos primitives are implemented and callable today in ThemisDB OSS?
+2. Which scheduler and fault-lifecycle semantics are guaranteed by current code?
+3. Which performance claims are documented as benchmark targets versus measured outcomes?
+4. Which resilience claims remain roadmap-level and require additional experiment evidence?
 
-`ChaosScheduler` fires scheduled faults from a background thread. Two wake strategies are supported, documented verbatim in `include/chaos/chaos_framework.h`:
+### 1.3 Terminology (Normalized)
 
-```cpp
-enum class WakeStrategy {
-    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
-    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
-};
-
-struct ChaosSchedulerConfig {
-    std::chrono::milliseconds tick_interval{10};  // default: 10 ms
-    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
-};
-```
-
-**`FIXED_TICK`** loop (from `include/chaos/chaos_framework.h` design):
-```cpp
-while (running_) {
-    sleep_for(tick_interval);  // default: 10ms
-    fire_due_entries();
-}
-```
-Properties: simple, deterministic, predictable overhead. Stop latency: O(tick_interval) — worst-case 10 ms before background thread exits.
-
-**`CONDVAR`** loop (from `include/chaos/chaos_framework.h` design):
-```cpp
-while (running_) {
-    wait_for(sched_cv_, tick_interval,
-             [this]{ return has_due_entries() || !running_; });
-    fire_due_entries();
-}
-```
-Properties: wakes immediately when `schedule()` adds a near-future entry or `stop()` is called. **Reduces stop latency from O(tick_interval) to O(1)** — the condition variable is notified on `stop()`, allowing instant thread exit. This is the recommended wake strategy for test harnesses with tight time budgets.
-
-**Phase 4+5 implementation evidence** (verbatim from `src/chaos/ROADMAP.md`):
-> "Commit `1f070f992b` (2026-04-12): 'chaos: Phase 4+5 — configurable scheduler tick/wake strat...'"
-
-**`scheduleIn(delay, fault)`** converts relative delays to absolute `steady_clock::time_point` entries, enabling test sequences like:
-
-```cpp
-ChaosScheduler scheduler(injector,
-    {.tick_interval = 5ms, .wake_strategy = WakeStrategy::CONDVAR});
-scheduler.start();
-// T=0ms: crash leader
-scheduler.scheduleIn(0ms, {FaultType::LEADER_CRASH, "node_1"});
-// T=50ms: partition 2 of remaining 4 nodes (concurrent with re-election)
-scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_3"});
-scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_4"});
-// T=500ms: heal partition
-scheduler.scheduleIn(500ms, recover_all_spec);
-// stop() with CONDVAR: returns in O(1) instead of O(10ms)
-scheduler.stop();
-```
-
-**Expired fault pruning** (from header design):
-```cpp
-isExpired() → steady_clock::now() >= expires_at
-// pruneExpired() called on every getActiveFaults() access
-```
-
-**Event callback registration** (from `include/chaos/chaos_framework.h`):
-```cpp
-void registerEventCallback(EventCallback cb);
-// EventCallback fires on every inject() and recoverFault() call
-// Enables test harness notification and metrics emission
-```
-
-### C. Deterministic Chaos Mode
-
-For reproducible testing, faults can be driven by a seeded PRNG rather than wall-clock scheduling. Given seed S and fault schedule F, the exact same fault sequence is replayed deterministically across runs. This is critical for regression testing: once a fault sequence exposes a bug, the same sequence is preserved in the CI suite for future regression detection.
-
-**Seeded RANDOM_FAILURE**:
-```cpp
-FaultSpec spec{
-    FaultType::RANDOM_FAILURE,
-    target_node,
-    duration,
-    probability = 0.3  // 30% trigger probability
-};
-// PRNG(seed) determines exact trigger sequence
-```
-
-### D. Consensus Protocol Integration
-
-The `ChaosFramework` integrates with three consensus protocols in ThemisDB's sharding layer:
-
-**Raft Integration**:
-- `LEADER_CRASH`: kills the current leader; triggers follower election timeout (150–300 ms randomized)
-- `NETWORK_PARTITION`: isolates ⌈n/2⌉ nodes; prevents quorum; leader steps down on heartbeat timeout
-- Recovery: new leader elected within 500 ms in standard configurations
-
-**Paxos Integration**:
-- `NODE_FAILURE` on acceptors: reduces available quorum size
-- `DISK_FAILURE` on proposer: triggers WAL-based state recovery (Paxos acceptor state persistence)
-- Split-brain simulation: `NETWORK_PARTITION` + `LEADER_CRASH` simultaneously on n=5 cluster; requires careful timing to expose the leader election race
-
-**Gossip Protocol Integration**:
-- `DELAYED_RESPONSE`: simulates high-latency gossip fan-out; tests convergence time under 500 ms message delays
-- `RANDOM_FAILURE` (p=0.1): 10% packet loss; tests gossip redundancy factor
-
-### E. Byzantine Federated Learning Validation
-
-The distributed_knowledge module implements Byzantine-resilient gradient aggregation (Blanchard et al., 2017 — Krum algorithm). Chaos injection enables systematic Byzantine poisoning tests:
-
-**Gradient Outlier Filter (L2-norm)** [SRC: `src/training/ROADMAP.md`, `FederatedDistillationCoordinator`]:
-```
-For each participant i: compute ||∇i||₂
-Filter condition: ||∇i||₂ > μ + k·σ  →  reject as Byzantine
-Tolerance: f = ⌊(n-1)/3⌋ Byzantine participants
-```
-
-**Differential Privacy + Byzantine FL interaction**:
-
-Rényi Differential Privacy (Mironov, CSF 2017) provides a privacy accounting mechanism for Gaussian DP noise. In ThemisDB's `FederatedDistillationCoordinator`, the two mechanisms interact as follows [SRC: `src/training/ROADMAP.md`, `src/distributed_knowledge/ROADMAP.md`]:
-
-1. **DP noise addition**: Gaussian noise calibrated to the L2 sensitivity of the gradient is added before aggregation. The `(ε, δ)`-DP budget is tracked per federation round via the Rényi DP accountant.
-2. **Byzantine detection after DP**: The L2-norm filter (`||∇i||₂ > μ + k·σ`) is applied *after* DP noise addition — this means legitimate participants with correctly-noised gradients remain within the filter threshold, while Byzantine participants submitting adversarially inflated gradients (norm >> μ + k·σ) are rejected even under DP noise.
-3. **Security interaction**: A Byzantine participant cannot use DP noise as cover: DP noise is zero-mean Gaussian with variance proportional to sensitivity/ε, which does not systematically inflate the L2 norm beyond the filter threshold. Only adversarially chosen outlier gradients (with systematically inflated L2 norm) are rejected.
-
-This design prevents Byzantine participants from exploiting DP noise to submit poisoned gradients that appear legitimate [SRC: `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`, threat T-1..T-6].
-
-**Chaos injection scenario for Byzantine sweep**:
-```cpp
-// Register event callback to log Byzantine rejections
-injector.registerEventCallback([](const FaultEvent& e) {
-    if (e.type == FaultType::RANDOM_FAILURE)
-        log("Byzantine simulation: node=" + e.target_node_id);
-});
-
-// Sweep from 1 to n Byzantine participants
-for (int f = 1; f <= n/2; ++f) {
-    injector.clearAllFaults();
-    for (int i = 0; i < f; ++i) {
-        injector.injectFault({
-            FaultType::RANDOM_FAILURE,
-            "fed_node_" + std::to_string(i),
-            std::chrono::milliseconds{0},  // permanent
-            1.0  // 100% trigger probability
-        });
-    }
-    auto result = federated_aggregator.trainRound();
-    // Theoretical tolerance: f ≤ ⌊(n-1)/3⌋ → model converges
-    // f > ⌊(n-1)/3⌋ → Byzantine fault tolerance exceeded
-}
-```
-
-### F. Disaster Recovery Drill
-
-`DISASTER_RECOVERY_DRILL` simulates a full data center failover:
-1. Inject `NODE_FAILURE` on all nodes in zone A
-2. Verify that zone B achieves quorum within T_failover seconds
-3. Verify that WAL recovery restores all committed transactions
-4. Measure `RTO` (Recovery Time Objective) and `RPO` (Recovery Point Objective)
-
-This is integrated with ThemisDB's `AutomaticFailoverOrchestrator` and `EpochFencing` (v2.0.0) which prevents split-brain via lease expiration.
+- **Chaos Framework**: The in-process fault simulation API in `include/chaos/chaos_framework.h` and `src/chaos/chaos_framework.cpp`.
+- **Fault Injection**: Registration and lifecycle management of simulated faults via `FaultInjector`.
+- **Scheduler**: Time-driven fault triggering via `ChaosScheduler`.
+- **Consensus / Federated Learning integration**: Existing module-level capabilities and roadmap references; not automatically equivalent to end-to-end validated chaos experiments.
+- **AQL**: ThemisDB query language used across modules; not a direct API of the chaos module itself.
 
 ---
 
-## IV. Source Code Evidence
+## 2. Methodology / Ansatz
 
-> **Methodische Anmerkung**: Alle Fault-Typen, API-Signaturen und Verhaltensbeschreibungen sind direkt aus `include/chaos/chaos_framework.h` entnommen und zitiert. Performance-Ziele beziehen sich auf dokumentierte Replikations-Benchmarks aus `src/chaos/PERFORMANCE_EXPECTATIONS.md`. Keine Zahl ohne Quellenbeleg.
+### 2.1 Verification Method
 
-### A. FaultType-Enum — vollständiger Beleg
+This review used a repository-only verification workflow:
 
-**Quelle**: `include/chaos/chaos_framework.h`
+1. **API/behavior verification** from:
+   - `include/chaos/chaos_framework.h`
+   - `src/chaos/chaos_framework.cpp`
+2. **Module state and scope verification** from:
+   - `src/chaos/ROADMAP.md`
+   - `src/chaos/ARCHITECTURE.md`
+   - `src/chaos/PERFORMANCE_EXPECTATIONS.md`
+3. **Cross-module context verification** from:
+   - `src/sharding/ROADMAP.md`
+   - `src/training/ROADMAP.md`
+   - `src/distributed_knowledge/ROADMAP.md`
+   - `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`
 
-```cpp
-enum class FaultType {
-    NODE_FAILURE,            ///< Simulate a complete node crash
-    NETWORK_PARTITION,       ///< Isolate a node from the cluster network
-    LEADER_CRASH,            ///< Kill the current leader abruptly
-    DELAYED_RESPONSE,        ///< Add artificial latency to responses
-    DISK_FAILURE,            ///< Simulate storage I/O failure
-    RANDOM_FAILURE,          ///< Inject random failure with configurable probability
-    DISASTER_RECOVERY_DRILL  ///< Simulate DR restore procedure
-};
-```
+### 2.2 Inclusion Rules for Claims
 
-### B. FaultSpec und ActiveFault — Beleg
+A claim is included only if it is backed by at least one of:
 
-**Quelle**: `include/chaos/chaos_framework.h`
+- concrete type/function behavior in source code,
+- explicit roadmap state in module documents,
+- explicit benchmark target documentation.
 
-```cpp
-struct FaultSpec {
-    FaultType   type;
-    std::string target_node_id;
-    std::chrono::milliseconds duration{0};  ///< 0 = permanent until manually cleared
-    double      probability{1.0};           ///< [0.0, 1.0] — used for RANDOM_FAILURE
-    std::string description;
-};
+Unbacked numeric outcomes and unverified end-to-end assertions are removed.
 
-struct ActiveFault {
-    FaultSpec spec;
-    std::chrono::steady_clock::time_point injected_at;
-    std::chrono::steady_clock::time_point expires_at;  ///< max() if permanent
-    bool isExpired() const noexcept { ... }
-};
-```
+### 2.3 Evidence Map (Claim -> Artifact)
 
-### C. FaultInjector-API — Beleg
-
-**Quelle**: `include/chaos/chaos_framework.h`
-
-```cpp
-bool injectFault(const FaultSpec& fault);
-bool recoverFault(const std::string& target_node_id);
-bool recoverFault(const std::string& target_node_id, FaultType type);
-bool isFaultActive(const std::string& target_node_id) const;
-bool isFaultActive(const std::string& target_node_id, FaultType type) const;
-std::vector<ActiveFault> getActiveFaults();
-size_t activeFaultCount();
-void clearAllFaults();
-void registerEventCallback(EventCallback cb);
-```
-
-In-process Design (belegt durch Header-Kommentar):
-> "Does NOT perform real network/disk manipulation — designed for unit and integration tests where the SUT queries isFaultActive() before performing cluster operations."
-
-### D. ChaosScheduler Wake-Strategies — Beleg
-
-**Quelle**: `include/chaos/chaos_framework.h`
-
-```cpp
-enum class WakeStrategy {
-    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
-    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
-};
-
-struct ChaosSchedulerConfig {
-    std::chrono::milliseconds tick_interval{10};  // default: 10 ms
-    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
-};
-```
-
-`scheduleIn(delay, fault)` API (belegt durch ChaosScheduler-Interface in Header).
-
-### E. Dokumentierte Performance-Targets (Chaos/Replikation)
-
-**Quelle**: `src/chaos/PERFORMANCE_EXPECTATIONS.md`
-
-| Ziel-ID | Dokumentiertes Target | Benchmark-Case |
-|---------|----------------------|----------------|
-| R-1 | ≤ 50 ms Replikations-Lag @ 10K Writes/s (LAN) | `WalBenchFixture_Append` |
-| R-4 | < 5 µs/Write (WAL-Entry Serialisierung) | `BM_WALEntry_Serialize` |
-| R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
-| R-8 | ≤ 200 ms P99 bei 50 ms RTT WAN | `WalBenchFixture_ReadFrom` |
-
-### F. Implementierungsstatus laut ROADMAP — Beleg
-
-**Quelle**: `src/chaos/ROADMAP.md`
-
-ChaosScheduler Phase 4+5 (configurable scheduler tick/wake strategy) implementiert laut Commit `1f070f992b` (2026-04-12): "chaos: Phase 4+5 — configurable scheduler tick/wake strat..."
-
-Deadlock/Blocking-IO-Fix: Commit `e963d4e9ba` und `71d99c4f28` (2026-04-14): "fix(concurrency): eliminate deadlocks, blocking I/O under..."
-
-### G. Byzantine Federated Learning — Integrations-Beleg
-
-**Quelle**: `src/distributed_knowledge/` (aus Training-ROADMAP):
-
-`LoRAFederationCoordinator` + `IncrementalLoRATrainer::exportGradient()/applyGlobalDelta()` implementiert (`src/training/ROADMAP.md`, Eintrag: "Federated learning for privacy-preserving cross-institution training (Target: Q2 2026) — Status: [x]"). `FederatedDistillationCoordinator` mit `PolicyGate` + Rollback-Trigger implementiert (`src/training/ROADMAP.md`, FDF-01..10 Tests).
+| Claim | Evidence |
+|---|---|
+| Seven fault types exist | `FaultType` enum in `include/chaos/chaos_framework.h` |
+| Fault validation is enforced | `injectFault` checks `target_node_id` and `probability` bounds in `src/chaos/chaos_framework.cpp` |
+| Permanent vs expiring faults are supported | `duration` semantics in `FaultSpec`, `expires_at` handling and `pruneExpired` in source |
+| Scheduler wake strategy is configurable | `WakeStrategy` + `ChaosSchedulerConfig` in header, run-loop branching in source |
+| `ChaosScheduler` requires non-null injector | constructor throws `std::invalid_argument` in source |
+| Framework scope is in-process simulation | architecture/readme statements + source comments |
+| Performance values are targets, not measured results | `src/chaos/PERFORMANCE_EXPECTATIONS.md` |
 
 ---
 
-## V. Related Work
+## 3. Verified System Description
 
-### A. Chaos Engineering in Industry
+### 3.1 Implemented Fault Model
 
-Netflix Chaos Monkey (Basiri et al., 2016) pioneered production chaos engineering by randomly terminating EC2 instances. It operates externally (OS-level kill) and lacks: determinism, consensus protocol awareness, and Byzantine fault modeling. Jepsen (Kingsbury, 2014) performs black-box correctness testing of distributed databases by injecting partitions via iptables and checking linearizability with Knossos. ThemisDB's white-box approach enables faster, more reproducible fault scheduling without requiring OS-level network manipulation.
+The chaos API defines the following fault categories:
 
-### B. Byzantine Fault Tolerance
+- `NODE_FAILURE`
+- `NETWORK_PARTITION`
+- `LEADER_CRASH`
+- `DELAYED_RESPONSE`
+- `DISK_FAILURE`
+- `RANDOM_FAILURE`
+- `DISASTER_RECOVERY_DRILL`
 
-Lamport, Shostak, and Pease (1982) established the Byzantine Generals Problem. Castro and Liskov (1999) introduced PBFT, the first practical BFT protocol. Blanchard et al. (2017) formalized Byzantine-resilient gradient aggregation for federated learning. ThemisDB applies this to a production database federated learning system and validates it under chaos-injected fault scenarios.
+`FaultInjector` stores active faults keyed by node and type, supports recovery by node or `(node, type)`, exposes query/snapshot APIs, and supports event callbacks.
 
-### C. Formal Verification vs. Chaos Testing
+### 3.2 Fault Lifecycle Semantics
 
-TLA+ (Lamport, 1994) and Coq-based proofs provide formal correctness guarantees but cannot reveal implementation bugs (e.g., off-by-one in election timeout, thread-safety violations in WAL recovery). Chaos testing complements formal verification by exposing the gap between the specified protocol and its implementation.
+Verified semantics from code:
 
-### D. Deterministic Testing
+- empty node IDs are rejected,
+- probabilities outside `[0.0, 1.0]` are rejected,
+- `duration > 0` creates expiring faults,
+- `duration == 0` creates permanent faults until explicit recovery,
+- expired faults are pruned lazily when reading active-fault state.
 
-FoundationDB (Huang et al., 2021) uses a deterministic simulation framework with seeded PRNG for flow networks. ThemisDB's seeded RANDOM_FAILURE mode is inspired by this approach, applied to a C++ production database engine without a custom simulation runtime.
+### 3.3 Scheduler Semantics
+
+`ChaosScheduler` provides:
+
+- background worker lifecycle (`start`, `stop`, `isRunning`),
+- absolute and relative scheduling (`schedule`, `scheduleIn`),
+- pending queue management (`pendingCount`, `clearPending`),
+- wake policy selection:
+  - `FIXED_TICK`: periodic sleep,
+  - `CONDVAR`: condition-variable wait with notification on schedule/stop.
+
+This supports deterministic scheduling behavior at API level and lower stop-latency behavior for notification-driven waits.
+
+### 3.4 Scope Boundary
+
+Current OSS scope is **simulation-oriented and in-process**. The framework does not directly perform OS-level sabotage (for example packet filtering, process killing, filesystem corruption).
 
 ---
 
-## VI. Open Problems and Future Work
+## 4. Evaluation / Experimente
 
-1. **Cluster-Wide Distributed Chaos Coordination** (Q3 2026): Currently, fault injection is per-process. A distributed ChaosCoordinator would enable synchronized cross-node fault injection via gRPC, enabling precise multi-node partition scenarios.
-2. **Property-Based Chaos Generation**: Use Hypothesis-style property-based testing to automatically generate fault schedules that maximize consensus violation probability.
-3. **Fault-Aware Adaptive Timeout Tuning**: Use chaos test results to auto-tune Raft election timeouts and Paxos ballot preparation timeouts for the measured cluster latency distribution.
-4. **Temporal Fault Injection**: Integrate chaos faults with the temporal module's bi-temporal versioning — inject faults during time-travel query execution to expose temporal isolation violations.
-5. **Formal Verification Loop**: Use TLA+ model checking to generate minimal fault witnesses, then validate them in the chaos framework.
-6. **CONDVAR → Cross-Platform Consistency**: Verify that `CONDVAR` wake strategy's O(1) stop guarantee holds under POSIX and Windows condition variable implementations (relevant for cross-platform ThemisDB builds).
+### 4.1 Evaluation Type
+
+This revision reports an **artifact-backed implementation evaluation** (code + documented benchmark expectations), not fresh runtime measurement campaigns.
+
+### 4.2 Benchmark Coverage (Documented)
+
+`src/chaos/PERFORMANCE_EXPECTATIONS.md` documents coverage for:
+
+- fault injection throughput,
+- active-fault query behavior,
+- recovery throughput,
+- expired-fault pruning,
+- callback dispatch scaling,
+- concurrent stress,
+- scheduler scheduling behavior,
+- active fault counting.
+
+### 4.3 Documented Performance Targets
+
+The current module document defines target gates such as:
+
+- `CHAG-1`: `>= 70000 ops/s` (`InjectFault_Throughput`)
+- `CHAG-2`: `<= 20 ms` RecoverFault P95
+- `CHAG-3`: `<= 35 ms` Concurrent Stress P99
+- `CHAG-4`: regression `<= 8 %` versus baseline
+
+and additional module-wide release gates (`NG-1..NG-3`).
+
+### 4.4 Cross-Module Resilience Context
+
+Repository artifacts indicate active work in:
+
+- sharding consensus hardening and chaos-focused tests (`src/sharding/ROADMAP.md`),
+- federated LoRA/distillation controls (`src/training/ROADMAP.md`, `src/distributed_knowledge/ROADMAP.md`),
+- threat-model controls for distillation and DP (`docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`).
+
+These artifacts support architectural relevance, but they are not by themselves a substitute for a dedicated end-to-end experiment report linking specific chaos schedules to measured consensus/FL outcomes.
 
 ---
 
-## VII. Conclusion
+## 5. Limitations / Known Issues
 
-We presented ThemisDB's Chaos Engineering Framework — the first database-native system combining deterministic fault injection with Byzantine federated learning validation and multi-protocol consensus integration (Raft, Paxos, Gossip).
+1. **No cluster-wide chaos control plane in current chaos module**: synchronized multi-node orchestration remains a planned enhancement.
+2. **No direct OS/network/disk sabotage in module scope**: current implementation is intentionally simulation-based.
+3. **Documented targets vs observed measurements**: the module provides benchmark target definitions, but this article does not add new measured result tables.
+4. **Cross-module causality evidence gap**: strong claims such as exact consensus recovery times under specific injected schedules require dedicated reproducible experiment runs and published datasets/logs.
+5. **Roadmap != proof**: roadmap completion items indicate implementation intent/state, not full scientific validation.
 
-**Source-backed claims** (every claim references concrete source code):
+---
 
-1. **Seven fault types** [SRC: `include/chaos/chaos_framework.h`]: `FaultType` enum with `NODE_FAILURE`, `NETWORK_PARTITION`, `LEADER_CRASH`, `DELAYED_RESPONSE`, `DISK_FAILURE`, `RANDOM_FAILURE`, `DISASTER_RECOVERY_DRILL` — verbatim from header.
-2. **FaultSpec struct** [SRC: `include/chaos/chaos_framework.h`]: `type`, `target_node_id`, `duration{0}` (permanent when 0), `probability{1.0}`, `description` — verbatim from header.
-3. **CONDVAR stop latency** [SRC: `include/chaos/chaos_framework.h`]: `WakeStrategy::CONDVAR` with `wait_for(sched_cv_, tick_interval, [this]{ return has_due_entries() || !running_; })` — reduces stop latency from O(tick_interval=10ms) to O(1).
-4. **Implementation phase completion** [SRC: `src/chaos/ROADMAP.md`, commit `1f070f992b`, 2026-04-12]: "chaos: Phase 4+5 — configurable scheduler tick/wake strat..."
-5. **Byzantine tolerance** [SRC: `src/training/ROADMAP.md`, `src/distributed_knowledge/ROADMAP.md`]: `f = ⌊(n-1)/3⌋` maximum Byzantine participants — documented theoretical bound used in `FederatedDistillationCoordinator`.
-6. **Replication performance gates** [SRC: `src/chaos/PERFORMANCE_EXPECTATIONS.md`]: R-1 (≤ 50 ms replication lag @ 10K writes/s), R-4 (< 5 µs/write WAL serialization), R-7 (≤ 1 ms commit→CDC queue), R-8 (≤ 200 ms P99 at 50 ms RTT WAN).
-7. **In-process design** [SRC: `include/chaos/chaos_framework.h`]: "Does NOT perform real network/disk manipulation — designed for unit and integration tests where the SUT queries `isFaultActive()` before performing cluster operations."
+## 6. Conclusion
 
-The seeded deterministic execution mode enables regression-grade reproducibility of previously undiscovered fault scenarios. We open-source this framework as a contribution to the systems community's toolkit for resilience validation.
+ThemisDB currently provides a concrete and usable in-process chaos-engineering core (`FaultInjector` + `ChaosScheduler`) with clear API contracts, fault lifecycle semantics, and documented benchmark targets. The framework is suitable for deterministic test-harness fault simulation and resilience testing at module/integration level.
+
+For publication-grade systems claims beyond this scope (for example, precise Raft/Paxos failover timing distributions or Byzantine tolerance curves under controlled chaos sweeps), the next step is a reproducible experiment package with run configuration, logs, and statistical analysis tied to exact source revisions.
 
 ---
 
 ## References
 
-[1] Ongaro D., Ousterhout J. "In Search of an Understandable Consensus Algorithm." *USENIX ATC 2014*.
+### A. External Literature
 
-[2] Lamport L., Shostak R., Pease M. "The Byzantine Generals Problem." *ACM TOPLAS 4(3), 1982*.
+1. Ongaro, D., Ousterhout, J. (2014). *In Search of an Understandable Consensus Algorithm*. USENIX ATC.
+   URL: https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro
+2. Lamport, L., Shostak, R., Pease, M. (1982). *The Byzantine Generals Problem*. ACM TOPLAS 4(3).
+   DOI: https://doi.org/10.1145/357172.357176
+3. Castro, M., Liskov, B. (1999). *Practical Byzantine Fault Tolerance*. OSDI.
+   URL: https://www.usenix.org/conference/osdi-99/practical-byzantine-fault-tolerance
+4. Blanchard, P., El Mhamdi, E. M., Guerraoui, R., Stainer, J. (2017). *Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent*. NeurIPS.
+   URL: https://proceedings.neurips.cc/paper/2017/hash/f4b9ec30ad9f68f89b29639786cb62ef-Abstract.html
+5. Mironov, I. (2017). *Rényi Differential Privacy*. IEEE CSF.
+   DOI: https://doi.org/10.1109/CSF.2017.11
+6. Basiri, A., Behnam, N., de Rooij, R., Hochstein, L., Kosewski, L., Reynolds, J., Rosenthal, C. (2016). *Chaos Engineering*. IEEE Software 33(3).
+   DOI: https://doi.org/10.1109/MS.2016.60
+7. Kingsbury, K. (2014). *Jepsen: Call Me Maybe*.
+   URL: https://jepsen.io
+8. Huang, J., Xu, Y., Mukherjee, A., et al. (2021). *FoundationDB: A Distributed Unbundled Transactional Key Value Store*. SIGMOD.
+   DOI: https://doi.org/10.1145/3448016.3457559
 
-[3] Castro M., Liskov B. "Practical Byzantine Fault Tolerance." *OSDI 1999*.
+### B. ThemisDB Source Artifacts (Primary Evidence)
 
-[4] Blanchard P., Mhamdi E.M.E., Guerraoui R., Stainer J. "Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent." *NeurIPS 2017*.
-
-[5] Basiri A., Behnam N., De Rooij R., Hochstein L., Kosewski L., Reynolds J., Rosenthal C. "Chaos Engineering." *IEEE Software 33(3), 2016*.
-
-[6] Kingsbury K. "Call Me Maybe: Jepsen." https://jepsen.io, 2014.
-
-[7] Huang J., Xu Y., Mukherjee A., et al. "FoundationDB: A Distributed Unbundled Transactional Key Value Store." *SIGMOD 2021*.
-
-[8] Lamport L. "The Part-Time Parliament." *ACM TOCS 16(2), 1998*.
-
-[9] Mironov I. "Rényi Differential Privacy of the Gaussian Mechanism." *CSF 2017*.
-
-[10] Demers A., Greene D., Hauser C., Irish W., Larson J., et al. "Epidemic Algorithms for Replicated Database Maintenance." *PODC 1987*.
-
----
-
-## Appendix A: Chaos Scenario Cookbook
-
-```cpp
-// Scenario 1: Raft Split-Brain Race
-auto injector = std::make_shared<FaultInjector>("split-brain-test");
-ChaosScheduler scheduler(injector, {.tick_interval=5ms, .wake_strategy=WakeStrategy::CONDVAR});
-scheduler.start();
-// T=0ms: crash leader
-scheduler.scheduleIn(0ms, {FaultType::LEADER_CRASH, "node_1"});
-// T=50ms: partition 2 of remaining 4 nodes (concurrent with re-election)
-scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_3"});
-scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_4"});
-// T=500ms: heal partition
-scheduler.scheduleIn(500ms, recover_all_spec);
-// Assert: no split-brain in consensus log
-
-// Scenario 2: Byzantine Gradient Sweep
-for (int f = 1; f <= n/2; ++f) {
-    injector.clearAllFaults();
-    for (int i = 0; i < f; ++i) {
-        injector.injectFault({FaultType::RANDOM_FAILURE, "fed_node_"+i, {}, 1.0});
-    }
-    auto accuracy = federated_aggregator.trainRound();
-    EXPECT_GE(accuracy, f <= (n-1)/3 ? 0.93 : 0.0);
-}
-```
-
----
-
-*ThemisDB Chaos Engineering Framework — Production-Ready, Apache 2.0*  
-*Module: `include/chaos/chaos_framework.h`, `src/chaos/`*  
-*Cross-Module: `src/sharding/`, `src/distributed_knowledge/`*  
-*Version: 0.0.11 | Quality Score: 99/100*
+- `include/chaos/chaos_framework.h`
+- `src/chaos/chaos_framework.cpp`
+- `src/chaos/ARCHITECTURE.md`
+- `src/chaos/ROADMAP.md`
+- `src/chaos/PERFORMANCE_EXPECTATIONS.md`
+- `src/sharding/ROADMAP.md`
+- `src/training/ROADMAP.md`
+- `src/distributed_knowledge/ROADMAP.md`
+- `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`
