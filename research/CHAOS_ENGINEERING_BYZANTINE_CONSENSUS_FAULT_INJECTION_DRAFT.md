@@ -1,4 +1,4 @@
-# Chaos Engineering in ThemisDB: Source-Backed Fault Injection Review
+# Chaos Engineering in ThemisDB: Technical Fault Injection Review
 
 **Status**: Technical Review Candidate
 **Version**: 0.2
@@ -7,7 +7,7 @@
 
 ---
 
-## Abstract / Zusammenfassung
+## Abstract
 
 This article documents and reviews the current ThemisDB chaos-engineering implementation with a strict source-first method. The verified core is an **in-process fault-injection framework** composed of `FaultInjector` and `ChaosScheduler` (`include/chaos/chaos_framework.h`, `src/chaos/chaos_framework.cpp`). The framework provides seven typed fault categories, callback hooks, expiry handling, and a scheduler with configurable wake behavior (`FIXED_TICK` and `CONDVAR`).
 
@@ -15,7 +15,7 @@ The contribution of this review is a reproducible evidence map where each centra
 
 ---
 
-## 1. Introduction / Einleitung
+## 1. Introduction
 
 ### 1.1 Problem Context
 
@@ -45,7 +45,7 @@ This revised article answers four repository-grounded questions:
 
 ---
 
-## 2. Methodology / Ansatz
+## 2. Methodology
 
 ### 2.1 Verification Method
 
@@ -88,7 +88,7 @@ Unbacked numeric outcomes and unverified end-to-end assertions are removed.
 
 ---
 
-## 3. Verified System Description / Verifizierte Systembeschreibung
+## 3. Verified System Description
 
 ### 3.1 Implemented Fault Model
 
@@ -133,7 +133,7 @@ Current OSS scope is **simulation-oriented and in-process**. The framework does 
 
 ---
 
-## 4. Evaluation / Experimente
+## 4. Evaluation
 
 ### 4.1 Evaluation Type
 
@@ -175,7 +175,7 @@ These artifacts support architectural relevance, but they are not by themselves 
 
 ---
 
-## 5. Limitations / Known Issues
+## 5. Limitations
 
 1. **No cluster-wide chaos control plane in current chaos module**: synchronized multi-node orchestration remains a planned enhancement.
 2. **No direct OS/network/disk sabotage in module scope**: current implementation is intentionally simulation-based.
@@ -185,7 +185,7 @@ These artifacts support architectural relevance, but they are not by themselves 
 
 ---
 
-## 6. Conclusion / Fazit
+## 6. Conclusion
 
 ThemisDB currently provides a concrete and usable in-process chaos-engineering core (`FaultInjector` + `ChaosScheduler`) with clear API contracts, fault lifecycle semantics, and documented benchmark targets. The framework is suitable for deterministic test-harness fault simulation and resilience testing at module/integration level.
 
@@ -193,7 +193,7 @@ For publication-grade systems claims beyond this scope (for example, precise Raf
 
 ---
 
-## References / Referenzen
+## References
 
 ### A. External Literature
 
