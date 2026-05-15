@@ -40,6 +40,7 @@
 #include <string>
 #include <thread>
 #include <future>
+#include <memory>
 
 namespace fs = std::filesystem;
 using themis::llm::InferenceRequest;
@@ -448,13 +449,13 @@ using namespace themis::distributed_knowledge;
 
 namespace {
 
-static AdaptiveShardRouter makeThreeShardRouter()
+static std::unique_ptr<AdaptiveShardRouter> makeThreeShardRouter()
 {
     auto topology = std::make_shared<ShardTopology>();
     auto ring     = std::make_shared<ConsistentHashRing>();
     auto resolver = std::make_shared<URNResolver>(topology, ring);
     ShardRouter::Config cfg;
-    AdaptiveShardRouter r(resolver, nullptr, topology, cfg);
+    auto r = std::make_unique<AdaptiveShardRouter>(resolver, nullptr, topology, cfg);
 
     for (const auto& [shard, delta] :
          std::initializer_list<std::pair<const char*, double>>{
@@ -465,7 +466,7 @@ static AdaptiveShardRouter makeThreeShardRouter()
         cap.domain_type    = AdapterDomainType::LEGAL;
         cap.accuracy_delta = delta;
         cap.adapter_version = "v1";
-        r.updateAdapterCapability(shard, cap);
+        r->updateAdapterCapability(shard, cap);
     }
     return r;
 }
@@ -477,7 +478,7 @@ static void BM_DomainRouting_OverheadPerRequest(benchmark::State& state)
     auto router = makeThreeShardRouter();
 
     for (auto _ : state) {
-        const auto shard = router.routeByDomain(AdapterDomainType::LEGAL);
+        const auto shard = router->routeByDomain(AdapterDomainType::LEGAL);
         benchmark::DoNotOptimize(shard);
     }
 

@@ -30,6 +30,8 @@
 #include <filesystem>
 #include <random>
 #include <thread>
+#include <sstream>
+#include <chrono>
 
 using namespace themis;
 
@@ -39,9 +41,16 @@ using namespace themis;
 
 class TransactionBenchmarkFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
+    void SetUp(const ::benchmark::State& state) override {
         // Clean up any existing test database
-        test_db_path_ = "./data/bench_transaction_tmp";
+         const auto unique_id = static_cast<unsigned long long>(
+             std::chrono::steady_clock::now().time_since_epoch().count());
+        std::ostringstream suffix;
+        suffix << "bench_transaction_tmp_t"
+               << state.thread_index()
+             << "_" << unique_id;
+        const auto db_dir = std::filesystem::absolute(std::filesystem::path("data") / suffix.str());
+        test_db_path_ = db_dir.string();
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);
         }
@@ -49,12 +58,12 @@ public:
         // Create RocksDB wrapper
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.wal_dir = (db_dir / "wal").string();
         config.memtable_size_mb = 128;
         config.block_cache_size_mb = 256;
         config.max_write_buffer_number = 3; // entfernt: write_buffer_size (nicht mehr vorhanden)
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -148,9 +157,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, ReadOnlyTransaction)(benchmark::
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, ReadOnlyTransaction)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -195,9 +201,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, WriteOnlyTransaction)(benchmark:
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, WriteOnlyTransaction)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -237,9 +240,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, MixedTransaction)(benchmark::Sta
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, MixedTransaction)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -318,7 +318,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, AbortTransaction)(benchmark::Sta
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, AbortTransaction)
     ->Threads(1)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -496,8 +495,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticPut)(benchmark::Sta
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticPut)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -566,8 +563,6 @@ BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)(benchma
 
 BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -621,13 +616,21 @@ BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticErase)
 
 static void BM_TransactionContention(benchmark::State& state) {
     // Setup
-    std::string test_db_path = "./data/bench_transaction_contention_tmp";
+    const auto unique_id = static_cast<unsigned long long>(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+    std::ostringstream suffix;
+    suffix << "bench_transaction_contention_tmp_t"
+           << state.thread_index()
+           << "_" << unique_id;
+    const auto db_dir = std::filesystem::absolute(std::filesystem::path("data") / suffix.str());
+    std::string test_db_path = db_dir.string();
     if (std::filesystem::exists(test_db_path)) {
         std::filesystem::remove_all(test_db_path);
     }
     
     RocksDBWrapper::Config config;
     config.db_path = test_db_path;
+    config.wal_dir = (db_dir / "wal").string();
     config.memtable_size_mb = 128;
     config.block_cache_size_mb = 256;
     
@@ -681,10 +684,7 @@ static void BM_TransactionContention(benchmark::State& state) {
 }
 
 BENCHMARK(BM_TransactionContention)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
-    ->Threads(16)
+    ->Threads(1)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

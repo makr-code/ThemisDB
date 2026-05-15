@@ -261,6 +261,108 @@ TEST_F(RPCServiceIntegrationTest, QueryExecution) {
 }
 
 /**
+ * @test Verify structured query count mode through RPC
+ *
+ * Acceptance Criteria:
+ * - Structured query params (collection/model/predicates) are accepted
+ * - `return=count` returns only the matched count
+ * - Count is not capped by the default result limit
+ */
+TEST_F(RPCServiceIntegrationTest, QueryReturnCountStructured) {
+    const int entity_count = 6;
+    for (int i = 0; i < entity_count; ++i) {
+        const std::string status = (i < 4) ? "open" : "closed";
+        json put_params = {
+            {"model", "rpc_count_model"},
+            {"collection", "rpc_count_collection"},
+            {"uuid", "count_entity_" + std::to_string(i)},
+            {"entity", {
+                {"id", "count_entity_" + std::to_string(i)},
+                {"status", status},
+                {"value", i}
+            }}
+        };
+
+        json response = rpc_service_->handlePut(put_params);
+        ASSERT_TRUE(response.contains("success") || response.contains("result"))
+            << "Failed to insert count test entity " << i;
+    }
+
+    json query_params = {
+        {"collection", "rpc_count_collection"},
+        {"model", "rpc_count_model"},
+        {"predicates", json::array({{{"column", "status"}, {"value", "open"}}})},
+        {"return", "count"},
+        {"optimize", true}
+    };
+
+    json query_response = rpc_service_->handleQuery(query_params);
+    ASSERT_TRUE(query_response.contains("result"))
+        << "Structured query should return result";
+    const json& result = query_response["result"];
+    ASSERT_TRUE(result.contains("count")) << "Result should contain count";
+    EXPECT_EQ(result["count"].get<int>(), 4) << "Expected 4 matching entities";
+    EXPECT_FALSE(result.contains("results")) << "Count mode should not return result documents";
+}
+
+/**
+ * @test Verify structured query results mode through RPC
+ * 
+ * Acceptance Criteria:
+ * - `return=results` returns result documents array
+ * - matched_total reflects all matching entities (including beyond limit)
+ * - has_more indicates whether more results exist beyond returned limit
+ */
+TEST_F(RPCServiceIntegrationTest, QueryReturnResultsStructured) {
+    const int entity_count = 8;
+    for (int i = 0; i < entity_count; ++i) {
+        const std::string category = (i % 3 == 0) ? "products" : "metadata";
+        json put_params = {
+            {"model", "rpc_results_model"},
+            {"collection", "rpc_results_collection"},
+            {"uuid", "results_entity_" + std::to_string(i)},
+            {"entity", {
+                {"id", "results_entity_" + std::to_string(i)},
+                {"category", category},
+                {"index", i}
+            }}
+        };
+
+        json response = rpc_service_->handlePut(put_params);
+        ASSERT_TRUE(response.contains("success") || response.contains("result"))
+            << "Failed to insert results test entity " << i;
+    }
+
+    json query_params = {
+        {"collection", "rpc_results_collection"},
+        {"model", "rpc_results_model"},
+        {"predicates", json::array({
+            {
+                {"column", "category"},
+                {"value", "products"}
+            }
+        })},
+        {"return", "results"},
+        {"limit", 2}
+    };
+
+    json query_response = rpc_service_->handleQuery(query_params);
+    ASSERT_TRUE(query_response.contains("result"))
+        << "Structured query should return result";
+    const json& result = query_response["result"];
+    ASSERT_TRUE(result.contains("results")) << "Result should contain results array";
+    ASSERT_TRUE(result.contains("count")) << "Result should contain count";
+    ASSERT_TRUE(result.contains("matched_total")) << "Result should contain matched_total";
+    ASSERT_TRUE(result.contains("has_more")) << "Result should contain has_more indicator";
+
+    const size_t returned = result["count"].get<size_t>();
+    const size_t total_matched = result["matched_total"].get<size_t>();
+    EXPECT_EQ(returned, 2u) << "Should return 2 results (limit=2)";
+    EXPECT_EQ(total_matched, 3u) << "3 entities match category=products (0,3,6)";
+    EXPECT_TRUE(result["has_more"].get<bool>()) << "Should indicate more results exist";
+}
+
+/**
  * @test Verify concurrent RPC requests
  * 
  * Acceptance Criteria:

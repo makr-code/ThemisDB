@@ -708,20 +708,121 @@ json ThemisRPCService::handleQuery(const json& params) {
                 aql = params.value("query", "");
             }
         }
-        
-        if (aql.empty()) {
-            return createError(
-                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
-                "Missing required parameter: aql"
-            );
-        }
-        
+
         // Get storage engine
         auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
                 "Database storage not initialized"
+            );
+        }
+
+        const std::string collection = params.value("collection", "");
+        const std::string model = params.value("model", "");
+
+        json filter = json::object();
+        if (params.contains("filter") && params["filter"].is_object()) {
+            filter = params["filter"];
+        } else if (params.contains("predicates") && params["predicates"].is_array()) {
+            for (const auto& pred : params["predicates"]) {
+                if (!pred.is_object() || !pred.contains("column") || !pred.contains("value") ||
+                    !pred["column"].is_string()) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                        "Invalid predicate format: expected {column, value}"
+                    );
+                }
+                filter[pred["column"].get<std::string>()] = pred["value"];
+            }
+        }
+
+        // Productive structured query path (collection + optional model/filter).
+        if (!collection.empty()) {
+            const std::string ret_mode = params.value("return", "results");
+            const bool count_only = (ret_mode == "count");
+            const int limit = params.value("limit", 100);
+
+            std::string prefix = collection + ":";
+            if (!model.empty()) {
+                prefix += model + ":";
+            }
+
+            auto iter_result = storage->newSafeIterator();
+            if (!iter_result) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to create iterator: " + iter_result.error().message()
+                );
+            }
+
+            auto& iter = iter_result.value();
+            size_t matched_total = 0;
+            size_t emitted = 0;
+            json results = json::array();
+
+            iter.Seek(prefix);
+            while (iter.Valid()) {
+                std::string key(iter.key());
+                if (key.substr(0, prefix.length()) != prefix) {
+                    break;
+                }
+
+                std::string value(iter.value());
+                try {
+                    json entity = json::parse(value);
+
+                    bool matches = true;
+                    for (auto& [field, expected_value] : filter.items()) {
+                        if (!entity.contains(field) || entity[field] != expected_value) {
+                            matches = false;
+                            break;
+                        }
+                    }
+
+                    if (matches) {
+                        ++matched_total;
+                        if (!count_only && emitted < static_cast<size_t>(std::max(limit, 0))) {
+                            results.push_back(entity);
+                            ++emitted;
+                        }
+                    }
+                } catch (const json::exception&) {
+                    // Skip malformed JSON entries.
+                }
+
+                iter.Next();
+            }
+
+            // has_more is true if we matched more entities than we emitted (limited by size constraint)
+            const bool has_more_result = !count_only && (matched_total > emitted);
+
+            json result;
+            if (count_only) {
+                result = {
+                    {"count", matched_total},
+                    {"collection", collection},
+                    {"mode", "scan_filter_count"}
+                };
+                if (!model.empty()) {
+                    result["model"] = model;
+                }
+            } else {
+                result = {
+                    {"results", results},
+                    {"count", emitted},
+                    {"matched_total", matched_total},
+                    {"has_more", has_more_result}
+                };
+            }
+
+            return createSuccess(result);
+        }
+
+        if (aql.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: aql or collection"
             );
         }
         

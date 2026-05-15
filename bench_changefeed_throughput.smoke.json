@@ -1,0 +1,120 @@
+{
+  "context": {
+    "date": "2026-05-14T20:53:49+02:00",
+    "host_name": "DESKTOP-712S8LO",
+    "executable": "C:\\Projects\\ThemisDB\\build\\windows-release\\bin\\bench_changefeed_throughput.exe",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3696,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 20971520,
+        "num_sharing": 20
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.5",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "ChangefeedBenchmarkFixture/EventRecordingThroughput/threads:1",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "ChangefeedBenchmarkFixture/EventRecordingThroughput/threads:1",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1000,
+      "real_time": 4.7135900000284892e+01,
+      "cpu_time": 6.2500000000000000e+01,
+      "time_unit": "us",
+      "events_per_sec": 1.6000000000000000e+04,
+      "items_per_second": 1.6000000000000000e+04
+    },
+    {
+      "name": "ChangefeedBenchmarkFixture/EventPolling/100",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "ChangefeedBenchmarkFixture/EventPolling/100",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10000,
+      "real_time": 1.9107799998892006e+00,
+      "cpu_time": 1.5625000000000000e+00,
+      "time_unit": "us",
+      "items_per_second": 6.4000000000000000e+05,
+      "total_events": 1.0000000000000000e+02
+    },
+    {
+      "name": "ChangefeedBenchmarkFixture/EventPolling/1000",
+      "family_index": 1,
+      "per_family_instance_index": 1,
+      "run_name": "ChangefeedBenchmarkFixture/EventPolling/1000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10000,
+      "real_time": 2.1853999998711515e+00,
+      "cpu_time": 1.5625000000000000e+00,
+      "time_unit": "us",
+      "items_per_second": 6.4000000000000000e+05,
+      "total_events": 1.0000000000000000e+03
+    },
+    {
+      "name": "ChangefeedBenchmarkFixture/EventPolling/10000",
+      "family_index": 1,
+      "per_family_instance_index": 2,
+      "run_name": "ChangefeedBenchmarkFixture/EventPolling/10000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10,
+      "real_time": 3.5564999998314306e+02,
+      "cpu_time": 1.5625000000000000e+03,
+      "time_unit": "us",
+      "items_per_second": 6.4000000000000000e+02,
+      "total_events": 1.0000000000000000e+04
+    },
+    {
+      "name": "ChangefeedBenchmarkFixture/ConcurrentSubscribers/1/iterations:3",
+      "family_index": 2,
+      "per_family_instance_index": 0,
+      "run_name": "ChangefeedBenchmarkFixture/ConcurrentSubscribers/1/iterations:3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 3,
+      "real_time": 4.5275422999984585e+03,
+      "cpu_time": 0.0000000000000000e+00,
+      "time_unit": "ms",
+      "items_per_second": Infinity,
+      "num_subscribers": 1.0000000000000000e+00,
+      "total_events": 1.0000000000000000e+03
+    }

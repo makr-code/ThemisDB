@@ -1,0 +1,75 @@
+graph TD
+    DB["👤 User Application<br/>Single Connection"]
+    
+    subgraph Models["<b>Multi-Model Core (ACID)</b>"]
+        subgraph ModelsLeft["<b>Part 1</b>"]
+            Rel["📊 Relational"]
+            Graph["🔗 Graph"]
+            Vector["🔍 Vector"]
+        end
+        
+        subgraph ModelsRight["<b>Part 2</b>"]
+            Doc["📄 Document"]
+            TS["📈 Time-Series"]
+            KV["🔑 Key-Value"]
+        end
+    end
+    
+    subgraph AILayer["<b>Native AI & RAG</b>"]
+        subgraph AILeft["<b>AI</b>"]
+            LLM["🤖 LLM"]
+            Whisper["🎤 Whisper"]
+            StableDiff["🎨 StableDiff"]
+            LLaVA["👁️ LLaVA"]
+        end
+        
+        subgraph RAGRight["<b>RAG</b>"]
+            Halluc["🔍 Hallucination"]
+            Faithfulness["✓ Faithfulness"]
+            BiasDetect["⚖️ Bias"]
+            Ontology["🧠 Ontology"]
+        end
+    end
+    
+    subgraph Governance["<b>Governance & Compliance</b>"]
+        ISO["✅ ISO 27001"]
+        GDPR["✅ GDPR/HIPAA"]
+        Ethics["✅ Ethics AI"]
+        Audit["✅ eIDAS"]
+    end
+    
+    subgraph Perf["<b>Performance & Scale</b>"]
+        GPU["⚡ GPU"]
+        Raft["🔄 Raft"]
+    end
+    
+    DB --> Models
+    DB --> AILayer
+    Models --> Governance
+    AILayer --> Governance
+    Governance --> Perf
+    
+    style Rel fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Graph fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Vector fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Doc fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style TS fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style KV fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    
+    style LLM fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Whisper fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style StableDiff fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style LLaVA fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    
+    style Halluc fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Faithfulness fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style BiasDetect fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Ontology fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    
+    style ISO fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style GDPR fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style Ethics fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style Audit fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    
+    style GPU fill:#ffccbc,stroke:#ff6f4a,stroke-width:2px,color:#000
+    style Raft fill:#ffccbc,stroke:#ff6f4a,stroke-width:2px,color:#000

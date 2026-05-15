@@ -604,15 +604,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND THEMIS_ENABL
     
     add_executable(bench_data_transfer
         bench_data_transfer.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_memory.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_tensor.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gpu_data_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/vram_allocator.cpp
     )
     
     target_link_libraries(bench_data_transfer PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        themis_llm
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -739,8 +736,13 @@ endif()
 # THEMIS_ENABLE_GPU=ON (and ideally THEMIS_ENABLE_VULKAN for Vulkan path).
 # ============================================================================
 
-if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vulkan_lora.cpp")
-    message(STATUS "Adding Vulkan LoRA benchmarks (THEMIS_ENABLE_GPU=ON)")
+set(_themis_vulkan_sdk_available OFF)
+if(TARGET Vulkan::Vulkan OR Vulkan_FOUND)
+    set(_themis_vulkan_sdk_available ON)
+endif()
+
+if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VULKAN AND _themis_vulkan_sdk_available AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vulkan_lora.cpp")
+    message(STATUS "Adding Vulkan LoRA benchmarks (THEMIS_ENABLE_GPU=ON, Vulkan SDK found)")
 
     add_executable(bench_vulkan_lora
         bench_vulkan_lora.cpp
@@ -780,7 +782,7 @@ if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vulkan_lora.c
 
     message(STATUS "  Vulkan LoRA: forward pass, memory bandwidth, pipeline throughput")
 else()
-    message(STATUS "Vulkan LoRA benchmarks skipped (THEMIS_ENABLE_GPU=OFF or file missing)")
+    message(STATUS "Vulkan LoRA benchmarks skipped (GPU/Vulkan disabled, Vulkan SDK missing, or file missing)")
 endif()
 
 # ============================================================================
@@ -848,19 +850,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     
     add_executable(bench_rag_ethics
         bench_rag_ethics.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/rag_judge.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/relevance_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/faithfulness_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/coherence_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/completeness_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/prompt_templates.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/response_parser.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/llm_judge_integration.cpp
     )
     
     target_link_libraries(bench_rag_ethics PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        themis_llm
         spdlog::spdlog
     )
     
@@ -1009,13 +1004,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
 
     add_executable(bench_rag_evaluation
         bench_rag_evaluation.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/distributed_rag_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/prompt_injection_detector.cpp
     )
 
     target_link_libraries(bench_rag_evaluation PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        themis_llm
         spdlog::spdlog
         Threads::Threads
     )
@@ -1252,11 +1246,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_fingerprint.cpp")
 
     add_executable(bench_tensor_fingerprint
         bench_tensor_fingerprint.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/tensor_fingerprint_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/tensor_deduplication_manager.cpp
     )
 
     target_link_libraries(bench_tensor_fingerprint PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        themis_graph
         spdlog::spdlog
         Threads::Threads
     )
@@ -2266,6 +2263,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_continuous_query.cpp")
 
     add_executable(bench_continuous_query
         bench_continuous_query.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/continuous_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/continuous_query_planner.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/cq_watermark.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/synopsis_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/incremental_agg.cpp
     )
 
     target_link_libraries(bench_continuous_query PRIVATE
@@ -3661,6 +3663,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
     add_executable(bench_llama_cpp_inference
         bench_llama_cpp_inference.cpp
         ${CMAKE_SOURCE_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
     )
 
     target_include_directories(bench_llama_cpp_inference PRIVATE
@@ -3778,6 +3781,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_user_storage_mount_latency.cpp" AND
     )
 
     message(STATUS "  UserStorageEncrypted: initialize, checkAvailability, isMounted, mount/unmount fast-fail, pipe vs. no-KDF dispatch")
+endif()
+
+if(TARGET bench_user_storage_mount_latency)
+    target_sources(bench_user_storage_mount_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/user_storage_encrypted/gocryptfs_backend.cpp
+    )
+    target_include_directories(bench_user_storage_mount_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/user_storage_encrypted
+        ${CMAKE_SOURCE_DIR}/include/user_storage_encrypted
+    )
 endif()
 
 # ============================================================================
@@ -3918,6 +3931,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_quality_judge.cpp")
     target_link_libraries(bench_ingestion_quality_judge PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        themis_ingestion
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -4373,13 +4387,41 @@ themis_add_standard_benchmark(bench_crud                   bench_crud.cpp)
 themis_add_standard_benchmark(bench_edge_cases_comprehensive bench_edge_cases_comprehensive.cpp)
 themis_add_standard_benchmark(bench_embedded_llm           bench_embedded_llm.cpp)
 themis_add_standard_benchmark(bench_encryption             bench_encryption.cpp)
-if(THEMIS_PLUGIN_ETHICS_AI AND TARGET ethics_ai_plugin)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ethics_ai_plugin.cpp")
     if(NOT TARGET bench_ethics_ai_plugin)
         add_executable(bench_ethics_ai_plugin bench_ethics_ai_plugin.cpp)
-        target_link_libraries(bench_ethics_ai_plugin PRIVATE ethics_ai_plugin themis_core ${BENCHMARK_LIBS} Threads::Threads)
-        target_include_directories(bench_ethics_ai_plugin PRIVATE ${CMAKE_SOURCE_DIR}/include)
         install(TARGETS bench_ethics_ai_plugin RUNTIME DESTINATION bin/benchmarks)
     endif()
+
+if(TARGET bench_ethics_ai_plugin)
+    target_sources(bench_ethics_ai_plugin PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/chain_visualizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_profile_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_selection_router.cpp
+    )
+    target_link_libraries(bench_ethics_ai_plugin PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_include_directories(bench_ethics_ai_plugin PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    if(TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(bench_ethics_ai_plugin PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(bench_ethics_ai_plugin PRIVATE HAVE_YAML_CPP)
+    endif()
+endif()
 endif()
 themis_add_standard_benchmark(bench_extended_context       bench_extended_context.cpp)
 themis_add_standard_benchmark(bench_flash_attention        bench_flash_attention.cpp)
@@ -4490,4 +4532,26 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_spatial_join.cpp" AND NOT TARGET be
     target_link_libraries(bench_spatial_join PRIVATE themis_core Threads::Threads)
     themis_apply_benchmark_release_flags(bench_spatial_join)
     install(TARGETS bench_spatial_join RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
+endif()
+
+# Ensure late-registered standard benchmark targets get required implementation
+# units even when platform-gated explicit blocks above are skipped.
+if(TARGET bench_user_storage_mount_latency)
+    target_sources(bench_user_storage_mount_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/user_storage_encrypted/gocryptfs_backend.cpp
+    )
+    target_include_directories(bench_user_storage_mount_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/user_storage_encrypted
+        ${CMAKE_SOURCE_DIR}/include/user_storage_encrypted
+    )
+endif()
+
+if(TARGET bench_whisper_transcription)
+    target_sources(bench_whisper_transcription PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/whisper/whisper_plugin.cpp
+    )
+    target_include_directories(bench_whisper_transcription PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/whisper
+        ${CMAKE_SOURCE_DIR}/src/whisper
+    )
 endif()

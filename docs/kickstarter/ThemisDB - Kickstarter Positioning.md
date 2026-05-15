@@ -1,273 +1,88 @@
-# ThemisDB - Kickstarter Positioning
+# ThemisDB — Kickstarter Positioning
 
-## The Problem ThemisDB Solves
+## Why AI Infrastructure Is Broken — and How ThemisDB Fixes It
 
-Modern AI applications typically need at least five separate systems at once:
+Anyone running a modern AI application today does not need a single system — they need a zoo of separate services. PostgreSQL stores business data. Neo4j manages relationships in the [knowledge graph](https://en.wikipedia.org/wiki/Knowledge_graph). Pinecone or Weaviate handles [semantic](https://en.wikipedia.org/wiki/Semantics) vector search. InfluxDB processes [time-series data](https://en.wikipedia.org/wiki/Time_series) from sensors. Elasticsearch powers [full-text search](https://en.wikipedia.org/wiki/Full-text_search). A separate LLM backend handles AI inference. Kafka or RabbitMQ keeps all of them talking to each other. Seven systems. Seven operations teams. Seven points of failure. Cloud costs exceeding ~ €15,000 per month for medium-sized deployments, despite the fact that AI inferencing is uncalcuable due the token-usage and per-token costs scaling.
 
-a [relational database](https://en.wikipedia.org/wiki/Relational_database) (PostgreSQL)
-- A [vector database](https://en.wikipedia.org/wiki/Vector_database) (Pinecone/Weaviate)
-- A [graph database](https://en.wikipedia.org/wiki/Graph_database) (Neo4j)
-- A [time-series](https://en.wikipedia.org/wiki/Time_series) store (InfluxDB)
-- Separate LLM inference infrastructure
+The fundamental technical problem runs deeper. The moment a single transaction — for example, creating a user profile with an AI recommendation — must write data simultaneously into four of these systems, [ACID](https://en.wikipedia.org/wiki/ACID) consistency may break down. ACID stands for Atomicity, Consistency, Isolation, and Durability: the four core guarantees that ensure a database never leaves behind half-finished states. What is a given in a single [relational database](https://en.wikipedia.org/wiki/Relational_database) becomes an unsolvable engineering problem in a distributed seven-system stack. Data errors emerge at system boundaries, are nearly impossible to reproduce, and cost compliance certifications or user trust in critical applications.
 
-For startups, this often means cloud costs above $15K/month, cross-system data inconsistency, and architecture decisions that are expensive to reverse. ThemisDB solves this with a single coherent system.
+ThemisDB solves this problem at the root. It is a single engine that natively handles all six data models — relational, [graph](https://en.wikipedia.org/wiki/Graph_database), [vector](https://en.wikipedia.org/wiki/Vector_database), document, [time-series](https://en.wikipedia.org/wiki/Time_series_database), and key-value — while maintaining true ACID guarantees across all of them. Native [LLM](https://en.wikipedia.org/wiki/Large_language_model) inference (LLM = Large Language Model, the technology behind ChatGPT and similar systems) runs directly inside the database process via llama.cpp and [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange): no external API call, no network latency, no privacy concerns from sending sensitive data to a cloud service. The development approach follows a scientific standard with measurable results, reproducible experiments, and transparent failure analysis.
 
-## 1. HISTORY - How ThemisDB Was Built
+The technical foundations are already implemented. ThemisDB uses [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control) (Multiversion Concurrency Control — a technique where each database access gets its own consistent snapshot of data without blocking other accesses) as the native basis for ACID semantics inside one engine. For distributed data, the sharding layer uses [Raft](https://en.wikipedia.org/wiki/Raft_(algorithm))-based coordination and RAID-sharding style inter-database communication, so replication, shard routing, and cross-node state agreement are handled in the distributed storage layer rather than in application code. The [SAGA](https://en.wikipedia.org/wiki/Long-running_transaction) pattern also exists, but mainly as a concession to long-running or pre-existing distributed database workflows that users may already have; it is not the primary integrity model of ThemisDB's native multi-model core. For compute-intensive workloads, optional [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) acceleration is available via [CUDA](https://en.wikipedia.org/wiki/CUDA), HIP, and [Vulkan](https://en.wikipedia.org/wiki/Vulkan_(API)). With v1.9.0-alpha, the project comprises 58 modules in C++17/20, over 500,000 lines of code, and achieves a benchmarked 61 million time-series points per second and 1.2 million graph edge operations per second. The project is [MIT-licensed](https://en.wikipedia.org/wiki/MIT_License) — completely free to use, commercially and without restrictions — and is developed entirely in public on GitHub.
 
-**Headline:** "We built the database we wished we had."
+Three trends make ThemisDB particularly relevant today. First, autonomous AI agents that make independent decisions need more than a vector store — they need knowledge graphs for reasoning, relational tables for structured decisions, and time-series context windows, all in consistent transactions. Second, enterprises and government agencies no longer want to outsource AI inference to US cloud services: [GDPR](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation), BSI baseline protection, and the US Cloud Act force data sovereignty. ThemisDB is fully air-gap capable — it operates without any internet connection and without a mandatory call-home mechanism; development and observability telemetry exists via optional, disableable tracing. Third, ThemisDB scales from [embedded systems](https://en.wikipedia.org/wiki/Embedded_system) such as industrial controllers to large multi-node deployments — with optional [Kubernetes](https://en.wikipedia.org/wiki/Kubernetes) and Helm deployment support where it is useful, but not as a requirement.
 
-As AI applications entered enterprises in the late 2020s, a paradox emerged: systems became smarter, but the underlying infrastructure became increasingly chaotic.
+For European government agencies and regulated industries, ThemisDB also includes a native compliance module with connectors for German OZG (Onlinezugangsgesetz — Online Access Act), XDOMEA, and eID, as well as support for [eIDAS](https://en.wikipedia.org/wiki/EIDAS) timestamping. In ThemisDB, eIDAS is not an isolated checkbox: it is part of the audit and immutability model, where append-only logs, cryptographic signatures, and a blockchain-like tamper-evident chain of events work together to make changes traceable and verifiable. [HIPAA](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act), [ISO 27001](https://en.wikipedia.org/wiki/ISO/IEC_27001), and [PCI-DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard) are not afterthought plugins — they are anchored directly in the engine.
 
-A typical company running AI-powered workflows needed:
+ThemisDB runs today. Anyone who clones the repository from GitHub and builds it with [CMake](https://en.wikipedia.org/wiki/CMake) gets a fully functioning database system — no additional dependencies required. A screen recording shows: ThemisDB starting on a standard Linux server, accepting multi-model queries that combine documents, graphs, and time-series simultaneously, finding semantically similar entries via vector similarity search in milliseconds, and calling a locally running language model inside the same database process — without a single cloud API call. The CHIMERA benchmark suite runs directly against the live system and produces the published figures: 61 million time-series points per second and 1.2 million graph edge operations per second on the same hardware used for this project.
 
-- PostgreSQL for structured business data with [ACID](https://en.wikipedia.org/wiki/ACID) guarantees
-- Neo4j or ArangoDB for relationship and [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph)
-- Pinecone or Weaviate for [semantic](https://en.wikipedia.org/wiki/Semantic) vector search
-- InfluxDB or TimescaleDB for [time-series](https://en.wikipedia.org/wiki/Time_series) and sensor data
-- Elasticsearch for [full-text search](https://en.wikipedia.org/wiki/Full-text_search)
-- OpenAI API or local LLM servers for inference
-- RabbitMQ or Kafka for change-data-capture across all systems
+Capabilities found in no other open-source database system in this combination:
 
-Seven systems. Seven operating teams. Seven failure surfaces. And the hardest question: how do you preserve ACID consistency when one transaction writes into four systems at the same time?
+- **Whisper module** (v2.0.0, production-ready) integrates [Whisper.cpp](https://github.com/ggml-org/whisper.cpp) speech recognition directly into the database process — WAV/MP3/OGG/FLAC via [FFmpeg](https://ffmpeg.org/), Voice Activity Detection, streaming transcription, and automatic language identification as a native database operation.
 
-ThemisDB started from one insight: one cohesive database system that supports all these data models natively, with true ACID guarantees across models, and treats AI inference not as a bolt-on integration but as a native part of the engine.
+- **Stable Diffusion module** (v2.1.0) integrates [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) image generation with provenance stamps, content safety filtering, and CLIP embeddings — all stored transactionally.
 
-Development began with a clear architectural principle: no compromise on correctness. [MVCC](https://en.wikipedia.org/wiki/Multiversion_concurrency_control)-based [snapshot isolation](https://en.wikipedia.org/wiki/Snapshot_isolation), [Raft](https://en.wikipedia.org/wiki/Raft_(algorithm)) consensus for distribution, and [SAGA](https://en.wikipedia.org/wiki/Saga_(software_engineering)) orchestration for distributed transactions, all in one system.
+- **Ethics AI module** orchestrates ethical debates across multiple philosophical schools (Kant, Rawls, utilitarianism, and others) for auditable AI decisions — benchmarks exceed SLO targets by 6–10×.
 
-Today, with v1.9.0-alpha, ThemisDB includes:
+- **Governance module** contains production-ready rule sets for [GDPR](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation), [HIPAA](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act), [ISO 27001](https://en.wikipedia.org/wiki/ISO/IEC_27001), PCI-DSS, SOC2, and CCPA — including an Open Policy Agent adapter, data lineage tracking, and AI model governance.
 
-- 58 production-grade modules in C++17/20
-- Relational, graph, vector, document, geospatial, and time-series storage in one engine
-- Native LLM inference via llama.cpp and ONNX (no external API required)
-- [GPU](https://en.wikipedia.org/wiki/Graphics_processing_unit) acceleration via [CUDA](https://en.wikipedia.org/wiki/CUDA), HIP, and [Vulkan](https://en.wikipedia.org/wiki/Vulkan_(API))
-- Benchmarked throughput: 61 million time-series points/sec, 1.2 million graph edge operations/sec
-- MIT-licensed open source, developed in public since the first commit
+- **RAG pipeline** includes hallucination detection, faithfulness evaluation, bias detection, ontology-aware knowledge-graph retrieval, and multimodal RAG (text, audio, image).
 
-## 2. PERSPECTIVE - Where ThemisDB Is Headed
+- **LLM module** additionally supports multimodal language models (LLaVA text+image), Grammar-Constrained Generation (structurally valid JSON/XML/CSV, 95–99 % validation rate), Speculative Decoding (2–3× faster inference), Flash Attention, and PagedAttention.
 
-**Headline:** "The operating system for the data-driven AI era."
+## What Your Donations Will Make Possible
 
-The database landscape is approaching a disruption comparable to the rise of relational databases in the 1970s.
+ThemisDB is functional and production-ready today for the COMMUNITY edition. The core objectives of this campaign are concrete and structured around four pillars: **first**, ongoing development of the engine; **second**, initiating formal certification processes under [ISO 27001](https://en.wikipedia.org/wiki/ISO/IEC_27001), [BSI IT-Grundschutz](https://en.wikipedia.org/wiki/IT-Grundschutz) (Common Criteria EAL3+), and the [EU AI Act](https://en.wikipedia.org/wiki/Artificial_Intelligence_Act); **third**, consolidation and production-hardening of already-implemented multimodal components — Whisper.cpp (v2.0.0, production-ready) and stable-diffusion.cpp (v2.1.0) are already fully integrated into ThemisDB; **fourth**, expansion of the test infrastructure including procurement of dedicated AI hardware (GPU and RAM capacity) for reproducible load, stability, and compatibility testing under real-world conditions. Based on the current external audit planning tracked in the repository, the concrete external certification budget we can justify today is roughly **EUR 14,000-23,000 for ISO 27001** and **EUR 14,000-18,000 for BSI C5 Type II**, converted and rounded from the current USD planning figures, plus documentation, remediation, and annual surveillance; the Common Criteria / EAL3+ path is materially more scope-dependent and therefore not yet presented here as a fixed hard figure. All contributions are voluntary support for an open-source project with no entitlement to specific deliverables. The milestones below describe how we plan to use the donated funds — they do not represent a binding commitment to deliver any particular product or service.
 
-### Trend 1: Agentic AI Needs New Data Semantics
+**€25,000** — Consolidation of the Whisper.cpp integration (v2.0.0, already production-ready) for broad real-world use with production models. The audio transcription pipeline — WAV/MP3/OGG/FLAC via FFmpeg, Voice Activity Detection, streaming, and language identification — is already implemented. This tier funds the public model compatibility matrix (Whisper tiny through large-v3), load-scale validation, and an external security audit as a documented first step on the BSI/ISO certification path. If this donation goal is reached, we plan:
 
-Autonomous [LLM](https://en.wikipedia.org/wiki/Large_language_model) agents need more than a vector store. They need:
+- Publish a model compatibility matrix for Whisper.cpp (tiny → large-v3, all quantization levels) with benchmark data
+- Validate the audio transcription pipeline under production load: throughput, latency, and memory footprint
+- Procure initial dedicated AI hardware for local inference and regression testing (GPU/VRAM test nodes)
+- Continuation of ongoing core development: performance, stability, and public documentation
+- Complete CHIMERA benchmark suite to IEEE Std 2807-2022 with independently verified results
+- Commission an external security audit of the REST API and authentication layer as the documented first step toward BSI/ISO certification
 
-- [Knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph) for [reasoning](https://en.wikipedia.org/wiki/Reasoning)
-- Relational tables for structured decisions
-- Time-series context windows
-- Immediate consistency across all of it
+**€75,000** — Consolidation of the stable-diffusion.cpp integration (v2.1.0, already implemented) and construction of an EU AI Act compliance layer on top of the existing Governance module. The Governance module already contains production-ready rule sets for ISO 27001, GDPR, HIPAA, PCI-DSS, SOC2, and CCPA — this tier funds the gap analysis, evidence collection, and formal certification preparation based on this existing implementation. If this donation goal is reached, we plan:
 
-ThemisDB is built to cover that entire stack natively.
+- Publish a model compatibility matrix for stable-diffusion.cpp (SD 1.x, SD 2.x, SDXL, Flux) with provenance validation and content safety tests
+- Expand AI test infrastructure: additional hardware capacity for multimodal endurance, burn-in, and long-run stability tests
+- Extend the existing Governance module with EU AI Act compliance: risk classification, documentation obligations, audit trails for AI operations
+- ISO 27001 gap analysis and evidence collection based on the already-implemented `Iso27001Controls` module
+- Concrete budget basis from the current audit plan: ISO 27001 initial external audit/certification about EUR 14k-23k, BSI C5 Type II about EUR 14k-18k, before internal remediation effort
+- BSI IT-Grundschutz audit preparation and technical documentation for Common Criteria EAL3+
+- LLM Inference Engine v2.0 with [LoRA](https://en.wikipedia.org/wiki/Low-rank_adaptation) hot-swap, streaming, and GPU batch inference
 
-### Trend 2: Sovereign AI Means On-Prem Inference
+**€150,000** — Completion of all three core objectives: a fully multimodal platform, completed certifications, and sustainable full-time development. Europe has no sovereign, multimodal AI database platform of its own — ThemisDB aims to fill that gap. If this donation goal is reached, we plan 12 months of full-time development plus:
 
-Enterprises and public institutions increasingly do not want AI inference in the cloud. ThemisDB brings [LLM inference](https://en.wikipedia.org/wiki/Inference_(machine_learning)) (llama.cpp, [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange), [LoRA](https://en.wikipedia.org/wiki/LoRA_(machine_learning)) fine-tuning) directly into the database layer, fully air-gap capable and certifiable for military-grade environments.
+- Formal [ISO 27001](https://en.wikipedia.org/wiki/ISO/IEC_27001) certification by an accredited auditor (international standard for information security management systems)
+- [BSI](https://en.wikipedia.org/wiki/Federal_Office_for_Information_Security) Common Criteria EAL3+ certification path: formal evaluation and application (EAL3+ = methodically tested security under international IT security standard)
+- [EU AI Act](https://en.wikipedia.org/wiki/Artificial_Intelligence_Act) conformity assessment for high-risk use cases (healthcare, government, critical infrastructure)
+- Full-time core maintainer for 12 months: ongoing development, community support, and issue response SLA
+- Persistent AI hardware baseline for continuous test cycles (regression, load, compatibility, reproducibility)
+- Production-ready OZG/XDOMEA/XÖV connectors, eID online identity function, and eIDAS-backed audit logging with signed, blockchain-like tamper-evident event chains
+- Academic research partnership for the ethics_ai module for traceability of AI decisions
 
-### Trend 3: Regulation Is Catching Up with AI Infrastructure
+## Risks, Team, and Frequently Asked Questions
 
-[GDPR](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation), [HIPAA](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act), [ISO 27001](https://en.wikipedia.org/wiki/ISO/IEC_27001), [PCI-DSS](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard), [eIDAS](https://en.wikipedia.org/wiki/EIDAS_regulation): in ThemisDB, compliance is not a plugin, but a governance module embedded in the engine, including OZG/XOV/eID connectors for German public sector contexts.
+ThemisDB is currently a one-person project - this is the biggest risk, and I will not sugarcoat it. All 58 modules, all 500,000+ lines of [C++](https://en.wikipedia.org/wiki/C%2B%2B), all [CI/CD](https://en.wikipedia.org/wiki/CI/CD) pipelines (CI/CD = Continuous Integration / Continuous Delivery, automated build and deployment processes), and all documentation are currently maintained by me alone. Marcus (@makr-code) is the sole maintainer. The EUR 150,000 donation goal is intended primarily to fund twelve months of development. A contributor path for co-maintainers is already in place: with three accepted pull requests, a contributor can take responsibility for a module. A pull request is a contribution from external developers that is reviewed and merged into the project.
 
-### Trend 4: Edge and Resource-Constrained Environments
+My motivation is explicitly scientific: ThemisDB is not only meant to ship software, but to generate verifiable insight into robust, auditable, and sovereign AI data infrastructure. That is why open benchmarks, reproducible experiments, transparent failure analysis, and publication of results as research outputs are core parts of the project.
 
-ThemisDB MINIMAL edition runs on [embedded systems](https://en.wikipedia.org/wiki/Embedded_system). The HYPERSCALER edition scales to thousands of nodes via a [Kubernetes](https://en.wikipedia.org/wiki/Kubernetes) operator. One binary, five deployment contexts.
+The technical complexity is exceptionally high. ThemisDB combines [distributed transactions](https://en.wikipedia.org/wiki/Distributed_transaction), six data models, GPU acceleration, native LLM inference, and government compliance in a single engine. Performance gaps are documented transparently on GitHub. [Secondary index](https://en.wikipedia.org/wiki/Database_index) throughput (indexes on non-primary-key fields) currently sits at 254,900 operations per second; the target is 1,000,000 operations per second.
 
-### Two-Year Target Position
+Certification processes such as ISO 27001, BSI C5, or a later Common Criteria EAL3+ path take 12 to 24 months and depend on external bodies. Current audit planning assumes approximately EUR 14k-23k for the initial ISO 27001 certification audit and EUR 14k-18k for BSI C5 Type II, plus roughly EUR 7k-11k and EUR 7k-9k respectively for annual surveillance, in addition to internal remediation and documentation effort. That is why the donation goals are structured so that the first goal is entirely within my control, while later goals explicitly cover external certification cost. The third goal is a long-term horizon, not a quarterly commitment. Progress is publicly traceable at any time: milestones are maintained in ROADMAP.md with status markers; supporters receive monthly update emails with concrete figures.
 
-- Certified deployment in German federal authorities (BSI alignment, CC EAL4+ path)
-- [WASM](https://en.wikipedia.org/wiki/WebAssembly) edition for browser-native AI workloads
-- Managed ThemisDB Cloud as an alternative to Aurora + Pinecone + Neo4j
-- Academic partnership for ethical AI decision-system research (ethics_ai module)
+Frequently asked questions:
 
-## 3. CONCRETE GOAL - What We Build With Your Support
-
-**Headline:** "A database that thinks. We need you to finish it."
-
-ThemisDB is production-ready for the COMMUNITY edition. Three critical milestones remain before delivering the full enterprise offering with market-transforming potential.
-
-### Funding Tier 1: EUR25,000 - "Bridge to Production"
-
-**Goal:** Benchmark suite and certification package
-
-- Complete CHIMERA benchmark suite (IEEE Std 2807-2022) with independently verified results
-- Comparative whitepaper: ThemisDB vs. [PostgreSQL + Pinecone + Neo4j] vs. [MongoDB Atlas + Weaviate]
-- Docker images for MINIMAL and COMMUNITY on Docker Hub with automated CVE scanning
-- External penetration test (scope: REST API, Wire Protocol V2, Auth layer)
-
-**Why this matters:** Without verified benchmarks and an external security audit, no enterprise CTO can responsibly adopt a new database stack.
-
-### Funding Tier 2: EUR75,000 - "Agentic AI Native"
-
-**Goal:** Fully integrated AI agent stack
-
-- Agentic RAG production hardening: full production tests, chaos-engineering coverage, and deployment patterns for the AgenticRAG stack (multi-hop reasoning, adaptive retrieval, DELEGATE-52 safety net)
-- LLM Inference Engine v2.0: llama.cpp integration with streaming, LoRA hot-swap, and GPU batch inference without external dependencies
-- Process Mining + AI bridge: connect BPMN process models directly with LLM agents for administrative workflows, compliance processes, and automated decision systems
-- Managed SDK: Python, TypeScript, and Java SDKs with complete ThemisDB client libraries and ORM-like APIs across data models
-
-**Why this matters:** No other open-source database currently offers this full stack in one system.
-
-### Funding Tier 3: EUR150,000 - "Sovereign AI Infrastructure for Europe"
-
-**Goal:** Establish ThemisDB as a European infrastructure component
-
-- BSI certification path: technical documentation and audit preparation for Common Criteria EAL3+
-- German e-government full stack: production-grade OZG/XDOMEA/XOV connectors, eID online ID functionality, and eIDAS timestamping
-- MILITARY Edition open specification: air-gap deployment, HSM integration, authenticated boot, published as an open standard
-- Academic program: partnership with two German universities on ethics_ai (AI decision traceability, DOT/Mermaid visualization of philosophical decision chains)
-- Full-time core maintainer for 12 months: continuous development, community support, and issue response SLA
-
-**Why this matters:** Europe lacks a sovereign, enterprise-ready, AI-native alternative to US cloud database stacks. ThemisDB can fill that gap.
-
-## Kickstarter Headline Positioning Summary
-
-| Variant | Text |
-|---|---|
-| Core message | "The first database that natively combines relational, graph, vector, time-series, and LLM inference - ACID-safe, open source, built in Europe." |
-| Problem-focused | "Stop running 7 databases for one AI application. ThemisDB is the one database that does it all." |
-| Performance-focused | "61 million time-series points/sec. 1.2 million graph operations/sec. One engine." |
-| Sovereignty-focused | "AI without cloud dependency. LLM inference directly in the database - air-gap capable, GDPR-aligned, European-built." |
-| Developer-focused | "One AQL query instead of 5 API calls. Multi-model database with built-in LLM - MIT licensed." |
-
-## Competitive Positioning
-
-| Criterion | PostgreSQL + Pinecone + Neo4j | MongoDB Atlas | ThemisDB |
-|---|---|---|---|
-| Native multi-model | No (3 systems) | Limited | Yes (6 models) |
-| ACID across all models | No | Partial | Yes |
-| Native LLM inference | No | No | Yes |
-| Air-gap deployable | Partial | No | Yes |
-| GPU acceleration | Partial | No | Yes (CUDA/HIP/Vulkan) |
-| German e-gov stack | No | No | Yes |
-| Open source | Partial | No | Yes (MIT) |
-| Monthly cloud cost (100K vectors + 1M docs + graph) | ~$2,500 | ~$1,800 | $0 (self-hosted) |
-
-## Risks and Challenges
-
-Kickstarter prompt: "Be open and honest about the risks and challenges your project faces and how you plan to overcome them."
-
-### 1. ThemisDB is currently a one-person project
-
-This is the largest risk. All 58 modules, all 500,000+ lines of C++, workflows, and documentation are currently maintained by one person.
-
-Implications:
-
-- If I become unavailable, progress slows down
-- Feature delivery speed is limited by one maintainer
-- Code review, security work, and community support compete for the same time
-
-Mitigation:
-
-- The EUR150K target primarily funds 12 months of full-time work
-- Governance already defines a co-maintainer path after three accepted pull requests
-- The architecture is highly modular, enabling gradual ownership transfer per module
-
-### 2. Exceptional technical complexity
-
-ThemisDB combines distributed transactions ([Raft](https://en.wikipedia.org/wiki/Raft_(algorithm)) + [SAGA](https://en.wikipedia.org/wiki/Saga_(software_engineering))), six data models, GPU acceleration (CUDA/HIP/Vulkan), native LLM inference, and government-grade compliance requirements in one engine.
-
-Example:
-- Current [secondary-index](https://en.wikipedia.org/wiki/Database_index) throughput: 254,900 ops/sec
-- Target: 1,000,000 ops/sec
-- GPU-dependent workloads require dedicated hardware
-
-Mitigation:
-- Performance gaps and open stubs are tracked publicly in PERFORMANCE_EXPECTATIONS.md and src/STUB_INVENTORY.md
-- 269 of 272 stubs are resolved; 3 remain active
-- Roadmap clearly separates production-ready modules from beta modules
-- Kickstarter funds are prioritized toward enterprise blockers: security audit and independently verified benchmarks
-
-### 3. Certification timelines can slip
-
-[[BSI](https://en.wikipedia.org/wiki/Federal_Office_for_Information_Security)] baseline certification, Common Criteria EAL3+, and ISO 27001 Type II processes can take 12-24 months and depend on external bodies.
-
-Mitigation:
-- Funding Tier 1 (EUR25K) is fully under direct execution control
-- Tier 3 certification goals are explicitly positioned as long-term, not near-term promises
-
-### 4. The market is dominated by large US vendors
-
-AWS Aurora, Google Spanner, MongoDB Atlas, and Pinecone have major budgets, sales teams, and enterprise channels.
-
-Mitigation:
-- ThemisDB competes on sovereignty: no [telemetry](https://en.wikipedia.org/wiki/Telemetry_(software)), no [vendor lock-in](https://en.wikipedia.org/wiki/Vendor_lock-in), no lock-in
-- This is a regulatory requirement, not a "nice to have," in public sector, healthcare, and critical infrastructure
-- MIT licensing is intentional to maximize trust and independence
-
-### 5. Delivery schedule risk
-
-Software development cannot be scheduled to the exact day. Unexpected audit findings can shift timelines.
-
-Mitigation:
-- Public execution via GitHub issue tracking and commits
-- Roadmap milestones with explicit status markers ([x], [~], [?])
-- Monthly backer updates with concrete progress metrics
-
-## Frequently Asked Questions (FAQ)
-
-### What is ThemisDB?
-
-ThemisDB is an [open-source](https://en.wikipedia.org/wiki/Open_source) database engine in [C++](https://en.wikipedia.org/wiki/C%2B%2B) six data models in one engine: document, graph, vector, time-series, key-value, and relational. It also includes native LLM inference, GPU acceleration (CUDA/HIP/Vulkan), and built-in compliance features for regulated sectors.
-
-### Is ThemisDB already real, or just an idea?
-
-It exists and is production-capable. 57 of 58 modules are marked production-ready. The project includes 500,000+ lines of C++, a full test suite, [CI/CD](https://en.wikipedia.org/wiki/CI/CD) workflows, a CHIMERA benchmark suite, and a public roadmap on GitHub.
-
-### Why Kickstarter instead of venture capital?
-
-VC funding can create pressure that often conflicts with open source, user control, and privacy goals. Kickstarter keeps governance aligned with community-backed public infrastructure.
-
-### What license does ThemisDB use?
-
-[MIT License](https://en.wikipedia.org/wiki/MIT_License). Fully open, commercially usable, no vendor lock-in, no call-home, no mandatory subscription. Repository: github.com/makr-code/ThemisDB.
-
-### Who is ThemisDB for?
-
-Primarily:
-
-- Public sector and government organizations needing sovereign infrastructure
-- Healthcare and critical infrastructure operators with strict compliance requirements
-- Developers and research institutions running local AI workloads
-- Companies reducing dependence on US cloud stacks
-
-### Which databases does ThemisDB replace?
-
-Not a single one. It replaces multi-system stacks such as PostgreSQL + MongoDB + Neo4j + Pinecone + InfluxDB + separate LLM backend with one unified engine.
-
-### Will it run on my hardware?
-
-Yes. It runs on standard Linux server hardware. GPU features are optional. Minimum baseline: x86-64 Linux, 4 GB RAM, 10 GB disk.
-
-### How is the funding used?
-
-- EUR25,000: independent security audit + verified public benchmarks
-- EUR75,000: 6 months full-time development + BSI baseline preparation
-- EUR150,000: 12 months full-time development + Sovereign Tech Fund application + community infrastructure
-
-### Who develops ThemisDB?
-
-Currently one maintainer: Martin (@makr-code). Funding enables full-time focus and contributor onboarding. Co-maintainer governance is already defined.
-
-### Can I use ThemisDB today?
-
-Yes. Source is public, buildable (CMake + MSVC/GCC/Clang), and documented. Binary distribution and Docker image are planned in the v2.0 roadmap.
-
-### Is support available?
-
-Yes, via GitHub Issues and Discussions. Kickstarter backers at EUR500+ receive prioritized issue response (target: 48h). Enterprise support contracts are planned as a stretch goal above EUR200,000.
-
-### What happens if the funding goal is not met?
-
-The project continues. Development proceeds at a slower pace. Security audit and benchmark verification would likely be delayed.
-
-### Is ThemisDB GDPR-compliant?
-
-The architecture is built for [data sovereignty](https://en.wikipedia.org/wiki/Data_sovereignty):. Formal GDPR conformity assessment by a data protection officer is planned for the EUR75K milestone.
-
-### When is stable v1.0?
-
-v1.5.0 is already released (Q2 2026), v1.7.0 follows, and semantic versioning applies (v1.x stable API, v2.0 with breaking changes and distribution improvements). With full-time funding, v2.0 is targeted by end of Q1 2027.
-
-### Can I contribute as a developer?
-
-Yes. The repository is public, issues are labeled, and contribution steps are documented in CONTRIBUTING.md. Contributors with three accepted pull requests can become co-maintainers for a module.
+- **What exactly is ThemisDB?** An [open-source](https://en.wikipedia.org/wiki/Open_source) database in [C++](https://en.wikipedia.org/wiki/C%2B%2B) that unifies six data models in a single engine: documents, graphs, vectors, time-series, key-value, and relational data. With native text AI ([llama.cpp](https://github.com/ggerganov/llama.cpp)), speech recognition ([Whisper.cpp](https://github.com/ggml-org/whisper.cpp) v2.0.0, production-ready), image generation ([stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) v2.1.0), multimodal LLM (LLaVA), built-in hallucination detection, an Ethics AI module, a full Governance module (ISO 27001, GDPR, HIPAA, PCI-DSS), and GPU acceleration. One multimodal platform instead of seven separate systems.
+- **Is this finished, or am I supporting an idea?** ThemisDB exists and runs. 57 of 58 modules are production-ready; over 500,000 lines of C++ are public on GitHub. What is missing: full-time bandwidth and an independent security audit. Your contribution is a voluntary donation — not a pre-order and not a purchase contract.
+- **Why not venture capital?** VC funding creates monetisation pressure that almost always comes at the expense of open source, privacy, or user control. ThemisDB should belong to the community, not an investor.
+- **What licence?** [MIT licence](https://en.wikipedia.org/wiki/MIT_License): fully open, commercially usable, no vendor lock-in, no call-home, no mandatory subscription.
+- **Who is ThemisDB for?** Government agencies with data sovereignty requirements, healthcare and critical infrastructure (GDPR, BSI baseline protection), developers and research institutions with local AI workloads, and companies looking to reduce US cloud dependency.
+- **Does it run on my hardware?** Yes. Standard Linux server, 4 GB RAM, 10 GB disk. GPU features are entirely optional.
+- **What happens if the donation goal is not reached?** The project continues — just more slowly and as a side project. The MIT licence remains.
+- **Is ThemisDB GDPR-compliant?** The architecture is designed for data sovereignty: no cloud dependency, no mandatory call-home telemetry, and no required external runtime services. For development and production debugging, ThemisDB includes optional, disableable observability and tracing. A formal compliance statement is planned once the €75,000 donation goal is reached.
+- **Can I get involved?** Yes. The GitHub repository is public, issues are labelled, and CONTRIBUTING.md explains how to get started. Three accepted pull requests are sufficient for a co-maintainer role.
+- **What is your personal motivation behind ThemisDB?** A scientific standard and the search for insight. I want to show, with measurable evidence, which architecture actually works for local, secure, and regulation-ready AI systems — through public reproducibility and continuous research.
+- **How is AI used in ThemisDB — and were AI tools used to create this campaign?** ThemisDB includes native [LLM](https://en.wikipedia.org/wiki/Large_language_model) inference as a core feature of the database engine. Supported models include all [llama.cpp](https://github.com/ggerganov/llama.cpp)-compatible formats (LLaMA family, Mistral, Gemma, and others) as well as [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange) models of any architecture. [LoRA](https://en.wikipedia.org/wiki/Low-rank_adaptation) adapters for domain-specific fine-tuning can be swapped at runtime. All AI operations run entirely locally — no model call leaves the system. For creating this campaign, AI writing assistants (large language models) were used for text structure and translation. Individual images on the campaign page may be AI-generated. All technical specifications, benchmark figures, and module descriptions come directly from the public GitHub repository and were verified manually.

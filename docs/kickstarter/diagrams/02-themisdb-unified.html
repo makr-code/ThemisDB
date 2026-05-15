@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB - Unified Solution Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 1400px;
+            width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .export-hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02 - ThemisDB Unified Solution</h1>
+        <p class="subtitle">All-in-One Multi-Model Database with Native AI</p>
+        
+        <div class="mermaid">
+graph TD
+    DB["👤 User Application<br/>Single Connection"]
+    
+    subgraph Models["<b>Multi-Model Core (ACID)</b>"]
+        subgraph ModelsLeft["<b>Part 1</b>"]
+            Rel["📊 Relational"]
+            Graph["🔗 Graph"]
+            Vector["🔍 Vector"]
+        end
+        
+        subgraph ModelsRight["<b>Part 2</b>"]
+            Doc["📄 Document"]
+            TS["📈 Time-Series"]
+            KV["🔑 Key-Value"]
+        end
+    end
+    
+    subgraph AILayer["<b>Native AI & RAG</b>"]
+        subgraph AILeft["<b>AI</b>"]
+            LLM["🤖 LLM"]
+            Whisper["🎤 Whisper"]
+            StableDiff["🎨 StableDiff"]
+            LLaVA["👁️ LLaVA"]
+        end
+        
+        subgraph RAGRight["<b>RAG</b>"]
+            Halluc["🔍 Hallucination"]
+            Faithfulness["✓ Faithfulness"]
+            BiasDetect["⚖️ Bias"]
+            Ontology["🧠 Ontology"]
+        end
+    end
+    
+    subgraph Governance["<b>Governance & Compliance</b>"]
+        ISO["✅ ISO 27001"]
+        GDPR["✅ GDPR/HIPAA"]
+        Ethics["✅ Ethics AI"]
+        Audit["✅ eIDAS"]
+    end
+    
+    subgraph Perf["<b>Performance & Scale</b>"]
+        GPU["⚡ GPU"]
+        Raft["🔄 Raft"]
+    end
+    
+    DB --> Models
+    DB --> AILayer
+    Models --> Governance
+    AILayer --> Governance
+    Governance --> Perf
+    
+    style Rel fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Graph fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Vector fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style Doc fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style TS fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    style KV fill:#a8d8ea,stroke:#0077be,stroke-width:2px,color:#000
+    
+    style LLM fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Whisper fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style StableDiff fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style LLaVA fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    
+    style Halluc fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Faithfulness fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style BiasDetect fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    style Ontology fill:#ffd6a5,stroke:#ff8c42,stroke-width:2px,color:#000
+    
+    style ISO fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style GDPR fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style Ethics fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    style Audit fill:#c8e6c9,stroke:#4caf50,stroke-width:2px,color:#000
+    
+    style GPU fill:#ffccbc,stroke:#ff6f4a,stroke-width:2px,color:#000
+    style Raft fill:#ffccbc,stroke:#ff6f4a,stroke-width:2px,color:#000
+        </div>
+        
+        <div class="export-hint">
+            <strong>💡 To export as PNG:</strong> Right-click on the diagram &rarr; Open image in new tab &rarr; Save as PNG. 
+            Or use your browser's screenshot tool (Ctrl+Shift+S in Chrome/Edge).
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+        mermaid.contentLoaded();
+    </script>
+</body>
+</html>

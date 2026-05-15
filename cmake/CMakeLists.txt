@@ -1949,6 +1949,7 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/ingestion_quality_judge.cpp
     ../src/ingestion/llm_adapter.cpp
     # Ingestion v2.0 workflow engine + entity assembler + sinks
     ../src/ingestion/workflow_engine.cpp

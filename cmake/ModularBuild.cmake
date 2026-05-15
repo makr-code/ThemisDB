@@ -1487,6 +1487,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/ingestion_quality_judge.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp
     ../src/ingestion/steps/tensor_core_bridge_step.cpp

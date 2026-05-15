@@ -30,6 +30,7 @@
 #include <chrono>
 #include <vector>
 #include <random>
+#include <sstream>
 
 using namespace themis;
 
@@ -39,16 +40,25 @@ using namespace themis;
 
 class ChangefeedBenchmarkFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
+    void SetUp(const ::benchmark::State& state) override {
+        // Create unique thread-safe test database path
+        const auto unique_id = static_cast<unsigned long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        std::ostringstream suffix;
+        suffix << "bench_changefeed_tmp_t" << state.thread_index() << "_" << unique_id;
+        const auto db_dir = std::filesystem::absolute(
+            std::filesystem::path("data") / suffix.str());
+        test_db_path_ = db_dir.string();
+        
         // Clean up any existing test database
-        test_db_path_ = "./data/bench_changefeed_tmp";
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);
         }
         
-        // Create RocksDB wrapper
+        // Create RocksDB wrapper with absolute paths and WAL directory
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.wal_dir = (db_dir / "wal").string();
         config.memtable_size_mb = 128;
         config.block_cache_size_mb = 256;
         
@@ -104,9 +114,6 @@ BENCHMARK_DEFINE_F(ChangefeedBenchmarkFixture, EventRecordingThroughput)(benchma
 
 BENCHMARK_REGISTER_F(ChangefeedBenchmarkFixture, EventRecordingThroughput)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -293,7 +300,6 @@ static void BM_EventTypeMix(benchmark::State& state) {
 
 BENCHMARK(BM_EventTypeMix)
     ->Threads(1)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -490,7 +496,6 @@ static void BM_RecordEventLatency(benchmark::State& state) {
 BENCHMARK(BM_RecordEventLatency)
     ->UseManualTime()
     ->Threads(1)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================

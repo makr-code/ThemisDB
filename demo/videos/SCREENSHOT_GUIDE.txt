@@ -1,0 +1,275 @@
+═══════════════════════════════════════════════════════════════════════
+  KICKSTARTER SCREENSHOT GUIDE
+  6 Screenshots for Live Prototype Demonstration
+═══════════════════════════════════════════════════════════════════════
+
+After recording the video, create these 6 screenshots showing the
+"live system in action" to satisfy Kickstarter's requirement for
+close-up images of a working prototype.
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 1: SQL Query Results
+───────────────────────────────────────────────────────────────────────
+Command: From 1_relational_join.sql
+  SELECT o.order_id, c.name, p.name, o.quantity, o.total_amount, o.status
+  FROM orders o
+  JOIN customers c ON o.customer_id = c.customer_id
+  JOIN products p ON o.product_id = p.product_id
+  WHERE c.country = 'DE';
+
+What to capture:
+  - Full query text visible
+  - Results table showing:
+    * order_id (O001, O003, O006)
+    * customer name (Alice Johnson, etc.)
+    * product name (Solar Panel, Smart Monitor)
+    * quantity and total_amount
+    * status (delivered, pending)
+  - Execution time if visible
+
+Filename: 01-sql-query-results.png
+Caption:  "Relational queries with ACID transactions - SQL joins across
+           multiple tables with consistent results"
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 2: Vector Search Results
+───────────────────────────────────────────────────────────────────────
+Command: From 2_vector_search.sql
+  SELECT * FROM products_vector_search(
+    query='renewable energy battery storage',
+    top_k=5,
+    min_similarity=0.6
+  )
+
+What to capture:
+  - Search query: 'renewable energy battery storage'
+  - Result rows showing:
+    * product_id (P001, P003, P004, etc.)
+    * name (Solar Panel, Battery Storage, Smart Monitor)
+    * similarity_score (0.92, 0.87, 0.78, etc.)
+  - Show that results are ranked by semantic relevance
+
+Filename: 02-vector-search-results.png
+Caption:  "Semantic vector search on product embeddings - finds relevant
+           products based on meaning, not just keywords"
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 3: Graph Relationships
+───────────────────────────────────────────────────────────────────────
+Command: From 3_graph_relationships.aql
+  MATCH (c:Customer)-[:PLACED]->(o:Order)-[:CONTAINS]->(p:Product)
+  WHERE c.country IN ['DE', 'AT']
+  RETURN c.name, COUNT(o.order_id) AS order_count,
+         SUM(o.total_amount) AS total_spent,
+         COLLECT(DISTINCT p.category) AS categories
+
+What to capture:
+  - Customer names (Alice Johnson, Bob Schmidt, etc.)
+  - order_count (2, 1, 1, etc.)
+  - total_spent (699.98, 4999.00, etc.)
+  - categories as list
+
+Optional: If you can show graph visualization:
+  - Visual graph with nodes (Customer, Order, Product)
+  - Edges showing relationships
+
+Filename: 03-graph-relationships.png
+Caption:  "Graph queries for customer relationships and networks - shows
+           how entities connect and enables recommendation engines"
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 4: LLM Inference Output
+───────────────────────────────────────────────────────────────────────
+Command: From 5_llm_inference.aql
+  SELECT llm_generate(
+    model='llama2-7b',
+    prompt='Write marketing copy for: Solar Panel 400W',
+    max_tokens=50,
+    temperature=0.7
+  ) AS marketing_pitch;
+
+What to capture:
+  - Show the model name: llama2-7b
+  - Show the generated marketing copy output
+  - Example output might be:
+    "Harness the power of the sun with our premium Solar Panel 400W.
+     High-efficiency, durable construction perfect for residential..."
+  - If available, show: execution time, token count, model stats
+
+IMPORTANT: This shows NATIVE LLM inference (no cloud!)
+
+Filename: 04-llm-inference-local.png
+Caption:  "Native LLM inference (local, no cloud calls) - Generate text
+           directly in the database with full data privacy"
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 5: Performance Metrics
+───────────────────────────────────────────────────────────────────────
+Command: From any query, capture performance stats
+  Ideally:
+    - Query execution time (<100ms)
+    - Memory usage
+    - Rows processed
+    - Throughput (QPS)
+    - CPU usage
+
+What to capture:
+  - Metrics showing fast performance
+  - Example values to target:
+    * Query time: 23ms
+    * Rows: 6
+    * Memory: 1.2 MB
+    * Throughput: 1500 QPS
+
+If available from system monitor:
+  - CPU usage
+  - RAM usage
+  - GPU usage (if applicable)
+
+Filename: 05-performance-metrics.png
+Caption:  "Real-time performance monitoring and metrics - multi-model
+           queries executing in <100ms with optimized memory usage"
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT 6: Multi-Model Architecture
+───────────────────────────────────────────────────────────────────────
+What to capture:
+  - A view showing that you're using multiple model types
+  - Could be:
+    Option A: Terminal showing output from multiple query types
+    Option B: Dashboard/UI showing all 6 model types active
+    Option C: Split screen with different queries/results visible
+  - Should demonstrate:
+    * SQL results
+    * Vector search results
+    * Graph results
+    * LLM output
+    * Time-series aggregation
+    * RAG answer
+
+Or create a simple diagram showing:
+  Database Core (center)
+    ├─ Relational (SQL)
+    ├─ Vector (Search)
+    ├─ Graph (Relationships)
+    ├─ TimeSeries (Aggregation)
+    ├─ LLM (Inference)
+    ├─ RAG (QA)
+    └─ Document (Storage)
+
+Filename: 06-multi-model-architecture.png
+Caption:  "Multi-model core architecture - SQL, Graph, Vector, TimeSeries,
+           LLM, RAG, and Document storage unified in ONE ACID database"
+
+═══════════════════════════════════════════════════════════════════════
+
+TECHNICAL REQUIREMENTS:
+─────────────────────────────────────────────────────────────────────
+
+Resolution:     1280x720 or higher (HD minimum)
+Format:         PNG (lossless, crisp text)
+Color space:    RGB
+Compression:    Maximum (PNG lossless is fine)
+
+Font/Readability:
+  - Terminal font: 14pt minimum (ideally 16pt)
+  - Clear contrast (black text on light bg or vice versa)
+  - No blur or pixelation
+  - All text legible
+
+Content:
+  - Include query text (not just results)
+  - Show output/results clearly
+  - Include execution stats if available
+  - Remove sensitive data (if any)
+  - No personal info in example data
+
+═══════════════════════════════════════════════════════════════════════
+
+SCREENSHOT WORKFLOW:
+─────────────────────────────────────────────────────────────────────
+
+Step 1: Execute each query
+  - Run query from demo/queries/ files
+  - Wait for results to display
+
+Step 2: Capture screenshot
+  - Windows: PrintScreen → Paste in Paint/Snagit
+  - Mac: Cmd+Shift+4 → Select area
+  - Linux: gnome-screenshot or scrot
+  - Cropping tool recommended
+
+Step 3: Optimize image
+  - Ensure text is readable
+  - Crop to content area (no extra border)
+  - Resize if needed (1280x720 minimum)
+  - Save as PNG
+
+Step 4: Save with correct filename
+  01-sql-query-results.png
+  02-vector-search-results.png
+  03-graph-relationships.png
+  04-llm-inference-local.png
+  05-performance-metrics.png
+  06-multi-model-architecture.png
+
+Step 5: Upload to Kickstarter
+  Location: demo/videos/screenshots/
+
+═══════════════════════════════════════════════════════════════════════
+
+KICKSTARTER UPLOAD:
+─────────────────────────────────────────────────────────────────────
+
+In Kickstarter Project Builder:
+
+1. Go to: Rewards & Project Media → Project Image Gallery
+2. Click: Add Images
+3. Upload all 6 PNGs:
+   - Select all 6 screenshots
+   - Add captions (from above)
+   - Tag as: #Demo #Prototype #LiveSystem
+
+4. In Media Gallery description add:
+   "Live screenshots of ThemisDB working prototype demonstrating
+    multi-model database in action:
+    1. Relational queries (SQL, ACID)
+    2. Vector search (Semantic)
+    3. Graph analysis (Relationships)
+    4. LLM inference (Native, local)
+    5. Performance metrics (<100ms queries)
+    6. Multi-model unified architecture"
+
+═══════════════════════════════════════════════════════════════════════
+
+CHECKLIST:
+─────────────────────────────────────────────────────────────────────
+
+Screenshots Created:
+  □ 01-sql-query-results.png
+  □ 02-vector-search-results.png
+  □ 03-graph-relationships.png
+  □ 04-llm-inference-local.png
+  □ 05-performance-metrics.png
+  □ 06-multi-model-architecture.png
+
+Quality Check:
+  □ All at 1280x720 minimum resolution
+  □ All in PNG format
+  □ All have clear, readable text
+  □ No blur or distortion
+  □ Captions written (from guide above)
+
+Upload Status:
+  □ Saved to: demo/videos/screenshots/
+  □ Uploaded to Kickstarter gallery
+  □ Captions added on Kickstarter
+  □ Tagged appropriately
+
+═══════════════════════════════════════════════════════════════════════

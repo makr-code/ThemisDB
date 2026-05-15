@@ -299,15 +299,16 @@ static ExtractionContext makeCtx(const std::string& raw_text,
 {
     ExtractionContext ctx;
     ctx.raw_text = raw_text;
-    ctx.manifest.source_uri = "bench://test-document.txt";
-    ctx.doc_id = "bench-doc-001";
+    ctx.manifest.original_path = "bench://test-document.txt";
+    ctx.manifest.file_id = "sha256:bench-doc-001";
 
     ctx.entities.reserve(entity_count);
     for (size_t i = 0; i < entity_count; ++i) {
         BaseEntity e;
-        e.id    = "e" + std::to_string(i);
-        e.label = "§ " + std::to_string(i + 1) + " BGB";
-        e.type  = "LEGAL_PROVISION";
+        e.id = "e" + std::to_string(i);
+        e.entity_type = EntityType::LEGAL_PROVISION;
+        e.text = "§ " + std::to_string(i + 1) + " BGB";
+        e.source_file_id = ctx.manifest.file_id;
         ctx.entities.push_back(std::move(e));
     }
     return ctx;

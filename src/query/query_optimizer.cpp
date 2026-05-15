@@ -269,6 +269,18 @@ QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQ
 	return Ok(result.value());
 }
 
+Result<size_t>
+QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
+	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	if (!result.has_value()) {
+		return Err<size_t>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Optimized count execution failed")
+		);
+	}
+	return Ok(result->size());
+}
+
 // ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ----------------
 
 void QueryOptimizer::attachPerQueryCostModel(

@@ -477,6 +477,22 @@ public:
     Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
 
     /**
+     * @brief Execute conjunctive (AND) query and return only match count
+     * @param q Conjunctive query with equality/range/fulltext/spatial predicates
+     * @return Number of matching primary keys
+     *
+     * Uses the same predicate planning and index-based execution as executeAndKeys,
+     * but avoids entity materialization entirely. This is the preferred path for
+     * COUNT-like workloads and join cardinality checks.
+     *
+     * Failure/edge cases:
+     * - Returns an error when query validation/execution fails (e.g. invalid table,
+     *   unsupported predicate combination, missing required index in strict path).
+     * - Returns 0 for valid queries with no matches.
+     */
+    Result<size_t> executeAndCount(const ConjunctiveQuery& q) const;
+
+    /**
      * @brief Variant of executeAndKeys with BM25 scoring support
      * @param q Conjunctive query with optional fulltext predicates
      * @return KeysWithScores containing primary keys and optional BM25 relevance scores

@@ -1,0 +1,37 @@
+graph LR
+    subgraph AI_Stack["ThemisDB's Integrated AI Capabilities"]
+        direction TB
+        
+        Whisper["🎤 Whisper.cpp v2.0.0<br/>Speech Recognition<br/>WAV/MP3/OGG/FLAC<br/>Streaming + VAD<br/>Auto Language ID"]
+        
+        StableDiff["🎨 stable-diffusion.cpp v2.1.0<br/>Image Generation<br/>SD 1.x → SDXL → Flux<br/>Provenance + Safety<br/>CLIP Embeddings"]
+        
+        LLM["🤖 llama.cpp Integration<br/>LLaMA / Mistral / Gemma<br/>ONNX Multi-Architecture<br/>LoRA Hot-Swap<br/>Flash Attention + PagedAttention"]
+        
+        LLaVA["👁️ LLaVA Multimodal<br/>Text + Image Vision<br/>Semantic Search<br/>Cross-Modal Reasoning"]
+        
+        Ethics["✅ Ethics AI Module<br/>5-Dimensional Scoring<br/>Kant / Rawls / Utilitarian<br/>Auditable Decisions<br/>6-10x SLO Excess"]
+        
+        RAG["🔍 RAG Pipeline<br/>Hallucination Detection<br/>Faithfulness Eval<br/>Bias Detection<br/>Multimodal Retrieval"]
+        
+        subgraph Guarantees["Operational Guarantees"]
+            Local["✓ All inference local<br/>(no cloud API)"]
+            Privacy["✓ Data sovereignty<br/>(no call-home)"]
+            Transaction["✓ Transactional consistency<br/>(ACID across all)"]
+            Performance["✓ GPU Acceleration<br/>(CUDA/HIP/Vulkan optional)"]
+        end
+    end
+    
+    Whisper --> Guarantees
+    StableDiff --> Guarantees
+    LLM --> Guarantees
+    LLaVA --> Guarantees
+    Ethics --> Guarantees
+    RAG --> Guarantees
+    
+    style Whisper fill:#ffd6a5
+    style StableDiff fill:#ffd6a5
+    style LLM fill:#ffd6a5
+    style LLaVA fill:#ffd6a5
+    style Ethics fill:#c8e6c9
+    style RAG fill:#bbdefb

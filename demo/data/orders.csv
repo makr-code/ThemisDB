@@ -1,0 +1,7 @@
+order_id,customer_id,product_id,quantity,order_date,total_amount,status
+O001,1,P001,2,2024-05-01,499.98,delivered
+O002,2,P003,1,2024-05-02,4999.00,shipped
+O003,1,P004,1,2024-05-03,199.00,pending
+O004,3,P002,1,2024-05-04,899.99,processing
+O005,4,P005,1,2024-05-05,5499.00,pending
+O006,5,P001,3,2024-05-06,749.97,delivered

@@ -1,0 +1,121 @@
+{
+  "context": {
+    "date": "2026-05-14T21:37:17+02:00",
+    "host_name": "DESKTOP-712S8LO",
+    "executable": "C:\\Projects\\ThemisDB\\build\\windows-bench-release\\bin\\bench_query.exe",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3696,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 20971520,
+        "num_sharing": 20
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.5",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "BM_QueryMix_Historical_P99_mean",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_QueryMix_Historical_P99",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "mean",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 4.5269377999939024e+02,
+      "cpu_time": 4.4062500000000000e+02,
+      "time_unit": "ms",
+      "dataset_n": 1.0000000000000000e+04,
+      "mean_us": 1.5088575333333335e+03,
+      "p99_us": 7.8003599999999997e+03,
+      "qps_est": 6.6354743490785859e+02,
+      "warmup_iters": 5.0000000000000000e+01
+    },
+    {
+      "name": "BM_QueryMix_Historical_P99_median",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_QueryMix_Historical_P99",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "median",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 4.4488360000104876e+02,
+      "cpu_time": 4.3750000000000000e+02,
+      "time_unit": "ms",
+      "dataset_n": 1.0000000000000000e+04,
+      "mean_us": 1.4828126666666662e+03,
+      "p99_us": 7.5991000000000004e+03,
+      "qps_est": 6.7439402325040851e+02,
+      "warmup_iters": 5.0000000000000000e+01
+    },
+    {
+      "name": "BM_QueryMix_Historical_P99_stddev",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_QueryMix_Historical_P99",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "stddev",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 1.7847711393558562e+01,
+      "cpu_time": 1.7116329922035753e+01,
+      "time_unit": "ms",
+      "dataset_n": 0.0000000000000000e+00,
+      "mean_us": 5.9488982031972533e+01,
+      "p99_us": 4.1140162615138297e+02,
+      "qps_est": 2.5191018163463838e+01,
+      "warmup_iters": 0.0000000000000000e+00
+    },
+    {
+      "name": "BM_QueryMix_Historical_P99_cv",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_QueryMix_Historical_P99",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "cv",
+      "aggregate_unit": "percentage",
+      "iterations": 5,
+      "real_time": 3.9425572389314913e-02,
+      "cpu_time": 3.8845571454265537e-02,
+      "time_unit": "ms",
+      "dataset_n": 0.0000000000000000e+00,
+      "mean_us": 3.9426506954934860e-02,
+      "p99_us": 5.2741364007735922e-02,
+      "qps_est": 3.7964155745642977e-02,
+      "warmup_iters": 0.0000000000000000e+00
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "mermaid-diagram-converter",
+  "version": "1.0.0",
+  "description": "Convert Mermaid diagrams to PNG",
+  "main": "render-to-png.js",
+  "type": "module",
+  "scripts": {
+    "convert": "node render-to-png-esm.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}

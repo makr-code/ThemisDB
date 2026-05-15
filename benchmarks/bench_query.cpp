@@ -34,6 +34,7 @@
 #include <numeric>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "storage/key_schema.h"
@@ -105,6 +106,11 @@ struct BenchEnv {
             auto post_user_idx = secIdx->createIndex("bench_posts", "user_id");
             if (!post_user_idx.ok) {
                 state.SkipWithError(("Failed to create post user_id index: " + post_user_idx.message).c_str());
+                return false;
+            }
+            auto post_tag_idx = secIdx->createIndex("bench_posts", "tag");
+            if (!post_tag_idx.ok) {
+                state.SkipWithError(("Failed to create post tag index: " + post_tag_idx.message).c_str());
                 return false;
             }
 
@@ -301,6 +307,11 @@ static void BM_JoinUsersPosts(benchmark::State& state) {
 static bool run_simple_where(QueryEngine& engine, size_t& matched_users, std::string& err);
 static bool run_complex_where(QueryEngine& engine, size_t& matched_users, std::string& err);
 static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, size_t& joined_rows, std::string& err);
+static bool run_join_users_posts_batched(QueryEngine& engine, size_t& matched_users, size_t& joined_rows, std::string& err);
+static bool run_join_users_posts_index_keys(QueryEngine& engine,
+                                            size_t& matched_users,
+                                            size_t& joined_rows,
+                                            std::string& err);
 
 static void BM_SimpleWhere_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
@@ -426,6 +437,86 @@ static bool run_join_users_posts(QueryEngine& engine, size_t& matched_users, siz
     return true;
 }
 
+static bool run_join_users_posts_batched(QueryEngine& engine, size_t& matched_users, size_t& joined_rows, std::string& err) {
+    matched_users = 0;
+    joined_rows = 0;
+
+    ConjunctiveQuery users_q;
+    users_q.table = "bench_users";
+    users_q.predicates.push_back(PredicateEq{"city", "city_03"});
+    users_q.predicates.push_back(PredicateEq{"status", "active"});
+
+    auto users = engine.executeAndEntities(users_q);
+    if (!users) {
+        err = users.error().message();
+        return false;
+    }
+
+    matched_users = users->size();
+    std::unordered_set<std::string> user_ids;
+    user_ids.reserve(matched_users * 2);
+    for (const auto& user : *users) {
+        user_ids.insert(user.getPrimaryKey());
+    }
+
+    // QueryEngine rejects empty predicates. We fetch posts in two indexed
+    // partitions and join in-memory to avoid per-user N+1 lookups.
+    for (const std::string& tag : {std::string("tech"), std::string("news")}) {
+        ConjunctiveQuery posts_q;
+        posts_q.table = "bench_posts";
+        posts_q.predicates.push_back(PredicateEq{"tag", tag});
+
+        auto posts = engine.executeAndEntities(posts_q);
+        if (!posts) {
+            err = posts.error().message();
+            return false;
+        }
+
+        for (const auto& post : *posts) {
+            auto uid = post.extractField("user_id");
+            if (uid && user_ids.find(*uid) != user_ids.end()) {
+                ++joined_rows;
+            }
+        }
+    }
+    return true;
+}
+
+static bool run_join_users_posts_index_keys(QueryEngine& engine,
+                                            size_t& matched_users,
+                                            size_t& joined_rows,
+                                            std::string& err) {
+    matched_users = 0;
+    joined_rows = 0;
+
+    ConjunctiveQuery users_q;
+    users_q.table = "bench_users";
+    users_q.predicates.push_back(PredicateEq{"city", "city_03"});
+    users_q.predicates.push_back(PredicateEq{"status", "active"});
+
+    auto users = engine.executeAndEntities(users_q);
+    if (!users) {
+        err = users.error().message();
+        return false;
+    }
+
+    matched_users = users->size();
+    for (const auto& user : *users) {
+        ConjunctiveQuery posts_q;
+        posts_q.table = "bench_posts";
+        posts_q.predicates.push_back(PredicateEq{"user_id", user.getPrimaryKey()});
+
+        auto posts_count = engine.executeAndCount(posts_q);
+        if (!posts_count) {
+            err = posts_count.error().message();
+            return false;
+        }
+        joined_rows += *posts_count;
+    }
+
+    return true;
+}
+
 static void BM_SimpleWhere_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
     if (!env.ensureInit(state)) return;
@@ -533,6 +624,80 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
     }
 }
 
+static void BM_JoinUsersPosts_Batched_P99(benchmark::State& state) {
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    constexpr size_t kSamples = 150;
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+    size_t matched_users = 0;
+    size_t joined_rows = 0;
+
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        for (size_t i = 0; i < kSamples; ++i) {
+            std::string err;
+            auto t0 = std::chrono::high_resolution_clock::now();
+            bool ok = run_join_users_posts_batched(engine, matched_users, joined_rows, err);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            if (!ok) {
+                state.SkipWithError(err.c_str());
+                return;
+            }
+            const double us = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count();
+            samples_us.push_back(us);
+        }
+
+        const double p99_us = percentile_us(samples_us, 99.0);
+        const double mean_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0) / static_cast<double>(samples_us.size());
+        state.counters["p99_us"] = p99_us;
+        state.counters["mean_us"] = mean_us;
+        state.counters["qps_est"] = 1e6 / mean_us;
+        state.counters["matched_users"] = static_cast<double>(matched_users);
+        state.counters["joined_rows"] = static_cast<double>(joined_rows);
+    }
+}
+
+static void BM_JoinUsersPosts_IndexKeys_P99(benchmark::State& state) {
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    constexpr size_t kSamples = 150;
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+    size_t matched_users = 0;
+    size_t joined_rows = 0;
+
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        for (size_t i = 0; i < kSamples; ++i) {
+            std::string err;
+            auto t0 = std::chrono::high_resolution_clock::now();
+            bool ok = run_join_users_posts_index_keys(engine, matched_users, joined_rows, err);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            if (!ok) {
+                state.SkipWithError(err.c_str());
+                return;
+            }
+            const double us = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count();
+            samples_us.push_back(us);
+        }
+
+        const double p99_us = percentile_us(samples_us, 99.0);
+        const double mean_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0) / static_cast<double>(samples_us.size());
+        state.counters["p99_us"] = p99_us;
+        state.counters["mean_us"] = mean_us;
+        state.counters["qps_est"] = 1e6 / mean_us;
+        state.counters["matched_users"] = static_cast<double>(matched_users);
+        state.counters["joined_rows"] = static_cast<double>(joined_rows);
+    }
+}
+
 // ── Historical method approximation ──────────────────────────────────────────
 // Mirrors v1.3.4 workload characteristics:
 //   • N=10000 dataset (bounded for CI; historical ran 100k+ in nightly)
@@ -595,6 +760,12 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     for (auto _ : state) {
         (void)_;
         samples_us.clear();
+        double simple_sum_us = 0.0;
+        double complex_sum_us = 0.0;
+        double join_sum_us = 0.0;
+        size_t simple_count = 0;
+        size_t complex_count = 0;
+        size_t join_count = 0;
         for (size_t i = 0; i < kSamples; ++i) {
             std::string err;
             size_t mu = 0, jr = 0;
@@ -606,15 +777,173 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
             else               ok = run_join_users_posts(engine, mu, jr, err);
             auto t1 = std::chrono::high_resolution_clock::now();
             if (!ok) { state.SkipWithError(err.c_str()); return; }
-            samples_us.push_back(
-                std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count());
+            const double us = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count();
+            samples_us.push_back(us);
+            if (slot < 6) {
+                simple_sum_us += us;
+                ++simple_count;
+            } else if (slot < 9) {
+                complex_sum_us += us;
+                ++complex_count;
+            } else {
+                join_sum_us += us;
+                ++join_count;
+            }
         }
+        const double total_sum_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0);
         const double p99_us  = percentile_us(samples_us, 99.0);
         const double mean_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0)
                                / static_cast<double>(samples_us.size());
+        const double simple_mean_us = simple_count > 0 ? (simple_sum_us / static_cast<double>(simple_count)) : 0.0;
+        const double complex_mean_us = complex_count > 0 ? (complex_sum_us / static_cast<double>(complex_count)) : 0.0;
+        const double join_mean_us = join_count > 0 ? (join_sum_us / static_cast<double>(join_count)) : 0.0;
         state.counters["p99_us"]       = p99_us;
         state.counters["mean_us"]      = mean_us;
         state.counters["qps_est"]      = 1e6 / mean_us;
+        state.counters["mean_simple_us"] = simple_mean_us;
+        state.counters["mean_complex_us"] = complex_mean_us;
+        state.counters["mean_join_us"] = join_mean_us;
+        state.counters["join_share_pct"] = total_sum_us > 0.0 ? (join_sum_us / total_sum_us) * 100.0 : 0.0;
+        state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
+        state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+    }
+}
+
+static void BM_QueryMix_Historical_P99_Batched(benchmark::State& state) {
+    constexpr size_t kDatasetN    = 10000;
+    constexpr size_t kWarmupIters = 50;
+    constexpr size_t kSamples     = 300;
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state, kDatasetN)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    for (size_t w = 0; w < kWarmupIters; ++w) {
+        std::string err;
+        size_t du = 0, dj = 0;
+        if      (w % 10 == 9)  { run_join_users_posts_batched(engine, du, dj, err); }
+        else if (w % 10 >= 7)  { run_complex_where(engine, du, err);                }
+        else                   { run_simple_where(engine, du, err);                  }
+        benchmark::DoNotOptimize(du);
+    }
+
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        double simple_sum_us = 0.0;
+        double complex_sum_us = 0.0;
+        double join_sum_us = 0.0;
+        size_t simple_count = 0;
+        size_t complex_count = 0;
+        size_t join_count = 0;
+        for (size_t i = 0; i < kSamples; ++i) {
+            std::string err;
+            size_t mu = 0, jr = 0;
+            bool ok;
+            const size_t slot = i % 10;
+            auto t0 = std::chrono::high_resolution_clock::now();
+            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            else if (slot < 9) ok = run_complex_where(engine, mu, err);
+            else               ok = run_join_users_posts_batched(engine, mu, jr, err);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            if (!ok) { state.SkipWithError(err.c_str()); return; }
+            const double us = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count();
+            samples_us.push_back(us);
+            if (slot < 6) {
+                simple_sum_us += us;
+                ++simple_count;
+            } else if (slot < 9) {
+                complex_sum_us += us;
+                ++complex_count;
+            } else {
+                join_sum_us += us;
+                ++join_count;
+            }
+        }
+        const double total_sum_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0);
+        const double p99_us  = percentile_us(samples_us, 99.0);
+        const double mean_us = total_sum_us / static_cast<double>(samples_us.size());
+        const double simple_mean_us = simple_count > 0 ? (simple_sum_us / static_cast<double>(simple_count)) : 0.0;
+        const double complex_mean_us = complex_count > 0 ? (complex_sum_us / static_cast<double>(complex_count)) : 0.0;
+        const double join_mean_us = join_count > 0 ? (join_sum_us / static_cast<double>(join_count)) : 0.0;
+        state.counters["p99_us"]       = p99_us;
+        state.counters["mean_us"]      = mean_us;
+        state.counters["qps_est"]      = 1e6 / mean_us;
+        state.counters["mean_simple_us"] = simple_mean_us;
+        state.counters["mean_complex_us"] = complex_mean_us;
+        state.counters["mean_join_us"] = join_mean_us;
+        state.counters["join_share_pct"] = total_sum_us > 0.0 ? (join_sum_us / total_sum_us) * 100.0 : 0.0;
+        state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
+        state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
+    }
+}
+
+static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
+    constexpr size_t kDatasetN    = 10000;
+    constexpr size_t kWarmupIters = 50;
+    constexpr size_t kSamples     = 300;
+    auto& env = BenchEnv::instance();
+    if (!env.ensureInit(state, kDatasetN)) return;
+    QueryEngine engine(*env.storage, *env.secIdx);
+
+    for (size_t w = 0; w < kWarmupIters; ++w) {
+        std::string err;
+        size_t du = 0, dj = 0;
+        if      (w % 10 == 9)  { run_join_users_posts_index_keys(engine, du, dj, err); }
+        else if (w % 10 >= 7)  { run_complex_where(engine, du, err);                               }
+        else                   { run_simple_where(engine, du, err);                                 }
+        benchmark::DoNotOptimize(du);
+    }
+
+    std::vector<double> samples_us;
+    samples_us.reserve(kSamples);
+    for (auto _ : state) {
+        (void)_;
+        samples_us.clear();
+        double simple_sum_us = 0.0;
+        double complex_sum_us = 0.0;
+        double join_sum_us = 0.0;
+        size_t simple_count = 0;
+        size_t complex_count = 0;
+        size_t join_count = 0;
+        for (size_t i = 0; i < kSamples; ++i) {
+            std::string err;
+            size_t mu = 0, jr = 0;
+            bool ok;
+            const size_t slot = i % 10;
+            auto t0 = std::chrono::high_resolution_clock::now();
+            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            else if (slot < 9) ok = run_complex_where(engine, mu, err);
+            else               ok = run_join_users_posts_index_keys(engine, mu, jr, err);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            if (!ok) { state.SkipWithError(err.c_str()); return; }
+            const double us = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(t1 - t0).count();
+            samples_us.push_back(us);
+            if (slot < 6) {
+                simple_sum_us += us;
+                ++simple_count;
+            } else if (slot < 9) {
+                complex_sum_us += us;
+                ++complex_count;
+            } else {
+                join_sum_us += us;
+                ++join_count;
+            }
+        }
+        const double total_sum_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0);
+        const double p99_us  = percentile_us(samples_us, 99.0);
+        const double mean_us = total_sum_us / static_cast<double>(samples_us.size());
+        const double simple_mean_us = simple_count > 0 ? (simple_sum_us / static_cast<double>(simple_count)) : 0.0;
+        const double complex_mean_us = complex_count > 0 ? (complex_sum_us / static_cast<double>(complex_count)) : 0.0;
+        const double join_mean_us = join_count > 0 ? (join_sum_us / static_cast<double>(join_count)) : 0.0;
+        state.counters["p99_us"]       = p99_us;
+        state.counters["mean_us"]      = mean_us;
+        state.counters["qps_est"]      = 1e6 / mean_us;
+        state.counters["mean_simple_us"] = simple_mean_us;
+        state.counters["mean_complex_us"] = complex_mean_us;
+        state.counters["mean_join_us"] = join_mean_us;
+        state.counters["join_share_pct"] = total_sum_us > 0.0 ? (join_sum_us / total_sum_us) * 100.0 : 0.0;
         state.counters["dataset_n"]    = static_cast<double>(kDatasetN);
         state.counters["warmup_iters"] = static_cast<double>(kWarmupIters);
     }
@@ -730,6 +1059,8 @@ BENCHMARK(BM_JoinUsersPosts)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_SimpleWhere_P99)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_ComplexWhere_P99)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_JoinUsersPosts_P99)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_JoinUsersPosts_Batched_P99)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_JoinUsersPosts_IndexKeys_P99)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_SimpleWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_ComplexWhere_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_JoinUsersPosts_Scaled)->Args({1000})->Args({10000})->Unit(benchmark::kMillisecond);
@@ -738,3 +1069,5 @@ BENCHMARK(BM_PointLookup_WithDeserialize)->Unit(benchmark::kMicrosecond);
 BENCHMARK(BM_PointLookup_P99)->Unit(benchmark::kMicrosecond);
 BENCHMARK(BM_QueryMix_Historical)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_QueryMix_Historical_P99)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_QueryMix_Historical_P99_Batched)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_QueryMix_Historical_P99_IndexKeys)->Unit(benchmark::kMillisecond);
