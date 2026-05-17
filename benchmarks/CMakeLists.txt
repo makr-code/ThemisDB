@@ -763,6 +763,49 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VULKAN AND _themis_vulkan_sdk_available A
         THEMIS_ENABLE_GPU=1
     )
 
+    if(NOT TARGET vulkan_lora_shaders)
+        set(_themis_glslc_hints
+            "$ENV{VULKAN_SDK}/Bin"
+            "$ENV{VULKAN_SDK}/bin"
+        )
+        if(WIN32)
+            file(GLOB _themis_vulkan_sdk_dirs "C:/VulkanSDK/*")
+            foreach(_themis_sdk_dir IN LISTS _themis_vulkan_sdk_dirs)
+                list(APPEND _themis_glslc_hints
+                    "${_themis_sdk_dir}/Bin"
+                    "${_themis_sdk_dir}/bin")
+            endforeach()
+        endif()
+
+        find_program(_themis_glslc glslc HINTS ${_themis_glslc_hints})
+        if(_themis_glslc)
+            set(_themis_vulkan_lora_shader_src_dir "${THEMIS_BENCHMARK_ROOT}/src/acceleration/vulkan/shaders/lora")
+            set(_themis_vulkan_lora_shader_out_dir "${CMAKE_BINARY_DIR}/shaders/lora")
+            file(MAKE_DIRECTORY "${_themis_vulkan_lora_shader_out_dir}")
+
+            set(_themis_vulkan_lora_shader_outputs)
+            foreach(_themis_shader IN ITEMS matmul elementwise gradient)
+                set(_themis_shader_src "${_themis_vulkan_lora_shader_src_dir}/${_themis_shader}.comp")
+                set(_themis_shader_out "${_themis_vulkan_lora_shader_out_dir}/${_themis_shader}.comp.spv")
+                add_custom_command(
+                    OUTPUT "${_themis_shader_out}"
+                    COMMAND "${_themis_glslc}" -o "${_themis_shader_out}" "${_themis_shader_src}"
+                    DEPENDS "${_themis_shader_src}"
+                    COMMENT "Compiling Vulkan LoRA shader: ${_themis_shader}.comp"
+                    VERBATIM
+                )
+                list(APPEND _themis_vulkan_lora_shader_outputs "${_themis_shader_out}")
+            endforeach()
+
+            add_custom_target(vulkan_lora_shaders
+                DEPENDS ${_themis_vulkan_lora_shader_outputs}
+                COMMENT "Building Vulkan LoRA shaders"
+            )
+        else()
+            message(WARNING "glslc not found - bench_vulkan_lora will require pre-compiled shaders")
+        endif()
+    endif()
+
     if(THEMIS_ENABLE_VULKAN)
         target_compile_definitions(bench_vulkan_lora PRIVATE THEMIS_ENABLE_VULKAN=1)
     endif()
@@ -774,6 +817,10 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VULKAN AND _themis_vulkan_sdk_available A
     endif()
 
     themis_apply_benchmark_release_flags(bench_vulkan_lora)
+
+    if(TARGET vulkan_lora_shaders)
+        add_dependencies(bench_vulkan_lora vulkan_lora_shaders)
+    endif()
 
     install(TARGETS bench_vulkan_lora
         RUNTIME DESTINATION bin/benchmarks
@@ -2878,7 +2925,58 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
             THEMIS_ENABLE_GPU
         )
 
+        if(THEMIS_ENABLE_VULKAN)
+            target_compile_definitions(bench_gpu_vector_index PRIVATE THEMIS_ENABLE_VULKAN=1)
+
+            if(NOT TARGET vulkan_vector_index_shaders)
+                set(_themis_glslc_hints
+                    "$ENV{VULKAN_SDK}/Bin"
+                    "$ENV{VULKAN_SDK}/bin"
+                )
+                if(WIN32)
+                    file(GLOB _themis_vulkan_sdk_dirs "C:/VulkanSDK/*")
+                    foreach(_themis_sdk_dir IN LISTS _themis_vulkan_sdk_dirs)
+                        list(APPEND _themis_glslc_hints
+                            "${_themis_sdk_dir}/Bin"
+                            "${_themis_sdk_dir}/bin")
+                    endforeach()
+                endif()
+
+                find_program(_themis_glslc glslc HINTS ${_themis_glslc_hints})
+                if(_themis_glslc)
+                    set(_themis_vulkan_vector_shader_src_dir "${THEMIS_BENCHMARK_ROOT}/src/acceleration/vulkan/shaders")
+                    set(_themis_vulkan_vector_shader_out_dir "${CMAKE_BINARY_DIR}/shaders/vector_index")
+                    file(MAKE_DIRECTORY "${_themis_vulkan_vector_shader_out_dir}")
+
+                    set(_themis_vulkan_vector_shader_outputs)
+                    foreach(_themis_shader IN ITEMS l2_distance cosine_distance inner_product_distance batch_search topk_selection)
+                        set(_themis_shader_src "${_themis_vulkan_vector_shader_src_dir}/${_themis_shader}.comp")
+                        set(_themis_shader_out "${_themis_vulkan_vector_shader_out_dir}/${_themis_shader}.comp.spv")
+                        add_custom_command(
+                            OUTPUT "${_themis_shader_out}"
+                            COMMAND "${_themis_glslc}" -o "${_themis_shader_out}" "${_themis_shader_src}"
+                            DEPENDS "${_themis_shader_src}"
+                            COMMENT "Compiling Vulkan Vector Index shader: ${_themis_shader}.comp"
+                            VERBATIM
+                        )
+                        list(APPEND _themis_vulkan_vector_shader_outputs "${_themis_shader_out}")
+                    endforeach()
+
+                    add_custom_target(vulkan_vector_index_shaders
+                        DEPENDS ${_themis_vulkan_vector_shader_outputs}
+                        COMMENT "Building Vulkan Vector Index shaders"
+                    )
+                else()
+                    message(WARNING "glslc not found - bench_gpu_vector_index Vulkan path requires pre-compiled shaders")
+                endif()
+            endif()
+        endif()
+
         themis_apply_benchmark_release_flags(bench_gpu_vector_index)
+
+        if(TARGET vulkan_vector_index_shaders)
+            add_dependencies(bench_gpu_vector_index vulkan_vector_index_shaders)
+        endif()
 
         install(TARGETS bench_gpu_vector_index
             RUNTIME DESTINATION bin/benchmarks
@@ -3357,6 +3455,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
 
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_sharding_performance PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_OPENCL)
+        target_compile_definitions(bench_sharding_performance PRIVATE THEMIS_ENABLE_OPENCL=1)
+    endif()
+
     themis_apply_benchmark_release_flags(bench_sharding_performance)
 
     install(TARGETS bench_sharding_performance
@@ -3686,6 +3791,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
         target_compile_definitions(bench_llama_cpp_inference PRIVATE
             THEMIS_BENCH_LLAMA_MODEL_PATH="$ENV{THEMIS_BENCH_LLAMA_MODEL_PATH}"
         )
+    endif()
+
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_llama_cpp_inference PRIVATE THEMIS_ENABLE_VULKAN=1)
+    endif()
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_llama_cpp_inference PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_llama_cpp_inference PRIVATE THEMIS_ENABLE_HIP=1)
     endif()
 
     themis_apply_benchmark_release_flags(bench_llama_cpp_inference)
@@ -4549,9 +4664,14 @@ endif()
 if(TARGET bench_whisper_transcription)
     target_sources(bench_whisper_transcription PRIVATE
         ${CMAKE_SOURCE_DIR}/src/whisper/whisper_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/whisper_config.cpp
+        ${CMAKE_SOURCE_DIR}/src/whisper/audio_chunk_reader.cpp
     )
     target_include_directories(bench_whisper_transcription PRIVATE
         ${CMAKE_SOURCE_DIR}/include/whisper
         ${CMAKE_SOURCE_DIR}/src/whisper
+    )
+    target_compile_definitions(bench_whisper_transcription PRIVATE
+        THEMIS_PLUGIN_EXPORTS
     )
 endif()

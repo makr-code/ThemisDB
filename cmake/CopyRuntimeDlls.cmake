@@ -31,15 +31,15 @@ function(_copy_dlls_if_present SRC_DIR)
         return()
     endif()
 
+    if(NOT EXISTS "${SRC_DIR}")
+        message(STATUS "[CopyRuntimeDlls] Skip missing source directory: ${SRC_DIR}")
+        return()
+    endif()
+
     file(REAL_PATH "${SRC_DIR}" _src_real)
     file(REAL_PATH "${DST_DIR}" _dst_real)
     if(_src_real STREQUAL _dst_real)
         message(STATUS "[CopyRuntimeDlls] Skip self-copy directory: ${SRC_DIR}")
-        return()
-    endif()
-
-    if(NOT EXISTS "${SRC_DIR}")
-        message(STATUS "[CopyRuntimeDlls] Skip missing source directory: ${SRC_DIR}")
         return()
     endif()
 

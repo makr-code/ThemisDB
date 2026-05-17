@@ -40,15 +40,7 @@
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
 #include "llm/lora_framework/vulkan_pipeline.h"
-#endif
-
-// Forward declare Vulkan backend
-#ifdef THEMIS_ENABLE_VULKAN
-namespace themis {
-namespace index {
-class VulkanVectorIndexBackend;
-}
-}
+#include "index/gpu_vector_index_vulkan.h"
 #endif
 
 // Include GPU backend headers
@@ -1017,8 +1009,82 @@ bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& 
 
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
-    if (ids.size() != vectors.size()) {
+    if (!pImpl->initialized || ids.size() != vectors.size()) {
         return false;
+    }
+
+    if (ids.empty()) {
+        return true;
+    }
+
+    // Fast-path for pure bulk inserts (all IDs are new, oversubscription disabled):
+    // reserve once and append directly to avoid per-item upsert and backend checks.
+    bool canUseFastPath = (pImpl->oversubManager == nullptr);
+    if (canUseFastPath) {
+        for (size_t i = 0; i < ids.size(); ++i) {
+            if (vectors[i].size() != static_cast<size_t>(pImpl->dimension) ||
+                pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
+                canUseFastPath = false;
+                break;
+            }
+        }
+    }
+
+    if (canUseFastPath) {
+        uint64_t allocatedBytes = 0;
+        if (!pImpl->vramBudgetTag.empty()) {
+            allocatedBytes = pImpl->bytesPerVector() * static_cast<uint64_t>(ids.size());
+            auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
+            if (!mgr.TryAllocateGPU(allocatedBytes, "vector_batch", pImpl->vramBudgetTag)) {
+                std::cerr << "GPUVectorIndex: VRAM budget exceeded (limit "
+                          << pImpl->config.maxVRAM_MB << " MB)\n";
+                return false;
+            }
+        }
+
+        const size_t baseIndex = pImpl->vectorData.size();
+        try {
+            pImpl->vectorIds.reserve(baseIndex + ids.size());
+            pImpl->vectorData.reserve(baseIndex + vectors.size());
+            pImpl->idToIndex.reserve(baseIndex + ids.size());
+
+            for (size_t i = 0; i < ids.size(); ++i) {
+                pImpl->vectorIds.push_back(ids[i]);
+                pImpl->vectorData.push_back(vectors[i]);
+                pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
+            }
+        } catch (...) {
+            if (allocatedBytes > 0) {
+                themis::gpu::GPUMemoryManager::GetInstance().DeallocateGPU(
+                    allocatedBytes, pImpl->vramBudgetTag);
+            }
+            return false;
+        }
+
+        if (allocatedBytes > 0) {
+            pImpl->vramAllocatedBytes += allocatedBytes;
+        }
+
+        #ifdef THEMIS_ENABLE_CUDA
+        if (pImpl->activeBackend == Backend::CUDA) {
+            pImpl->flatVectorCacheDirty = true;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (pImpl->activeBackend == Backend::HIP) {
+            pImpl->hipFlatVectorCacheDirty = true;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+            pImpl->gpuDataDirty = true;
+        }
+        #endif
+
+        pImpl->stats.numVectors = pImpl->vectorData.size();
+        return true;
     }
 
     // Suppress per-vector partition rebuilds during bulk ingestion; a single
@@ -1498,38 +1564,6 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 // =============================================================================
 // Vulkan Backend Implementation
 // =============================================================================
-
-#ifdef THEMIS_ENABLE_VULKAN
-// The full implementation lives in gpu_vector_index_vulkan.cpp which is compiled
-// when THEMIS_ENABLE_VULKAN is ON.  This class declaration must be token-for-token
-// identical to the one in gpu_vector_index_vulkan.cpp to satisfy the ODR.
-// Do NOT modify one without modifying the other.
-
-/**
- * @brief Vulkan backend implementation for GPU vector indexing
- */
-class VulkanVectorIndexBackend {
-public:
-    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
-    ~VulkanVectorIndexBackend();
-
-    bool initialize(int dimension);
-    void shutdown();
-    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
-    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
-    std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
-        const std::vector<std::vector<float>>& queries, size_t k);
-    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
-    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
-        const std::vector<std::vector<float>>& queries, size_t k);
-    GPUVectorIndex::Statistics getStatistics() const;
-    bool isInitialized() const;
-
-private:
-    class Impl;
-    std::unique_ptr<Impl> pImpl;
-};
-#endif
 
 } // namespace index
 } // namespace themis

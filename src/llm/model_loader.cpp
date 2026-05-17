@@ -28,15 +28,89 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <mutex>
+#include <string>
 #include <llama.h>
 
 namespace fs = std::filesystem;
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+struct LlamaLoadLogCaptureState {
+    std::string pending_line;
+    bool assigned_cpu = false;
+    bool assigned_non_cpu = false;
+    bool backend_cpu_only_hint = false;
+    ggml_log_callback passthrough_callback = nullptr;
+    void* passthrough_user_data = nullptr;
+};
+
+static void llamaLoadLogCaptureCallback(ggml_log_level level, const char* text, void* user_data) {
+    if (text == nullptr || user_data == nullptr) {
+        return;
+    }
+
+    auto* state = static_cast<LlamaLoadLogCaptureState*>(user_data);
+
+    // Preserve pre-existing llama.cpp logging behavior so diagnostics are not hidden.
+    if (state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
+        state->passthrough_callback(level, text, state->passthrough_user_data);
+    }
+
+    state->pending_line.append(text);
+
+    size_t pos = 0;
+    while ((pos = state->pending_line.find('\n')) != std::string::npos) {
+        const std::string line = state->pending_line.substr(0, pos);
+        state->pending_line.erase(0, pos + 1);
+
+        if (line.find("assigned to device") != std::string::npos) {
+            if (line.find("device CPU") != std::string::npos || line.find(" device CPU") != std::string::npos) {
+                state->assigned_cpu = true;
+            } else {
+                state->assigned_non_cpu = true;
+            }
+        }
+
+        if (line.find("backend_ptrs.size() = 1") != std::string::npos ||
+            line.find("assigned to device CPU") != std::string::npos) {
+            state->backend_cpu_only_hint = true;
+        }
+    }
+}
+
+class ScopedLlamaLogCapture {
+public:
+    ScopedLlamaLogCapture() {
+        llama_log_get(&previous_callback_, &previous_user_data_);
+        state_.passthrough_callback = previous_callback_;
+        state_.passthrough_user_data = previous_user_data_;
+        llama_log_set(llamaLoadLogCaptureCallback, &state_);
+    }
+
+    ~ScopedLlamaLogCapture() {
+        llama_log_set(previous_callback_, previous_user_data_);
+    }
+
+    const LlamaLoadLogCaptureState& state() const {
+        return state_;
+    }
+
+private:
+    ggml_log_callback previous_callback_ = nullptr;
+    void* previous_user_data_ = nullptr;
+    LlamaLoadLogCaptureState state_;
+};
+
+} // namespace
 
 LazyModelLoader::LazyModelLoader(const Config& config)
     : config_(config) {
@@ -591,24 +665,25 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     
     // Configure GPU layers from config and normalize to prevent negative values
     int n_gpu_layers_raw = config.value("n_gpu_layers", config_.default_n_gpu_layers);
-    int n_gpu_layers = std::max(0, n_gpu_layers_raw);  // Clamp to 0 minimum
+    const int requested_gpu_layers = std::max(0, n_gpu_layers_raw);  // Clamp to 0 minimum
+    int applied_gpu_layers = requested_gpu_layers;
     
     // GPU/VRAM handling with CPU fallback
     // Check if GPU is available by attempting to use it
-    if (n_gpu_layers > 0) {
-        spdlog::info("GPU offloading requested: {} layers", n_gpu_layers);
+    if (requested_gpu_layers > 0) {
+        spdlog::info("GPU offloading requested: {} layers", requested_gpu_layers);
         
         // Set GPU layers - llama.cpp will handle fallback internally
         // If no GPU is available, it will automatically use CPU
-        model_params.n_gpu_layers = n_gpu_layers;
+        model_params.n_gpu_layers = requested_gpu_layers;
         
         // Log GPU configuration
         spdlog::info("GPU offload configuration:");
-        spdlog::info("  Requested GPU layers: {}", n_gpu_layers);
+        spdlog::info("  Requested GPU layers: {}", requested_gpu_layers);
         spdlog::info("  VRAM limit: {} MB", config_.max_vram_mb);
         spdlog::info("  Note: llama.cpp will auto-fallback to CPU if GPU unavailable");
     } else {
-        spdlog::info("CPU-only inference configured (n_gpu_layers={})", n_gpu_layers);
+        spdlog::info("CPU-only inference configured (n_gpu_layers={})", requested_gpu_layers);
         model_params.n_gpu_layers = 0;
     }
     
@@ -628,9 +703,76 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Memory management
     model_params.use_mmap = config.value("use_mmap", true);
     model_params.use_mlock = config.value("use_mlock", false);
-    
+
+    // Compatibility shim for Gemma GGUF variants that omit
+    // `gemma3.attention.layer_norm_rms_epsilon` in metadata. Newer llama.cpp
+    // paths can accept the key via model KV overrides.
+    std::array<llama_model_kv_override, 2> kv_overrides{};
+    {
+        std::string model_path_lc = model_path;
+        std::transform(model_path_lc.begin(), model_path_lc.end(), model_path_lc.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+        if (model_path_lc.find("gemma") != std::string::npos) {
+            auto& ovrd = kv_overrides[0];
+            ovrd.tag = LLAMA_KV_OVERRIDE_TYPE_FLOAT;
+            std::strncpy(ovrd.key,
+                         "gemma3.attention.layer_norm_rms_epsilon",
+                         sizeof(ovrd.key) - 1);
+            ovrd.key[sizeof(ovrd.key) - 1] = '\0';
+            ovrd.val_f64 = 1.0e-6;
+            model_params.kv_overrides = kv_overrides.data();
+            spdlog::info("Applying Gemma compatibility KV override: {}={}",
+                         ovrd.key,
+                         ovrd.val_f64);
+        }
+    }
+
     llama_model* lmodel = nullptr;
     bool custom_loader_success = false;
+    std::vector<int> attempted_gpu_layers;
+
+    auto loadModelWithGpuFallback = [&](const char* stage) -> llama_model* {
+        std::vector<int> candidates;
+        if (requested_gpu_layers > 0) {
+            candidates.push_back(requested_gpu_layers);
+            int probe = requested_gpu_layers;
+            while (probe > 1) {
+                probe /= 2;
+                if (probe > 0 && probe != candidates.back()) {
+                    candidates.push_back(probe);
+                }
+            }
+            if (candidates.back() != 0) {
+                candidates.push_back(0);
+            }
+        } else {
+            candidates.push_back(0);
+        }
+
+        for (const int layers : candidates) {
+            auto load_params = model_params;
+            load_params.n_gpu_layers = layers;
+            attempted_gpu_layers.push_back(layers);
+            spdlog::info("{}: trying llama_load_model_from_file with n_gpu_layers={}", stage, layers);
+            auto* loaded = llama_load_model_from_file(model_path.c_str(), load_params);
+            if (loaded != nullptr) {
+                applied_gpu_layers = layers;
+                if (requested_gpu_layers > 0 && applied_gpu_layers != requested_gpu_layers) {
+                    spdlog::warn(
+                        "Model loaded with reduced GPU layers (requested={}, applied={})",
+                        requested_gpu_layers,
+                        applied_gpu_layers);
+                }
+                return loaded;
+            }
+        }
+        return nullptr;
+    };
+
+    // Capture llama.cpp backend/device assignment logs during model load to
+    // determine whether requested GPU offload became effective at runtime.
+    ScopedLlamaLogCapture log_capture;
     
     // Try custom GGUF loader first if preferred (security - embedded safetensor)
     if (config_.prefer_custom_gguf_loader) {
@@ -652,7 +794,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                 // After parsing with custom loader, still use llama.cpp's native loader
                 // for actual model initialization (custom loader validated the file)
                 // This provides security validation + native performance
-                lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+                lmodel = loadModelWithGpuFallback("Custom GGUF validation path");
                 
                 if (lmodel) {
                     spdlog::info("✓ Model loaded successfully with custom GGUF validation");
@@ -671,7 +813,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Fallback to native llama.cpp loader
     if (!lmodel && config_.fallback_to_native) {
         spdlog::info("Falling back to native llama_load_model_from_file()");
-        lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+        lmodel = loadModelWithGpuFallback("Native fallback path");
         
         if (lmodel) {
             spdlog::info("✓ Model loaded successfully with native llama.cpp loader");
@@ -681,8 +823,17 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
-        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
-            fmt::format("Failed to load model from file: {}", model_path));
+        std::ostringstream attempts;
+        for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
+            if (i > 0) {
+                attempts << ',';
+            }
+            attempts << attempted_gpu_layers[i];
+        }
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED,
+            fmt::format("{} (attempted n_gpu_layers=[{}])",
+                        model_path,
+                        attempts.str()));
     }
     
     // Log which loader was used
@@ -791,6 +942,17 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->model_handle = reinterpret_cast<void*>(lmodel);
     model->context_handle = reinterpret_cast<void*>(lctx);
 
+    const bool gpu_offload_requested = requested_gpu_layers > 0;
+    const bool gpu_offload_effective = gpu_offload_requested && log_capture.state().assigned_non_cpu;
+
+    model->info.metadata["runtime_gpu_offload_requested"] = gpu_offload_requested;
+    model->info.metadata["runtime_gpu_offload_effective"] = gpu_offload_effective;
+    model->info.metadata["runtime_gpu_layers_requested"] = requested_gpu_layers;
+    model->info.metadata["runtime_gpu_layers_applied"] = applied_gpu_layers;
+    model->info.metadata["runtime_llama_assigned_cpu_tensors"] = log_capture.state().assigned_cpu;
+    model->info.metadata["runtime_llama_assigned_non_cpu_tensors"] = log_capture.state().assigned_non_cpu;
+    model->info.metadata["runtime_llama_backend_cpu_only_hint"] = log_capture.state().backend_cpu_only_hint;
+
     auto* result = model.get();
     models_[model_id] = std::move(model);
 
@@ -802,11 +964,18 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Log successful load with GPU configuration details
     spdlog::info("✓ Model loaded successfully: {}", model_id);
     spdlog::info("  Size: {} MB", vram_mb);
-    spdlog::info("  GPU layers: {} {}", n_gpu_layers, 
-                 n_gpu_layers > 0 ? "(GPU acceleration enabled)" : "(CPU-only mode)");
+    spdlog::info("  GPU layers: {} {}", applied_gpu_layers,
+                 applied_gpu_layers > 0 ? "(GPU acceleration enabled)" : "(CPU-only mode)");
+    if (requested_gpu_layers != applied_gpu_layers) {
+        spdlog::info("  GPU layers requested: {}", requested_gpu_layers);
+    }
     spdlog::info("  Context length: {} tokens", ctx_params.n_ctx);
     spdlog::info("  Flash Attention: {}", use_flash_attn ? "ON" : "OFF");
     spdlog::info("  Memory-mapped: {}", model_params.use_mmap ? "yes" : "no");
+    if (gpu_offload_requested) {
+        spdlog::info("  GPU offload runtime effective: {}",
+                     gpu_offload_effective ? "yes" : "no (CPU assignment observed)");
+    }
     
     return result;
 }

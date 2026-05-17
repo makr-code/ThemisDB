@@ -436,6 +436,96 @@ BENCHMARK(BM_ReplicationLag)
     ->Iterations(5);
 
 // ============================================================================
+// Benchmark: Replication Lag with simulated WAN RTT
+// Simulates cross-DC transport by adding half RTT before and after each poll.
+// Reports lag p50/p95/p99 in milliseconds for R-8 style evaluation.
+// ============================================================================
+
+static void BM_ReplicationLagWAN(benchmark::State& state) {
+    const int simulated_rtt_ms = static_cast<int>(state.range(0));
+    const int batch_size = 100;
+
+    std::string test_db_path = "./data/bench_changefeed_lag_wan_tmp";
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+
+    RocksDBWrapper::Config config;
+    config.db_path = test_db_path;
+    config.memtable_size_mb = 128;
+
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open RocksDB");
+        return;
+    }
+    auto changefeed = std::make_unique<Changefeed>(db->getRawDB(), nullptr);
+
+    const int total_events = 10000;
+    for (int i = 0; i < total_events; i++) {
+        Changefeed::ChangeEvent event;
+        event.type = Changefeed::ChangeEventType::EVENT_PUT;
+        event.key = "wan_item_" + std::to_string(i);
+        event.value = "{\"index\":" + std::to_string(i) + "}";
+        changefeed->recordEvent(event);
+    }
+
+    themis::cdc::LatencyHistogram lag_hist;
+
+    for (auto _ : state) {
+        uint64_t last_sequence = 0;
+        int events_read = 0;
+
+        while (events_read < total_events) {
+            auto lag_start = std::chrono::steady_clock::now();
+
+            // Simulate one-way network transfer to follower.
+            std::this_thread::sleep_for(std::chrono::milliseconds(simulated_rtt_ms / 2));
+
+            Changefeed::ListOptions options;
+            options.from_sequence = last_sequence;
+            options.limit = batch_size;
+            options.long_poll_ms = 0;
+
+            auto events = changefeed->listEvents(options);
+
+            // Simulate one-way network transfer of ACK/visibility.
+            std::this_thread::sleep_for(std::chrono::milliseconds(simulated_rtt_ms / 2));
+
+            auto lag_end = std::chrono::steady_clock::now();
+            auto lag_us = std::chrono::duration_cast<std::chrono::microseconds>(lag_end - lag_start).count();
+            lag_hist.record(static_cast<uint64_t>(lag_us));
+
+            if (events.empty()) {
+                break;
+            }
+
+            events_read += static_cast<int>(events.size());
+            last_sequence = events.back().sequence;
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * total_events);
+    state.counters["simulated_rtt_ms"] = static_cast<double>(simulated_rtt_ms);
+    state.counters["lag_p50_ms"] = static_cast<double>(lag_hist.p50()) / 1000.0;
+    state.counters["lag_p95_ms"] = static_cast<double>(lag_hist.p95()) / 1000.0;
+    state.counters["lag_p99_ms"] = static_cast<double>(lag_hist.p99()) / 1000.0;
+
+    changefeed.reset();
+    db->close();
+    db.reset();
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+}
+
+BENCHMARK(BM_ReplicationLagWAN)
+    ->Arg(2)
+    ->Arg(50)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(5);
+
+// ============================================================================
 // Benchmark: Event Recording Latency (p50 / p95 / p99)
 // Uses ManualTime so each iteration time is the raw recordEvent() cost.
 // Percentile counters are computed from a LatencyHistogram and reported

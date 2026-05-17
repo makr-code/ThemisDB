@@ -2,12 +2,20 @@
 
 Vollständiges Setup für die Video-Demo der Kickstarter-Kampagne.
 
+**Updated:** Mai 17, 2026 - Complete themisctl-based demo with automated scripts
+
 ## 📁 Struktur
 
 ```
 demo/
+├── kickstarter_demo_script.ps1    ⭐ RUN THIS - Vollständige automatisierte Demo
+├── kickstarter_demo_script.sh     # Bash-Version für Linux/macOS
+├── QUICKSTART.md                  ⭐ START HERE - 5-Minuten Quick-Start
+├── DEMO_QUERIES.md                # 50+ Copy-Paste ready AQL Queries
+├── KICKSTARTER_VIDEO_ANLEITUNG.md # Ausführliche Deutsche Anleitung
+├── README.md                       # Diese Datei
 ├── setup/
-│   ├── init-demo.ps1              # Main setup script (erstellt Daten+Queries)
+│   ├── init-demo.ps1              # Legacy setup script (erstellt Daten+Queries)
 │   └── setup-demo.ps1             # Erweiterte Setup-Optionen
 ├── queries/                        # 6 Demo-Queries (alle Use-Cases)
 │   ├── 1_relational_join.sql       # SQL: Relational mit JOIN
@@ -29,20 +37,45 @@ demo/
 
 ## 🚀 Quick Start (3 Schritte)
 
-### 1. Demo initialisieren (2 Min)
+### ⭐ NEW: Automated Demo Script
+
+**Run this for immediate full demo:**
 
 ```powershell
-cd demo\setup
-.\init-demo.ps1
+cd C:\Projects\ThemisDB
+.\demo\kickstarter_demo_script.ps1
+```
+
+Das läuft automatisch durch alle Demo-Phasen:
+- ✅ Server-Status Check
+- ✅ Document/Text Search
+- ✅ Vector Search (Semantic)
+- ✅ Graph Traversal
+- ✅ RAG/LLM Agent
+- ✅ Performance Stats
+- ✅ Index Recommendations
+
+**Total Zeit:** ~12 Minuten (perfekt für Kickstarter!)
+
+---
+
+### 1. Demo-Daten generieren & importieren (3 Min)
+
+```powershell
+# Stelle sicher, dass ThemisDB Server läuft (Port 8765)
+# Dann:
+
+.\demo\setup\setup_demo_data.ps1
 ```
 
 Das erstellt automatisch:
-- ✅ 5 Kunden (customers.csv)
-- ✅ 5 Produkte mit Beschreibungen (products.json)
-- ✅ 6 Bestellungen (orders.csv)
-- ✅ 6 Query-Dateien (alle Demo-Szenarien)
-- ✅ Video-Aufnahme Checkliste
-- ✅ Screenshot-Anleitung
+- ✅ **13 Research Articles** (AI, ML, Quantum, Databases, etc.)
+- ✅ **13 Vector Embeddings** (128-dimensional)
+- ✅ **Knowledge Graph** (10 Researchers, 7 Papers, 4 Conferences + Edges)
+- ✅ Alle Collections in ThemisDB importiert
+- ✅ Daten verifiziert und bereit zur Demo
+
+**Details:** [setup/SETUP_INSTRUCTIONS.md](setup/SETUP_INSTRUCTIONS.md)
 
 ### 2. Video aufnehmen (5 Min)
 

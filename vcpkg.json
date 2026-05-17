@@ -141,6 +141,15 @@
         "parquet",
         "flight"
       ]
+    },
+    {
+      "name": "opencl"
+    },
+    {
+      "name": "vulkan"
+    },
+    {
+      "name": "shaderc"
     }
   ],
   "overrides": [

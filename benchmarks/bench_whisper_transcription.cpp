@@ -48,6 +48,7 @@
 #include "whisper/whisper_transcriber.h"
 #include "whisper/whisper_config.h"
 
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <random>
@@ -57,12 +58,32 @@ using namespace themis::audio;
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
-static const char* kWhisperModel =
+#define THEMIS_BENCH_STRINGIFY_INNER(x) #x
+#define THEMIS_BENCH_STRINGIFY(x) THEMIS_BENCH_STRINGIFY_INNER(x)
+
+static std::string resolveCompileTimeWhisperModelPath() {
 #ifdef THEMIS_BENCH_WHISPER_MODEL_PATH
-    THEMIS_BENCH_WHISPER_MODEL_PATH;
+    std::string value = THEMIS_BENCH_STRINGIFY(THEMIS_BENCH_WHISPER_MODEL_PATH);
+    if (value.size() >= 2) {
+        const char first = value.front();
+        const char last = value.back();
+        if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
+            value = value.substr(1, value.size() - 2);
+        }
+    }
+    return value;
 #else
-    "";  // empty → stub/no-model path
+    return {};
 #endif
+}
+
+static std::string resolveWhisperModelPath() {
+    const char* runtime = std::getenv("THEMIS_BENCH_WHISPER_MODEL_PATH");
+    if (runtime != nullptr && *runtime != '\0') {
+        return runtime;
+    }
+    return resolveCompileTimeWhisperModelPath();
+}
 
 /// Generate synthetic PCM float samples (silence + low-energy noise).
 static std::vector<float> makePCM(int duration_ms, float sample_rate = 16000.0f) {
@@ -88,7 +109,7 @@ public:
         cfg["n_threads"]      = 4;
         cfg["translate"]      = false;
         cfg["print_progress"] = false;
-        plugin->initialize(kWhisperModel, cfg);
+        plugin->initialize(resolveWhisperModelPath(), cfg);
         // initialize() may return false in stub mode; plugin remains usable.
 
         pcm_1s   = makePCM(1000);
@@ -222,7 +243,7 @@ BENCHMARK(BM_WhisperStub_Direct);
 static void BM_Transcribe_BufferSize(benchmark::State& state) {
     WhisperPlugin plugin;
     nlohmann::json cfg;
-    plugin.initialize(kWhisperModel, cfg);
+    plugin.initialize(resolveWhisperModelPath(), cfg);
 
     const int duration_ms = static_cast<int>(state.range(0));
     auto pcm = makePCM(duration_ms);

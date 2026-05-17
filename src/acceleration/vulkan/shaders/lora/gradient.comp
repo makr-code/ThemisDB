@@ -8,7 +8,7 @@ layout(local_size_x = 16, local_size_y = 16) in;
 
 // Forward pass cached values
 layout(std430, binding = 0) readonly buffer Input {
-    float input[];  // Cached input from forward pass
+    float input_buf[];  // Cached input from forward pass
 };
 
 layout(std430, binding = 1) readonly buffer MatrixB {
@@ -66,7 +66,7 @@ void main() {
         // Accumulate over batch and input dimensions
         for (uint b = 0; b < pc.batch_size; b++) {
             for (uint i = 0; i < pc.in_dim; i++) {
-                float input_val = input[b * pc.in_dim + i];
+                float input_val = input_buf[b * pc.in_dim + i];
                 float grad_val = grad_output[b * pc.out_dim + col] * scaling_val;
                 float b_val = B[i * pc.rank + row];
                 
@@ -91,7 +91,7 @@ void main() {
             for (uint o = 0; o < pc.out_dim; o++) {
                 float grad_val = grad_output[b * pc.out_dim + o] * scaling_val;
                 float a_val = A[col * pc.out_dim + o];
-                float input_val = input[b * pc.in_dim + row];
+                float input_val = input_buf[b * pc.in_dim + row];
                 
                 sum += grad_val * a_val * input_val;
             }
