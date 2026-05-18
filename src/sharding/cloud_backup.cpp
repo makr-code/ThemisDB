@@ -324,13 +324,13 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
-        // STUB/SIMULATION NOTE (stub #315):
-        // Purpose: Keep GCS upload call-flow available in builds without linked
-        //          google-cloud-cpp storage client.
-        // Activation: GCS provider selected while no SDK-backed upload bridge exists.
+        // STUB/SIMULATION NOTE (AzureStorageProvider::upload):
+        // Purpose: Keep Azure upload call-flow available in builds without linked
+        //          azure-storage-blobs-cpp client.
+        // Activation: Azure provider selected while no SDK-backed upload bridge exists.
         // Production Delta: Upload path logs placeholder behavior and returns false
-        //                   in non-mock mode, so no artifact is written to GCS.
-        // Removal Plan: Integrate google::cloud::storage::Client::UploadFile
+        //                   in non-mock mode, so no artifact is written to Azure.
+        // Removal Plan: Integrate Azure Blob upload API
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
@@ -399,11 +399,31 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #320):
+        // Purpose: Preserve Azure provider list API compatibility before SDK-backed
+        //          blob listing is connected.
+        // Activation: Azure provider selected without list API integration.
+        // Production Delta: Always returns an empty list, so backup inventory and
+        //                   retention scans cannot enumerate remote Azure blobs.
+        // Removal Plan: Integrate Azure Blob listing API (or injected list callback)
+        //               and map listed blob names into provider output.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("Azure list: {}/{}/{}", account_name_, container_, prefix);
         return {};
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #321):
+        // Purpose: Keep provider interface complete for Azure blob existence probes
+        //          while SDK metadata/head checks are pending.
+        // Activation: Always in current AzureStorageProvider implementation.
+        // Production Delta: Always returns false, so existing blobs may be treated
+        //                   as missing and uploaded again unnecessarily.
+        // Removal Plan: Integrate Azure Blob exists/head API (or injected existence
+        //               callback) and return actual presence state.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("Azure exists check: {}/{}/{}", account_name_, container_, remote_path);
         return false;
     }
