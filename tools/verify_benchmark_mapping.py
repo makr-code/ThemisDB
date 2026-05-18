@@ -272,6 +272,13 @@ def _collect_mapping_ids(data: dict) -> set[str]:
     return ids
 
 
+def _collect_mapping_entries(data: dict) -> dict[str, dict]:
+    entries: dict[str, dict] = {}
+    for targets in data["modules"].values():
+        entries.update(targets)
+    return entries
+
+
 def check_full_coverage(data: dict) -> bool:
     md_ids = _collect_md_target_ids()
     if not md_ids:
@@ -279,7 +286,8 @@ def check_full_coverage(data: dict) -> bool:
               "skipping coverage check")
         return True
 
-    mapped_ids = _collect_mapping_ids(data)
+    mapped_entries = _collect_mapping_entries(data)
+    mapped_ids = set(mapped_entries.keys())
     unmapped = md_ids - mapped_ids
 
     if unmapped:
@@ -293,8 +301,19 @@ def check_full_coverage(data: dict) -> bool:
     if extra:
         _warn(f"{len(extra)} mapping entries have no corresponding ID in "
               f"PERFORMANCE_EXPECTATIONS.md (may be planned/future):")
+        categorized_extras: dict[str, list[str]] = {}
         for tid in sorted(extra):
-            _warn(f"  extra: {tid}")
+            entry = mapped_entries.get(tid, {})
+            category = entry.get("category", "uncategorized")
+            if not isinstance(category, str) or not category.strip():
+                category = "uncategorized"
+            categorized_extras.setdefault(category, []).append(tid)
+
+        for category in sorted(categorized_extras):
+            ids = categorized_extras[category]
+            _warn(f"  category '{category}': {len(ids)}")
+            for tid in ids:
+                _warn(f"    extra: {tid}")
 
     _ok(f"All {len(md_ids)} target IDs from PERFORMANCE_EXPECTATIONS.md "
         f"are present in the mapping")
