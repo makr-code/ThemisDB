@@ -315,6 +315,13 @@ def check_full_coverage(data: dict) -> bool:
             for tid in ids:
                 _warn(f"    extra: {tid}")
 
+        uncategorized_count = len(categorized_extras.get("uncategorized", []))
+        if uncategorized_count:
+            _warn("  category metadata gap: "
+                  f"{uncategorized_count} extra ID(s) are uncategorized")
+        else:
+            _ok("All extra mapping IDs carry category metadata")
+
     _ok(f"All {len(md_ids)} target IDs from PERFORMANCE_EXPECTATIONS.md "
         f"are present in the mapping")
     return True
