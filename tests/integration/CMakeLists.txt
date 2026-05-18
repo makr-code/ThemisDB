@@ -156,6 +156,70 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/full_query_flow_e2e_test.cpp")
 endif()
 
 # ============================================================================
+# Cross-Module Pipeline Integration Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/query_execution_pipeline_test.cpp")
+    add_integration_test(
+        query_execution_pipeline_test
+        pipeline/query_execution_pipeline_test.cpp
+    )
+    set_tests_properties(query_execution_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;query"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/ingestion_pipeline_test.cpp")
+    add_integration_test(
+        ingestion_pipeline_test
+        pipeline/ingestion_pipeline_test.cpp
+    )
+    set_tests_properties(ingestion_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;ingestion"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
+    add_integration_test(
+        rag_ai_pipeline_test
+        pipeline/rag_ai_pipeline_test.cpp
+    )
+    set_tests_properties(rag_ai_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;rag"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/transaction_replication_pipeline_test.cpp")
+    add_integration_test(
+        transaction_replication_pipeline_test
+        pipeline/transaction_replication_pipeline_test.cpp
+    )
+    set_tests_properties(transaction_replication_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;transaction;replication"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/security_pipeline_test.cpp")
+    add_integration_test(
+        security_pipeline_test
+        pipeline/security_pipeline_test.cpp
+    )
+    set_tests_properties(security_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;security"
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/analytics_export_pipeline_test.cpp")
+    add_integration_test(
+        analytics_export_pipeline_test
+        pipeline/analytics_export_pipeline_test.cpp
+    )
+    set_tests_properties(analytics_export_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;analytics;export"
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
@@ -175,5 +239,6 @@ endif()
 
 message(STATUS "Integration tests configured in: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "  - Test infrastructure: test_fixture.h, test_data_generator.h")
+message(STATUS "  - Pipeline suite label: pipeline_integration")
 message(STATUS "  - To enable tests: uncomment sections in CMakeLists.txt as implementations complete")
 message(STATUS "  - Run with: ctest -R integration")

@@ -3,50 +3,57 @@
 # ROADMAP
 
 ## Current Status
-- [~] Modul `tests/integration` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [~] Cross-Module-Pipeline-Test-Suite initial umgesetzt (Target: 2026-Q3)
+- [x] Gemeinsame Pipeline-Testhelpers in `test_fixture.h` und `test_data_generator.h` erweitert (Target: 2026-Q3)
+- [x] CTest-Label `pipeline_integration` eingeführt und für neue Pipeline-Tests vergeben (Target: 2026-Q3)
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- [~] Pipeline-Suite in CI-Läufen stabilisieren und Flaky-Risiken reduzieren (Target: 2026-Q3)
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+- [ ] Weitere produktionsnahe Backends (ohne externe Runtime-Abhängigkeiten) in Pipeline-Tests integrieren (Target: 2026-Q4)
+- [ ] Pipeline-spezifische Regression-Gates in Nightly-Läufen ausbauen (Target: 2026-Q4)
+- [ ] Security-Hardening-Szenarien für Schlüsselrotation und Audit-Pfade erweitern (Target: 2026-Q4)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [x] Pipeline-Grenzen und Test-IDs für Query/Ingestion/RAG/TXR/Security/Analytics festgelegt (Target: 2026-Q3)
+- [x] Naming-Schema und Datei-Layout für `tests/integration/pipeline/` dokumentiert (Target: 2026-Q3)
 
 ### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+- [x] `query_execution_pipeline_test.cpp` mit QP-01..QP-05 umgesetzt (Target: 2026-Q3)
+- [x] `ingestion_pipeline_test.cpp` mit IP-01..IP-04 umgesetzt (Target: 2026-Q3)
+- [x] `rag_ai_pipeline_test.cpp` mit RAG-01..RAG-04 umgesetzt (Target: 2026-Q3)
+- [x] `transaction_replication_pipeline_test.cpp` mit TXR-01..TXR-04 umgesetzt (Target: 2026-Q3)
+- [x] `security_pipeline_test.cpp` mit SEC-01..SEC-03 umgesetzt (Target: 2026-Q3)
+- [x] `analytics_export_pipeline_test.cpp` mit AEP-01..AEP-03 umgesetzt (Target: 2026-Q3)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- [x] Auth/Syntax/Content/Inference/Failover-Fehlerpfade als eigene Pipeline-Tests ergänzt (Target: 2026-Q3)
+- [~] Weitere Edge-Cases für Timeouts, Retries und Circuit-Breaker in Planung (Target: 2026-Q4)
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [x] Neue Pipeline-Tests unter CTest-Label `pipeline_integration` registriert (Target: 2026-Q3)
+- [x] Offline-Ausführbarkeit über Mocks ohne externe Services sichergestellt (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+- [ ] Laufzeit- und Stabilitätsprofile der Pipeline-Tests im Nightly-Run messen (Target: 2026-Q4)
+- [ ] Security-/Reliability-Hardening für produktionsnahe Integrationspfade erweitern (Target: 2026-Q4)
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+- [x] `INTEGRATION_TEST_GUIDELINES.md` um Pipeline-Konventionen und Label-Flow ergänzt (Target: 2026-Q3)
+- [~] Abnahme der Pipeline-Suite über CI-Stabilisierung und Regression-Baselines offen (Target: 2026-Q4)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [x] Definierte Fehlersemantik und Recovery-Pfade für die 6 Kernpipelines
+- [x] Zusätzliche modulübergreifende Testabdeckung inkl. Regression-Szenarien eingeführt
+- [ ] Security-Review und Dependency-Checks vollständig abgeschlossen
+- [x] Observability-/Audit-Signale in Pipeline-Tests verifiziert
+- [~] Dokumentation weiter mit CI-/Betriebsrunbooks synchronisieren
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+- [!] Pipeline-Tests laufen offline mit Mocks; vollständige End-to-End-Abdeckung mit externen Diensten bleibt zusätzlich erforderlich.
+- [!] Sandbox-Build kann durch fehlende Toolchain-Komponenten (vcpkg/Ninja) blockiert sein und muss in CI gegengeprüft werden.
 
 ## Breaking Changes
 - Keine bekannten Breaking Changes dokumentiert.
