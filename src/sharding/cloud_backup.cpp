@@ -249,6 +249,16 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #317):
+        // Purpose: Keep backup inventory API callable before S3 object listing
+        //          is integrated for this provider.
+        // Activation: S3 provider active without SDK-backed ListObjects wiring.
+        // Production Delta: Always returns an empty list, so remote backup sets
+        //                   cannot be enumerated from S3-compatible storage.
+        // Removal Plan: Integrate AWS SDK ListObjectsV2 (or injected listing
+        //               callback) and return object keys.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 list: s3://{}/{}", bucket_, prefix);
         return {};
     }
@@ -530,11 +540,31 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #318):
+        // Purpose: Preserve GCS provider contract before SDK-backed object listing
+        //          is connected.
+        // Activation: GCS provider selected without list API integration.
+        // Production Delta: Always returns an empty list, so backup enumeration
+        //                   and retention cleanup cannot discover remote objects.
+        // Removal Plan: Integrate google::cloud::storage::Client::ListObjects
+        //               (or injected listing callback) and map results to keys.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("GCS list: gs://{}/{}", bucket_, prefix);
         return {};
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #319):
+        // Purpose: Keep interface completeness for GCS existence checks while
+        //          Head/Get metadata integration is pending.
+        // Activation: Always in current GCSStorageProvider implementation.
+        // Production Delta: Always returns false, so already-uploaded backups can
+        //                   be treated as missing and re-uploaded unnecessarily.
+        // Removal Plan: Integrate object metadata probe via GCS SDK (or injected
+        //               existence callback) and return real presence state.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("GCS exists check: gs://{}/{}", bucket_, remote_path);
         return false;
     }
