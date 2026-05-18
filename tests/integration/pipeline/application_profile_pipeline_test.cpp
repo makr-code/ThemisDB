@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace themis::test {
@@ -39,6 +40,12 @@ public:
             return false;
         }
 
+        const auto existing_session = session_tenant_.find(token);
+        if (existing_session != session_tenant_.end() && existing_session->second != tenant_id) {
+            audit_->Record({"app_profile", "session_rejected", "token_rebind_blocked"});
+            return false;
+        }
+
         session_tenant_[token] = tenant_id;
         audit_->Record({"app_profile", "session_started", tenant_id});
         return true;
@@ -54,6 +61,12 @@ public:
         }
 
         const auto key = tenant_id + "::" + event_id;
+        if (ingested_keys_.count(key) > 0U) {
+            audit_->Record({"app_profile", "duplicate_ignored", key});
+            return true;
+        }
+
+        ingested_keys_.insert(key);
         storage_->Write(key, payload);
         index_->IndexDocument(key, terms);
         tenant_keys_[tenant_id].push_back(key);
@@ -143,6 +156,7 @@ private:
 
     std::unordered_map<std::string, std::string> session_tenant_;
     std::unordered_map<std::string, std::vector<std::string>> tenant_keys_;
+    std::unordered_set<std::string> ingested_keys_;
     std::vector<std::string> cdc_events_;
     std::vector<std::string> replica_markers_;
 };
@@ -247,6 +261,48 @@ TEST_F(ApplicationProfilePipelineTest, APP04_BurstProfileKeepsCdcAndReplicaSnaps
     EXPECT_EQ(pipeline_->TenantEventCount("tenant_burst"), 24U);
     EXPECT_EQ(pipeline_->CdcCount(), 24U);
     EXPECT_EQ(pipeline_->ReplicaMarkerCount(), 1U);
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP05_TokenRebindAcrossTenantsIsRejected) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_original", "app_user"));
+    EXPECT_FALSE(pipeline_->RegisterSession(token, "tenant_other", "app_user"));
+    EXPECT_TRUE(audit_->Contains("app_profile", "session_rejected"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP06_DuplicateEventIsIdempotentForCdcAndSnapshotCount) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_idempotent", "app_user"));
+
+    ASSERT_TRUE(
+        pipeline_->IngestEvent(token, "tenant_idempotent", "event_1", "payload", {"billing"}));
+    ASSERT_TRUE(
+        pipeline_->IngestEvent(token, "tenant_idempotent", "event_1", "payload", {"billing"}));
+
+    const auto snapshot_file = GetTempDir() / "tenant_idempotent.snapshot";
+    ASSERT_TRUE(pipeline_->ExportTenantSnapshot("tenant_idempotent", snapshot_file));
+
+    EXPECT_EQ(pipeline_->TenantEventCount("tenant_idempotent"), 1U);
+    EXPECT_EQ(pipeline_->CdcCount(), 1U);
+    EXPECT_TRUE(audit_->Contains("app_profile", "duplicate_ignored"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP07_CrossTenantIngestAttemptIsBlockedWithoutArtifacts) {
+    const auto token_a = data_gen_->GeneratePipelineToken(true);
+    const auto token_b = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token_a);
+    auth_->AllowToken(token_b);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token_a, "tenant_a", "app_user"));
+    ASSERT_TRUE(pipeline_->RegisterSession(token_b, "tenant_b", "app_user"));
+
+    EXPECT_FALSE(
+        pipeline_->IngestEvent(token_a, "tenant_b", "event_blocked", "secret_b", {"blocked"}));
+    EXPECT_EQ(pipeline_->TenantEventCount("tenant_b"), 0U);
+    EXPECT_EQ(pipeline_->CdcCount(), 0U);
 }
 
 } // namespace themis::test
