@@ -222,6 +222,17 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #313):
+        // Purpose: Keep cloud-backup deletion API callable before S3 SDK delete wiring
+        //          is integrated in this provider path.
+        // Activation: S3 provider active without injected SDK-backed delete callback.
+        // Production Delta: Delete logs a placeholder action and returns false
+        //                   (unless mock mode is enabled), so remote backup objects
+        //                   are not actually removed from S3-compatible storage.
+        // Removal Plan: Integrate Aws::S3::DeleteObject (or injected delete bridge)
+        //               for production deletion behavior.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
@@ -243,6 +254,17 @@ public:
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #314):
+        // Purpose: Preserve provider interface completeness before real S3 object
+        //          existence checks are wired.
+        // Activation: Always in current S3StorageProvider implementation.
+        // Production Delta: Method always returns false, even when the object exists,
+        //                   which can trigger unnecessary re-uploads and incorrect
+        //                   backup reconciliation decisions.
+        // Removal Plan: Implement HeadObject/metadata probe via AWS SDK or an
+        //               injected existence callback.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
         
         // Placeholder behavior: return false to indicate SDK not integrated
@@ -292,6 +314,16 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        // STUB/SIMULATION NOTE (stub #315):
+        // Purpose: Keep GCS upload call-flow available in builds without linked
+        //          google-cloud-cpp storage client.
+        // Activation: GCS provider selected while no SDK-backed upload bridge exists.
+        // Production Delta: Upload path logs placeholder behavior and returns false
+        //                   in non-mock mode, so no artifact is written to GCS.
+        // Removal Plan: Integrate google::cloud::storage::Client::UploadFile
+        //               (or injected upload callback) and propagate real status.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -426,6 +458,16 @@ public:
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
+        // STUB/SIMULATION NOTE (stub #316):
+        // Purpose: Keep restore-path integration testable without a linked GCS SDK.
+        // Activation: GCS provider selected while no SDK-backed download bridge exists.
+        // Production Delta: Download path logs placeholder behavior and returns false
+        //                   in non-mock mode, so restore flows cannot fetch remote
+        //                   backup artifacts from GCS.
+        // Removal Plan: Integrate google::cloud::storage::Client::DownloadToFile
+        //               (or injected download callback) with error propagation.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
