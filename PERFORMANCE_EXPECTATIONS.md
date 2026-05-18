@@ -1938,7 +1938,7 @@ Kanonische vollständige Tabellen je Dimension:
 |---|---|---|---|---|
 | Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
 | Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
-| Cache | C-1 Proxy = 5,851 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 ueber Ziel, C-4 messbar aber noch unter Ziel |
+| Cache | C-1 direkt = 155,8 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 deutlich ueber Ziel, C-4 messbar aber noch unter Ziel |
 | Storage | BM_SustainedWrite/16 = ~2,4 k ops/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | 1:1-nahe CRUD-Cases vorhanden, aber Sustained-Write klar unter Ziel |
 | Analytics | AN-3/AN-4 direkt gemessen (Parquet/CSV je ~125-128k items/s) | 1M-Export-Ziele 2,0 s / 0,5 s | Rot | Direkte Cases vorhanden, aber Laufzeit fuer beide Exportziele deutlich ueber Ziel |
 | Timeseries | TS-1 = 61,00 M pts/s; TS-6 = 1,906 M pts/s (1-min Aggregate) | > 500 k pts/s; TS-6 > 10 M pts/s | Gelb | TS-1 im Ziel, TS-6 direkt gemessen aber unter Ziel |
@@ -2319,7 +2319,7 @@ Auswertung fuer die aktuell messbaren Erwartungen im Dokument:
 | Query | QueryEngineBench/SimpleEvaluation | 750.0 M items/s | 0.744 | 558.000 M items/s | 796.4 M items/s | 1.427 | ueber-soll |
 | Index | VectorIndexBench/InsertPlaintext | 280.0 k/s | 0.622 | 174.160 k/s | 548.7 k/s | 3.150 | ueber-soll |
 | Index | SecondaryIndexBench/IndexInsert | 180.0 k/s | 0.736 | 132.480 k/s | 254.9 k/s | 1.924 | ueber-soll |
-| C-1 Cache Proxy (BM_EmbeddingCache_Query_Hit/384) | 5.0 M ops/s | 0.744 | 3.720 M ops/s | 155.8 M ops/s | 1.573 | ueber-soll |
+| C-1 Cache direkt (BM_EmbeddingCache_Query_Hit/384) | 5.0 M ops/s | 0.744 | 3.720 M ops/s | 155.8 M ops/s | 1.573 | ueber-soll |
 
 Kurzfazit (nur Rohmodell, noch nicht release-tauglich):
 
@@ -3161,7 +3161,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Modul | Benchmark-Case | Ergebnis |
 |---|---|---|
-| Cache | `BM_EmbeddingCache_Query_WithIndex/100000` | 5.851 M/s |
+| Cache | `BM_EmbeddingCache_Query_Hit/384` | 155.8 M/s |
 | Storage | `BM_RCU_Read_MultiThread/threads:8` | 1.390 G/s |
 | Graph | `GraphTraversalBenchmarkFixture/BFSTraversal/1000/4` | 358.4k nodes/s |
 | Timeseries | `AdaptiveFlushFixture/SingleThreaded/min_time:2.000/threads:1` | 322.157k pts/s |
