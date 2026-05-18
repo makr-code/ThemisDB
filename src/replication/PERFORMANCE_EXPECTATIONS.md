@@ -15,9 +15,9 @@
 |---|---|---|
 | R-1 | ≤ 50 ms @ 10k Writes/s (LAN) | `WalBenchFixture_Append` |
 | R-2 | ≥ 500 MB/s/Follower (10 GbE) | `WalBenchFixture_ReadFrom` |
-| R-3 | ≤ 10 s | `BM_ReplicationManager_Initialize` |
-| R-4 | < 5 µs/Write | `BM_WALEntry_Serialize` |
-| R-5 | ≤ 1 µs/Merge | `BM_WALEntry_Deserialize` |
+| R-3 | ≤ 10 s | `BM_ReplicationManager_PromoteToLeader` |
+| R-4 | < 5 µs/Write | `BM_HLCConflictDetection` |
+| R-5 | ≤ 1 µs/Merge | `BM_CRDTMerge` |
 | R-6 | ≥ 200 MB/s; ≤ 10 min | `WalBenchFixture_ReadFrom` |
 | R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
 | R-8 | ≤ 200 ms P99 (50 ms RTT WAN) | `WalBenchFixture_ReadFrom` |

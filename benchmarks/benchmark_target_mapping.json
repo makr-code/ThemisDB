@@ -401,39 +401,33 @@
       },
       "R-3": {
         "label": "Leader-Failover",
-        "primary_benchmark": "BM_ReplicationManager_Initialize",
-        "primary_case": "BM_ReplicationManager_Initialize",
-        "fallback_case": "WalBenchFixture_Append",
+        "primary_benchmark": "BM_ReplicationManager_PromoteToLeader",
+        "primary_case": "BM_ReplicationManager_PromoteToLeader",
+        "fallback_case": "BM_ReplicationManager_Initialize",
         "file": "bench_replication_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 10 s",
-        "notes": "Initialization time is a lower-bound proxy. Direct failover benchmark (Raft leadership transfer) is a gap — see missing-cases §R-3-GAP.",
-        "gap_ref": "R-3-GAP",
-        "gap_effort_days": 3
+        "notes": "PromoteToLeader measures the in-process leader promotion/failover path directly; initialize() remains the lower-bound fallback for environments where promotion cannot complete."
       },
       "R-4": {
         "label": "HLC Conflict Detection",
-        "primary_benchmark": "BM_WALEntry_Serialize",
-        "primary_case": "BM_WALEntry_Serialize",
-        "fallback_case": "BM_WALEntry_Deserialize",
+        "primary_benchmark": "BM_HLCConflictDetection",
+        "primary_case": "BM_HLCConflictDetection",
+        "fallback_case": "BM_WALEntry_Serialize",
         "file": "bench_replication_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "< 5 µs/Write",
-        "notes": "WALEntry serialization measures per-write overhead as proxy for HLC stamping cost. Direct HLC benchmark is a gap — see §R-4-GAP.",
-        "gap_ref": "R-4-GAP",
-        "gap_effort_days": 2
+        "notes": "BM_HLCConflictDetection benchmarks LastWriteWinsResolver with controlled Hybrid Logical Clock skew directly; WALEntry serialization is kept only as a structural fallback."
       },
       "R-5": {
         "label": "CRDT Merge",
-        "primary_benchmark": "BM_WALEntry_Deserialize",
-        "primary_case": "BM_WALEntry_Deserialize",
-        "fallback_case": "BM_WALEntry_Serialize",
+        "primary_benchmark": "BM_CRDTMerge",
+        "primary_case": "BM_CRDTMerge",
+        "fallback_case": "BM_WALEntry_Deserialize",
         "file": "bench_replication_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 1 µs/Merge",
-        "notes": "WALEntry deserialization is a structural proxy for CRDT merge cost. Direct CRDT benchmark is a gap — see §R-5-GAP.",
-        "gap_ref": "R-5-GAP",
-        "gap_effort_days": 3
+        "notes": "BM_CRDTMerge measures CRDTMergeResolver::resolve() directly across varying conflict set sizes; WALEntry deserialization remains a fallback for structural serialization overhead."
       },
       "R-6": {
         "label": "WAL Replay (PITR, 100 GB)",
