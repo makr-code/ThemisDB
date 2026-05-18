@@ -811,6 +811,17 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
+            // STUB/SIMULATION NOTE (stub #307):
+            // Purpose: Keep the RoPE stats endpoint contract stable before
+            //          VectorIndexManager/RotaryEmbedding expose runtime counters.
+            // Activation: Always when RoPE is enabled and stats are requested.
+            // Production Delta: Statistics fields are synthetic `N/A` placeholders;
+            //                   operators cannot observe real rotation volume/latency
+            //                   from this endpoint.
+            // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
+            //               surface it through VectorIndexManager to this handler.
+            //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
+            //               Target: v2.2.0.
             // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
             // Future enhancement: Add statistics tracking to RotaryEmbedding class
             // - Track rotation count, average time, relational vs positional rotations
