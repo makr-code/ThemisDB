@@ -5,6 +5,7 @@
 
 #include "prompt_engineering/structured_output.h"
 
+#include "prompt_engineering/markdown_utils.h"
 #include <algorithm>
 #include <chrono>
 #include <regex>
@@ -18,13 +19,8 @@ namespace prompt_engineering {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string StructuredOutputEnforcer::stripMarkdownFences(const std::string& text) {
-    // Remove opening fence: ```json or ```
-    static const std::regex open_fence(R"(^```(?:json)?\r?\n?)", std::regex::ECMAScript);
-    static const std::regex close_fence(R"(\r?\n?```$)", std::regex::ECMAScript);
-
-    std::string result = std::regex_replace(text, open_fence, "");
-    result = std::regex_replace(result, close_fence, "");
-    return result;
+    // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
+    return themis::prompt_engineering::stripMarkdownFences(text);
 }
 
 std::string StructuredOutputEnforcer::removeTrailingCommas(const std::string& text) {

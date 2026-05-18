@@ -27,6 +27,7 @@
 
 #include "rag/multi_hop_reasoner.h"
 
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -60,14 +61,8 @@ namespace {
 
 /**
  * Trim leading and trailing whitespace from @p s.
+ * Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
  */
-std::string trim(const std::string& s)
-{
-    const auto first = s.find_first_not_of(" \t\r\n");
-    if (first == std::string::npos) return {};
-    const auto last = s.find_last_not_of(" \t\r\n");
-    return s.substr(first, last - first + 1);
-}
 
 /**
  * Replace all occurrences of @p key with @p value in @p tmpl.
@@ -117,13 +112,13 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
     std::string line;
     while (std::getline(ss, line)) {
         // Strip leading list markers: "1.", "2.", "-", "*"
-        std::string t = trim(line);
+        std::string t = themis::utils::trim(line);
         if (t.empty()) continue;
         // Remove leading digit+dot or dash/star
         if (t.size() >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
              t[0] == '-' || t[0] == '*')) {
-            t = trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
+            t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
         }
         if (!t.empty()) sub_queries.push_back(t);
     }
@@ -139,7 +134,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 {
     // Split on "and" / "," at the top level — very lightweight.
     std::vector<std::string> parts;
-    const std::string q = trim(query);
+    const std::string q = themis::utils::trim(query);
     if (q.empty()) return parts;
 
     // Simple sentence boundary split on ". " or "? "
@@ -149,12 +144,12 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
         acc += q[i];
         if ((q[i] == '.' || q[i] == '?') &&
             i + 1 < q.size() && q[i + 1] == ' ') {
-            const auto t = trim(acc);
+            const auto t = themis::utils::trim(acc);
             if (!t.empty()) sentences.push_back(t);
             acc.clear();
         }
     }
-    const auto t = trim(acc);
+    const auto t = themis::utils::trim(acc);
     if (!t.empty()) sentences.push_back(t);
 
     // If only one sentence, return it as-is (single hop)

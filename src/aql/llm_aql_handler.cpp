@@ -33,6 +33,7 @@
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
+#include "prompt_engineering/markdown_utils.h"
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
@@ -1425,27 +1426,8 @@ std::string LLMAQLHandler::buildNLToAQLSystemPrompt(
 }
 
 std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
-    size_t start_marker = raw.find("```");
-    if (start_marker != std::string::npos) {
-        size_t query_start = raw.find('\n', start_marker);
-        if (query_start != std::string::npos) {
-            query_start++;
-            size_t end_marker = raw.find("```", query_start);
-            if (end_marker != std::string::npos) {
-                raw = raw.substr(query_start, end_marker - query_start);
-            }
-        }
-    }
-
-    // Trim leading and trailing whitespace
-    raw.erase(raw.begin(), std::find_if(raw.begin(), raw.end(), [](unsigned char ch) {
-        return !std::isspace(ch);
-    }));
-    raw.erase(std::find_if(raw.rbegin(), raw.rend(), [](unsigned char ch) {
-        return !std::isspace(ch);
-    }).base(), raw.end());
-
-    return raw;
+    // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
+    return themis::prompt_engineering::stripMarkdownFences(raw);
 }
 
 void LLMAQLHandler::logAnnotations(
