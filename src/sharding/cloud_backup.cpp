@@ -461,6 +461,16 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        // STUB/SIMULATION NOTE (stub #315):
+        // Purpose: Keep GCS upload call-flow available in builds without linked
+        //          google-cloud-cpp storage client.
+        // Activation: GCS provider selected while no SDK-backed upload bridge exists.
+        // Production Delta: Upload path logs placeholder behavior and returns false
+        //                   in non-mock mode, so no artifact is written to GCS.
+        // Removal Plan: Integrate google::cloud::storage::Client::UploadFile
+        //               (or injected upload callback) and propagate real status.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
