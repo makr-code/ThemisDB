@@ -627,15 +627,13 @@
       },
       "TX-4": {
         "label": "2PC Latenz (5 Shards)",
-        "primary_benchmark": "TransactionBenchmarkFixture_MixedTransaction",
-        "primary_case": "TransactionBenchmarkFixture_MixedTransaction",
-        "fallback_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+        "primary_benchmark": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
+        "primary_case": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
+        "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
         "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 5 ms",
-        "notes": "MixedTransaction (5 RMW ops) approximates 5-shard 2PC latency in-process. True cross-shard 2PC latency requires distributed harness — see §TX-4-GAP.",
-        "gap_ref": "TX-4-GAP",
-        "gap_effort_days": 4
+        "notes": "TwoPhaseCommitLatency drives TwoPhaseCommitCoordinator + 5 in-process TwoPhaseCommitParticipant mocks (null storage callbacks, WAL disabled) and measures full Phase-1/Phase-2 protocol latency directly. MixedTransaction remains as a single-node fallback."
       },
       "TX-5": {
         "label": "SAGA Compensation Time",
@@ -649,15 +647,13 @@
       },
       "TX-6": {
         "label": "Deadlock Detection Overhead",
-        "primary_benchmark": "TransactionBenchmarkFixture_ReadOnlyTransaction",
-        "primary_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
-        "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
+        "primary_benchmark": "DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict",
+        "primary_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict",
+        "fallback_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder",
         "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "≤ 1 % overhead (vs. 5 % baseline)",
-        "notes": "ReadOnlyTransaction cost relative to mixed-transaction proxies deadlock-detector overhead delta. Direct overhead measurement via lock-graph cycle benchmark is a gap — see §TX-6-GAP.",
-        "gap_ref": "TX-6-GAP",
-        "gap_effort_days": 3
+        "notes": "DeadlockDetectionOverhead_Predict calls predictDeadlockProbability() on a pre-trained DeadlockPredictor (1 000 patterns, 5 % deadlock rate, 20-key space) and measures per-call latency directly. DeadlockDetectionOverhead_LockOrder benchmarks recommendLockOrder() as a secondary overhead metric."
       },
       "TX-7": {
         "label": "False Positive Rate",

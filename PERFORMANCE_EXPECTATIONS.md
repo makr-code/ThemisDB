@@ -1346,8 +1346,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 #### 13. Transaction-Modul
 
 > **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` und `bench_saga_compensation.cpp` — PRODUCTION-READY.
-> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: TX-1, TX-2, TX-3, TX-5, TX-7, TX-8. Proxy-Cases: TX-4, TX-6.
-> Gap-Tickets: TX-4-GAP (4d), TX-6-GAP (3d). Gesamt-Aufwand: 7d.
+> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Alle 8 Faelle direkt messbar — kein Proxy mehr.
+> TX-4 und TX-6 wurden von Proxy auf `mapped` umgestellt (Wave2-Abschluss).
 > v1.9.0-Profil: `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
@@ -1355,9 +1355,9 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `CommitLatency/1`: 37.39 us | PASS | `mapped` |
 | TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `CommitLatency/100`: 1.016 ms | PASS | `mapped` |
 | TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `WriteOnlyTransaction`: 6826.67 tps | PASS | `mapped` |
-| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `MixedTransaction`: 0.0988 ms | PASS (Proxy) | `proxy` ⚠️ TX-4-GAP |
+| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
 | TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `DatabaseWriteCompensation`: direkte SAGA-Kompensation ueber reale Handler (Artefakt: `bench_saga_compensation_v190.json`) | PASS (direkt) | `mapped` |
-| TX-6 Deadlock Detection Overhead | ≤ 1 % (von 5 % verbessert) | n/a | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | keine direkte Deadlock-Overhead-Metrik im Artefakt | N/A | `proxy` ⚠️ TX-6-GAP |
+| TX-6 Deadlock Detection Overhead | ≤ 1 % overhead | n/a | `DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict` | `DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
 | TX-7 False Positive Rate | < 5 % | n/a | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `OccReadVersionAndUpdate` Threads(1): conflicts-Counter misst direkte OCC-False-Positives (kein echter Contentionpfad aktiv) | PASS (direkt) | `mapped` |
 | TX-8 Low-Contention Success Rate | > 90 % | n/a | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `OccOptimisticPut`: 25284.57 tps (ohne success_rate-Feld) | N/A | `mapped` |
 

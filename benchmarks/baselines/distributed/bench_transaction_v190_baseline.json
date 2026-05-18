@@ -4,7 +4,7 @@
   "branch": "main",
   "commit": "pending-first-run",
   "timestamp": "2026-04-15T00:00:00Z",
-  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_transaction_throughput plus the dedicated SAGA compensation benchmark.",
+  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 with all cases now directly mapped. TX-4 uses TwoPhaseCommitFixture/TwoPhaseCommitLatency (5 in-process shard mocks). TX-6 uses DeadlockDetectionFixture/DeadlockDetectionOverhead_Predict + _LockOrder.",
   "slo_module": "transaction",
   "wave": "Wave2",
   "run_command": "bench_transaction_throughput --benchmark_out=bench_transaction_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
@@ -44,12 +44,12 @@
     },
     "TX-4": {
       "label": "2PC Latenz (5 Shards)",
-      "primary_case": "TransactionBenchmarkFixture_MixedTransaction",
-      "fallback_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+      "primary_case": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
+      "primary_case_arg": 5,
+      "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
       "slo_target": "≤ 5 ms",
-      "status": "proxy",
-      "gap_ref": "TX-4-GAP",
-      "gap_effort_days": 4,
+      "status": "mapped",
+      "note": "Uses TwoPhaseCommitCoordinator + 5 in-process TwoPhaseCommitParticipant mocks (WAL disabled, null callbacks). Measures full Phase-1 PREPARE fan-out + Phase-2 COMMIT broadcast latency. Read 'real_time_ms' from the Arg(5) variant.",
       "measured_real_time_ms": null,
       "slo_met": null
     },
@@ -64,13 +64,12 @@
     },
     "TX-6": {
       "label": "Deadlock Detection Overhead",
-      "primary_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
-      "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
+      "primary_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict",
+      "fallback_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder",
       "slo_target": "≤ 1 % overhead (vs. 5 % baseline)",
-      "status": "proxy",
-      "gap_ref": "TX-6-GAP",
-      "gap_effort_days": 3,
-      "measured_overhead_pct": null,
+      "status": "mapped",
+      "note": "DeadlockDetectionOverhead_Predict calls predictDeadlockProbability() on a 1 000-pattern predictor (5 % deadlock rate). Overhead = measured call latency / typical single-node commit latency (TX-1 ~37 µs). SLO: overhead ratio ≤ 1 %.",
+      "measured_overhead_us": null,
       "slo_met": null
     },
     "TX-7": {
@@ -92,22 +91,5 @@
       "slo_met": null
     }
   },
-  "missing_cases": [
-    {
-      "gap_id": "TX-4-GAP",
-      "title": "Verteilte 2PC-Latenz (5 echte Shards)",
-      "description": "Benchmark für 2PC-Commit-Latenz über 5 echte Shard-Koordinatoren. Erfordert DistributedTransactionCoordinator-Fixture mit 5 In-Process-Shard-Mocks.",
-      "effort_days": 4,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "TX-4"
-    },
-    {
-      "gap_id": "TX-6-GAP",
-      "title": "Deadlock-Detection-Overhead Mikrobenchmark",
-      "description": "Benchmark misst Lock-Graph-Cycle-Detection-Overhead pro Transaction. Erfordert kontrollierten Lock-Konten mit bekannter Cycle-Rate.",
-      "effort_days": 3,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "TX-6"
-    }
-  ]
+  "missing_cases": []
 }
