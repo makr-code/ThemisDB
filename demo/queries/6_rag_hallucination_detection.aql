@@ -1,8 +1,7 @@
-SELECT rag_answer(
-  question='What energy solutions do we offer?',
-  context=(SELECT STRING_AGG(description, ' | ') 
-           FROM products 
-           WHERE category IN ('Energy Storage','Smart Grid')),
-  check_hallucination=true,
-  confidence_threshold=0.75
-) AS answer;
+LLM RAG 'What energy solutions do we offer?'
+  FROM COLLECTION products
+  TOP 5
+  OPTIONS {
+    check_hallucination:  true,
+    confidence_threshold: 0.75
+  }

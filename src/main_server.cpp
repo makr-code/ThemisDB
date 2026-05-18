@@ -1017,7 +1017,8 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Database opened successfully");
-        
+
+#ifdef THEMIS_ENABLE_HSM
         // ═══════════════════════════════════════════════════════════════════
         // HSM Security Integration (FIND-002)
         // ═══════════════════════════════════════════════════════════════════
@@ -1175,7 +1176,12 @@ int main(int argc, char* argv[]) {
             }
             return 1;
         }
-        
+#else
+        // HSM support is not compiled into this build edition (THEMIS_ENABLE_HSM=OFF).
+        // g_hsm_provider remains null; all later uses already guard with if (g_hsm_provider).
+        THEMIS_INFO("HSM subsystem skipped: not available in this build edition (THEMIS_ENABLE_HSM=OFF).");
+#endif
+
         // Create index managers
         THEMIS_INFO("Initializing index managers...");
         auto secondary_index = std::make_shared<SecondaryIndexManager>(*db);

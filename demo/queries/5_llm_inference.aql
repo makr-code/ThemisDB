@@ -1,6 +1,11 @@
-SELECT llm_generate(
-  model='llama2-7b',
-  prompt='Write marketing copy for: Solar Panel 400W',
-  max_tokens=50,
-  temperature=0.7
-) AS marketing_pitch;
+-- Inline LLM INFER innerhalb eines FOR-Loops (pro Produkt)
+FOR p IN products
+  FILTER p.product_id == 'P001'
+  LET pitch = LLM INFER CONCAT('Write a short marketing description for: ', p.name)
+    USING MODEL 'llama2-7b'
+    OPTIONS { max_tokens: 50, temperature: 0.7 }
+  RETURN {
+    product: p.name,
+    price:   p.price,
+    pitch:   pitch
+  }

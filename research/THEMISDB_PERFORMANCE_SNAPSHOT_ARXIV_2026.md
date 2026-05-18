@@ -9,11 +9,11 @@
 
 ## Abstract
 
-Modern multi-model database systems with integrated AI components are frequently described in terms of architectural breadth, while empirical evidence remains fragmented across isolated benchmark suites and non-uniform reporting paths. This paper presents a repository-grounded performance snapshot of ThemisDB based on a unified benchmark execution protocol over all currently built benchmark executables in the Windows release benchmark configuration. The scope is intentionally narrow: rather than claiming full-system characterization, we report only those observations supported by a reproducible full-run artifact generated from the repository state on 2026-05-17.
+Modern multi-model database systems with integrated AI components are often described in terms of architectural breadth, while empirical evidence remains fragmented across isolated benchmark suites and non-uniform reporting paths. This paper presents a repository-grounded performance snapshot of ThemisDB based on a unified benchmark execution protocol over all currently built benchmark executables in the Windows release benchmark configuration. The scope is intentionally narrow: rather than claiming full-system characterization, we report only those observations supported by a reproducible full-run artifact generated from the repository state on 2026-05-17.
 
-The run executed eight benchmark executables, of which four completed successfully, one failed, and three hit a 180-second timeout. The successful modules cover search, LLM adapter operations, Vulkan LoRA training, and Whisper plugin overhead. The strongest measured results are 11.138 ms vector search latency for an efSearch=32, k=10 workload, 6.964 ms fused Vulkan LoRA training-step latency versus 9.664 ms for the unfused variant, and 77.7 us end-to-end LLM pipeline overhead in the current artifact-backed benchmark path. Mechanistically, these gains are attributable to steady-state search measurement over a pre-built index, batched insert/write paths, fused GPU forward/backward execution, and very low adapter/control-plane overhead in the current LLM harness. At the same time, GPU vector indexing and llama.cpp inference remain unresolved because the current full-run protocol timed out, and the ingestion benchmark crashes reproducibly.
+The run executed eight benchmark executables, of which four completed successfully, one failed, and three hit a 180-second timeout. The successful modules cover search, LLM adapter operations, Vulkan LoRA training, and Whisper plugin overhead. The strongest measured results are 11.138 ms vector search latency for an efSearch=32, k=10 workload, 6.964 ms fused Vulkan LoRA training-step latency versus 9.664 ms for the unfused variant, and 77.7 us end-to-end LLM pipeline overhead in the current artifact-backed benchmark path. Mechanistically, these gains are attributable to steady-state search measurement over a pre-built index, batched insert/write paths, fused GPU forward/backward execution, and low adapter/control-plane overhead in the current LLM harness. At the same time, GPU vector indexing and llama.cpp inference remain unresolved because the current full-run protocol timed out, and the ingestion benchmark crashes reproducibly.
 
-The principal contribution of this paper is therefore methodological as much as empirical: it defines a reproducible claim boundary for ThemisDB performance reporting and turns a mixed benchmark state into an evidence-backed, publication-structured artifact suitable for later expansion into a broader system-evaluation paper.
+The principal contribution of this paper is methodological as much as empirical: it defines a reproducible claim boundary for ThemisDB performance reporting and converts a mixed benchmark state into a publication-structured artifact that can be extended into a broader system-evaluation paper without overstating the present evidence.
 
 ## I. Introduction
 
@@ -523,11 +523,18 @@ This paper is intentionally conservative. Its main ethical and scientific risk w
 
 Another limitation is that some successful benchmark families currently evaluate control-plane or API-boundary costs rather than domain-complete production workloads. Such measurements remain useful for regression detection but should not be confused with user-facing end-to-end service latency.
 
+### Future Work
+
+- Stabilize `bench_ingestion_extraction` and preserve valid JSON output for crash analysis.
+- Bring `bench_gpu_vector_index` and `bench_llama_cpp_inference` below the current timeout policy.
+- Expand the built benchmark set so more `src/` modules produce runnable evidence in the same report format.
+- Re-run the unified protocol on additional hardware or operating systems before making cross-platform performance claims.
+
 ## XI. Conclusion
 
-This paper establishes a valid, evidence-bounded performance snapshot of ThemisDB as of 2026-05-17. The available full-run artifact supports positive claims for search latency, Vulkan LoRA fusion benefits, LLM adapter/runtime overheads, and Whisper plugin overhead measurements. At the same time, the artifact clearly shows that full-system performance characterization is not yet justified because three major executables timeout, one crashes, and most src/ modules remain outside direct empirical coverage.
+This paper establishes a valid, evidence-bounded performance snapshot of ThemisDB as of 2026-05-17. The available full-run artifact supports positive claims for search latency, Vulkan LoRA fusion benefits, LLM adapter/runtime overheads, and Whisper plugin overhead measurements. At the same time, the artifact shows that full-system performance characterization is not yet justified because three major executables timeout, one crashes, and most src/ modules remain outside direct empirical coverage.
 
-The immediate next step is not to broaden claims, but to improve the artifact: stabilize `bench_ingestion_extraction`, make `bench_gpu_vector_index` and `bench_llama_cpp_inference` complete within benchmark policy, and expand the built executable set toward broader src/ coverage. Only after those steps would a full ThemisDB performance paper be scientifically defensible.
+The immediate next step is not to broaden claims, but to improve the artifact. The highest-priority follow-up is to stabilize `bench_ingestion_extraction`, complete `bench_gpu_vector_index` and `bench_llama_cpp_inference` within policy, and expand the runnable benchmark set toward broader src/ coverage. Only after those steps would a full ThemisDB performance paper be scientifically defensible.
 
 ## References
 

@@ -101,7 +101,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
-      "binaryDir": "${sourceDir}/build/windows-release",
+      "binaryDir": "${sourceDir}/build-msvc-windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
@@ -117,7 +117,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
-      "binaryDir": "${sourceDir}/build/windows-debug",
+      "binaryDir": "${sourceDir}/build-msvc-windows-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY"
@@ -133,7 +133,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "binaryDir": "${sourceDir}/build/linux-release",
+      "binaryDir": "${sourceDir}/build-gcc-linux-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
@@ -149,7 +149,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "binaryDir": "${sourceDir}/build/linux-debug",
+      "binaryDir": "${sourceDir}/build-gcc-linux-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY"
@@ -165,7 +165,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "binaryDir": "${sourceDir}/build/nightly",
+      "binaryDir": "${sourceDir}/build-gcc-linux-nightly",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
@@ -182,7 +182,7 @@
       "displayName": "Nightly Benchmark Sweep + ASan (Linux x64)",
       "description": "Nightly benchmark sweep preset with AddressSanitizer enabled for runtime memory checks.",
       "inherits": "nightly-bench-sweep",
-      "binaryDir": "${sourceDir}/build/nightly-asan",
+      "binaryDir": "${sourceDir}/build-gcc-linux-nightly-asan",
       "cacheVariables": {
         "THEMIS_ENABLE_ASAN": "ON",
         "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer",
@@ -199,7 +199,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "binaryDir": "${sourceDir}/build/linux-arm64-release",
+      "binaryDir": "${sourceDir}/build-gcc-linux-arm64-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
@@ -215,7 +215,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "binaryDir": "${sourceDir}/build/linux-arm64-debug",
+      "binaryDir": "${sourceDir}/build-gcc-linux-arm64-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY"
@@ -226,7 +226,7 @@
       "displayName": "Docker: Linux Release (inside container)",
       "description": "Release build for Docker containers — vcpkg at /opt/vcpkg, installed packages at /build/vcpkg_installed. Override THEMIS_EDITION / THEMIS_ENABLE_LLM / VCPKG_TARGET_TRIPLET via -D on the command line.",
       "inherits": "base",
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build-gcc-linux-docker-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_C_COMPILER": "gcc",
@@ -242,6 +242,104 @@
         "THEMIS_ENABLE_TRACING": "OFF",
         "THEMIS_BUILD_TESTS": "OFF"
       }
+    },
+
+    {
+      "name": "windows-enterprise-base",
+      "hidden": true,
+      "inherits": "windows-base",
+      "cacheVariables": { "THEMIS_EDITION": "ENTERPRISE" }
+    },
+    {
+      "name": "windows-hyperscaler-base",
+      "hidden": true,
+      "inherits": "windows-base",
+      "cacheVariables": { "THEMIS_EDITION": "HYPERSCALER" }
+    },
+    {
+      "name": "linux-enterprise-base",
+      "hidden": true,
+      "inherits": "linux-base",
+      "cacheVariables": { "THEMIS_EDITION": "ENTERPRISE" }
+    },
+    {
+      "name": "linux-hyperscaler-base",
+      "hidden": true,
+      "inherits": "linux-base",
+      "cacheVariables": { "THEMIS_EDITION": "HYPERSCALER" }
+    },
+
+    {
+      "name": "windows-release-enterprise",
+      "displayName": "Windows x64: Release — ENTERPRISE (MSVC + Ninja)",
+      "description": "ENTERPRISE release build. Requires -DTHEMIS_LICENSE_FILE=/path/to/license.json at configure time.",
+      "inherits": "windows-enterprise-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-release-enterprise",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "windows-debug-enterprise",
+      "displayName": "Windows x64: Debug — ENTERPRISE (MSVC + Ninja)",
+      "description": "ENTERPRISE debug build — no license file required.",
+      "inherits": "windows-enterprise-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-debug-enterprise",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "windows-release-hyperscaler",
+      "displayName": "Windows x64: Release — HYPERSCALER (MSVC + Ninja)",
+      "description": "HYPERSCALER release build — all features enabled, unlimited resource limits.",
+      "inherits": "windows-hyperscaler-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-release-hyperscaler",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "windows-debug-hyperscaler",
+      "displayName": "Windows x64: Debug — HYPERSCALER (MSVC + Ninja)",
+      "description": "HYPERSCALER debug build — all features enabled, unlimited resource limits.",
+      "inherits": "windows-hyperscaler-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-debug-hyperscaler",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "linux-release-enterprise",
+      "displayName": "Linux x64: Release — ENTERPRISE (GCC + Ninja)",
+      "description": "ENTERPRISE release build. Requires -DTHEMIS_LICENSE_FILE=/path/to/license.json at configure time.",
+      "inherits": "linux-enterprise-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "binaryDir": "${sourceDir}/build-gcc-linux-release-enterprise",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-debug-enterprise",
+      "displayName": "Linux x64: Debug — ENTERPRISE (GCC + Ninja)",
+      "description": "ENTERPRISE debug build — no license file required.",
+      "inherits": "linux-enterprise-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "binaryDir": "${sourceDir}/build-gcc-linux-debug-enterprise",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "linux-release-hyperscaler",
+      "displayName": "Linux x64: Release — HYPERSCALER (GCC + Ninja)",
+      "description": "HYPERSCALER release build — all features enabled, unlimited resource limits.",
+      "inherits": "linux-hyperscaler-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "binaryDir": "${sourceDir}/build-gcc-linux-release-hyperscaler",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-debug-hyperscaler",
+      "displayName": "Linux x64: Debug — HYPERSCALER (GCC + Ninja)",
+      "description": "HYPERSCALER debug build — all features enabled, unlimited resource limits.",
+      "inherits": "linux-hyperscaler-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "binaryDir": "${sourceDir}/build-gcc-linux-debug-hyperscaler",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
     }
   ],
   "buildPresets": [
@@ -291,6 +389,50 @@
       "name": "docker-release",
       "displayName": "Build: Docker Release",
       "configurePreset": "docker-release"
+    },
+    {
+      "name": "windows-release-enterprise",
+      "displayName": "Build: Windows x64 Release — ENTERPRISE",
+      "configurePreset": "windows-release-enterprise",
+      "jobs": 4
+    },
+    {
+      "name": "windows-debug-enterprise",
+      "displayName": "Build: Windows x64 Debug — ENTERPRISE",
+      "configurePreset": "windows-debug-enterprise",
+      "jobs": 4
+    },
+    {
+      "name": "windows-release-hyperscaler",
+      "displayName": "Build: Windows x64 Release — HYPERSCALER",
+      "configurePreset": "windows-release-hyperscaler",
+      "jobs": 4
+    },
+    {
+      "name": "windows-debug-hyperscaler",
+      "displayName": "Build: Windows x64 Debug — HYPERSCALER",
+      "configurePreset": "windows-debug-hyperscaler",
+      "jobs": 4
+    },
+    {
+      "name": "linux-release-enterprise",
+      "displayName": "Build: Linux x64 Release — ENTERPRISE",
+      "configurePreset": "linux-release-enterprise"
+    },
+    {
+      "name": "linux-debug-enterprise",
+      "displayName": "Build: Linux x64 Debug — ENTERPRISE",
+      "configurePreset": "linux-debug-enterprise"
+    },
+    {
+      "name": "linux-release-hyperscaler",
+      "displayName": "Build: Linux x64 Release — HYPERSCALER",
+      "configurePreset": "linux-release-hyperscaler"
+    },
+    {
+      "name": "linux-debug-hyperscaler",
+      "displayName": "Build: Linux x64 Debug — HYPERSCALER",
+      "configurePreset": "linux-debug-hyperscaler"
     }
   ],
   "testPresets": [
@@ -299,7 +441,7 @@
       "displayName": "Test: Windows x64 Release",
       "configurePreset": "windows-release",
       "environment": {
-        "PATH": "${sourceDir}/build/windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
       }
     },
     {
@@ -307,7 +449,7 @@
       "displayName": "Test: Windows x64 Debug",
       "configurePreset": "windows-debug",
       "environment": {
-        "PATH": "${sourceDir}/build/windows-debug/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+        "PATH": "${sourceDir}/build-msvc-windows-debug/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
       }
     },
     {
@@ -315,8 +457,8 @@
       "displayName": "Test: Linux x64 Release",
       "configurePreset": "linux-release",
       "environment": {
-        "PATH": "${sourceDir}/build/linux-release/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-release/lib${pathListSep}${sourceDir}/build/linux-release/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build-gcc-linux-release/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-release/lib${pathListSep}${sourceDir}/build-gcc-linux-release/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     },
     {
@@ -324,8 +466,8 @@
       "displayName": "Test: Linux x64 Debug",
       "configurePreset": "linux-debug",
       "environment": {
-        "PATH": "${sourceDir}/build/linux-debug/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-debug/lib${pathListSep}${sourceDir}/build/linux-debug/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build-gcc-linux-debug/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-debug/lib${pathListSep}${sourceDir}/build-gcc-linux-debug/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     },
     {
@@ -333,8 +475,8 @@
       "displayName": "Test: Linux arm64 Release",
       "configurePreset": "linux-arm64-release",
       "environment": {
-        "PATH": "${sourceDir}/build/linux-arm64-release/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-arm64-release/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build-gcc-linux-arm64-release/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-arm64-release/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     },
     {
@@ -342,8 +484,8 @@
       "displayName": "Test: Linux arm64 Debug",
       "configurePreset": "linux-arm64-debug",
       "environment": {
-        "PATH": "${sourceDir}/build/linux-arm64-debug/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-arm64-debug/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build-gcc-linux-arm64-debug/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-arm64-debug/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     },
     {
@@ -351,8 +493,76 @@
       "displayName": "Test: Docker Release",
       "configurePreset": "docker-release",
       "environment": {
-        "PATH": "${sourceDir}/build/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "/build/vcpkg_installed/x64-linux/lib${pathListSep}${sourceDir}/build/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build-gcc-linux-docker-release/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "/build/vcpkg_installed/x64-linux/lib${pathListSep}${sourceDir}/build-gcc-linux-docker-release/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "windows-release-enterprise",
+      "displayName": "Test: Windows x64 Release — ENTERPRISE",
+      "configurePreset": "windows-release-enterprise",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release-enterprise/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "windows-debug-enterprise",
+      "displayName": "Test: Windows x64 Debug — ENTERPRISE",
+      "configurePreset": "windows-debug-enterprise",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-debug-enterprise/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "windows-release-hyperscaler",
+      "displayName": "Test: Windows x64 Release — HYPERSCALER",
+      "configurePreset": "windows-release-hyperscaler",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release-hyperscaler/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "windows-debug-hyperscaler",
+      "displayName": "Test: Windows x64 Debug — HYPERSCALER",
+      "configurePreset": "windows-debug-hyperscaler",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-debug-hyperscaler/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "linux-release-enterprise",
+      "displayName": "Test: Linux x64 Release — ENTERPRISE",
+      "configurePreset": "linux-release-enterprise",
+      "environment": {
+        "PATH": "${sourceDir}/build-gcc-linux-release-enterprise/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-release-enterprise/lib${pathListSep}${sourceDir}/build-gcc-linux-release-enterprise/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-debug-enterprise",
+      "displayName": "Test: Linux x64 Debug — ENTERPRISE",
+      "configurePreset": "linux-debug-enterprise",
+      "environment": {
+        "PATH": "${sourceDir}/build-gcc-linux-debug-enterprise/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-debug-enterprise/lib${pathListSep}${sourceDir}/build-gcc-linux-debug-enterprise/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-release-hyperscaler",
+      "displayName": "Test: Linux x64 Release — HYPERSCALER",
+      "configurePreset": "linux-release-hyperscaler",
+      "environment": {
+        "PATH": "${sourceDir}/build-gcc-linux-release-hyperscaler/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-release-hyperscaler/lib${pathListSep}${sourceDir}/build-gcc-linux-release-hyperscaler/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-debug-hyperscaler",
+      "displayName": "Test: Linux x64 Debug — HYPERSCALER",
+      "configurePreset": "linux-debug-hyperscaler",
+      "environment": {
+        "PATH": "${sourceDir}/build-gcc-linux-debug-hyperscaler/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build-gcc-linux-debug-hyperscaler/lib${pathListSep}${sourceDir}/build-gcc-linux-debug-hyperscaler/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     }
   ],
@@ -417,6 +627,42 @@
       "steps": [
         { "type": "configure", "name": "docker-release" },
         { "type": "build",     "name": "docker-release" }
+      ]
+    },
+    {
+      "name": "windows-release-enterprise",
+      "displayName": "Workflow: Windows x64 Release — ENTERPRISE (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "windows-release-enterprise" },
+        { "type": "build",     "name": "windows-release-enterprise" },
+        { "type": "test",      "name": "windows-release-enterprise" }
+      ]
+    },
+    {
+      "name": "windows-release-hyperscaler",
+      "displayName": "Workflow: Windows x64 Release — HYPERSCALER (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "windows-release-hyperscaler" },
+        { "type": "build",     "name": "windows-release-hyperscaler" },
+        { "type": "test",      "name": "windows-release-hyperscaler" }
+      ]
+    },
+    {
+      "name": "linux-release-enterprise",
+      "displayName": "Workflow: Linux x64 Release — ENTERPRISE (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-release-enterprise" },
+        { "type": "build",     "name": "linux-release-enterprise" },
+        { "type": "test",      "name": "linux-release-enterprise" }
+      ]
+    },
+    {
+      "name": "linux-release-hyperscaler",
+      "displayName": "Workflow: Linux x64 Release — HYPERSCALER (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-release-hyperscaler" },
+        { "type": "build",     "name": "linux-release-hyperscaler" },
+        { "type": "test",      "name": "linux-release-hyperscaler" }
       ]
     }
   ]
