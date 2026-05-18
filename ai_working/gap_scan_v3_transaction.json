@@ -1,13 +1,18 @@
 {
   "transaction": {
-    "total": 231,
-    "severity_critical": 97,
-    "severity_high": 24,
-    "severity_medium": 110,
+    "total": 463,
+    "severity_critical": 130,
+    "severity_high": 125,
+    "severity_medium": 208,
     "by_category": {
       "security": 6,
       "memory": 8,
-      "reliability": 217
+      "reliability": 217,
+      "concurrency": 16,
+      "raii": 38,
+      "container": 159,
+      "platform": 1,
+      "performance": 18
     },
     "by_file": {
       "src\\transaction\\distributed_saga.cpp": [
@@ -235,6 +240,186 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 348,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto st = executeStep(step_map.at(name), *it->second);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj[dep].push_back(step.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.step_records.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 199,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 231,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "listed.find(rec.name) == listed.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 217,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "executed_order.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_compensate.push_back(rec.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 305,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "successors[dep].push_back(step.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 319,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it   = ready.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 322,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 361,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = index.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 362,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = index.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wave_records.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 367,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 481,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto rit = index.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 690,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "local_def.steps.push_back(remoteStepToLocal(remote_step));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 754,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recovered.push_back(sid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 885,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = reports_.find(saga_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 621,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"')  escaped += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 622,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') escaped += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\transaction\\distributed_transaction_manager.cpp": [
@@ -615,6 +800,159 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 197,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "txn = findTransaction(txn_id);  // re-acquire pointer after re-lock",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 84,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] WAL initialised at {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 187,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch_queue_.push_back({txn_id, std::move(promise)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 374,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] recoverInDoubtTransactions: WAL disabled\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 379,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] starting in-doubt recovery\", coordinator_id_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 439,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] recovery: broadcasting ABORT for \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 454,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] recovery complete: {} in-doubt txns resolved\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 474,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "timed_out.push_back(tid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 675,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(submitTask([nid]() -> VoteResult {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 686,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(submitTask([cb, nid, keys, tid]() -> VoteResult {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 791,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(submitTask([cb, nid, tid, cid]() {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 845,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] thread pool started: {} workers\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 880,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] batch-flush: {} transactions\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 891,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "phase1_futures.push_back(submitTask([this, tid]() -> bool {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 832,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(pool_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 832,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(pool_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 869,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(batch_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\transaction\\snapshot_manager.cpp": [
@@ -743,6 +1081,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 207,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to delete snapshot: {}\", tag_name);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 163,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshots.push_back(*snapshot);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s.has_value()) snapshots.push_back(*s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\global_transaction_manager.cpp": [
@@ -898,6 +1263,177 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 68,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] WAL initialised at {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 86,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"GlobalTransactionManager [{}] registered region {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 144,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"GlobalTransactionManager [{}] began txn {} across {} region(s)\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 158,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: unknown txn {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 165,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: txn {} not ACTIVE\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 172,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: region {} not in txn {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 301,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] abort: unknown txn {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 329,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] txn {} explicitly ABORTED\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 341,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] recovering from WAL\u2026\", coordinator_id_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 409,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] in-doubt txn {} has no \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 422,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] re-driving in-doubt txn {} \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 445,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] WAL recovery failed: {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 449,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] recovery complete \u2013 {} in-doubt txn(s) resolved\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 501,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 1 \u2013 region {} not found for txn {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 516,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 1 \u2013 region {} threw on PREPARE \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 524,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] region {} voted ABORT for txn {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 537,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] Phase 2 \u2013 region {} not found for txn {} \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 551,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 2 \u2013 region {} threw on {} \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 583,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] WAL write failed for txn {}: {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\transaction\\merge_engine.cpp": [
@@ -927,6 +1463,150 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 110,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resolutions.push_back(res.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "opts.manual_resolutions.push_back(ConflictResolution::fromJson(res_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts_arr.push_back(conflict.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changes_arr.push_back(change.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.conflicts.push_back(Conflict::fromJson(conflict_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 203,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.changes_applied.push_back(analytics::DiffEngine::Change::fromJson(change_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 280,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.changes_applied.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 283,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.changes_applied.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 286,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.changes_applied.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 336,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (conflict_keys.find(change.key) == conflict_keys.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 336,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (conflict_keys.find(change.key) == conflict_keys.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 338,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.changes_applied.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 536,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto res_it = resolution_map.find(conflict.key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 537,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto res_it = resolution_map.find(conflict.key);",
+          "description": "Iterator res_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 547,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resolved_changes.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 555,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resolved_changes.push_back(*auto_resolved);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\branch_manager.cpp": [
@@ -1073,6 +1753,42 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 788,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "uint64_t counter = hist_counter.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 244,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "branches.push_back(branch.value());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 404,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.conflicts.push_back(conflict.key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 820,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\crash_recovery_manager.cpp": [
@@ -1138,6 +1854,87 @@
           "snippet": "if (!f.is_open()) return result;",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 447,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 209,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = pending_ops_.find(txn_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 211,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "it->second.push_back(oe);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 334,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (std::getline(f, line)) all_lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 347,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tmp_ops[entry->txn_id].push_back(entry->operation);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 380,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rolled_back_ids.push_back(txn_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 436,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keep_lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 442,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keep_lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 485,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (e) result.push_back(*e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\deadlock_predictor.cpp": [
@@ -1167,6 +1964,177 @@
           "snippet": "void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 298,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 303,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 51,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const std::vector<std::string>& locks_acquired,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 54,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (locks_acquired.empty()) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 64,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "static_cast<long>(locks_acquired.size())};",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 65,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "for (const auto& key : locks_acquired) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 77,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (p.keys == locks_acquired) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 89,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "pat.keys       = locks_acquired;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 105,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < locks_acquired.size(); ++i) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 106,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "for (size_t j = i + 1; j < locks_acquired.size(); ++j) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 107,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const std::string pk = makePairKey(locks_acquired[i], locks_acquired[j]);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 67,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vec.push_back(per_key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns_.push_back(std::move(pat));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 270,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = hold_times_.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 271,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = hold_times_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 339,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = pair_conflicts_.find(pk);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 339,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = pair_conflicts_.find(pk);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 176,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(p.keys.begin(), p.keys.end(), k) == p.keys.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 176,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(p.keys.begin(), p.keys.end(), k) == p.keys.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\transaction\\lock_manager.cpp": [
@@ -1178,6 +2146,204 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 463,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 65,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "LockManager::LockResult LockManager::acquireLock(",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 76,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "\"2PL violation: transaction is in shrinking phase and cannot acquire new locks\");",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 98,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "stats_acquired_.fetch_add(1, std::memory_order_relaxed);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 521,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "bool LockManager::acquirePredicateLock(TransactionId txn_id,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 142,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto txn_it = held_by_txn_.find(txn_id);",
+          "description": "Iterator txn_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 155,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto lt_it = lock_table_.find(key);",
+          "description": "Iterator lt_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 180,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto txn_it = held_by_txn_.find(txn_id);",
+          "description": "Iterator txn_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 195,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto lt_it = lock_table_.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 196,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto lt_it = lock_table_.find(key);",
+          "description": "Iterator lt_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 375,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lock_table_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 379,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(req->txn_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 389,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = waiting_for_.find(txn_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 391,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 415,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entry.holders.push_back({txn_id, type, std::chrono::system_clock::now()});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 441,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entry.holders.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 469,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon_pos = key.find(':');",
+          "description": "Iterator colon_pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 476,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 478,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row_keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 497,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto lt_it = lock_table_.find(rk);",
+          "description": "Iterator lt_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 535,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "predicate_locks_.push_back({txn_id, start_key, end_key});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\saga.cpp": [
@@ -1234,6 +2400,15 @@
           "snippet": "THEMIS_WARN(\"SAGA: Vector compensation failed for '{}': {}\", pk, status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(status + \" \" + step.operation_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\transaction\\saga_orchestrator.cpp": [
@@ -1479,6 +2654,240 @@
           "snippet": "std::lock_guard<std::mutex> lk(status_mutex_);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 360,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "const auto seq = next_id.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 50,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "default: out.push_back(c); break;",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 154,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "const auto it = dependents.find(step.name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 154,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "const auto it = dependents.find(step.name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[dep].push_back(step.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "outgoing[dep].push_back(step.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 207,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "order.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 297,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto step_it = step_map.find(*it);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 424,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[dep].push_back(step.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 433,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 454,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = step_map.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 454,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = step_map.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 473,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = step_map.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 455,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = step_map.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 462,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 470,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(future.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 491,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "executed.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 492,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "succeeded_in_wave.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 497,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "succeeded_in_wave.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 516,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(dependent);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 45,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 46,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"': out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 47,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 48,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 49,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 246,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(metrics_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\transaction\\transaction_auditor.cpp": [
@@ -1508,6 +2917,42 @@
           "snippet": "TransactionAuditor::Status TransactionAuditor::exportToS3(const std::string& bucket,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 49,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!enabled_.load(std::memory_order_acquire)) return;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ops.push_back(std::move(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 161,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "out += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\transaction\\transaction_batcher.cpp": [
@@ -1582,6 +3027,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 177,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (stopping_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 284,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "!stopping_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 319,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (stopping_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(queue_.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "remainder.push_back(std::move(queue_.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 262,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> cfg_lk(config_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 287,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Notified: recompute in case new items have earlier deadlines.",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\transaction\\transaction_manager.cpp": [
@@ -2115,6 +3623,595 @@
           "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 210,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "TransactionId holding_txn = lock_it->second.holder;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 308,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "uint64_t prev = deadlock_max_cycle_len_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 628,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stats.total_begun = total_begun_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 629,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stats.total_committed = total_committed_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1550,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto conflicting_txn = lock_manager_->checkPredicateConflict(id_, key);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1643,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "conflict_set_id = conflict_mgr_->storeConflictSet(cset);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1643,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "conflict_set_id = conflict_mgr_->storeConflictSet(cset);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2012,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto ts_opt = snapshot_mgr_->getTimestampForTag(tag_name);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 328,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (deadlock_predictor_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 372,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 507,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 551,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 924,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1531,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1540,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "lock_manager_->acquirePredicateLock(id_, start_key, end_key);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1541,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"Transaction {} acquired predicate lock on [{}, {}]\", id_, start_key, end_key);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1691,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1702,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1715,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1728,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1754,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (finished_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1930,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "result.is_finished    = finished_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2043,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return deadlock_predictor_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2049,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2068,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2081,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(deadlock);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 137,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = waiting_for_.find(txn_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 150,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = held_locks_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 208,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto lock_it = held_locks_.find(key);",
+          "description": "Iterator lock_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 226,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 333,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cycle_keys.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 336,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto wit = waiting_for_.find(txn_id);",
+          "description": "Iterator wit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 340,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cycle_keys.push_back(wkey);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 347,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recent_deadlocks_.push_back(info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 356,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = held_locks_.begin(); it != held_locks_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 512,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (info.holder == id) keys.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 556,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (info.holder == id) keys.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 569,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = active_transactions_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 572,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto completed_it = completed_transactions_.find(id);",
+          "description": "Iterator completed_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 680,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = completed_transactions_.begin(); it != completed_transactions_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 739,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto ac = active_counts.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 739,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto ac = active_counts.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 740,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto ac = active_counts.find(tid);",
+          "description": "Iterator ac may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 742,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 758,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(txn_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 771,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_abort.push_back(txn_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 830,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expired.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1541,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"Transaction {} acquired predicate lock on [{}, {}]\", id_, start_key, end_key);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1627,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto base_it = base_values_.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1622,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_keys.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1628,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto base_it = base_values_.find(key);",
+          "description": "Iterator base_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1635,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_record_ids.push_back(cid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1749,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "savepoints_.push_back({std::move(sname), saga_->stepCount()});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1814,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(e.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1855,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expired.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1935,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.locks_held.push_back({key, lockTypeName(lock_type)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2029,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(toTimeTravelRecord(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(sc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 174,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(deadlock_detector_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 233,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto cycle_start = std::find(path.begin(), path.end(), neighbor);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        }
+      ],
+      "src\\transaction\\transaction_semantic_advisor.cpp": [
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 130,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != b.entity_map.end() && it->second == id) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 158,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != b.entity_map.end() && it->second == id) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 75,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hints.push_back(std::move(hint));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "include\\transaction\\examples\\transaction_semantic_advisor_example.cpp": [
+        {
+          "file": "include\\transaction\\examples\\transaction_semantic_advisor_example.cpp",
+          "line": 161,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\nSee docs/issues/optimization_layers/IMPL-B5-transaction-semantics.md\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ]
     }

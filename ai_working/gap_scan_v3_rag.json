@@ -1,13 +1,18 @@
 {
   "rag": {
-    "total": 271,
-    "severity_critical": 103,
-    "severity_high": 81,
-    "severity_medium": 87,
+    "total": 694,
+    "severity_critical": 178,
+    "severity_high": 118,
+    "severity_medium": 398,
     "by_category": {
       "security": 23,
       "memory": 27,
-      "reliability": 221
+      "reliability": 221,
+      "concurrency": 58,
+      "raii": 5,
+      "container": 261,
+      "platform": 71,
+      "performance": 28
     },
     "by_file": {
       "src\\rag\\agentic_rag.cpp": [
@@ -37,6 +42,60 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 347,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_DEBUG(\"AgenticRAG iter {}: retrieved {} new docs for query='{}'\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 351,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"AgenticRAG no new documents at iteration {}; stopping.\", iter);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 65,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "accumulator.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gap_docs.push_back(toGapDoc(d));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 308,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.iterations.push_back(std::move(record));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\agentic_rag.cpp",
+          "line": 409,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!seed.empty()) seed += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\batch_evaluator.cpp": [
@@ -147,6 +206,69 @@
           "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 160,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "return future_.wait_for(std::chrono::seconds(0)) == std::future_status::ready;",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 284,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "inputs.push_back(std::move(in));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 301,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(processEvaluation(input));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 537,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "handles.push_back(evaluateAsync(input));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 573,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(5));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 225,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 566,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\rag\\bayesian_optimizer.cpp": [
@@ -185,6 +307,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\bayesian_optimizer.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->observations.push_back(obs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\continuous_learning_orchestrator.cpp": [
@@ -619,6 +750,222 @@
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 181,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->learning_loop_active = true;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 182,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->learning_thread = std::make_unique<std::thread>(&ContinuousLearningOrchestrator::learningLoop",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 190,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->learning_loop_active = false;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 436,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->current_retrieval_params.top_k = static_cast<size_t>(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 524,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics.training_accuracy    = impl_->stats.current_accuracy;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 670,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "case 2: impl_->stats.prompt_optimizations    = static_cast<size_t>(std::stoull(field)); break;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 671,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "case 3: impl_->stats.retrieval_optimizations = static_cast<size_t>(std::stoull(field)); break;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 672,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 672,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 685,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const std::string& registry_path = impl_->config.model_registry_path;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 702,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto sleep_duration = impl_->config.learning_loop_interval;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 832,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 917,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->last_loop_results[static_cast<int>(phase)] = result;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 918,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto it = impl_->loop_handlers.find(static_cast<int>(phase));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered.push_back(snapshot);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 368,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->stats.recent_improvements.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 457,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->stats.recent_improvements.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 541,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->stats.recent_improvements.push_back(rollback_event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 601,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->stats.recent_improvements.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 696,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->stats.recent_improvements.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 706,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(1));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 1050,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if      (c == '\"')  out += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 1051,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+          "line": 1052,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"\\\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\distributed_rag_evaluator.cpp": [
@@ -711,6 +1058,69 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "judges.push_back(std::make_shared<judge::RAGJudge>(w.judge_config));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "successful_results.push_back(res);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "successful_weights.push_back(impl_->workers[i].weight);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(evaluate(input));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "workers.push_back(std::move(w));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\distributed_rag_evaluator.cpp",
+          "line": 130,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(sem->mtx);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\rag\\hallucination_dashboard.cpp": [
@@ -821,6 +1231,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\hallucination_dashboard.cpp",
+          "line": 222,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto it = impl_->window.end() - static_cast<std::ptrdiff_t>(n);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\rag\\knowledge_graph_retriever.cpp": [
@@ -850,6 +1269,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->adj[edge.from_id].push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entities.push_back({trimmed, EntityType::OTHER, 0.7,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 399,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(std::move(match));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 516,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.inference_chains.push_back(chain);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 54,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "out += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 587,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!chain_text.empty()) chain_text += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\knowledge_graph_retriever.cpp",
+          "line": 587,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!chain_text.empty()) chain_text += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\llm_integration.cpp": [
@@ -888,6 +1370,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(g_engine_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\llm_integration.cpp",
+          "line": 249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(generate(prompt, sample_options));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_integration.cpp",
+          "line": 338,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\llm_judge_client.cpp": [
@@ -944,6 +1444,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(model_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 93,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(model_name + \".gguf\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 94,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(model_name + \".bin\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 142,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::directory_iterator(dir)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 286,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(evaluate(prompt));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 313,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "handles.push_back(impl_->inference_engine->submit(request));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\llm_judge_client.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(response.text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\rlaif_trainer.cpp": [
@@ -1072,6 +1635,141 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 191,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->judge  = std::make_shared<HeuristicAIJudge>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 464,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double n       = static_cast<double>(impl_->stats.successful_steps);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 465,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double old_avg = impl_->stats.avg_preference_score;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 466,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->stats.avg_preference_score =",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 472,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double n      = static_cast<double>(impl_->stats.total_steps);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 473,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto old_ms   = impl_->stats.avg_step_ms.count();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 475,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->stats.avg_step_ms =",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 99,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower.find(p) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 213,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"RLAIFTrainer: min_quality_threshold must be in [0, 1]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 218,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"RLAIFTrainer: min_preference_score must be in [0, 1]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 334,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rev.critiques.push_back(critique);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 390,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pair.applied_principles.push_back(p.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "step.revision_chain.push_back(rev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 450,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->dataset.push_back(pair);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rlaif_trainer.cpp",
+          "line": 507,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(runTrainingStep(query, draft));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\continuous_learning_client.cpp": [
@@ -1218,6 +1916,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(impl_->callback_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_client.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "payload.push_back(metric_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_client.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(metric.value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_client.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->metric_batch.push_back(metric);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\continuous_learning_client.cpp",
+          "line": 465,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "combined += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\http_metrics_client.cpp": [
@@ -1355,6 +2089,15 @@
           "snippet": "std::unique_lock<std::shared_mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\http_metrics_client.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j[\"metrics\"].push_back(metric_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\lora_enhanced_retriever.cpp": [
@@ -1375,6 +2118,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\lora_enhanced_retriever.cpp",
+          "line": 118,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double lora_s = scorer_->score(query, doc.content, config_.domain);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\lora_enhanced_retriever.cpp",
+          "line": 142,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "return std::stod(it->second) >= config_.min_lora_score;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\rag\\multimodal_rag.cpp": [
@@ -1404,6 +2165,132 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 248,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "src.image_path      = img_it->second.image_path;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 249,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "src.metadata        = img_it->second.metadata;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 253,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "src.caption = img_it->second.caption;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 255,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "src.caption = impl_->image_captioner(img_it->second);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_lists.push_back(text_ranked);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 207,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weights.push_back(cfg.text_weight);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 210,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_lists.push_back(image_ranked);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 211,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weights.push_back(cfg.image_weight);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.sources.push_back(std::move(src));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 265,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto txt_it = text_doc_map.find(doc_id);",
+          "description": "Iterator txt_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.sources.push_back(std::move(src));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if      (src.modality == Modality::TEXT)  text_sources.push_back(&src);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 308,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (src.modality == Modality::IMAGE) image_sources.push_back(&src);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multimodal_rag.cpp",
+          "line": 309,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (src.modality == Modality::TABLE) table_sources.push_back(&src);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\onnx_model_loader.cpp": [
@@ -1496,6 +2383,69 @@
           "snippet": "FILE* fp = fopen(dest_path.c_str(), \"wb\");",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 155,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != impl_->cache.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 194,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cleared = impl_->cache.size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 198,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto it = impl_->cache.find(model_name);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 199,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != impl_->cache.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 273,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 197,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = impl_->cache.find(model_name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\onnx_model_loader.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "models.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\prompt_templates.cpp": [
@@ -1525,6 +2475,15 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\prompt_templates.cpp",
+          "line": 386,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "stream << \"Score: \" << ex.score << \"/5\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\adaptive_retrieval.cpp": [
@@ -1536,6 +2495,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\adaptive_retrieval.cpp",
+          "line": 82,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (ss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\bias_detector.cpp": [
@@ -1547,6 +2515,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\bias_detector.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back(score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\bias_detector.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lengths.push_back(static_cast<double>(length));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\bias_detector.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(length_bias);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\calibration_manager.cpp": [
@@ -1585,6 +2580,105 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ann.annotators.push_back(a.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ground_truth_.push_back(std::move(ann));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 106,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ground_truth_.push_back(annotation);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 172,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "blocks.push_back(b);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "predictions.push_back(judge.evaluate(input));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 211,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "preds.push_back(predictions[i].overall_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gts.push_back(ground_truth_[i].overall_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (double p : preds) scaled.push_back(applyTemperatureScaling(p, t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pred_overall.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 308,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gt_overall.push_back(g);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\calibration_manager.cpp",
+          "line": 309,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "confs.push_back(predictions[i].confidence > 0.0",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\citation_highlighter.cpp": [
@@ -1632,6 +2726,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mtx);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\citation_highlighter.cpp",
+          "line": 122,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "bool isDelim = (cfg.sentence_delimiters.find(ch) != std::string::npos);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\citation_highlighter.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\citation_highlighter.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scored.push_back({ci, sim});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\citation_highlighter.cpp",
+          "line": 270,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "mapping.secondary_sources.push_back(sec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\citation_highlighter.cpp",
+          "line": 275,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.mappings.push_back(std::move(mapping));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\claim_extractor.cpp": [
@@ -1643,6 +2782,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\claim_extractor.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\claim_extractor.cpp",
+          "line": 168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(verify(claim, documents));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\claim_extractor.cpp",
+          "line": 263,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.agreements.push_back(\"General agreement found\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\claim_extractor.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.disagreements.push_back(\"Some disagreements found\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\coherence_evaluator.cpp": [
@@ -1654,6 +2829,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\coherence_evaluator.cpp",
+          "line": 302,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(it->str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\coherence_evaluator.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "contradictions.push_back(sentences[i] + \" <-> \" + sentences[j]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\coherence_evaluator.cpp",
+          "line": 327,
+          "type": "expensive_copy",
+          "severity": "MEDIUM",
+          "snippet": "if (sent_i.find(neg) != std::string::npos) i_has_negation = true;",
+          "description": "Unnecessary expensive copy",
+          "remediation": "Use const reference (const T&) or std::move if transfer is needed"
         }
       ],
       "src\\rag\\completeness_evaluator.cpp": [
@@ -1665,6 +2867,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 57,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "key_terms.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "key_terms.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aspects.push_back(aspect);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aspects.push_back(aspect);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 278,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_info.push_back(aspect.aspect_text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\completeness_evaluator.cpp",
+          "line": 376,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(result.missing_information.size(), size_t(3)); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\rag\\cot_evaluator.cpp": [
@@ -1676,6 +2932,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 60,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(documents.size(), size_t(3)); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(step);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(current_step);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(current_step);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 204,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (conclusion_i.find(neg) != std::string::npos) i_has_negation = true;",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "inconsistencies.push_back(inconsistency.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\cot_evaluator.cpp",
+          "line": 205,
+          "type": "expensive_copy",
+          "severity": "MEDIUM",
+          "snippet": "if (conclusion_i.find(neg) != std::string::npos) i_has_negation = true;",
+          "description": "Unnecessary expensive copy",
+          "remediation": "Use const reference (const T&) or std::move if transfer is needed"
         }
       ],
       "src\\rag\\delegate_evaluator.cpp": [
@@ -1741,6 +3060,69 @@
           "snippet": "throw std::invalid_argument(\"DelegateEvaluatorFactory: unknown DomainType\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 120,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!cur.empty()) tokens.push_back(std::move(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.rs_per_interaction.push_back(1.0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 465,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.rs_per_interaction.push_back(rs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 494,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.rs_per_interaction.push_back(rs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 506,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.rs_per_interaction.push_back(rs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\delegate_evaluator.cpp",
+          "line": 234,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex TAG_RE(R\"(<([A-Za-z_][A-Za-z0-9_:.-]*)[\\s/>])\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\document_splitter.cpp": [
@@ -1779,6 +3161,15 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\rag\\document_splitter.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\document_summarizer.cpp": [
@@ -1790,6 +3181,123 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 59,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 64,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 104,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto start = current.find_first_not_of(\" \\t\\n\\r\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 105,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto end   = current.find_last_not_of(\" \\t\\n\\r\");",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 110,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(trimmed);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 116,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto start = current.find_first_not_of(\" \\t\\n\\r\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "selected_indices.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 184,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "<< \"Document [\" << document_id << \"]:\\n\"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 234,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto& w : tokeniseWords(query)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 390,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.per_document_summaries.push_back(std::move(ds));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 407,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.per_document_summaries.push_back(std::move(ds));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 453,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "converted.push_back(std::move(rd));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\document_summarizer.cpp",
+          "line": 165,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!result.empty()) result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\evaluation_cache.cpp": [
@@ -1891,6 +3399,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\evaluation_cache.cpp",
+          "line": 89,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lru_map_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\evaluation_cache.cpp",
+          "line": 99,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lru_map_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\evaluation_cache.cpp",
+          "line": 119,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = cache_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\evaluation_cache.cpp",
+          "line": 193,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = cache_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\evaluation_cache.cpp",
+          "line": 230,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = cache_.begin(); it != cache_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\rag\\evaluation_report_exporter.cpp": [
@@ -1920,6 +3473,636 @@
           "snippet": "if (!ofs.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 56,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 105,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<span class=\\\"score-label\\\">\" << escapeHTML(label) << \"</span>\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 105,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<span class=\\\"score-label\\\">\" << escapeHTML(label) << \"</span>\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 108,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"%;background:\" << colour << \";\\\"></div>\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 112,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 251,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</title>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 272,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</style>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 273,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</head>\\n<body>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 278,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \" <span class=\\\"meta\\\">(\" << escapeHTML(report.report_id) << \")</span>\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 278,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \" <span class=\\\"meta\\\">(\" << escapeHTML(report.report_id) << \")</span>\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 279,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</h1>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 285,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< std::fixed << std::setprecision(3) << res.confidence << \"</strong></p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 289,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< pass_label << \"</span></p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 293,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<h2>Query</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 294,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<p>\" << escapeHTML(inp.query) << \"</p>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 295,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<h2>Generated Answer</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 296,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"<p>\" << escapeHTML(inp.generated_answer) << \"</p>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 297,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 300,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Dimension Scores</h2>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 300,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Dimension Scores</h2>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 308,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 311,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Claims</h2>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 311,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Claims</h2>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 314,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p><strong>\u2713 Verified Claims</strong></p>\\n<ul class=\\\"claims\\\">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 314,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p><strong>\u2713 Verified Claims</strong></p>\\n<ul class=\\\"claims\\\">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 316,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li class=\\\"verified\\\">\" << escapeHTML(c) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 316,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li class=\\\"verified\\\">\" << escapeHTML(c) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 317,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 321,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p><strong>\u2717 Unverified Claims</strong></p>\\n<ul class=\\\"claims\\\">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 321,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p><strong>\u2717 Unverified Claims</strong></p>\\n<ul class=\\\"claims\\\">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 323,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li class=\\\"unverified\\\">\" << escapeHTML(c) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 323,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li class=\\\"unverified\\\">\" << escapeHTML(c) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 324,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 328,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p class=\\\"meta\\\">No claims extracted.</p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 328,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p class=\\\"meta\\\">No claims extracted.</p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 330,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 333,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Ethical Compliance</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 333,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Ethical Compliance</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 335,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< (res.respects_human_autonomy ? \"Yes\" : \"No\") << \"</strong></p>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 337,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< (res.shows_moral_diversity ? \"Yes\" : \"No\") << \"</strong></p>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 339,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< (res.has_ethical_citations ? \"Yes\" : \"No\") << \"</strong></p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 342,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<p><strong>Ethical Violations:</strong></p>\\n<ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 344,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li style=\\\"color:#c62828\\\">\" << escapeHTML(v) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 344,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li style=\\\"color:#c62828\\\">\" << escapeHTML(v) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 345,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 347,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 351,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Suggested Improvements</h2>\\n<ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 351,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Suggested Improvements</h2>\\n<ul>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 353,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<li>\" << escapeHTML(imp) << \"</li>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 354,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</ul>\\n</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 359,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Explanation</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 359,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"<div class=\\\"card\\\">\\n<h2>Explanation</h2>\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 361,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</div>\\n</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 367,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< inp.documents.size() << \")</h2>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 375,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 377,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</div>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 380,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "os << \"</body>\\n</html>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 45,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 46,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 47,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\b': out += \"\\\\b\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 48,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\f': out += \"\\\\f\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 49,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 50,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 51,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 56,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 73,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '&':  out += \"&amp;\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 74,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '<':  out += \"<\";   break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 75,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '>':  out += \">\";   break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 76,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"&quot;\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rag\\evaluation_report_exporter.cpp",
+          "line": 77,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\'': out += \"&#39;\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\rag\\faithfulness_evaluator.cpp": [
@@ -1931,6 +4114,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 124,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>(nli_config);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 77,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim_words.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 162,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(std::move(claim));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 186,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 303,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim.supporting_doc_ids.push_back(doc_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 338,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "explanation << \"Claims: \" << result.supported_claims_count << \"/\" << result.total_claims_count << \" ",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\faithfulness_evaluator.cpp",
+          "line": 338,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "explanation << \"Claims: \" << result.supported_claims_count << \"/\" << result.total_claims_count << \" ",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\flare_retrieval.cpp": [
@@ -1971,6 +4217,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\geval_evaluator.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score_tokens.push_back(token_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\geval_evaluator.cpp",
+          "line": 148,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score_tokens.push_back(-1);  // Token not in vocabulary; skip during probability extraction",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\geval_evaluator.cpp",
+          "line": 324,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_probabilities.push_back(probs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\geval_evaluator.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sample_scores.push_back(score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\hybrid_retriever.cpp": [
@@ -2009,6 +4291,78 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 170,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(data));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.documents.push_back(std::move(e.doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.push_back(std::move(e.score));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 219,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bm25_raw.push_back(src.similarity_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 226,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vec_raw.push_back(src.similarity_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(data));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.documents.push_back(std::move(e.doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\hybrid_retriever.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.push_back(std::move(e.score));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\judge_config.cpp": [
@@ -2056,6 +4410,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\judge_config.cpp",
+          "line": 176,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"quality_threshold must be in [0, 1], got {}\", quality_threshold);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\judge_config.cpp",
+          "line": 266,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(part);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\judge_ensemble.cpp": [
@@ -2096,6 +4468,186 @@
           "snippet": "result.explanation = \"Retrieved documents have low semantic similarity to query (avg: \" +",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 439,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_similarity >= impl_->config.similarity_threshold) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 490,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_DEBUG(\"No new documents retrieved, stopping\");",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 482,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "current_documents.push_back(new_doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 646,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aspects.push_back(current_aspect);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 655,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aspects.push_back(current_aspect);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 704,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing.push_back(aspect);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 782,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 825,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim_terms.push_back(current_term);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 832,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim_terms.push_back(current_term);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 992,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered.push_back(prob);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1020,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "averages.push_back(sum / window_size);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1080,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current.substr(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1088,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current.substr(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1097,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto& sent : splitSentences(docs[d].content)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(\"No document content available for query: \" + query",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1274,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(sentence);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1285,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current_sentence.substr(start));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1310,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentence_terms.push_back(current_term);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\knowledge_gap_detector.cpp",
+          "line": 1317,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentence_terms.push_back(current_term);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\learning_metrics.cpp": [
@@ -2143,6 +4695,42 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\learning_metrics.cpp",
+          "line": 138,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" +/- \" << snap.std_accuracy << \"\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\learning_metrics.cpp",
+          "line": 138,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" +/- \" << snap.std_accuracy << \"\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\learning_metrics.cpp",
+          "line": 140,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" +/- \" << snap.std_faithfulness << \"\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\learning_metrics.cpp",
+          "line": 140,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" +/- \" << snap.std_faithfulness << \"\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\llm_judge_integration.cpp": [
@@ -2192,6 +4780,60 @@
           "snippet": "request.request_id = \"meta_\" + std::to_string(req_counter.fetch_add(1));",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 264,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics[\"llm_total_calls\"] = static_cast<double>(impl_->total_calls);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 265,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics[\"llm_cache_hits\"] = static_cast<double>(impl_->cache_hits);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 265,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics[\"llm_cache_hits\"] = static_cast<double>(impl_->cache_hits);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 266,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics[\"llm_cache_misses\"] = static_cast<double>(impl_->cache_misses);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 266,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics[\"llm_cache_misses\"] = static_cast<double>(impl_->cache_misses);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\llm_meta_analyzer.cpp",
+          "line": 168,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::regex(\"([0-9]*\\\\.?[0-9]+)\\\\s*/\\\\s*1\\\\.?0?\"),",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\multi_hop_reasoner.cpp": [
@@ -2203,6 +4845,96 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!t.empty()) sub_queries.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 154,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!t.empty()) sentences.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 159,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!t.empty()) sentences.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 163,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(q);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "partial_answers.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 334,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.hop_records.push_back(hop);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 339,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.all_documents.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_hop_reasoner.cpp",
+          "line": 343,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "previous_answers.push_back(hop.intermediate_answer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\multi_step_rag.cpp": [
@@ -2223,6 +4955,114 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 100,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto first = line.find_first_not_of(\" \\t\\r\");",
+          "description": "Iterator first may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 101,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto last  = line.find_last_not_of(\" \\t\\r\");",
+          "description": "Iterator last may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aspects.push_back(line.substr(first, last - first + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batches.push_back(std::move(current_batch));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "current_batch.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batches.push_back(std::move(current_batch));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(result.final_answer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 257,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 266,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(f.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 278,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(partial);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 335,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(result.final_answer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\multi_step_rag.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!already_present) accumulated.push_back(nd);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\nli_faithfulness_verifier.cpp": [
@@ -2234,6 +5074,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\nli_faithfulness_verifier.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hyp_words.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\nli_faithfulness_verifier.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\nli_faithfulness_verifier.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim_result.supporting_doc_ids.push_back(best_document_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\nli_faithfulness_verifier.cpp",
+          "line": 291,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claim_result.supporting_doc_ids.push_back(best_document_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\nli_faithfulness_verifier.cpp",
+          "line": 309,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.claims.push_back(claim_result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\pairwise_comparator.cpp": [
@@ -2245,6 +5130,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\pairwise_comparator.cpp",
+          "line": 304,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "result.overall_confidence = static_cast<double>(a_votes) / impl_->config.num_samples;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\pairwise_comparator.cpp",
+          "line": 307,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "result.overall_confidence = static_cast<double>(b_votes) / impl_->config.num_samples;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\pairwise_comparator.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(compareWithLLM(query, documents, answer_a, answer_b, a_first));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\prompt_injection_detector.cpp": [
@@ -2256,6 +5168,87 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 172,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "findings.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 267,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& rule : getRules()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.findings.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 339,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(scan(doc.content));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 403,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_replace.push_back(&f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\prompt_injection_detector.cpp",
+          "line": 176,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"(\\bhttps?://[^\\s]+\\?(?:[^\\s]*=\\{[^}]*\\}|\\[PROMPT\\]|\\[CONTEXT\\]|\\[OUTPUT\\]))\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\quality_control_factory.cpp": [
@@ -2296,6 +5289,123 @@
           "snippet": "QualityGateStatus QualityControlPipeline::determineStatus(",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 134,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->stats.avg_fast_time_ms =",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 526,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->learning_callback = callback;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 563,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats[\"avg_fast_time_ms\"] = impl_->stats.avg_fast_time_ms;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 564,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats[\"avg_balanced_time_ms\"] = impl_->stats.avg_balanced_time_ms;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 565,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats[\"avg_thorough_time_ms\"] = impl_->stats.avg_thorough_time_ms;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 118,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.failure_reasons.push_back(\"Failed fast screening stage\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.dimension_scores.push_back(faith_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.dimension_scores.push_back(score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 331,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.failure_reasons.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 371,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.dimension_scores.push_back(faith_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 375,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.failure_reasons.push_back(\"NLI verification failed\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 407,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "source_chunks.push_back(std::move(sc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\quality_control_pipeline.cpp",
+          "line": 419,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.dimension_scores.push_back(cit_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\rag_context_assembler.cpp": [
@@ -2307,6 +5417,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\rag_context_assembler.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& c : chunks) ordered.push_back(&c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_context_assembler.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.chunks_used.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_context_assembler.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.chunks_used.push_back(std::move(truncated));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\rag_ingestion_bridge.cpp": [
@@ -2365,6 +5502,222 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 129,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 132,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 204,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 205,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto it = impl_->cache.find(cache_key);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 206,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != impl_->cache.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 488,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 489,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->cache[cache_key] = result;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.verified_claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 369,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.unverified_claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 448,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim_scores.push_back(result.faithfulness_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 449,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim_scores.push_back(result.completeness_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 450,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim_scores.push_back(result.coherence_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 452,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim_scores.push_back(result.ethical_compliance_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 454,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim_scores.push_back(result.relevance_score);  // always evaluated",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 495,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->eval_history.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 574,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 944,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"[\",  // Citation markers like [1], [UN Declaration]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1014,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(std::move(text));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1041,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (trimmed.find(phrase) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1050,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(trimmed);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1079,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1196,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (doc.content.find(claim) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(judge->evaluate(input));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1391,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "judges.push_back(std::make_shared<RAGJudge>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\relevance_evaluator.cpp": [
@@ -2376,6 +5729,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 73,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = freq.find(vocab[i]);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 73,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = freq.find(vocab[i]);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "questions.push_back(question.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "questions.push_back(answer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 226,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (query_lower.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\relevance_evaluator.cpp",
+          "line": 277,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "irrelevant_segments.push_back(sentence);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\replug_retriever.cpp": [
@@ -2423,6 +5839,96 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 125,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"ReplugRetriever: llm_weight must be in [0, 1]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "raw.push_back(scorer_->score(query, doc.content));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 268,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = weights_.find(doc.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 256,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 268,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = weights_.find(doc.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 269,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = weights_.find(doc.id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ret_scores.push_back(doc.similarity_score * w);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 304,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fused.push_back((1.0 - lam) * ret_scores[i] + lam * llm_probs[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.documents.push_back(std::move(doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\replug_retriever.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.push_back(sc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\reranker.cpp": [
@@ -2434,6 +5940,132 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 208,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != score_cache.end()) return it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 290,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const std::string key = impl_->cacheKey(query, doc.id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 293,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (auto cached = impl_->getCached(key)) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 390,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "(config.enable_score_cache != impl_->config.enable_score_cache) ||",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 391,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "(config.max_cache_size != impl_->config.max_cache_size);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 35,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "*   4. Maps the raw score through a sigmoid to obtain a [0, 1] value.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 68,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 105,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* document, then maps it through a sigmoid so the result lies in [0,1].",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 217,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = score_cache.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scored.push_back({s, i});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 323,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.documents.push_back(std::move(doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 331,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.scores.push_back(rs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\reranker.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back(impl_->computeScore(query, doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\response_parser.cpp": [
@@ -2472,6 +6104,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.supporting_claims.push_back(claim.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 136,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.unsupported_claims.push_back(claim.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 216,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"Score {} out of valid range [0, 5]\", score);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 221,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"Confidence {} out of valid range [0, 1]\", *parsed.confidence);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.push_back(claim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 45,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "const char* ResponseParser::SCORE_PATTERN_1 = R\"((?:score|rating)[\\s:]+([0-9.]+)(?:/5|%|\\s|$))\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\response_parser.cpp",
+          "line": 46,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "const char* ResponseParser::SCORE_PATTERN_2 = R\"(([0-9.]+)\\s*(?:out of|/)\\s*([0-9.]+))\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\rag\\rubric_evaluator.cpp": [
@@ -2492,6 +6187,33 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rag\\rubric_evaluator.cpp",
+          "line": 73,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(documents.size(), size_t(3)); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\rag\\rubric_evaluator.cpp",
+          "line": 148,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dim.levels.push_back(level);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\rubric_evaluator.cpp",
+          "line": 152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rubric.dimensions.push_back(dim);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\streaming_retriever.cpp": [
@@ -2503,6 +6225,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\rag\\streaming_retriever.cpp",
+          "line": 284,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.skipped_documents.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\rag\\targ_retrieval.cpp": [
@@ -2561,6 +6292,93 @@
           "snippet": "\"threw for FLARE query (len=%zu); embedding left empty \"",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\rag\\explainability_reason_builder.cpp": [
+        {
+          "file": "src\\rag\\explainability_reason_builder.cpp",
+          "line": 151,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "\"conditions (miss rate, profile drift, or new entry count).\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\rag\\explainability_reason_builder.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rag\\explainability_reason_builder.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\rag\\ontology_aware_retriever.cpp": [
+        {
+          "file": "src\\rag\\ontology_aware_retriever.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queue.push_back(parent);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\rag\\examples\\loop_orchestration_example.cpp": [
+        {
+          "file": "src\\rag\\examples\\loop_orchestration_example.cpp",
+          "line": 44,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "std::cout << \"\\n  [ExplainabilityReasonBuilder \u2014 PLANNED]\\n\"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\examples\\loop_orchestration_example.cpp",
+          "line": 142,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "std::cout << \"\\n  [ExplainabilityReasonBuilder \u2014 PLANNED \u2014 IMPL-B9]\\n\"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\rag\\examples\\loop_orchestration_example.cpp",
+          "line": 144,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"  Trigger  : QPS spike +3 200 req/s; p99 latency 85 ms\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\examples\\loop_orchestration_example.cpp",
+          "line": 160,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\nSee docs/issues/ for implementation specs.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\rag\\examples\\loop_orchestration_example.cpp",
+          "line": 138,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::cout << \"    \u2192 \" << step << \"\\n\";",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ]
     }

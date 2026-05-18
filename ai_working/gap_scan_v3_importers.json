@@ -1,13 +1,18 @@
 {
   "importers": {
-    "total": 226,
-    "severity_critical": 22,
-    "severity_high": 90,
-    "severity_medium": 114,
+    "total": 519,
+    "severity_critical": 58,
+    "severity_high": 124,
+    "severity_medium": 337,
     "by_category": {
       "security": 68,
       "memory": 13,
-      "reliability": 145
+      "reliability": 145,
+      "concurrency": 25,
+      "raii": 14,
+      "container": 205,
+      "platform": 11,
+      "performance": 38
     },
     "by_file": {
       "src\\importers\\crdt_importer.cpp": [
@@ -327,6 +332,384 @@
           "snippet": "{{\"table\", table}, {\"status\", \"imported\"}},",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 280,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != options.table_mappings.end()) table = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 735,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != options.column_mappings.end()) col = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 950,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != options.column_mappings.end()) col = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1039,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "remapped[it != options.column_mappings.end() ? it->second : key]",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1163,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != options.column_mappings.end()) col = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"First record is not a JSON object\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 185,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"First record is not valid JSON: \" + line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 434,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols_vec.push_back(\"col_\" + std::to_string(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 466,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(SchemaAutoDetector::schemaToJson(schema));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 490,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 492,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_boolean())        vals.push_back(val.get<bool>() ? \"true\" : \"false\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 493,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 494,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 495,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_string())         vals.push_back(val.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 496,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else                              vals.push_back(val.dump());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 532,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "detected.columns.push_back(field->name());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 630,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back(field);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 780,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 800,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "columns.push_back(\"col_\" + std::to_string(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 833,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(ve.message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 948,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = options.column_mappings.find(col);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 937,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 939,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_boolean())        vals.push_back(val.get<bool>() ? \"true\" : \"false\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 940,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 941,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 942,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_string())         vals.push_back(val.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 943,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else                              vals.push_back(val.dump());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 981,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1017,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(\"JSON parse error at line \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1049,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1051,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_boolean())        vals.push_back(val.get<bool>() ? \"true\" : \"false\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1052,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1053,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1054,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else if (val.is_string())         vals.push_back(val.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1055,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else                              vals.push_back(val.dump());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1063,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(ve.message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1161,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = options.column_mappings.find(col);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "columns.push_back(std::move(col));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(ve.message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1384,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1387,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 81,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "while (file.get(c) && c != '\\n') { /* discard */ }",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\importers\\kafka_importer.cpp": [
@@ -482,6 +865,33 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 544,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rd_kafka_consumer_close(rk);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 636,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rd_kafka_consumer_close(rk);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Topic name is empty.\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\mongo_importer.cpp": [
@@ -700,6 +1110,132 @@
           "snippet": "try { return std::stod(n.get<std::string>()); } catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 172,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "peek_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 853,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::importers::MongoDBImporterPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 857,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 99,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"File does not appear to be a MongoDB JSON export \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 306,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = doc.begin(); it != doc.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field_order.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 362,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_arr.push_back({{\"name\", fname}, {\"type\", field_types.at(fname)}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 412,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Document skipped: line too large at index \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 730,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(unwrapDocument(elem));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 732,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(uw);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 735,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(elem);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 165,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "while (peek_file.get(c) && c != '\\n') { /* discard */ }",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 753,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "size_t sep = path.find_last_of(\"/\\\\\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\importers\\mysql_importer.cpp": [
@@ -891,6 +1427,276 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 860,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ci != config_type_overrides_.end()) return ci->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1090,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "*   tinyInt1isBit=true/false  -> jdbc_config_.tinyint1_as_boolean",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1091,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "*   useSSL=true/false         -> jdbc_config_.ssl",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1345,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::importers::MySQLImporterPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1349,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Cannot open file: \" + source_path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"File does not appear to be a MySQL/MariaDB mysqldump\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(table_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 430,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Line truncated at \" + std::to_string(line_number));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 461,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Statement too large near line \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 605,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_defs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 689,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.columns.push_back(col_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 736,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) col_list.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1036,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1066,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 566,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\\\\') { ++k; continue; }  // MySQL backslash escape inside strings",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1306,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%016\" PRIx64, h);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 999,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'n':  val += '\\n'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1000,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 't':  val += '\\t'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1001,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'r':  val += '\\r'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1002,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '0':  val += '\\0'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1003,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': val += '\\\\'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1004,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\'': val += '\\''; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1005,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  val += '\"';  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1006,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "default:   val += '\\\\'; val += esc; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1011,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\\'';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1029,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\"'; i += 2;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1202,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1274,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1306,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%016\" PRIx64, h);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\importers\\oracle_importer.cpp": [
@@ -1046,6 +1852,114 @@
           "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}}, 1.0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"File does not appear to be an Oracle expdp/exp SQL dump\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 330,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(table_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 399,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Line truncated at \" + std::to_string(line_number));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 556,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_defs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 562,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!cur.empty()) col_defs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 638,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.columns.push_back(col_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 683,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) col_list.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 916,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 959,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 73,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "while (file.get(c) && c != '\\n') { /* discard */ }",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 906,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\\'';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 999,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\importers\\postgres_importer.cpp": [
@@ -1255,6 +2169,645 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2117,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ct != custom_type_map_.end()) return ct->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2117,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ct != custom_type_map_.end()) return ct->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2119,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ct != custom_type_map_.end()) return ct->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2119,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ct != custom_type_map_.end()) return ct->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1163,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fk.on_delete = dm[1].str();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1227,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fk.on_delete = dm[1].str();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2465,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::importers::PostgreSQLImporterPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2469,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"File does not appear to be a PostgreSQL dump\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 552,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& fk : schema.foreign_keys) fk_arr.push_back(fk.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 568,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& idx : schema.indexes) idx_arr.push_back(idx.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 573,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& ck : schema.check_constraints) ck_arr.push_back(ck.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 578,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& g : schema.generated_columns) gen_arr.push_back(g.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 583,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& ex : schema.exclude_constraints) excl_arr.push_back(ex.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 586,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(table_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 591,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& m : forward_mappings) relationships_arr.push_back(m.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 592,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& m : inverse_mappings) relationships_arr.push_back(m.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 595,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& c : cycles) cycles_arr.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 703,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Line truncated at \" + std::to_string(line_number));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 725,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Statement too large near line \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 768,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Failed to parse CREATE TABLE near line \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 857,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) col_list.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 876,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Could not parse COPY header near line \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 980,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!pkc.empty()) schema.primary_keys.push_back(pkc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 990,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.check_constraints.push_back(ck);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1024,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!uc.empty()) idx.columns.push_back(uc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1026,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1088,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.generated_columns.push_back(gen);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1111,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) cols.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.foreign_keys.push_back(std::move(fk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.foreign_keys.push_back(std::move(fk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1291,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "*     [DEFERRABLE [INITIALLY DEFERRED|INITIALLY IMMEDIATE]]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1356,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @brief Parse a CREATE [UNIQUE] INDEX statement.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1359,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "*   CREATE [UNIQUE] INDEX [CONCURRENTLY] [name] ON [schema.]table",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1389,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) index.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1408,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "*   ALTER TABLE [ONLY] [schema.]table",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1442,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1443,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(err.message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1459,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1460,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(err.message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1587,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "excl.elements.push_back(std::move(el));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1692,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) col_list.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1817,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1818,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Row truncated in table \" + table_name +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1841,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(\"Binary COPY unsupported in table \" + table_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1863,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1864,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Row too large in table \" + table_name +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1885,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1886,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Invalid UTF-8 in table \" + table_name +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2018,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(unescapeCopyValue(raw));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2078,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2086,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fk_arr.push_back(fk.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2207,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(err);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2037,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "case 'N':  /* \\N already handled above as entire field */ out += '\\\\'; out += 'N'; break;",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2424,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%016\" PRIx64, h);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1145,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) out += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1316,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!result.empty()) result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1449,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(target.columns.begin(), target.columns.end(), col)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1449,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(target.columns.begin(), target.columns.end(), col)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1449,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(target.columns.begin(), target.columns.end(), col)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2037,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'N':  /* \\N already handled above as entire field */ out += '\\\\'; out += 'N'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2038,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 't':  out += '\\t'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2039,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'n':  out += '\\n'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2040,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'r':  out += '\\r'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2041,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += '\\\\'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2042,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "default:   out += '\\\\'; out += next; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2069,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\\'';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2391,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2424,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%016\" PRIx64, h);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\importers\\s3_importer.cpp": [
@@ -1401,6 +2954,87 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 682,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::importers::S3ImporterPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 687,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 538,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& w : obj_stats.warnings)   stats.warnings.push_back(w);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 539,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : obj_stats.errors)     stats.errors.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 541,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 587,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 621,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.structured_errors.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 622,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(message);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 625,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"S3 import error [{}]: {} ({})\", location, message,",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\importers\\schema_inference.cpp": [
@@ -1421,6 +3055,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "inferred.denormalization_candidates.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(inferred));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 212,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = sample_index.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 257,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = stats.find(local_key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 257,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = stats.find(local_key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
         }
       ],
       "src\\importers\\sqlite_importer.cpp": [
@@ -1576,6 +3255,123 @@
           "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}},",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 85,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"File does not appear to be a SQLite dump\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 281,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(table_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.warnings.push_back(\"Line truncated at \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 520,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_defs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 526,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!cur.empty()) col_defs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 610,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.columns.push_back(col_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 667,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!col.empty()) col_list.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 895,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 911,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 921,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 954,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 885,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\\'';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 904,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "val += '\"'; i += 2;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\importers\\huggingface_ingestion_plugin.cpp": [
@@ -1695,6 +3491,132 @@
           "snippet": "THEMIS_WARN(\"Failed to import document {}: {}\", i, status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 516,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "std::string dataset_name = job.config.value(\"dataset_name\", plugin->config_.dataset_name);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 516,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "std::string dataset_name = job.config.value(\"dataset_name\", plugin->config_.dataset_name);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 517,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "std::string split = job.config.value(\"split\", plugin->config_.split);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 525,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "bool from_cache = plugin->loadFromCache(dataset_name, split, documents);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 525,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "bool from_cache = plugin->loadFromCache(dataset_name, split, documents);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 530,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "size_t batch_size = plugin->config_.chunk_size;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 533,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto result = plugin->fetchBatch(dataset_name, split, offset, batch_size);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 548,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 569,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "json content_spec = plugin->documentToContentSpec(documents[i], dataset_name, i);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "metadata.splits.push_back(split.key());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 376,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.documents.push_back(row[\"row\"]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 439,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "docs.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 467,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cache_data.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 579,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "job.content_ids.push_back(content_spec[\"content\"][\"id\"]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\mdm_engine.cpp": [
@@ -1760,6 +3682,150 @@
           "snippet": ": ResolutionStatus::MANUAL_REVIEW);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 53,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& l : created_links) link_arr.push_back(l.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& g : golden_records) gr_arr.push_back(g.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "key_fields.push_back(uf);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 148,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto matches = hybrid_matcher_.findMatchingEntities(",
+          "description": "Iterator matches may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_matches.push_back(std::move(matches));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 201,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "created.push_back(link);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 254,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing_map.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 254,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing_map.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 260,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto inc_it = incoming_map.find(src_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 247,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "groups[link.source_id].push_back(link.target_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 254,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing_map.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 260,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto inc_it = incoming_map.find(src_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 254,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing_map.find(tid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.review_queue.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 139,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(key_fields.begin(), key_fields.end(), uf) == key_fields.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 139,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(key_fields.begin(), key_fields.end(), uf) == key_fields.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\importers\\adaptive_import.cpp": [
@@ -1771,6 +3837,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\adaptive_import.cpp",
+          "line": 68,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "order.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\adaptive_import.cpp",
+          "line": 82,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!visited.count(s.name)) order.push_back(s.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\adaptive_import.cpp",
+          "line": 165,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto sit = std::find_if(schemas.begin(), schemas.end(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\importers\\audit_trail.cpp": [
@@ -1782,6 +3875,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\audit_trail.cpp",
+          "line": 78,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\importers\\audit_trail.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "events_.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\audit_trail.cpp",
+          "line": 97,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chain_hashes_.push_back(hash);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\audit_trail.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\blockchain_integrity.cpp": [
@@ -1793,6 +3922,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\blockchain_integrity.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "layer.push_back(sha256Hex(rec.dump()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\blockchain_integrity.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (layer.size() % 2 != 0) layer.push_back(layer.back());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\blockchain_integrity.cpp",
+          "line": 84,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next.push_back(combineHashes(layer[i], layer[i + 1]));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\canonical_resolver.cpp": [
@@ -1813,6 +3969,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\canonical_resolver.cpp",
+          "line": 255,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gr.contributing_ids.push_back(eid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\column_importance.cpp": [
@@ -1824,6 +3989,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\column_importance.cpp",
+          "line": 111,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = idx.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\column_importance.cpp",
+          "line": 111,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = idx.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\column_importance.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(ci));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\conflict_resolver.cpp": [
@@ -1835,6 +4027,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\conflict_resolver.cpp",
+          "line": 41,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static constexpr char kSep = '\\x1F';  // ASCII unit separator",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\importers\\data_quality.cpp": [
@@ -1846,6 +4047,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\data_quality.cpp",
+          "line": 124,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = row.begin(); it != row.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\data_quality.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table_samples[s.table_name].push_back(json{",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\data_quality.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.issues.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\data_quality.cpp",
+          "line": 238,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.recommendations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\deterministic_matcher.cpp": [
@@ -1857,6 +4094,141 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 436,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (alg_it != config.field_algorithms.end()) algo = alg_it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 619,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "hmr.semantic_score = (it != sem_map.end()) ? it->second : 0.0;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 57,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched_keys.push_back(field);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(m));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 149,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = identifier_mapping.begin(); it != identifier_mapping.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "source_fields.push_back(it.key());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 210,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min({s1.size(), s2.size(), size_t{4}}); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 491,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(score));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 548,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (found) det_results.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 572,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(hmr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 582,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(hmr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 602,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(hmr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 618,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sem_map.find(d.existing_entity_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 624,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(hmr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 639,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(hmr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\entity_linker.cpp": [
@@ -1895,6 +4267,33 @@
           "snippet": "{\"status\",    resolutionStatusName(link.status)}",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(json{{\"id\", link.source_id}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(json{{\"id\", link.target_id}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\federated_learning.cpp": [
@@ -1924,6 +4323,15 @@
           "snippet": "throw std::invalid_argument(\"epsilon_used must be non-negative\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\federated_learning.cpp",
+          "line": 63,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\graphql_federation.cpp": [
@@ -1935,6 +4343,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 101,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"  @link(url: \\\"https://specs.apollo.dev/federation/v2.3\\\",\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 101,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"  @link(url: \\\"https://specs.apollo.dev/federation/v2.3\\\",\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 117,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!key_fields.empty()) key_fields += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 146,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "bool is_pk = std::find(schema.primary_keys.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 185,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "bool is_pk = std::find(schema.primary_keys.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 185,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "bool is_pk = std::find(schema.primary_keys.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\importers\\gui_import_wizard.cpp": [
@@ -2000,6 +4462,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 209,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != config_.importer_factories.end() && it->second) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 294,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it == config_.importer_factories.end() || !it->second) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "mappings_j.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "s.column_mappings.push_back(std::move(cm));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "s.preview_schema.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "s.preview_rows.push_back(row);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 351,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sessions_.find(session_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [id, _] : sessions_) ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\mdm_audit_trail.cpp": [
@@ -2020,6 +4554,24 @@
           "snippet": "{\"status\",            status},",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_audit_trail.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\mdm_audit_trail.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "events_arr.push_back(e.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\mdm_metrics.cpp": [
@@ -2042,6 +4594,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "mapping.rationale.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(mapping));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 188,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = row.begin(); it != row.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 193,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edges.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\postgres_cdc.cpp": [
@@ -2053,6 +4650,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_cdc.cpp",
+          "line": 82,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\importers\\postgres_importer_mdm.cpp": [
@@ -2064,6 +4670,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer_mdm.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "imported_entities.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\schema_validator.cpp": [
@@ -2084,6 +4699,33 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\schema_validator.cpp",
+          "line": 117,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\importers\\schema_validator.cpp",
+          "line": 142,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = schema.column_types.find(col);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\importers\\schema_validator.cpp",
+          "line": 157,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(std::move(err));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\importers\\semantic_matcher.cpp": [

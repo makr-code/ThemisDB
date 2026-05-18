@@ -1,13 +1,18 @@
 {
   "exporters": {
-    "total": 264,
-    "severity_critical": 74,
-    "severity_high": 154,
-    "severity_medium": 36,
+    "total": 380,
+    "severity_critical": 85,
+    "severity_high": 175,
+    "severity_medium": 120,
     "by_category": {
       "security": 16,
       "memory": 33,
-      "reliability": 215
+      "reliability": 215,
+      "concurrency": 10,
+      "raii": 24,
+      "container": 74,
+      "platform": 2,
+      "performance": 6
     },
     "by_file": {
       "src\\exporters\\export_format_registry.cpp": [
@@ -361,6 +366,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 168,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = kTypeMap.find(type_str);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "validated.push_back({format_key, it->second, mapping});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\arrow_ipc_exporter.cpp": [
@@ -624,6 +656,204 @@
           "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1012,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 356,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field_refs.push_back(C_field);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 647,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vals.push_back(fieldToString(e, col));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 651,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_offsets.push_back(body_pos);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 652,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_lengths.push_back(0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 673,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "offsets_buf.push_back(static_cast<uint8_t>( u        & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 674,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >>  8) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 675,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >> 16) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 676,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >> 24) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 685,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_offsets.push_back(body_pos);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 686,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_lengths.push_back(offsets_len);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 692,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.bytes.push_back(0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 703,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_offsets.push_back(body_pos);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 704,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.buf_lengths.push_back(data_len);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 710,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.bytes.push_back(0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 842,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!exclude_set.count(f)) cols.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 849,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!exclude_set.count(f)) cols.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 983,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rb_blocks.push_back(blk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1050,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arrow_fields.push_back(arrow::field(col, arrow::utf8()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1057,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1058,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1120,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arrays.push_back(*maybe_arr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\export_encryption.cpp": [
@@ -1598,6 +1828,222 @@
           "snippet": "throw ExportIOException(\"Write error while finalising decrypted file\", output_path);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 154,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto kek = config_.key_provider->getKey(config_.kek_id, key_version);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 188,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto meta = config_.key_provider->getKeyMetadata(config_.kek_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 764,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "kek = config_.key_provider->getKey(config_.kek_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 765,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 957,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "kek = config_.key_provider->getKey(kek_id, kek_version);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 269,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 460,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 508,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "src.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 565,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "src.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 821,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 892,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 898,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 899,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "in_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 992,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1056,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1059,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1071,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1077,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1078,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "in_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 53,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>(v & 0xFFu));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 54,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((v >> 8)  & 0xFFu));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 55,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((v >> 16) & 0xFFu));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((v >> 24) & 0xFFu));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 61,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((v >> (i * 8)) & 0xFFu));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\huggingface_exporter.cpp": [
@@ -1636,6 +2082,96 @@
           "snippet": "throw ExportIOException(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 64,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(\"output_path must be set to the dataset root directory\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 205,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& feat : resolvedFeatures()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 291,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& feat : resolvedFeatures()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 307,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& feat : resolvedFeatures()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 363,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "inferred_features_.push_back(std::move(feat));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 248,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"')       { out += \"\\\\\\\"\"; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 249,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') { out += \"\\\\\\\\\"; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 250,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') { out += \"\\\\n\";  }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 251,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\r') { out += \"\\\\r\";  }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 252,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\t') { out += \"\\\\t\";  }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\exporters\\huggingface_hub_client.cpp": [
@@ -1701,6 +2237,96 @@
           "snippet": "f.read(buf.data(), file_size);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 212,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 425,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 623,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 344,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 482,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::recursive_directory_iterator(dataset_dir)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 484,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "files.push_back(entry.path().string());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 516,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 572,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 690,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 749,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\exporters\\parquet_exporter.cpp": [
@@ -1919,6 +2545,186 @@
           "snippet": "ofs.write(magic, 4);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 989,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ofs.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 77,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>(v >> 8));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 94,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((u >> s) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(field_type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 380,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "value_buf.push_back(static_cast<uint8_t>(len & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 381,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 382,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 383,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 460,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 467,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 477,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(kv.first) == exclude_set.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 461,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 467,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 477,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(kv.first) == exclude_set.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 468,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 488,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (exclude_set.find(hint.name) == exclude_set.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 490,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols.push_back(hint.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 602,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back(arrow::field(col, dt, true /* nullable */));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 665,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arrays.push_back(arr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 915,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.errors.push_back(err_code + \": Cannot open output file: \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\aql_predicate_filter.cpp": [
@@ -1959,6 +2765,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 47,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "{\"get\",       {\"obtain\", \"retrieve\", \"acquire\"}},",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 203,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = combined.find(lw);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 257,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 272,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& field : selectFields(entity)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 298,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& field : selectFields(entity)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 311,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& field : selectFields(entity)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 324,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& field : selectFields(entity)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 134,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\exporters\\exporter_metrics.cpp": [
@@ -2024,6 +2902,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 362,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Export Rate: \" << getExportRate() << \" entities/sec\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 363,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Throughput: \" << getThroughput() << \" bytes/sec\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\exporters\\format_template.cpp": [
@@ -2073,6 +2969,15 @@
           "snippet": "if (!tmp.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 174,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "writer.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\exporters\\join_exporter.cpp": [
@@ -2194,6 +3099,69 @@
           "snippet": "throw ExporterException(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 611,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "std::string line = format_template_->render(entity, config_.template_field_mapping);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 611,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "std::string line = format_template_->render(entity, config_.template_field_mapping);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 386,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "writer.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 513,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "messages.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 634,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = j.begin(); it != j.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 900,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "runtime_metrics_.validation_errors.push_back(err_msg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 1125,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j[\"schema_validation\"][\"recent_errors\"].push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\pii_detector.cpp": [
@@ -2205,6 +3173,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 77,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 116,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\exporters\\streaming_exporter.cpp": [
@@ -2252,6 +3265,15 @@
           "snippet": "if (!f.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 229,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "writer.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\exporters\\stream_writer.cpp": [
@@ -2416,6 +3438,33 @@
           "snippet": "file_.write(buffer_.data(), out_buf.pos);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 52,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 116,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void StreamWriter::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 127,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "file_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ]
     }

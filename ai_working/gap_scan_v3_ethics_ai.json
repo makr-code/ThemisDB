@@ -1,13 +1,18 @@
 {
   "ethics_ai": {
-    "total": 104,
-    "severity_critical": 43,
-    "severity_high": 14,
-    "severity_medium": 47,
+    "total": 200,
+    "severity_critical": 60,
+    "severity_high": 29,
+    "severity_medium": 111,
     "by_category": {
       "security": 2,
       "memory": 2,
-      "reliability": 100
+      "reliability": 100,
+      "concurrency": 12,
+      "raii": 2,
+      "container": 64,
+      "platform": 4,
+      "performance": 14
     },
     "by_file": {
       "src\\ethics_ai\\argument_store.cpp": [
@@ -217,6 +222,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 174,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(arg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "q.predicates.push_back({\"philosophy_school\", philosophy_school});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 203,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 438,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rounds.push_back(round);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\ethics_ai\\ethics_ai_plugin.cpp": [
@@ -435,6 +476,24 @@
           "snippet": "Status setConfig(const std::string& key, const std::string& value) override {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 506,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::plugins::ethics::EthicsAIPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 510,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\ethics_ai\\chain_visualizer.cpp": [
@@ -446,6 +505,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 76,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"<br/>\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 76,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"<br/>\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 63,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"')       out += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 64,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 75,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"')  out += \"'\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 76,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"<br/>\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\ethics_ai\\cross_school_tension_resolver.cpp": [
@@ -457,6 +570,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 31,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "decisions.push_back(std::move(decision));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\ethics_ai\\discourse_engine.cpp": [
@@ -531,6 +662,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(debates_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 90,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto rag_result = rag_engine_->buildContext(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arguments.push_back(arg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 262,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = debate_arguments_.find(debate_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 265,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "prev_arg_ids.push_back(arg.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 291,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "round.arguments.push_back(arg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all.push_back(a);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\ethics_ai\\discourse_memory_store.cpp": [
@@ -578,6 +763,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(buf[static_cast<std::size_t>(i)]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\ethics_ai\\ethics_ai_types.cpp": [
@@ -701,6 +895,69 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 28,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!v.empty()) result.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 33,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!v.empty()) result.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(meta);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 158,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 187,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lru_map_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 82,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(meta.tags.begin(), meta.tags.end(), t) == meta.tags.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 94,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(meta.applicable_domains.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\ethics_ai\\ethics_selection_router.cpp": [
@@ -721,6 +978,204 @@
           "snippet": "std::lock_guard<std::mutex> lock(impl_->precedent_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 397,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto& school_map = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 400,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (jt != school_map.end() && jt->second.count > 0) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 401,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "c.precedent_dc = jt->second.dc_sum / static_cast<double>(jt->second.count);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 416,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->registry = registry;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 445,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto stage1_set = impl_->stage1(dilemma_domain, dilemma_tags, regulatory_context);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 449,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto candidates = impl_->stage2(dilemma_text, stage1_set);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 490,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->embedding_fn = std::move(fn);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 36,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (cur.size() >= 3) tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 40,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (cur.size() >= 3) tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 67,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = b.find(t);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 167,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "taxonomy_map[cls].push_back(item.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "domain_class_map[dom].push_back(item.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 203,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = taxonomy_map.find(cls);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 211,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = domain_class_map.find(domain);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 284,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = id_to_text.find(sid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(cand);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 333,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = id_to_text.find(sid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(cand);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 275,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& t : m.tags)              profile_text += \" \" + t;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 276,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 323,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& t : m.tags)             profile_text += \" \" + t;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 324,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\ethics_ai\\philosophy_loader.cpp": [
@@ -840,6 +1295,132 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 299,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 51,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::directory_iterator(directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 162,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!text.empty()) profile.main_theses.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pt.activation_rounds.push_back(r.as<int>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!text.empty()) profile.secondary_theses.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 201,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pt.activation_rounds.push_back(r.as<int>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 208,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!text.empty()) profile.strengths.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!text.empty()) profile.weaknesses.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 292,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 99,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!acc.empty()) acc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 133,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!acc.empty()) acc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 149,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!acc.empty()) acc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\ethics_ai\\position_abstract_validator.cpp": [
@@ -878,6 +1459,15 @@
           "snippet": "throw PositionAbstractSchemaError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 48,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) thesis_joined += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\ethics_ai\\rag_context_engine.cpp": [
@@ -934,6 +1524,69 @@
           "snippet": "std::variant<std::vector<std::string>, Status> RAGContextEngine::traverseArgumentChain(",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 73,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto arg_result = store_->getArgument(id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 242,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto arg_result = store_->getArgument(current_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 58,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arg_ids.push_back(arg.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(scored[i].second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(arg.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "visited_order.push_back(start_argument_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 247,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "visited_order.push_back(nid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\ethics_ai\\synthesis_matrix_builder.cpp": [
@@ -972,6 +1625,228 @@
           "snippet": "throw SchemaValidationError(\"core_thesis_ids must not be empty\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 39,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw SchemaValidationError(\"confidence must be in [0.0, 1.0]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 61,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 104,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" \\xe2\\x86\\x94 \"   // UTF-8 \u2194",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        }
+      ],
+      "src\\ethics_ai\\prior_round_compressor.cpp": [
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 282,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "score += static_cast<float>(it->second);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 41,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 44,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "citations.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 53,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "citations.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 65,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 68,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "citations.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current.substr(start, end - start + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current.substr(start, end - start + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 279,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = word_freq.find(word);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "selected_indices.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\ethics_ai\\tournament_mode_selector.cpp": [
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 80,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = school_weight.find(t.opposing_school_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ordered_schools.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.primary_opponents.push_back(school);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 111,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.secondary_opponents.push_back(school);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 122,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.primary_opponents.push_back(school);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 125,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.secondary_opponents.push_back(school);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 165,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = tensions_per_school.find(school_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 165,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = tensions_per_school.find(school_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "opponent_args.push_back(arg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\ethics_ai\\convergence_marker_engine.cpp": [
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 134,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" \\xe2\\x86\\x94 \"  // UTF-8 \u2194",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ]
     }

@@ -1,13 +1,18 @@
 {
   "themis": {
-    "total": 102,
-    "severity_critical": 45,
-    "severity_high": 21,
-    "severity_medium": 36,
+    "total": 234,
+    "severity_critical": 52,
+    "severity_high": 33,
+    "severity_medium": 149,
     "by_category": {
       "security": 3,
       "memory": 4,
-      "reliability": 95
+      "reliability": 95,
+      "concurrency": 3,
+      "raii": 59,
+      "container": 48,
+      "platform": 20,
+      "performance": 2
     },
     "by_file": {
       "src\\themis\\license_info.cpp": [
@@ -136,6 +141,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 331,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (!b64) { BIO_free(bmem); return {}; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 412,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 423,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct ifaddrs",
+          "description": "Class ifaddrs allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~ifaddrs() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 427,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct ifaddrs",
+          "description": "Class ifaddrs allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~ifaddrs() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 445,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(sock);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 18,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 d77b1da0d8  2026-04-12  [WIP] Update developer documentation to match current sou... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 148,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"QscQaIyIKDiREBnYUmDZXEsCg5HmYgLzGEcNdHd/IxA5vp3Qr\\n\" \\",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 436,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "ifr.ifr_name[IFNAMSIZ - 1] = '\\0'; // ensure null termination",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\themis\\module_loader.cpp": [
@@ -237,6 +314,294 @@
           "snippet": "if (!sigFile.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 103,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "dlclose(handle);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1665,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1673,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1680,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1681,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1689,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1690,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1731,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1740,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1757,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1768,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1778,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1793,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1800,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_fclose(zf);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1801,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1813,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_fclose(zf);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1814,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "outFile.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1817,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1823,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1864,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "manifestFile.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1887,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "sigFile.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 534,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(module);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 845,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.failureTimestamps.push_back(currentTime);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 955,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "quarantined.push_back(path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 979,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = failureHistory_.find(modulePath);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "module.healthChecks.push_back(healthResult);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1301,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = loadedModules_.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1524,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "return sep == '/' || sep == '\\\\';",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1524,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "return sep == '/' || sep == '\\\\';",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1756,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (nameStr[0] == '/' || nameStr[0] == '\\\\') {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1756,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (nameStr[0] == '/' || nameStr[0] == '\\\\') {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1254,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(watchdogMutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\themis\\module_loader_linux.cpp": [
@@ -329,6 +694,69 @@
           "snippet": "file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 104,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "posix_spawn_file_actions_addclose(&actions, pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 109,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[1]);  // parent closes the write end",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 112,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 126,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 95,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (pipe(pipefd) != 0) {",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 96,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"verifyGPGSignature: pipe() failed for: {}\", modulePath);",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 218,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "while (remaining >= sizeof(Elf64_Nhdr)) {",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\themis\\wire_protocol_server.cpp": [
@@ -592,6 +1020,195 @@
           "snippet": "if (should_continue) async_accept();",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1175,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 242,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 255,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void WireProtocolSession::close(const std::string& /*reason*/) {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 267,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_.close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 290,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 325,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "case OpCode::OP_CLOSE:  handle_close(v1::CloseRequest{});   break;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 347,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 457,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "handle_cursor_close(req);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 548,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "handle_close(req);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 607,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 861,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req) {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1124,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void WireProtocolSession::handle_close(const v1::CloseRequest& /*req*/) {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1125,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(\"client requested close\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1169,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "acceptor_.close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1171,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "session->close(\"server shutdown\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1219,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "session->close(\"server stopping\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sessions_to_close.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 166,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t magic_be = htonl(h.magic);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 172,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t len_be = htonl(h.payload_length);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 623,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t code_be = htonl(err_code);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 216,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "out += '?';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "include\\themis\\network\\wire_protocol_v2.hpp": [
@@ -612,6 +1229,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 175,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct V2ConnectionConfig",
+          "description": "Class V2ConnectionConfig allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~V2ConnectionConfig() { /* cleanup */ }"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 194,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct V2Server",
+          "description": "Class V2Server allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~V2Server() { /* cleanup */ }"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 39,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 98,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma pack(push, 1)",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 119,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma pack(pop)",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "src\\themis\\build_info.cpp": [
@@ -722,6 +1384,231 @@
           "snippet": "std::lock_guard<std::mutex> lk(hsmStatusFnMutex());",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 965,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 188,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 227,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 236,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 422,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 431,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 438,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 448,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 455,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 464,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 471,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 480,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 487,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 497,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 504,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 520,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 529,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 536,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 545,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 552,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.modules.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 887,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(mod.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 898,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(mod.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\themis\\edition_manager.cpp": [
@@ -778,6 +1665,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 204,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 209,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         }
       ],
       "src\\themis\\module_dependency_resolver.cpp": [
@@ -789,6 +1694,141 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 124,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "precheck.missingRequired.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "closure.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 221,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = modules_.find(n);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 222,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = modules_.find(n);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.missingRequired.push_back(dep.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 238,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.missingRequired.push_back(dep.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 256,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.versionMismatches.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[dep.name].push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 283,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.versionMismatches.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.loadOrder.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cycleNodes.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 356,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.cycles.push_back(cycleNodes);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\themis\\module_hash_verifier.cpp": [
@@ -809,6 +1849,51 @@
           "snippet": "while (file.read(buf, kBufSize) || file.gcount() > 0) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 59,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 68,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 77,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 81,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 235,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = manifest_.find(moduleName);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\themis\\module_loader_win32.cpp": [
@@ -905,6 +1990,60 @@
           "snippet": "waitpid(pid, &wstatus, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 244,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "posix_spawn_file_actions_addclose(&actions, pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 249,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[1]); // parent closes the write end",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 252,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 266,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 233,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (pipe(pipefd) != 0) {",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 235,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "\"pipe() failed for '{}'\", modulePath);",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
         }
       ],
       "include\\themis\\network\\wire_protocol_server.hpp": [
@@ -952,6 +2091,60 @@
           "snippet": "void handle_accept(std::shared_ptr<WireProtocolSession> session, const boost::system::error_code& er",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 205,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void close(const std::string& reason = \"\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 228,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void handle_cursor_close(const v1::CursorCloseRequest& req);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 240,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void handle_close(const v1::CloseRequest& req);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 27,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 168,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma pack(push, 1)",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 188,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma pack(pop)",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ]
     }

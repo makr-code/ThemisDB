@@ -1,12 +1,14 @@
 {
   "distributed_knowledge": {
-    "total": 40,
-    "severity_critical": 15,
-    "severity_high": 24,
-    "severity_medium": 1,
+    "total": 56,
+    "severity_critical": 16,
+    "severity_high": 32,
+    "severity_medium": 8,
     "by_category": {
       "memory": 2,
-      "reliability": 38
+      "reliability": 38,
+      "concurrency": 6,
+      "container": 10
     },
     "by_file": {
       "src\\distributed_knowledge\\lora_federation_coordinator.cpp": [
@@ -99,6 +101,78 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 370,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 375,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 380,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 236,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = pending_gradients_.begin(); it != pending_gradients_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [v, _] : values) vals.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 508,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "future.wait_for(std::chrono::milliseconds(timeout_ms))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 557,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [z_threshold](const EncryptedGradient& candidate,",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 578,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "norms.push_back(l2norm(grad.data));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp": [
@@ -137,6 +211,33 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 145,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 150,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 155,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         }
       ],
       "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
@@ -375,6 +476,51 @@
           "snippet": "throw std::runtime_error(\"all shards timed out\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 187,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lists.push_back(&sr.documents);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 255,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back((*list)[pos]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(doc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

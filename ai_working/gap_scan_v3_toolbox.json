@@ -1,13 +1,16 @@
 {
   "toolbox": {
-    "total": 23,
-    "severity_critical": 0,
+    "total": 32,
+    "severity_critical": 3,
     "severity_high": 19,
-    "severity_medium": 4,
+    "severity_medium": 10,
     "by_category": {
       "security": 4,
       "memory": 5,
-      "reliability": 14
+      "reliability": 14,
+      "concurrency": 3,
+      "container": 4,
+      "platform": 2
     },
     "by_file": {
       "src\\toolbox\\content_toolbox_bridge.cpp": [
@@ -109,6 +112,24 @@
           "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: content_manager must not be null\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 141,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 218,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\toolbox\\toolbox_builder.cpp": [
@@ -183,6 +204,24 @@
           "snippet": "throw std::logic_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 112,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->format_extractors.push_back(std::move(extractor));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->format_extractors.push_back(std::move(ext));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\toolbox\\ingestion_toolbox.cpp": [
@@ -194,6 +233,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line": 218,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->extract_entities_total_ += static_cast<uint64_t>(entity_count);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line": 232,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out << \"# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line": 240,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out << \"# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\toolbox\\toolbox_composite.cpp": [
@@ -225,6 +291,28 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\toolbox\\language_detector.cpp": [
+        {
+          "file": "src\\toolbox\\language_detector.cpp",
+          "line": 20,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(utils::toLower(word));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\toolbox\\text_chunker.cpp": [
+        {
+          "file": "src\\toolbox\\text_chunker.cpp",
+          "line": 44,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(c.text));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

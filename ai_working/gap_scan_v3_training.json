@@ -1,13 +1,18 @@
 {
   "training": {
-    "total": 112,
-    "severity_critical": 26,
-    "severity_high": 68,
-    "severity_medium": 18,
+    "total": 228,
+    "severity_critical": 30,
+    "severity_high": 91,
+    "severity_medium": 107,
     "by_category": {
       "security": 9,
       "memory": 11,
-      "reliability": 92
+      "reliability": 92,
+      "concurrency": 2,
+      "raii": 13,
+      "container": 68,
+      "platform": 5,
+      "performance": 28
     },
     "by_file": {
       "src\\training\\auto_labeler.cpp": [
@@ -55,6 +60,204 @@
           "snippet": "static const std::regex simple_key_query(",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 20,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 257,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 293,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 432,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 435,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(entity.getPrimaryKey());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 465,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 472,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(entity.getPrimaryKey());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 491,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(item.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 494,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(item[\"pk\"].get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 496,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(item[\"_key\"].get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 503,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(item.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 550,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 680,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "while ((pos = query.find(token, pos)) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 523,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': safe_id += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 524,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  safe_id += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 525,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': safe_id += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 526,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': safe_id += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 527,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': safe_id += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\training\\incremental_lora_trainer.cpp": [
@@ -291,6 +494,69 @@
           "snippet": "if (f.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1092,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "float avg_loss = multi_gpu_trainer_->train_step(*multi_gpu_layer_,",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1167,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 20,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 205,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "metrics_.step_losses.push_back(step_loss);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 446,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "versions.push_back(ver);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1087,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gpu_inputs.push_back(std::move(in_t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1088,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gpu_targets.push_back(std::move(tg_t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\lora_adapter_merger.cpp": [
@@ -320,6 +586,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "descs.push_back({adapters[i], lname, weights[i]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 251,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.layers.push_back(std::move(lr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 400,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "descs.push_back({a, lname, 1.0f});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 406,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.layers.push_back(std::move(lr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\provenance_tracker.cpp": [
@@ -376,6 +678,96 @@
           "snippet": "return impl_->write(records);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "audit_log_.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 227,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "root.parents.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 278,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sample_node.parents.push_back(std::move(doc_node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 281,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "root.parents.push_back(std::move(sample_node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 358,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "while ((pos = query.find(token, pos)) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 373,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 374,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 375,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 376,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 377,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\training\\training_pipeline.cpp": [
@@ -423,6 +815,51 @@
           "snippet": "auto pstats = provenance_tracker_->write(prov_records);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "prov_records.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 404,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "trials.push_back({r, lr});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 623,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "by_category[s.category].push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 648,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "blocks.push_back({yi, 1});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 722,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.thresholds.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\adalora_tt_bridge.cpp": [
@@ -542,6 +979,42 @@
           "snippet": "throw std::invalid_argument(\"Empty TT export\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 342,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it == impl_->export_cache.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 348,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp, double eps) const {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.layers.push_back(exportLayer(adapter, ls.layer_name));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 401,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\adapter_serving.cpp": [
@@ -553,6 +1026,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\adapter_serving.cpp",
+          "line": 18,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\training\\ada_lora_adapter.cpp": [
@@ -645,6 +1127,132 @@
           "snippet": "throw std::out_of_range(\"AdaLoRAAdapter: unknown layer '\" + name + \"'\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 191,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ReallocResult reallocateRanks(size_t total_budget) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 221,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "size_t allocated = 0;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 230,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "allocated += raw;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 235,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (allocated != total_budget && !order.empty()) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 245,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (allocated > total_budget) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 246,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "size_t excess = allocated - total_budget;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 250,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "size_t deficit = total_budget - allocated;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 435,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ReallocResult AdaLoRAAdapter::reallocateRanks(size_t total_budget) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 436,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return impl_->reallocateRanks(total_budget);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 439,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ReallocResult AdaLoRAAdapter::reallocateRanks() {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 440,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return impl_->reallocateRanks(impl_->rankBudget());",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 122,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "insertion_order_.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 126,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = layers_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 294,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\database_domain_auto_labeler.cpp": [
@@ -665,6 +1273,60 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 181,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 182,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 183,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 184,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 185,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\training\\knowledge_graph_enricher.cpp": [
@@ -730,6 +1392,24 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 123,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = map_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 282,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "context.similar_documents.push_back(doc_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\lora_adapter.cpp": [
@@ -822,6 +1502,33 @@
           "snippet": "throw std::out_of_range(\"LoRAAdapter::forward: unknown layer '\" + layer_name + \"'\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 70,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* Values are drawn uniformly from [-limit, +limit].",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : layers_) names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 370,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : layers_) entries.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\training\\lora_checkpoint_manager.cpp": [
@@ -1033,6 +1740,204 @@
           "snippet": "catch (...) { return false; } // malformed threshold: treat as not triggered",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 111,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower.find(p) != std::string::npos) return true;",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 133,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> w) words.push_back(w);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 206,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "while ((pos = lower.find(lkw, pos)) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 340,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sigs.push_back(detail::buildMinHash(s.text, config_.minhash_num_perm));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!is_dup[i]) out.push_back(samples[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 392,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& s : samples) embeddings.push_back(embed(s.text));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 400,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "centroids.push_back(embeddings[i * step]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 456,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(samples[best_idx]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 586,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.audit_entry.selected_ids.push_back(s.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 916,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if      (c == '\"')  out += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 917,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 918,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"\\\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 919,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\r') out += \"\\\\r\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 920,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\t') out += \"\\\\t\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 921,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c < 0x20)  out += \"\\\\u00\" + std::string(1, \"0123456789abcdef\"[c >> 4])",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 937,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) ids_arr += ',';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 938,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "ids_arr += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 940,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "ids_arr += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 948,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first_domain) domain_obj += ',';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 950,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "domain_obj += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 952,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "domain_obj += \"\\\":\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\training\\modality_parser.cpp": [
@@ -1044,6 +1949,152 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 78,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(std::move(line));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 238,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "blocks.push_back({start, i - 1, std::move(content)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 297,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 460,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 541,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : ocr) result.samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 547,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : clauses) result.samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 552,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : tables) result.samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 557,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : citations) result.samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 591,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : res.samples) out_samples.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 147,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"((?:BGH|BVerwG|BAG|BSG|BFH|BVerfG|OLG|LG|AG|VG|OVG|VGH|LAG|FG|FGH|LSG|SGG?)\\b[,\\s]*(?:Urt\\.|Beschl",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 153,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"((?:EuGH|EuG|EGMR|ECtHR)\\b[,\\s]*(?:Rs\\.\\s*)?[CT]-?\\d+/\\d{2,4})\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 279,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "clean_text += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        }
+      ],
+      "src\\training\\examples\\database_optimizer_labeler.cpp": [
+        {
+          "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
+          "line": 105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "labeled_samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
+          "line": 110,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" / \" << log_entries.size() << \" samples\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
+          "line": 110,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" / \" << log_entries.size() << \" samples\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
+          "line": 182,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\nSee docs/issues/lora_loops/ for implementation specs.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ]
     }

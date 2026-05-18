@@ -24,10 +24,12 @@
 #include "server/task_scheduler_api_handler.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/external_scheduler_adapter.h"
+#include "utils/input_validator.h"
 
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <ctime>
+#include <optional>
 #include <sstream>
 #include "utils/tracing.h"
 
@@ -41,6 +43,25 @@ namespace server {
 // ============================================================================
 
 namespace {
+
+constexpr size_t kMaxTaskIdentifierLength = 128;
+
+std::optional<std::string> validateTaskIdentifier(
+    const std::string& value,
+    const std::string& field_name)
+{
+    themis::utils::InputValidator validator;
+    if (value.empty()) {
+        return field_name + " must not be empty";
+    }
+    if (!validator.validateStringLength(value, kMaxTaskIdentifierLength)) {
+        return field_name + " exceeds maximum allowed length";
+    }
+    if (!validator.validatePathSegment(value)) {
+        return field_name + " contains invalid characters";
+    }
+    return std::nullopt;
+}
 
 /// Convert a system_clock time_point to an ISO-8601 string (UTC).
 std::string timePointToIso(std::chrono::system_clock::time_point tp) {
@@ -129,6 +150,11 @@ json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
     auto span = Tracer::startSpan("getTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     auto task_ptr = scheduler_->getTask(task_id);
     if (!task_ptr) {
         return json{{"status", "error"}, {"error", "Task not found"}};
@@ -141,6 +167,11 @@ json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json&
     auto span = Tracer::startSpan("updateTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     try {
         auto task = parseTaskFromJson(request);
         task.id = task_id; // Ensure ID matches the URL parameter
@@ -158,6 +189,11 @@ json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
     auto span = Tracer::startSpan("unregisterTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     try {
         scheduler_->unregisterTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: unregistered task '{}'", task_id);
@@ -173,6 +209,11 @@ json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
     auto span = Tracer::startSpan("enableTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     try {
         scheduler_->enableTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: enabled task '{}'", task_id);
@@ -188,6 +229,11 @@ json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
     auto span = Tracer::startSpan("disableTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     try {
         scheduler_->disableTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: disabled task '{}'", task_id);
@@ -203,6 +249,11 @@ json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
     auto span = Tracer::startSpan("executeTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     try {
         auto result = scheduler_->executeTaskNow(task_id);
         if (result.contains("error")) {
@@ -241,6 +292,11 @@ json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t 
     auto span = Tracer::startSpan("getTaskResults");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     auto results = scheduler_->getTaskResults(task_id, limit);
     json items = json::array();
     for (const auto& r : results) {
@@ -254,6 +310,11 @@ json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
     auto span = Tracer::startSpan("getLatestTaskResult");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+
+    if (const auto err = validateTaskIdentifier(task_id, "task_id")) {
+        return json{{"status", "error"}, {"error", *err}};
+    }
+
     auto result = scheduler_->getLatestTaskResult(task_id);
     if (!result.has_value()) {
         return json{{"status", "not_found"}, {"task_id", task_id}};
@@ -727,6 +788,9 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
 
     // Required fields
     task.name = j.at("name").get<std::string>();
+    if (const auto err = validateTaskIdentifier(task.name, "name")) {
+        throw std::invalid_argument(*err);
+    }
 
     // Optional fields with defaults
     task.description   = j.value("description", "");
@@ -743,8 +807,21 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
     std::string type_str = j.value("type", "aql_query");
     if (type_str == "function") {
         task.type = ScheduledTask::TaskType::FUNCTION;
+        if (const auto err = validateTaskIdentifier(task.function_name, "function_name")) {
+            throw std::invalid_argument(*err);
+        }
     } else {
         task.type = ScheduledTask::TaskType::AQL_QUERY;
+        if (task.aql_query.empty()) {
+            throw std::invalid_argument("aql_query must not be empty for aql_query tasks");
+        }
+        themis::utils::InputValidator validator;
+        if (!validator.validateStringLength(task.aql_query, 100'000)) {
+            throw std::invalid_argument("aql_query exceeds maximum allowed length");
+        }
+        if (!validator.validateAQLQuery(task.aql_query)) {
+            throw std::invalid_argument("aql_query contains potentially unsafe patterns");
+        }
     }
 
     // Trigger type
@@ -799,11 +876,19 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
     // ID (optional override)
     if (j.contains("id")) {
         task.id = j["id"].get<std::string>();
+        if (const auto err = validateTaskIdentifier(task.id, "id")) {
+            throw std::invalid_argument(*err);
+        }
     }
 
     // Dependencies (for DAG execution)
     if (j.contains("dependencies")) {
         task.dependencies = j["dependencies"].get<std::vector<std::string>>();
+        for (const auto& dep : task.dependencies) {
+            if (const auto err = validateTaskIdentifier(dep, "dependencies")) {
+                throw std::invalid_argument(*err);
+            }
+        }
     }
 
     return task;
@@ -820,6 +905,11 @@ json TaskSchedulerApiHandler::executeDAG(const json& request) {
         }
 
         auto task_ids = request["task_ids"].get<std::vector<std::string>>();
+        for (const auto& task_id : task_ids) {
+            if (const auto err = validateTaskIdentifier(task_id, "task_ids")) {
+                return json{{"status", "error"}, {"error", *err}};
+            }
+        }
         auto dag_result = scheduler_->executeDAG(task_ids);
 
         json succeeded = json::object();

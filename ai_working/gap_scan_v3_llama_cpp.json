@@ -1,12 +1,14 @@
 {
   "llama_cpp": {
-    "total": 30,
-    "severity_critical": 16,
-    "severity_high": 5,
-    "severity_medium": 9,
+    "total": 36,
+    "severity_critical": 17,
+    "severity_high": 6,
+    "severity_medium": 13,
     "by_category": {
       "memory": 1,
-      "reliability": 29
+      "reliability": 29,
+      "raii": 2,
+      "container": 4
     },
     "by_file": {
       "src\\llama_cpp\\llama_cpp_plugin.cpp": [
@@ -261,6 +263,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 550,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::llamacpp::LlamaCppPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 555,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete p;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 338,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 537,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(generate(req));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\llama_cpp\\llama_cpp_registrar.cpp": [
@@ -281,6 +328,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
+          "line": 72,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [](LlamaCppPlugin& plugin, const json& config) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ]
     }

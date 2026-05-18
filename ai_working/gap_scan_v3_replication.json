@@ -1,13 +1,18 @@
 {
   "replication": {
-    "total": 317,
-    "severity_critical": 206,
-    "severity_high": 44,
-    "severity_medium": 67,
+    "total": 481,
+    "severity_critical": 234,
+    "severity_high": 90,
+    "severity_medium": 157,
     "by_category": {
       "security": 5,
       "memory": 32,
-      "reliability": 280
+      "reliability": 280,
+      "concurrency": 17,
+      "raii": 14,
+      "container": 119,
+      "platform": 2,
+      "performance": 12
     },
     "by_file": {
       "src\\replication\\logical_replication.cpp": [
@@ -307,6 +312,213 @@
           "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 340,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> slog(stats_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 660,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::_close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 662,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 679,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::_close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 681,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 688,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::_close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 690,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 705,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(dir_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "runtime->buffer.push_back(std::move(snap));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 197,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = slots_.find(slot_name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kv.second->meta);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 198,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = slots_.find(slot_name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(std::move(runtime->buffer.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 228,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slots_copy.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slot->buffer.push_back(ddl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slots_copy.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 291,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slot->buffer.push_back(slot_change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 181,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> g(kv.second->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 233,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(slot->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 238,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> slog(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 340,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> slog(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 346,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> elock(worker_err_mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\logical_replication.cpp",
+          "line": 350,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> elock(worker_err_mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\replication\\multi_tier_replication.cpp": [
@@ -336,6 +548,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\replication\\multi_tier_replication.cpp",
+          "line": 142,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.current_tier = config_.default_tier;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\multi_tier_replication.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.access_timestamps.push_back(now);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\multi_tier_replication.cpp",
+          "line": 298,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(stats);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\multi_tier_replication.cpp",
+          "line": 310,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\replication\\replication_manager.cpp": [
@@ -1913,6 +2161,879 @@
           "snippet": "std::optional<std::string> GeoReplicationManager::read(",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 743,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto entries = wal_->readFrom(next_seq, config_.batch_size);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1907,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> wlock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1916,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> wlock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3305,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "MMWriteEntry winner = resolver->resolve(document_id, conflicting_writes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3761,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(replicas_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5852,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->resolved_write = (winner_node == config_.local_node_id)",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4902,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4938,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5106,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "dst.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 70,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 76,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 77,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 78,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>(len & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 365,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(*entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 397,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 410,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 738,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(backoff));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 758,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(config_.batch_timeout_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 827,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "replicas_.push_back(replica);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 943,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(10));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1032,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "listeners_.push_back(listener);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1099,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "replicas_.push_back(replica);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "streams_.push_back(std::move(stream));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1149,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1312,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(1));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1389,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changes.push_back({replica.node_id, old_status, replica.health_status});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 1505,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "unreachable_nodes.push_back(replica.node_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2177,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto qs = arr.find('\"', p);",
+          "description": "Iterator qs may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2179,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto qe = arr.find('\"', qs + 1);",
+          "description": "Iterator qe may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2233,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [k, v] : extractJsonInts(pSub))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2238,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [k, v] : extractJsonInts(nSub))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2265,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto qs = w.data.find('\"', p);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2265,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto qs = w.data.find('\"', p);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2267,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto qe = w.data.find('\"', qs + 1);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2310,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto lb = addArr.find('[', p);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2312,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto rb = addArr.find(']', lb + 1);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2303,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& t : extractJsonArrayStrings(tsArr))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2334,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2330,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "elemTags[elem].push_back(tag);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2355,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = best.find(k);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2355,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = best.find(k);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2385,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2386,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2518,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& t : extractJsonArrayStrings(eArr))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2521,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& t : extractJsonArrayStrings(dArr))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2545,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& t : extractJsonArrayStrings(eArr))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2548,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& t : extractJsonArrayStrings(dArr))",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2566,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2570,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2575,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<uint8_t>((len >> (i * 8)) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2829,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "peers_snapshot.push_back(info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2898,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2937,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3041,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3047,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.edges.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3054,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.edges.push_back(std::move(reverse_edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3108,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = write_callbacks_.find(entry.write_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3109,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = write_callbacks_.find(entry.write_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "committed_writes_log_.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3145,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3161,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "peer_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3268,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rec.conflicting_writes.push_back(incoming);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3381,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3423,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = last_done_per_doc_.find(entry.document_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3425,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "item.deps.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3451,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(1));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3479,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "queue_cv_.wait_for(lock, std::chrono::milliseconds(5),",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3486,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(work_queue_.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3490,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(work_queue_.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3632,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (resp.ok) responses.push_back(std::move(resp));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3652,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "qualifying.push_back(&r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3671,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto* p : qualifying) reconcile_set.push_back(*p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3701,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.sources.push_back(r.endpoint);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4240,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lag_history_.find(replica_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4247,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.data_points.push_back(dp);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4248,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(dp.lag_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4283,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "insights.push_back(std::move(ins));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4289,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& dp : history) values.push_back(dp.lag_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4302,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "insights.push_back(std::move(ins));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4321,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& dp : history) values.push_back(dp.lag_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4560,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "latencies_us.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4868,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bytes.push_back(static_cast<uint8_t>(val));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5011,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "index_.push_back(seg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "index_.push_back(meta);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(entry.path().filename().string());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5549,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5746,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = pending_writes_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 5831,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 6017,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_timestamps_.push_back(std::chrono::system_clock::now());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4595,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"Throughput:    \" << static_cast<uint64_t>(r.writes_per_second) << \" writes/sec\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3099,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(writes_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3448,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 3478,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 4192,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(pending_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\replication\\replication_slot.cpp": [
@@ -2104,6 +3225,69 @@
           "snippet": "std::lock_guard<std::mutex> lock(slots_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 18,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "\u2022 3ed3b012d6  2026-03-09  feat(replication): implement new module features - observ... \u2551",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 200,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto pos = line.find(search);",
+          "description": "Iterator pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 204,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto end = line.find(',', pos);",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 266,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = slots_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 273,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = slots_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "states.push_back(kv.second->state());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\replication_slot.cpp",
+          "line": 319,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(slots_dir)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\replication\\conflict_resolution.cpp": [
@@ -2124,6 +3308,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 224,
+          "type": "repeated_lookup",
+          "severity": "MEDIUM",
+          "snippet": "const auto base_it  = base_f.find(key);",
+          "description": "Repeated find() for same key: key",
+          "remediation": "Cache the result or use lower_bound/upper_bound for range operations"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 322,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field_maps.push_back(parseTopLevelFields(w.data));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 339,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (field_maps[i].count(key)) present_indices.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 101,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (*p == '\\\\' && (p + 1) < end) { ++p; } // skip escape",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 140,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "value += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\replication\\event_stream.cpp": [
@@ -2396,6 +3625,33 @@
           "snippet": "HealthStatus new_status)",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\replication\\event_stream.cpp",
+          "line": 17,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "\u2022 3ed3b012d6  2026-03-09  feat(replication): implement new module features - observ... \u2551",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\replication\\event_stream.cpp",
+          "line": 99,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\event_stream.cpp",
+          "line": 276,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!nodes.empty()) nodes += ',';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\replication\\observability.cpp": [
@@ -2416,6 +3672,87 @@
           "snippet": "? std::max(0, 100 * healthy / total)",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 17,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "\u2022 3ed3b012d6  2026-03-09  feat(replication): implement new module features - observ... \u2551",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(snap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 115,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node.downstream_replicas.push_back(r.node_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bottlenecks.push_back(std::move(b));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score.issues.push_back(std::to_string(failed) + \" replica(s) FAILED\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 226,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score.issues.push_back(std::to_string(degraded) + \" replica(s) DEGRADED\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score.issues.push_back(\"Max replication lag \" + std::to_string(max_lag_ms) +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\observability.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "score.issues.push_back(\"Max replication lag \" + std::to_string(max_lag_ms) + \"ms is elevated\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\replication\\policy.cpp": [
@@ -2553,6 +3890,60 @@
           "snippet": "std::to_string(healthy) + \" are.\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 17,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "\u2022 3ed3b012d6  2026-03-09  feat(replication): implement new module features - observ... \u2551",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 122,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto pol_it = policies_.find(asn_it->second);",
+          "description": "Iterator pol_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : policies_) names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.violations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.violations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\replication\\policy.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.violations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\replication\\raft_v2.cpp": [
@@ -2771,6 +4162,69 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 111,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 168,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto old_members = config_->getNewMembers();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 170,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto new_members = config_->getNewMembers();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 186,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto old_members = config_->getNewMembers();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 188,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto new_members = config_->getNewMembers();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 201,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (pending_->log_index != log_index) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\raft_v2.cpp",
+          "line": 315,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "entry.log_index = wal_->getCurrentSequence();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\replication\\schema_cdc.cpp": [
@@ -2881,6 +4335,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\replication\\schema_cdc.cpp",
+          "line": 74,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "int32_t schema_id = registry_->ensureSchema(subject, def, reg_cfg_.default_format);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\schema_cdc.cpp",
+          "line": 74,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "int32_t schema_id = registry_->ensureSchema(subject, def, reg_cfg_.default_format);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\replication\\schema_cdc.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "subscriptions_.push_back(Subscription{id, collection, std::move(callback)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

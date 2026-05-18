@@ -78468,12 +78468,12 @@
     }
   },
   "security": {
-    "total": 526,
+    "total": 527,
     "severity_critical": 201,
     "severity_high": 221,
-    "severity_medium": 104,
+    "severity_medium": 105,
     "by_type": {
-      "no_health_check": 64,
+      "no_health_check": 65,
       "no_timeout": 201,
       "uncaught_exception": 234,
       "no_retry_logic": 27
@@ -83297,6 +83297,17 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "include\\security\\input_validator.hpp": [
+        {
+          "file": "include\\security\\input_validator.hpp",
+          "line": 28,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "#include \"common/status.hpp\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         }
       ]
     }

@@ -116,6 +116,22 @@ TEST_F(UdfApiHandlerTest, Register_InvalidJson_Returns400) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(UdfApiHandlerTest, Register_UnsafeJsonPayload_Returns400) {
+    const std::string unsafe_payload =
+        R"({"name":"TEST_UNSAFE","body":{"type":"const","value":{"$ne":null}}})";
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", unsafe_payload));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(UdfApiHandlerTest, Register_InvalidNamePathTraversal_Returns400) {
+    json body = {
+        {"name", "../evil_udf"},
+        {"body", {{"type", "const"}, {"value", 42}}}
+    };
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", body.dump()));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(UdfApiHandlerTest, Register_WithArguments_Returns201) {
     json body = {
         {"name", "TEST_ARG_ECHO"},
@@ -187,6 +203,12 @@ TEST_F(UdfApiHandlerTest, Get_NotFound_Returns404) {
     EXPECT_EQ(res.result(), http::status::not_found);
 }
 
+TEST_F(UdfApiHandlerTest, Get_InvalidNamePathTraversal_Returns400) {
+    auto res = handler.handleGet(makeReq(http::verb::get, "/api/v1/query/udfs/../evil"),
+                                 "../evil");
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // ---------------------------------------------------------------------------
 // DELETE /api/v1/query/udfs/{name}
 // ---------------------------------------------------------------------------
@@ -209,6 +231,12 @@ TEST_F(UdfApiHandlerTest, Delete_NotFound_Returns404) {
     auto res = handler.handleDelete(makeReq(http::verb::delete_, "/api/v1/query/udfs/GHOST"),
                                     "GHOST");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(UdfApiHandlerTest, Delete_InvalidNamePathTraversal_Returns400) {
+    auto res = handler.handleDelete(makeReq(http::verb::delete_, "/api/v1/query/udfs/../evil"),
+                                    "../evil");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------

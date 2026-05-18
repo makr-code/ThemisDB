@@ -1,13 +1,18 @@
 {
   "updates": {
-    "total": 253,
-    "severity_critical": 139,
-    "severity_high": 38,
-    "severity_medium": 76,
+    "total": 422,
+    "severity_critical": 158,
+    "severity_high": 93,
+    "severity_medium": 171,
     "by_category": {
       "security": 3,
       "memory": 15,
-      "reliability": 235
+      "reliability": 235,
+      "concurrency": 19,
+      "raii": 28,
+      "container": 114,
+      "platform": 4,
+      "performance": 4
     },
     "by_file": {
       "src\\updates\\coordinated_update_manager.cpp": [
@@ -226,6 +231,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\coordinated_update_manager.cpp",
+          "line": 233,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "predecessor_ready = wait_fn(pred->node_id, config_.wait_timeout);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\coordinated_update_manager.cpp",
+          "line": 254,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ReloadResult reload = engine_->applyHotReload(config_.version);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\coordinated_update_manager.cpp",
+          "line": 384,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\coordinated_update_manager.cpp",
+          "line": 117,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node_statuses_.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\parallel_downloader.cpp": [
@@ -336,6 +377,60 @@
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 214,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 230,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 260,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct WriteCtx",
+          "description": "Class WriteCtx allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~WriteCtx() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 281,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 306,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 496,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\updates\\hot_reload_engine.cpp": [
@@ -428,6 +523,87 @@
           "snippet": "while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 114,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cached_path = manifest_db_->getCachedDownload(version, file.path);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 504,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 608,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 617,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 625,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 628,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.warnings.push_back(\"File not downloaded: \" + file.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 414,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::directory_iterator(config_.backup_directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\updates\\hot_reload_engine.cpp",
+          "line": 564,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "metadata[\"files\"].push_back({{\"path\", file.path}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\manifest_database.cpp": [
@@ -601,6 +777,105 @@
           "snippet": "file.path, file_status.ToString());",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 59,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cf_files = storage_->getOrCreateColumnFamily(\"file_registry\");",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 60,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cf_signatures = storage_->getOrCreateColumnFamily(\"signature_cache\");",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 61,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto cf_cache = storage_->getOrCreateColumnFamily(\"download_cache\");",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 315,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sig.signingCertificate = manifest->signing_certificate;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 164,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete it;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 234,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 471,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "LOG_ERROR(\"Cannot delete manifest {}: not found\", version);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 501,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "LOG_ERROR(\"Failed to delete manifest {}: {}\", version, status.ToString());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 517,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "LOG_WARN(\"Failed to delete file registry entry for {}: {}\",",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 528,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "LOG_WARN(\"Failed to delete cached file {}: {}\",",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "versions.push_back(it->key().ToString());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\release_manifest.cpp": [
@@ -630,6 +905,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\release_manifest.cpp",
+          "line": 113,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "files_array.push_back(file.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\release_manifest.cpp",
+          "line": 173,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "manifest.files.push_back(*file);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\release_manifest.cpp",
+          "line": 217,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "files_array.push_back(file.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\updates_config.cpp": [
@@ -650,6 +952,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 53,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "runtime.stages.push_back(stage);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 97,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.auto_update.schedule_days.push_back(day.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 125,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.notifications.on_events.push_back(event.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.canary.stages.push_back(stage);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 265,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.canary.stages.push_back(stage);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\updates_config.cpp",
+          "line": 361,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j[\"canary\"][\"stages\"].push_back(stage_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\blue_green_deployment.cpp": [
@@ -816,6 +1172,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\build_verifier.cpp",
+          "line": 137,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\build_verifier.cpp",
+          "line": 155,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\build_verifier.cpp",
+          "line": 156,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\build_verifier.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<uint8_t>((val >> bits) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\canary_rollout.cpp": [
@@ -1322,6 +1714,42 @@
           "snippet": "!rollout_->status().is_complete;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 593,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 598,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 486,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.stages.push_back(cs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 586,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "latency_samples_us_.push_back(latency.count());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\cluster_update_manager.cpp": [
@@ -1612,6 +2040,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 417,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 422,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 54,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sorted_nodes_.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 59,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sorted_nodes_.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 70,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node_statuses_.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\delta_update_engine.cpp": [
@@ -1650,6 +2123,231 @@
           "snippet": "pf.read(reinterpret_cast<char*>(&orig_size), sizeof(orig_size));",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 140,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 144,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 151,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 154,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 465,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "pf.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j[\"deltas\"].push_back(d.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 286,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (fd) dm.deltas.push_back(*fd);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 329,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "registered_deltas_.push_back(manifest);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 374,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 384,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 406,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 416,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 427,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_patched.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 432,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.files_fallback.push_back(fd.path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 670,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>(val        & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 671,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((val >>  8) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 672,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((val >> 16) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 673,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf.push_back(static_cast<uint8_t>((val >> 24) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 697,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ht[h].push_back(static_cast<uint32_t>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 736,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "instructions.push_back(INSTR_COPY);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 78,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 78,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 78,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\updates\\dependency_resolver.cpp": [
@@ -1661,6 +2359,132 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 79,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto end = s.find_last_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(trim(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 95,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(trim(cur));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 263,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.conflicts.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 272,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto cur_it = current_versions.find(dep.package);",
+          "description": "Iterator cur_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 377,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it_pkg = deps_.find(pkg);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 380,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it_ver = it_pkg->second.find(tgt_ver);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "successors[dep.package].push_back(pkg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 403,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (kv.second == 0) ready.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 411,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sorted_pkgs.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 427,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 446,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = current_versions.find(pkg);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 449,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(std::move(step));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 480,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back({p1, p2, reason});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\hardware_telemetry.cpp": [
@@ -1717,6 +2541,96 @@
           "snippet": "return send(collect());",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 458,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (config_.include_cpu_model) { snap.cpu_model    = hw_provider_->cpuModel(); }",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 459,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (config_.include_cpu_cores) { snap.cpu_cores    = hw_provider_->cpuCores(); }",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 460,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (config_.include_ram_mb)    { snap.total_ram_mb = hw_provider_->totalRamMb(); }",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 461,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (config_.include_os)        { snap.os_family    = hw_provider_->osFamily(); }",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 462,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (config_.include_arch)      { snap.cpu_arch     = hw_provider_->cpuArch(); }",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 557,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return running_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 570,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!stop_requested_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 577,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (!stop_requested_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 510,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(2));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\updates\\hardware_telemetry.cpp",
+          "line": 212,
+          "type": "windows_only_api",
+          "severity": "HIGH",
+          "snippet": "if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,",
+          "description": "Windows-only API RegOpenKeyEx without platform guard",
+          "remediation": "Wrap in #ifdef _WIN32 ... #endif or provide cross-platform abstraction"
         }
       ],
       "src\\updates\\in_place_schema_migrator.cpp": [
@@ -1728,6 +2642,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 101,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (from_names.find(p.name) == from_names.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 101,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (from_names.find(p.name) == from_names.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "added.push_back(p.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.added_columns.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 139,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.removed_columns.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 145,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = to_map.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 155,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.modified_columns.push_back(std::move(mod));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 242,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i) cols_str += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\updates\\notification_webhook.cpp": [
@@ -1748,6 +2734,24 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\updates\\notification_webhook.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back({{\"title\", \"Files Updated\"},",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\notification_webhook.cpp",
+          "line": 209,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!files_str.empty()) files_str += \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\updates\\preflight_health_check.cpp": [
@@ -1804,6 +2808,42 @@
           "snippet": "throw std::invalid_argument(\"PreflightHealthChecker::addCheck: check must not be null\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 98,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(std::stoi(token));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 100,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 268,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks_.push_back(std::move(check));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 284,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.results.push_back(std::move(cr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\schema_migration.cpp": [
@@ -1815,6 +2855,375 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 219,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: starting online DDL ({} operations)\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 227,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase SHADOW_CREATE\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 231,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase DUAL_WRITE\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 235,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase BACKFILL\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 245,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: {}\", version_, result.error_message);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 250,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_WARN(\"SchemaMigration [{}]: rollback also failed: {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 260,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CONSISTENCY_CHECK\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 265,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase ATOMIC_SWAP (shadow \u2192 main)\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 270,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CLEANUP\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 276,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: upgrading schema version marker: {} \u2192 {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 280,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_WARN(\"SchemaMigration [{}]: could not persist schema version marker\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 294,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: migration completed successfully \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 317,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: rolling back from phase {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 325,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to restore key '{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 331,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to remove key '{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 355,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn '{}' has empty column name\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 360,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn has empty table name\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 378,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write column metadata for '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 383,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "backfilled_columns_.push_back(op.column.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 394,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn '{}' has empty column name\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 399,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn has empty table name\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 426,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "undo_log_.push_back({op.table, new_meta_key, existing_new_meta, had_new_meta});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 427,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "undo_log_.push_back({op.table, old_meta_key, meta_value, had_old});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 428,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "undo_log_.push_back({op.table, rename_key, existing_rename, had_rename});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 432,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write renamed column metadata '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 438,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove old column metadata '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 445,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write rename marker for '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 450,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: renameColumn '{}.{}' \u2192 '{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 458,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' has empty index name\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 463,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' on table '{}' has no columns\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 468,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex has empty table name\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 489,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "undo_log_.push_back({op.table, idx_key, existing, had_value});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 492,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write index metadata '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 511,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn '{}' has empty column name\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 516,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn has empty table name\", version_);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 543,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write drop marker for '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 550,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove column metadata for '{}.{}'\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 568,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_WARN(\"SchemaMigration [{}]: listKeys() unsupported or failed; \"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 575,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: custom migration callback returned false\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 578,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "LOG_INFO(\"SchemaMigration [{}]: custom migration callback succeeded\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 478,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i) cols += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\updates\\tenant_update_scheduler.cpp": [
@@ -2096,6 +3505,33 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\updates\\tenant_update_scheduler.cpp",
+          "line": 111,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\tenant_update_scheduler.cpp",
+          "line": 487,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\updates\\tenant_update_scheduler.cpp",
+          "line": 546,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\update_history_logger.cpp": [
@@ -2152,6 +3588,24 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\update_history_logger.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(UpdateHistoryEntry::fromJson(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\update_history_logger.cpp",
+          "line": 146,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(e.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\update_state_machine.cpp": [
@@ -2325,6 +3779,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 266,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 271,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 127,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return state_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 18,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 fa516498e3  2026-04-12  [WIP] Update module documentation and inventory (#4521) \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 198,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "transaction_log_.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "transaction_log_.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "callbacks_.push_back(std::move(cb));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 315,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "transaction_log_.push_back(*entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

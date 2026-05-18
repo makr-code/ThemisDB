@@ -1,13 +1,17 @@
 {
   "api": {
-    "total": 146,
-    "severity_critical": 17,
-    "severity_high": 75,
-    "severity_medium": 54,
+    "total": 198,
+    "severity_critical": 24,
+    "severity_high": 80,
+    "severity_medium": 94,
     "by_category": {
       "security": 9,
       "memory": 52,
-      "reliability": 85
+      "reliability": 85,
+      "concurrency": 4,
+      "raii": 3,
+      "container": 39,
+      "performance": 6
     },
     "by_file": {
       "src\\api\\graphql.cpp": [
@@ -478,6 +482,285 @@
           "snippet": "aqlQuery.description = \"Execute a read-only AQL query (FOR/RETURN). \"",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 56,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "result.document = cached_plan->parsed_document;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1636,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "docField.description = \"The new document state (null for DELETED events)\";",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 157,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.document.operations.push_back(std::move(*opResult));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 159,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(convertToParseError(opResult.error()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "op.variables.push_back(std::move(*varDefResult));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 252,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "op.selections.push_back(std::move(*fieldResult));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 367,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field.selections.push_back(std::move(*nestedFieldResult));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 459,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "list.push_back(*valResult);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 863,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto fieldIt = obj.find(resolvedField.name);",
+          "description": "Iterator fieldIt may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 872,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resultList.push_back(executeSelections(resolvedField.selections, item, context));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 904,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resultList.push_back(executeSelections(field.selections, item, context));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field_list.push_back(Value::object(std::move(field_obj)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "type_list.push_back(Value::object(std::move(type_obj)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "field_list.push_back(Value::object(std::move(field_obj)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geoPointInputType.fields.push_back(latInputField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1238,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geoPointInputType.fields.push_back(lonInputField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1455,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queryType.fields.push_back(apiVersionField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1464,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queryType.fields.push_back(schemaVersionField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1502,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queryType.fields.push_back(tsLatestQuery);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1513,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queryType.fields.push_back(geoQuery);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1607,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeFilterInput.fields.push_back(filterTypeField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1620,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeEventType.fields.push_back(seqField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1626,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeEventType.fields.push_back(evtTypeField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1632,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeEventType.fields.push_back(keyField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1638,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeEventType.fields.push_back(docField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1644,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changeEventType.fields.push_back(tsField);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 669,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'n': result += '\\n'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 670,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'r': result += '\\r'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 671,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 't': result += '\\t'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 672,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"': result += '\"'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 673,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': result += '\\\\'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\api\\graphql_ws_handler.cpp": [
@@ -561,6 +844,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 267,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!alive->load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors_arr.push_back(json{{\"message\", e}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 321,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = subscriptions_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\api\\otlp_exporter.cpp": [
@@ -617,6 +927,51 @@
           "snippet": "json status;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 69,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (c != '-') out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 389,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 505,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "attrs.push_back({{\"key\", k}, {\"value\", {{\"stringValue\", v}}}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 509,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "span_array.push_back(span_obj);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 271,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\api\\themisdb_grpc_service.cpp": [
@@ -934,6 +1289,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 538,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 577,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 631,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 298,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "err->set_message(\"document not found or delete failed\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 627,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "err->set_message(\"invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 720,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "err->set_message(\"invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\api\\geo_index_hooks.cpp": [
@@ -1161,6 +1570,69 @@
           "snippet": "table, pk, status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(byte);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 313,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(byte);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 323,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 426,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(byte);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 533,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(byte);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 543,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\api\\federation_admin_handler.cpp": [

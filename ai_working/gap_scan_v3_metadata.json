@@ -1,13 +1,17 @@
 {
   "metadata": {
-    "total": 96,
-    "severity_critical": 51,
-    "severity_high": 27,
-    "severity_medium": 18,
+    "total": 233,
+    "severity_critical": 60,
+    "severity_high": 46,
+    "severity_medium": 127,
     "by_category": {
       "security": 7,
       "memory": 16,
-      "reliability": 73
+      "reliability": 73,
+      "concurrency": 1,
+      "raii": 2,
+      "container": 119,
+      "performance": 15
     },
     "by_file": {
       "src\\metadata\\catalog_exporter.cpp": [
@@ -145,6 +149,51 @@
           "snippet": "count, status);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entities.push_back(col_entity);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 198,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "columns.push_back(col_ref);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entities.push_back(tbl_entity);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 349,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back(field);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "proposals.push_back(proposal);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\schema_constraints.cpp": [
@@ -201,6 +250,87 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 165,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
+          "description": "Iterator t_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 192,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
+          "description": "Iterator t_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 196,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 244,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_arr.push_back(c.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 412,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto pos = expr.find(op);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 487,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
+          "description": "Iterator t_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 497,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_arr.push_back(c.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\schema_manager.cpp": [
@@ -554,6 +684,321 @@
           "snippet": "throw std::runtime_error(\"Index must have 'name' field\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 871,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "custom_schemas_[std::string(table_name)] = cache_it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 973,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::debug(\"SchemaManager: No custom schema to delete for table '{}'\", table_name);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 984,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::warn(\"SchemaManager: Failed to delete schema from storage for table '{}'\", table_name);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "props.push_back(prop.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idxs.push_back(idx.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 94,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "props.push_back(prop.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tables.push_back(schema);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 199,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "relationships.push_back(schema);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "caps.push_back(\"llm\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 242,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "caps.push_back(\"geo\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 245,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "caps.push_back(\"gpu\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 248,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "caps.push_back(\"grpc\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 293,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "log.push_back(now);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 396,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tables_json.push_back(table.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 402,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rels_json.push_back(rel.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 598,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "properties.push_back(prop);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 627,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 634,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 642,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 643,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 651,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 658,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 666,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 667,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 675,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 676,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 684,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 685,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 912,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.properties.push_back(prop);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 939,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.columns.push_back(col.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 946,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 971,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = custom_schemas_.find(std::string(table_name));",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(col.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1157,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idx.columns.push_back(idx.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schema.indexes.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\statistics_collector.cpp": [
@@ -664,6 +1109,132 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 100,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buckets.push_back(b.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tables.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 293,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_samples[col_str].push_back(val_str);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(s.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 556,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "numeric_vals.push_back(std::stod(v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 624,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buckets.push_back(bucket);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 691,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hist_buckets.push_back(b);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 717,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(s.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 759,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 178,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(refresh_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 688,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 689,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 688,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 689,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\metadata\\column_lineage.cpp": [
@@ -738,6 +1309,132 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 102,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sources.push_back(src.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(e.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_by_target_[entry.target_column].push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "targets_by_source_[src].push_back(entry.target_column);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 173,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_entries_.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 202,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = entries_by_target_.find(current);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(src);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 234,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = targets_by_source_.find(current);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 240,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(target);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_arr.push_back(e.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "up_arr.push_back(ref.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "down_arr.push_back(ref.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 289,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(record.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_arr.push_back(e.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\distributed_catalog.cpp": [
@@ -760,6 +1457,123 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 193,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "props.push_back(std::move(p));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 204,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idxs.push_back(std::move(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 225,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "props.push_back(std::move(p));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edges.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 44,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "out += '_';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 57,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '<':  out += \"\\\\<\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 58,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '>':  out += \"\\\\>\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 59,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '|':  out += \"\\\\|\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 60,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '{':  out += \"\\\\{\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 61,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '}':  out += \"\\\\}\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 62,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 63,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\metadata\\index_recommender.cpp": [
@@ -834,6 +1648,87 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recs.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table_names.push_back(tn);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 235,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing_indexes.find(tn);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 250,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto t_it = stats_.find(std::string(table_name));",
+          "description": "Iterator t_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 254,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ca);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table_names_to_delete.push_back(tn);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col_arr.push_back(ca.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 317,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(ca.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 423,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(persist_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\metadata\\information_schema.cpp": [
@@ -845,6 +1740,195 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 210,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(col));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 308,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(rc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 318,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getTables()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tables_arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 324,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getColumns()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cols_arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 330,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getStatistics()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 331,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats_arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 336,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getKeyColumnUsage()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 337,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kcu_arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 342,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getReferentialConstraints()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 343,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rc_arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 352,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getTables()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 360,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getColumns(table_name)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 361,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 368,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& row : getReferentialConstraints()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 369,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(row.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\schema_audit_log.cpp": [
@@ -856,6 +1940,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(SchemaAuditEntry::fromJSON(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 226,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& e : getHistory(table_name)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 227,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(e.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 234,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& e : getFullHistory()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(e.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\schema_consistency_checker.cpp": [
@@ -876,6 +2005,69 @@
           "snippet": "bg_thread_ = std::thread([this] { bgLoop_(); });",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 144,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon = key_str.find(':');",
+          "description": "Iterator colon may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 163,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(std::move(issue));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(std::move(issue));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(std::move(issue));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 217,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(std::move(issue));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 280,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(issue.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 253,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(bg_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\metadata\\schema_version_manager.cpp": [
@@ -896,6 +2088,51 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 178,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(std::move(*maybe));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 289,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "added.push_back(prop.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "modified.push_back(change);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 306,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "removed.push_back(prop.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(change.toJSON());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

@@ -1,12 +1,17 @@
 {
   "search": {
-    "total": 127,
-    "severity_critical": 19,
-    "severity_high": 56,
-    "severity_medium": 52,
+    "total": 229,
+    "severity_critical": 29,
+    "severity_high": 84,
+    "severity_medium": 116,
     "by_category": {
       "security": 1,
-      "reliability": 126
+      "reliability": 126,
+      "concurrency": 6,
+      "raii": 2,
+      "container": 84,
+      "platform": 2,
+      "performance": 8
     },
     "by_file": {
       "src\\search\\autocomplete.cpp": [
@@ -45,6 +50,78 @@
           "snippet": "throw std::invalid_argument(\"AutocompleteEngine: min_prefix_length must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 68,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : popular) combined.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& s : prefix_sug) combined.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "deduped.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 148,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 186,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 126,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "true, false, // [prefix, prefix+'\\xff')",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\search\\conversational_search.cpp": [
@@ -83,6 +160,15 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\conversational_search.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history_.push_back(std::move(turn));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\cross_lingual_search.cpp": [
@@ -121,6 +207,78 @@
           "snippet": "throw std::invalid_argument(\"CrossLingualSearch: rrf_k must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 147,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto [st, knn_results] = vec_index_->searchKnn(embedding, config_.candidates);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 190,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "lang = lang_it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 102,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ranked_lists.push_back(std::move(list));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 187,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto lang_it = lang_map_.find(doc_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 194,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto boost_it = boost_map.find(lang);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 187,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto lang_it = lang_map_.find(doc_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 194,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto boost_it = boost_map.find(lang);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
         }
       ],
       "src\\search\\distributed_hybrid_search.cpp": [
@@ -195,6 +353,51 @@
           "snippet": "std::future_status::ready) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "remote_shards.push_back(shard);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "shard_results.push_back(futures[i].get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "shard_results.push_back(std::move(timeout_result));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 313,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\faceted_search.cpp": [
@@ -278,6 +481,42 @@
           "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 165,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto [st, matching_pks] = index_->scanKeysEqual(table, facet.field, facet.value);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 109,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "facets.push_back(std::move(facet));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 201,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "columns.push_back(stats.column);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 222,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "facets.push_back(std::move(facet));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\federated_search.cpp": [
@@ -334,6 +573,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 186,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(std::move(res));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 158,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\search\\fuzzy_matcher.cpp": [
@@ -518,6 +775,87 @@
           "snippet": "THEMIS_WARN(\"Vector search failed: {}\", status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bm25_results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 174,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vector_results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 242,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fused.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 280,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = result_map.find(rr.document_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(std::move(c));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 280,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = result_map.find(rr.document_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 281,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = result_map.find(rr.document_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 285,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "reranked_results.push_back(std::move(out));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 337,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fused_results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\learning_to_rank.cpp": [
@@ -556,6 +894,15 @@
           "snippet": "throw std::invalid_argument(\"LearningToRank: regularization must be >= 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\learning_to_rank.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "clicks_.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\llm_query_rewriter.cpp": [
@@ -630,6 +977,51 @@
           "snippet": "THEMIS_DEBUG(\"LlmQueryRewriter: discarding rewrite (overlap={:.3f} < {:.3f}): '{}'\",",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 244,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 41,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rewrites.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 230,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rewrites.push_back(original);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 283,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kept.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\llm_reranker.cpp": [
@@ -704,6 +1096,87 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 42,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LlmReranker: llm_weight must be in [0, 1]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 48,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LlmReranker: min_score_threshold must be in [0, 1]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 51,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LlmReranker: temperature must be in [0, 2]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 93,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 148,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "events.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 256,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 256,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back(0.0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\multi_field_search.cpp": [
@@ -751,6 +1224,15 @@
           "snippet": "field.column, status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\search\\multi_field_search.cpp",
+          "line": 172,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\multi_modal_search.cpp": [
@@ -789,6 +1271,51 @@
           "snippet": "throw std::invalid_argument(\"MultiModalSearch: candidates_per_modal must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_lists.push_back(std::move(results));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 84,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "modality_names.push_back(std::move(mod_label));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 248,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 83,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\search\\negative_keyword_filter.cpp": [
@@ -827,6 +1354,51 @@
           "snippet": "term, status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 140,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto [status, neg_results] = index_->scanFulltext(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.negative_terms.push_back(std::move(neg));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.negative_terms.push_back(std::move(neg));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 167,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (excluded.find(pk) == excluded.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered.push_back(pk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\neural_sparse_retrieval.cpp": [
@@ -874,6 +1446,42 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 112,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = inverted_index_.find(term);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 136,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto fwd_it = forward_index_.find(doc_id);",
+          "description": "Iterator fwd_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 174,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto fwd_it = forward_index_.find(doc_id);",
+          "description": "Iterator fwd_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 262,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\personalized_ranker.cpp": [
@@ -975,6 +1583,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mu_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\search\\personalized_ranker.cpp",
+          "line": 159,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         }
       ],
       "src\\search\\query_expander.cpp": [
@@ -1004,6 +1621,186 @@
           "snippet": "throw std::invalid_argument(\"QueryExpander: max_expansions must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 58,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entry.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 114,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = synonyms_.find(tok);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 98,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "corrected_tokens.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 114,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = synonyms_.find(tok);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 114,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = synonyms_.find(tok);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 115,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = synonyms_.find(tok);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 122,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "added_synonyms.push_back(syn);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.all_terms.push_back(syn);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 209,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = word_frequencies_.find(sc.suggestion);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 199,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(sc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 316,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(sc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 376,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "alternatives.push_back(alt);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 415,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(clean);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 57,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (s != key && std::find(entry.begin(), entry.end(), s) == entry.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 120,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 120,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\search\\search_analytics.cpp": [
@@ -1087,6 +1884,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mu_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 76,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*it);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*it);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 106,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "latencies.push_back(ev.latency_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 134,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\search\\search_highlighter.cpp": [
@@ -1116,6 +1949,78 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(current));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 68,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(current));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 121,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "while ((pos = lower_text.find(term, pos)) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back({pos, pos + term.size(), ti});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 193,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "while ((pos = search_text.find(term, pos)) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 208,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(ranges.front());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(ranges[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lower_terms.push_back(std::move(lt));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\search\\search_result_stream.cpp": [
@@ -1190,6 +2095,24 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\search\\search_result_stream.cpp",
+          "line": 57,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\search\\search_result_stream.cpp",
+          "line": 116,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void SearchResultStream::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ]
     }

@@ -1,12 +1,14 @@
 {
   "stable_diffusion": {
-    "total": 15,
-    "severity_critical": 4,
-    "severity_high": 6,
-    "severity_medium": 5,
+    "total": 30,
+    "severity_critical": 6,
+    "severity_high": 7,
+    "severity_medium": 17,
     "by_category": {
       "memory": 5,
-      "reliability": 10
+      "reliability": 10,
+      "raii": 2,
+      "container": 13
     },
     "by_file": {
       "src\\stable_diffusion\\sd_plugin.cpp": [
@@ -99,6 +101,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 396,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::imggen::SDPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 401,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete p;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x >> 24));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x >> 16));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x >>  8));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x      ));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x     ));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 133,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "v.push_back(static_cast<uint8_t>(x >> 8));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 170,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idat_payload.push_back(0x78u);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 171,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idat_payload.push_back(0x01u);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 304,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(generateLocked(p, cfg));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\stable_diffusion\\sd_config.cpp": [
@@ -121,6 +222,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
+          "line": 71,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [](SDPlugin& plugin, const json& config) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\stable_diffusion\\sd_prompt_sanitizer.cpp": [
@@ -150,6 +260,33 @@
           "snippet": "throw std::runtime_error(\"SDPromptSanitizer: cannot open '\" + path + \"'\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 46,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!lower.empty()) blocked_keywords_.push_back(lower);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 59,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto start = line.find_first_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 63,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kws.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

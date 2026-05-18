@@ -1,12 +1,14 @@
 {
   "maintenance": {
-    "total": 42,
-    "severity_critical": 31,
-    "severity_high": 5,
-    "severity_medium": 6,
+    "total": 55,
+    "severity_critical": 32,
+    "severity_high": 10,
+    "severity_medium": 13,
     "by_category": {
       "security": 4,
-      "reliability": 38
+      "reliability": 38,
+      "raii": 2,
+      "container": 11
     },
     "by_file": {
       "src\\maintenance\\database_maintenance_orchestrator.cpp": [
@@ -351,6 +353,114 @@
           "snippet": "auto result = handler->execute(job.id, task_type);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 889,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "std::shared_ptr<IDistributedLock> acquired_dist_lock;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 947,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "} dist_lock_guard{std::move(acquired_dist_lock), schedule_id};",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 309,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 605,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(job);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 681,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.module_signals.push_back(std::move(sig));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 689,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.module_signals.push_back(std::move(sig));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1356,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = jobs_.begin(); it != jobs_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1383,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"window_start_hour must be in [0, 23]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1386,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"window_end_hour must be in [0, 23]\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1444,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[prereq].push_back(dep.task_type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1462,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1473,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\maintenance\\maintenance_schedule_store.cpp": [
@@ -391,6 +501,15 @@
           "snippet": "* at start-up to contribute their status to the aggregated health report.",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\maintenance\\maintenance_registry.cpp",
+          "line": 159,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [mgr]() -> ModuleHealthSignal {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ]
     }

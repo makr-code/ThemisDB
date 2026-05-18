@@ -1,13 +1,18 @@
 {
   "graph": {
-    "total": 144,
-    "severity_critical": 49,
-    "severity_high": 50,
-    "severity_medium": 45,
+    "total": 352,
+    "severity_critical": 91,
+    "severity_high": 80,
+    "severity_medium": 181,
     "by_category": {
       "security": 17,
       "memory": 19,
-      "reliability": 108
+      "reliability": 108,
+      "concurrency": 9,
+      "raii": 6,
+      "container": 157,
+      "platform": 7,
+      "performance": 29
     },
     "by_file": {
       "src\\graph\\distributed_graph.cpp": [
@@ -145,6 +150,78 @@
           "snippet": "\"No healthy shards available to generate distributed query plan\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 69,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "qualified.push_back(qualify(v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "qualified_path.path.push_back(qualify(v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 115,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 170,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ordered.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "plan.shard_ids.push_back(sid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\graph\\graph_query_rewriter.cpp": [
@@ -228,6 +305,105 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 106,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "base /= std::max(1.0, static_cast<double>(filters_it->size()) * 2.0);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 111,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "base /= std::max(1.0, static_cast<double>(prune_it->size()) * 3.0);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 117,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "base *= std::max(1.0, static_cast<double>(sv_it->size()));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 264,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != n.end() && it->is_array()) orig_prune += it->size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 355,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != n.end() && it->is_array()) orig_prune += it->size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 466,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node[\"prune_conditions\"].push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 499,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "(*child_it)[\"vertex_filters\"].push_back(*filter_it);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 598,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wrapper[\"bindings\"].push_back(std::move(let_node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 764,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = node.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 774,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "subqueries.push_back(std::move(sub));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 277,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" BFS/DFS to reduce explored nodes.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\graph\\knowledge_graph_reasoner.cpp": [
@@ -401,6 +577,141 @@
           "snippet": "std::shared_lock lock(rules_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 479,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (const auto it = rule_cfg_by_id.find(stored->rule_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 54,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = insertion_order_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 56,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto eit = entries_.find(*it);",
+          "description": "Iterator eit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 68,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto existing = entries_.find(key);",
+          "description": "Iterator existing may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 126,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto eit = entries_.find(*it);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 116,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry.edge);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 125,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = insertion_order_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 127,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto eit = entries_.find(*it);",
+          "description": "Iterator eit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 196,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "base_facts_.push_back(std::move(fact));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 304,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conclusions.push_back(std::move(derived_triple));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "premises.push_back(ground(cond, binds));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "new_this_hop.push_back(conclusion);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 329,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "derived_out.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 337,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "working_set.push_back(std::move(t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 369,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chain.edges.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\graph\\tensor_deduplication_manager.cpp": [
@@ -718,6 +1029,186 @@
           "snippet": "catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 144,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "return counter.fetch_sub(value, std::memory_order_relaxed) - value;",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 987,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto existing_namespaced = storage->getRawMetadata(namespaced_key);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1206,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "wlk.unlock(); // Release before replayMutationJournal, which re-acquires per entry.",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 196,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto key_it = tensor_id_to_key_.find(tensor_id);",
+          "description": "Iterator key_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 498,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (std::size_t i = 0; i < sizeof(T); ++i) buf.push_back(p[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 503,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (unsigned char c : s) buf.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 719,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.nodes.push_back(std::move(n));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 740,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.edges.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 853,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entry.edges.push_back(std::move(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 867,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 899,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "compacted.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "records.push_back(std::move(record));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "records.push_back(record);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(one[0]));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1396,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1429,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1526,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<uint8_t>((hi << 4U) | lo));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 462,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr uint64_t kGraphSnapshotMagic   = 0x504E535F47465400ULL; // \"TFG_SNP\\0\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 464,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr uint64_t kDedupSnapshotMagic   = 0x504E535F4D445400ULL; // \"TDM_SNP\\0\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 466,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr uint64_t kMutationJournalMagic = 0x4A4E4C5F4D445400ULL; // \"TDM_JNL\\0\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\graph\\graph_watermark.cpp": [
@@ -729,6 +1220,24 @@
           "snippet": "result.data.node_metadata[id] = \"wm:tenant=\" + tenant_id +",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_watermark.cpp",
+          "line": 31,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_watermark.cpp",
+          "line": 75,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.data.node_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\graph\\gpu_traversal.cpp": [
@@ -758,6 +1267,159 @@
           "snippet": "status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 188,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = vertex_to_id_.find(nb);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "id_to_vertex_.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 188,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = vertex_to_id_.find(nb);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 189,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = vertex_to_id_.find(nb);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "id_to_vertex_.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 198,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj[i].push_back(new_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 200,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj[i].push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 216,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row_offsets_.push_back(static_cast<uint32_t>(column_indices_.size()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 220,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "column_indices_.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row_offsets_.push_back(static_cast<uint32_t>(column_indices_.size()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited_vertices.push_back(id_to_vertex_[vid]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 333,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited_vertices.push_back(id_to_vertex_[v]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 420,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited_vertices.push_back(id_to_vertex_[vid]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 445,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited_vertices.push_back(id_to_vertex_[cur]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 196,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Extend adj list to accommodate new vertex.",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 196,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Extend adj list to accommodate new vertex.",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\graph\\graph_query_optimizer.cpp": [
@@ -886,6 +1548,465 @@
           "snippet": "if (!status.ok) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2769,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct PendingCallback",
+          "description": "Class PendingCallback allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~PendingCallback() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "plan.active_schema_hints.push_back(std::move(hint));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 99,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "plan.active_schema_hints.push_back(std::move(hint));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 157,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "alternatives.push_back({TraversalAlgorithm::BFS, bfs_cost});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "alternatives.push_back({TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 397,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "alternatives.push_back({TraversalAlgorithm::BFS, bfs_cost});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 698,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 733,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 831,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "current_frontier.push_back(std::string(start_vertex));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 852,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 883,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 906,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 923,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cr.neighbors.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 945,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1077,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stack.push_back({neighbor, depth + 1});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1279,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto dit = dist.find(v);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1290,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto nit = dist.find(adj.targetPk);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1274,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1291,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = dist.find(adj.targetPk);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1293,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.relaxations.push_back({adj.targetPk, nd, v});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1317,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto bit = buckets.find(old_idx);",
+          "description": "Iterator bit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1347,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = dist.find(adj.targetPk);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1355,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto bit = buckets.find(old_idx);",
+          "description": "Iterator bit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1374,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto dit = dist.find(target);",
+          "description": "Iterator dit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1380,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1381,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto pit = parent.find(cur);",
+          "description": "Iterator pit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1386,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.push_back(start);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1625,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "forward_path.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1626,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = forward_parents.find(current);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1632,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "forward_path.push_back(std::string(start_vertex));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1641,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "backward_path.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1642,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = backward_parents.find(current);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1651,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "backward_path.push_back(std::string(target_vertex));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1738,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.matches.push_back({});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2095,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = plan_cache_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2266,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(TraversalAlgorithm::BIDIRECTIONAL);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2271,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(TraversalAlgorithm::BIDIRECTIONAL);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2646,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "acc.actual_times.push_back(s.execution_time_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2809,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "delta.added.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2815,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "delta.removed.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2827,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pending.push_back({entry.callback, std::move(delta)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 88,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) hint += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 96,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) hint += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 877,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(constraints.forbidden_vertices.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 877,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(constraints.forbidden_vertices.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 941,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(constraints.forbidden_vertices.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 941,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(constraints.forbidden_vertices.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1854,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(constraints.forbidden_vertices.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2026,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) explanation += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2044,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "explanation += \"  \" + alt_name + \": \" + std::to_string(alt_cost) + \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2051,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "explanation += \"  \" + hint + \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\graph\\ontology_manager.cpp": [
@@ -906,6 +2027,168 @@
           "snippet": "if (!f.is_open()) return false;",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 329,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != isa_cache_.end()) return it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 134,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct YamlEntry",
+          "description": "Class YamlEntry allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~YamlEntry() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 84,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!val.empty()) result.push_back(std::move(val));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 178,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon = rest.find(':');",
+          "description": "Iterator colon may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 193,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon = line.find(':');",
+          "description": "Iterator colon may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 275,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "if (auto it = concepts_.find(axiom.source_class); it != concepts_.end())",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 277,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "if (auto it = concepts_.find(axiom.target_class); it != concepts_.end())",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 299,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = concepts_.find(std::string(cur));",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 487,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "axioms_.push_back({std::move(src), std::move(et), std::move(tgt)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 516,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (std::getline(ss, line)) lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 553,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node.parents.push_back(e.scalar.at(\"parents\"));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 562,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "axioms_.push_back({std::move(src), std::move(et), std::move(tgt)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 58,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  result += '\"'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 59,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': result += '\\\\'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 60,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '/':  result += '/'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 61,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'n':  result += '\\n'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 62,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 't':  result += '\\t'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 63,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'r':  result += '\\r'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\graph\\parallel_traversal.cpp": [
@@ -944,6 +2227,168 @@
           "snippet": "if (!status.ok) continue;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cr.candidates.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 178,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stack.push_back({source, 0});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.visited.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 245,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stack.push_back({nb, depth + 1});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.visited_vertices.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "per_source.push_back(fut.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 375,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 383,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "per_source.push_back(fut.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 161,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(forbidden.begin(), forbidden.end(), nb) !=",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 161,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(forbidden.begin(), forbidden.end(), nb) !=",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 175,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(forbidden.begin(), forbidden.end(), nb) !=",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 175,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(forbidden.begin(), forbidden.end(), nb) !=",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 243,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(forbidden.begin(), forbidden.end(), nb) !=",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\graph\\path_constraints.cpp": [
@@ -964,6 +2409,24 @@
           "snippet": "if (!status.ok) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\path_constraints.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "constraints_.push_back(std::move(c));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\path_constraints.cpp",
+          "line": 452,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "initial.nodes.push_back(std::string(start_node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\graph\\scheduled_edge_refresh.cpp": [
@@ -1281,6 +2744,96 @@
           "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 393,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (!stop_requested_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 404,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return stop_requested_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 408,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (stop_requested_.load(std::memory_order_acquire)) break;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 218,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return clampf((cos_sim + 1.0f) / 2.0f, 0.0f, 1.0f); // map [-1,1] \u2192 [0,1]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 350,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "flat_ids.push_back(idx);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ann_idx_to_vertex_.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 462,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_remove.push_back(s.edge_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 588,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edges.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 642,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back(scoreEdge(edge));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 396,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\graph\\tensor_fingerprint_graph.cpp": [
@@ -1328,6 +2881,332 @@
           "snippet": "catch (...) { /* hook must not throw; swallow */ }",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 124,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "elements.push_back(encoded);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "elements.push_back((static_cast<uint64_t>(0xFF) << 24) |",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 210,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lsh_buckets_.find(bucket_key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 238,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lsh_buckets_.find(bucket_key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 276,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto ait = adj_.find(tensor_id);",
+          "description": "Iterator ait may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 312,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = nodes_.find(cid);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 320,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[tensor_id].push_back({cid, similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 321,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[cid].push_back({tensor_id, similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 392,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = nodes_.find(tensor_id);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 396,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto ait = adj_.find(tensor_id);",
+          "description": "Iterator ait may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 443,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto nit = nodes_.find(cid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 457,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 480,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = nodes_.find(e.to);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 486,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 508,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(std::move(persisted));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 545,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(std::move(persisted));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 567,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (nodes_.find(edge.from) == nodes_.end() ||",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 568,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "nodes_.find(edge.to) == nodes_.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 576,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[edge.from].push_back({edge.to, edge.similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 595,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.nodes.push_back(std::move(persisted));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 604,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.edges.push_back(std::move(persisted));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 642,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = adj_.find(tensor_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 646,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back({tensor_id, edge.to, edge.similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 686,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[edge.from].push_back({edge.to, edge.similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 697,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto node_it = nodes_.find(tensor_id);",
+          "description": "Iterator node_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 702,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto adj_it = adj_.find(tensor_id);",
+          "description": "Iterator adj_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 745,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[node.tensor_id].push_back({edge.to, edge.similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 746,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj_[edge.to].push_back({node.tensor_id, edge.similarity});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 151,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 153,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "b_params[h] = fnv1a64(&a, sizeof(a));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 180,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "uint64_t h = fnv1a64(&band_idx, sizeof(band_idx));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        }
+      ],
+      "src\\graph\\explain_plan.cpp": [
+        {
+          "file": "src\\graph\\explain_plan.cpp",
+          "line": 34,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\explain_plan.cpp",
+          "line": 35,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"': out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\explain_plan.cpp",
+          "line": 36,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\explain_plan.cpp",
+          "line": 37,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\graph\\explain_plan.cpp",
+          "line": 38,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ]
     }

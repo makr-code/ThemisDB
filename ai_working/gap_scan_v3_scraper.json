@@ -1,13 +1,17 @@
 {
   "scraper": {
-    "total": 36,
+    "total": 84,
     "severity_critical": 9,
-    "severity_high": 8,
-    "severity_medium": 19,
+    "severity_high": 12,
+    "severity_medium": 63,
     "by_category": {
       "security": 1,
       "memory": 2,
-      "reliability": 33
+      "reliability": 33,
+      "raii": 8,
+      "container": 34,
+      "platform": 4,
+      "performance": 2
     },
     "by_file": {
       "src\\scraper\\scraper_api_client.cpp": [
@@ -100,6 +104,15 @@
           "snippet": "throw std::runtime_error(std::string(\"curl error: \") + curl_easy_strerror(rc));",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scraper\\scraper_search_engine.cpp": [
@@ -147,6 +160,42 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(sf));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 426,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!item.url.empty()) page.items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 489,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "page.items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 232,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '>')      { in_tag = false; out += ' '; continue; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\scraper\\gov_source_catalog.cpp": [
@@ -185,6 +234,78 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 65,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s.type == type) result.push_back(&s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s.bundesland == iso) result.push_back(&s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 82,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s.enabled) result.push_back(&s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (const auto* s = findById(id)) result.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sources_.push_back(std::move(source));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 295,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 405,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scraper\\scraper_config.cpp": [
@@ -196,6 +317,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 50,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "g.keywords.push_back(kw.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 83,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "o.queries.push_back(q.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "o.source_ids.push_back(s.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.seed_urls.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 139,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.whitelist.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.blacklist.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scraper\\scraper_js_renderer.cpp": [
@@ -243,6 +418,213 @@
           "snippet": "FILE* pipe = _popen(cmd.c_str(), \"r\");",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 157,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 158,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 167,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 168,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 171,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (dev_null >= 0) { ::dup2(dev_null, STDERR_FILENO); ::close(dev_null); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 177,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 185,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipefd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 217,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "_pclose(pipe);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (ss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(req.url);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(\"--timeout\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::to_string(req.timeout_ms));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(\"--wait-for\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 133,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(req.wait_selector);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 136,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(\"--header\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(kv.first + \": \" + kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 139,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& arg : req.extra_args) tokens.push_back(arg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& t : tokens) argv.push_back(const_cast<char*>(t.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "argv.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 149,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (::pipe(pipefd) != 0) {",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 151,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "result.error   = \"pipe() failed\";",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 155,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "const pid_t pid = ::fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 160,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "result.error   = \"fork() failed\";",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
         }
       ],
       "src\\scraper\\scraper_llm_evaluator.cpp": [
@@ -272,6 +654,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (e.is_string()) result.key_entities.push_back(e.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scraper\\scraper_metadata_writer.cpp": [
@@ -292,6 +683,15 @@
           "snippet": "WriteResult InMemoryScraperMetadataWriter::write(",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_metadata_writer.cpp",
+          "line": 174,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edges.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scraper\\scraper_plugin.cpp": [
@@ -348,6 +748,42 @@
           "snippet": "if (!initialized_) throw std::runtime_error(\"ScraperPlugin not initialized\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s->enabled) gov_sources.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 157,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s->enabled) gov_sources.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s->enabled) gov_sources.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 261,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (html[i] == '>') { in_tag = false; out += ' '; continue; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ]
     }

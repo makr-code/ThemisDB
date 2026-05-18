@@ -1,13 +1,17 @@
 {
   "user_storage_encrypted": {
-    "total": 91,
-    "severity_critical": 25,
-    "severity_high": 24,
-    "severity_medium": 42,
+    "total": 166,
+    "severity_critical": 28,
+    "severity_high": 31,
+    "severity_medium": 107,
     "by_category": {
       "security": 1,
       "memory": 14,
-      "reliability": 76
+      "reliability": 76,
+      "raii": 39,
+      "container": 19,
+      "platform": 13,
+      "performance": 4
     },
     "by_file": {
       "src\\user_storage_encrypted\\multi_level_storage.cpp": [
@@ -217,6 +221,222 @@
           "snippet": "waitpid(pid, &status, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 576,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return Result<void>::error(\"Key rotation failed \u2013 cannot create new container: \" +",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 586,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return Result<void>::error(\"Key rotation failed \u2013 cannot mount new container: \" +",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 617,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return Result<void>::error(\"Key rotation failed \u2013 cannot rename new container into place\");",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 862,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "return Result<void>::error(\"Failed to delete user file\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 929,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "return Result<void>::error(\"Failed to delete group file\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 163,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stale.push_back(mount_point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 881,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(users_dir, ec)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 891,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "users.push_back(result.value());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 948,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(groups_dir, ec)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 958,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "groups.push_back(result.value());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 978,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "status.errors.push_back(level_health.error());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 981,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "status.errors.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1037,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "known_mount_points.push_back(cfg.mount_point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1063,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stale_mounts.push_back(mount_point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1081,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(const_cast<char*>(a.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1083,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(const_cast<char*>(a.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 179,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "pid_t pid = fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 191,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "pid_t pid = fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 670,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out += \"# HELP user_storage_mount_operations_total Total mount/unmount operations\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1077,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "pid_t pid = fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1097,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "pid_t pid = fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 171,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "fprintf(stderr,",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\user_storage_encrypted\\gocryptfs_backend.cpp": [
@@ -408,6 +628,357 @@
           "snippet": "waitpid(pid, &status, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 296,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 297,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 303,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]); close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 304,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);  close(stdin_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 310,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[1]);   // close write end of stdin pipe in child",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 311,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);  // close read end of stdout pipe in child",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 317,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 318,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 332,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);   // read end belongs to child",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 333,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);  // write end belongs to child",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 338,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[1]);  // Signal EOF so gocryptfs sees end-of-passphrase.",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 351,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 465,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 466,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 472,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]); close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 473,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);  close(stdin_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 479,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 480,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 486,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 487,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 501,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 502,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 511,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 512,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 519,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdin_pipe[1]);  // Signal EOF to child.",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 528,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(stdout_pipe[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 578,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 579,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 585,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[0]); // Close read end",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 590,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 607,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[1]); // Close write end",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 616,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(pipe_fd[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 323,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(const_cast<char*>(arg.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 492,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(const_cast<char*>(arg.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 494,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 595,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(const_cast<char*>(arg.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 597,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "c_args.push_back(nullptr);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 248,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(buf, sizeof(buf), \"%02x\", static_cast<unsigned>(byte));",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "include\\user_storage_encrypted\\gocryptfs_backend.hpp": [
@@ -437,6 +1008,15 @@
           "snippet": "* @param key_hex  Hex-encoded key to write (cleared on return)",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
+          "line": 24,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "src\\user_storage_encrypted\\key_derivation_service.cpp": [
@@ -556,6 +1136,24 @@
           "snippet": "throw std::runtime_error(\"Failed to read random bytes for salt\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 349,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 354,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\user_storage_encrypted\\key_rotation_scheduler.cpp": [
@@ -666,6 +1264,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 220,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "include\\user_storage_encrypted\\encryption_backend_interface.hpp": [
@@ -695,6 +1302,24 @@
           "snippet": "if (!success_) throw std::runtime_error(\"Accessing value of failed Result\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
+          "line": 24,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
+          "line": 172,
+          "type": "expensive_copy",
+          "severity": "MEDIUM",
+          "snippet": "virtual std::string getBackendName() const = 0;",
+          "description": "Unnecessary expensive copy",
+          "remediation": "Use const reference (const T&) or std::move if transfer is needed"
         }
       ],
       "include\\user_storage_encrypted\\irotation_store.hpp": [
@@ -724,6 +1349,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\irotation_store.hpp",
+          "line": 25,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "include\\user_storage_encrypted\\key_derivation_service.hpp": [
@@ -735,6 +1369,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\key_derivation_service.hpp",
+          "line": 25,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "include\\user_storage_encrypted\\key_rotation_scheduler.hpp": [
@@ -746,6 +1389,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\key_rotation_scheduler.hpp",
+          "line": 24,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "include\\user_storage_encrypted\\multi_level_storage.hpp": [
@@ -775,6 +1427,15 @@
           "snippet": "Result<HealthStatus> checkLevelHealth(SecurityLevel level);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
+          "line": 24,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "include\\user_storage_encrypted\\security_level.hpp": [
@@ -795,6 +1456,15 @@
           "snippet": "throw std::invalid_argument(\"Invalid security level: \" + str);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\security_level.hpp",
+          "line": 23,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
       "include\\user_storage_encrypted\\user_models.hpp": [
@@ -851,6 +1521,15 @@
           "snippet": "HealthStatus() : healthy(true), checked_at_ms(0) {}",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 24,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ]
     }

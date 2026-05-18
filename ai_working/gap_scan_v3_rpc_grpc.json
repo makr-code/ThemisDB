@@ -1,12 +1,15 @@
 {
   "rpc_grpc": {
-    "total": 17,
-    "severity_critical": 8,
+    "total": 23,
+    "severity_critical": 9,
     "severity_high": 2,
-    "severity_medium": 7,
+    "severity_medium": 12,
     "by_category": {
       "memory": 1,
-      "reliability": 16
+      "reliability": 16,
+      "raii": 2,
+      "container": 1,
+      "performance": 3
     },
     "by_file": {
       "src\\rpc_grpc\\grpc_plugin.cpp": [
@@ -162,6 +165,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(tls_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 533,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::plugins::rpc::grpc_plugin::GRPCPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 537,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete plugin;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 464,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ssl_opts.pem_key_cert_pairs.push_back(pair);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 377,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if      (c == '\"')  out += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 378,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 379,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\n') out += \"\\\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ]
     }

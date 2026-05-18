@@ -1,12 +1,16 @@
 {
   "chimera": {
-    "total": 60,
-    "severity_critical": 24,
-    "severity_high": 24,
-    "severity_medium": 12,
+    "total": 114,
+    "severity_critical": 35,
+    "severity_high": 41,
+    "severity_medium": 38,
     "by_category": {
       "security": 1,
-      "reliability": 59
+      "reliability": 59,
+      "raii": 11,
+      "container": 32,
+      "platform": 1,
+      "performance": 10
     },
     "by_file": {
       "src\\chimera\\themisdb_adapter.cpp": [
@@ -423,6 +427,411 @@
           "snippet": "return execute();",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1211,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return static_cast<bool>(connection_pool_acquire_fn_);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1235,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (connection_pool_acquire_fn_) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1245,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void ThemisDBAdapter::setConnectionPool(std::function<void*()> acquire_fn) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1246,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "connection_pool_acquire_fn_ = std::move(acquire_fn);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1611,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "Result<bool> ThemisDBResultStream::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table.column_names.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table.rows.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 214,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = table_store_.find(query); // treat query as a table name for simple scans",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table.column_names.push_back(col);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "table.rows.push_back(row);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 518,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = graph_nodes_.find(node_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 522,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 548,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "if (auto it = graph_nodes_.find(source_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 550,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.nodes.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 597,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto eit = via_edge.find(cur);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 606,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto nit = graph_nodes_.find(nid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 615,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto eit = graph_edges_.find(eid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 597,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node_seq.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 598,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto eit = via_edge.find(cur);",
+          "description": "Iterator eit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 600,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edge_seq.push_back(eit->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 607,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = graph_nodes_.find(nid);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 609,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.nodes.push_back(nit->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.nodes.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 616,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto eit = graph_edges_.find(eid);",
+          "description": "Iterator eit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 618,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.edges.push_back(eit->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 652,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = graph_nodes_.find(nid);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 653,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = graph_nodes_.find(nid);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 655,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 658,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(n));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 714,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto nit = graph_nodes_.find(cur_id);",
+          "description": "Iterator nit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 716,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "visited_nodes.push_back(nit->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 831,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto field_it = doc.fields.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 840,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 924,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = active_transactions_.find(transaction_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 950,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = active_transactions_.find(transaction_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1544,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = prepared_queries_.find(statement_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1559,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 166,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(table.column_names.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 166,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(table.column_names.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 218,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(table.column_names.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 218,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(table.column_names.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1737,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\\\\') escaped += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1738,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\'') escaped += \"\\\\'\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1737,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\\\\') escaped += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1738,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\'') escaped += \"\\\\'\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "include\\chimera\\database_adapter.hpp": [
@@ -461,6 +870,42 @@
           "snippet": "virtual Result<bool> unprepare(const std::string& statement_id) = 0;",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 78,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "virtual Result<bool> close() = 0;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 27,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 108,
+          "type": "expensive_copy",
+          "severity": "MEDIUM",
+          "snippet": "virtual std::string get_id() const = 0;",
+          "description": "Unnecessary expensive copy",
+          "remediation": "Use const reference (const T&) or std::move if transfer is needed"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 111,
+          "type": "expensive_copy",
+          "severity": "MEDIUM",
+          "snippet": "virtual std::string get_query() const = 0;",
+          "description": "Unnecessary expensive copy",
+          "remediation": "Use const reference (const T&) or std::move if transfer is needed"
         }
       ],
       "include\\chimera\\themisdb_adapter.hpp": [
@@ -553,6 +998,51 @@
           "snippet": "* Thread safety: call before the first `connect()` invocation.",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 99,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "Result<bool> close() override;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 388,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "* When a non-null `acquire_fn` is set, `has_capability(CONNECTION_POOLING)`",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 391,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "* The `acquire_fn` is a zero-argument callable returning a connection",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 397,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void setConnectionPool(std::function<void*()> acquire_fn);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 413,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "std::function<void*()> connection_pool_acquire_fn_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ]
     }

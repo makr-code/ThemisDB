@@ -6,12 +6,22 @@ Single command execution:
   python tools/gap_scanner_and_issues.py
 
 Pipeline:
-  1. Run Phase 1 gap scanner (Security, Memory, Reliability)
+  1. Run Phase 1-4 gap scanner (Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance)
   2. Aggregate results
   3. Cluster into actionable issues
   4. Generate GitHub issue templates
   5. Create issues on GitHub (with --github flag)
   6. Generate status report
+
+Phase 1-4 Coverage:
+  - Security: unsafe functions, hardcoded secrets, SQL injection
+  - Memory: new/delete, pointer arithmetic, bounds checks
+  - Reliability: retry logic, timeouts, exception handling
+  - Concurrency: data races, lock ordering, deadlocks
+  - RAII: resource leaks, unsafe cleanup
+  - Container: std:: misuse, O(n²) patterns
+  - Platform: portability, ifdef gaps
+  - Performance: string concat loops, allocation patterns
 """
 
 import json
@@ -45,11 +55,11 @@ class GapScannerPipeline:
         """Execute full pipeline"""
         
         print("\n" + "=" * 100)
-        print("ThemisDB Gap Scanner → GitHub Issues Automation Pipeline")
+        print("ThemisDB Gap Scanner >> GitHub Issues Automation Pipeline")
         print("=" * 100)
         
         steps = [
-            ('Phase 1 Gap Scanner (Security, Memory, Reliability)', 
+            ('Phase 1-4 Gap Scanner (All 8 Categories)', 
              self._step_run_scanner),
             ('Aggregate Gap Results', 
              self._step_aggregate_results),

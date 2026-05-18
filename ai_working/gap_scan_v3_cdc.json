@@ -1,13 +1,18 @@
 {
   "cdc": {
-    "total": 218,
-    "severity_critical": 82,
-    "severity_high": 75,
-    "severity_medium": 61,
+    "total": 294,
+    "severity_critical": 97,
+    "severity_high": 104,
+    "severity_medium": 93,
     "by_category": {
       "security": 5,
       "memory": 16,
-      "reliability": 197
+      "reliability": 197,
+      "concurrency": 10,
+      "raii": 16,
+      "container": 38,
+      "platform": 9,
+      "performance": 3
     },
     "by_file": {
       "src\\cdc\\cdc_admin.cpp": [
@@ -226,6 +231,15 @@
           "snippet": "RetentionStatus status;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 88,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"CDC Admin: Purging sequence range [{}, {}]\", start_sequence, end_sequence);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\cdc\\changefeed.cpp": [
@@ -498,6 +512,240 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 59,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (existing_value != nullptr && !existing_value->empty()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 60,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (existing_value->size() == sizeof(uint64_t)) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 66,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "base = std::stoull(std::string(existing_value->data(),",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 297,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 492,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "return sequence_counter_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 51,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct SequenceIncrementOperator",
+          "description": "Class SequenceIncrementOperator allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~SequenceIncrementOperator() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 304,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (sequence_merge_supported_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 332,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 687,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 702,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"compactByKey: failed to delete event {}: {}\", k, s.ToString());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 985,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "size_t to_delete = stats.total_events - policy.max_event_count;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1002,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "size_t events_to_delete = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUFFER_EVENTS;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1150,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (subscription_count_.load(std::memory_order_acquire) == 0) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 512,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 789,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.affected_keys.push_back(affected_key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1108,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "snapshot.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 60,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "if (existing_value->size() == sizeof(uint64_t)) {",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 62,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "memcpy(&base, existing_value->data(), sizeof(uint64_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 75,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "if (value.size() == sizeof(uint64_t)) {",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 76,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "memcpy(&delta, value.data(), sizeof(uint64_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 80,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "new_value->resize(sizeof(uint64_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 81,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "memcpy(&(*new_value)[0], &result, sizeof(uint64_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 186,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "if (seq_value.size() == sizeof(uint64_t)) {",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 343,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::string seq_value(sizeof(uint64_t), '\\0');",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 344,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\cdc\\consumer_group.cpp": [
@@ -914,6 +1162,96 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "groups.push_back(std::move(gid));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(ev));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 461,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto git = inflight_.find(group_id);",
+          "description": "Iterator git may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 468,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overdue_seqs.push_back(rec.sequence);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 485,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(changefeed.getEvent(seq));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 513,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "new_records.push_back({ev.sequence, now, 1});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 514,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(ev));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 540,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "consumer_inflight.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 563,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto git = inflight_.find(group_id);",
+          "description": "Iterator git may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 526,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(overdue_seqs.begin(), overdue_seqs.end(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\cdc\\dead_letter_queue.cpp": [
@@ -1069,6 +1407,33 @@
           "snippet": "rocksdb::Status s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 177,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"DeadLetterQueue: replayed dlq_seq={} \u2192 new seq={}\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 253,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"DeadLetterQueue: drain failed to delete key={}: {}\",",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cdc\\tenant_buffer_manager.cpp": [
@@ -1359,6 +1724,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 196,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"Created new tenant: {}\", config.tenant_id);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 373,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"Auto-created buffer for new tenant: {}\", tenant_id);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 289,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tenants.push_back(tenant_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 336,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenant_buffers_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\cdc\\changefeed_buffer.cpp": [
@@ -1496,6 +1897,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 409,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cdc\\outbox.cpp": [
@@ -1624,6 +2034,33 @@
           "snippet": "rocksdb::Status s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 338,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 343,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "[this]{ return !running_.load(std::memory_order_acquire); });",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 263,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cdc\\cdc_materialized_view.cpp": [
@@ -1653,6 +2090,15 @@
           "snippet": "return view_manager_.query(view_name, filters, limit, offset);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 93,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "records.push_back(std::move(rec));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cdc\\cdc_ws_handler.cpp": [
@@ -1718,6 +2164,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mu_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "responses.push_back({{\"action\", \"error\"},",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 250,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "responses.push_back({{\"action\", \"error\"},",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 312,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sub.pending_ack.push_back({event_frame, now});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "frames.push_back(pending.frame);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cdc\\cross_collection_stream.cpp": [
@@ -1792,6 +2274,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 60,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 65,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 132,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto cursor_it = options.from_sequence.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_events.push_back({name, std::move(ev)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cdc\\delivery_tracker.cpp": [
@@ -1884,6 +2411,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_expire.push_back(seq);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_redeliver.push_back(pending.event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(stats));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 292,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "consumer_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 260,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cdc\\kafka_cdc_producer.cpp": [
@@ -1904,6 +2476,24 @@
           "snippet": "thread_ = std::thread(&KafkaCDCProducer::pollingThread, this);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 105,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 320,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\cdc\\ws_transport.cpp": [
@@ -1996,6 +2586,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 246,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it->second.pending_events >= delivered) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 247,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.pending_events -= delivered;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 249,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.pending_events = 0;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 68,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sessions_.find(session_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 104,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sessions_.find(session_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "query_items.push_back({sid, sub_id, std::move(opts)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({item.session_id, item.sub_id, std::move(events)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 189,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto sit = sessions_.find(result.session_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 195,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto sub_it = session.subscriptions.find(result.sub_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overflow_sessions.push_back(result.session_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 216,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "deliveries.push_back({result.session_id, result.sub_id, std::move(result.events)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

@@ -1,13 +1,18 @@
 {
   "prompt_engineering": {
-    "total": 193,
-    "severity_critical": 94,
-    "severity_high": 49,
-    "severity_medium": 50,
+    "total": 432,
+    "severity_critical": 120,
+    "severity_high": 79,
+    "severity_medium": 233,
     "by_category": {
       "security": 9,
       "memory": 24,
-      "reliability": 160
+      "reliability": 160,
+      "concurrency": 21,
+      "raii": 4,
+      "container": 196,
+      "platform": 5,
+      "performance": 13
     },
     "by_file": {
       "src\\prompt_engineering\\feedback_collector.cpp": [
@@ -208,6 +213,186 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 239,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "summary.reason_embedding    = embedding_model_->embed(query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 327,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(prompt_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 382,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = feedback_.find(prompt_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 391,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failures.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 422,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(FeedbackEntry::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 431,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = feedback_.find(prompt_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 439,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 477,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_delete.push_back(FeedbackEntry::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 498,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = feedback_.find(prompt_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 553,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 601,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "outliers.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 730,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "feedback_[entry.prompt_id].push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 793,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(size_t(3), sorted_types.size()); ++i) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 794,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 824,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 826,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 832,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 892,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "p.examples.push_back(entry.query);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\feedback_collector.cpp",
+          "line": 910,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pat);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\llm_reflection_adapter.cpp": [
@@ -437,6 +622,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
+          "line": 234,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(1));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\prompt_engineering\\prompt_manager.cpp": [
@@ -511,6 +705,114 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 106,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "acc.release(); // Release lock",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 72,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(\"Template 'metadata' must be a JSON object\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "t.images.push_back(ImageDescription::fromJson(img_j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "t.images.push_back(ImageDescription::fromJson(img_j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 312,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pt.images.push_back(std::move(img));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 409,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "caps_array.push_back(cap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tables_array.push_back(table_info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 466,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \"   Description: \" + img.description + \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_manager.cpp",
+          "line": 469,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \"   URL: \" + img.url + \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\prompt_engineering\\prompt_performance_tracker.cpp": [
@@ -612,6 +914,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
+          "line": 118,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_DEBUG(\"Created new metrics for prompt: {}\", prompt_id);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
+          "line": 151,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(metrics);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
+          "line": 168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "low_performers.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
+          "line": 207,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = metrics_.find(prompt_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\prompt_engineering\\prompt_version_control.cpp": [
@@ -794,6 +1132,285 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 649,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto tag_it = prompt_it->second.find(tag_name);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 650,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (tag_it == prompt_it->second.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 716,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats[\"tag_count\"] = tag_it->second.size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 231,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(version);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 431,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto v_it = versions_.find(head_version);",
+          "description": "Iterator v_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 436,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 477,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto prompt_it = branches_.find(prompt_id);",
+          "description": "Iterator prompt_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 491,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto source_it = versions_.find(source_id);",
+          "description": "Iterator source_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 492,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto target_it = versions_.find(target_id);",
+          "description": "Iterator target_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 516,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ancestors.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 702,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto branch_it = branches_.find(prompt_id);",
+          "description": "Iterator branch_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 707,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats[\"branches\"].push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 816,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 850,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({Op::KEEP, lines_a[i - 1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 854,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({Op::ADD, lines_b[j - 1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 857,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({Op::REMOVE, lines_a[i - 1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 867,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "diff.removed_lines.push_back(e.line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 870,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "diff.added_lines.push_back(e.line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 895,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t k = hunk_end; k < std::min(hunk_end + size_t(CONTEXT) * 2, N); ++k) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 966,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (std::getline(iss, line)) lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 992,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({' ', from[i-1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 996,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({'+', to[j-1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 999,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "edits.push_back({'-', from[i-1]});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1038,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changes[base_idx].insertions_before.push_back(e.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1041,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "eof_slot.insertions_before.push_back(e.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1062,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& ins : sc.insertions_before) merged.push_back(ins);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1065,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(ins);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1077,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(base_lines[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1085,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1088,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "merged.push_back(ins);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line": 1116,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.conflicts.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\meta_prompt_generator.cpp": [
@@ -823,6 +1440,213 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Prompt lacks clarity or specificity\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Consider restructuring with clear sections\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Prompt is functional but can be improved\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Focus on edge cases and formatting\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Prompt performs well\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.key_insights.push_back(\"Minor optimizations possible\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Specify exact output format\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 207,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Provide output template or schema\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 208,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Include formatting requirements\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 213,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"List explicit constraints\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Define boundary conditions\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Specify error handling requirements\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 220,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Review and simplify language\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Add structure with headers\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 222,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(\"Include validation criteria\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 271,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"High-performing prompts include concrete examples\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 275,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Successful prompts use step-by-step instructions\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 279,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Clear output format specifications improve performance\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 283,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Explicit constraints help guide the model\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Structure prompts with clear sections (task, examples, output)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Use precise, unambiguous language\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 289,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(\"Include both positive and negative examples when relevant\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+          "line": 70,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "meta_prompt << \"Current Score: \" << score << \" / 1.0\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\prompt_engineering\\prompt_optimizer.cpp": [
@@ -944,6 +1768,96 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ctx.uncertainty_markers.push_back(marker);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps_arr.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 363,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower_resp.find(pattern) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 363,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower_resp.find(pattern) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 403,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "trajectory.push_back(step.quality_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 589,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.quality_trajectory.push_back(initial_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 602,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.steps.push_back(step);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 603,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.quality_trajectory.push_back(step.quality_score);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 259,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out << \"Claim / Response:\\n\" << response << \"\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+          "line": 259,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out << \"Claim / Response:\\n\" << response << \"\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\prompt_engineering\\self_improvement_orchestrator.cpp": [
@@ -1063,6 +1977,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(optimizePrompt(prompt_id, test_cases));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 238,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "prompt_with_inputs.push_back(prompt + \"\\n\" + tc.input);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expected.push_back(tc.expected_output);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 491,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tests.push_back(test);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 658,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "test_cases.push_back(std::move(tc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\chain_of_thought.cpp": [
@@ -1094,6 +2053,69 @@
           "snippet": "throw PromptBudgetExceededError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "selected.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 212,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = t->round_role_weights.find(round_role);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 204,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (is_active) active.push_back(&t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 205,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "else           inactive.push_back(&t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(inj));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(inj));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\context_window_manager.cpp",
+          "line": 201,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "(std::find(t.activation_rounds.begin(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\prompt_engineering\\cot_tracer.cpp": [
@@ -1105,6 +2127,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 85,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 90,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 192,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 197,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 109,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(rec.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "children_.push_back(std::move(tracer));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\cot_tracer.cpp",
+          "line": 217,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(rec.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\dspy_module.cpp": [
@@ -1134,6 +2219,33 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 159,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& suffix : {std::string(\":\"), std::string(\" :\")}) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 285,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "new_outputs.push_back(std::move(reasoning_field));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "new_outputs.push_back(f);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\prompt_ab_experiment.cpp": [
@@ -1352,6 +2464,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+          "line": 293,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "ss << \"exp-\" << counter.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+          "line": 331,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = experiments_.find(experiment_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+          "line": 341,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(exp);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+          "line": 603,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "experiments_.push_back(std::move(descriptor));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\prompt_engineering_metrics.cpp": [
@@ -1417,6 +2565,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
+          "line": 741,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
+          "line": 744,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<int>(), std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
+          "line": 747,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<double>(), std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
         }
       ],
       "src\\prompt_engineering\\prompt_evaluator.cpp": [
@@ -1428,6 +2603,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 60,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "metrics.details[\"embedding_provider\"] = embedding_provider_->name();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 497,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto v1 = embedding_provider_->embed(s1);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 498,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto v2 = embedding_provider_->embed(s2);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "similarities.push_back(metrics.semantic_similarity);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 102,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weighted_scores.push_back(weighted);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 112,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "per_case.push_back(case_metrics);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 415,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+          "line": 393,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\prompt_engineering\\prompt_injection_detector.cpp": [
@@ -1439,6 +2686,96 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 79,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pattern_labels_.push_back(e.label);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 94,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pattern_labels_.push_back(\"custom:\" + pat);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 124,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 111,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched_out.push_back(pattern_labels_[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 124,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (lower.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 138,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "text.find(\"[/INST]\") != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched_out.push_back(\"keyword:\" + kw);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched_out.push_back(\"syntax:instruction_bracket_token\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matched_out.push_back(\"syntax:high_special_char_density\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+          "line": 232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "extra_matched.push_back(label);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\prompt_library_io.cpp": [
@@ -1522,6 +2859,60 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "t.images.push_back(img);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 115,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tpls.push_back(t.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 149,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "t.images.push_back(img);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "b.templates.push_back(std::move(t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 168,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(t.toJson().dump());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "b.templates.push_back(templateFromYaml(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\prompt_regression_runner.cpp": [
@@ -1542,6 +2933,33 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
+          "line": 66,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "deltas.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
+          "line": 120,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fixtures_.push_back(std::move(f));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "baseline_scores.push_back(bs);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\prompt_template_compiler.cpp": [
@@ -1652,6 +3070,177 @@
           "snippet": "throw PromptTemplateCompileError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 155,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::SLOT, inner, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 177,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::IF, var, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::ELSE, {}, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::ENDIF, {}, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 185,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto in_pos = rest.find(\" in \");",
+          "description": "Iterator in_pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::FOR, item_var, list_var});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::ENDFOR, {}, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::SLOT, inner, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 250,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 260,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = slot_index.find(tok.value);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 292,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 324,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 443,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (node->required && ctx.find(name) == ctx.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 445,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Missing required slot: \" + name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 466,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Internal validation error for node\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 503,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slot_arr.push_back(s.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 542,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (slot_index.find(n->text) == slot_index.end()) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 563,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "final_slots.push_back(sd);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 560,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find_if(final_slots.begin(), final_slots.end(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\prompt_engineering\\prompt_template_validator.cpp": [
@@ -1663,6 +3252,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_validator.cpp",
+          "line": 107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_validator.cpp",
+          "line": 113,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\protegi_optimizer.cpp": [
@@ -1674,6 +3281,87 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 113,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(c.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 121,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(c.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(c.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_candidates.push_back(std::move(c));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 230,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_candidates.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 272,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "beam.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 365,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(test_cases[indices[i]]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 381,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Expected output longer than prompt; prompt may lack detail.\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
+          "line": 383,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"\");  // no error",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\rag_context_budget_manager.cpp": [
@@ -1703,6 +3391,24 @@
           "snippet": "throw BudgetExhaustedError(tokens, avail, total_budget_);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
+          "line": 63,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "allocated_.store(0, std::memory_order_relaxed);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
+          "line": 68,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const size_t alloc = allocated_.load(std::memory_order_relaxed);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\prompt_engineering\\rag_prompt_builder.cpp": [
@@ -1714,6 +3420,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ordered.push_back(&c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "selected.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\system_prompt_manager.cpp": [
@@ -1788,6 +3512,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(sp);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\prompt_engineering\\tree_of_thoughts.cpp": [
@@ -1799,6 +3532,435 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 172,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 218,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 246,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 290,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 318,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 356,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 60,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "thoughts.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.log.push_back(msg.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 228,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.best_path.push_back(best_node.thought);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.log.push_back(msg.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.best_path.push_back(best_node.thought);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 326,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "beam.push_back(std::move(n));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 347,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.best_path.push_back(node.thought);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "child_path.push_back(node.thought);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 367,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.log.push_back(msg.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 371,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_beam.push_back(std::move(child));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
+          "line": 470,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "out << \"Then assign a verdict: sure / maybe / impossible.\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        }
+      ],
+      "src\\prompt_engineering\\prompt_compressor.cpp": [
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 32,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "paragraphs.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 40,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!current.empty()) paragraphs.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 50,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (ss >> word) words.push_back(word);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 211,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kept_indices.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 212,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = std::max(sys_end, tail_start);",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kept_indices.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 267,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = std::max(sys_end, tail_start);",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 36,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!current.empty()) current += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 59,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 219,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!result.empty()) result += \"\\n\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 251,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!middle.empty()) middle += \"\\n\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 258,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!result.empty()) result += \"\\n\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+          "line": 269,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!result.empty()) result += \"\\n\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        }
+      ],
+      "src\\prompt_engineering\\prompt_quality_evaluator.cpp": [
+        {
+          "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
+          "line": 28,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(word));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
+          "line": 34,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(std::move(word));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
+          "line": 64,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failed.push_back(QualityCheck{",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failed.push_back(QualityCheck{",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\prompt_engineering\\structured_output.cpp": [
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 60,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"JSON output is empty\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 66,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"JSON output does not start with '{' or '['\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 152,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back((*it)[1].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 213,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(cur_key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 263,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(cur_key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 301,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Missing required field: \\\"\" + req + \"\\\"\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 313,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Unknown field not in schema properties: \\\"\" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 340,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(\"Output does not match regex pattern: \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back(std::string(\"Invalid regex pattern: \") + ex.what());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 37,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex line_comment(R\"(//[^\\n]*)\", std::regex::ECMAScript);",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 298,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "const bool found = std::find(actual_keys.begin(), actual_keys.end(), req)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\prompt_engineering\\structured_output.cpp",
+          "line": 310,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "const bool known = std::find(allowed.begin(), allowed.end(), k)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ]
     }

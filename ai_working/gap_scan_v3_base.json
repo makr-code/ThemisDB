@@ -1,13 +1,18 @@
 {
   "base": {
-    "total": 104,
-    "severity_critical": 64,
-    "severity_high": 24,
-    "severity_medium": 16,
+    "total": 195,
+    "severity_critical": 71,
+    "severity_high": 48,
+    "severity_medium": 76,
     "by_category": {
       "security": 22,
       "memory": 1,
-      "reliability": 81
+      "reliability": 81,
+      "concurrency": 3,
+      "raii": 17,
+      "container": 51,
+      "platform": 8,
+      "performance": 12
     },
     "by_file": {
       "src\\base\\hot_reload_manager.cpp": [
@@ -271,6 +276,69 @@
           "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 408,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 413,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 211,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "spdlog::debug(\"HotReloadManager: sandbox [{}]: {}\", module_name, w);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 313,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "spdlog::debug(\"HotReloadManager: sandbox rollback [{}]: {}\", module_name, w);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 320,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = slots_.find(module_name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 375,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = slots_.find(module_name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 385,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\base\\module_loader.cpp": [
@@ -471,6 +539,177 @@
           "snippet": "if (healthy) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 215,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "dlclose(handle);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1449,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1450,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1458,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1461,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1479,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[1]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1488,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 546,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : std::filesystem::directory_iterator(moduleDirectory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 652,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(module);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1013,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "quarantined.push_back(path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1037,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = failureHistory_.find(modulePath);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1201,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "module.healthChecks.push_back(healthResult);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1830,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = loadedModules_.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1442,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (::pipe(pipe_fds) != 0) {",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1443,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"verifyGPGSignature: pipe() failed ({}): {}\", errno, std::strerror(errno));",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1447,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "const pid_t child = ::fork();",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1451,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"verifyGPGSignature: fork() failed ({}): {}\", errno, std::strerror(errno));",
+          "description": "POSIX-only API fork( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1568,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "while (remaining >= sizeof(Elf64_Nhdr)) {",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1784,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(watchdogMutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\base\\module_sandbox.cpp": [
@@ -644,6 +883,204 @@
           "snippet": "while (std::getline(status, line)) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 572,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "platform_->cgroup_path = cg_path;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "required_symbols_.push_back(sym);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back(\"Required symbol missing: \" + sym);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 225,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back(\"Deprecated symbol still present: \" + sym +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& i : versions.issues) combined.issues.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& i : symbols.issues) combined.issues.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 258,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& i : deprecated.issues) combined.issues.push_back(\"[WARN] \" + i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 323,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 330,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 442,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 449,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(\"Memory limit: platform not supported\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 507,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 514,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(\"CPU limit: platform not supported\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 681,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 684,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(\"Network isolation not supported on this platform\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 696,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 700,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(\"Filesystem restrictions not supported on this platform\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 709,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 714,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "launch_warnings_.push_back(\"Syscall filtering not supported on this platform\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 530,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "sanitizeCgroupName(module_name_) + \"_\" + std::to_string(::getpid());",
+          "description": "POSIX-only API getpid( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 608,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "procs << ::getpid() << \"\\n\";",
+          "description": "POSIX-only API getpid( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 639,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "root_procs << ::getpid() << \"\\n\";",
+          "description": "POSIX-only API getpid( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
         }
       ],
       "src\\base\\wasm_runtime_injector.cpp": [
@@ -718,6 +1155,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 70,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "reg.entries.push_back(std::move(desc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 122,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : reg.entries) ptrs.push_back(&e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto* p : ptrs) names.push_back(p->name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\base\\plugin_dependency_graph.cpp": [
@@ -729,6 +1193,195 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 81,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& mod : ModuleRegistry::instance().getAllModules()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 121,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(n));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 154,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "path.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 167,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cycles.push_back(cycle);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 225,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = adj.find(cur);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 225,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = adj.find(cur);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "order.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 226,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = adj.find(cur);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 428,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "order.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 454,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "deps[e.from].push_back(std::move(di));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 163,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto start = std::find(path.begin(), path.end(), neighbour);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 285,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "out += '\\\\';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 360,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 361,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 362,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 363,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 364,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 445,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "di.versionConstraint += \">=\" + e.minVersion;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 449,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "di.versionConstraint += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 451,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "di.versionConstraint += \"<=\" + e.maxVersion;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\base\\remote_registry_client.cpp": [
@@ -920,6 +1573,87 @@
           "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 111,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct Task",
+          "description": "Class Task allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~Task() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 116,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct TaskCompare",
+          "description": "Class TaskCompare allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~TaskCompare() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 215,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 224,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 232,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 235,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 743,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 285,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 500,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\base\\wasm_plugin_sandbox.cpp": [
@@ -958,6 +1692,96 @@
           "snippet": "if (!file.read(reinterpret_cast<char*>(bytes.data()), size)) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 409,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!allocateLinearMemory()) return false;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 630,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "bool WasmPluginSandbox::allocateLinearMemory() {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 644,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "last_error_ = \"Failed to allocate WASM linear memory (\"",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.imports.push_back(mod_name + \".\" + fn_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.exports.push_back(exp_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 606,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "allowed.push_back(hf.module_name + \".\" + hf.function_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!found) unknown.push_back(imp);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 632,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "load_warnings_.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 672,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "load_warnings_.push_back(\"[OS sandbox] \" + w);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 611,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "bool found = std::find(allowed.begin(), allowed.end(), imp) != allowed.end();",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ]
     }

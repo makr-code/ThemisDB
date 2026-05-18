@@ -1,13 +1,14 @@
 {
   "projects": {
-    "total": 63,
-    "severity_critical": 31,
+    "total": 79,
+    "severity_critical": 33,
     "severity_high": 6,
-    "severity_medium": 26,
+    "severity_medium": 40,
     "by_category": {
       "security": 4,
       "memory": 1,
-      "reliability": 58
+      "reliability": 58,
+      "container": 16
     },
     "by_file": {
       "src\\projects\\project_lifecycle.cpp": [
@@ -147,6 +148,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 270,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "created.push_back(*name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\projects\\project_versioning.cpp": [
@@ -320,6 +330,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "try { content_array.push_back(json::parse(val)); }",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { content_array.push_back(val); }",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\projects\\collaboration_manager.cpp": [
@@ -484,6 +512,24 @@
           "snippet": "std::shared_lock m_lock(metrics_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 171,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = locks_.find(composite);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 222,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\projects\\in_memory_project_audit_log.cpp": [
@@ -549,6 +595,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 64,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\projects\\project_diff.cpp": [
@@ -578,6 +633,96 @@
           "snippet": "catch (...) { return json::array(); }",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 63,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : entries) arr.push_back(e.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 71,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ds.entries.push_back(DeltaEntry::fromJson(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 98,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back({path + \"/\" + key, DeltaType::REMOVED, val, nullptr});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back({child_path, DeltaType::ADDED, nullptr, val});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 112,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back({path, DeltaType::MODIFIED, from, to});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ds.entries.push_back({\"/\" + id, DeltaType::REMOVED, doc, nullptr});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 167,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ds.entries.push_back({\"/\" + id, DeltaType::ADDED, nullptr, doc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 207,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = ours_index.find(their_entry.field_path);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 210,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.applied.entries.push_back(their_entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 213,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.conflicts.entries.push_back(their_entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\projects\\project_metrics.cpp": [

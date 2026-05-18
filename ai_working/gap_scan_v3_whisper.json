@@ -1,12 +1,16 @@
 {
   "whisper": {
-    "total": 29,
-    "severity_critical": 6,
-    "severity_high": 17,
-    "severity_medium": 6,
+    "total": 43,
+    "severity_critical": 8,
+    "severity_high": 23,
+    "severity_medium": 12,
     "by_category": {
       "memory": 3,
-      "reliability": 26
+      "reliability": 26,
+      "concurrency": 1,
+      "raii": 9,
+      "container": 3,
+      "performance": 1
     },
     "by_file": {
       "src\\whisper\\audio_chunk_reader.cpp": [
@@ -180,6 +184,42 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 88,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 159,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 202,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \"'\\\\''\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\whisper\\whisper_plugin.cpp": [
@@ -245,6 +285,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 240,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 103,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 142,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 170,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) return {};",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 190,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 269,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "{\"initialized\",        initialized_.load(std::memory_order_acquire)},",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 283,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::whisper::WhisperPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 288,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete p;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\whisper\\whisper_config.cpp": [
@@ -267,6 +379,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
+          "line": 74,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [](WhisperPlugin& plugin, const json& config) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\whisper\\whisper_transcriber.cpp": [
@@ -278,6 +399,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\whisper\\whisper_transcriber.cpp",
+          "line": 44,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "whisper_free(static_cast<whisper_context*>(ctx_));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ]
     }

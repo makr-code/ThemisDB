@@ -1,13 +1,18 @@
 {
   "gpu": {
-    "total": 292,
-    "severity_critical": 189,
-    "severity_high": 19,
-    "severity_medium": 84,
+    "total": 449,
+    "severity_critical": 213,
+    "severity_high": 98,
+    "severity_medium": 138,
     "by_category": {
       "security": 4,
       "memory": 2,
-      "reliability": 286
+      "reliability": 286,
+      "concurrency": 14,
+      "raii": 58,
+      "container": 65,
+      "platform": 12,
+      "performance": 8
     },
     "by_file": {
       "src\\gpu\\device_discovery.cpp": [
@@ -46,6 +51,42 @@
           "snippet": "if (d.is_healthy) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 88,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 171,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\load_balancer.cpp": [
@@ -183,6 +224,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 56,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "devices_.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 271,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(dl));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\rocm_backend.cpp": [
@@ -239,6 +298,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 201,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 251,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (stats_.bytes_allocated >= rec.size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 252,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "stats_.bytes_allocated -= rec.size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 254,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "stats_.bytes_allocated = 0;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 72,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [device_index](const GPULauncher::WorkItem& item) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 92,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [](const GPULauncher::WorkItem&) -> bool { return true; };",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 243,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = active_allocations_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\gpu\\stream_manager.cpp": [
@@ -268,6 +399,51 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 212,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it   = reg.find(cfg.name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 235,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = streams_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 251,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it   = reg.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 367,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second.stats);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\kernel_validator.cpp": [
@@ -369,6 +545,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 64,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 69,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 83,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\admin_api.cpp": [
@@ -389,6 +592,87 @@
           "snippet": "<< \"\\\"is_healthy\\\":\"          << (d.is_healthy ? \"true\" : \"false\")     << \",\"",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 70,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "<< \"\\\"allocated_bytes\\\":\"          << s.allocated_bytes    << \",\"",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 99,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "<< \"\\\"allocated_bytes\\\":\"    << t.allocated_bytes           << \",\"",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 154,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "effective.simulateAllocation(bytes, stats.allocated_bytes);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 161,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "<< \"\\\"current_allocated_bytes\\\":\" << stats.allocated_bytes",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 43,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 44,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 45,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 46,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\gpu\\admin_api.cpp",
+          "line": 47,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\gpu\\alerts.cpp": [
@@ -562,6 +846,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 42,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 47,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 52,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\audit_log.cpp": [
@@ -618,6 +938,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ring_[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ring_[(head_ + i) % capacity_]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\cluster_coordinator.cpp": [
@@ -800,6 +1138,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 67,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "local.device_indices.push_back(d.index);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 320,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes_.push_back(std::move(n));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes_.push_back(std::move(self));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 436,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\cluster_topology.cpp": [
@@ -820,6 +1194,42 @@
           "snippet": "InterconnectType GPUClusterTopology::preferredInterconnect(",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.links.push_back(lnk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.links.push_back(lnk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 298,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(n.node_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\config.cpp": [
@@ -831,6 +1241,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\config.cpp",
+          "line": 100,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "uint64_t current_allocated_bytes) const {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\gpu\\feature_flags.cpp": [
@@ -914,6 +1333,60 @@
           "snippet": "FeatureStatus s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 166,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 199,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto ov = overrides_.find(k);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 204,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto def = defaults_.find(k);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 200,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto ov = overrides_.find(k);",
+          "description": "Iterator ov may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 205,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto def = defaults_.find(k);",
+          "description": "Iterator def may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\gpu_memory_manager_edition.cpp": [
@@ -1105,6 +1578,402 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 46,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 57,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (it->second.allocated_bytes + size_bytes > it->second.quota_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 64,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ = new_total;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 65,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (gpu_memory_allocated_ > peak_bytes_) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 66,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "peak_bytes_ = gpu_memory_allocated_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 74,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.allocated_bytes += size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 75,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (ts.allocated_bytes > ts.peak_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 76,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.peak_bytes = ts.allocated_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 118,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes > max_vram) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 133,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (it->second.allocated_bytes + tenant_hint_bytes + size_bytes",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 178,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ += bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 179,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (gpu_memory_allocated_ > peak_bytes_) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 180,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "peak_bytes_ = gpu_memory_allocated_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 186,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.allocated_bytes += bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 187,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (ts.allocated_bytes > ts.peak_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 188,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.peak_bytes = ts.allocated_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 219,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 221,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (gpu_memory_allocated_ >= size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 222,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ -= size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 224,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ = 0;  // guard against mis-matched sizes",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 237,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (tit->second.allocated_bytes >= size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 238,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "tit->second.allocated_bytes -= size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 240,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "tit->second.allocated_bytes = 0;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 249,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 252,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (gpu_memory_allocated_ >= size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 253,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ -= size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 255,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "gpu_memory_allocated_ = 0;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 271,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (tit->second.allocated_bytes >= size_bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 272,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "tit->second.allocated_bytes -= size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 274,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "tit->second.allocated_bytes = 0;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 298,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const uint64_t new_total = gpu_memory_allocated_ + size_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 302,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "error += std::to_string(gpu_memory_allocated_ / (1024ULL * 1024ULL * 1024ULL));",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 318,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return gpu_memory_allocated_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 326,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": ": (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 336,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "s.allocated_bytes    = gpu_memory_allocated_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 357,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.allocated_bytes = it->second.allocated_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 372,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "ts.allocated_bytes = kv.second.allocated_bytes;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 382,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const uint64_t global_used = gpu_memory_allocated_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "active_hints_.push_back({id, size_bytes, tag, tenant_id});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 148,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "active_allocations_.push_back({bytes, tag, tenant});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 229,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 260,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 374,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(ts));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\gpu_module.cpp": [
@@ -1125,6 +1994,42 @@
           "snippet": "GPUSafeFail::HealthStatus GPUModule::getSafeFailStatus() const {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 150,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "bool GPUModule::allocate(const std::string& caller_id,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 198,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void GPUModule::deallocate(const std::string& tenant_id, uint64_t bytes) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 203,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "mgr.DeallocateGPU(bytes);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 205,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "mgr.DeallocateGPU(bytes, tenant_id);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\gpu\\graph_cache.cpp": [
@@ -1190,6 +2095,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\graph_cache.cpp",
+          "line": 91,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = entries_.find(shape);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\graph_cache.cpp",
+          "line": 139,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = entries_.begin(); it != entries_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\gpu\\launcher.cpp": [
@@ -1246,6 +2169,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\launcher.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(executeOne(std::move(item)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\memory_pool.cpp": [
@@ -1329,6 +2261,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 263,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "result.frag_after      = (allocated_bytes_ > 0)",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 215,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Record the old\u2192new mapping so callers can update raw device",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\gpu\\metrics.cpp": [
@@ -1475,6 +2425,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 131,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "setGauge(\"themis_gpu_vram_allocated_bytes\", labels,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 269,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 47,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first) key += ',';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\gpu\\mig_manager.cpp": [
@@ -1630,6 +2616,42 @@
           "snippet": "const char* migStatusName(MIGManager::Status s) noexcept {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 268,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = instances_.find(instance_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 291,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 303,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 316,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\p2p_transfer.cpp": [
@@ -1886,6 +2908,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 58,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = grants_.find(caller_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 132,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = grants_.find(caller_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(static_cast<Capability>(v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\profiler.cpp": [
@@ -1951,6 +3009,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 148,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 148,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 152,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 152,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 153,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"dur\\\": \" << ((r.end_ns - r.start_ns) / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 153,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"dur\\\": \" << ((r.end_ns - r.start_ns) / 1000) << \", \"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\gpu\\query_accelerator.cpp": [
@@ -2025,6 +3137,78 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 297,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rows.push_back(rows[static_cast<size_t>(i)]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 324,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rows.push_back(row);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 842,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess &&",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 843,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "cudaMalloc(&d_b, n * sizeof(__nv_bfloat16)) == cudaSuccess &&",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 846,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "cudaMemcpy(d_a, ba.data(), n * sizeof(__nv_bfloat16),",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 848,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "cudaMemcpy(d_b, bb.data(), n * sizeof(__nv_bfloat16),",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1145,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "uint64_t bytes = static_cast<uint64_t>((numQueries + numVectors) * dim * sizeof(float));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1213,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "uint64_t bytes = static_cast<uint64_t>((numQueries + numVectors) * dim * sizeof(float));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\gpu\\safe_fail.cpp": [
@@ -2227,6 +3411,15 @@
           "snippet": "throw std::runtime_error(\"GPUTensorBuffer::deserialize: bad magic\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\gpu\\tensor_buffer.cpp",
+          "line": 306,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "shape.dims.push_back(read32(p)); p += 4;",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\time_slice_scheduler.cpp": [
@@ -2373,6 +3566,114 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 75,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 193,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.stats.queue_depth = it->second.queue.size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 243,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "s.queue_depth  = it->second.queue.size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 256,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "s.queue_depth  = it->second.queue.size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 62,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 96,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 133,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 145,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "it = tenants_.find(tenant_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 252,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 253,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 257,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(s);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 207,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\gpu\\training_loop.cpp": [
@@ -2393,6 +3694,24 @@
           "snippet": "throw std::invalid_argument(\"GPUTrainingLoop::run: batches and loss_fn must be non-empty\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\gpu\\training_loop.cpp",
+          "line": 148,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\gpu\\training_loop.cpp",
+          "line": 88,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history_.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\unified_memory.cpp": [
@@ -2476,6 +3795,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 60,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "static const bool result = []() noexcept -> bool {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 157,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (tit->second >= static_cast<uint64_t>(bytes)) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 158,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "tit->second -= static_cast<uint64_t>(bytes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 87,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 131,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "bool GPUUnifiedMemoryAllocator::free(void* ptr) {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 171,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 246,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "s.allocated_bytes   = allocated_bytes_;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 293,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(rec.ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\gpu\\vulkan_backend.cpp": [
@@ -2532,6 +3923,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 158,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [this](const GPULauncher::WorkItem& /*item*/) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 213,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = streams_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\gpu\\wasm_kernel_sandbox.cpp": [

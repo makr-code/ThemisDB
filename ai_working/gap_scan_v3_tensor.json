@@ -1,13 +1,17 @@
 {
   "tensor": {
-    "total": 208,
-    "severity_critical": 97,
-    "severity_high": 96,
-    "severity_medium": 15,
+    "total": 293,
+    "severity_critical": 110,
+    "severity_high": 115,
+    "severity_medium": 68,
     "by_category": {
       "security": 15,
       "memory": 29,
-      "reliability": 164
+      "reliability": 164,
+      "concurrency": 12,
+      "raii": 12,
+      "container": 58,
+      "platform": 3
     },
     "by_file": {
       "src\\tensor\\adapter_repository.cpp": [
@@ -172,6 +176,42 @@
           "snippet": "std::shared_lock lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 292,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "const auto sep = rest.find(':');",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 293,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto sep = rest.find(':');",
+          "description": "Iterator sep may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 295,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "domains.push_back(rest.substr(0, sep));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 318,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "const auto sep = rest.find(':');",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
         }
       ],
       "src\\tensor\\hnsw_tt_bridge.cpp": [
@@ -570,6 +610,105 @@
           "snippet": "std::shared_lock lock(rw_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 440,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint64_t n = static_cast<uint64_t>(tt_store_->size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 71,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct HnswTTBridge",
+          "description": "Class HnswTTBridge allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~HnswTTBridge() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 96,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto* sp = new hnswlib::L2Space(dim);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 98,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "appr_ = new hnswlib::HierarchicalNSW<float>(",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 122,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete appr_;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 123,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete space_;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 161,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = id_to_label_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 195,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = label_to_id_.find(label);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(dist_ids[i].second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({ cid, 1.0f - sim, tn });",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\tensor_index.cpp": [
@@ -896,6 +1035,33 @@
           "snippet": "std::shared_lock lock(rw_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 105,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = store_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 132,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({ id, dist, t_n });",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 218,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static constexpr char kMagic[11] = \"THEMIS_TTI\";  // 10 chars + '\\0'",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\tensor\\tensor_index_manager.cpp": [
@@ -1033,6 +1199,69 @@
           "snippet": "std::shared_lock lock(registry_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 23,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "* - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete \u2014 resolved 2026-05-06",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 45,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct FlatTensorIndex",
+          "description": "Class FlatTensorIndex allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~FlatTensorIndex() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 184,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = indexes_.begin(); it != indexes_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 222,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [k, h] : handles_) out.push_back(h);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (k.substr(0, prefix.size()) == prefix) out.push_back(h);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 269,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 269,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\tensor\\tensor_mmap_bridge.cpp": [
@@ -1125,6 +1354,96 @@
           "snippet": "::VirtualUnlock(ptr, bytes);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 29,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "* heap-allocated copy guarded by `VirtualLock` (Windows) or a no-lock",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 145,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 249,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void TensorMmapBridge::release() noexcept {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 281,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 213,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bridge->slices_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\tensor_butterfly_operator.cpp": [
@@ -1298,6 +1617,15 @@
           "snippet": "throw std::invalid_argument(oss.str());",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 188,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "op_matrices_.push_back(buildHadamardMatrix(nk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\tensor_fingerprint_graph.cpp": [
@@ -1417,6 +1745,24 @@
           "snippet": "std::shared_lock lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 222,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = entries_.find(query_key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 263,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [k, _] : entries_) keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\tensor_ingestion_bridge.cpp": [
@@ -1601,6 +1947,96 @@
           "snippet": "throw std::invalid_argument(\"grid_sizes product (\" + std::to_string(reshaped_dense_elements) +",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 36,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_quantics_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 79,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return h / std::log2(static_cast<double>(kBins)); // normalized [0,1]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 230,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes_.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 258,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (e.from == node_index) out.push_back(e.to);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 259,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (e.to == node_index) out.push_back(e.from);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 342,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = best_by_edge.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 350,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : best_by_edge) unique_candidates.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bit_depths.push_back(bit_depth);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 420,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "padded_grid_sizes.push_back(padded_grid_size);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\hyper_index_builder.cpp": [
@@ -1729,6 +2165,132 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 647,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 88,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buckets.push_back(numericBucket(row.numeric_values[num_col],",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 98,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buckets.push_back(categoryBucket(row.category_values[cat_col],",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(numeric_schema->range_min + (span * (bucket_d / bucket_count_d)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(row.numeric_values[numeric_index]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 208,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(values[idx]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 268,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 280,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @return Bucket index in [0, bucket_count-1].",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 296,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "double weight;      ///< Validated join strength in [0,1]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "resolved.push_back({edge.from_column, edge.to_column, weight});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 367,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* deeper hops apply `propagation_decay` (clamped to [0,1]).",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adjacency[edge.from].push_back({edge.to, edge.weight});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 402,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roots.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 408,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roots.push_back(node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\tensor\\tensor_core_bridge.cpp": [
@@ -1814,6 +2376,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(g_reroute_serialize_mtx);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 32,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 75,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (cancel_requested_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\tensor\\utr_converter.cpp": [
@@ -1906,6 +2486,197 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 54,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 59,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 64,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 69,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_image_embed_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 88,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 93,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 98,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 103,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(g_image_encoder_mtx);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 178,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto pos = text.find(\"\\n\\n\", start);",
+          "description": "Iterator pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!seg.empty()) segments.push_back(seg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (segments.empty()) segments.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!seg.empty()) segments.push_back(seg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 204,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!seg.empty()) segments.push_back(seg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (segments.empty()) segments.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!tok.empty()) tokens.push_back(std::move(tok));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 524,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patch_features.push_back(static_cast<float>(mean));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 525,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patch_features.push_back(static_cast<float>(std::sqrt(variance)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\tensor\\ht_index.cpp": [
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 39,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_.push_back({id, std::move(train)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 59,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({e.id, sim});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 97,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 171,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_.push_back({std::move(id), std::move(*ht)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

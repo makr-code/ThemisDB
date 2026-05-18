@@ -1,13 +1,18 @@
 {
   "performance": {
-    "total": 259,
-    "severity_critical": 146,
-    "severity_high": 67,
-    "severity_medium": 46,
+    "total": 542,
+    "severity_critical": 248,
+    "severity_high": 111,
+    "severity_medium": 183,
     "by_category": {
       "security": 18,
       "memory": 30,
-      "reliability": 211
+      "reliability": 211,
+      "concurrency": 102,
+      "raii": 67,
+      "container": 99,
+      "platform": 6,
+      "performance": 9
     },
     "by_file": {
       "src\\performance\\adaptive_query_compiler.cpp": [
@@ -235,6 +240,285 @@
           "snippet": "return compiled.execute(params);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 293,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "asm_str << \"  prefetcht0 [rdi]\\n\";",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.column_names.push_back(col.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 321,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.values.push_back(QueryValue{static_cast<int64_t>(row_idx)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 324,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.values.push_back(QueryValue{static_cast<double>(row_idx) * 1.5});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 327,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.values.push_back(QueryValue{(row_idx % 2) == 0});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 330,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.values.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 334,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "row.values.push_back(QueryValue{std::monostate{}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 584,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (pass) result.rows.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 605,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "proj_row.column_names.push_back(col_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 607,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "proj_row.values.push_back(v ? *v : QueryValue{std::monostate{}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 609,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rows.push_back(std::move(proj_row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 643,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out_row.column_names.push_back(query.agg_function + \"_result\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 670,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (groups.find(gkey) == groups.end())",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 672,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "group_order.push_back(gkey);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 694,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out_row.column_names.push_back(query.group_by_column);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 695,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out_row.column_names.push_back(query.agg_function + \"_result\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 696,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out_row.values.push_back(QueryValue{gkey});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 697,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out_row.values.push_back(QueryValue{",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 700,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rows.push_back(std::move(out_row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 752,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto rit = hash_table.find(lkstr);",
+          "description": "Iterator rit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 760,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "joined.column_names.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 762,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "joined.values.push_back(rit->second.values[ci]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 764,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rows.push_back(std::move(joined));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 880,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "preds.push_back({p.column, p.op, p.value, p.param_name, ct});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 964,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (pass) base.rows.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 984,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.column_names.push_back(agg_fn + \"_result\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 985,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.values.push_back(QueryValue{applyAggFunction(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 988,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(std::move(out));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1001,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (groups.find(gk) == groups.end()) order.push_back(gk);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1002,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (groups.find(gk) == groups.end()) order.push_back(gk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1024,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(std::move(out));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\intelligent_prefetcher.cpp": [
@@ -264,6 +548,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 129,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stat_useful_prefetches_.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 198,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stat_total_prefetches_.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 37,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "*   each candidate stride, and normalising to a [0,1] confidence score.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 126,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = pending_.find(address);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 186,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "predictions.push_back(static_cast<uint64_t>(addr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 334,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pattern_.addresses.push_back(history_[i].address);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\bwtree.cpp": [
@@ -356,6 +694,222 @@
           "snippet": "throw std::runtime_error(\"Failed to install root page\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 89,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 119,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 150,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 182,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 211,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 219,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "BwTreePage* page = mapping_table_->get(pid);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 50,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "std::memory_order_acquire",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 61,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto root = new LeafPage();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 66,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete root;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 104,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto delta = new DeltaInsert(key, value);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 113,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete delta;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 135,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto delta = new DeltaDelete(key);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 145,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete delta;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 236,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "consolidated.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 269,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "current = current->next_delta.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 346,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "current = current->next_delta.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 360,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "consolidation_epoch_.load(std::memory_order_acquire)});",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 368,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "consolidation_epoch_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 386,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "BwTreePage* next = current->next_delta.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 387,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete current;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({k, v});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 268,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "delta_chain.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 370,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = retired_chains_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 104,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "auto delta = new DeltaInsert(key, value);",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\performance\\phase4\\io_uring_zero_copy.cpp": [
@@ -592,6 +1146,582 @@
           "snippet": "ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 222,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd = fd;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 233,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd = -1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 236,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ptr       = sq_ptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 237,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_mmap_size = sq_ring_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 237,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_mmap_size = sq_ring_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 240,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_head         = reinterpret_cast<unsigned*>(sq_base + params.sq_off.head);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 241,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_tail         = reinterpret_cast<unsigned*>(sq_base + params.sq_off.tail);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 242,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ring_mask    = reinterpret_cast<unsigned*>(sq_base + params.sq_off.ring_mask);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 243,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ring_entries = reinterpret_cast<unsigned*>(sq_base + params.sq_off.ring_entries);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 244,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_flags        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.flags);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 245,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_dropped      = reinterpret_cast<unsigned*>(sq_base + params.sq_off.dropped);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 246,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_array        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.array);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 257,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd  = -1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 258,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 261,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_ptr      = sqe_ptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 262,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 262,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 263,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 263,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 276,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd  = -1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 277,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 278,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 281,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_ptr       = cq_ptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 282,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_mmap_size = cq_ring_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 282,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_mmap_size = cq_ring_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 285,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_head         = reinterpret_cast<unsigned*>(cq_base + params.cq_off.head);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 286,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_tail         = reinterpret_cast<unsigned*>(cq_base + params.cq_off.tail);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 287,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_ring_mask    = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_mask);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 288,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_ring_entries = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_entries);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 289,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cqes = reinterpret_cast<struct io_uring_cqe*>(cq_base + params.cq_off.cqes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 308,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (ring_->ring_fd >= 0) ::close(ring_->ring_fd);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 309,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd  = -1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 310,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 311,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 312,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_ptr   = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 328,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "int ret = io_uring_register(ring_->ring_fd,",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 350,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "int ret = io_uring_register(ring_->ring_fd,",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 369,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (available_ && ring_->ring_fd >= 0) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 370,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned tail   = *ring_->sq_tail;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 371,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned mask   = *ring_->sq_ring_mask;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 374,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "struct io_uring_sqe* sqe = &ring_->sqes[index];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 379,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->len         = static_cast<uint32_t>(len);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 380,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->buf_index   = static_cast<uint16_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 385,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->user_data   = static_cast<uint64_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 387,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_array[index] = index;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 421,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (available_ && ring_->ring_fd >= 0) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 422,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned tail   = *ring_->sq_tail;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 423,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned mask   = *ring_->sq_ring_mask;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 426,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "struct io_uring_sqe* sqe = &ring_->sqes[index];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 431,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->len       = static_cast<uint32_t>(max_len);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 432,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->buf_index = static_cast<uint16_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 436,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->user_data = static_cast<uint64_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 438,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_array[index] = index;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 464,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "int ret = io_uring_enter(ring_->ring_fd, 0, min_completions,",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 469,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned head = *ring_->cq_head;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 470,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned mask = *ring_->cq_ring_mask;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 474,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "while (head != *ring_->cq_tail) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 475,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "struct io_uring_cqe* cqe = &ring_->cqes[head & mask];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 484,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "cq_completed_.fetch_add(count, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 232,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 256,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 275,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 308,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (ring_->ring_fd >= 0) ::close(ring_->ring_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 538,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\performance\\advanced_cache_manager.cpp": [
@@ -630,6 +1760,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 382,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 390,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 399,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "def.partitions.push_back({\"default\", 256, EvictionPolicy::LRU, false});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "partitions_.push_back(std::move(ps));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& p : partitions_) names.push_back(p->cfg.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 479,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(p->mtx);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\performance\\cicada.cpp": [
@@ -677,6 +1870,33 @@
           "snippet": "if (!entry.record->try_lock()) {",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 30,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "read_set_.push_back({record, version_read});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 34,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "write_set_.push_back({record, std::move(data)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 67,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Write the new data value into the record while the write lock is held",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\performance\\ligra.cpp": [
@@ -751,6 +1971,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 115,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "atomic_dense[i].store(false, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 123,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "atomic_dense[dst].store(true, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 132,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "if (atomic_dense[i].load(std::memory_order_relaxed)) {",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "thread_buffers[t].push_back(dst);  // Collision-free thread index",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tasks_.push_back(task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 223,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Reset new ranks",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\performance\\numa_memory_manager.cpp": [
@@ -807,6 +2081,123 @@
           "snippet": "if (!ptr) throw std::bad_alloc{};",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 259,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "s.local_accesses  = stat_local_.load(std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 81,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(f);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 164,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 166,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* ptr = do_allocate(size, resolved, false);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 172,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* NUMAMemoryManager::allocate_local(size_t size) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 173,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return allocate_on_node(size, get_current_node());",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 176,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* NUMAMemoryManager::allocate(size_t size, const AllocationHint& hint) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 178,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* ptr = do_allocate(size, resolved, hint.use_huge_pages);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 184,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 207,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 154,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = map.find(ptr);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 58,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(path, sizeof(path), \"/sys/devices/system/node/node%d\", i);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 70,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(path, sizeof(path), \"/sys/devices/system/node/node%zu/meminfo\", i);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\performance\\rabitq.cpp": [
@@ -845,6 +2236,33 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(heap.top());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 268,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "centroids.push_back(subvec_data[uniform(rng)]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 286,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "centroids.push_back(subvec_data[weighted(rng)]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\diskann.cpp": [
@@ -1099,6 +2517,123 @@
           "snippet": "throw std::invalid_argument(\"Vector dimensions must match\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 127,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "vector_offsets_[node.id] = static_cast<uint64_t>(graph_file_->tellp());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 177,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "vector_offsets_[id] = static_cast<uint64_t>(graph_file_->tellp());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 54,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "graph_file_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 64,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "graph_file_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 88,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 112,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes[i].neighbors.push_back(nodes[nearest.top().second].id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node.neighbors.push_back(nearest.top().second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({id, dist});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 395,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "best_candidates.push_back({dist, current_id});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 420,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 489,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "distances.push_back(compute_distance(node->vector, vectors[i].second));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 39,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "size_t node_size_estimate = sizeof(VectorID) + dimension * sizeof(float) + 64 * sizeof(VectorID);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 125,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\performance\\phase4\\pmem_storage.cpp": [
@@ -1182,6 +2717,105 @@
           "snippet": "void* PMemStorageLayout::write(const std::string& /*key*/,",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 274,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "header_->pool_size     = pool_size;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 275,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "header_->bitmap_offset = header_end;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 347,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "s.total_bytes  = header_->pool_size;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 84,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(mounts);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 119,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 144,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (fd_ >= 0) ::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 213,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 297,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* PMemPool::allocate(size_t size) noexcept {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 326,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PMemPool::free(void* /*ptr*/, size_t /*size*/) noexcept {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 380,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* dst = pool_.allocate(padded);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 81,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "devices.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\async_metrics_exporter.cpp": [
@@ -1265,6 +2899,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 189,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 193,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return !running_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 192,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "cv_.wait_for(lock, std::chrono::seconds(export_interval_), [this]() {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 191,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\performance\\chimera_exporter.cpp": [
@@ -1276,6 +2946,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 91,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_hnsw += m->hnsw_search_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 92,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_pointer += m->pointer_passing_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 93,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_llm += m->llm_inference_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 94,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_total += m->total_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aggregated[entry.operation_name].push_back(&entry.metrics);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 126,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< ((double)avg_hnsw / avg_total * 100.0) << \",\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 128,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< ((double)avg_pointer / avg_total * 100.0) << \",\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 130,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< ((double)avg_llm / avg_total * 100.0) << \"\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\performance\\cycle_metrics.cpp": [
@@ -1399,6 +3141,96 @@
           "snippet": "return execute(op, config_.default_device_config);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 134,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = ht.find(key);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 118,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ht[rows[i][key_col]].push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 135,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = ht.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(std::move(joined));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 171,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = ht.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 177,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(std::move(joined));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 199,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "return [col](const Row& a, const Row& b) {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 231,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(std::move(joined));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 321,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "r.rows.push_back(row);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 372,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (match) r.match_indices.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\numa_topology.cpp": [
@@ -1518,6 +3350,186 @@
           "snippet": "if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) return -1;",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "try { cpus.push_back(std::stoi(token)); } catch (...) {}",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 97,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (int c = lo; c <= hi; ++c) cpus.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(node0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> d) node.distances.push_back(d);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 185,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 195,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(node0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) node0.cpu_ids.push_back(static_cast<int>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 223,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(node0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "node.cpu_ids.push_back(cpu_base + bit);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(std::move(node));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 297,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (unsigned int i = 0; i < nproc; ++i) node0.cpu_ids.push_back(static_cast<int>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 299,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "topo.nodes.push_back(node0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) cpus.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 419,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cpus.push_back(base + bit);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 450,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (unsigned int i = 0; i < nproc; ++i) cpus.push_back(static_cast<int>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 313,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "return pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), cs) == 0;",
+          "description": "POSIX-only API pthread_ without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 357,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cs) != 0) return {};",
+          "description": "POSIX-only API pthread_ without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
         }
       ],
       "src\\performance\\phase2_feature_flags.cpp": [
@@ -1549,6 +3561,96 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 88,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_hnsw += m->hnsw_search_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 89,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_pointer += m->pointer_passing_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 90,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_llm += m->llm_inference_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 91,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_cache += m->cache_miss_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 91,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_cache += m->cache_miss_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 92,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_pcie_h2d += m->pcie_host_to_device_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 93,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_pcie_d2h += m->pcie_device_to_host_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 94,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_total += m->total_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 95,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_cpu_eff += m->cpu_efficiency_ratio;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 70,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "aggregated[entry.operation_name].push_back(&entry.metrics);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\wisckey.cpp": [
@@ -1713,6 +3815,141 @@
           "snippet": "return value_log_->read(addr);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 44,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "current_offset_ = log_file_->tellg();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 44,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "current_offset_ = log_file_->tellg();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 91,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (log_file_->gcount() != addr.size) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 127,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (log_file_->gcount() != static_cast<std::streamsize>(addr.size)) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 127,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (log_file_->gcount() != static_cast<std::streamsize>(addr.size)) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 178,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ValueAddress addr = value_log_->append(value);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 203,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats.value_log_size = value_log_->size();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 34,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "test.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 50,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "log_file_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 62,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "log_file_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 128,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_log.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 136,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_log.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 148,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_log.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 151,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "log_file_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 133,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Write value to new log",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\performance\\workload_adaptive_optimizer.cpp": [
@@ -1742,6 +3979,33 @@
           "snippet": "lk.unlock();",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 49,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "observations_.push_back({is_write, complexity, result_rows, latency_us, table_name});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "profile.hot_tables.push_back(tvec[i].first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 202,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\performance\\workload_predictor.cpp": [
@@ -1753,6 +4017,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\workload_predictor.cpp",
+          "line": 51,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history_.push_back(snapshot);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\adaptive_batch_tuner.cpp": [
@@ -1809,6 +4082,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "latencies.push_back(r.latency_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\bao.cpp": [
@@ -1820,6 +4102,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\bao.cpp",
+          "line": 166,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats.avg_speedup = impl_->queries_optimized > 0",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\performance\\phase3\\feature_flags.cpp": [
@@ -1851,6 +4142,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\gunrock.cpp",
+          "line": 59,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->row_offsets.push_back(0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\gunrock.cpp",
+          "line": 64,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->column_indices.push_back(neighbor);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\gunrock.cpp",
+          "line": 66,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->row_offsets.push_back(impl_->column_indices.size());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\memory_pressure.cpp": [
@@ -1925,6 +4243,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 254,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_call.push_back(entry.callback);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\per_query_cost_model.cpp": [
@@ -1981,6 +4308,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 115,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(records_[pos]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 279,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "times_ms.push_back(r.execution_time_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\performance\\phase3\\splinterdb.cpp": [
@@ -2401,6 +4746,213 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 734,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 739,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 60,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 69,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 77,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 121,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PmuCounter::close() noexcept {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 123,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 271,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (!name) { ::dlclose(lib); lib = nullptr; return false; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 285,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (lib) { ::dlclose(lib); lib = nullptr; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 353,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 356,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 361,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 385,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 507,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 510,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 515,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 537,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 633,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 636,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 641,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 661,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 757,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 796,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void     PmuCounter::close() noexcept { fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ]
     }

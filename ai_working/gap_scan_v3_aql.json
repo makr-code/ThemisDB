@@ -1,13 +1,18 @@
 {
   "aql": {
-    "total": 178,
-    "severity_critical": 28,
-    "severity_high": 113,
-    "severity_medium": 37,
+    "total": 396,
+    "severity_critical": 54,
+    "severity_high": 135,
+    "severity_medium": 207,
     "by_category": {
       "security": 6,
       "memory": 12,
-      "reliability": 160
+      "reliability": 160,
+      "concurrency": 19,
+      "raii": 3,
+      "container": 157,
+      "platform": 33,
+      "performance": 6
     },
     "by_file": {
       "src\\aql\\aql_agent.cpp": [
@@ -55,6 +60,33 @@
           "snippet": "return impl_->execute(task, context);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 63,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tools_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.reasoning_trace.push_back(error_step);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\llm_aql_handler.cpp": [
@@ -444,6 +476,141 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 485,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->sharding_manager_ = sharding_manager;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1133,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (impl_->sharding_manager_ != nullptr) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1134,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto target_shard = impl_->sharding_manager_->GetShardForKey(\"llm_embeddings\", text);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 656,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!cancel_token->load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1013,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!cancel_token->load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 292,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "referenced_collections.push_back((*it)[1].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 966,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "context.documents.push_back(doc);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1250,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(lora.lora_id.empty() ? lora.id : lora.lora_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1343,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "indices_by_domain[batchDomainKey(requests[i])].push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1351,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(std::async(std::launch::async, [this, &requests, indices]() {",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1711,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "workers.push_back(std::async(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1984,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "empty_result.suggestions.push_back(\"Provide a non-empty AQL query\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1271,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Throughput: \" << stats.throughput << \" req/s\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 2026,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char c) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 2029,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\aql\\aql_ingestion_bridge.cpp": [
@@ -473,6 +640,15 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_ingestion_bridge.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entity_array.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_lora_finetuner.cpp": [
@@ -700,6 +876,258 @@
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 694,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto dataset = impl_->dataset_builder.build(\"themisdb_aql\");",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 722,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto result = impl_->training_service->trainOnTheFly(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 750,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.epochs        = impl_->config.hyperparameters.num_epochs;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 751,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.learning_rate = static_cast<double>(impl_->config.hyperparameters.learning_rate",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 751,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.learning_rate = static_cast<double>(impl_->config.hyperparameters.learning_rate",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 752,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.lora_rank     = impl_->config.hyperparameters.rank;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 753,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.lora_alpha    = static_cast<double>(impl_->config.hyperparameters.alpha);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 753,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.lora_alpha    = static_cast<double>(impl_->config.hyperparameters.alpha);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 754,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.lora_dropout  = static_cast<double>(impl_->config.hyperparameters.dropout);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 754,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.lora_dropout  = static_cast<double>(impl_->config.hyperparameters.dropout);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 755,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "meta.training_config.target_modules = impl_->config.hyperparameters.target_modules;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 298,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 380,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 385,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 390,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 398,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(makeSample(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 427,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"  FIELDS ['embedding']\\n\"",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 435,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"  FIELDS ['body']\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 510,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "samples_.push_back(std::move(s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 536,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back({{\"input\", s.input}, {\"output\", s.output}, {\"metadata\", s.metadata}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 571,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\"LoRA 'rank' must be in [1, 256], got \" + it->second);",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 184,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v IN 1..2 OUTBOUND 'users/alice' friends\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 204,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e IN 1..2 INBOUND 'products/42' recommendations\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 348,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"  FROM '/models/llama-3-8b-instruct.gguf'\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 375,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"  FROM '/adapters/legal-v1.gguf'\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\aql\\docs_assistant_functions.cpp": [
@@ -792,6 +1220,24 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 593,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "g_docs_assistant_functions = new DocsAssistantFunctions();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 447,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(doc_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_autocomplete.cpp": [
@@ -803,6 +1249,159 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vars.push_back((*it)[1].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 343,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "unique_vars.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 389,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.fields.push_back((*fit)[0].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 391,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 405,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 429,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 440,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 452,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 474,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 496,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 543,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 561,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 585,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 648,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : kClauseKeywords)   result.push_back(e.keyword);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 649,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : kModifierKeywords) result.push_back(e.keyword);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 650,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : kLlmKeywords)      result.push_back(e.keyword);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 656,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& e : kFunctions) result.push_back(e.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_confidence_scorer.cpp": [
@@ -814,6 +1413,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 164,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon = rest.find(':');",
+          "description": "Iterator colon may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 230,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "xs.push_back(scoreStructure(lower));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 231,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ys.push_back(scoreCompleteness(lower));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 232,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "zs.push_back(scoreSchemaMatch(lower, \"\"));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "targets.push_back(truth);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 152,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto it = std::find_if(line.begin(), line.end(),",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\aql\\aql_conversation_context.cpp": [
@@ -1016,6 +1669,231 @@
           "snippet": "\"UPDATE \\\"12345\\\" WITH { status: \\\"shipped\\\" } IN orders RETURN NEW\",",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 130,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const std::vector<float> query_emb = embedding_provider_->embed(nl_query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 207,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "embedding_cache_[i] = embedding_provider_->embed(examples_[i].nl_query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 207,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "embedding_cache_[i] = embedding_provider_->embed(examples_[i].nl_query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 221,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "embedding_cache_[idx] = embedding_provider_->embed(examples_[idx].nl_query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 221,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "embedding_cache_[idx] = embedding_provider_->embed(examples_[idx].nl_query);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 69,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ex);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ex);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 114,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(&ex);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 132,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = index_by_id_.find(c->id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*scored[i].second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 557,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 567,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 577,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 590,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 620,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 663,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 673,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "examples_.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 401,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e IN 1..1 OUTBOUND \\\"users/42\\\" friends RETURN v\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 411,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v IN 1..3 OUTBOUND \\\"users/1\\\" edges RETURN v\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 431,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v IN 1..2 ANY \\\"product/99\\\" related_to RETURN v\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 441,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e IN 1..1 OUTBOUND \\\"users/alice\\\" works_with\\n  FILTER e.strength > 5\\n  RETURN v\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 441,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e IN 1..1 OUTBOUND \\\"users/alice\\\" works_with\\n  FILTER e.strength > 5\\n  RETURN v\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 451,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e, p IN 1..5 OUTBOUND \\\"users/1\\\" edges\\n  FILTER v._id == \\\"users/10\\\"\\n  RETURN p\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 451,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e, p IN 1..5 OUTBOUND \\\"users/1\\\" edges\\n  FILTER v._id == \\\"users/10\\\"\\n  RETURN p\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 451,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"FOR v, e, p IN 1..5 OUTBOUND \\\"users/1\\\" edges\\n  FILTER v._id == \\\"users/10\\\"\\n  RETURN p\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\aql\\aql_migration_assistant.cpp": [
@@ -1027,6 +1905,168 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(b == std::string::npos ? \"\" : part.substr(b, e - b + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(b == std::string::npos ? \"\" : part.substr(b, e - b + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 206,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @param kw_pos     [out] Position of the keyword when found.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 207,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @param paren_pos  [out] Position of the '(' when found.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 322,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 367,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 407,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 450,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 490,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 540,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 580,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 657,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 689,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 717,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 744,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 770,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 264,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += '@';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\aql\\aql_model_router.cpp": [
@@ -1038,6 +2078,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_model_router.cpp",
+          "line": 120,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "routes_.push_back(route);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_model_router.cpp",
+          "line": 147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scores.push_back({ rule.type, hits });",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_model_router.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& s : scores) result.push_back(s.type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_model_router.cpp",
+          "line": 170,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!has_relational) result.push_back(QueryModelType::RELATIONAL);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_optimizer_advisor.cpp": [
@@ -1058,6 +2134,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\aql_optimizer_advisor.cpp",
+          "line": 158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_query_builder.cpp": [
@@ -1402,6 +2487,267 @@
           "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::subquery: inner builder has no clauses\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->for_clauses.push_back({variable, collection});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 247,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->filters.push_back(condition);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 255,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->sorts.push_back({field, ascending});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impl_->for_traverse_clauses.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 497,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fields.push_back(f.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 566,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 587,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 610,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"FOR\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 611,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"INSERT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"UPSERT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 613,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"UPDATE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 614,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"REMOVE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 615,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"REPLACE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 622,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"LET\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 623,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"FILTER\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 624,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"WINDOW\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 625,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"COLLECT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 626,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"SORT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 628,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"LIMIT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 630,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"RETURN\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 632,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"INSERT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 633,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"UPDATE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 634,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"REMOVE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 635,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"REPLACE\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 636,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"UPSERT\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 639,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "steps.push_back(\"FOR\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 687,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto start = line.find_first_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 688,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto end   = line.find_last_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 694,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "suggestions.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_query_diff_explainer.cpp": [
@@ -1413,6 +2759,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 84,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "size_t p = norm.find(kw, search_from);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back({p, kw});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 149,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 196,
+          "type": "repeated_lookup",
+          "severity": "MEDIUM",
+          "snippet": "if (all_keys.find(kw) == all_keys.end()) continue;",
+          "description": "Repeated find() for same key: kw",
+          "remediation": "Cache the result or use lower_bound/upper_bound for range operations"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.diffs.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.diffs.push_back(std::move(e));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 48,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!last_space) { out += ' '; last_space = true; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\aql\\aql_query_template_library.cpp": [
@@ -1460,6 +2869,96 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 93,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (toLower(tmpl.name).find(lower_kw) != std::string::npos ||",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 94,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "toLower(tmpl.description).find(lower_kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 94,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "toLower(tmpl.description).find(lower_kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 80,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tmpl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 93,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (toLower(tmpl.name).find(lower_kw) != std::string::npos ||",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 94,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "toLower(tmpl.description).find(lower_kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 100,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (toLower(t).find(lower_kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 94,
+          "type": "repeated_lookup",
+          "severity": "MEDIUM",
+          "snippet": "if (toLower(tmpl.name).find(lower_kw) != std::string::npos ||",
+          "description": "Repeated find() for same key: lower_kw",
+          "remediation": "Cache the result or use lower_bound/upper_bound for range operations"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tmpl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 102,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tmpl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_query_validator.cpp": [
@@ -1480,6 +2979,123 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 112,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vars.push_back((*it)[1].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 124,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vars.push_back((*it)[1].str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 133,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 204,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 220,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 241,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 355,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 403,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "collection_fields[col_lower].push_back(field_lower);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 426,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto var_it = var_to_collection.find(var);",
+          "description": "Iterator var_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 430,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto col_it = collection_fields.find(col);",
+          "description": "Iterator col_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 437,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.issues.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\aql_rollback_suggester.cpp": [
@@ -1491,6 +3107,132 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 219,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: INSERT INTO \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 219,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: INSERT INTO \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 237,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: REMOVE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 237,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: REMOVE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 255,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: UPDATE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 255,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: UPDATE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 274,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: REPLACE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 274,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: REPLACE \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 294,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: UPSERT \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 294,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "rq << \"// Rollback for: UPSERT \u2026 IN \" << coll << \"\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 295,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"// Remove documents that were inserted by the UPSERT (i.e. did\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 296,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"// not exist before).\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 300,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"// Documents that were UPDATED (existed before) must be\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 48,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!out.empty() && out.back() != ' ') out += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\aql\\aql_schema_provider.cpp": [
@@ -1531,6 +3273,195 @@
           "snippet": "result.text += highlightBlock(code_content);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 136,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::UNKNOWN, ws, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::COMMENT, comment, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 162,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::COMMENT, comment, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::STRING, str, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 189,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::IDENTIFIER, ident, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({AQLTokenType::NUMBER, num, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back({ttype, ident, tl, tc});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 329,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stack.push_back({c, tok.line, tok.column});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({tok.line, tok.column,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 340,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({tok.line, tok.column,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({entry.line, entry.col,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({tok.line, tok.column, \"Unterminated string literal\"});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 365,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({tok.line, tok.column, \"Unterminated string literal\"});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 392,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "errors.push_back({tok.line, tok.column,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 93,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_CYAN     = \"\\x1b[36m\";   // core keywords",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 94,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_MAGENTA  = \"\\x1b[35m\";   // LLM keywords",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 95,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_YELLOW   = \"\\x1b[33m\";   // built-in functions",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 96,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_GREEN    = \"\\x1b[32m\";   // string literals",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 97,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_BLUE     = \"\\x1b[34m\";   // numbers",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 98,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_RED      = \"\\x1b[31m\";   // error annotation marker",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 99,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "constexpr const char* FG_DARK_GREY = \"\\x1b[90m\";  // comments",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\aql\\classify_bridge.cpp": [
@@ -1542,6 +3473,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\classify_bridge.cpp",
+          "line": 127,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (scores.find(spec.label) == scores.end()) continue;",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\classify_bridge.cpp",
+          "line": 129,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (query_lower.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\aql\\classify_bridge.cpp",
+          "line": 126,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& spec : categorySpecs()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\aql\\classify_bridge.cpp",
+          "line": 218,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& c : categories) cats.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\aql\\llm_aql_embedding_bridge.cpp": [

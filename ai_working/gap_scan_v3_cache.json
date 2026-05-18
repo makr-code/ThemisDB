@@ -1,13 +1,17 @@
 {
   "cache": {
-    "total": 267,
-    "severity_critical": 122,
-    "severity_high": 89,
-    "severity_medium": 56,
+    "total": 338,
+    "severity_critical": 155,
+    "severity_high": 112,
+    "severity_medium": 71,
     "by_category": {
       "security": 62,
       "memory": 16,
-      "reliability": 189
+      "reliability": 189,
+      "concurrency": 17,
+      "raii": 7,
+      "container": 39,
+      "performance": 8
     },
     "by_file": {
       "src\\cache\\adaptive_query_cache.cpp": [
@@ -1297,6 +1301,285 @@
           "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 300,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cache_result.result            = ptr->result;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 302,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 303,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 304,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 305,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 785,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1057,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2481,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const bool expired = e->expired_flag.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 136,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 316,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = l2_cache_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 941,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 955,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1114,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1129,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1271,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1335,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1760,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(\"L1:\" + key.substr(0, 16) + \"...\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1769,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keys.push_back(\"L2:\" + key.substr(0, 16) + \"...\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1864,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1881,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1991,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = pii_key_index_.find(pii_uuid);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2004,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = l1_cache_.find(k);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2029,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = l2_cache_.find(l2_key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2357,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2372,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2431,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = l1_cache_.find(fingerprint);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2445,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = l2_cache_.find(fingerprint);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1274,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1867,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2007,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2360,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cache\\bounded_lru_cache.cpp": [
@@ -1434,6 +1717,15 @@
           "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 135,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = cache_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\cache\\distributed_cache_coordinator.cpp": [
@@ -1544,6 +1836,96 @@
           "snippet": "if (::recv(fd, crlf, 2, MSG_WAITALL) != 2) return false;",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 158,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(stats_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 425,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct addrinfo",
+          "description": "Class addrinfo allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 429,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct addrinfo",
+          "description": "Class addrinfo allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 436,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct addrinfo",
+          "description": "Class addrinfo allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 450,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 460,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 619,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 631,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 646,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 676,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\cache\\predictive_prefetcher.cpp": [
@@ -1663,6 +2045,33 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 415,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 121,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = last_fingerprint_.find(session_key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 225,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(candidates[i].second));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cache\\redis_cache_coordinator.cpp": [
@@ -1782,6 +2191,33 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 456,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 535,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 439,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> slk(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cache\\semantic_cache.cpp": [
@@ -1883,6 +2319,15 @@
           "snippet": "rocksdb::Status s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 79,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(bg_cv_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cache\\cache_hit_rate_slo_monitor.cpp": [
@@ -2002,6 +2447,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 182,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 312,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto res = alertmanager_->resolveAlert(active_warning_alert_id_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 435,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto res = alertmanager_->resolveAlert(active_latency_warning_alert_id_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\cache\\cache_replication.cpp": [
@@ -2157,6 +2629,15 @@
           "snippet": "stats_.replicas_unhealthy.store(unhealthy_count);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 229,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\cache\\cache_replication_coordinator.cpp": [
@@ -2195,6 +2676,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 294,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(queue_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 211,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing.find(addr);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 211,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = existing.find(addr);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failed_peers.push_back(peer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 358,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failed_peers.push_back(peer);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 315,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 348,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> ml(metrics_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\cache\\embedding_cache.cpp": [
@@ -2305,6 +2849,42 @@
           "snippet": "THEMIS_WARN(\"Failed to reinitialize vector index after clear: {}\", status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 74,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->cache_dir = config_.cache_dir;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 74,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->cache_dir = config_.cache_dir;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 76,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "db_config.db_path = impl_->cache_dir;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 266,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "while (impl_->entries.size() >= config_.max_entries) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\cache\\grpc_remote_cache_peer.cpp": [
@@ -2435,6 +3015,69 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 185,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 80,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<char>((buf >> bits) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kB64Chars[(buf >> bits) & 0x3F]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 106,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kB64Chars[buf & 0x3F]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 109,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (out.size() % 4 != 0) out.push_back('=');",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 182,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(std::move(line));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 443,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "futures.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

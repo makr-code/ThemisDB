@@ -1,13 +1,18 @@
 {
   "governance": {
-    "total": 229,
-    "severity_critical": 131,
-    "severity_high": 47,
-    "severity_medium": 51,
+    "total": 554,
+    "severity_critical": 153,
+    "severity_high": 60,
+    "severity_medium": 341,
     "by_category": {
       "security": 3,
       "memory": 34,
-      "reliability": 192
+      "reliability": 192,
+      "concurrency": 9,
+      "raii": 9,
+      "container": 279,
+      "platform": 12,
+      "performance": 16
     },
     "by_file": {
       "src\\governance\\cross_tenant_policy_inheritance.cpp": [
@@ -127,6 +132,87 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 92,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 180,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chain.push_back(tenant_id);  // include the tenant itself at the end",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 184,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tid);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 185,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "managers.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 253,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tid);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 254,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "managers.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 312,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenants_.find(tenant_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\cross_tenant_policy_inheritance.cpp",
+          "line": 322,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ancestors.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\opa_adapter.cpp": [
@@ -311,6 +397,114 @@
           "snippet": "std::lock_guard<std::mutex> lock(requests_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 210,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "\"right-to-delete requires audit_changes=true. Enable audit_changes \"",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 226,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "\" days). Review whether CCPA right-to-delete applies to HIPAA-covered PHI.\"",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<RightToKnow>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<RightToDelete>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<OptOutOfSale>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<DataPortability>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 181,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(res));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 208,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 223,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 235,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "requests_.push_back(request);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 247,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(req);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\ccpa_rules.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(req);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\compliance_reporter.cpp": [
@@ -376,6 +570,465 @@
           "snippet": "adapter_id, dataset_id, report.status,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 606,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Right to delete personal information\");",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(\"[\" + gap.severity + \"] \" + gap.gap_type +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 152,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(\"  Affected: \" +",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 156,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(\"No compliance gaps detected.\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.push_back(\"\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 186,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.push_back(\"\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 320,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fs_arr.push_back(fs.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps_array.push_back(gap.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 405,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "analysis.uncovered_resources.push_back(resource);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "analysis.overlapping_rules.push_back(rule1 + \" <-> \" + rule2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 465,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overlaps.push_back({rule1.id, rule2.id});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 488,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "no_encryption.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 493,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "no_audit.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 499,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overly_permissive.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 515,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 528,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 542,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 597,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Audit trail for data access\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 598,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Data retention policies\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 600,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Access control and segregation of duties\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 601,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Audit logging of all changes\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 602,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Regular policy reviews\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 604,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Opt-out of sale of personal information\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 605,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Right to know categories and specific pieces of ",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 606,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Right to delete personal information\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 607,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Right to portability of personal information\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 608,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Non-discrimination for exercising CCPA rights\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 610,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Install and maintain network controls (Req 1)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 611,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Protect stored account data with encryption (Req",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Protect cardholder data in transit with strong c",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 613,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Restrict access by business need to know - least",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 614,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Log and monitor all access to cardholder data (R",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 615,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.details[\"framework_requirements\"].push_back(\"Retain audit logs for at least 12 months (Req 10",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 648,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "third_party_disclosure_rule_ids.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 659,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_by_check[eval.ccpa_check_id].push_back(eval.rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 708,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "uncovered.push_back(res);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 722,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 763,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matrix[resource][action].push_back(role);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 941,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.recommendations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 1037,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps_arr.push_back(g.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 167,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F1 \" + std::to_string(static_cast<int>(TITLE_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 167,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F1 \" + std::to_string(static_cast<int>(TITLE_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 181,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F2 \" + std::to_string(static_cast<int>(BODY_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 181,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F2 \" + std::to_string(static_cast<int>(BODY_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 282,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "pdf += \"<< /Size \" + std::to_string(total_objs) + \" /Root 1 0 R >>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 282,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "pdf += \"<< /Size \" + std::to_string(total_objs) + \" /Root 1 0 R >>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 43,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '(')       result += \"\\\\(\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 44,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == ')')  result += \"\\\\)\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 45,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') result += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 47,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporter.cpp",
+          "line": 276,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%010zu 00000 n \\n\",",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\governance\\compliance_reporting.cpp": [
@@ -621,6 +1274,501 @@
           "snippet": "THEMIS_INFO(\"Generated compliance status report for {}: {:.2f}% compliant\",",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 69,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto rules_for_action = policy_mgr.findApplicableRules(resource, action, {});",
+          "description": "Iterator rules_for_action may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 74,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "applicable_rules.push_back(rule);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.uncovered_resource_list.push_back(resource);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 178,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "size_t colon_pos = pattern.find(':');",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pattern_map[key].push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 185,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overlaps.push_back(overlap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 211,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(resource);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps_json.push_back(gap.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "requirements_.push_back(req);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 317,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gap.affected_resources.push_back(resource);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_controls.push_back(\"encryption\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_controls.push_back(\"signature\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_controls.push_back(\"audit\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 340,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_controls.push_back(\"retention\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 358,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gap.affected_resources.push_back(resource);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(gap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 385,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filtered_reqs.push_back(req);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 431,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "requirements_.push_back(ComplianceRequirement::fromJson(req_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 450,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "reqs_json.push_back(req.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 573,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps_json.push_back(gap.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 636,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_json.push_back(entry_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 707,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "risks_json.push_back(risk_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 796,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "changes_json.push_back(change_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 931,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.compliant_controls.push_back(req.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 933,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.non_compliant_controls.push_back(req.name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 966,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matrix.entries.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 978,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matrix.entries.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1006,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.risks.push_back(risk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1027,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.risks.push_back(risk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1052,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.risks.push_back(risk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1065,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.risks.push_back(risk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1093,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.changes.push_back(version);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(full_key + \":\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(full_key + \": \" + val_str);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(idx_prefix + \":\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(idx_prefix + \": \" + val_str);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1269,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(prefix.empty() ? val_str : (prefix + \": \" + val_str));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1312,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.push_back(\"\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1574,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.third_party_disclosure_rule_ids.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1582,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.missing_right_to_know.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1291,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F1 \" + std::to_string(static_cast<int>(TITLE_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1291,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F1 \" + std::to_string(static_cast<int>(TITLE_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1306,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F2 \" + std::to_string(static_cast<int>(BODY_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1306,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "page_streams.back() += \"/F2 \" + std::to_string(static_cast<int>(BODY_SIZE)) + \" Tf\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1425,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "pdf += \"<< /Size \" + std::to_string(total_objs) + \" /Root 1 0 R >>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1425,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "pdf += \"<< /Size \" + std::to_string(total_objs) + \" /Root 1 0 R >>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 353,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) s += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1114,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '(')       result += \"\\\\(\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1115,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == ')')  result += \"\\\\)\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1116,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') result += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1118,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1131,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"') out += '\"'; // RFC 4180: escape double-quote by doubling",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1310,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Close current page BT block, start new page",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
+        },
+        {
+          "file": "src\\governance\\compliance_reporting.cpp",
+          "line": 1418,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"%010zu 00000 n \\n\",",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\governance\\data_lineage.cpp": [
@@ -713,6 +1861,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\data_lineage.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "events_arr.push_back(e.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\data_lineage.cpp",
+          "line": 167,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = event_index_.find(current_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\data_lineage.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chain.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\data_lineage.cpp",
+          "line": 193,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\data_lineage.cpp",
+          "line": 194,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "next_frontier.push_back(eid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\data_masker.cpp": [
@@ -733,6 +1926,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\data_masker.cpp",
+          "line": 135,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = node.begin(); it != node.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\data_masker.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(maskNode(elem, key, rule_index));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\data_masker.cpp",
+          "line": 219,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(maskNode(doc, \"\", rule_index));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\gdpr_subject_rights.cpp": [
@@ -861,6 +2081,42 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\governance\\gdpr_subject_rights.cpp",
+          "line": 56,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(targets_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\governance\\gdpr_subject_rights.cpp",
+          "line": 114,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.store_results.push_back(std::move(res));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\gdpr_subject_rights.cpp",
+          "line": 159,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first) combined += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\governance\\gdpr_subject_rights.cpp",
+          "line": 176,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (combined.back() != '\\n') combined += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\governance\\policy_manager.cpp": [
@@ -1070,6 +2326,141 @@
           "snippet": "std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 707,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "old_version = active_policy_set_->version_hash;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 707,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "old_version = active_policy_set_->version_hash;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 714,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "new_set->rules[rule.id] = rule;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 726,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "new_set->version_hash = std::to_string(std::hash<std::string>{}(concat));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 727,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "new_set->loaded_at = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 603,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"Rolled back rule {} to version {} (new version: {})\", rule_id, version, restored.versio",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 266,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(rule);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "applicable.push_back(rule);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "decision.applied_rules.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 399,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(\"Duplicate rule ID: \" + id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 412,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.warnings.push_back(\"Potential conflict between rules \" + id1 + \" and \" + id2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 445,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j[\"rules\"].push_back(rule.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 658,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rule_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 667,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager.cpp",
+          "line": 722,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& [id, rule] : new_set->rules) ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_manager_versioned.cpp": [
@@ -1099,6 +2490,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 405,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto existing_rules = policy_manager_->listRules();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 326,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"Rolled back rule {} from version {} to version {} (new version {})\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 354,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "diff.changes.push_back(\"Current rule not found\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 419,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(makeContradictoryConflict(new_rule, existing));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(makeOverlappingConflict(new_rule, existing));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 451,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_conflicts.push_back(makeContradictoryConflict(rules[i], rules[j]));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_manager_versioned.cpp",
+          "line": 453,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "all_conflicts.push_back(makeOverlappingConflict(rules[i], rules[j]));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_validator.cpp": [
@@ -1137,6 +2591,267 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 478,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "\"CCPA right-to-delete (Cal. Civ. Code \u00a7 1798.105). \"",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 77,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts_array.push_back(c.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 83,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "violations_array.push_back(v.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "metrics_array.push_back(m.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_graph[r1.id].push_back(r2.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_graph[r2.id].push_back(r1.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 282,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "component.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 306,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "circular.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 322,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto hit_it = rule_hits_.find(rule.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 328,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto eval_it = rule_eval_times_.find(rule.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 346,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "metrics.push_back(metric);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 357,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto hit_it = rule_hits_.find(rule.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 358,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto hit_it = rule_hits_.find(rule.id);",
+          "description": "Iterator hit_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 360,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "unused.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 383,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overly_permissive.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 389,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "weak_encryption.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "missing_audit.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 399,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "long_retention.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 424,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "violations.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 434,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "violations.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 460,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hipaa_ccpa_conflict_rules.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 468,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ccpa_export_block_rules.push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 486,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "violations.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 501,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "violations.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 561,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(\"Rule ID is required\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 565,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(\"At least one resource pattern is required\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 569,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(\"At least one action is required\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validator.cpp",
+          "line": 574,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issues.push_back(\"Rule does not follow security best practices\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_version_history.cpp": [
@@ -1328,6 +3043,105 @@
           "snippet": "if (!file.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "diff.changes.push_back(fmt::format(\"Version {} -> {}\", version1, version2));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 297,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 319,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "version_array.push_back(v.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "audit_array.push_back(entry.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 344,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "versions.push_back(PolicyRuleVersion::fromJson(v_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 353,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "audit_log_.push_back(AuditLogEntry::fromJson(entry_json));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 428,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (rule1.name != rule2.name) changes.push_back(\"name\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 429,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (rule1.description != rule2.description) changes.push_back(\"description\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 430,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (rule1.classification_level != rule2.classification_level) changes.push_back(\"classification_leve",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 431,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (rule1.enabled != rule2.enabled) changes.push_back(\"enabled\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_version_history.cpp",
+          "line": 432,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (rule1.resources != rule2.resources) changes.push_back(\"resources\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\review_scheduler.cpp": [
@@ -1357,6 +3171,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 176,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pending.push_back(review);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overdue.push_back(review);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(review);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 216,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "due_rules.push_back(rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 251,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schedules_array.push_back(schedule.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\review_scheduler.cpp",
+          "line": 258,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "reviews_array.push_back(review.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\cross_border_transfer.cpp": [
@@ -1415,6 +3283,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaAccessControl>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 136,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaEncryption>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaAuditControls>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaIntegrityControls>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 139,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaTransmissionSecurity>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rules_.push_back(std::make_shared<HipaaRetention>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\hipaa_rules.cpp",
+          "line": 162,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(res));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\iso27001_rules.cpp": [
@@ -1426,6 +3357,159 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 56,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (res.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 56,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (res.find(kw) != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 103,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ev_arr.push_back(ev.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 124,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "res_arr.push_back(r.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ev_arr.push_back(ev.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 210,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeIso27001Evidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 237,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 257,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeIso27001Evidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeIso27001Evidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 333,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 355,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeIso27001Evidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 382,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 403,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeIso27001Evidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 429,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 477,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(ctrl->evaluate(rule));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 517,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.evidence_items.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\iso27001_rules.cpp",
+          "line": 520,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.results.push_back(std::move(cr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\model_governance.cpp": [
@@ -1502,6 +3586,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\pci_dss_rules.cpp",
+          "line": 144,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(res));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\pci_dss_rules.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\pci_dss_rules.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_coordinator.cpp": [
@@ -1659,6 +3770,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_engine.cpp",
+          "line": 273,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\governance\\policy_engine.cpp",
+          "line": 151,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "new_masking.rules.push_back(std::move(rule));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_file_watcher.cpp": [
@@ -1679,6 +3808,24 @@
           "snippet": "thread_ = std::thread(&PolicyFileWatcher::run, this);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_file_watcher.cpp",
+          "line": 93,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\governance\\policy_file_watcher.cpp",
+          "line": 96,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\governance\\policy_review.cpp": [
@@ -1978,6 +4125,177 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 685,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"Extended expiration for rule {} by {} days, new expiration: {}\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 128,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = schedules_.find(rule_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 142,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "due_rules.push_back(schedule.rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "overdue_rules.push_back(schedule.rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 216,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "schedules_arr.push_back(pair.second.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 305,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 318,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 395,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 454,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "reviews_arr.push_back(pair.second.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 551,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = expirations_.find(rule_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 565,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 583,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expired_rules.push_back(config.rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 627,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "warnings.push_back(warning);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 699,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expirations_arr.push_back(pair.second.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 900,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_review.cpp",
+          "line": 926,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_template.cpp": [
@@ -2016,6 +4334,51 @@
           "snippet": "throw std::invalid_argument(\"Template not found: \" + template_id);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\governance\\policy_template.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "params_json.push_back(param.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_template.cpp",
+          "line": 540,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = templates_.find(template_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\policy_template.cpp",
+          "line": 550,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tmpl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_template.cpp",
+          "line": 561,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(tmpl);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_template.cpp",
+          "line": 596,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j.push_back(tmpl->toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\governance\\policy_validation.cpp": [
@@ -2108,6 +4471,384 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1233,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "stats.avg_time_us = metric_it->second.avg_evaluation_time_us;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 93,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts_arr.push_back(conflict.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 99,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "security_arr.push_back(check.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 209,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 260,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "size_t colon_pos = pattern.find(':');",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 248,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pattern_rules[key].push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 269,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(conflict);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_graph[r1.id].push_back(r2.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 337,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflict_graph[r2.id].push_back(r1.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 356,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "component.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 380,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(std::move(conflict));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 465,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "unused_rules.push_back(rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 541,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 563,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 598,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 611,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 646,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 659,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 691,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 705,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 742,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.recommendations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 747,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.recommendations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 800,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 817,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 830,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 843,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "checks.push_back(check);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 952,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "impacts.push_back(impact);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 971,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slow_rules.push_back(rule_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 984,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j.push_back(metrics.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1063,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recs_arr.push_back(rec.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1131,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "similar_groups[signature].push_back(rule.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recommendations.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1229,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto metric_it = metrics.find(rule.id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1230,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto metric_it = metrics.find(rule.id);",
+          "description": "Iterator metric_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1239,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "rule_stats.push_back(stats);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1255,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recommendations.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1298,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "recommendations.push_back(rec);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1395,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(std::move(result));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1432,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "conflicts.push_back(std::move(result));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\policy_validation.cpp",
+          "line": 1126,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "signature += \"|\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\governance\\soc2_controls.cpp": [
@@ -2119,6 +4860,195 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 78,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ev_arr.push_back(ev.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 99,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results_arr.push_back(r.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ev_arr.push_back(ev.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 202,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"require_encryption must be true for sensitive resources (CC6.1)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 207,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"required_roles must list at least one authorized role (CC6.1)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 224,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeRuleEvidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"audit_access must be true to detect unauthorized queries (CC7.2)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 256,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"audit_changes must be true to detect unauthorized mutations (CC7.2)\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 273,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeRuleEvidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 302,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"require_signature must be true to enforce authorized \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 306,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"audit_changes must be true to produce a change log \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 323,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeRuleEvidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 372,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeRuleEvidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 404,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"require_encryption must be true for confidential \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 408,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"allow_export should be false (or gated by signature) \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 412,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"redaction_level must be 'standard' or 'strict' for \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 468,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "gaps.push_back(\"audit_access must be true to verify processing \"",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 488,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.evidence.push_back(makeRuleEvidence(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 513,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(ctrl->evaluate(rule));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 555,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.evidence_items.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\governance\\soc2_controls.cpp",
+          "line": 558,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.results.push_back(std::move(cr));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

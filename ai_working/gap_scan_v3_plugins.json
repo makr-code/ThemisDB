@@ -1,13 +1,18 @@
 {
   "plugins": {
-    "total": 136,
-    "severity_critical": 77,
-    "severity_high": 16,
-    "severity_medium": 43,
+    "total": 220,
+    "severity_critical": 91,
+    "severity_high": 28,
+    "severity_medium": 101,
     "by_category": {
       "security": 7,
       "memory": 9,
-      "reliability": 120
+      "reliability": 120,
+      "concurrency": 5,
+      "raii": 31,
+      "container": 29,
+      "platform": 2,
+      "performance": 17
     },
     "by_file": {
       "src\\plugins\\oci_registry_client.cpp": [
@@ -55,6 +60,96 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 109,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 116,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 124,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 127,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 371,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "writer.file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 86,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto colon = line.find(':');",
+          "description": "Iterator colon may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 541,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = auth_configs_.find(ref.registry);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 546,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "accept_headers.push_back(\"Authorization: Bearer \" + auth.bearer_token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 584,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "manifest.layers.push_back(std::move(l));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 678,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = auth_configs_.find(ref.registry);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\plugins\\plugin_hot_plug_monitor.cpp": [
@@ -138,6 +233,123 @@
           "snippet": "monitor_thread_ = std::thread([this]() {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 376,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(kq);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 381,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct kevent",
+          "description": "Class kevent allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~kevent() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 389,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(dir_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 390,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(kq);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 468,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(dir_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 469,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(kq);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 542,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(inotify_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 588,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(inotify_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 147,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(500));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 167,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(500));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "filename.push_back(static_cast<char>(wc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 399,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::directory_iterator(watch_directory_)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 327,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// A rename/move into the directory counts as a new file",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\plugins\\plugin_manager.cpp": [
@@ -563,6 +775,339 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 572,
+          "type": "missing_lock",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "Raw .lock() without corresponding .unlock() \u2014 use RAII instead",
+          "remediation": "Replace with std::lock_guard<std::mutex> guard(mutex);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 572,
+          "type": "double_lock",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "Potential double-lock on same mutex: lock",
+          "remediation": "Ensure proper lock nesting or use recursive_mutex if needed"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1448,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "bool started = hot_plug_monitor_->start();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 88,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "dlclose(handle);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 108,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 115,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 123,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 126,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 865,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "destroyFunc(entry.instance.release());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 898,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "destroyFunc(entry.instance.release());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1079,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto msg = fmt::format(\"Failed to load new plugin binary for '{}' from '{}'\", name, plugin_path);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1123,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "else delete new_instance;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1159,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "else delete new_instance;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1178,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "entry.instance.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1192,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "else delete old_raw;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 336,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "manifest.dependencies.push_back(dep.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 389,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 756,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "type_index_[plugin->getType()].push_back(plugin_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 934,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = type_index_.find(type);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 936,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto plugin_it = plugins_.find(name);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 937,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto plugin_it = plugins_.find(name);",
+          "description": "Iterator plugin_it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 939,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(plugin_it->second.instance.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 952,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.second.manifest);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 964,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(pair.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1503,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents.push_back(plugin_name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1592,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"1. Download from https://marketplace.themisdb.io/\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1594,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"3. Place in $THEMIS_HOME/plugins/\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 539,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!cycle_desc.empty()) cycle_desc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 541,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 541,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 838,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!dep_list.empty()) dep_list += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1002,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!dep_list.empty()) dep_list += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1239,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!cycle_desc.empty()) cycle_desc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1241,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1241,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1255,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!missing_desc.empty()) missing_desc += \"; \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1282,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\plugins\\rpc_service_registry.cpp": [
@@ -619,6 +1164,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 45,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = services_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\plugins\\signed_plugin_repository.cpp": [
@@ -756,6 +1310,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 316,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 327,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 328,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 104,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pinned_keys_.push_back(std::move(key));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 196,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 242,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 243,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 244,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 245,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 246,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\plugins\\wasm_plugin_loader.cpp": [
@@ -785,6 +1438,33 @@
           "snippet": "while (file.read(buffer, sizeof(buffer)) || file.gcount() > 0) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 108,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void operator()(EVP_MD_CTX* p) const noexcept { EVP_MD_CTX_free(p); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 308,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct WasmtimeBundle",
+          "description": "Class WasmtimeBundle allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~WasmtimeBundle() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 390,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete b;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\plugins\\plugin_health_monitor.cpp": [
@@ -1165,6 +1845,69 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 235,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 240,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 115,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = monitored_plugins_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 289,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(200));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(n);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 591,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"PluginHealthMonitor [ADMIN ALERT]: plugin '{}' requires attention \u2014 {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 486,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "auto it = std::find(strategies.begin(), strategies.end(), action);",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\plugins\\plugin_metrics.cpp": [
@@ -1230,6 +1973,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 98,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.latency_samples.push_back(latency_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 140,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = stats_.find(plugin);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\plugins\\plugin_registry.cpp": [

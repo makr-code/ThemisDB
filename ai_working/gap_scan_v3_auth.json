@@ -1,13 +1,18 @@
 {
   "auth": {
-    "total": 522,
-    "severity_critical": 127,
-    "severity_high": 291,
-    "severity_medium": 104,
+    "total": 719,
+    "severity_critical": 162,
+    "severity_high": 313,
+    "severity_medium": 244,
     "by_category": {
       "security": 27,
       "memory": 35,
-      "reliability": 460
+      "reliability": 460,
+      "concurrency": 19,
+      "raii": 82,
+      "container": 68,
+      "platform": 9,
+      "performance": 19
     },
     "by_file": {
       "src\\auth\\federated_identity_manager.cpp": [
@@ -244,6 +249,87 @@
           "snippet": "throw AuthException(AuthError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 322,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "curl_free(enc_key);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 335,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "curl_free(enc_val);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 121,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto pos = b64_chars.find(static_cast<char>(c));",
+          "description": "Iterator pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "decoded.push_back(static_cast<char>((val >> bits) & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 196,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "const auto it = realms_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 216,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "issuers.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 108,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "b64 += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 311,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) body += '&';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 523,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) scope_str += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\auth\\jwt_validator.cpp": [
@@ -570,6 +656,114 @@
           "snippet": "throw std::runtime_error(\"Token has been revoked\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 118,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (!b64) { BIO_free(bmem); return {}; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 355,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "n.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 356,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "e.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 360,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rsa.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 476,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "r_bn.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 477,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "s_bn.release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 259,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 578,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(part);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 656,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.scopes.push_back(token_item);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 669,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.scopes.push_back(token_item);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 714,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& v : payload[\"aud\"]) if (v.is_string()) claims.audience.push_back(v.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 835,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "revoked_kids_runtime_.push_back(kid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\ldap_connection_pool.cpp": [
@@ -698,6 +892,78 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 18,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct integration",
+          "description": "Class integration allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~integration() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 135,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (active_count_.load(std::memory_order_acquire) > 0) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 189,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "new PooledConnection(*this, candidate));",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 208,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "new PooledConnection(*this, fresh));",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 274,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "spdlog::error(\"LDAPConnectionPool: failed to disable referrals on new connection\");",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 360,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ldap_msgfree(result);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 387,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ldap_msgfree(result);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 100,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "idle_.push_back(ld);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\mtls_authenticator.cpp": [
@@ -952,6 +1218,105 @@
           "snippet": "throw AuthException(AuthError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 360,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 365,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 44,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "struct X509Deleter    { void operator()(X509* p)        const { X509_free(p); } };",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 45,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "struct X509StoreDeleter { void operator()(X509_STORE* p) const { X509_STORE_free(p); } };",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 46,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "struct X509StoreCTXDeleter { void operator()(X509_STORE_CTX* p) const { X509_STORE_CTX_free(p); } };",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 48,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "struct X509CRLDeleter { void operator()(X509_CRL* p)     const { X509_CRL_free(p); } };",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 301,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(utf8);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 416,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(utf8);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 449,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(hex_raw);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 516,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "GENERAL_NAMES_free(san_names);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 511,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(oss.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\oauth_device_flow.cpp": [
@@ -1206,6 +1571,60 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 346,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "spdlog::debug(\"OAuthDeviceFlow: slow_down received, new interval={}s\", poll_interval);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 491,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "curl_free(encoded);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 322,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(poll_interval));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 104,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) scope_str += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 502,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) body += '&';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 504,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "body += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\auth\\oauth_pkce_flow.cpp": [
@@ -1433,6 +1852,51 @@
           "snippet": "throw AuthException(AuthError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 420,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 475,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "curl_free(encoded);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 153,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) scope_str += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 486,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) body += '&';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 488,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "body += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\auth\\oidc_provider.cpp": [
@@ -1806,6 +2270,42 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 47,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 52,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 57,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "timestamps.push_back(now);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\redis_token_blacklist.cpp": [
@@ -1988,6 +2488,15 @@
           "snippet": "bool RedisTokenBlacklist::reconnect() {",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 252,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = fallback_map_.begin(); it != fallback_map_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\auth\\rocksdb_token_blacklist.cpp": [
@@ -2116,6 +2625,51 @@
           "snippet": "lk.unlock();",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 139,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete db_;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 166,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (db_) { delete db_; db_ = nullptr; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 109,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "existing_cfs.push_back(config_.column_family);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 131,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "other_cf_handles_.push_back(cf_handles[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 266,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(cv_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\auth\\saml_authenticator.cpp": [
@@ -2334,6 +2888,186 @@
           "snippet": "std::lock_guard<std::mutex> lock(replay_cache_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 78,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(static_cast<EVP_PKEY*>(idp_public_key_));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 91,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 98,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 206,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(b64_bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 207,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(mem_bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 261,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(b64_bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 262,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(mem_bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 404,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mctx_ref);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 430,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mctx_sig);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 623,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(key_bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 640,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(sp_pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 662,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(sp_pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 692,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_CTX_free(rsa_ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 776,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(aes_ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1178,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = seen_assertion_ids_.begin(); it != seen_assertion_ids_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1262,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.audience.push_back(nodeText(child));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.attributes_groups.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "claims.attributes_roles.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 152,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" AllowCreate=\\\"true\\\"/>\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 152,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \" AllowCreate=\\\"true\\\"/>\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\auth\\api_key_authenticator.cpp": [
@@ -2734,6 +3468,168 @@
           "snippet": "throw std::runtime_error(\"Failed to parse certificate: \" + cert_path);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 316,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->last_stats.pinning_verified = (impl_->config.pinning_mode == JWKSSecurityConfig::PinningMode:",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 324,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (impl_->config.pinning_mode == JWKSSecurityConfig::PinningMode::NONE) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 328,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (impl_->config.pinning_mode == JWKSSecurityConfig::PinningMode::PUBLIC_KEY) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 374,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 385,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 396,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(spki);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 397,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 409,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BIO_free(bio);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 420,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 430,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(spki);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 431,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 443,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 456,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 470,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fclose(fp);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 480,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(subject);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 487,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(issuer);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 500,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 503,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "X509_free(cert);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\auth\\kerberos_security.cpp": [
@@ -2835,6 +3731,60 @@
           "snippet": "throw std::runtime_error(\"Confidentiality required but not present\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 756,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "reinterpret_cast<uint8_t*>(&init_addrtype) + sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 762,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "reinterpret_cast<uint8_t*>(&init_len) + sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 771,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "reinterpret_cast<uint8_t*>(&acc_addrtype) + sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 777,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "reinterpret_cast<uint8_t*>(&acc_len) + sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 786,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "reinterpret_cast<uint8_t*>(&app_len) + sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 210,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!sname_str.empty()) sname_str += '/';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\auth\\ldap_authenticator.cpp": [
@@ -2954,6 +3904,132 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 416,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "pooled_conn = pool_->checkout();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 581,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "pooled_conn = pool_->checkout();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 537,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ldap_value_free(vals);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 540,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ldap_msgfree(result);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 703,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ldap_msgfree(result);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roles.push_back(mapping.role);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 275,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roles.push_back(config_.default_role);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 143,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '*':  out += \"\\\\2a\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 144,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '(':  out += \"\\\\28\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 145,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case ')':  out += \"\\\\29\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 146,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\5c\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 147,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\0': out += \"\\\\00\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 266,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(roles.begin(), roles.end(), mapping.role) == roles.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 266,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(roles.begin(), roles.end(), mapping.role) == roles.end()) {",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\auth\\totp_secret_encryption.cpp": [
@@ -3109,6 +4185,87 @@
           "snippet": "throw std::runtime_error(\"Random number generation failed\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 227,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "static_cast<int>(impl_->config.tag_size), result.tag.data()) != 1) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 227,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "static_cast<int>(impl_->config.tag_size), result.tag.data()) != 1) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 231,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 284,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_CIPHER_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 146,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(part);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 396,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "secrets.push_back(new_version);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 408,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = user_secrets_.find(user_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 417,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "active_secrets.push_back(secret);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 62,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "config.master_key.size() * sizeof(uint8_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\auth\\webauthn_authenticator.cpp": [
@@ -3543,6 +4700,249 @@
           "snippet": "throw AuthException(AuthError(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 958,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OSSL_PARAM_BLD_free(bld);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 967,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OSSL_PARAM_free(params);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 968,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_CTX_free(pctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 970,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 976,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 982,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(der);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 994,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (!n || !e) { BN_free(n); BN_free(e); throw std::runtime_error(\"BN_bin2bn failed\"); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 997,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (!bld) { BN_free(n); BN_free(e); throw std::runtime_error(\"OSSL_PARAM_BLD_new failed\"); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1001,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OSSL_PARAM_BLD_free(bld);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1002,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BN_free(n);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1003,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "BN_free(e);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1012,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OSSL_PARAM_free(params);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1013,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_CTX_free(pctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1015,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1021,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1027,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "OPENSSL_free(der);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1065,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1076,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 1077,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_PKEY_free(pkey);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 361,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 362,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (padded[i + 2] != '=') out.push_back(static_cast<uint8_t>((b << 4) | (c >> 2)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 363,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (padded[i + 3] != '=') out.push_back(static_cast<uint8_t>((c << 6) | d));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 388,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "params.push_back({{\"type\", \"public-key\"}, {\"alg\", alg_id}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 405,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "excl.push_back({{\"type\", \"public-key\"}, {\"id\", cid}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 426,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "allow.push_back({{\"type\", \"public-key\"}, {\"id\", cid}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 754,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = pending_challenges_.find(challenge_b64);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 767,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = pending_challenges_.begin(); it != pending_challenges_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\auth\\auth_audit_logger.cpp": [
@@ -3857,6 +5257,96 @@
           "snippet": "std::unique_lock<std::mutex> slock(stuffing_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 502,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(callback_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 507,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(callback_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 801,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stat_total_auth_attempts_.store(0, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 802,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "stat_allowed_attempts_.store(0, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 111,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lockout_state_.find(user_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 156,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = lockout_state_.find(user_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 204,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = lockout_state_.begin(); it != lockout_state_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 737,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entry.attempt_times.push_back(now);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 829,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = stuffing_state_.begin(); it != stuffing_state_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 533,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(day, sizeof(day), \"%04d%02d%02d\",",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\auth\\gssapi_authenticator.cpp": [
@@ -4237,6 +5727,33 @@
           "snippet": "oss << \" (0x\" << minor_status << \")\";",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roles.push_back(mapping.role);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "roles.push_back(\"readonly\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 210,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "roles_str += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\auth\\jwks_validator.cpp": [
@@ -4257,6 +5774,24 @@
           "snippet": "throw std::runtime_error(\"JWKS validation failed:\\n\" + result.getErrorSummary());",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 49,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.warnings.push_back(\"Duplicate key IDs found\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 300,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.warnings.push_back(\"Duplicate key ID: \" + kid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\jwt_key_rotation_manager.cpp": [
@@ -4403,6 +5938,33 @@
           "snippet": "case JWKKeyInfo::Status::REVOKED: s.revoked_keys++; break;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 206,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_revoke.push_back(kid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 233,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (info.status == JWKKeyInfo::Status::PASSIVE) result.push_back(kid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 242,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (info.status == JWKKeyInfo::Status::REVOKED) result.push_back(kid);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\mfa_authenticator.cpp": [
@@ -4432,6 +5994,24 @@
           "snippet": "throw std::invalid_argument(\"Invalid base32 character\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 241,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "codes.push_back(generateRecoveryCode());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 345,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "output.push_back((buffer >> (bits_left - 8)) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\password_policy.cpp": [
@@ -4443,6 +6023,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.violations.push_back(msg.str());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.violations.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\principal_validator.cpp": [
@@ -4454,6 +6052,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 373,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.rules.push_back(rule);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 392,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "config.rules.push_back(rule);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\session_manager.cpp": [
@@ -4546,6 +6162,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 201,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sessions_.find(hashSessionId(session_id));",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 225,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = sessions_.find(hashSessionId(session_id));",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_erase.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 277,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expired_ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 279,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(info);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 312,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "expired.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\auth\\token_blacklist.cpp": [
@@ -4638,6 +6308,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 76,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto oldest = blacklist_.begin();",
+          "description": "Iterator oldest may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 77,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = blacklist_.begin(); it != blacklist_.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 139,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = blacklist_.find(jti);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 187,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\auth\\totp_replay_cache.cpp": [
@@ -4703,6 +6409,60 @@
           "snippet": "throw std::runtime_error(\"TOTP code has already been used\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 150,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto& user_cache = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 195,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto& user_cache = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 78,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "user_cache.push_back({code, now});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 126,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = user_caches_.find(user_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 149,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = user_caches_.begin(); it != user_caches_.end();) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 189,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = user_caches_.find(user_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\auth\\zero_trust_auth_verifier.cpp": [
@@ -4768,6 +6528,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 301,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "worker_pool_->submit([this, e = entry]() {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 287,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "to_eval.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

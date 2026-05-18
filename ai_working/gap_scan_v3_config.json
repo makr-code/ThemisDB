@@ -1,13 +1,18 @@
 {
   "config": {
-    "total": 83,
-    "severity_critical": 35,
-    "severity_high": 35,
-    "severity_medium": 13,
+    "total": 142,
+    "severity_critical": 43,
+    "severity_high": 50,
+    "severity_medium": 49,
     "by_category": {
       "security": 5,
       "memory": 3,
-      "reliability": 75
+      "reliability": 75,
+      "concurrency": 5,
+      "raii": 24,
+      "container": 17,
+      "platform": 7,
+      "performance": 6
     },
     "by_file": {
       "src\\config\\config_file_watcher.cpp": [
@@ -127,6 +132,222 @@
           "snippet": "if (!issue_read()) break;",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 92,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 118,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(kqueue_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 143,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 145,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 146,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 147,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 191,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 192,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 194,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 195,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 196,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 285,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 344,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct inotify_event",
+          "description": "Class inotify_event allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~inotify_event() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 345,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct inotify_event",
+          "description": "Class inotify_event allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~inotify_event() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 369,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ifd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 404,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 436,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 518,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 588,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 499,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto& entry : std::filesystem::directory_iterator(path)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 117,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (pipe(fds) != 0) {",
+          "description": "POSIX-only API pipe( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 290,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 441,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 592,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\config\\config_schema_validator.cpp": [
@@ -201,6 +422,51 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 72,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(yamlNodeToJsonImpl(child));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 370,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "visited_refs.push_back(ref);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 499,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "known_keys.push_back(k);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 274,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (raw_token[i + 1] == '1') { key += '/'; ++i; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 275,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (raw_token[i + 1] == '0') { key += '~'; ++i; }",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\config\\config_encrypted_store.cpp": [
@@ -554,6 +820,60 @@
           "snippet": "throw ConfigEncryptionException(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 342,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "~CtxGuard() { EVP_CIPHER_CTX_free(p); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 397,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "~CtxGuard() { EVP_CIPHER_CTX_free(p); }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (c >= 0) out.push_back(static_cast<uint8_t>(((b & 0x0F) << 4) | (c >> 2)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 93,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (d >= 0) out.push_back(static_cast<uint8_t>(((c & 0x03) << 6) | d));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 188,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kv.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\config\\config_audit_log.cpp": [
@@ -619,6 +939,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 55,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "if (!enabled_.load(std::memory_order_relaxed)) {",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 66,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 59,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries_.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\config\\config_metrics_exporter.cpp": [
@@ -657,6 +1004,69 @@
           "snippet": "std::lock_guard<std::mutex> lock(g_registry_mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 158,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint64_t prev = (prev_it == g_prev_snapshot.legacy_by_category.end()) ? 0 : prev_it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 174,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto collected = g_registry->Collect();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 174,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto collected = g_registry->Collect();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 43,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct RegisteredMetrics",
+          "description": "Class RegisteredMetrics allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~RegisteredMetrics() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 65,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct CounterSnapshot",
+          "description": "Class CounterSnapshot allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~CounterSnapshot() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 363,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [cat, count] : ConfigPathResolver::legacyFallbacksByCategory()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 399,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& category : ConfigPathResolver::legacyFallbackCategories()) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\config\\config_path_resolver.cpp": [
@@ -767,6 +1177,132 @@
           "snippet": "throw InvalidPathException(path, \"symlink escapes config root\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1351,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "spdlog::debug(\"ConfigPathResolver: Using new config path: {} -> {}\",",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 90,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "report.push_back(std::move(entry));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1284,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "attempted_paths.push_back(\"config/\" + envToString(env) + \"/\" + relative_part);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "attempted_paths.push_back(new_path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "attempted_paths.push_back(normalized);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1341,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "spdlog::debug(\"ConfigPathResolver: Using env overlay path [{}]: {} -> {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1623,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "categories.push_back(entry.first);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1487,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::replace(normalized.begin(), normalized.end(), '\\\\', '/');",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1487,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::replace(normalized.begin(), normalized.end(), '\\\\', '/');",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1517,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::replace(str.begin(), str.end(), '\\\\', '/');",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1517,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::replace(str.begin(), str.end(), '\\\\', '/');",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1708,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '/' || c == '\\\\' || c == '$' || c == '`' || c == ';' ||",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1708,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '/' || c == '\\\\' || c == '$' || c == '`' || c == ';' ||",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 144,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ]
     }

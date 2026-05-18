@@ -22,6 +22,7 @@
 
 #include "server/udf_api_handler.h"
 #include "query/functions/udf_registry.h"
+#include "utils/input_validator.h"
 
 #include <nlohmann/json.hpp>
 #include <stdexcept>
@@ -68,6 +69,18 @@ http::response<http::string_body>
 UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleRegister");
+    const themis::utils::InputValidator validator;
+
+    if (!validator.validateStringLength(req.body(), 1'000'000)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Request body exceeds maximum allowed size", req);
+    }
+
+    if (!validator.validateJSON(req.body())) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Request body contains potentially unsafe content", req);
+    }
+
     json body;
     try {
         body = json::parse(req.body());
@@ -92,6 +105,12 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 
     UdfDefinition def;
     def.name = body["name"].get<std::string>();
+
+    if (!validator.validatePathSegment(def.name) ||
+        !validator.validateStringLength(def.name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Field 'name' contains invalid characters or length", req);
+    }
 
     if (body.contains("description") && body["description"].is_string()) {
         def.description = body["description"].get<std::string>();
@@ -183,6 +202,12 @@ UdfApiHandler::handleGet(
     const std::string& name)
 {
     auto span = Tracer::startSpan("handleGet");
+    const themis::utils::InputValidator validator;
+    if (!validator.validatePathSegment(name) || !validator.validateStringLength(name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "UDF name contains invalid characters or length", req);
+    }
+
     try {
         auto def = UdfRegistry::instance().getUdf(name);
         return makeJsonResponse(http::status::ok, def.toJson(), req);
@@ -202,6 +227,12 @@ UdfApiHandler::handleDelete(
     const std::string& name)
 {
     auto span = Tracer::startSpan("handleDelete");
+    const themis::utils::InputValidator validator;
+    if (!validator.validatePathSegment(name) || !validator.validateStringLength(name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "UDF name contains invalid characters or length", req);
+    }
+
     try {
         UdfRegistry::instance().unregisterUdf(name);
     } catch (const std::runtime_error&) {

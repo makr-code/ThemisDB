@@ -1,13 +1,18 @@
 {
   "scheduler": {
-    "total": 180,
-    "severity_critical": 92,
-    "severity_high": 66,
-    "severity_medium": 22,
+    "total": 269,
+    "severity_critical": 117,
+    "severity_high": 83,
+    "severity_medium": 69,
     "by_category": {
       "security": 15,
       "memory": 12,
-      "reliability": 153
+      "reliability": 153,
+      "concurrency": 20,
+      "raii": 5,
+      "container": 50,
+      "platform": 1,
+      "performance": 13
     },
     "by_file": {
       "src\\scheduler\\distributed_task_coordinator.cpp": [
@@ -163,6 +168,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(leadership_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 301,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "s.leadership_acquired = leadership_acquired_.load();",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 327,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "leadership_acquired_.fetch_add(1);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 277,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scheduler\\external_scheduler_adapter.cpp": [
@@ -228,6 +260,78 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 473,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"        headers={'Content-Type': 'application/json'},\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 81,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += '-';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 200,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 201,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\'': out += \"\\\\'\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 202,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 203,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 204,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 205,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\scheduler\\task_scheduler.cpp": [
@@ -959,6 +1063,429 @@
           "snippet": "std::unique_lock<std::shared_mutex> lock(alert_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 362,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double deadline_ms = static_cast<double>(task.sla_deadline->count());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 779,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second->avg_execution_time_ms = old_stats.avg_execution_time_ms;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1072,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task_map[id] = it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1259,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task->avg_execution_time_ms =",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1652,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (task->consecutive_skips >= config_.aging_threshold) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1692,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto effectivePriority = [aging_thr](const std::shared_ptr<ScheduledTask>& t) -> int {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1692,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto effectivePriority = [aging_thr](const std::shared_ptr<ScheduledTask>& t) -> int {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1693,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const int base = static_cast<int>(t->priority);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1694,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (aging_thr > 0 && t->consecutive_skips >= aging_thr) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1729,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "running_task_threads_[task->id] = std::move(task_thread);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1856,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task->avg_execution_time_ms =",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2137,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task_json[\"trigger_type\"] = static_cast<int>(task->trigger_type);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2139,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task_json[\"priority\"] = static_cast<int>(task->priority);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2140,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "task_json[\"trigger_logic\"] = static_cast<int>(task->trigger_logic);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2884,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double sla_ms = static_cast<double>(task.sla_deadline->count());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2199,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2218,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "af.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 344,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @param delay_ms           [in/out] Computed retry delay \u2013 may be clamped.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 345,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* @param effective_max_retries [in/out] Max attempts \u2013 may be clamped.",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 551,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(25));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 675,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tasks_.find(task_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1007,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1026,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = dependents.find(cur);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1015,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[dep].push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1025,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "order.push_back(cur);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1027,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = dependents.find(cur);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1031,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ready.push_back(dependent);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1083,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "adj[id].push_back(dep);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1095,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dependents[dep].push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1119,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto dit = dependents.find(id);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1117,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.condition_skipped.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1120,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto dit = dependents.find(id);",
+          "description": "Iterator dit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.skipped.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1133,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto dit = dependents.find(id);",
+          "description": "Iterator dit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1163,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.condition_skipped.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1167,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto dit = dependents.find(id);",
+          "description": "Iterator dit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1176,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wave.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1186,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.skipped.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1366,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto dit = dependents.find(wr.id);",
+          "description": "Iterator dit may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1462,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "task_snapshot.push_back(*task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1577,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1679,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tasks_to_execute.push_back(task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1722,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto existing = running_task_threads_.find(task->id);",
+          "description": "Iterator existing may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2147,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cdc_json[\"event_types\"].push_back(type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2929,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = active_failure_alert_ids_.find(task_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1627,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(tasks_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1721,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(running_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\scheduler\\task_audit_event.cpp": [
@@ -1188,6 +1715,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 311,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "cv_.wait_for(lock, std::chrono::milliseconds(100),",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 320,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "cv_.wait_for(lock, std::chrono::seconds(1),",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 424,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "raw_clauses.push_back(trim(condition.substr(pos)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 427,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "raw_clauses.push_back(trim(condition.substr(pos, found - pos)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 444,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 449,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(raw.substr(i, j - i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 469,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parsed_clauses_.push_back(std::move(pc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 526,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = triggers_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 251,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Poll for new events with long-polling",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 283,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(debounce_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 464,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (k > 2) rhs += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\scheduler\\hybrid_retention_manager.cpp": [
@@ -1480,6 +2106,123 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 328,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "return it->second.total_executions >= config_.min_samples;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 343,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 348,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 353,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 358,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 246,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "intervals.push_back(std::chrono::duration<double>(interval).count());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 398,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (double v : d) arr.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 408,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ts_arr.push_back(std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 415,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (bool b : stats.execution_results) res_arr.push_back(b);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 476,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& v : arr) d.push_back(v.get<double>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 490,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.execution_times.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 499,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "stats.execution_results.push_back(b.get<bool>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 100,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) metrics.description += \", \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\scheduler\\task_audit_manager.cpp": [
@@ -1635,6 +2378,51 @@
           "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 231,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 387,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(event));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 425,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 529,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(event));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 563,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "j.push_back(event.toJson(config_.enable_gdpr_mode));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\scheduler\\task_result_store.cpp": [
@@ -1646,6 +2434,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 107,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "size_t to_delete = all_keys.size() - max_per_task_;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(TaskExecutionResult::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

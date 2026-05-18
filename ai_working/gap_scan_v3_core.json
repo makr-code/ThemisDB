@@ -1,13 +1,18 @@
 {
   "core": {
-    "total": 79,
-    "severity_critical": 27,
-    "severity_high": 37,
-    "severity_medium": 15,
+    "total": 122,
+    "severity_critical": 30,
+    "severity_high": 47,
+    "severity_medium": 45,
     "by_category": {
       "security": 1,
       "memory": 1,
-      "reliability": 77
+      "reliability": 77,
+      "concurrency": 1,
+      "raii": 7,
+      "container": 4,
+      "platform": 3,
+      "performance": 28
     },
     "by_file": {
       "src\\core\\concerns\\redis_cache.cpp": [
@@ -244,6 +249,150 @@
           "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 137,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (fd >= 0) { ::close(fd); fd = -1; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 255,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct addrinfo",
+          "description": "Class addrinfo allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 296,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct timeval",
+          "description": "Class timeval allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~timeval() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 322,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct timeval",
+          "description": "Class timeval allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~timeval() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.nodes.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.nodes.push_back(\"127.0.0.1:6379\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 177,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "nodes_.push_back(std::move(nc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 803,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "parts.push_back(std::move(elem));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 299,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (::select(fd + 1, nullptr, &wfds, nullptr, &tv) > 0) {",
+          "description": "POSIX-only API select( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 325,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "const int sel = ::select(0, nullptr, &wfds, nullptr, &tv);",
+          "description": "POSIX-only API select( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 431,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "cmd += '$';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 433,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "cmd += \"\\r\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 435,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "cmd += \"\\r\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 659,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 876,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 899,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\core\\index_interface_stubs.cpp": [
@@ -717,6 +866,60 @@
           "snippet": "void LockFreeMetrics::stopFlushThread() noexcept",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 236,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(counters_mu_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 369,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!slot || !slot->alive.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 407,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!entry->alive.load(std::memory_order_acquire)) continue;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 444,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 299,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first) key += ',';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 301,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "key += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\core\\concerns\\prometheus_metrics.cpp": [
@@ -739,6 +942,195 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 273,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 165,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \",\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 167,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"\\\":\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 169,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"[REDACTED]\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 173,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 179,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 181,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 183,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"[REDACTED]\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 265,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 266,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 267,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 268,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 269,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 273,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 342,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \",\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 344,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"\\\":\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 346,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"[REDACTED]\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 350,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 361,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 363,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += '=';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 365,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "buf += \"[REDACTED]\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ]
     }

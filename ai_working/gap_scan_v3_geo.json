@@ -1,13 +1,17 @@
 {
   "geo": {
-    "total": 43,
-    "severity_critical": 2,
-    "severity_high": 18,
-    "severity_medium": 23,
+    "total": 143,
+    "severity_critical": 4,
+    "severity_high": 36,
+    "severity_medium": 103,
     "by_category": {
       "security": 5,
       "memory": 5,
-      "reliability": 33
+      "reliability": 33,
+      "raii": 2,
+      "container": 85,
+      "platform": 7,
+      "performance": 6
     },
     "by_file": {
       "src\\geo\\spatial_join.cpp": [
@@ -55,6 +59,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 98,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 98,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 98,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 99,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back({key_a, key_b, dist});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\temporal_spatial_query_builder.cpp": [
@@ -176,6 +225,69 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 188,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "std::vector<uint8_t> gpu_adj; // flat [n\u00d7n], empty on CPU path",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 213,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "neighbours.push_back(j);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 223,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "neighbours.push_back(j);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 252,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (nb != i) queue.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 274,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "queue.push_back(nb);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (coords[i].valid) valid_idx.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 94,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const std::size_t adj_sz   = n * n * sizeof(uint8_t);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\geo\\geo_faiss_knn.cpp": [
@@ -214,6 +326,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 95,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "std::vector<float>       ecef_data; // flat [indexed_count \u00d7 kDim]",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 118,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ecef_data.push_back(x);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ecef_data.push_back(y);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 120,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ecef_data.push_back(z);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 121,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "dataset_map.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 212,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 236,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(r);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 256,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\boost_cpu_exact_backend.cpp": [
@@ -234,6 +418,141 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 96,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "poly.inners().push_back(hole);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({bg::get<0>(p), bg::get<1>(p)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 245,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(ring));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 258,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(outer_ring));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 266,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(hole));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 293,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 294,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 304,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(boostPolyToGeomInfo(p));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 332,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(boostPolyToGeomInfo(p));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 357,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "outer.push_back({bg::get<0>(p), bg::get<1>(p)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 359,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(outer));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 364,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(hole));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\cpu_backend.cpp": [
@@ -254,6 +573,213 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({cx + d_lon * std::cos(angle),",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 169,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back(ring[0]); // close the ring",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 242,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e2.p1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 248,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back({e1.p1.x + t * d1x, e1.p1.y + t * d1y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 499,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(cpuCircleRing(c.x, c.y, d_lat, d_lon, arc_points));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 666,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ips.push_back({static_cast<double>(i)+t,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 676,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "A.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 682,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "B.push_back(v);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 749,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({v.x, v.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 762,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({v.x, v.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 805,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({v.x, v.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 820,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({v.x, v.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 828,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back({v.x, v.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 837,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ring.push_back(ring[0]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 881,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 882,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 893,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 898,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 899,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "col.geometries.push_back(geom2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 941,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(ring1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 942,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(ring2);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 955,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 975,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "backends_.push_back(std::move(b));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\device_detector.cpp": [
@@ -283,6 +809,24 @@
           "snippet": "<< \"\\\"is_healthy\\\":\"       << (d.is_healthy ? \"true\" : \"false\") << \",\"",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(Assess(d));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(MakeCpuFallbackCapability());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\geo_rtree.cpp": [
@@ -294,6 +838,114 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 210,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GeoRTree::bulkLoad completed: entries={}, geo_index_bytes_allocated={}\",",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 216,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "THEMIS_INFO(\"GeoRTree::insert: key={}, geo_index_bytes_allocated={}\",",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 101,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 102,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 113,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 118,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(it->second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back({geom.computeMBR(), key});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 150,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back({geom.computeMBR(), key});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 155,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "for (auto it = entries.begin(); it != entries.end(); ++it) {",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 174,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e.key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 184,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(e.key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 126,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "constexpr std::size_t kNodeOverhead = 4 * sizeof(double) + 32;  // box + key avg",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\geo\\gpu_backend_hip.cpp": [
@@ -305,6 +957,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 82,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t out_sz  = static_cast<size_t>(numPoints) * sizeof(uint8_t);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\geo\\gpu_backend_production.cpp": [
@@ -325,6 +986,105 @@
           "snippet": "thread.join();",
           "description": "thread_join without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 414,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidate_indices.push_back(static_cast<size_t>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 415,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.geoms_a.push_back(in.geoms_a[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 416,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.geoms_b.push_back(in.geoms_b[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 504,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.rings.push_back(std::move(ring));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 791,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidate_indices.push_back(static_cast<size_t>(i));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 792,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.geoms_a.push_back(in.geoms_a[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 793,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.geoms_b.push_back(in.geoms_b[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 369,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 370,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 685,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 686,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\geo\\gpu_backend_stub.cpp": [
@@ -345,6 +1105,42 @@
           "snippet": "gpu_device_present_ && active_device_.is_healthy &&",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 647,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "poly_coords.push_back(v.x);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 648,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "poly_coords.push_back(v.y);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 691,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (c == '\"')  out += \"\\\\\\\"\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 692,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\geo\\gpu_kernel_dispatcher_cpu.cpp": [
@@ -405,6 +1201,24 @@
           "snippet": "CursorStatus next(GeoIndexEntry& entry) override {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hits.push_back({key, geom, 0.0});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 183,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back({key, geom, dist});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\temporal_spatial_query.cpp": [
@@ -416,6 +1230,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 126,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 159,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(row));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\geo\\tile_server.cpp": [
@@ -427,6 +1259,80 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 155,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(TileCoord{x, y, zoom});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.features.push_back(std::move(feat));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        }
+      ],
+      "src\\geo\\geo_json_geometry.cpp": [
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 70,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "ctx + \": longitude \" + std::to_string(c.x) + \" outside [-180,180]\"});",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 74,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "ctx + \": latitude \" + std::to_string(c.y) + \" outside [-90,90]\"});",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 54,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 188,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 228,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 270,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ]
     }

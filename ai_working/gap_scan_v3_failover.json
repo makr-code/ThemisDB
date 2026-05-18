@@ -1,12 +1,15 @@
 {
   "failover": {
-    "total": 34,
-    "severity_critical": 22,
-    "severity_high": 1,
-    "severity_medium": 11,
+    "total": 47,
+    "severity_critical": 24,
+    "severity_high": 10,
+    "severity_medium": 13,
     "by_category": {
       "memory": 1,
-      "reliability": 33
+      "reliability": 33,
+      "concurrency": 3,
+      "container": 8,
+      "performance": 2
     },
     "by_file": {
       "src\\failover\\auto_failover_manager.cpp": [
@@ -270,6 +273,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 197,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 536,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto epoch_token = fencing_manager_->bumpEpoch(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 19,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 176,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failing_nodes.push_back(node_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 286,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 324,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 431,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 607,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 650,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failover_durations_.push_back(result.duration);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 283,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(failover_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 567,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\failover\\disaster_recovery_manager.cpp": [
@@ -317,6 +419,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 276,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto token = fencing_mgr_->bumpEpoch(\"disaster-recovery: \" + plan.plan_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 314,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ]
     }

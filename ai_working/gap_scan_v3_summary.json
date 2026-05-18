@@ -1,60 +1,65 @@
 {
-  "scan_date": "2026-05-18T21:00:29.008974",
-  "phase": "Phase 1 (Security + Memory + Reliability)",
-  "total_gaps": 18238,
+  "scan_date": "2026-05-18T21:29:17.712486",
+  "phase": "Phase 1-4 (Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance)",
+  "total_gaps": 31720,
   "by_severity": {
-    "critical": 6179,
-    "high": 6333,
-    "medium": 5726,
-    "actionable": 12512
+    "critical": 8626,
+    "high": 8551,
+    "medium": 14543,
+    "actionable": 17177
   },
   "by_category": {
     "security": 1514,
     "memory": 2227,
-    "reliability": 14497
+    "reliability": 14498,
+    "concurrency": 1834,
+    "raii": 1855,
+    "container": 7629,
+    "platform": 1146,
+    "performance": 1017
   },
   "modules_scanned": 60,
   "top_modules": [
     {
       "module": "server",
-      "gaps": 2722
+      "gaps": 4139
     },
     {
       "module": "llm",
-      "gaps": 2255
+      "gaps": 3664
     },
     {
       "module": "sharding",
-      "gaps": 1336
-    },
-    {
-      "module": "storage",
-      "gaps": 799
-    },
-    {
-      "module": "index",
-      "gaps": 678
+      "gaps": 2051
     },
     {
       "module": "query",
-      "gaps": 675
+      "gaps": 1340
+    },
+    {
+      "module": "storage",
+      "gaps": 1328
+    },
+    {
+      "module": "index",
+      "gaps": 1309
+    },
+    {
+      "module": "analytics",
+      "gaps": 1159
     },
     {
       "module": "security",
-      "gaps": 669
+      "gaps": 1134
     },
     {
       "module": "content",
-      "gaps": 525
+      "gaps": 806
     },
     {
-      "module": "auth",
-      "gaps": 522
-    },
-    {
-      "module": "network",
-      "gaps": 430
+      "module": "utils",
+      "gaps": 773
     }
   ],
-  "implementation_effort": "467.3 weeks (2336 days)"
+  "implementation_effort": "645.1 weeks (3225 days)"
 }

@@ -1,13 +1,18 @@
 {
   "network": {
-    "total": 430,
-    "severity_critical": 161,
-    "severity_high": 192,
-    "severity_medium": 77,
+    "total": 713,
+    "severity_critical": 192,
+    "severity_high": 273,
+    "severity_medium": 248,
     "by_category": {
       "security": 9,
       "memory": 77,
-      "reliability": 344
+      "reliability": 344,
+      "concurrency": 34,
+      "raii": 130,
+      "container": 68,
+      "platform": 28,
+      "performance": 23
     },
     "by_file": {
       "src\\network\\qos_manager.cpp": [
@@ -451,6 +456,204 @@
           "snippet": "std::lock_guard<std::mutex> lock(tenants_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 219,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 282,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 287,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 410,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "state->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 468,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "state->leaky_bucket = std::make_shared<LeakyBucket>(drain_rate_bps, capacity_bytes);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 591,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "state->congestion_ctrl = std::make_shared<CongestionController>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 607,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "state->congestion_ctrl = std::make_shared<CongestionController>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 819,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t in_flight = state->queue_depth.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 842,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t current = state->queue_depth.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 914,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cs.priority             = static_cast<Priority>(state->priority.load(std::memory_order_relaxed));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 918,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "cs.queue_depth          = state->queue_depth.load(std::memory_order_relaxed);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1001,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ts->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst > 0 ? burst : 1);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1007,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ts->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst > 0 ? burst : 1);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 906,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "QoSManager::getConnectionStats(uint64_t connection_id) const {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 957,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "result.push_back(getConnectionStats(id));",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 111,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 113,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(1));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 364,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = tenant_assignments_.find(connection_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 950,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 957,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(getConnectionStats(id));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1083,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ids.push_back(id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1090,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(getTenantStats(id));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\network\\quic_server.cpp": [
@@ -642,6 +845,258 @@
           "snippet": "throw std::runtime_error(\"[QUICClient] openStream called when not connected\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 86,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 130,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 155,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 163,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 231,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 279,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(static_cast<SSL*>(tls));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 289,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 302,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 336,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 369,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(static_cast<SSL*>(tls));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 507,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(ssl);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 521,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(ssl);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 531,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"[QUICServer] new QUIC connection from {}\", key);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 569,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (open_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 570,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 575,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!open_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 597,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void QUICClient::Stream::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 622,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 665,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (connected_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 723,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 746,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(ssl);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 747,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 772,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "stream->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 781,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(static_cast<SSL*>(tls));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 788,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 796,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!connected_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 170,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"\\x02h3\"          // \"h3\"   (length 2)",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 171,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"\\x04tmdb\";       // \"tmdb\" (length 4)",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\network\\quic_transport.cpp": [
@@ -734,6 +1189,114 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 57,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 81,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 106,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 113,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 209,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(static_cast<SSL*>(tls_handle));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 219,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 232,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_CTX_free(ssl_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 267,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 300,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(static_cast<SSL*>(tls));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 421,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(ssl);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 435,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "SSL_free(ssl);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 445,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "THEMIS_INFO(\"[QuicTransport] new QUIC connection from {}\", key);",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
         }
       ],
       "src\\network\\wire_protocol_connection_pool.cpp": [
@@ -1123,6 +1686,240 @@
           "snippet": "return !ec && socket.is_open();",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 551,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "pool->available = std::move(fresh_queue);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 599,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "size_t ideal = config_.adaptive_strategy->getIdealConnectionCount(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 114,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void SocketWrapper::close(boost::system::error_code& ec) {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 116,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "plain_socket_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 121,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ssl_socket_->lowest_layer().close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 147,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (!shutdown_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 268,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "plain_socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 324,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ssl_stream->lowest_layer().close(shutdown_ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 377,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "WireProtocolConnectionPool::acquireConnection(const std::string& target) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 381,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "auto deadline = std::chrono::steady_clock::now() + config_.acquire_timeout;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 402,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "conn->socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 474,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "conn->socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 542,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "conn->socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 647,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "conn->socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 667,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "conn->socket->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 689,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "stats.acquire_timeouts = acquire_timeouts_.load(std::memory_order_relaxed);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 150,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "if (shutdown_cv_.wait_for(lock, std::chrono::seconds(10),",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 433,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 565,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "targets.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 149,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(shutdown_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 411,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Try to create new connection if under limit",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 509,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 517,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::cerr << \"[WireProtocolConnectionPool] Warmup failed for \" << target",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 527,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 661,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 699,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\network\\wire_protocol_v2.cpp": [
@@ -1332,6 +2129,114 @@
           "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 136,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "oss << \"v2conn-\" << counter.fetch_add(1, std::memory_order_relaxed);",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 184,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "hdr.payload_length = static_cast<uint32_t>(payload->size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 480,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.send_window += static_cast<int32_t>(inc);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 276,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 682,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "acceptor_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 596,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto pos = line.find(':');",
+          "description": "Iterator pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 84,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "uint32_t len_be     = htonl32(h.payload_length);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 241,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "uint32_t ec_be = htonl32(error_code);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 265,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "uint32_t ec_be   = htonl32(error_code);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 670,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::cerr << \"[WireV2] I/O thread error: \" << e.what() << '\\n';",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 670,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::cerr << \"[WireV2] I/O thread error: \" << e.what() << '\\n';",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 670,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::cerr << \"[WireV2] I/O thread error: \" << e.what() << '\\n';",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\network\\io_uring_batcher.cpp": [
@@ -1361,6 +2266,69 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 293,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_); ring_fd_ = -1;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 307,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_); ring_fd_ = -1;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 323,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_); ring_fd_ = -1;",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 360,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 252,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(sqe + 4,  &fd_i,     sizeof(fd_i));  // fd",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 254,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(sqe + 16, &addr,     sizeof(addr));   // addr (iovec ptr)",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 256,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(sqe + 24, &len,      sizeof(len));    // len  (iov_cnt)",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\network\\network_audit_log.cpp": [
@@ -1417,6 +2385,15 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (ev.type == type) result.push_back(ev);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\network\\raft_load_balancer.cpp": [
@@ -1563,6 +2540,141 @@
           "snippet": "for (auto* b : healthy) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 303,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (b->healthy && b->datacenter == config_.datacenter) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 186,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "strategy_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 246,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return role_.load(std::memory_order_acquire) == RaftRole::LEADER;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 250,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return role_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 254,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return current_term_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 460,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (!shutdown_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 463,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "[this] { return shutdown_.load(std::memory_order_acquire); });",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 466,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (shutdown_.load(std::memory_order_acquire)) break;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 580,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "[this] { return shutdown_.load(std::memory_order_acquire); });",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 146,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "backends_.push_back(std::move(backend));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 172,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(b.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 304,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(b.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 311,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (b->healthy) result.push_back(b.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 421,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& b : backends_) backends_snapshot.push_back(b.get());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 461,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(shutdown_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\network\\udp_fast_path.cpp": [
@@ -1628,6 +2740,60 @@
           "snippet": "out.push_back(static_cast<uint8_t>(status));",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 92,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 135,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 401,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kUdpFastPathRespMagic0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 402,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(kUdpFastPathRespMagic1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 187,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t request_id = ntohl(req_id_be);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 408,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t req_id_be = htonl(request_id);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
         }
       ],
       "src\\network\\udp_server.cpp": [
@@ -1729,6 +2895,42 @@
           "snippet": "ack.push_back(static_cast<uint8_t>(status));",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 108,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 150,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 483,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "const uint32_t seq_be = htonl(seq_num);",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 373,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(batch_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\network\\wire_protocol_helpers.cpp": [
@@ -1767,6 +2969,42 @@
           "snippet": "if (request.collection.empty()) {",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data_.push_back(static_cast<uint8_t>((value & 0x7F) | 0x80));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 148,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data_.push_back(static_cast<uint8_t>(value & 0x7F));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 154,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data_.push_back(static_cast<uint8_t>(value & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 162,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data_.push_back(static_cast<uint8_t>(value & 0xFF));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\network\\wire_protocol_server.cpp": [
@@ -2723,6 +3961,375 @@
           "snippet": "sendError(404, \"Process instance not found: \" + status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 308,
+          "type": "memory_order",
+          "severity": "HIGH",
+          "snippet": "active_connection_count_.load(std::memory_order_relaxed) >= config_.max_connections) {",
+          "description": "memory_order_relaxed used \u2014 potential visibility issue",
+          "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 313,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != connections_per_ip_.end() && it->second >= config_.max_connections_per_ip) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1076,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "response[\"auth_required\"] = server_->config_.require_auth;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1118,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto& stored = server_->config_.auth_token;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2193,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto agg_result = server_->ts_store_->aggregate(query_opts);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 239,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "acceptor_->close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 395,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!running_.load(std::memory_order_acquire)) return;",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 423,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "session->socket_.close(close_ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 445,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "session->socket_.close(close_ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 484,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 510,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void WireProtocolServer::Session::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 513,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 560,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 654,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "socket_.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 724,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 988,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 995,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1003,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1351,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "client_keys.push_back(key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1352,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "storage_keys.push_back(collection + \":\" + key);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1377,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(item));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1451,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1460,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(r));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1492,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(item_result));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1720,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "vertices.push_back(std::move(v));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1788,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "first_batch.push_back(result_json[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1879,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(entry.results[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1962,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "query_vector.push_back(v.get<float>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1993,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "hits.push_back(std::move(hit));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "bucket_data[bucket_start_ms].push_back(point.value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2267,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "response.buckets.push_back(bucket);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2397,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "active_tasks.push_back(instance_id + \":\" + token.current_node);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2583,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "active_tasks.push_back(task);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2612,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(event);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 566,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 573,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 660,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 665,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2287,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "uint32_t magic = htonl(0x544D4442);  // \"TMDB\" in network byte order",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2296,
+          "type": "endianness_assumption",
+          "severity": "MEDIUM",
+          "snippet": "uint32_t payload_size_net = htonl(payload_size);  // Convert to network byte order",
+          "description": "Endianness conversion may have undefined behavior",
+          "remediation": "Document endianness assumptions or use portable serialization"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 227,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::cerr << \"[WireProtocol] IO thread error: \" << e.what() << std::endl;",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\network\\wire_protocol_server_ws.cpp": [
@@ -3094,6 +4701,51 @@
           "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 992,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "<< (prev - 1) << \" (limit=\" << server_->config_.max_connections",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 738,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 877,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 955,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void WireProtocolWebSocketSession::close() {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 961,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ws_.close(websocket::close_code::normal, ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\network\\wire_protocol_zero_copy.cpp": [
@@ -3249,6 +4901,78 @@
           "snippet": "throw std::system_error(errno, std::system_category(),",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 157,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(addr_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 171,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 179,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 188,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 226,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "std::free(addr_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 235,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 255,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (addr_ != MAP_FAILED && addr_ != nullptr) std::free(addr_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 258,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (fd_ >= 0) ::close(fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\network\\adaptive_circuit_breaker.cpp": [
@@ -3368,6 +5092,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 66,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (state_.load(std::memory_order_acquire) == CircuitState::CLOSED) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 105,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const CircuitState s = state_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 144,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "const CircuitState s = state_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 177,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "return state_.load(std::memory_order_acquire);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ],
       "src\\network\\connection_compression.cpp": [
@@ -3462,6 +5222,348 @@
           "snippet": "if (out_status_code) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 265,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(callbacks_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 270,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(callbacks_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 289,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(stats_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 294,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(versions_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 299,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(versions_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 726,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 840,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "[this] { return !running_.load(std::memory_order_acquire); });",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 179,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back(array_body.substr(item_start, i - item_start + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 391,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& item : splitJsonArray(body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 408,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 426,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& item : splitJsonArray(body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 439,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& locality_ep : splitJsonArray(eps_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 443,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& lbep : splitJsonArray(lb_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 457,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.endpoints.push_back(std::move(ep));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 483,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& item : splitJsonArray(body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 490,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& locality_ep : splitJsonArray(eps_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 494,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& lbep : splitJsonArray(lb_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 508,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.endpoints.push_back(std::move(ep));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 549,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "const auto q1 = dom_body.find('\"', pos);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 533,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& rc : splitJsonArray(body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 539,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& vh : splitJsonArray(vhosts_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 561,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!domain.empty()) info.domains.push_back(domain);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 570,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (const auto& rt : splitJsonArray(routes_body)) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 603,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "info.routes.push_back(std::move(route));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 609,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(std::move(info));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 839,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "wake_cv_.wait_for(lk, std::chrono::milliseconds(wait_ms),",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 66,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 58,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 59,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 60,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\n': out += \"\\\\n\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 61,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\r': out += \"\\\\r\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 62,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\t': out += \"\\\\t\";  break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 66,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 91,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\"': value += '\"'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 92,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case '\\\\': value += '\\\\'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 93,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'n': value += '\\n'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 94,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 'r': value += '\\r'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 95,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "case 't': value += '\\t'; break;",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\network\\geo_topology_router.cpp": [
@@ -3563,6 +5665,24 @@
           "snippet": "healthy.begin(), healthy.end(),",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 115,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "(it != config_.region_latency_hints.end()) ? it->second : kUnhintedRegionLatencyMs;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 175,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "selected->region == config_.local_region);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\network\\grpc_transport.cpp": [
@@ -3592,6 +5712,33 @@
           "snippet": "throw std::runtime_error(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 185,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cqs_.push_back(builder.AddCompletionQueue());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 171,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lk(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\network\\kernel_bypass.cpp": [
@@ -3666,6 +5813,276 @@
           "snippet": "last_error_ = \"socket() failed: \" + std::string(std::strerror(errno));",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 200,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "void* NumaAllocator::allocate(size_t size, int node) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 230,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::numa_free(ptr, size);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 232,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "_aligned_free(ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 234,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::free(ptr);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 345,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "NumaAllocator::deallocate(data_, size_);",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 515,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rte_mempool_free(mbuf_pool);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 530,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rte_mempool_free(mbuf_pool);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 546,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rte_mempool_free(mbuf_pool);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 557,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rte_mempool_free(mbuf_pool);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 647,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "rte_pktmbuf_free(m);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 691,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 707,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct io_uring_params",
+          "description": "Class io_uring_params allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~io_uring_params() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 711,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 760,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 766,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 863,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(listen_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 942,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(listen_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 946,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 963,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(ring_fd_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 385,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cores.push_back(i);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 420,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "eal_arg_strs.push_back(\"themisdb\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 424,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "eal_arg_strs.push_back(\"-m\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 425,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "eal_arg_strs.push_back(std::to_string(config_.huge_pages_mb));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 445,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "eal_argv.push_back(const_cast<char*>(s.c_str()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 817,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "iovecs.push_back({buf->data(), buf->size()});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 818,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "fixed_bufs_.push_back(std::move(buf));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 45,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "* - CpuPinner uses sched_setaffinity / pthread_setaffinity_np (Linux only).",
+          "description": "POSIX-only API pthread_ without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 137,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "return ::pthread_setaffinity_np(thread.native_handle(),",
+          "description": "POSIX-only API pthread_ without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 276,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "&nodemask, sizeof(nodemask) * 8 + 1, /* MPOL_MF_MOVE */ 2);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\network\\service_mesh.cpp": [
@@ -3731,6 +6148,69 @@
           "snippet": "if (acceptor_ && acceptor_->is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 169,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "while (running_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 247,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "acceptor_->close(ec);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 123,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "req.find(\"GET /healthz\\r\") != std::string::npos);",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 126,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "req.find(\"GET /readyz\\r\")  != std::string::npos);",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 142,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"HTTP/1.1 404 Not Found\\r\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 151,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"HTTP/1.1 200 OK\\r\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 152,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "\"Content-Type: text/plain\\r\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\network\\socket_timeout_manager.cpp": [
@@ -3850,6 +6330,33 @@
           "snippet": "closesocket(socket);",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 71,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct timeval",
+          "description": "Class timeval allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~timeval() { /* cleanup */ }"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 202,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "spdlog::warn(\"Circuit breaker is open, refusing new connections\");",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 373,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(socket);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\network\\wire_protocol_batch.cpp": [
@@ -3861,6 +6368,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "posix_iov.push_back(item);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\network\\wire_protocol_performance.cpp": [
@@ -3926,6 +6442,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(pool_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 201,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 209,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void PayloadBufferPool::Handle::release() noexcept {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 218,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "release();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 232,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "PayloadBufferPool::Handle PayloadBufferPool::acquire() {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
         }
       ]
     }

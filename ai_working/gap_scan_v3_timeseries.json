@@ -1,13 +1,18 @@
 {
   "timeseries": {
-    "total": 206,
-    "severity_critical": 69,
-    "severity_high": 92,
-    "severity_medium": 45,
+    "total": 293,
+    "severity_critical": 76,
+    "severity_high": 115,
+    "severity_medium": 102,
     "by_category": {
       "security": 22,
       "memory": 34,
-      "reliability": 150
+      "reliability": 150,
+      "concurrency": 5,
+      "raii": 7,
+      "container": 61,
+      "platform": 7,
+      "performance": 7
     },
     "by_file": {
       "src\\timeseries\\aggregate_scheduler.cpp": [
@@ -181,6 +186,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 109,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = aggregates_.find(id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 199,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(agg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 357,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"Caught up window [{}, {}] for aggregate {}\",",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 222,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\aggregate_scheduler_helper.cpp": [
@@ -329,6 +370,42 @@
           "snippet": "std::vector<ContinuousAggMaterializationStatus> result;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 377,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "partial_results.push_back(shard_query_(s, cfg, from_ms, to_ms));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 333,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = defs_.find(name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 428,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (s.has_value()) result.push_back(std::move(*s));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\hypertable.cpp": [
@@ -412,6 +489,42 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 152,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "size_t underscore_pos = key_str.find('_');",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 137,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks_to_scan.push_back(getChunkName(t));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 143,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks_to_scan.push_back(end_chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 219,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "health_reports.push_back(h);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\timeseries.cpp": [
@@ -576,6 +689,33 @@
           "snippet": "return query(metric, entity, RangeQuery{});",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 159,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(DataPoint::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(DataPoint::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 273,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::string end_key = prefix + \"\\xFF\"; // Seek to end of prefix range",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\timeseries\\timeseries_metrics.cpp": [
@@ -695,6 +835,15 @@
           "snippet": "std::lock_guard<std::mutex> lock(agg_metrics_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 180,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\timeseries\\tsstore.cpp": [
@@ -913,6 +1062,141 @@
           "snippet": "rocksdb::Status s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1127,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_ERROR(\"Failed to delete old data: {}\", s.ToString());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1175,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_ERROR(\"Failed to delete old data for metric {}: {}\", metric, s.ToString());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1231,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_ERROR(\"Failed to delete metric {}: {}\", metric, s.ToString());",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1233,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "fmt::format(\"Failed to delete metric {}: {}\", metric, s.ToString()));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 288,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "grouped[group_key].push_back(point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 328,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "timestamps.push_back(p.timestamp_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 329,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(p.value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 533,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "timestamps.push_back(rows[idx].timestamp_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 534,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "values.push_back(rows[idx].value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 740,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 860,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(dp);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 384,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "static_cast<double>(group_points.size() * (sizeof(int64_t) + sizeof(double))) / compressed.size());",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 388,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 587,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "size_t uncompressed = indices.size() * (sizeof(int64_t) + sizeof(double));",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 500,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(watermark_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\ts_encrypted_key_rotation.cpp": [
@@ -1005,6 +1289,15 @@
           "snippet": "rocksdb::Status s;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 99,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lk(cv_mu_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\aggregates.cpp": [
@@ -1025,6 +1318,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 66,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "window_data[window_start].push_back(values[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 72,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.timestamps.push_back(window_ts);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 73,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.values.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 135,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "window_values.push_back(values[j]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 140,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.timestamps.push_back(timestamps[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.values.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\ts_auto_buffer.cpp": [
@@ -1288,6 +1635,33 @@
           "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 524,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "restored.push_back(std::move(pt));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 369,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 390,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> buf_lock(buffers_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\adaptive_flush_controller.cpp": [
@@ -1434,6 +1808,42 @@
           "snippet": "std::lock_guard<std::mutex> lock(buffer_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 158,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buffer_.push_back(point);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 222,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buffer_.push_back(p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 261,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "batch.push_back(std::move(buffer_.front()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 318,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\anomaly_detection.cpp": [
@@ -1445,6 +1855,78 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 18,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 bb6be1700b  2026-04-12  [WIP] Update module documentation to reflect current sour... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 79,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = score_map.find(p.timestamp_ms);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 79,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = score_map.find(p.timestamp_ms);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 80,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = score_map.find(p.timestamp_ms);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 89,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& p : points) vals.push_back(p.value);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(ap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 191,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (auto& [ts, ap] : merged) result.push_back(ap);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\compression_selector.cpp": [
@@ -1456,6 +1938,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 176,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != cached_.end()) return it->second;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 18,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 bb6be1700b  2026-04-12  [WIP] Update module documentation to reflect current sour... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 63,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 112,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "CompressionStrategy HeuristicCompressionSelector::select(",
+          "description": "POSIX-only API select( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 134,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "return select(profileSeries(points));",
+          "description": "POSIX-only API select( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
         }
       ],
       "src\\timeseries\\downsampling.cpp": [
@@ -1651,6 +2178,114 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 20,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\u2022 bb6be1700b  2026-04-12  [WIP] Update module documentation to reflect current sour... \u2551",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*exact);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 117,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 122,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*exact);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 180,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makeSynthetic(points.front(), target_ts, val));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makeSynthetic(points.back(), target_ts, val));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(*exact);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(makeSynthetic(points.back(), target_ts, val));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 316,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ts.push_back(t);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\gorilla.cpp": [
@@ -1662,6 +2297,60 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 88,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf_.push_back(static_cast<uint8_t>(v & 0x7FUL) | 0x80U);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf_.push_back(static_cast<uint8_t>(v & 0x7FUL));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 101,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "buf_.push_back(cur_);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 174,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kGorillaMagic0);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 175,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kGorillaMagic1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 176,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(kGorillaCurrentVersion);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\gorilla_simd.cpp": [
@@ -1673,6 +2362,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(*p);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\timeseries\\prometheus_remote_write.cpp": [
@@ -1684,6 +2382,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 278,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "\"Snappy decompression: failed to allocate output buffer\");",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 166,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.labels.push_back(std::move(label));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 170,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.samples.push_back(std::move(sample));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 198,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.timeseries.push_back(std::move(ts));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 132,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "static_assert(sizeof(double) == 8, \"double must be 64-bit\");",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
       "src\\timeseries\\query_optimizer.cpp": [
@@ -1823,6 +2566,15 @@
           "snippet": "async_thread_ = std::thread(&RetentionManager::asyncLoop, this);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\retention.cpp",
+          "line": 107,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(async_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\timeseries\\ts_auto_buffer_adaptive.cpp": [
@@ -1861,6 +2613,24 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 148,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 153,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         }
       ],
       "src\\timeseries\\ts_stream_cursor.cpp": [
@@ -1908,6 +2678,24 @@
           "snippet": "auto result = store_->query(page_opts);",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 60,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "new TsStreamCursor(store, std::move(options), cfg));",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 112,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "void TsStreamCursor::close() noexcept {",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ]
     }

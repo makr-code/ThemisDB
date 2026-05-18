@@ -1,13 +1,18 @@
 {
   "content": {
-    "total": 525,
-    "severity_critical": 80,
-    "severity_high": 309,
-    "severity_medium": 136,
+    "total": 806,
+    "severity_critical": 114,
+    "severity_high": 330,
+    "severity_medium": 362,
     "by_category": {
       "security": 27,
       "memory": 228,
-      "reliability": 270
+      "reliability": 270,
+      "concurrency": 29,
+      "raii": 46,
+      "container": 153,
+      "platform": 21,
+      "performance": 32
     },
     "by_file": {
       "src\\content\\async_ingestion_worker.cpp": [
@@ -685,6 +690,105 @@
           "snippet": "std::lock_guard<std::mutex> lock(history_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 1007,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "job.total_items = static_cast<int>(plugin->estimateJobSize(job));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 1142,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "it->second.progress = total > 0 ? static_cast<float>(processed) / total : 0.0f;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 448,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "file_list.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 458,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "job.config[\"_blobs\"].push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 526,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(job);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 582,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = job_history_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 878,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "job.content_ids.push_back(result.primary_content_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 921,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = plugins_.find(plugin_name);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 936,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "names.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 1155,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::minutes(5));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\content\\async_ingestion_worker.cpp",
+          "line": 634,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
         }
       ],
       "src\\content\\content_fs.cpp": [
@@ -768,6 +872,60 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 239,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t part_end = (i == end_idx) ? (end - chunk_off) : static_cast<uint64_t>(part->size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 240,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (part_end > part->size()) part_end = static_cast<uint64_t>(part->size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 56,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 62,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 68,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_fs.cpp",
+          "line": 71,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(mdctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
       "src\\content\\content_manager.cpp": [
@@ -1436,6 +1594,366 @@
           "snippet": "stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 818,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto emb = embedding_pipeline_->generateEmbedding(c.text);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 856,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (vector_index_->getDimension() == static_cast<int>(c.embedding.size())) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1306,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto [st, results] = vector_index_->searchKnn(q, static_cast<size_t>(k), wptr);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2100,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "dup = dedup_checker_->isDuplicateImage(cached_phash);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2105,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "dup = dedup_checker_->isDuplicateText(cached_minhash);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2114,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "result.primary_content_id = dup->existing_id;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2561,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const bool stream_embedding_active = [&]() -> bool {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2627,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto emb = embedding_pipeline_->generateEmbedding(text);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2651,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2788,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "s.total_storage_bytes = static_cast<int64_t>(storage_->getApproximateSize());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2794,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (vector_index_) s.total_embeddings = static_cast<int>(vector_index_->getVectorCount());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 910,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "target = new nlohmann::json(arr); // tempor\u00e4r, am Ende cleanup",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 915,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (f == \"tags\" && target) { delete target; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 937,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "if (f == \"tags\" && target) { delete target; }",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1962,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2573,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(sha256_ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2704,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(sha256_ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2728,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "EVP_MD_CTX_free(sha256_ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 75,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(hex[c >> 4]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 92,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(hex[c & 0x0F]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 320,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (cid.is_string()) whitelist.push_back(std::string(\"chunks:\") + cid.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 614,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& mv : cj[\"skip_compressed_mimes\"]) if (mv.is_string()) skip_mimes.push_back(mv.get<s",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 773,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 824,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunk_ids.push_back(c.id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 892,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& f : mcfg[\"fields\"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1026,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& f : mcfg[\"fields\"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1160,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(ChunkMeta::fromJson(j));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1285,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1532,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) ==",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 1974,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto filename_pos = relative_path.find_last_of('/');",
+          "description": "Iterator filename_pos may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2165,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks_json.push_back(cm.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2192,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.stage_outcomes.push_back(std::move(extraction_outcome));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2197,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.stage_outcomes.push_back(std::move(extraction_outcome));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2244,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks_json.push_back(cm.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2271,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.stage_outcomes.push_back(std::move(extraction_outcome));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2276,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.stage_outcomes.push_back(std::move(extraction_outcome));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2325,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks_json.push_back(cm.toJson());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 2602,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager.cpp",
+          "line": 910,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "target = new nlohmann::json(arr); // tempor\u00e4r, am Ende cleanup",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\content\\deduplication_checker.cpp": [
@@ -1456,6 +1974,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\deduplication_checker.cpp",
+          "line": 171,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "auto val = band_cache_->get(makeBandKey(b, bh));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\content\\geo_processor.cpp": [
@@ -1998,6 +2525,42 @@
           "snippet": "throw std::runtime_error(\"GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\content\\geo_processor.cpp",
+          "line": 543,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "OGRPoint* point = static_cast<OGRPoint*>(multipoint->getGeometryRef(g));",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\geo_processor.cpp",
+          "line": 305,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\geo_processor.cpp",
+          "line": 193,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "(mime_type == \"application/json\" && content.find(\"\\\"type\\\"\") != std::string::npos)) {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\geo_processor.cpp",
+          "line": 193,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "(mime_type == \"application/json\" && content.find(\"\\\"type\\\"\") != std::string::npos)) {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\pdf_processor.cpp": [
@@ -2270,6 +2833,96 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 418,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "items.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 446,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "positions_out.push_back({item.x, item.y});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 519,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(sentence);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 539,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 591,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 245,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::regex page_regex(\"/Type\\\\s*/Page[^s]\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 328,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::regex pattern(\"/\" + key + \"\\\\s*\\\\(([^)]+)\\\\)\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 328,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "std::regex pattern(\"/\" + key + \"\\\\s*\\\\(([^)]+)\\\\)\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 542,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Start new chunk (with overlap)",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
+        },
+        {
+          "file": "src\\content\\pdf_processor.cpp",
+          "line": 553,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\video_processor.cpp": [
@@ -2542,6 +3195,222 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 540,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "data.framerate = static_cast<double>(stream->avg_frame_rate.num) /",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 540,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "data.framerate = static_cast<double>(stream->avg_frame_rate.num) /",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 706,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "double aspect = static_cast<double>(frame->width) / frame->height;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 935,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint8_t* ra = a->data[0] + static_cast<ptrdiff_t>(y) * a->linesize[0];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 936,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const uint8_t* rb = b->data[0] + static_cast<ptrdiff_t>(y) * b->linesize[0];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 491,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 615,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 748,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_frame_free(&rgb_frame);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 754,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_frame_free(&frame);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 755,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_packet_free(&packet);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 795,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 834,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_packet_free(&packet);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 871,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "temp_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 978,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_frame_free(&frame);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 979,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_frame_free(&prev_frame);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 980,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "av_packet_free(&packet);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "kf_times.push_back(time);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 264,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scene_times.push_back(time);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 312,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 453,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keyframes.push_back(i * interval_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 826,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "keyframes.push_back(pts_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 954,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "scenes.push_back(pts_ms);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 317,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_text += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\video_processor.cpp",
+          "line": 548,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Get number of channels (handle both old and new FFmpeg API)",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\content\\pipeline\\async_bulk_uploader.cpp": [
@@ -2706,6 +3575,51 @@
           "snippet": "case IngestionJobStatus::CANCELLED:",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\pipeline\\async_bulk_uploader.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\async_bulk_uploader.cpp",
+          "line": 119,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\async_bulk_uploader.cpp",
+          "line": 128,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "files.push_back({metadata_list[i].content_id, blob});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\async_bulk_uploader.cpp",
+          "line": 149,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\async_bulk_uploader.cpp",
+          "line": 167,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\archive_processor.cpp": [
@@ -2843,6 +3757,114 @@
           "snippet": "if (!ofs.is_open()) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 261,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(za);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 511,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(za);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 565,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_fclose(zf);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 592,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_fclose(zf);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 593,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "out_file.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 598,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(za);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 609,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(za);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 755,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "ofs.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "components.push_back(component);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 890,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "members.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 924,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "extracted_files.push_back(file_path);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\archive_processor.cpp",
+          "line": 398,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i > 0) result += \"/\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\audio_processor.cpp": [
@@ -2962,6 +3984,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\audio_processor.cpp",
+          "line": 223,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "waveform_json.push_back(sample);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\audio_processor.cpp",
+          "line": 253,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "segments_json.push_back(seg_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\audio_processor.cpp",
+          "line": 330,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\audio_processor.cpp",
+          "line": 337,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\cad_processor.cpp": [
@@ -3018,6 +4076,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\cad_processor.cpp",
+          "line": 290,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\cad_processor.cpp",
+          "line": 342,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data.part_ids.push_back(\"PART_\" + std::to_string(i + 1));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\cad_processor.cpp",
+          "line": 468,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "data.part_ids.push_back(line.substr(2));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\cad_processor.cpp",
+          "line": 168,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "} else if (mime_type == \"image/vnd.dxf\" || header.find(\"0\\nSECTION\") != std::string::npos) {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\cad_processor.cpp",
+          "line": 168,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "} else if (mime_type == \"image/vnd.dxf\" || header.find(\"0\\nSECTION\") != std::string::npos) {",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\content_logger.cpp": [
@@ -3227,6 +4330,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\content_logger.cpp",
+          "line": 224,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "size_t pos = filename.find_last_of(\"/\\\\\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\content_manager_llm.cpp": [
@@ -3292,6 +4404,42 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\content_manager_llm.cpp",
+          "line": 397,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tags.push_back(tag);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager_llm.cpp",
+          "line": 434,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result[current_category].push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_manager_llm.cpp",
+          "line": 88,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "prompt << \"3. Sentiment (positive/negative/neutral)\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\content_manager_llm.cpp",
+          "line": 89,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "prompt << \"4. Content category (article/technical/business/personal/other)\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\content_security.cpp": [
@@ -3312,6 +4460,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\content_security.cpp",
+          "line": 432,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.pii_types.push_back(type_str);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_security.cpp",
+          "line": 574,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"((/(?:[a-zA-Z_][a-zA-Z0-9_\\-]*)(?:/[a-zA-Z0-9_\\-.]+)+))\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\content_security.cpp",
+          "line": 575,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex windows_path_regex(R\"([A-Z]:\\\\([a-zA-Z0-9_\\-]+\\\\)+[a-zA-Z0-9_\\-./]*)\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\content_security.cpp",
+          "line": 576,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex home_path_regex(R\"(~/[a-zA-Z0-9_\\-./]+)\");",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\content_security.cpp",
+          "line": 430,
+          "type": "repeated_search",
+          "severity": "HIGH",
+          "snippet": "if (std::find(result.pii_types.begin(), result.pii_types.end(), type_str)",
+          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
+          "remediation": "Move search outside loop or build index/map before loop"
         }
       ],
       "src\\content\\content_type.cpp": [
@@ -3332,6 +4525,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\content_type.cpp",
+          "line": 217,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "for (size_t i = 0; i < std::min(blob.size(), size_t(1000)); i++) {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\content\\content_type.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(&type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_type.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(&type);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\image_processor.cpp": [
@@ -3397,6 +4617,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\image_processor.cpp",
+          "line": 204,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "color_array.push_back({",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\image_processor.cpp",
+          "line": 286,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\image_processor.cpp",
+          "line": 291,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\language_detector.cpp": [
@@ -3455,6 +4702,150 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 88,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "bool verified = sig_mgr_->verifyFile(config_path, resource_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sig.signature.push_back(static_cast<uint8_t>(byte.as<int>()));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 145,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "magic_signatures_.push_back(std::move(sig));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 187,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "policy_.allowed.push_back(std::move(mp));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 199,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "policy_.denied.push_back(std::move(mp));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 322,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "ext_lines.push_back(kv.first + \"=\" + kv.second);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 349,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "magic_lines.push_back(sig.mime_type + \"@\" + std::to_string(sig.offset) + \"=\" + hex + wildcards);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "category_lines.push_back(cat.first + \"=\" + joined);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 336,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(tmp, sizeof(tmp), \"%02x\", static_cast<unsigned int>(b));",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 341,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "wildcards += \":\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 344,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first) wildcards += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 336,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(tmp, sizeof(tmp), \"%02x\", static_cast<unsigned int>(b));",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 344,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!first) wildcards += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 363,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i) joined += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 363,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (i) joined += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\mime_detector.cpp",
+          "line": 377,
+          "type": "expensive_inner_op",
+          "severity": "MEDIUM",
+          "snippet": "snprintf(&hex_out[i * 2], 3, \"%02x\", static_cast<unsigned int>(digest[i]));",
+          "description": "I/O operation in inner loop \u2014 very expensive",
+          "remediation": "Buffer output or move I/O outside loop"
         }
       ],
       "src\\content\\mock_clip_processor.cpp": [
@@ -3495,6 +4886,51 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\ocr_processor.cpp",
+          "line": 389,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\ocr_processor.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(current);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\ocr_processor.cpp",
+          "line": 411,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(ch));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\ocr_processor.cpp",
+          "line": 446,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(ch));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\ocr_processor.cpp",
+          "line": 470,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> token) tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\office_processor.cpp": [
@@ -3938,6 +5374,231 @@
           "snippet": "while ((n = read(out_fd, buf, sizeof(buf))) > 0) {",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 635,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_source_free(source);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 642,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 648,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 654,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 661,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_fclose(file);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 662,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 727,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_source_free(source);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 740,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "zip_close(archive);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 847,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(in_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 854,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(in_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1035,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(out_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1039,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "close(out_fd);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 307,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "paragraphs.push_back(para_text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 366,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "shared_strings.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 387,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sheet_names.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 485,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "if (entry.find(\"ppt/slides/slide\") != std::string::npos &&",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 486,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "entry.find(\".xml\") != std::string::npos) {",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 488,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "slides.push_back(entry);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 736,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "entries.push_back(name);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1073,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "paragraphs.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1092,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1136,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 817,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (!in_file.empty())  unlink(in_file.c_str());",
+          "description": "POSIX-only API unlink( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 818,
+          "type": "posix_only_api",
+          "severity": "HIGH",
+          "snippet": "if (!out_file.empty()) unlink(out_file.c_str());",
+          "description": "POSIX-only API unlink( without platform guard",
+          "remediation": "Wrap in #ifndef _WIN32 ... #endif or provide Windows alternative"
+        },
+        {
+          "file": "src\\content\\office_processor.cpp",
+          "line": 1099,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \"\\n\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\stt_processor.cpp": [
@@ -4291,6 +5952,123 @@
           "snippet": "throw std::runtime_error(\"Unsupported IEEE float bit depth: \" + std::to_string(bits_per_sample));",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 501,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "whisper_free(static_cast<struct whisper_context*>(whisper_ctx_));",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 215,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "segments_json.push_back(seg_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 270,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 313,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 622,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "\" (only PCM [1] and IEEE float [3] are supported)\");",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 774,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "pcm_data.push_back(mixed_sample);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 861,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.segments.push_back(segment);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 1061,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "features.push_back(std::move(fv));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 1088,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "centroids.push_back(features[0]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 1105,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "centroids.push_back(features[best_idx]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 1187,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "segments.push_back(seg_json);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 281,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\stt_processor.cpp",
+          "line": 319,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "current_chunk += \" \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\text_processor.cpp": [
@@ -4374,6 +6152,105 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 125,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 180,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(chunk);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 244,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 356,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto start = sentence.find_first_not_of(\" \\t\\n\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 357,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto end = sentence.find_last_not_of(\" \\t\\n\");",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 362,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(sentence);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 369,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "sentences.push_back(text);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 394,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "words.push_back(std::move(w));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 406,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "shingles.push_back(words[i] + \" \" + words[i + 1] + \" \" + words[i + 2]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 152,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "chunk_text += \" \"; // Add space between sentences",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\text_processor.cpp",
+          "line": 152,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "chunk_text += \" \"; // Add space between sentences",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\tts_processor.cpp": [
@@ -4394,6 +6271,168 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 282,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "auto* voice = new piper::PiperVoice();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 305,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete static_cast<piper::PiperVoice*>(tts_ctx_);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 243,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "voices.push_back(voice1);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 461,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back(file_size & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 462,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((file_size >> 8) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 463,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((file_size >> 16) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 464,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((file_size >> 24) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 472,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back(sample_rate & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 473,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((sample_rate >> 8) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 474,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((sample_rate >> 16) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 475,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((sample_rate >> 24) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 477,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back(byte_rate & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 478,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((byte_rate >> 8) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 479,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((byte_rate >> 16) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 480,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((byte_rate >> 24) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 487,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back(data_size & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 488,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((data_size >> 8) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\tts_processor.cpp",
+          "line": 489,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "wav_data.push_back((data_size >> 16) & 0xFF);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\abuse_detector.cpp": [
@@ -4405,6 +6444,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\abuse_detector.cpp",
+          "line": 214,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "patterns.push_back(std::move(p));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\content_errors.cpp": [
@@ -4591,6 +6639,60 @@
           "snippet": "std::lock_guard<std::mutex> lock(latency_mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 300,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(error_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 515,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(mime_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 519,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(error_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 523,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(error_category_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 527,
+          "type": "deadlock_risk",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(violation_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "file": "src\\content\\content_metrics.cpp",
+          "line": 400,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"# HELP content_extract_errors_total Total PDF/document extraction errors\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\content_policy.cpp": [
@@ -4613,6 +6715,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\content_validator.cpp",
+          "line": 321,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "normalised.push_back(c == '\\\\' ? '/' : c);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\content_validator.cpp",
+          "line": 321,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "normalised.push_back(c == '\\\\' ? '/' : c);",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\content_validator.cpp",
+          "line": 321,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "normalised.push_back(c == '\\\\' ? '/' : c);",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         }
       ],
       "src\\content\\embedding_pipeline.cpp": [
@@ -4633,6 +6762,15 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\content\\embedding_pipeline.cpp",
+          "line": 93,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "auto status = future.wait_for(std::chrono::milliseconds(config_.timeout_ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\content\\html_processor.cpp": [
@@ -4662,6 +6800,150 @@
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 201,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex heading_close(R\"(<\\s*/\\s*h[1-6][^>]*>)\",",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 341,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto start = t.find_first_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator start may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 342,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto end   = t.find_last_not_of(\" \\t\\r\\n\");",
+          "description": "Iterator end may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 521,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "paragraphs.push_back(para);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 528,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "paragraphs.push_back(para);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 536,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!para.empty()) paragraphs.push_back(para);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 573,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 603,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> token) tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 201,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "static const std::regex heading_close(R\"(<\\s*/\\s*h[1-6][^>]*>)\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 227,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"(<\\s*/?\\s*(p|div|article|section|main|h[1-6]|li|ul|ol|blockquote|pre|br|tr|td|th|dt|dd)[^>]*>)\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 329,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "R\"(<title[^>]*>([\\s\\S]*?)<\\/title>)\",",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 214,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "replaced += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 216,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "replaced += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 412,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 419,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\html_processor.cpp",
+          "line": 577,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!overlap_text.empty()) overlap_text += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\ingestion_plugin.cpp": [
@@ -4684,6 +6966,87 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 138,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "arr.push_back(ti);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 556,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!para.empty()) { paragraphs.push_back(para); para.clear(); }",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 559,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!para.empty()) { paragraphs.push_back(para); para.clear(); }",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 565,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!para.empty()) paragraphs.push_back(para);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 597,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> tok) tokens.push_back(tok);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 627,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "while (iss >> token) tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 452,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (consecutive_nl <= 2) result += '\\n';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 459,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!last_was_space && !last_was_newline) result += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\content\\markdown_processor.cpp",
+          "line": 601,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "if (!overlap_text.empty()) overlap_text += ' ';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\content\\version_manager.cpp": [
@@ -4695,6 +7058,33 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\version_manager.cpp",
+          "line": 60,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "lines.push_back(line);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\version_manager.cpp",
+          "line": 134,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "versions_[content_id].push_back(version);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\version_manager.cpp",
+          "line": 159,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = versions_.find(content_id);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\content\\adapters\\archive_extractor_adapter.cpp": [
@@ -4728,6 +7118,24 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\adapters\\format_extractor_factory.cpp",
+          "line": 48,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (it != impl_->registry.end()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\content\\adapters\\format_extractor_factory.cpp",
+          "line": 69,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(mime);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\adapters\\image_extractor_adapter.cpp": [
@@ -4792,6 +7200,24 @@
           "snippet": "BulkUploadInterface::UploadStatus BulkUploadInterface::get_upload_status(",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\pipeline\\bulk_upload_interface.cpp",
+          "line": 84,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(result);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\bulk_upload_interface.cpp",
+          "line": 91,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(upload(contents[i], metadata_list[i]));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\pipeline\\content_chunker.cpp": [
@@ -4803,6 +7229,15 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\pipeline\\content_chunker.cpp",
+          "line": 69,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\content\\pipeline\\multimodal_chunker.cpp": [
@@ -4814,6 +7249,105 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 108,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 130,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 190,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "chunks.push_back(std::move(chunk));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 221,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(0);  // Start",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 234,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(boundary);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 240,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(text.size());  // End",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 249,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(0);  // Start",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 260,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(boundary);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 274,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(boundary);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 280,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "boundaries.push_back(text.size());  // End",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\content\\pipeline\\multimodal_chunker.cpp",
+          "line": 110,
+          "type": "allocation_loop",
+          "severity": "HIGH",
+          "snippet": "// Start new chunk with overlap",
+          "description": "Dynamic allocation in loop \u2014 high overhead",
+          "remediation": "Pre-allocate outside loop or use object pool pattern"
         }
       ],
       "src\\content\\pipeline\\zstd_compression.cpp": [
