@@ -1127,6 +1127,22 @@ bool VoiceApiHandler::validateBearerToken(
     // Extract token
     std::string token = auth.substr(7);
     
+    // STUB/SIMULATION NOTE (stub #302):
+    // Purpose: Keep authenticated voice endpoints operable in builds where the
+    //          shared JWT/OIDC validation stack is not yet threaded into
+    //          VoiceApiHandler.
+    // Activation: Always — this helper only checks that a `Bearer ` header is
+    //             present and that the token substring is non-empty.
+    // Production Delta: Any non-empty bearer token is accepted. Expiry,
+    //                   signature, issuer, audience, revocation, and tenant/user
+    //                   claims are not verified, so unauthorized callers can use
+    //                   voice session endpoints if they provide any token-like
+    //                   string.
+    // Removal Plan: Reuse the repository-wide JWT validator / auth middleware
+    //               (e.g. inject AuthManager or JwtValidator) and verify issuer,
+    //               audience, expiry, and signature before accepting the request.
+    //               See src/server/ROADMAP.md §Voice API Auth Integration.
+    //               Target: Q1 2027.
     // Validate token (placeholder - real implementation would verify JWT)
     return !token.empty();
 }
