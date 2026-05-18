@@ -305,4 +305,47 @@ TEST_F(ApplicationProfilePipelineTest, APP07_CrossTenantIngestAttemptIsBlockedWi
     EXPECT_EQ(pipeline_->CdcCount(), 0U);
 }
 
+TEST_F(ApplicationProfilePipelineTest, APP08_UnauthorizedTokenIsRejectedAcrossPipelineActions) {
+    const auto token = data_gen_->GeneratePipelineToken(false);
+
+    EXPECT_FALSE(pipeline_->RegisterSession(token, "tenant_unauth", "app_user"));
+    EXPECT_FALSE(
+        pipeline_->IngestEvent(token, "tenant_unauth", "event_1", "payload", {"billing"}));
+
+    const auto result = pipeline_->AskAssistant(token, "tenant_unauth", "status", "billing");
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "unauthorized_tenant");
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP09_SnapshotExportFailureDoesNotEmitReplicaMarker) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_export", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_export", "event_1", "payload", {"ops"}));
+
+    const auto invalid_snapshot_path =
+        GetTempDir() / "non_existing_parent" / "tenant_export.snapshot";
+    EXPECT_FALSE(pipeline_->ExportTenantSnapshot("tenant_export", invalid_snapshot_path));
+    EXPECT_EQ(pipeline_->ReplicaMarkerCount(), 0U);
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP10_TransientLlmFailureCanRecoverOnSubsequentRequest) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_recover", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_recover", "event_1", "incident-007", {"ops"}));
+
+    llm_->SetInferenceFailure(true);
+    const auto first = pipeline_->AskAssistant(token, "tenant_recover", "status", "ops");
+    ASSERT_TRUE(first.ok);
+    EXPECT_NE(first.answer.find("fallback:local-summary"), std::string::npos);
+
+    llm_->SetInferenceFailure(false);
+    const auto second = pipeline_->AskAssistant(token, "tenant_recover", "status", "ops");
+    ASSERT_TRUE(second.ok);
+    EXPECT_EQ(second.answer.find("fallback:local-summary"), std::string::npos);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_fallback"));
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_answered"));
+}
+
 } // namespace themis::test

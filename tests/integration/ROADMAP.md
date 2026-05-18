@@ -27,7 +27,7 @@
 - [x] `transaction_replication_pipeline_test.cpp` mit TXR-01..TXR-04 umgesetzt (Target: 2026-Q3)
 - [x] `security_pipeline_test.cpp` mit SEC-01..SEC-03 umgesetzt (Target: 2026-Q3)
 - [x] `analytics_export_pipeline_test.cpp` mit AEP-01..AEP-03 umgesetzt (Target: 2026-Q3)
-- [x] `application_profile_pipeline_test.cpp` mit APP-01..APP-07 für produktionsnahes Nutzungsprofil umgesetzt (Target: 2026-Q3)
+- [x] `application_profile_pipeline_test.cpp` mit APP-01..APP-10 für produktionsnahes Nutzungsprofil umgesetzt (Target: 2026-Q3)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Auth/Syntax/Content/Inference/Failover-Fehlerpfade als eigene Pipeline-Tests ergänzt (Target: 2026-Q3)
