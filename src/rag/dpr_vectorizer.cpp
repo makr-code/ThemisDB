@@ -12,7 +12,7 @@
  */
 
 #include "rag/dpr_vectorizer.h"
-#include "common/logger.h"
+#include "utils/logger.h"
 
 #include <cmath>
 #include <algorithm>
@@ -53,9 +53,9 @@ DPRVectorizer::~DPRVectorizer() = default;
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Status DPRVectorizer::initialize() {
+void DPRVectorizer::initialize() {
     if (initialized_) {
-        return common::Status::OK;
+        return;
     }
 
     THEMIS_INFO("Initializing DPRVectorizer: query_model='{}', passage_model='{}'",
@@ -64,28 +64,25 @@ common::Status DPRVectorizer::initialize() {
     // Validate model paths
     if (config_.query_model_path.empty()) {
         THEMIS_ERROR("DPRVectorizer: query_model_path is empty");
-        return common::Status(common::ErrorCode::INVALID_ARGUMENT,
-                             "query_model_path is required");
+        throw std::invalid_argument("query_model_path is required");
     }
 
     if (config_.passage_model_path.empty()) {
         THEMIS_ERROR("DPRVectorizer: passage_model_path is empty");
-        return common::Status(common::ErrorCode::INVALID_ARGUMENT,
-                             "passage_model_path is required");
+        throw std::invalid_argument("passage_model_path is required");
     }
 
     // TODO (Wave A2): Load actual models
     //   - Load query encoder from config_.query_model_path
     //   - Load passage encoder from config_.passage_model_path
     //   - Validate dimension: config_.embedding_dimension
-    //   - Return error if models fail to load
+    //   - Throw std::runtime_error if models fail to load
 
     impl_->query_encoder_loaded = true;
     impl_->passage_encoder_loaded = true;
     initialized_ = true;
 
     THEMIS_INFO("DPRVectorizer initialized successfully");
-    return common::Status::OK;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -96,18 +93,15 @@ bool DPRVectorizer::isInitialized() const {
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<float>> DPRVectorizer::encodeQuery(
-    const std::string& query) {
+std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
     if (!isInitialized()) {
         THEMIS_WARN("DPRVectorizer::encodeQuery called before initialize()");
-        return common::Error(common::ErrorCode::INVALID_STATE,
-                            "Vectorizer not initialized");
+        throw std::runtime_error("Vectorizer not initialized");
     }
 
     if (query.empty()) {
         THEMIS_WARN("DPRVectorizer::encodeQuery called with empty query");
-        return common::Error(common::ErrorCode::INVALID_ARGUMENT,
-                            "Query cannot be empty");
+        throw std::invalid_argument("Query cannot be empty");
     }
 
     // TODO (Wave A2): Implement query encoding
@@ -125,18 +119,15 @@ common::Result<std::vector<float>> DPRVectorizer::encodeQuery(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<float>> DPRVectorizer::encodePassage(
-    const std::string& passage) {
+std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
     if (!isInitialized()) {
         THEMIS_WARN("DPRVectorizer::encodePassage called before initialize()");
-        return common::Error(common::ErrorCode::INVALID_STATE,
-                            "Vectorizer not initialized");
+        throw std::runtime_error("Vectorizer not initialized");
     }
 
     if (passage.empty()) {
         THEMIS_WARN("DPRVectorizer::encodePassage called with empty passage");
-        return common::Error(common::ErrorCode::INVALID_ARGUMENT,
-                            "Passage cannot be empty");
+        throw std::invalid_argument("Passage cannot be empty");
     }
 
     // TODO (Wave A2): Implement passage encoding
@@ -155,12 +146,11 @@ common::Result<std::vector<float>> DPRVectorizer::encodePassage(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<std::vector<float>>> DPRVectorizer::encodePassageBatch(
+std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
     const std::vector<std::string>& passages) {
     if (!isInitialized()) {
         THEMIS_WARN("DPRVectorizer::encodePassageBatch called before initialize()");
-        return common::Error(common::ErrorCode::INVALID_STATE,
-                            "Vectorizer not initialized");
+        throw std::runtime_error("Vectorizer not initialized");
     }
 
     THEMIS_DEBUG("Batch encoding {} passages", passages.size());
@@ -186,19 +176,6 @@ size_t DPRVectorizer::getEmbeddingDimension() const {
 
 const DPRVectorizerConfig& DPRVectorizer::getConfig() const {
     return config_;
-}
-
-// ─────────────────────────────────────────────────────────────────────
-
-common::Result<std::vector<float>> DPRVectorizer::encodeText(
-    const std::string& text, bool is_query) {
-    // Helper method to unify query/passage encoding logic
-    // TODO (Wave A2): Implement shared tokenization and encoding path
-    if (is_query) {
-        return encodeQuery(text);
-    } else {
-        return encodePassage(text);
-    }
 }
 
 }  // namespace themis::rag

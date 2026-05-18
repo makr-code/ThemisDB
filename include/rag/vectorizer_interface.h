@@ -35,7 +35,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
-#include "common/result.h"
+#include <stdexcept>
 
 namespace themis::rag {
 
@@ -43,8 +43,10 @@ namespace themis::rag {
  * @brief Abstract interface for vector encoding.
  *
  * Implementations encode text (queries, passages) into dense vectors suitable
- * for similarity-based retrieval and ranking.  Implementations must be
+ * for similarity-based retrieval and ranking. Implementations must be
  * thread-safe.
+ *
+ * Throws std::runtime_error on initialization or encoding failures.
  */
 class IVectorizer {
 public:
@@ -56,9 +58,9 @@ public:
      * Called before any encoding operations. Must succeed before
      * @ref encodeQuery() or @ref encodePassage() are called.
      *
-     * @return Status::OK on success; error otherwise.
+     * @throws std::runtime_error if initialization fails.
      */
-    virtual common::Status initialize() = 0;
+    virtual void initialize() = 0;
 
     /**
      * @brief Check if the vectorizer is ready for encoding.
@@ -74,11 +76,10 @@ public:
      * Implementations may optimize for query-shaped inputs.
      *
      * @param query The query text to encode.
-     * @return Dense vector of query embeddings on success;
-     *         error if encoding fails.
+     * @return Dense vector of query embeddings.
+     * @throws std::runtime_error if encoding fails.
      */
-    virtual common::Result<std::vector<float>> encodeQuery(
-        const std::string& query) = 0;
+    virtual std::vector<float> encodeQuery(const std::string& query) = 0;
 
     /**
      * @brief Encode a passage/document into a dense vector.
@@ -87,11 +88,10 @@ public:
      * and is often batch-optimized for high throughput.
      *
      * @param passage The passage text to encode.
-     * @return Dense vector of passage embeddings on success;
-     *         error if encoding fails.
+     * @return Dense vector of passage embeddings.
+     * @throws std::runtime_error if encoding fails.
      */
-    virtual common::Result<std::vector<float>> encodePassage(
-        const std::string& passage) = 0;
+    virtual std::vector<float> encodePassage(const std::string& passage) = 0;
 
     /**
      * @brief Encode multiple passages in a batch.
@@ -100,19 +100,15 @@ public:
      * Subclasses may optimize this for GPU batch processing.
      *
      * @param passages Vector of passage texts.
-     * @return Vector of dense vectors (same length as input);
-     *         error if any encoding fails.
+     * @return Vector of dense vectors (same length as input).
+     * @throws std::runtime_error if any encoding fails.
      */
-    virtual common::Result<std::vector<std::vector<float>>> encodePassageBatch(
+    virtual std::vector<std::vector<float>> encodePassageBatch(
         const std::vector<std::string>& passages) {
         std::vector<std::vector<float>> results;
         results.reserve(passages.size());
         for (const auto& passage : passages) {
-            auto result = encodePassage(passage);
-            if (!result) {
-                return result.error();
-            }
-            results.push_back(std::move(result.value()));
+            results.push_back(encodePassage(passage));
         }
         return results;
     }

@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 BETA                                         ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     180                                            ║
+    • Total Lines:     175                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔄 In Development (Wave A3: Fairness & Bias Detection)       ║
@@ -36,13 +36,12 @@
 #pragma once
 
 #include "rag/rag_judge.h"
-#include "common/result.h"
-#include "common/logger.h"
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <stdexcept>
 
 namespace themis::rag {
 
@@ -115,9 +114,9 @@ public:
      *
      * Must be called before @ref detectBias().
      *
-     * @return Status::OK on success; error if models cannot be loaded.
+     * @throws std::runtime_error if embeddings/models cannot be loaded.
      */
-    common::Status initialize();
+    void initialize();
 
     /**
      * @brief Check if detector is initialized and ready.
@@ -134,8 +133,10 @@ public:
      *
      * @param document_text The document to analyze.
      * @return BiasScore with multiple bias dimensions and flagging decision.
+     * @throws std::runtime_error if not initialized.
+     * @throws std::invalid_argument if document is empty.
      */
-    common::Result<judge::BiasScore> detectBias(const std::string& document_text);
+    judge::BiasScore detectBias(const std::string& document_text);
 
     /**
      * @brief Analyze multiple documents in batch.
@@ -145,8 +146,9 @@ public:
      *
      * @param documents Vector of document texts.
      * @return Vector of BiasScores (same length as input).
+     * @throws std::runtime_error if any encoding fails.
      */
-    common::Result<std::vector<judge::BiasScore>> detectBiasBatch(
+    std::vector<judge::BiasScore> detectBiasBatch(
         const std::vector<std::string>& documents);
 
     /**
@@ -156,8 +158,9 @@ public:
      *
      * @param documents Vector of document texts.
      * @return Filtered documents with acceptable bias levels.
+     * @throws std::runtime_error if analysis fails.
      */
-    common::Result<std::vector<std::pair<std::string, judge::BiasScore>>>
+    std::vector<std::pair<std::string, judge::BiasScore>>
     filterByBiasThreshold(const std::vector<std::string>& documents);
 
     /**
@@ -171,6 +174,7 @@ public:
      * @brief Set bias detection threshold dynamically.
      *
      * Allows runtime adjustment of the bias score threshold for filtering.
+     * Clamps threshold to [0.0, 1.0].
      *
      * @param threshold New threshold (0.0–1.0).
      */
@@ -185,17 +189,16 @@ private:
     std::unique_ptr<Impl> impl_;
 
     // Private helpers
-    common::Result<double> computeGenderBias(const std::string& text);
-    common::Result<double> computeOccupationalBias(const std::string& text);
-    common::Result<double> computeEthnicityBias(const std::string& text);
-    common::Result<double> computeIntersectionalBias(
+    double computeGenderBias(const std::string& text);
+    double computeOccupationalBias(const std::string& text);
+    double computeEthnicityBias(const std::string& text);
+    double computeIntersectionalBias(
         const std::string& text,
         double gender_bias,
         double occupational_bias,
         double ethnicity_bias);
-    common::Result<double> computeStereotypeDensity(const std::string& text);
-    common::Result<std::vector<std::string>> extractBiasedTerms(
-        const std::string& text);
+    double computeStereotypeDensity(const std::string& text);
+    std::vector<std::string> extractBiasedTerms(const std::string& text);
 };
 
 }  // namespace themis::rag

@@ -43,11 +43,11 @@
 #pragma once
 
 #include "rag/vectorizer_interface.h"
-#include "common/result.h"
 
 #include <string>
 #include <vector>
 #include <memory>
+#include <stdexcept>
 
 namespace themis::rag {
 
@@ -111,9 +111,10 @@ public:
      * Loads query and passage encoder models from configured paths.
      * Must be called before @ref encodeQuery() or @ref encodePassage().
      *
-     * @return Status::OK on success; error if models cannot be loaded.
+     * @throws std::runtime_error if models cannot be loaded or paths are invalid.
+     * @throws std::invalid_argument if configuration is invalid.
      */
-    common::Status initialize() override;
+    void initialize() override;
 
     /**
      * @brief Check if vectorizer is initialized and ready.
@@ -127,18 +128,20 @@ public:
      *
      * @param query The query text.
      * @return Dense query embedding (size = embedding_dimension).
+     * @throws std::runtime_error if not initialized or encoding fails.
+     * @throws std::invalid_argument if query is empty.
      */
-    common::Result<std::vector<float>> encodeQuery(
-        const std::string& query) override;
+    std::vector<float> encodeQuery(const std::string& query) override;
 
     /**
      * @brief Encode a passage using the passage encoder.
      *
      * @param passage The passage text.
      * @return Dense passage embedding (size = embedding_dimension).
+     * @throws std::runtime_error if not initialized or encoding fails.
+     * @throws std::invalid_argument if passage is empty.
      */
-    common::Result<std::vector<float>> encodePassage(
-        const std::string& passage) override;
+    std::vector<float> encodePassage(const std::string& passage) override;
 
     /**
      * @brief Batch-encode multiple passages (GPU-optimized).
@@ -148,8 +151,9 @@ public:
      *
      * @param passages Vector of passage texts.
      * @return Vector of dense embeddings (same length as input).
+     * @throws std::runtime_error if not initialized or any encoding fails.
      */
-    common::Result<std::vector<std::vector<float>>> encodePassageBatch(
+    std::vector<std::vector<float>> encodePassageBatch(
         const std::vector<std::string>& passages) override;
 
     /**
@@ -173,10 +177,6 @@ private:
     // Opaque implementation details (PIMPL)
     class Impl;
     std::unique_ptr<Impl> impl_;
-
-    // Private helpers
-    common::Result<std::vector<float>> encodeText(
-        const std::string& text, bool is_query);
 };
 
 }  // namespace themis::rag

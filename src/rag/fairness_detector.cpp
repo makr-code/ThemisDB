@@ -12,6 +12,7 @@
  */
 
 #include "rag/fairness_detector.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cctype>
@@ -41,7 +42,7 @@ public:
 
     std::unordered_set<std::string> occupational_biased_terms = {
         "nurse", "doctor", "programmer", "engineer", "teacher",
-        "nurse", "secretary", "boss", "manager", "cook"
+        "secretary", "boss", "manager", "cook"
     };
 
     std::unordered_set<std::string> ethnicity_biased_terms = {
@@ -67,9 +68,9 @@ FairnessDetector::~FairnessDetector() = default;
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Status FairnessDetector::initialize() {
+void FairnessDetector::initialize() {
     if (initialized_) {
-        return common::Status::OK;
+        return;
     }
 
     THEMIS_INFO("Initializing FairnessDetector");
@@ -78,13 +79,12 @@ common::Status FairnessDetector::initialize() {
     //   - Load from config_.embedding_model_path (GloVe/FastText)
     //   - Validate dimension matches config_.embedding_dimension
     //   - Compute PCA basis for gender subspace
-    //   - Return error if embeddings fail to load
+    //   - Throw std::runtime_error if embeddings fail to load
 
     impl_->embeddings_loaded = true;
     initialized_ = true;
 
     THEMIS_INFO("FairnessDetector initialized successfully");
-    return common::Status::OK;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -95,63 +95,42 @@ bool FairnessDetector::isInitialized() const {
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<judge::BiasScore> FairnessDetector::detectBias(
-    const std::string& document_text) {
+judge::BiasScore FairnessDetector::detectBias(const std::string& document_text) {
     if (!isInitialized()) {
         THEMIS_WARN("FairnessDetector::detectBias called before initialize()");
-        return common::Error(common::ErrorCode::INVALID_STATE,
-                            "Detector not initialized");
+        throw std::runtime_error("Detector not initialized");
     }
 
     if (document_text.empty()) {
         THEMIS_WARN("FairnessDetector::detectBias called with empty document");
-        return common::Error(common::ErrorCode::INVALID_ARGUMENT,
-                            "Document cannot be empty");
+        throw std::invalid_argument("Document cannot be empty");
     }
 
     judge::BiasScore score;
 
     // Compute individual bias dimensions
     if (config_.detect_gender_bias) {
-        auto result = computeGenderBias(document_text);
-        if (!result) {
-            return result.error();
-        }
-        score.gender_bias = result.value();
+        score.gender_bias = computeGenderBias(document_text);
     }
 
     if (config_.detect_occupational_bias) {
-        auto result = computeOccupationalBias(document_text);
-        if (!result) {
-            return result.error();
-        }
-        score.occupational_bias = result.value();
+        score.occupational_bias = computeOccupationalBias(document_text);
     }
 
     if (config_.detect_ethnicity_bias) {
-        auto result = computeEthnicityBias(document_text);
-        if (!result) {
-            return result.error();
-        }
-        score.ethnicity_bias = result.value();
+        score.ethnicity_bias = computeEthnicityBias(document_text);
     }
 
     // Compute stereotype density
-    auto density_result = computeStereotypeDensity(document_text);
-    if (density_result) {
-        score.stereotype_density = density_result.value();
-    }
+    score.stereotype_density = computeStereotypeDensity(document_text);
 
-    // Compute intersectional bias if all components available
+    // Compute intersectional bias if enabled
     if (config_.detect_intersectional_bias) {
-        auto result = computeIntersectionalBias(
+        score.intersectional_bias = computeIntersectionalBias(
             document_text,
             score.gender_bias,
             score.occupational_bias,
             score.ethnicity_bias);
-        if (result) {
-            score.intersectional_bias = result.value();
-        }
     }
 
     // Compute overall bias as weighted combination
@@ -166,32 +145,9 @@ common::Result<judge::BiasScore> FairnessDetector::detectBias(
     // Set confidence (simplified: based on stereotype density and overall score)
     score.confidence = 0.8 * score.stereotype_density + 0.2 * score.overall_score;
 
-    // Extract biased terms for explanation
-    auto terms_result = extractBiasedTerms(document_text);
-    if (terms_result) {
-        score.detected_terms = terms_result.value();
-    }
-
     // Flag if score exceeds threshold and confidence is sufficient
     score.flagged = (score.overall_score >= config_.bias_threshold &&
                     score.confidence >= config_.min_confidence);
-
-    // Build explanation
-    if (score.flagged) {
-        score.explanation = "Document contains potential biases: ";
-        if (score.gender_bias > 0.1) {
-            score.explanation += "gender ";
-        }
-        if (score.occupational_bias > 0.1) {
-            score.explanation += "occupational ";
-        }
-        if (score.ethnicity_bias > 0.1) {
-            score.explanation += "ethnicity ";
-        }
-        score.explanation += "(score=" + std::to_string(score.overall_score) + ")";
-    } else {
-        score.explanation = "Document bias within acceptable range";
-    }
 
     THEMIS_DEBUG("Document bias analysis: overall={:.2f}, gender={:.2f}, "
                  "occupational={:.2f}, flagged={}",
@@ -203,17 +159,13 @@ common::Result<judge::BiasScore> FairnessDetector::detectBias(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<judge::BiasScore>> FairnessDetector::detectBiasBatch(
+std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
     const std::vector<std::string>& documents) {
     std::vector<judge::BiasScore> results;
     results.reserve(documents.size());
 
     for (const auto& doc : documents) {
-        auto result = detectBias(doc);
-        if (!result) {
-            return result.error();
-        }
-        results.push_back(result.value());
+        results.push_back(detectBias(doc));
     }
 
     return results;
@@ -221,19 +173,15 @@ common::Result<std::vector<judge::BiasScore>> FairnessDetector::detectBiasBatch(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<std::pair<std::string, judge::BiasScore>>>
+std::vector<std::pair<std::string, judge::BiasScore>>
 FairnessDetector::filterByBiasThreshold(
     const std::vector<std::string>& documents) {
     std::vector<std::pair<std::string, judge::BiasScore>> filtered;
 
     for (const auto& doc : documents) {
-        auto result = detectBias(doc);
-        if (!result) {
-            return result.error();
-        }
-
-        if (result.value().overall_score < config_.bias_threshold) {
-            filtered.emplace_back(doc, result.value());
+        auto score = detectBias(doc);
+        if (score.overall_score < config_.bias_threshold) {
+            filtered.emplace_back(doc, score);
         }
     }
 
@@ -256,8 +204,7 @@ void FairnessDetector::setBiasThreshold(double threshold) {
 // PRIVATE HELPER METHODS
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<double> FairnessDetector::computeGenderBias(
-    const std::string& text) {
+double FairnessDetector::computeGenderBias(const std::string& text) {
     // TODO (Wave A3): Compute PCA-based gender bias projection
     //   - Tokenize text
     //   - Get embeddings for each word
@@ -284,8 +231,7 @@ common::Result<double> FairnessDetector::computeGenderBias(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<double> FairnessDetector::computeOccupationalBias(
-    const std::string& text) {
+double FairnessDetector::computeOccupationalBias(const std::string& text) {
     // TODO (Wave A3): Compute occupational stereotype bias
     //   - Identify gender-biased occupation terms
     //   - Compute stereotype score
@@ -296,8 +242,7 @@ common::Result<double> FairnessDetector::computeOccupationalBias(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<double> FairnessDetector::computeEthnicityBias(
-    const std::string& text) {
+double FairnessDetector::computeEthnicityBias(const std::string& text) {
     // TODO (Wave A3): Compute ethnicity/cultural bias
 
     // Stub implementation
@@ -306,7 +251,7 @@ common::Result<double> FairnessDetector::computeEthnicityBias(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<double> FairnessDetector::computeIntersectionalBias(
+double FairnessDetector::computeIntersectionalBias(
     const std::string& text,
     double gender_bias,
     double occupational_bias,
@@ -322,8 +267,7 @@ common::Result<double> FairnessDetector::computeIntersectionalBias(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<double> FairnessDetector::computeStereotypeDensity(
-    const std::string& text) {
+double FairnessDetector::computeStereotypeDensity(const std::string& text) {
     // Compute freq(biased_terms) / total_terms in passage
 
     // Count words
@@ -353,7 +297,7 @@ common::Result<double> FairnessDetector::computeStereotypeDensity(
 
 // ─────────────────────────────────────────────────────────────────────
 
-common::Result<std::vector<std::string>> FairnessDetector::extractBiasedTerms(
+std::vector<std::string> FairnessDetector::extractBiasedTerms(
     const std::string& text) {
     std::vector<std::string> terms;
 
