@@ -4526,11 +4526,15 @@ if(TARGET bench_ethics_ai_plugin)
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+    target_compile_definitions(bench_ethics_ai_plugin PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
     target_include_directories(bench_ethics_ai_plugin PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/ethics_ai
     )
+    themis_apply_benchmark_release_flags(bench_ethics_ai_plugin)
 
     if(TARGET yaml-cpp::yaml-cpp)
         target_link_libraries(bench_ethics_ai_plugin PRIVATE yaml-cpp::yaml-cpp)

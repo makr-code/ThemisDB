@@ -1503,38 +1503,38 @@
     "ethics_ai": {
       "ETH-1": {
         "label": "Single Argument Generation P95",
-        "primary_benchmark": "BM_EthicalCompliance_Full_Good",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_DiscourseEngine_MakeDecisionSingleSchool",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       },
       "ETH-2": {
         "label": "Batch 5 Arguments (parallel, 5 Schulen)",
-        "primary_benchmark": "BM_MoralDiversity_MultiFramework",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_DiscourseEngine_MakeDecisionFiveSchools",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       },
       "ETH-3": {
         "label": "Embedding Latenz (512-Token, CPU)",
-        "primary_benchmark": "BM_EthicalCompliance_Disabled",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_RAGContextEngine_VectorSemanticSearch512",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       },
       "ETH-4": {
         "label": "Batch 10 Queries",
-        "primary_benchmark": "BM_AutonomyRespect_Good",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_RAGContextEngine_BuildContextBatch10",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       },
       "ETH-5": {
         "label": "Multi-Round Debate/Runde",
-        "primary_benchmark": "BM_MoralDiversity_MultiFramework",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_DiscourseEngine_ContinueDebateRound",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       },
       "ETH-6": {
         "label": "Metrics Overhead/Decision",
-        "primary_benchmark": "BM_EthicalCompliance_Disabled",
-        "file": "bench_rag_ethics.cpp",
+        "primary_benchmark": "BM_EthicsEvaluator_RecordDecision",
+        "file": "bench_ethics_ai_plugin.cpp",
         "status": "mapped"
       }
     },
