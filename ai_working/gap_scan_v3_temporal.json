@@ -1,0 +1,1719 @@
+{
+  "temporal": {
+    "total": 186,
+    "severity_critical": 114,
+    "severity_high": 43,
+    "severity_medium": 29,
+    "by_category": {
+      "security": 13,
+      "memory": 13,
+      "reliability": 160
+    },
+    "by_file": {
+      "src\\temporal\\interval_tree_index.cpp": [
+        {
+          "file": "src\\temporal\\interval_tree_index.cpp",
+          "line": 182,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "out_node->right = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\interval_tree_index.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\temporal\\snapshot_manager.cpp": [
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 64,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 58,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [name, table_ptr] : tables) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 64,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 70,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "snapshots_[data.handle.snapshot_id] = std::move(data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 168,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [id, data] : snapshots_) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 81,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 127,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 132,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 139,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 209,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(gen_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 271,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\snapshot_manager.cpp",
+          "line": 275,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\temporal\\temporal_cold_store.cpp": [
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 62,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->first.substr(0, prefix.size()) != prefix) break;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 72,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "while (it != data_.end() && it->first.substr(0, prefix.size()) == prefix) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 353,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto all_keys = backend_->listKeysWithPrefix(\"\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 395,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->substr(0, prefix.size()) == prefix) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 416,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->substr(0, prefix.size()) == prefix) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 455,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->substr(0, prefix.size()) != prefix) break;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 480,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 499,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 521,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 42,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data_[key] = value;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 49,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != data_.end()) ? it->second : std::string{};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"malformed composite key (no sep1)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"malformed composite key (no sep2)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 156,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (it == rel.end()) throw std::runtime_error(\"empty relative path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 158,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing doc_key in path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 160,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing ts file in path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\temporal\\temporal_conflict_resolver.cpp": [
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 345,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "refint->table_name = table_name;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 346,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "refint->entity_id  = local.snapshot_id;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 586,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (auto& [key, val] : remote.data.items()) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 131,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 216,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 226,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 239,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 249,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 287,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 382,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 394,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 404,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\bi_temporal.cpp": [
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 137,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "Document merged = target->data;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 82,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 155,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 197,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 215,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 254,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 316,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 333,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 344,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 359,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 378,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 383,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 392,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\system_versioned_table.cpp": [
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 142,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "Document merged = current->data;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 175,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "Document merged = current->data;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 99,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 116,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 217,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 233,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 244,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 299,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 328,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 345,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 405,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 414,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 473,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\temporal_aggregator.cpp": [
+        {
+          "file": "src\\temporal\\temporal_aggregator.cpp",
+          "line": 188,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [key, kv] = buildGroupKey(row.data, spec.group_by_fields);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_aggregator.cpp",
+          "line": 295,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto val = extractMeasure(ver->data, spec.measure_field);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_aggregator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\temporal\\temporal_cdc.cpp": [
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 290,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "crc = kCRC32Table[(crc ^ static_cast<uint8_t>(data[i])) & 0xFF] ^ (crc >> 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 70,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Unknown ChangeType: \" + s);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 120,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TemporalCDC::subscribeToChanges: callback must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 304,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&magic, 4, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 305,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&version, 2, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 306,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&seq, 8, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 307,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&created, 8, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 337,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void CDCPersistentLog::open() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 346,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot create directory '\"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 362,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 364,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot open '\"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 371,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: invalid header in '\"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 380,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&payload_len, 4, 1, fd) != 1) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 381,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&stored_crc,  4, 1, fd) != 1) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 384,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "active_fd_ = std::fopen(path.c_str(), \"ab\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 402,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot re-open '\"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 431,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 438,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 440,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"CDCPersistentLog::append: cannot create segment '\"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 451,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&payload_len, 4, 1, active_fd_);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&crc,         4, 1, active_fd_);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 453,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(payload.data(), 1, payload_len, active_fd_);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 473,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 484,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&payload_len, 4, 1, fd) != 1) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 485,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&stored_crc,  4, 1, fd) != 1) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 488,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(payload.data(), 1, payload_len, fd) != payload_len) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 495,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 527,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"CDCPersistentLog::replaySegment: seq \"",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 582,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 598,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&magic,   4, 1, fd);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 599,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&version, 2, 1, fd);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 600,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&seq,     8, 1, fd);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 601,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::fwrite(&created, 8, 1, fd);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 610,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&magic,   4, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 611,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&version, 2, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 612,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&seq,     8, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 613,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (std::fread(&created, 8, 1, fd) != 1) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_cdc.cpp",
+          "line": 635,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\bitemporal_join.cpp": [
+        {
+          "file": "src\\temporal\\bitemporal_join.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\bitemporal_join.cpp",
+          "line": 164,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::vector<BiTemporalJoinResult> BiTemporalJoin::execute() const {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\temporal\\retention_manager.cpp": [
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 82,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 102,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 131,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 140,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 158,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 175,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 209,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "scheduler_thread_ = std::thread(&RetentionManager::schedulerLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 233,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 377,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 467,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 536,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\temporal_compressor.cpp": [
+        {
+          "file": "src\\temporal\\temporal_compressor.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_compressor.cpp",
+          "line": 366,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\temporal\\temporal_index.cpp": [
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 45,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 79,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 99,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 118,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 160,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\temporal_migrator.cpp": [
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 42,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string TemporalMigrator::statusName(MigrationStatus s) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 171,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void TemporalMigrator::setStatus(MigrationStatus s, const std::string& msg) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 174,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "progress_cb_(s, msg.empty() ? statusName(s) : msg);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 190,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(MigrationStatus::ANALYZING,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 221,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(MigrationStatus::PENDING, \"Analysis complete\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 233,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(MigrationStatus::MIGRATING,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 287,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(MigrationStatus::FAILED,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 355,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(MigrationStatus::VERIFYING,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_migrator.cpp",
+          "line": 476,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "setStatus(report.success ? MigrationStatus::COMPLETE : MigrationStatus::FAILED,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\temporal\\temporal_query_engine.cpp": [
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 356,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 371,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 398,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 409,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_query_engine.cpp",
+          "line": 414,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\temporal\\temporal_tier_manager.cpp": [
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 223,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto result = searchBlock(*bit, as_of);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 253,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto block_versions = allFromBlock(block);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 305,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto bv = rangeFromBlock(block, range);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 403,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "compact_thread_ = std::thread([this]() { compactionLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 572,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "VersionBlock blk = makeBlock(doc_key, std::move(chunk));",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 613,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "VersionBlock TemporalTierManager::makeBlock(",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 648,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "TemporalTierManager::searchBlock(const VersionBlock& block, Timestamp as_of) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 679,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "TemporalTierManager::allFromBlock(const VersionBlock& block) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\temporal\\temporal_tier_manager.cpp",
+          "line": 699,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "TemporalTierManager::rangeFromBlock(const VersionBlock& block,",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

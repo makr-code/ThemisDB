@@ -1,0 +1,2423 @@
+{
+  "exporters": {
+    "total": 264,
+    "severity_critical": 74,
+    "severity_high": 154,
+    "severity_medium": 36,
+    "by_category": {
+      "security": 16,
+      "memory": 33,
+      "reliability": 215
+    },
+    "by_file": {
+      "src\\exporters\\export_format_registry.cpp": [
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 81,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl\",     []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 82,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"llm_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 85,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"parquet\",   []() -> std::unique_ptr<IExporter> { return std::make_unique<ParquetExpo",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 88,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"arrow\",        []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 91,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"arrow_stream\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 96,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"huggingface\", []() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFa",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 97,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"hf_datasets\", []() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFa",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 100,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"streaming\",   []() -> std::unique_ptr<IExporter> { return std::make_unique<Streaming",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 103,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"incremental\", []() -> std::unique_ptr<IExporter> { return std::make_unique<Increment",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 106,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"join\",       []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 107,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"join_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 110,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_alpaca\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 115,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_sharegpt\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 120,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_chatml\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 125,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_openai_ft\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 199,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "registerFormat(ve.format_key, [ttype = ve.ttype, mapping = ve.mapping]() -> std::unique_ptr<IExporte",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 81,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl\",     []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 82,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"llm_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 85,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"parquet\",   []() -> std::unique_ptr<IExporter> { return std::make_unique<ParquetExpo",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 88,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"arrow\",        []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 91,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"arrow_stream\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 96,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"huggingface\", []() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFa",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 97,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"hf_datasets\", []() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFa",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 100,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"streaming\",   []() -> std::unique_ptr<IExporter> { return std::make_unique<Streaming",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 103,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"incremental\", []() -> std::unique_ptr<IExporter> { return std::make_unique<Increment",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 106,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"join\",       []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 107,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"join_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 110,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_alpaca\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 115,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_sharegpt\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 120,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_chatml\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 125,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(\"jsonl_openai_ft\", []() -> std::unique_ptr<IExporter> {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 199,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "registerFormat(ve.format_key, [ttype = ve.ttype, mapping = ve.mapping]() -> std::unique_ptr<IExporte",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 48,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 64,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 69,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 210,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 221,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\arrow_ipc_exporter.cpp": [
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 314,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "fb.pre16(0);   // field[6] custom_metadata  absent",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 462,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "fb.pre16(20);  // field[2] buffers",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 547,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(buf, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 661,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw SizeLimitException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 879,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 888,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigException(\"output_path must not be empty\", \"output_path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 932,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Failed to open output file\",",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 956,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(kArrowMagic), 8);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1003,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(kArrowMagic), 8);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1008,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(eos), 8);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1014,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Error closing output file\",",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1069,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(maybe_file.status().ToString(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1069,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(maybe_file.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1081,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(maybe_writer.status().ToString(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1081,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(maybe_writer.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1089,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(maybe_writer.status().ToString(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1089,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(maybe_writer.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1104,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1106,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!options.continue_on_error) throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1107,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.ToString(), options.output_path, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1117,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(maybe_arr.status().ToString(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1117,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(maybe_arr.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1127,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1128,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1128,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1132,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1133,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1133,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\exporters\\export_encryption.cpp": [
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 42,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "static constexpr uint8_t  MAGIC[4]   = {'T', 'E', 'N', 'C'};",
+          "description": "Array bounds violation: loop 8 > array 4",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 76,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "return static_cast<uint32_t>(p[0])",
+          "description": "Array bounds violation: loop 8 > array 0",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 77,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "| (static_cast<uint32_t>(p[1]) << 8)",
+          "description": "Array bounds violation: loop 8 > array 1",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 78,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "| (static_cast<uint32_t>(p[2]) << 16)",
+          "description": "Array bounds violation: loop 8 > array 2",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 79,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "| (static_cast<uint32_t>(p[3]) << 24);",
+          "description": "Array bounds violation: loop 8 > array 3",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 188,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto meta = config_.key_provider->getKeyMetadata(config_.kek_id);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 765,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 97,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated string length field\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 102,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 108,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated string data\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 145,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 149,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 156,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 179,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 183,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 198,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 212,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 236,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: AAD feed failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 243,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 249,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: EncryptUpdate failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 255,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: EncryptFinal failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: get tag failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 264,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 313,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 320,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (version)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 325,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 338,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (key_version)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 345,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (iv)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 352,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (ct_len)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 359,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated ciphertext\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 366,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: truncated authentication tag\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 374,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 378,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: file header has empty kek_id\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 399,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 423,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: AAD feed failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 430,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 436,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: DecryptUpdate failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 444,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ExportEncryption: set tag failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 451,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 455,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 478,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!src.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 479,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 483,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!dst.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 484,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!src.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 496,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 505,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 518,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!dst.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 519,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 525,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 535,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!src.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 536,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 540,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!dst.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 541,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 552,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!src.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 553,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 562,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 572,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!dst.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 574,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 581,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 657,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"Failed to generate random job ID\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 675,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(kMagic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 685,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(kek_id.data(), kek_id_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 695,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(job_id.data(), job_id_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 699,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(iv.data()), 12);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 712,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 726,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(kek_id.data(), kek_id_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(job_id.data(), job_id_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 744,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(iv.data()), 12);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 757,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"Encryption not configured: kek_id or key_provider is missing\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 779,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 798,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!in_f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 800,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Cannot open input file for encryption\", input_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 804,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!out_f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 806,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Cannot create output file for encryption\", output_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 817,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"Failed to allocate EVP cipher context\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 827,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"EVP_EncryptInit_ex (AES-256-GCM) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 831,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"EVP_CTRL_GCM_SET_IVLEN failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 835,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"EVP_EncryptInit_ex (key/IV) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 846,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"Failed to set GCM AAD (job_id)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 865,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"EVP_EncryptUpdate failed during streaming\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 868,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out_f.write(reinterpret_cast<const char*>(cipher_buf.data()), ct_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 877,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"EVP_EncryptFinal_ex failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 880,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out_f.write(reinterpret_cast<const char*>(cipher_buf.data()), final_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 887,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw EncryptionException(\"Failed to retrieve GCM authentication tag\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 889,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out_f.write(reinterpret_cast<const char*>(tag), 16);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 896,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Write error while finalising encrypted file\", output_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 912,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"No key_provider configured for export decryption\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 917,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!in_f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 918,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Cannot open encrypted file for decryption\", input_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 929,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 938,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 946,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in_f.read(reinterpret_cast<char*>(expected_tag), 16);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 948,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"Failed to read GCM tag from '\" + input_path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 968,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 979,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!out_f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 988,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"Failed to allocate EVP cipher context\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 998,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"EVP_DecryptInit_ex (AES-256-GCM) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1002,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"EVP_CTRL_GCM_SET_IVLEN failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1006,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"EVP_DecryptInit_ex (key/IV) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1016,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"Failed to set GCM AAD (job_id)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1039,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"EVP_DecryptUpdate failed during streaming\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1042,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out_f.write(reinterpret_cast<const char*>(plain_buf.data()), pt_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1050,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(\"Failed to set expected GCM tag\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1062,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw DecryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1067,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out_f.write(reinterpret_cast<const char*>(plain_buf.data()), final_len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1075,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Write error while finalising decrypted file\", output_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\exporters\\huggingface_exporter.cpp": [
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 218,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "split_obj[\"dataset_name\"] = resolved_name;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 222,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "info[\"dataset_size\"]   = byte_count;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\exporters\\huggingface_hub_client.cpp": [
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 71,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "s->append(data, sz * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 112,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "hdrs->append(buffer, size * nitems);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 269,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] const char* data,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 207,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 214,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 343,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "f.read(buf.data(), file_size);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\parquet_exporter.cpp": [
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 853,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "col_data[ci].push_back(val);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 890,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& kv : config_.file_metadata) fmi.kv_metadata[kv.first] = kv.second;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 968,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& kv : config_.file_metadata) fmi.kv_metadata[kv.first] = kv.second;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 511,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 524,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigException(\"output_path must not be empty\", \"output_path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 609,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!open_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 610,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 611,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Failed to open output file: \" + open_status.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 637,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 638,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Failed to create Parquet writer: \" + writer_result.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 720,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 754,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!close_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 756,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "close_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 840,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 877,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ofs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 878,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 883,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 904,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(flen, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 905,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 912,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ofs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 923,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 983,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(flen, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 986,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\aql_predicate_filter.cpp": [
+        {
+          "file": "src\\exporters\\aql_predicate_filter.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\aql_predicate_filter.cpp",
+          "line": 42,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw AqlPredicateFilterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\aql_predicate_filter.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw AqlPredicateFilterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\exporters\\data_augmentation.cpp": [
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\exporters\\exporter_metrics.cpp": [
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 103,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 166,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 175,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 306,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\format_template.cpp": [
+        {
+          "file": "src\\exporters\\format_template.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\exporters\\incremental_exporter.cpp": [
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "writer.write(line);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 257,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 280,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!tmp.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\join_exporter.cpp": [
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 49,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 70,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 97,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 104,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 187,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "writer.write(line);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 339,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\exporters\\jsonl_llm_exporter.cpp": [
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 96,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 134,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 259,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExporterException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\exporters\\pii_detector.cpp": [
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\exporters\\streaming_exporter.cpp": [
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "writer.write(line);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 249,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!tmp.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 388,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\exporters\\stream_writer.cpp": [
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 36,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.open(config.output_path, std::ios::binary);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 37,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 38,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 58,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void StreamWriter::write(const std::string& data) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 59,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "write(data.data(), data.size());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void StreamWriter::write(const char* data, size_t size) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 84,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.write(data, size);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 104,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.write(buffer_.data(), out_buf.pos);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 117,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 137,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Failed to create zstd compression stream\", config_.output_path, 0);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 146,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"Failed to initialize zstd compression stream\",",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 151,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"ZSTD compression not available (not compiled with THEMIS_HAS_ZSTD)\",",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 158,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.write(buffer_.data(), buffer_pos_);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 174,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ExportIOException(\"ZSTD compression stream error\", config_.output_path,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.write(buffer_.data(), out_buf.pos);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 195,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file_.write(buffer_.data(), out_buf.pos);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

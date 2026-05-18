@@ -1,0 +1,1913 @@
+{
+  "tensor": {
+    "total": 208,
+    "severity_critical": 97,
+    "severity_high": 96,
+    "severity_medium": 15,
+    "by_category": {
+      "security": 15,
+      "memory": 29,
+      "reliability": 164
+    },
+    "by_file": {
+      "src\\tensor\\adapter_repository.cpp": [
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 283,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto keys = backend_->listKeys(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 311,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto keys = backend_->listKeys(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 33,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "* Production Delta: GgmlCoreDescriptor::train.cores[k].data is a heap copy,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \ud83d\udfe1 EXPERIMENTAL \u2014 Phase 3 (Q2 2027)                         \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 39,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "*               mmap(MAP_SHARED) on the RocksDB SST backing file + mlock()",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 116,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 162,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock glock(graph_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 185,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock glock(graph_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 241,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 334,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(graph_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 368,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 382,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(graph_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 398,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\hnsw_tt_bridge.cpp": [
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 189,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto pq = appr_->searchKnn(query.data(), k, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 251,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != trains.end()) ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 101,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete sp;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: sp = nullptr;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 122,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete appr_;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: appr_ = nullptr;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 123,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete space_;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: space_ = nullptr;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 251,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != trains.end()) ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 304,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 375,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 602,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "mean += g0.data[i * g0.r_right + r];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 100,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 165,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 274,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 307,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 313,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 326,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 378,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 385,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 393,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 433,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 437,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(kHtbMagic, 11);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 438,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&kHtbVersion), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 441,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 450,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&v), sizeof(v));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 453,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&train.original_norm), sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 454,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&train.achieved_eps),  sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 457,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&nc), sizeof(nc));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 480,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(magic, 11);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 484,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&version), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 488,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 497,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&id), sizeof(id));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 500,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nm), sizeof(nm));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 507,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&v), sizeof(v));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 511,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 512,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 515,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nc), sizeof(nc));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 521,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&rl), sizeof(rl));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 522,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nn), sizeof(nn));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 523,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&rr), sizeof(rr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 524,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nf), sizeof(nf));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 546,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 567,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 572,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 579,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\tensor_index.cpp": [
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 192,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != store_.end()) ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 95,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 165,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 192,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != store_.end()) ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 69,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 98,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 104,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 119,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 168,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 175,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 183,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 190,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 222,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 226,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(kMagic, 11);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 227,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&kVersion), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 239,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&v), sizeof(v));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 242,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&train.original_norm), sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 243,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&train.achieved_eps),  sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 246,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(&nc), sizeof(nc));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 269,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(magic, 11);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 273,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&version), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 277,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&id), sizeof(id));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 289,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nm), sizeof(nm));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 296,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&v), sizeof(v));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 300,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 301,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 304,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nc), sizeof(nc));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 310,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&rl), sizeof(rl));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 311,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nn), sizeof(nn));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 312,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&rr), sizeof(rr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 313,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(&nf), sizeof(nf));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 329,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 348,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 353,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\tensor_index_manager.cpp": [
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 148,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != indexes_.end()) ? it->second.get() : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 185,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->first.substr(0, prefix.size()) == prefix) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 186,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handles_.erase(it->first);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 203,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_->scanPrefix(pfx, [&](std::string_view k, std::string_view) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 338,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptrs.reserve(train->cores.size());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 148,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != indexes_.end()) ? it->second.get() : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock rlock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 132,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock wlock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 160,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 183,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 228,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 238,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 278,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(registry_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\tensor_mmap_bridge.cpp": [
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 189,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 190,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 213,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 214,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 233,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 109,
+          "type": "unchecked_malloc",
+          "severity": "HIGH",
+          "snippet": "return std::malloc(bytes);",
+          "description": "Unchecked malloc \u2014 no null check before use",
+          "remediation": "Check: if (ptr != nullptr) before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \ud83d\udfe1 EXPERIMENTAL \u2014 Phase 3 (Q1 2027)                         \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 116,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return ::mlock(ptr, bytes) == 0;",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 128,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "::munlock(ptr, bytes);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 130,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "::VirtualUnlock(ptr, bytes);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\tensor_butterfly_operator.cpp": [
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 103,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const float u = data[start + j];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 104,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const float w = data[start + j + half];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 105,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[start + j]        = u + w;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 106,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[start + j + half] = u - w;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 112,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (std::size_t i = 0; i < n; ++i) data[i] *= inv_sqrt_n;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 279,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 282,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "core.data[al * n_k * r_right + i * r_right + ar] = fiber[i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 365,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 383,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "core.data[al * n_k * r_right + i * r_right + ar] = fiber[i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \ud83d\udfe1 EXPERIMENTAL \u2014 Phase 3 (Q2 2027)                         \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 202,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 219,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 232,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 246,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(oss.str());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 296,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 309,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 318,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 329,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(oss.str());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 338,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(oss.str());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\tensor\\tensor_fingerprint_graph.cpp": [
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 62,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "means[c] += data[r * n_cols + c];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \ud83d\udfe1 EXPERIMENTAL \u2014 Phase 4 prep (Q3 2027)                    \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 128,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock slock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 139,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 142,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock slock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 202,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock slock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 221,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 260,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 270,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\tensor_ingestion_bridge.cpp": [
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 186,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_epsilon\"]         = std::to_string(eff_eps);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 187,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_max_rank_cap\"]    = std::to_string(eff_max_rank);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 188,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_order\"]           = std::to_string(rec.order);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 189,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_achieved_rank\"]   = std::to_string(rec.max_rank);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 190,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_compression\"]     = std::to_string(rec.compression_ratio);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 191,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"tt_achieved_eps\"]    = std::to_string(rec.achieved_eps);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 9,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\tensor\\hiss_structural_search.cpp": [
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 94,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"shape dimension must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 97,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(\"shape product overflow\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 106,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"grid_size must be > 0, got: \" + std::to_string(grid_size));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(\"grid_size \" + std::to_string(grid_size) +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 131,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 140,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 180,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 189,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 336,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"tensor graph index from=\" + std::to_string(e.from) +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 366,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 379,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"train must contain at least one core and one mode size\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 383,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"grid_sizes.size() (\" + std::to_string(grid_sizes.size()) +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 392,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"grid_sizes product (\" + std::to_string(reshaped_dense_elements) +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\tensor\\hyper_index_builder.cpp": [
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 85,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 95,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 104,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 319,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 340,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 348,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 491,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 496,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 553,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"schema must have at least 2 columns, got: \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 557,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"rows must be non-empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 563,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"bucket_count must be >= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 571,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 607,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 615,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\tensor\\tensor_core_bridge.cpp": [
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready (RocksDB backend: STUB #160)             \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 91,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 95,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 102,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "Result<void> TensorCoreStorageBridge::write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 184,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\tensor\\tnsr_task.cpp": [
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 54,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TNSRTask: engine must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 59,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_reroute_serialize_mtx);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\tensor\\utr_converter.cpp": [
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 362,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RasterGrid must have non-zero rows and cols\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 365,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RasterGrid::cell_size_deg must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 369,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 441,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"image dimensions h, w, c must all be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 445,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 460,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 549,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"document text must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 570,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"document produced no segments after splitting\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 602,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 612,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

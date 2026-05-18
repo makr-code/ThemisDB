@@ -1,0 +1,1335 @@
+{
+  "graph": {
+    "total": 144,
+    "severity_critical": 49,
+    "severity_high": 50,
+    "severity_medium": 45,
+    "by_category": {
+      "security": 17,
+      "memory": 19,
+      "reliability": 108
+    },
+    "by_file": {
+      "src\\graph\\distributed_graph.cpp": [
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 248,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return exec_ptr->executeDijkstra(start_local, target_local, constraints);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 302,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return exec_ptr->executeBFS(start_local, k, constraints);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 248,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return exec_ptr->executeDijkstra(start_local, target_local, constraints);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 302,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return exec_ptr->executeBFS(start_local, k, constraints);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 106,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 121,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 126,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedGraphManager::healthyShards() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 127,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(shards_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 215,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"No healthy shards available for distributed shortest path query\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 289,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"No healthy shards available for distributed k-hop neighbors query\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\distributed_graph.cpp",
+          "line": 340,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"No healthy shards available to generate distributed query plan\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\graph\\graph_query_rewriter.cpp": [
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 484,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!child_it->is_object()) return;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 565,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ref[\"alias\"] = alias_it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 597,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "wrapper[\"bindings\"] = nlohmann::json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 811,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "plan[\"prune_conditions\"] = nlohmann::json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 849,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "plan[\"prune_conditions\"] = nlohmann::json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 419,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GraphQueryRewriter::addCustomRule: null rule\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 590,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\graph_query_rewriter.cpp",
+          "line": 622,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\graph\\knowledge_graph_reasoner.cpp": [
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 516,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (effective_adapter.empty() && edge_cfg != nullptr && !edge_cfg->adapter_id.empty()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 50,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 93,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 143,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 176,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 181,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 200,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 287,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock rules_lock(rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 410,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(facts_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+          "line": 463,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\graph\\tensor_deduplication_manager.cpp": [
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 81,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (const auto& tensor_id_suffix : storage->listRawMetadataKeys(prefix)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 85,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "storage->getRawMetadata(prefix + tensor_id_suffix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 96,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (const auto& key : storage->listRawMetadataKeys(prefix)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 97,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto deleted = storage->deleteRawMetadata(prefix + key);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 172,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "storage_->setWriteObserverFn(nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 173,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "storage_->setDeleteObserverFn(nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 283,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto ref_dense_opt = storage_->get(makeKey(ref_tenant, ref_collection, ref_field));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 289,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto [ref_train, _] = decomposer_->decompose(*ref_dense_opt, ref_ms, ref_cfg);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 385,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ref_rec = ref_it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 389,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto ref_opt = storage_->get(makeKey(ref_rec.tenant, ref_rec.collection, ref_rec.field));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 397,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ref_opt->size() != delta_opt->size()) return std::nullopt;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 400,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::vector<float> result(ref_opt->size());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 85,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage->getRawMetadata(prefix + tensor_id_suffix);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 96,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& key : storage->listRawMetadataKeys(prefix)) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 97,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto deleted = storage->deleteRawMetadata(prefix + key);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 263,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto [new_train, stats] = decomposer_->decompose(data, mode_sizes, cfg);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 314,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->put(key, data, mode_sizes);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 938,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto payload = storage->getRawMetadata(key);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 987,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto existing_namespaced = storage->getRawMetadata(namespaced_key);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1165,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto bytes_opt = storage_->getRawMetadata(snapshot_key);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1330,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->putRawMetadata(kActiveSnapshotMetaKey,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1344,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1345,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1348,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1349,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TensorDeduplicationManager: null dependency\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 349,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "wlk.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 928,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "static JournalLoadStatus loadJournalWithLegacyFallback(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1206,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "wlk.unlock(); // Release before replayMutationJournal, which re-acquires per entry.",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1217,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1240,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1341,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1387,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_deduplication_manager.cpp",
+          "line": 1422,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\graph\\graph_watermark.cpp": [
+        {
+          "file": "src\\graph\\graph_watermark.cpp",
+          "line": 76,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "result.data.node_metadata[id] = \"wm:tenant=\" + tenant_id +",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        }
+      ],
+      "src\\graph\\gpu_traversal.cpp": [
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 156,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\gpu_traversal.cpp",
+          "line": 160,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\graph\\graph_query_optimizer.cpp": [
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 716,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 912,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1064,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1404,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1426,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Dijkstra execution failed: \" + status.message",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1471,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1474,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"A* execution failed: \" + status.message",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1572,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1599,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1766,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (all_vertices_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 1934,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!adj_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2616,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\graph_query_optimizer.cpp",
+          "line": 2910,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\graph\\ontology_manager.cpp": [
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\ontology_manager.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\graph\\parallel_traversal.cpp": [
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 148,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) continue;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 172,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) continue;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\parallel_traversal.cpp",
+          "line": 240,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) continue;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\graph\\path_constraints.cpp": [
+        {
+          "file": "src\\graph\\path_constraints.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\path_constraints.cpp",
+          "line": 492,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\graph\\scheduled_edge_refresh.cpp": [
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 119,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 128,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "scheduler_thread_ = std::thread(&ScheduledGraphEdgeRefreshEngine::schedulerLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 153,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cycle_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 162,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 173,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 185,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 208,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 316,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 367,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: relevance_threshold must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 369,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: relevance_threshold must be <= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 372,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: add_threshold must be <= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 375,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: add_threshold must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 377,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: max_removal_fraction must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 379,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: max_removal_fraction must be <= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 381,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: decay_half_life_seconds must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 383,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: top_k_candidates must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 385,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: anomaly_threshold_removal_rate must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 387,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RefreshPolicy: anomaly_threshold_removal_rate must be <= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 396,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 411,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cycle_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 438,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 455,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 487,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 554,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 570,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (range_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 581,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 620,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 656,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(policy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 695,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 891,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\graph\\scheduled_edge_refresh.cpp",
+          "line": 936,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\graph\\tensor_fingerprint_graph.cpp": [
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 42,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TensorFingerprintGraph: num_hash_funcs and num_bands must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 44,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TensorFingerprintGraph: num_hash_funcs must be divisible by num_bands\")",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 339,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { /* hook must not throw; swallow */ }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\graph\\tensor_fingerprint_graph.cpp",
+          "line": 421,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { /* hook must not throw; swallow */ }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ]
+    }
+  }
+}

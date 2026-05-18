@@ -1,0 +1,746 @@
+{
+  "core": {
+    "total": 79,
+    "severity_critical": 27,
+    "severity_high": 37,
+    "severity_medium": 15,
+    "by_category": {
+      "security": 1,
+      "memory": 1,
+      "reliability": 77
+    },
+    "by_file": {
+      "src\\core\\concerns\\redis_cache.cpp": [
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 265,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (auto* p = res; p != nullptr; p = p->ai_next) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 265,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (auto* p = res; p != nullptr; p = p->ai_next) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 92,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 142,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "::closesocket(static_cast<SOCKET>(fd));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "sub_thread_ = std::thread(&RedisCache::subscriberLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 267,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "SOCKET s = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 271,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 280,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 283,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int rv = ::connect(fd,",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 371,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int sent = ::send(static_cast<SOCKET>(fd),",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 376,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total,",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 391,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int n = ::recv(static_cast<SOCKET>(fd), &ch, 1, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 394,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t n = ::recv(fd, &ch, 1, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 477,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int n = ::recv(static_cast<SOCKET>(fd),",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 482,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t n = ::recv(fd, &data[received],",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 514,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nc.mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 579,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 659,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 687,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { num_keys = std::stoi(count_line.substr(1)); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 727,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(inv_cb_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 797,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { count = std::stoi(line.substr(1)); } catch (...) { return false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 817,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(inv_cb_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 836,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 876,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 899,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\core\\index_interface_stubs.cpp": [
+        {
+          "file": "src\\core\\index_interface_stubs.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\core\\security_initialization.cpp": [
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 130,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 144,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Key provider does not implement KeyProvider interface\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 165,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to load RBAC policy from: \" + rbac_policy_file_);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 174,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Invalid JWT configuration:\\n\" + validation.formatErrors());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 181,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 202,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 203,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 249,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"VAULT key provider requires vault_addr and vault_token in config\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 259,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 282,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"HSM key provider requires library_path in config\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 305,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Unknown key provider type\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\core\\adapters\\otel_tracer.cpp": [
+        {
+          "file": "src\\core\\adapters\\otel_tracer.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\core\\concerns\\concerns_context.cpp": [
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Invalid logging configuration:\\n\" + log_validation.formatErrors());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 59,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Invalid tracing configuration:\\n\" + trace_validation.formatErrors());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 65,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Invalid cache configuration:\\n\" + cache_validation.formatErrors());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 75,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Invalid adapter configuration:\\n\" + adapter_validation.formatErrors());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 145,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 326,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 380,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceLogger: new_logger must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 396,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceTracer: new_tracer must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 409,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceMetrics: new_metrics must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 422,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceCache: new_cache must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 435,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceSecrets: new_secrets must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 448,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 461,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceAuditLog: new_audit must not be nullptr\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\core\\concerns\\context_propagation.cpp": [
+        {
+          "file": "src\\core\\concerns\\context_propagation.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\core\\concerns\\i_logger.cpp": [
+        {
+          "file": "src\\core\\concerns\\i_logger.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\core\\concerns\\lockfree_metrics.cpp": [
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "startFlushThread();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(counters_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 174,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(gauges_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 194,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(histos_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 236,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(counters_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 240,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(gauges_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 244,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(histos_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 261,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "stopFlushThread();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(thread_entries_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(counters_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 326,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(counters_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 344,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(gauges_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 350,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(gauges_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 372,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(thread_entries_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 401,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(thread_entries_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 416,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(histos_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 428,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void LockFreeMetrics::startFlushThread()",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 431,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_thread_ = std::thread(&LockFreeMetrics::flushLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 434,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void LockFreeMetrics::stopFlushThread() noexcept",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\core\\concerns\\prometheus_metrics.cpp": [
+        {
+          "file": "src\\core\\concerns\\prometheus_metrics.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\core\\concerns\\zero_copy_logger.cpp": [
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

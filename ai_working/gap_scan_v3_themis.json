@@ -1,0 +1,959 @@
+{
+  "themis": {
+    "total": 102,
+    "severity_critical": 45,
+    "severity_high": 21,
+    "severity_medium": 36,
+    "by_category": {
+      "security": 3,
+      "memory": 4,
+      "reliability": 95
+    },
+    "by_file": {
+      "src\\themis\\license_info.cpp": [
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 562,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "out->append(static_cast<char*>(ptr), size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 769,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return impl_->refresh();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 227,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Status:             EXPIRED (\" << (-days) << \" days ago)\\n\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 268,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Status:             \" << (valid ? \"VALID\" : \"INVALID\") << \"\\n\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 320,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 336,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int decoded_size = BIO_read(bio.get(), output.data(), static_cast<int>(output.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 431,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int sock = socket(AF_INET, SOCK_DGRAM, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 503,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 520,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 540,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 546,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 654,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (j.contains(\"status\")         && j[\"status\"].is_string())",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 686,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\themis\\module_loader.cpp": [
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 481,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "unloadLibrary(it->second.handle);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 94,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1208,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "watchdogThread_ = std::thread([this]() { watchdogLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1327,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1714,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "zip_t* archive = zip_open(bundlePath.c_str(), ZIP_RDONLY, &zipErr);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1799,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!outFile.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1809,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((bytesRead = zip_fread(zf, buf.data(), kBufSize)) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1810,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "outFile.write(buf.data(), bytesRead);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1856,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!manifestFile.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1877,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!sigFile.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\themis\\module_loader_linux.cpp": [
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 272,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto processELFSectionsForMetadata = [&]<typename Ehdr, typename Shdr>(",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 122,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 129,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &wstatus, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 198,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(magic), 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 210,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&elfClass), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 231,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&name[0], nameDataLen);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 277,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 292,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 298,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\themis\\wire_protocol_server.cpp": [
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 159,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "crc = kCrc32Table[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 706,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] const std::vector<uint8_t>& data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 201,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(session_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(session_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (socket_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 281,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 337,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 500,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "handle_geo_query(req);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 508,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "handle_timeseries_query(req);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 600,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 642,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 669,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 902,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WireProtocolSession::handle_geo_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 921,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WireProtocolSession::handle_timeseries_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1150,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1160,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1175,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1180,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1185,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1189,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WireProtocolServer::async_accept() {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1190,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "acceptor_.async_accept(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1194,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "handle_accept(session, ec);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1198,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WireProtocolServer::handle_accept(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1209,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1225,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1228,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (should_continue) async_accept();",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "include\\themis\\network\\wire_protocol_v2.hpp": [
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 299,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "*   server.set_data_handler([](uint32_t sid, const auto& payload, bool eos) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_v2.hpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\themis\\build_info.cpp": [
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 65,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::mutex& hsmStatusFnMutex() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 70,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "HsmModuleStatusFn& hsmStatusFnStorage() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 71,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "static HsmModuleStatusFn fn;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 575,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "HsmModuleStatusFn fn_copy;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 577,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(hsmStatusFnMutex());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 585,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 957,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (f.read(chunk, sizeof(chunk)))",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 1062,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void setHsmModuleStatusFn(HsmModuleStatusFn fn) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 1063,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(hsmStatusFnMutex());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 1067,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void clearHsmModuleStatusFn() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 1068,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(hsmStatusFnMutex());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\themis\\edition_manager.cpp": [
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 204,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 209,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 214,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 225,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(overrides_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\themis\\module_dependency_resolver.cpp": [
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\themis\\module_hash_verifier.cpp": [
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 66,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buf, kBufSize) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\themis\\module_loader_win32.cpp": [
+        {
+          "file": "src\\themis\\module_loader_win32.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader_win32.cpp",
+          "line": 79,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\themis\\module_loader_win32.cpp",
+          "line": 165,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_loader_win32.cpp",
+          "line": 177,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status, modulePath);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\themis\\module_security.cpp": [
+        {
+          "file": "src\\themis\\module_security.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\themis\\module_signature_verifier.cpp": [
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 163,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 178,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status, modulePath);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 269,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &wstatus, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "include\\themis\\network\\wire_protocol_server.hpp": [
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 234,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void handle_geo_query(const v1::GeoQueryRequest& req);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 235,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 291,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void async_accept();",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\themis\\network\\wire_protocol_server.hpp",
+          "line": 292,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void handle_accept(std::shared_ptr<WireProtocolSession> session, const boost::system::error_code& er",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ]
+    }
+  }
+}

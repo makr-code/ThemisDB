@@ -1,0 +1,1051 @@
+{
+  "training": {
+    "total": 112,
+    "severity_critical": 26,
+    "severity_high": 68,
+    "severity_medium": 18,
+    "by_category": {
+      "security": 9,
+      "memory": 11,
+      "reliability": 92
+    },
+    "by_file": {
+      "src\\training\\auto_labeler.cpp": [
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 544,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (doc_ptr && doc_ptr->is_object() &&",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 545,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "doc_ptr->contains(\"text\") && (*doc_ptr)[\"text\"].is_string()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 679,
+          "type": "hardcoded_secret",
+          "severity": "CRITICAL",
+          "snippet": "std::string token = \"@\" + placeholder;",
+          "description": "hardcoded_secret: Hardcoded secret \u2014 use environment variable",
+          "remediation": "Hardcoded secret \u2014 use environment variable"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 447,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "static const std::regex simple_key_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\training\\incremental_lora_trainer.cpp": [
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1323,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "checkpoint_manager_->save(prefix + \"_weights.bin\", meta);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 554,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data_map[layer] = sum / static_cast<double>(gradient_update_count_);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1023,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "input_data [b * feature_dim + fd] = input_vec[fd];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1024,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "target_data[b * feature_dim + fd] = target_vec[fd];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 484,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (rank <= 0) throw std::invalid_argument(\"LoRA rank must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 485,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (alpha <= 0.0f) throw std::invalid_argument(\"LoRA alpha must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 486,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (learning_rate <= 0.0f) throw std::invalid_argument(\"Learning rate must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 536,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Federated learning rate must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 543,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"no training since last export\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 805,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 823,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1147,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1181,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return;  // No weights file; start with fresh initialization",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1205,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1221,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRA rank must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1223,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRA alpha must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1225,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1227,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Batch size must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1229,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"num_gpus must be at least 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1231,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"sync_steps must be at least 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1233,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Quantization block_size must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1285,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1337,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\training\\lora_adapter_merger.cpp": [
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 239,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const LoRAWeightEntry& ref_entry = adapters[0]->getWeights(lname);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 393,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const LoRAWeightEntry& ref = adapters[0]->getWeights(lname);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\lora_adapter_merger.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\training\\provenance_tracker.cpp": [
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 313,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (doc_ptr && doc_ptr->is_object()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 357,
+          "type": "hardcoded_secret",
+          "severity": "CRITICAL",
+          "snippet": "std::string token = \"@\" + placeholder;",
+          "description": "hardcoded_secret: Hardcoded secret \u2014 use environment variable",
+          "remediation": "Hardcoded secret \u2014 use environment variable"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ProvenanceWriteStats write(const std::vector<ProvenanceRecord>& records) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 395,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ProvenanceWriteStats ProvenanceTracker::write(const std::vector<ProvenanceRecord>& records) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\provenance_tracker.cpp",
+          "line": 396,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return impl_->write(records);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\training\\training_pipeline.cpp": [
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 583,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return impl_->detectLabelDrift(reference_samples);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 296,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data_selector_->setConfig(config_.data_selection_config);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 298,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return data_selector_->run(candidates, std::move(callback));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\training_pipeline.cpp",
+          "line": 137,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto pstats = provenance_tracker_->write(prov_records);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\training\\adalora_tt_bridge.cpp": [
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 97,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[row * r + i] = sign * (B[row * r + i] / norm_b) * scale;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 133,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[i * k + col] = sign * (A[i * k + col] / norm_a) * scale;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 242,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "++impl_->stats_data.exports_total;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 309,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "++impl_->stats_data.imports_total;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 334,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "++impl_->stats_data.stores_total;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 414,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return impl_->stats_data;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Build-aligned implementation                              \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 199,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Layer not found: \" + layer_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 208,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Layer has zero rank: \" + layer_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 211,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Layer rank exceeds max_tt_rank: \" + layer_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 214,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid matrix shape for layer: \" + layer_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 268,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"No exportable layers in adapter: \" + adapter_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\adalora_tt_bridge.cpp",
+          "line": 276,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Empty TT export\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\training\\adapter_serving.cpp": [
+        {
+          "file": "src\\training\\adapter_serving.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\training\\ada_lora_adapter.cpp": [
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 99,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Layer name must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 101,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Dimensions must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 103,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Layer '\" + name + \"' already exists\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 193,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"total_budget must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 311,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"B size mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 313,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"A size mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 337,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Input size mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 381,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"AdaLoRAAdapter: unknown layer '\" + name + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\ada_lora_adapter.cpp",
+          "line": 388,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"AdaLoRAAdapter: unknown layer '\" + name + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\training\\database_domain_auto_labeler.cpp": [
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 58,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\training\\database_domain_auto_labeler.cpp",
+          "line": 137,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\training\\knowledge_graph_enricher.cpp": [
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 122,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 143,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 150,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\knowledge_graph_enricher.cpp",
+          "line": 426,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\training\\lora_adapter.cpp": [
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 137,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRAAdapter: default_rank must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 139,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRAAdapter: default_alpha must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 150,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: layer_name must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 152,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: in_dim and out_dim must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 154,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: layer '\" + layer_name + \"' already exists\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 162,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 257,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"LoRAAdapter::applyUpdate: unknown layer '\" + layer_name + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 287,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 333,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"LoRAAdapter::forward: unknown layer '\" + layer_name + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\training\\lora_checkpoint_manager.cpp": [
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!in.is_open()) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 103,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!out.is_open()) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRACheckpointManager: checkpoint_dir must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 124,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"LoRACheckpointManager: max_checkpoints must be >= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 154,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 163,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 170,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 256,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 270,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return \"\";",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 280,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return; // first run \u2014 no manifest yet",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_checkpoint_manager.cpp",
+          "line": 290,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\training\\lora_data_selection.cpp": [
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 292,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (ofs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 791,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 795,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 895,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open())",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 896,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"LoRADataSelectionConfig: cannot open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 1109,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open())",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 1110,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"SelfImprovementConfig: cannot open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 1152,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { return false; } // malformed threshold: treat as not triggered",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\training\\modality_parser.cpp": [
+        {
+          "file": "src\\training\\modality_parser.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,858 @@
+{
+  "user_storage_encrypted": {
+    "total": 91,
+    "severity_critical": 25,
+    "severity_high": 24,
+    "severity_medium": 42,
+    "by_category": {
+      "security": 1,
+      "memory": 14,
+      "reliability": 76
+    },
+    "by_file": {
+      "src\\user_storage_encrypted\\multi_level_storage.cpp": [
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 435,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return Result<std::shared_ptr<KeyProvider>>(it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 862,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "return Result<void>::error(\"Failed to delete user file\");",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: user = nullptr;"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 929,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "return Result<void>::error(\"Failed to delete group file\");",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: group = nullptr;"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1084,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "execvp(c_args[0], c_args.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1104,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "execvp(c_args[0], c_args.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 185,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 197,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 311,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 737,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 751,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 797,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 811,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 967,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Result<HealthStatus> MultiLevelEncryptedStorage::checkHealth() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 968,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "HealthStatus status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 978,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.errors.push_back(level_health.error());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 979,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "} else if (!level_health.value().healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 981,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.errors.push_back(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 987,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 996,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel level) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 997,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "HealthStatus status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1088,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1108,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\user_storage_encrypted\\gocryptfs_backend.cpp": [
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 327,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "execvp(c_args[0], c_args.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 346,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "char buffer[1024];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 348,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 496,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "execvp(c_args[0], c_args.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 523,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "char buffer[1024];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 525,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 600,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "execvp(c_args[0], c_args.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 611,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "char buffer[1024];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 613,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "while ((bytes_read = read(pipe_fd[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ssize_t n = write(write_fd, ptr + written, static_cast<size_t>(total - written));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 348,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 354,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 402,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 417,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "in.read(reinterpret_cast<char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 508,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ssize_t written = write(stdin_pipe[1], ptr, remaining);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 525,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 531,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 613,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((bytes_read = read(pipe_fd[0], buffer, sizeof(buffer))) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 619,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "int status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 620,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "include\\user_storage_encrypted\\gocryptfs_backend.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
+          "line": 114,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "* Forks the process, executes @p args[0] via execvp, writes @p stdin_data",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
+          "line": 133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "* @param key_hex  Hex-encoded key to write (cleared on return)",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\user_storage_encrypted\\key_derivation_service.cpp": [
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 149,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 222,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "f.read(reinterpret_cast<char*>(salt.data()), len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "f.read(reinterpret_cast<char*>(existing.data()), len);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 280,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"master_key must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 283,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"salt must be at least 8 bytes\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 313,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 328,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Salt length must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 340,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int fd = open(\"/dev/urandom\", O_RDONLY | O_CLOEXEC);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 342,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to open /dev/urandom for salt generation\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ssize_t n = read(fd, salt.data() + total, length - static_cast<size_t>(total));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 350,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to read random bytes for salt\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\user_storage_encrypted\\key_rotation_scheduler.cpp": [
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 78,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 100,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "impl_->scheduler_thread = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 113,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "impl_->scheduler_thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 151,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 166,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 182,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 197,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 211,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 236,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line": 300,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "include\\user_storage_encrypted\\encryption_backend_interface.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
+          "line": 61,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!success_) throw std::runtime_error(\"Accessing value of failed Result\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
+          "line": 66,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!success_) throw std::runtime_error(\"Accessing value of failed Result\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "include\\user_storage_encrypted\\irotation_store.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\irotation_store.hpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\irotation_store.hpp",
+          "line": 97,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\irotation_store.hpp",
+          "line": 165,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "include\\user_storage_encrypted\\key_derivation_service.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\key_derivation_service.hpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "include\\user_storage_encrypted\\key_rotation_scheduler.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\key_rotation_scheduler.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "include\\user_storage_encrypted\\multi_level_storage.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
+          "line": 169,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Result<HealthStatus> checkHealth();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
+          "line": 170,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Result<HealthStatus> checkLevelHealth(SecurityLevel level);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "include\\user_storage_encrypted\\security_level.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\security_level.hpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\security_level.hpp",
+          "line": 69,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid security level: \" + str);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "include\\user_storage_encrypted\\user_models.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 73,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* @brief Health status for storage containers",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 75,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "struct HealthStatus {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 76,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "bool healthy;                  // Overall health status",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 77,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string message;           // Status message",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "line": 81,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "HealthStatus() : healthy(true), checked_at_ms(0) {}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

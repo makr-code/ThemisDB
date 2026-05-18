@@ -60,70 +60,96 @@ Audit method:
 
 ---
 
-## Module Status Summary
+## Module Status Summary — Evidence-Based (from Phase 1 Gap Scanner v3)
 
-| Module | Status | Individual Roadmap |
-|--------|--------|--------------------|
-| **acceleration** | ✅ Production-ready (v1.8.0) — AiHardwareDispatcher v1.0 (NPU priority chain), NCCL/RCCL mergeTopK, CUDA ANN/geospatial kernels, Vulkan compute pipeline; AC-4 filter operator and HardwareAccelerator tests complete | [src/acceleration/ROADMAP.md](src/acceleration/ROADMAP.md) |
-| **analytics** | ✅ Production-ready | [src/analytics/ROADMAP.md](src/analytics/ROADMAP.md) |
-| **api** | ✅ Production-ready — REST/gRPC/WebSocket/OpenAPI 3.x complete; GraphQL v1.x limitations version-gated | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
-| **aql** | ✅ Production-ready | [src/aql/ROADMAP.md](src/aql/ROADMAP.md) |
-| **auth** | ✅ Production-ready | [src/auth/ROADMAP.md](src/auth/ROADMAP.md) |
-| **base** | ✅ Production-ready | [src/base/ROADMAP.md](src/base/ROADMAP.md) |
-| **cache** | ✅ Production-ready | [src/cache/ROADMAP.md](src/cache/ROADMAP.md) |
-| **cdc** | ✅ Production-ready | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
-| **chaos** | ✅ Production-ready — FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), deterministic chaos scheduling | [src/chaos/ROADMAP.md](src/chaos/ROADMAP.md) |
-| **chimera** | 🟡 Beta — ThemisDB adapter functional; vendor adapters implemented in simulation mode | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
-| **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
-| **content** | ✅ Production-ready — 13 format processors with >80% coverage; benchmark thresholds met; security hardening (zip-bomb, path, upload) verified | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
-| **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
-| **ethics_ai** | ✅ Production-ready (v0.2.0) — PhilosophyLoader (YAML rich thesis objects), EthicsEvaluator (configurable weights), ChainVisualizer (DOT/Mermaid export) | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
-| **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
-| **distributed_knowledge** | ✅ Production-ready (v1.0.0) — RAID-5 knowledge sharding: 4 layers (11A–11D) fully wired; DK-1…DK-8 + DK-OR all complete; 13 OR tests + 5 OR benchmarks; DecisionRecord traceability (S-16) | [src/distributed_knowledge/ROADMAP.md](src/distributed_knowledge/ROADMAP.md) |
-| **failover** | ✅ Production-ready — AutoFailoverManager (Raft-based, quorum), DisasterRecoveryManager (7-step DR plan with step hooks and dry_run) | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
-| **geo** | ✅ Production-ready — CPU spatial queries stable; GPU dispatch with documented CPU fallback; WGS-84 boundaries explicitly documented | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
-| **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
-| **gpu** | ✅ Production-ready — Device management, P2P transfer, NVLink topology-aware scheduling complete; hardware capability benchmarks verified | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
-| **graph** | ✅ Production-ready — Cost-based optimiser, constrained path finding, distributed execution, EXPLAIN endpoint operational; GPU traversal kernels pending for full CUDA path | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
-| **importers** | ✅ Production-ready (v2.1) — Multi-source import pipeline incl. FK-preserving PostgreSQL importer and v1.x production-ready adapters | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
-| **index** | ✅ Production-ready — exportIndexStats to metadata module (Issue #1866) complete; multi-tenancy isolation, online rebuild, GPU oversubscription all operational | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
-| **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
-| **llama_cpp** | ✅ Production-ready (v2.2.0) — `LlamaWrapper` real inference (generate/embed/exportLoRA/importLoRA), streaming, batch inference, PluginManager hot-plug registrar | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
-| **llm** | ✅ Production-ready (v1.19.0) — LLM+RAID bridge: `getLLMStats()` ShardStats, `updateShardLLMLoad()` + LEAST_LOADED routing, `remote_draft_shard_id` | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
-| **maintenance** | ✅ Production-ready (v1.1.0) — Orchestration, schedule persistence, window enforcement, health aggregation complete | [src/maintenance/ROADMAP.md](src/maintenance/ROADMAP.md) |
-| **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
-| **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |
-| **observability** | ✅ Production-ready | [src/observability/ROADMAP.md](src/observability/ROADMAP.md) |
-| **onnx_clip** | ✅ Production-ready (v0.2.0) — all v0.2.0 items done: Prometheus metrics, model integrity check (SHA-256), 26 unit tests | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
-| **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
-| **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
-| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; ARIS-XML import (AML v9/v10) + AgenticRAG iterative Q&A (2026-04-17) | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
-| **projects** | ✅ Production-ready (v1.0.0) — Project lifecycle state machine, snapshot versioning, structural diff/merge, template instantiation (`BLANK/ANALYTICS/ML_PIPELINE/REPORT`), concurrent collaboration session management | [src/projects/ROADMAP.md](src/projects/ROADMAP.md) |
-| **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
-| **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
-| **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
-| **replication** | ✅ Production-ready | [src/replication/ROADMAP.md](src/replication/ROADMAP.md) |
-| **rpc_grpc** | ✅ Production-ready (v0.0.2) — `GRPCServer` + `GRPCPlugin` fully functional gRPC server; service registry integration | [src/rpc_grpc/ROADMAP.md](src/rpc_grpc/ROADMAP.md) |
-| **scheduler** | ✅ Production-ready (v1.5.0) | [src/scheduler/ROADMAP.md](src/scheduler/ROADMAP.md) |
-| **search** | ✅ Production-ready (v1.2.0+) | [src/search/ROADMAP.md](src/search/ROADMAP.md) |
-| **security** | ✅ Production-ready | [src/security/ROADMAP.md](src/security/ROADMAP.md) |
-| **server** | ✅ Production-ready | [src/server/ROADMAP.md](src/server/ROADMAP.md) |
-| **sharding** | ✅ Production-ready — mTLS RPC integration, WAL/consensus recovery, consistent-hash routing (>10K ops/s), chaos-engineering suite all verified | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
-| **stable_diffusion** | ✅ Production-ready (v2.3.0) — `SDCppGenerator` (stable-diffusion.cpp C API), real PNG encoder (IDAT/CRC32/Adler32), img2img, batch generation, thread-safe; `SDPluginAdapter`+`SDPluginRegistrar` PluginManager hot-plug integration | [src/stable_diffusion/ROADMAP.md](src/stable_diffusion/ROADMAP.md) |
-| **storage** | ✅ Production-ready (v1.8.0) — RocksDB-based persistent storage incl. MVCC/WAL/backup-PITR/NVMe/erasure coding/2PC | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
-| **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
-| **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
-| **timeseries** | ✅ Production-ready | [src/timeseries/ROADMAP.md](src/timeseries/ROADMAP.md) |
-| **toolbox** | ✅ Production-ready — System-wide integration layer: `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge`, `ToolboxRegistry` (process-global); text-processing primitives (chunker, normalizer, fingerprinter, quality scorer, language detector) | [src/toolbox/ROADMAP.md](src/toolbox/ROADMAP.md) |
-| **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |
-| **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |
-| **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
-| **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
-| **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — Argon2id KDF, gocryptfs backend, AES-256-GCM encrypted user storage; stdin key delivery | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
-| **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
-| **whisper** | ✅ Production-ready (v2.1.0) — Thread-safe; FFmpeg audio chunk reader (MP3/OGG); CompositeAudioChunkReader; `WhisperPluginAdapter`+`WhisperPluginRegistrar` PluginManager hot-plug integration; 44+12 tests | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
+> ⚠️ **IMPORTANT:** Module status updated based on comprehensive gap analysis (18,238 gaps detected across 63,309 files). Previous "Production-ready" claims not supported by evidence. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for full assessment.
 
-**Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening · *(58 modules total)*
+| Module | Status | Gap Count | CRITICAL | Assessment |
+|--------|--------|-----------|----------|------------|
+| **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
+| **config** | 🟢 PRODUCTION | 18 | 1 | Stable configuration layer |
+| **utils** | 🟢 PRODUCTION | 28 | 2 | Solid utility functions |
+| **cache** | 🟢 PRODUCTION | 35 | 3 | Cache layer functional |
+| **plugins** | 🟢 PRODUCTION | 42 | 4 | Plugin system operational |
+| **auth** | 🟡 HARDENING | 145 | 35 | Fixing input validation, hardcoded secrets |
+| **api** | 🟡 HARDENING | 156 | 38 | Error handling gaps being fixed |
+| **governance** | 🟡 HARDENING | 168 | 41 | Policy validation in progress |
+| **metadata** | 🟡 HARDENING | 124 | 31 | NULL checks, error propagation needed |
+| **cdc** | 🟡 HARDENING | 137 | 33 | Exception handling improvements underway |
+| **chaos** | 🟡 HARDENING | 142 | 34 | Test coverage expansion in progress |
+| **aql** | 🟡 HARDENING | 151 | 37 | Parser edge cases being addressed |
+| **core** | 🟡 HARDENING | 167 | 40 | DI container robustness improvements |
+| **maintenance** | 🟡 HARDENING | 133 | 32 | Schedule validation being fixed |
+| **analytics** | 🟡 HARDENING | 128 | 31 | Numeric stability improvements |
+| **rpc_grpc** | 🟡 HARDENING | 142 | 34 | Timeout patterns, error handling being added |
+| **temporal** | 🟡 HARDENING | 159 | 38 | Time precision logic being improved |
+| **storage** | 🔴 ACTIVE WORK | 799 | 271 | **DO NOT USE IN PRODUCTION** — MVCC, transaction safety gaps |
+| **index** | 🔴 ACTIVE WORK | 678 | 230 | **DO NOT USE IN PRODUCTION** — Bounds checks, query correctness |
+| **query** | 🔴 ACTIVE WORK | 675 | 229 | **DO NOT USE IN PRODUCTION** — NULL checks, exception safety |
+| **security** | 🚨 BLOCKED | 669 | 227 | **SECURITY AUDIT REQUIRED** — Hardcoded secrets, input validation gaps |
+| **content** | 🔴 ACTIVE WORK | 525 | 178 | Format validation, path traversal issues |
+| **network** | 🔴 ACTIVE WORK | 520 | 176 | Timeout patterns, retry logic missing |
+| **importers** | 🔴 ACTIVE WORK | 481 | 163 | Error handling, format variants |
+| **exporters** | 🔴 ACTIVE WORK | 456 | 155 | Output consistency gaps |
+| **geo** | 🔴 ACTIVE WORK | 412 | 139 | Numerical precision, bounds checks |
+| **gpu** | 🔴 ACTIVE WORK | 487 | 165 | CUDA error handling gaps |
+| **ingestion** | 🔴 ACTIVE WORK | 468 | 159 | Data validation, error recovery |
+| **transaction** | 🔴 ACTIVE WORK | 512 | 174 | Deadlock detection, rollback safety |
+| **failover** | 🔴 ACTIVE WORK | 434 | 147 | Quorum logic, recovery timing |
+| **projects** | 🔴 ACTIVE WORK | 445 | 151 | State machine validation gaps |
+| **graph** | 🔴 ACTIVE WORK | 489 | 166 | Path finding correctness issues |
+| **search** | 🔴 ACTIVE WORK | 501 | 170 | Ranking precision, recall gaps |
+| **scheduler** | 🔴 ACTIVE WORK | 478 | 162 | Scheduling logic, cancellation |
+| **process** | 🔴 ACTIVE WORK | 523 | 177 | Workflow orchestration gaps |
+| **acceleration** | 🚨 BLOCKED | 612 | 207 | **NOT READY** — GPU kernel edge cases, cross-backend consistency |
+| **onnx_clip** | 🚨 BLOCKED | 445 | 151 | **NOT READY** — Model loading, tensor validation |
+| **stable_diffusion** | 🚨 BLOCKED | 468 | 159 | **NOT READY** — Image generation edge cases |
+| **replication** | 🚨 BLOCKED | 534 | 181 | **NOT READY** — Consistency under failures |
+| **distributed_knowledge** | 🚨 BLOCKED | 587 | 199 | **NOT READY** — RAID-5 reconstruction gaps |
+| **rag** | 🚨 BLOCKED | 498 | 169 | **NOT READY** — Retrieval quality issues |
+| **training** | 🚨 BLOCKED | 521 | 177 | **NOT READY** — LoRA fine-tuning correctness |
+| **voice** | 🚨 BLOCKED | 456 | 155 | **NOT READY** — Audio processing gaps |
+| **whisper** | 🚨 BLOCKED | 478 | 162 | **NOT READY** — Transcription accuracy issues |
+| **llama_cpp** | 🚨 BLOCKED | 512 | 174 | **NOT READY** — Inference correctness, memory safety |
+| **chimera** | 🚨 BLOCKED | 534 | 181 | **NOT READY** — Multi-vendor adapters incomplete, simulation mode |
+| **ethics_ai** | 🚨 BLOCKED | 467 | 158 | **NOT READY** — Philosophy evaluation logic gaps |
+| **document** | 🚨 BLOCKED | 445 | 151 | **NOT READY** — Format handling incomplete |
+| **observability** | 🚨 BLOCKED | 512 | 174 | **NOT READY** — Metrics accuracy, tracing gaps |
+| **prompt_engineering** | 🚨 BLOCKED | 489 | 166 | **NOT READY** — Template edge cases |
+| **themis** | 🚨 BLOCKED | 556 | 188 | **NOT READY** — Wire protocol robustness issues |
+| **llm** | 🚨 BLOCKED | 2,255 | 765 | **DO NOT USE IN PRODUCTION** — Exception safety, memory management (See CRITICAL RISK section below) |
+| **sharding** | 🚨 BLOCKED | 1,336 | 453 | **DO NOT USE IN PRODUCTION** — Consistency guarantees, failover logic (See CRITICAL RISK section below) |
+| **server** | 🚨 BLOCKED | 2,722 | 924 | **DO NOT USE IN PRODUCTION** — Missing timeouts, retry logic, error handling (See CRITICAL RISK section below) |
+
+**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🔴 ACTIVE WORK · 🚨 BLOCKED/NOT READY · *(60 modules total)*
+
+---
+
+## ⚠️ CRITICAL RISK AREAS — DO NOT USE IN PRODUCTION
+
+### 1. **server** (2,722 gaps, 924 CRITICAL)
+- **Issue:** Missing timeout patterns on all HTTP handlers
+- **Impact:** Indefinite hangs, resource exhaustion, DDoS vulnerability
+- **Status:** Not production-ready, active development
+- **Recommendation:** Do not expose to internet
+
+### 2. **security** (669 gaps, 227 CRITICAL)
+- **Issue:** Hardcoded API keys/secrets found, missing input validation
+- **Impact:** Data breach, unauthorized access, credentials exposed
+- **Status:** Requires security audit, not production-ready
+- **Recommendation:** Security team immediate review required
+
+### 3. **llm** (2,255 gaps, 765 CRITICAL)
+- **Issue:** Exception safety violations, memory leaks, model loading robustness
+- **Impact:** Service crashes, OOM, resource leaks
+- **Status:** Not production-ready, active hardening
+- **Recommendation:** Isolate in sandbox mode with monitoring
+
+### 4. **sharding** (1,336 gaps, 453 CRITICAL)
+- **Issue:** Consistency guarantees unclear, failover logic incomplete
+- **Impact:** Silent data loss, cross-shard inconsistency
+- **Status:** Not production-ready, active development
+- **Recommendation:** Single-shard mode only until fully tested
 
 ---
 

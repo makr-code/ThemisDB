@@ -1,0 +1,1915 @@
+{
+  "timeseries": {
+    "total": 206,
+    "severity_critical": 69,
+    "severity_high": 92,
+    "severity_medium": 45,
+    "by_category": {
+      "security": 22,
+      "memory": 34,
+      "reliability": 150
+    },
+    "by_file": {
+      "src\\timeseries\\aggregate_scheduler.cpp": [
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 155,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "refreshAggregate(it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 277,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "agg_manager_->refreshIncremental(agg.config, agg.id, window_end, *wm_store_);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 288,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "agg_manager_->refresh(agg.config, window_start, window_end);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 356,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "agg_manager_->refresh(agg.config, window_start, window_end);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 41,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AggregateScheduler: TSStore cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 63,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "scheduler_thread_ = std::thread(&AggregateScheduler::schedulerLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 92,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 121,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 131,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 161,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 193,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 206,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 222,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\aggregate_scheduler_helper.cpp": [
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 84,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "agg_manager_->refresh(cfg, start_ms, end_ms - 1);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 33,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\continuous_agg.cpp": [
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 375,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!it->second.auto_refresh) continue;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 377,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 145,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 242,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto first_point = store_->query(first);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 401,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = store_->query(qopt);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 406,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::optional<ContinuousAggMaterializationStatus>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 407,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ContinuousAggMaterializationEngine::getAggregateStatus(const std::string& name) const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 412,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ContinuousAggMaterializationStatus s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 422,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<ContinuousAggMaterializationStatus>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 423,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ContinuousAggMaterializationEngine::getAllStatus() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 424,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<ContinuousAggMaterializationStatus> result;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\hypertable.cpp": [
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 150,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 107,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [timestamp, data] : batch) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 109,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_batches[chunk_name].emplace_back(timestamp, data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 113,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [chunk_name, chunk_data] : chunk_batches) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 114,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [timestamp, data] : chunk_data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 36,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Hypertable: RocksDB not open\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 163,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 236,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\timeseries\\timeseries.cpp": [
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 75,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return db_ != nullptr ? db_->DefaultColumnFamily() : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 144,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 149,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!it->Valid() || !it->key().starts_with(prefix)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 154,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 170,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 243,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 244,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->Seek(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 246,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "while (it->Valid() && it->key().starts_with(prefix)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 276,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 280,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->Valid() && it->key().starts_with(prefix)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 40,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"metadata\"] = metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 144,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 243,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 276,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 125,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 187,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 190,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return query(metric, entity, RangeQuery{});",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\timeseries\\timeseries_metrics.cpp": [
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 180,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 342,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"ingestion\"][\"data_points_written_total\"] = total_data_points_written_.load();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 353,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"query\"][\"data_points_returned_total\"] = total_data_points_returned_.load();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 364,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"storage\"][\"current_data_points\"] = current_data_points_.load();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 377,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"retention\"][\"data_points_deleted_total\"] = total_data_points_deleted_.load();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 407,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metric_stats[\"data_points_written\"] = stats.data_points_written;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 410,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metric_stats[\"avg_write_latency_ms\"] = stats.data_points_written > 0 ?",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(per_metric_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(agg_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 403,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(per_metric_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 461,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(per_metric_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 466,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(agg_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\tsstore.cpp": [
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1160,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->Seek(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1208,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->Seek(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 57,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"metadata\"] = metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 369,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_meta[\"data\"]       = nlohmann::json::binary(enc_result.blob);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 371,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_meta[\"data\"] = nlohmann::json::binary(compressed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 574,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_meta[\"data\"]       = nlohmann::json::binary(enc_result.blob);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 576,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_meta[\"data\"] = nlohmann::json::binary(compressed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 829,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1127,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"Failed to delete old data: {}\", s.ToString());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: old = nullptr;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1175,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"Failed to delete old data for metric {}: {}\", metric, s.ToString());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: old = nullptr;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1231,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"Failed to delete metric {}: {}\", metric, s.ToString());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: metric = nullptr;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1233,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "fmt::format(\"Failed to delete metric {}: {}\", metric, s.ToString()));",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: metric = nullptr;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 79,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimeSeriesStore: db cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 119,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 237,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 676,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "TSStore::query(const QueryOptions& options) const {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 880,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!it->status().ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 882,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "fmt::format(\"Scan failed: {}\", it->status().ToString()));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 941,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result_or_error = query(agg_options);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 980,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result_or_error = query(options);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1287,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1304,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1323,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\ts_encrypted_key_rotation.cpp": [
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 143,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->Seek(prefix);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 202,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "enc_store_->decryptChunk(series_id, encrypted_data, chunk_range);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 213,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "chunk_meta[\"data\"]   = nlohmann::json::binary(enc_result.blob);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 47,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TsEncryptedKeyRotation: db must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TsEncryptedKeyRotation: enc_store must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 74,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread_ = std::thread(&TsEncryptedKeyRotation::rotationLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 199,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Unsupported encrypted chunk data encoding\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 219,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\aggregates.cpp": [
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 71,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [window_ts, window_values] : window_data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\ts_auto_buffer.cpp": [
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 173,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto& buffer = buffers_[buffer_key];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 259,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (auto& [buffer_key, buffer] : buffers_) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 391,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [key, buf] : buffers_) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 487,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [key, buf] : buffers_) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 495,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "entry[\"metadata\"]      = pt.metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 535,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buffers_[key].add(pt);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 579,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto& buffer = buffers_[buffer_key];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\u2022 d9e68edf71  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 39,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TSAutoBuffer: tsstore cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 71,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_thread_ = std::thread(&TSAutoBuffer::flushThread, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> bp_lock(backpressure_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 142,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "backpressure_cv_.wait(bp_lock, [this] {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 168,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 234,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 247,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 249,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 365,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void TSAutoBuffer::flushThread() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 382,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();  // Release before flushing",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 428,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 477,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 481,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ofs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 506,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ifs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 532,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 554,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 562,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\adaptive_flush_controller.cpp": [
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 43,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AdaptiveFlushController: tsstore cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 46,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AdaptiveFlushController: buffer_capacity must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 49,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 81,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_thread_ = std::thread(&AdaptiveFlushController::flushThread, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 97,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(bp_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> bp_lock(bp_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 142,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bp_cv_.wait(bp_lock, [this]() noexcept {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 153,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffer_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> bp_lock(bp_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 204,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bp_cv_.wait(bp_lock, [this]() noexcept {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 216,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffer_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 256,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffer_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 300,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> bp_lock(bp_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 312,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void AdaptiveFlushController::flushThread() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 374,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffer_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\anomaly_detection.cpp": [
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\compression_selector.cpp": [
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\downsampling.cpp": [
+        {
+          "file": "src\\timeseries\\downsampling.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\downsampling.cpp",
+          "line": 144,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"DownsamplingPipeline: store cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\downsampling.cpp",
+          "line": 150,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"DownsamplingPipeline::addPolicy: metric name cannot be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\downsampling.cpp",
+          "line": 153,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"DownsamplingPipeline::addPolicy: tiers cannot be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\timeseries\\encrypted_chunk_store.cpp": [
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 67,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"EncryptedChunkStore: current_key_fn must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 70,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"EncryptedChunkStore: lookup_key_fn must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 103,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: current_key_fn returned empty key\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: RAND_bytes failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CIPHER_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 147,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CTRL_GCM_GET_TAG failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 149,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 183,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: blob too short\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 194,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: invalid blob (key_id_len out of bounds)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 203,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: master key not found for key_id=\" + key_id);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 215,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: blob too short for ciphertext\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 227,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CIPHER_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 251,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CTRL_GCM_SET_TAG failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 258,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 261,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\timeseries\\gap_fill.cpp": [
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\gorilla.cpp": [
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\gorilla_simd.cpp": [
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\prometheus_remote_write.cpp": [
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\timeseries\\query_optimizer.cpp": [
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TSQueryOptimizer: TSStore cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 102,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 129,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 156,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 249,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 254,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 261,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\retention.cpp": [
+        {
+          "file": "src\\timeseries\\retention.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\retention.cpp",
+          "line": 35,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(audit_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\retention.cpp",
+          "line": 92,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "async_thread_ = std::thread(&RetentionManager::asyncLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\ts_auto_buffer_adaptive.cpp": [
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 136,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 158,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\timeseries\\ts_stream_cursor.cpp": [
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 42,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 46,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return open(store, std::move(options), Config{});",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 158,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = store_->query(page_opts);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ]
+    }
+  }
+}

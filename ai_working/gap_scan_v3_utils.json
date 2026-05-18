@@ -1,0 +1,3671 @@
+{
+  "utils": {
+    "total": 396,
+    "severity_critical": 158,
+    "severity_high": 131,
+    "severity_medium": 107,
+    "by_category": {
+      "security": 35,
+      "memory": 49,
+      "reliability": 312
+    },
+    "by_file": {
+      "src\\utils\\capability_auto_generator.cpp": [
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 274,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db->NewIterator(rocksdb::ReadOptions()));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 274,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<rocksdb::Iterator> it(db->NewIterator(rocksdb::ReadOptions()));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 95,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to load capability auto-gen config: \" + std::string(e.what()));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 151,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void CapabilityAutoGenerator::workerThread() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 247,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", \"failed\"}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 267,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 268,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to open RocksDB: \" + status.ToString());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 268,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "throw std::runtime_error(\"Failed to open RocksDB: \" + status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 328,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 395,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 526,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "auditLog(shard_id, {{\"error\", e.what()}, {\"status\", \"save_failed\"}});",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 553,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 619,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\capability_auto_generator.cpp",
+          "line": 656,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\grpc_channel_pool.cpp": [
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 175,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "pool->available = std::queue<std::shared_ptr<PooledChannel>>();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 175,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "pool->available = std::queue<std::shared_ptr<PooledChannel>>();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 48,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Channel pool is shutting down\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 88,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 97,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 108,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Timeout acquiring gRPC channel for target: \" + target);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> pools_lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 126,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "pools_lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 128,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 155,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 171,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 174,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 187,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 241,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 355,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\grpc_channel_pool.cpp",
+          "line": 367,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\pki_client.cpp": [
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 343,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!bptr || !bptr->data || bptr->length == 0) return {};",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 344,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return std::string(bptr->data, bptr->length);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 374,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 376,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, real_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 541,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 544,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "out->append(ptr, real_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 759,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 762,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "out->append(ptr, real_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 76,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] SSL_CTX* ssl_ctx = ssl ? SSL_get_SSL_CTX(ssl) : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 374,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 376,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, real_size);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 541,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 544,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->append(ptr, real_size);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 759,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "+[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 762,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->append(ptr, real_size);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 399,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 589,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 597,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 649,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cert_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 708,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(VCCPKIClient::signHashFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 800,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 808,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pki_client.cpp",
+          "line": 859,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(VCCPKIClient::verifyHashFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\saga_logger.cpp": [
+        {
+          "file": "src\\utils\\saga_logger.cpp",
+          "line": 73,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto get_str = [](const nlohmann::json& obj, const char* key) -> std::string {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\saga_logger.cpp",
+          "line": 77,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto get_i64 = [](const nlohmann::json& obj, const char* key) -> int64_t {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\saga_logger.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\saga_logger.cpp",
+          "line": 459,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "&& j.contains(\"status\") && j[\"status\"].is_string())",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\saga_logger.cpp",
+          "line": 521,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!j.contains(\"status\") || !j[\"status\"].is_string()) continue;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\memory\\pool_allocator.cpp": [
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 266,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->allocateBlock(order);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 304,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->deallocateBlock(ptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 325,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uintptr_t addr = reinterpret_cast<uintptr_t>(impl_->memory);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 341,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uintptr_t block_addr = impl_->free_list_heads[i];",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 470,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* ptr = slab->allocate();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 493,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (slab->contains(ptr)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 494,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return slab->deallocate(ptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 515,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (size > impl_->object_size) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 522,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->allocate();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 530,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "stats_.bytes_allocated.fetch_add(impl_->object_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 551,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!impl_->deallocate(ptr)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 557,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "stats_.bytes_freed.fetch_add(impl_->object_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 573,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->head_slab = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 592,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "size_t total_objects = impl_->slab_count * impl_->objects_per_slab;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 597,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "used_objects += (slab->object_count - slab->free_count);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 657,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->memory + impl_->offset;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 661,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->allocation_stack.push_back({reinterpret_cast<uintptr_t>(ptr), aligned_size});",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 691,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uintptr_t last_addr = impl_->allocation_stack.back().first;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 750,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uintptr_t addr = impl_->allocation_stack.back().first;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 751,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "size_t alloc_offset = addr - reinterpret_cast<uintptr_t>(impl_->memory);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 834,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->ownership[reinterpret_cast<uintptr_t>(ptr)] = allocator;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 848,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto it = impl_->ownership.find(reinterpret_cast<uintptr_t>(ptr));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 857,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return allocator->deallocate(ptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 89,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::vector<uintptr_t> free_list_heads;  // heads[i] is address of first free block at order i",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 210,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uintptr_t* list_ptr = &free_list_heads[order];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 217,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto& current_block = blocks[*list_ptr];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 266,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->allocateBlock(order);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 304,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->deallocateBlock(ptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 325,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uintptr_t addr = reinterpret_cast<uintptr_t>(impl_->memory);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 461,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete slab;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: slab = nullptr;"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 470,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* ptr = slab->allocate();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 482,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "Slab* new_slab = new Slab(object_size, objects_per_slab);",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 522,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->allocate();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 569,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete slab;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: slab = nullptr;"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 573,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->head_slab = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 657,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* ptr = impl_->memory + impl_->offset;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 661,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->allocation_stack.push_back({reinterpret_cast<uintptr_t>(ptr), aligned_size});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 691,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uintptr_t last_addr = impl_->allocation_stack.back().first;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 750,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uintptr_t addr = impl_->allocation_stack.back().first;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 751,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "size_t alloc_offset = addr - reinterpret_cast<uintptr_t>(impl_->memory);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 848,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto it = impl_->ownership.find(reinterpret_cast<uintptr_t>(ptr));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 857,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return allocator->deallocate(ptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 78,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uintptr_t next;  // Address of next free block (0 if none)",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void* allocateBlock(size_t order) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void deallocateBlock(void* ptr) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 253,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 266,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void* ptr = impl_->allocateBlock(order);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 294,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 304,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "impl_->deallocateBlock(ptr);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 313,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 335,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 384,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(\"Slab allocation size overflow: object_size * object_count exceeds SIZE_MA",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 520,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 549,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 563,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 581,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 586,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 646,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 683,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 713,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 723,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 728,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 733,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 833,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->ownership_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 847,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->ownership_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\memory\\pool_allocator.cpp",
+          "line": 926,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->ownership_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\cursor.cpp": [
+        {
+          "file": "src\\utils\\cursor.cpp",
+          "line": 133,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "info.pk = cursor_data[\"pk\"].get<std::string>();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\cursor.cpp",
+          "line": 134,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "info.collection = cursor_data[\"collection\"].get<std::string>();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\cursor.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\error_registry.cpp": [
+        {
+          "file": "src\\utils\\error_registry.cpp",
+          "line": 1702,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "errors_[code_value] = metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\error_registry.cpp",
+          "line": 1703,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "category_index_[metadata.category].push_back(code_value);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\error_registry.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\error_registry.cpp",
+          "line": 58,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\error_registry.cpp",
+          "line": 415,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"4. Review CLIP integration status\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\input_validator.cpp": [
+        {
+          "file": "src\\utils\\input_validator.cpp",
+          "line": 342,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static const std::array<bool, 256> tbl = [] {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\input_validator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\input_validator.cpp",
+          "line": 57,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\input_validator.cpp",
+          "line": 251,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\input_validator.cpp",
+          "line": 272,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(s_warned_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\pii_detector.cpp": [
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 189,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metadata[\"engines\"] = engines_array;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 50,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 76,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 81,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 86,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 122,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 172,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 256,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 261,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 266,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pii_detector.cpp",
+          "line": 271,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\pii_pseudonymizer.cpp": [
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 64,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "bytes[6] = (bytes[6] & 0x0F) | 0x40; // Version 4",
+          "description": "Array bounds violation: loop 16 > array 6",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 65,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "bytes[8] = (bytes[8] & 0x3F) | 0x80; // Variant 10",
+          "description": "Array bounds violation: loop 16 > array 8",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 91,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto findings_map = detector_->detectInJson(data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to generate random key for PII mapping\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 60,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to generate random UUID\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 274,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\pii_pseudonymizer.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\regex_detection_engine.cpp": [
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 238,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metadata[\"engine_type\"] = \"regex\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 239,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metadata[\"version\"] = signature_.version;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 240,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metadata[\"enabled\"] = enabled_;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 57,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 118,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 144,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 193,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\regex_detection_engine.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\serialization.cpp": [
+        {
+          "file": "src\\utils\\serialization.cpp",
+          "line": 159,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "value |= static_cast<uint32_t>(data_[pos_++]) << (i * 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\serialization.cpp",
+          "line": 167,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "value |= static_cast<uint64_t>(data_[pos_++]) << (i * 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\serialization.cpp",
+          "line": 220,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::string str(reinterpret_cast<const char*>(&data_[pos_]), size);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\serialization.cpp",
+          "line": 238,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t* data = &data_[pos_];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\serialization.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\simd_distance.cpp": [
+        {
+          "file": "src\\utils\\simd_distance.cpp",
+          "line": 444,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "results[i] = 1.0f - cosine_distance(query, database + i * dim, dim);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\simd_distance.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\tracing.cpp": [
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 486,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "if (value[2] != '-' || value[35] != '-' || value[52] != '-') return false;",
+          "description": "Array bounds violation: loop 16 > array 2",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 502,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "if (!hexByte(value[0], value[1], ver) || ver != 0) return false;",
+          "description": "Array bounds violation: loop 16 > array 0",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 267,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "tcp::socket socket(io);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 268,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "socket.connect(*results.begin(), ec);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 683,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span_->SetStatus(otel::trace::StatusCode::kError, safe_msg);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 688,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void Tracer::Span::setStatus([[maybe_unused]] bool ok,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 693,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span_->SetStatus(status_code, description);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\tracing.cpp",
+          "line": 764,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span_.setStatus(ok, description);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\geo\\ewkb.cpp": [
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 257,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "temp[i] = ptr[sizeof(double) - 1 - i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 272,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "temp[i] = ptr[sizeof(uint32_t) - 1 - i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 96,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WKT: Invalid coordinate token: \" + token);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 108,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WKT: Missing coordinate body\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\geo\\ewkb.cpp",
+          "line": 953,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\audit_logger.cpp": [
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 179,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 274,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(chain_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { sig.ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 321,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { sig.ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 338,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(chain_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 498,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(chain_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 662,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int sock = socket(AF_INET, SOCK_DGRAM, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 773,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 833,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::scoped_lock lock(file_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 888,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!archive_ofs.is_open() || !archive_ofs.good()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 900,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!main_ofs.is_open() || !main_ofs.good()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 922,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::scoped_lock lock(file_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 975,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!main_ofs.is_open() || !main_ofs.good()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1074,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(baselines_mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1500,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1517,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!chain_head_stream_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1528,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1549,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1553,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "chain_head_stream_.open(cfg_.chain_head_path,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1555,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!chain_head_stream_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1561,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1562,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!log_stream_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1569,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void HashChainAuditWriter::write(nlohmann::json record) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1585,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!log_stream_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1586,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\audit_logger.cpp",
+          "line": 1588,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!log_stream_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\bloom_filter.cpp": [
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 56,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"BloomFilter: false_positive_rate must be in (0, 1)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 97,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 105,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\bloom_filter.cpp",
+          "line": 121,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\boost_throw_exception.cpp": [
+        {
+          "file": "src\\utils\\boost_throw_exception.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\boost_throw_exception.cpp",
+          "line": 29,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw e;",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\boost_throw_exception.cpp",
+          "line": 33,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw e;",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\build_info.cpp": [
+        {
+          "file": "src\\utils\\build_info.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\build_info.cpp",
+          "line": 931,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (f.read(chunk, sizeof(chunk)))",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\checksum_utils.cpp": [
+        {
+          "file": "src\\utils\\checksum_utils.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\checksum_utils.cpp",
+          "line": 34,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\checksum_utils.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buffer.data(), buffer_size) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\compression_metrics.cpp": [
+        {
+          "file": "src\\utils\\compression_metrics.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\compression_metrics.cpp",
+          "line": 56,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\compression_metrics.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\compression_metrics.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\compression_metrics.cpp",
+          "line": 77,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\consistent_hash.cpp": [
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 68,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 77,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 90,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 102,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 136,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\consistent_hash.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\cron_parser.cpp": [
+        {
+          "file": "src\\utils\\cron_parser.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\cron_parser.cpp",
+          "line": 499,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\cron_parser.cpp",
+          "line": 667,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\file_utils.cpp": [
+        {
+          "file": "src\\utils\\file_utils.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\file_utils.cpp",
+          "line": 34,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\hkdf_cache.cpp": [
+        {
+          "file": "src\\utils\\hkdf_cache.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\hkdf_helper.cpp": [
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 44,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_KDF_fetch failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_KDF_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 78,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_KDF_derive failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 87,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_CTX_new_id failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 92,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_derive_init failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 97,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_CTX_set_hkdf_md failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 103,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_CTX_set1_hkdf_salt failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 109,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_CTX_set1_hkdf_key failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 117,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_CTX_add1_hkdf_info failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\hkdf_helper.cpp",
+          "line": 124,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"EVP_PKEY_derive failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\http_client_pool.cpp": [
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 41,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid URL format: \" + url);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 100,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 124,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 151,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(stripe->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 213,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"HTTPClientPool is shutting down\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 230,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Timeout waiting for available connection\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 238,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stripe->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stripe->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 281,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stripe->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 322,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stripe->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 376,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(http::verb::post, url, body.dump(), headers);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 383,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(http::verb::get, url, \"\", headers);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 386,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "HTTPResponse BeastHTTPClient::execute(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 414,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "beast::get_lowest_layer(stream).connect(results);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 440,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http::write(stream, req);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 445,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http::read(stream, buffer, res);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 494,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http::write(stream, req);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 499,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http::read(stream, buffer, res);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 511,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "stream.socket().shutdown(tcp::socket::shutdown_both, ec);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\http_client_pool.cpp",
+          "line": 517,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"HTTP request failed: \" + std::string(e.what()));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\lek_manager.cpp": [
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 173,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 208,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 242,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 265,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 282,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"max_age_days must be >= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 294,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "rotation_thread_ = std::thread(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\lek_manager.cpp",
+          "line": 368,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\logger.cpp": [
+        {
+          "file": "src\\utils\\logger.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\lz4_codec.cpp": [
+        {
+          "file": "src\\utils\\lz4_codec.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\ner_detection_engine.cpp": [
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 56,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 66,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 102,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 164,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 194,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\ner_detection_engine.cpp",
+          "line": 199,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\normalizer.cpp": [
+        {
+          "file": "src\\utils\\normalizer.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\pii_detection_engine.cpp": [
+        {
+          "file": "src\\utils\\pii_detection_engine.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\pii_stream_scanner.cpp": [
+        {
+          "file": "src\\utils\\pii_stream_scanner.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\pii_stream_scanner.cpp",
+          "line": 47,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!engine_) throw std::invalid_argument(\"PIIStreamScanner: engine must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\pii_stream_scanner.cpp",
+          "line": 147,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!lek_mgr_) throw std::invalid_argument(\"PIIStreamPseudonymizer: lek_mgr must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\rate_limiter.cpp": [
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 38,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (rate_per_second <= 0.0) throw std::invalid_argument(\"RateLimiter: rate must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 39,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (burst_size <= 0.0)      throw std::invalid_argument(\"RateLimiter: burst_size must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool RateLimiter::try_acquire(double tokens) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 66,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void RateLimiter::acquire(double tokens) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 82,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lk.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\rate_limiter.cpp",
+          "line": 100,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (rate_per_second <= 0.0) throw std::invalid_argument(\"RateLimiter: rate must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\retention_manager.cpp": [
+        {
+          "file": "src\\utils\\retention_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\retention_manager.cpp",
+          "line": 399,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bg_thread_ = std::thread([this, interval,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\retention_manager.cpp",
+          "line": 408,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lk.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\runtime_license_gate.cpp": [
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 53,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 84,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "bool isStatusAllowed(std::string_view status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 133,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!activation_.success || !isStatusAllowed(activation_.status)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 150,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string RuntimeLicenseGate::licenseStatus() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 151,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 156,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 161,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 185,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "msg << \"license has been \" << status << \".\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 191,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "msg << \"license status is '\" << status << \"'.\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\runtime_license_gate.cpp",
+          "line": 263,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!activation_.success || !isStatusAllowed(activation_.status)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\sampled_logger.cpp": [
+        {
+          "file": "src\\utils\\sampled_logger.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\self_awareness.cpp": [
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 201,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "MEMORYSTATUSEX mem_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 204,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (GlobalMemoryStatusEx(&mem_status)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 470,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"previous\", previous.overall_health_status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 471,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"current\", current.overall_health_status}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 560,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"overall_health_status\", overall_health_status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\self_awareness.cpp",
+          "line": 631,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\utils\\stemmer.cpp": [
+        {
+          "file": "src\\utils\\stemmer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\stopwords.cpp": [
+        {
+          "file": "src\\utils\\stopwords.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\utils\\thread_pool_manager.cpp": [
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 73,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "task->execute();",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 78,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 124,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 140,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\thread_pool_manager.cpp",
+          "line": 228,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "metrics_thread_ = std::thread([this]() { metricsLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\timestamp_utils.cpp": [
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 47,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimestampUtils::parse: unexpected end of string\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimestampUtils::parse: field width exceeds safe limit\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 57,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(std::string(\"TimestampUtils::parse: expected digit, got '\") + c + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 67,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 171,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(std::string(\"TimestampUtils::parse: unexpected character '\") + tz + \"' i",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 176,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimestampUtils::parse: trailing characters in timestamp\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 183,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimestampUtils::parse: field out of range\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\utils\\timestamp_utils.cpp",
+          "line": 196,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimestampUtils::parse: invalid date/time values\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\utils\\update_checker.cpp": [
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 175,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 176,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case UpdateStatus::UP_TO_DATE:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 180,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case UpdateStatus::UPDATE_AVAILABLE:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 184,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case UpdateStatus::CRITICAL_UPDATE:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 188,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case UpdateStatus::CHECK_FAILED:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 192,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case UpdateStatus::CHECKING:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 318,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 333,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 388,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "LOG_INFO(\"Update check completed: {}\", result.toJson()[\"status\"].get<std::string>());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 408,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 413,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 420,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 429,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\update_checker.cpp",
+          "line": 615,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\utils_adapters.cpp": [
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 166,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "writer_.write(record);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return writer_.sequenceNumber() - 1; // write() post-increments seq",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 185,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "AuditCursor HashChainAuditLogAdapter::query(const AuditQuery& query) const {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 398,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 406,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 414,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (!stage->execute()) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\utils\\utils_adapters.cpp",
+          "line": 426,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\utils\\zstd_codec.cpp": [
+        {
+          "file": "src\\utils\\zstd_codec.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

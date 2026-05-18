@@ -1,0 +1,355 @@
+{
+  "scraper": {
+    "total": 36,
+    "severity_critical": 9,
+    "severity_high": 8,
+    "severity_medium": 19,
+    "by_category": {
+      "security": 1,
+      "memory": 2,
+      "reliability": 33
+    },
+    "by_file": {
+      "src\\scraper\\scraper_api_client.cpp": [
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 291,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->data.append(ptr, size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 291,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->data.append(ptr, size * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 149,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 197,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 261,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) { break; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 274,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 288,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "static std::size_t write(char* ptr, std::size_t size,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 305,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!curl) throw std::runtime_error(\"curl_easy_init failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 333,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(std::string(\"curl error: \") + curl_easy_strerror(rc));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\scraper\\scraper_search_engine.cpp": [
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 373,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "v.push_back(\"//*[@data-result]\");",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 384,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 450,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 466,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\scraper\\gov_source_catalog.cpp": [
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open())",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GovSourceCatalog: cannot open '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 179,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\scraper\\scraper_config.cpp": [
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\scraper\\scraper_js_renderer.cpp": [
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "const int dev_null = ::open(\"/dev/null\", O_WRONLY);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 182,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((n = ::read(pipefd[0], buf.data(), buf.size())) > 0)",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 188,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "::waitpid(pid, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 207,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "FILE* pipe = _popen(cmd.c_str(), \"r\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\scraper\\scraper_llm_evaluator.cpp": [
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 219,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\scraper\\scraper_metadata_writer.cpp": [
+        {
+          "file": "src\\scraper\\scraper_metadata_writer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_metadata_writer.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "WriteResult InMemoryScraperMetadataWriter::write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\scraper\\scraper_plugin.cpp": [
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 182,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "static std::size_t write(char* p, std::size_t sz, std::size_t nmemb, void* ud) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 194,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { return {}; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "const WriteResult wr = writer_->write(rel, node, edges, vec);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 504,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "const WriteResult wr = writer_->write(rel, node, edges, vec);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 528,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_) throw std::runtime_error(\"ScraperPlugin not initialized\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

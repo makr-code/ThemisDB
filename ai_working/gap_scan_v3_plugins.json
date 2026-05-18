@@ -1,0 +1,1257 @@
+{
+  "plugins": {
+    "total": 136,
+    "severity_critical": 77,
+    "severity_high": 16,
+    "severity_medium": 43,
+    "by_category": {
+      "security": 7,
+      "memory": 9,
+      "reliability": 120
+    },
+    "by_file": {
+      "src\\plugins\\oci_registry_client.cpp": [
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 671,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::string blob_url = base + \"/v2/\" + ref.name + \"/blobs/\" + plugin_layer->digest;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (f.read(buf.data(), static_cast<std::streamsize>(buf.size())) || f.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 334,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "writer.file.open(dest_path, std::ios::binary | std::ios::trunc);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 500,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\plugins\\plugin_hot_plug_monitor.cpp": [
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 255,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr += sizeof(struct inotify_event) + event->len;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 259,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handleFileEvent(event->name, file_event);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 262,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr += sizeof(struct inotify_event) + event->len;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 232,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ssize_t length = read(inotify_fd_, buffer, sizeof(buffer));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int dir_fd = open(watch_directory_.c_str(), O_RDONLY);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 515,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "monitor_thread_ = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 521,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "monitor_thread_ = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 548,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "monitor_thread_ = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\plugin_manager.cpp": [
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1474,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 112,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "char buffer[8192];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1123,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "else delete new_instance;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: new_instance = nullptr;"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1159,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "else delete new_instance;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: new_instance = nullptr;"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1192,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "else delete old_raw;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: old_raw = nullptr;"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1474,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 70,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 113,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buffer, sizeof(buffer)) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 376,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 380,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Directory does not exist\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 428,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 491,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(true);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 514,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 519,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Plugin not found\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 547,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Circular dependency\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 561,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Missing dependency\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 567,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 572,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 577,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 692,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 820,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 882,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 918,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 930,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 948,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 959,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 972,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 989,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1116,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1153,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1202,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1229,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1302,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1319,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1388,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1412,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(registry.mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1420,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(registry.mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1440,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1460,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1473,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1482,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1487,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1516,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1531,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\rpc_service_registry.cpp": [
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 46,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != services_.end()) ? it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 46,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != services_.end()) ? it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 39,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 44,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 50,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\signed_plugin_repository.cpp": [
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 123,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return k != nullptr && k->active;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 66,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 123,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return k != nullptr && k->active;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 52,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int decoded_len = BIO_read(b64, buf.data(), static_cast<int>(buf.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 96,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 108,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 121,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 127,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 155,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 208,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\wasm_plugin_loader.cpp": [
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 390,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete b;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: b = nullptr;"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 116,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buffer, sizeof(buffer)) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\plugin_health_monitor.cpp": [
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 56,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "monitor_thread_ = std::thread([this]() { monitoringLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 87,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 104,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "PluginHealthStatus::HEALTHY,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 113,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 125,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "PluginHealthStatus::HEALTHY,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 168,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 186,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 198,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 219,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "gs.healthy_plugins_count++;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 223,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "gs.unhealthy_plugins_count++;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 240,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 245,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 250,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 264,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 307,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 329,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "plugin.last_diagnostics.status, \"Health check started\", \"\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 344,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "diag.status, \"Health check completed\", \"\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 372,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "PluginHealthStatus::UNHEALTHY,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 382,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void PluginHealthMonitor::handleUnhealthyPlugin(MonitoredPlugin& plugin) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 387,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"PluginHealthMonitor: plugin '{}' is unhealthy (status: {}, consecutive failures: {})\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 389,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "static_cast<int>(plugin.last_diagnostics.status),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 395,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "plugin.last_diagnostics.status,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 396,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Plugin detected as unhealthy\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 463,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "plugin.last_diagnostics.status,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 516,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 523,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "result.status_after_recovery, result.message, \"\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 534,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "plugin.last_diagnostics.status, result.message, \"\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 550,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "PluginHealthStatus::CRITICAL, result.message, e.what()",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 597,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "diagnostics.status, message,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 625,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "plugin.last_diagnostics.status, reason, \"\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 640,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (diag.status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 641,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case PluginHealthStatus::HEALTHY:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 643,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case PluginHealthStatus::DEGRADED:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 645,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case PluginHealthStatus::UNHEALTHY:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 647,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case PluginHealthStatus::CRITICAL:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 648,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "case PluginHealthStatus::RECOVERING:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 661,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\plugins\\plugin_metrics.cpp": [
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 105,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 119,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 132,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\plugins\\plugin_registry.cpp": [
+        {
+          "file": "src\\plugins\\plugin_registry.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\plugins\\plugin_registry.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(getMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

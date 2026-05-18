@@ -1,0 +1,2290 @@
+{
+  "acceleration": {
+    "total": 247,
+    "severity_critical": 92,
+    "severity_high": 81,
+    "severity_medium": 74,
+    "by_category": {
+      "security": 7,
+      "memory": 60,
+      "reliability": 180
+    },
+    "by_file": {
+      "src\\acceleration\\ai_hardware_dispatcher.cpp": [
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 858,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "status = ort->Run(session, nullptr,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 858,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "status = ort->Run(session, nullptr,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 886,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ort->GetDimensions(shape_info, out_shape.data(), rank);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 182,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 206,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 214,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 222,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 253,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 314,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 594,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 786,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 788,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ort->ReleaseStatus(status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 812,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 814,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ort->ReleaseStatus(status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 862,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+          "line": 864,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ort->ReleaseStatus(status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\backend_registry.cpp": [
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 250,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != typeIndex_.end()) ? it->second.base : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 250,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != typeIndex_.end()) ? it->second.base : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 169,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 300,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 315,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 325,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 330,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 335,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 346,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 368,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 405,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 419,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 434,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 511,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 523,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> rlock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 540,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 545,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 550,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\backend_registry.cpp",
+          "line": 559,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(registryMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\acceleration\\device_manager.cpp": [
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 172,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (best == nullptr || d.free_vram_bytes > best->free_vram_bytes) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 141,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 170,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!d.is_healthy)                  continue;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\device_manager.cpp",
+          "line": 216,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::cout << \"  [\" << (d.is_healthy ? \"OK\" : \"!!\") << \"] \"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\directx_backend_full.cpp": [
+        {
+          "file": "src\\acceleration\\directx_backend_full.cpp",
+          "line": 304,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "DX_CHECK_THROW(commandList_->Reset(commandAllocator_.Get(), nullptr));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\directx_backend_full.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\directx_backend_full.cpp",
+          "line": 74,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(_buf); \\",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\directx_backend_full.cpp",
+          "line": 391,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\acceleration\\plugin_security.cpp": [
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 97,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->insert(buf->end(), ptr, ptr + size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1338,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "X509* cert = d2i_X509(nullptr, &p, static_cast<long>(cert_data->size()));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 664,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (int i = 0; ca_paths[i] != nullptr; i++) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1195,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"events\"] = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 201,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 280,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 728,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_revocation_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 866,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_revocation_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 912,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_revocation_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1081,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_revocation_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1148,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1164,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1171,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1514,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&pe_offset), sizeof(pe_offset));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1522,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&pe_sig), sizeof(pe_sig));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1537,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&opt_magic), sizeof(opt_magic));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1559,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&sec_rva),  sizeof(sec_rva));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1560,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&sec_size), sizeof(sec_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1585,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&win_cert_len),  sizeof(win_cert_len));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1586,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&win_cert_rev),  sizeof(win_cert_rev));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1587,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&win_cert_type), sizeof(win_cert_type));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1693,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(shdr), 64);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1702,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(shdr), 40);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1731,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(shdr), 64);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(shdr), 40);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1780,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "sig_file.read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1919,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(header.data()), header.size());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1930,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&pe_offset), sizeof(pe_offset));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 1935,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&pe_signature), sizeof(pe_signature));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2040,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2055,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::to_string(status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2090,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::to_string(static_cast<int>(status)) + \")\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2102,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::to_string(static_cast<int>(status)) + \")\";",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2165,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2172,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "waitpid(pid, &wstatus, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2206,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(header.data()), header.size());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_security.cpp",
+          "line": 2234,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\acceleration\\vllm_resource_manager.cpp": [
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 145,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "[device_handles]() -> std::optional<double> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 167,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::future_status::ready) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 225,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return false;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 239,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 274,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 323,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 356,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 368,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cpu_cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vllm_resource_manager.cpp",
+          "line": 384,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (GlobalMemoryStatusEx(&ms)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\cuda_backend.cpp": [
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1819,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cudaMemcpyAsync(h_distances.data(), entry->d_distances.get(),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1821,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cudaMemcpyAsync(h_predecessors.data(), entry->d_predecessors.get(),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 342,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(graphCacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 889,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(graphCacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1013,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(graphCacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1367,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1436,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1567,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1691,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\cuda_backend.cpp",
+          "line": 1791,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cacheMutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\acceleration\\faiss_gpu_backend.cpp": [
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 281,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 284,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 287,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 290,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 293,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 296,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::IndexHNSWFlat*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 300,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::Index*>(index_);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 551,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 553,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 562,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 564,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 634,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 636,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 647,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 649,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: static_cast = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 712,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete cpuIndex;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: cpuIndex = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 756,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete cpuIndex;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: cpuIndex = nullptr;"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\faiss_gpu_backend.cpp",
+          "line": 822,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\graphics_backends.cpp": [
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1246,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::cout << \"[Vulkan] VK_KHR_buffer_device_address: \"",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1350,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "? \" [VK_KHR_buffer_device_address]\"",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1351,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": ": \" [no VK_KHR_buffer_device_address]\");",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1674,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly buffer QBuf { float q[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1675,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly buffer VBuf { float v[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1676,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) writeonly buffer DBuf { float d[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1702,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly buffer QBuf { float q[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1703,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly buffer VBuf { float v[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1704,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) writeonly buffer DBuf { float d[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1737,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly buffer Lat1Buf { float lat1[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1738,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly buffer Lon1Buf { float lon1[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1739,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) readonly buffer Lat2Buf { float lat2[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1740,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 3) readonly buffer Lon2Buf { float lon2[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1741,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 4) writeonly buffer OutBuf  { float dist[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1774,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly  buffer PointLats { float pLat[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1775,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly  buffer PointLons { float pLon[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1776,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) readonly  buffer PolyBuf   { float poly[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1777,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 3) writeonly buffer ResBuf    { uint result[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1815,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly  buffer StartsBuf { uint startVerts[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1816,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) writeonly buffer FrontBuf  { uint frontier[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1817,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) writeonly buffer VisitBuf  { uint visited[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1849,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly buffer AdjBuf    { uint adj[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1850,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly buffer FrontBuf  { uint frontier[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1851,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2)          buffer VisitBuf  { uint visited[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1852,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 3) writeonly buffer NextBuf  { uint nextFront[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1888,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly  buffer StartsBuf { uint startVerts[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1889,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) writeonly buffer DistBuf   { float dist[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1890,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2) writeonly buffer PredBuf   { int pred[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1916,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 0) readonly buffer AdjBuf  { uint adj[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1917,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 1) readonly buffer WgtBuf  { float wgt[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1918,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 2)          buffer DistBuf { float dist[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1919,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "layout(std430, binding = 3)          buffer PredBuf { int pred[]; };",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 217,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"vkCreateBuffer failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 228,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"vkAllocateMemory failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 251,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"findMemoryType: no suitable type\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"vkCreateShaderModule failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 269,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Cannot open SPIR-V: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 273,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "f.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(sz));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 952,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 976,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1005,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1033,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1149,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1278,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1310,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "BackendHealthStatus s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1437,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1546,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 1957,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return dlopen(name, RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2210,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2211,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2231,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2232,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2579,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2580,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2594,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2889,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2890,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 2905,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 3163,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 3239,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 3327,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\graphics_backends.cpp",
+          "line": 3427,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\oneapi_backend.cpp": [
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 178,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "queue_->memcpy(distances.data(), d_distances, resultSize * sizeof(float)).wait();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 83,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 134,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "queue_->memcpy(d_queries, queries, numQueries * dimension * sizeof(float)).wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 174,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "}).wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "queue_->memcpy(distances.data(), d_distances, resultSize * sizeof(float)).wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\oneapi_backend.cpp",
+          "line": 295,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\vec_knn.cpp": [
+        {
+          "file": "src\\acceleration\\vec_knn.cpp",
+          "line": 527,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "vectors[i].data(),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\vec_knn.cpp",
+          "line": 528,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "vectors[j].data(),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\vec_knn.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\zluda_backend.cpp": [
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 363,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[nodiscard]] std::unique_ptr<IVectorBackend> createZLUDABackend() {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 98,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void* handle = dlopen(\"libcuda.so.zluda\", RTLD_NOW | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 100,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "handle = dlopen(\"libcuda.so\", RTLD_NOW | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "zludaLib_ = dlopen(\"libcuda.so.zluda\", RTLD_NOW);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 149,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "zludaLib_ = dlopen(\"libcuda.so\", RTLD_NOW);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 225,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\acceleration\\zluda_backend.cpp",
+          "line": 276,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\compute_backend.cpp": [
+        {
+          "file": "src\\acceleration\\compute_backend.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\cpu_backend.cpp": [
+        {
+          "file": "src\\acceleration\\cpu_backend.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\cpu_backend_mt.cpp": [
+        {
+          "file": "src\\acceleration\\cpu_backend_mt.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\cpu_backend_tbb.cpp": [
+        {
+          "file": "src\\acceleration\\cpu_backend_tbb.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\geo_acceleration_bridge.cpp": [
+        {
+          "file": "src\\acceleration\\geo_acceleration_bridge.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\hip_backend.cpp": [
+        {
+          "file": "src\\acceleration\\hip_backend.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\hip_backend.cpp",
+          "line": 76,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(std::string(\"HIP error: \") + hipGetErrorString(error)); \\",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\hip_backend.cpp",
+          "line": 1018,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"hip_launchGeoDistanceKernel failed with code \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\acceleration\\multi_gpu_backend.cpp": [
+        {
+          "file": "src\\acceleration\\multi_gpu_backend.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\nccl_vector_backend.cpp": [
+        {
+          "file": "src\\acceleration\\nccl_vector_backend.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\nccl_vector_backend.cpp",
+          "line": 638,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\opencl_backend.cpp": [
+        {
+          "file": "src\\acceleration\\opencl_backend.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\opencl_backend.cpp",
+          "line": 406,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\plugin_loader.cpp": [
+        {
+          "file": "src\\acceleration\\plugin_loader.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\plugin_loader.cpp",
+          "line": 54,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "*               \u2514\u2500\u25ba dlopen(RTLD_NOW | RTLD_LOCAL)                  (fail-fast symbol binding)",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\plugin_loader.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\acceleration\\rccl_vector_backend.cpp": [
+        {
+          "file": "src\\acceleration\\rccl_vector_backend.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\rccl_vector_backend.cpp",
+          "line": 81,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\rccl_vector_backend.cpp",
+          "line": 88,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\rccl_vector_backend.cpp",
+          "line": 626,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\acceleration\\shader_integrity.cpp": [
+        {
+          "file": "src\\acceleration\\shader_integrity.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\shader_integrity.cpp",
+          "line": 98,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\acceleration\\tensor_core_matmul.cpp": [
+        {
+          "file": "src\\acceleration\\tensor_core_matmul.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\acceleration\\vulkan_backend_full.cpp": [
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 154,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to find suitable memory type\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 165,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to create shader module\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 227,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 228,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to open SPIR-V file: \" + filename);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(buffer.data()), fileSize);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 533,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to create buffer\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\acceleration\\vulkan_backend_full.cpp",
+          "line": 546,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to allocate buffer memory\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,979 @@
+{
+  "ethics_ai": {
+    "total": 104,
+    "severity_critical": 43,
+    "severity_high": 14,
+    "severity_medium": 47,
+    "by_category": {
+      "security": 2,
+      "memory": 2,
+      "reliability": 100
+    },
+    "by_file": {
+      "src\\ethics_ai\\argument_store.cpp": [
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 218,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 41,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 45,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status ArgumentStore::initialize(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 69,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 108,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicalArgument, Status> ArgumentStore::getArgument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 141,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsByPhilosophy(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 257,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 283,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicalDecision, Status> ArgumentStore::getDecision(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 316,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 342,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 345,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 375,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 395,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 410,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 428,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status ArgumentStore::storeDebateRound(const DebateRound& round) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 429,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 447,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<DebateRound>, Status>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 449,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\ethics_ai_plugin.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 132,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto status = argument_store_->initialize(nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 132,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto status = argument_store_->initialize(nullptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 510,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete plugin;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: plugin = nullptr;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 133,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.isOK()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 184,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<DebateInitialization, Status> initializeDebate(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 198,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 205,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status storeArgument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 215,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.isOK()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 216,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 223,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<EthicalArgument>, Status> getArgumentsByPhilosophy(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 265,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<RAGContext, Status> buildRAGContext(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 279,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> findSimilarDilemmas(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 291,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> getBestPractices(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 303,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::pair<std::string, double>>, Status>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 318,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> traverseArgumentChain(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 332,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicalDecision, Status> makeDecision(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 372,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicsEvaluationResult, Status> evaluateDecision(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 383,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 425,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 467,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 479,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status setConfig(const std::string& key, const std::string& value) override {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ethics_ai\\chain_visualizer.cpp": [
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ethics_ai\\cross_school_tension_resolver.cpp": [
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 54,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ethics_ai\\discourse_engine.cpp": [
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 42,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<DebateInitialization, Status> EthicalDiscourseEngine::initializeDebate(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 69,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(debates_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 76,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicalDecision, Status> EthicalDiscourseEngine::makeDecision(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 236,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 246,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(debates_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 261,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(debates_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 296,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(debates_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\discourse_memory_store.cpp": [
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 54,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 88,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 149,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\ethics_ai_types.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_ai_types.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_types.cpp",
+          "line": 57,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid argument type: \" + str);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_types.cpp",
+          "line": 79,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid argument strength: \" + str);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\ethics_ai\\ethics_evaluator.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_evaluator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_evaluator.cpp",
+          "line": 54,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<EthicsEvaluationResult, Status> EthicsEvaluator::evaluateDecision(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ethics_ai\\ethics_profile_registry.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 54,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 59,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 66,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 111,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<PhilosophyProfile, Status> EthicsProfileRegistry::getProfile(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 135,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (std::holds_alternative<Status>(profile_var)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 144,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 169,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\ethics_selection_router.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 389,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(precedent_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 483,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->precedent_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\philosophy_loader.cpp": [
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 39,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<size_t, Status> PhilosophyLoader::loadFromDirectory(const std::string& directory) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 58,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.isOK()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 68,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status PhilosophyLoader::loadFromFile(const std::string& filepath) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 270,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<PhilosophyProfile, Status> PhilosophyLoader::getProfile(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 287,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 299,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 304,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 309,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 313,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<size_t, Status> PhilosophyLoader::reloadProfiles(const std::string& directory) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 317,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (std::holds_alternative<Status>(result)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 322,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ethics_ai\\position_abstract_validator.cpp": [
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 77,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw PositionAbstractSchemaError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 88,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw PositionAbstractSchemaError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 99,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw PositionAbstractSchemaError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 110,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw PositionAbstractSchemaError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\ethics_ai\\rag_context_engine.cpp": [
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 39,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<RAGContext, Status> RAGContextEngine::buildContext(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 84,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> RAGContextEngine::findSimilarDilemmas(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 124,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> RAGContextEngine::getBestPractices(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 169,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::pair<std::string, double>>, Status>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 218,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::variant<std::vector<std::string>, Status> RAGContextEngine::traverseArgumentChain(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ethics_ai\\synthesis_matrix_builder.cpp": [
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 32,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw SchemaValidationError(\"school_id must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 35,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw SchemaValidationError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 39,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw SchemaValidationError(\"confidence must be in [0.0, 1.0]\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 42,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw SchemaValidationError(\"core_thesis_ids must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

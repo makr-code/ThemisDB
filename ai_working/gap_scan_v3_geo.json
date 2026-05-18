@@ -1,0 +1,434 @@
+{
+  "geo": {
+    "total": 43,
+    "severity_critical": 2,
+    "severity_high": 18,
+    "severity_medium": 23,
+    "by_category": {
+      "security": 5,
+      "memory": 5,
+      "reliability": 33
+    },
+    "by_file": {
+      "src\\geo\\spatial_join.cpp": [
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 171,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (outer_idx >= outer_ptr->size()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 184,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "while (outer_idx < outer_ptr->size()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 195,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "geometryCentroid((*inner_ptr)[it->second].second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 212,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (outer_idx < outer_ptr->size()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\temporal_spatial_query_builder.cpp": [
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 63,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "spatial_match = spatial_.predicate->matches(ref, point);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 18,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "BuiltTemporalSpatialQuery::execute(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 99,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"duringInterval: end must be >= start\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 120,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"slidingWindow: width_ms must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 131,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"withGeoField: field name must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 142,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\geo\\geo_clustering.cpp": [
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 426,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] float *d_dists = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 427,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] uint32_t *d_idx = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "const dim3 block(16, 16);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 317,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"kmeansCluster: k must be >= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 320,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\geo\\geo_faiss_knn.cpp": [
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 95,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::vector<float>       ecef_data; // flat [indexed_count \u00d7 kDim]",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 234,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "r.index  = dataset_map[candidates[i].second];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 275,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return impl_->build(dataset);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\boost_cpu_exact_backend.cpp": [
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 381,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\geo\\cpu_backend.cpp": [
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 1040,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\geo\\device_detector.cpp": [
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 93,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!device.is_healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 223,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"is_healthy\\\":\"       << (d.is_healthy ? \"true\" : \"false\") << \",\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\geo_rtree.cpp": [
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\gpu_backend_hip.cpp": [
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\gpu_backend_production.cpp": [
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 92,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\geo\\gpu_backend_stub.cpp": [
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 258,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "gpu_device_present_ && active_device_.is_healthy &&",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\gpu_kernel_dispatcher_cpu.cpp": [
+        {
+          "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
+          "line": 94,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
+          "line": 119,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\geo\\raster.cpp": [
+        {
+          "file": "src\\geo\\raster.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\rtree_cursor.cpp": [
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 50,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "CursorStatus next(GeoIndexEntry& entry) override {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 86,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "CursorStatus next(GeoIndexEntry& entry) override {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\temporal_spatial_query.cpp": [
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\geo\\tile_server.cpp": [
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

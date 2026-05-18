@@ -1,0 +1,2792 @@
+{
+  "ingestion": {
+    "total": 301,
+    "severity_critical": 143,
+    "severity_high": 64,
+    "severity_medium": 94,
+    "by_category": {
+      "security": 18,
+      "memory": 14,
+      "reliability": 269
+    },
+    "by_file": {
+      "src\\ingestion\\agentic_reference_validator.cpp": [
+        {
+          "file": "src\\ingestion\\agentic_reference_validator.cpp",
+          "line": 223,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "bool sec_known = (sit->second.count(ref.section) > 0);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\agentic_reference_validator.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\api_connector.cpp": [
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 60,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 60,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 191,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"HTTP \" + std::to_string(response.status_code) +",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 290,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { page_size_ = 100; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_pages_ = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 347,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 363,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\api_connector.cpp",
+          "line": 440,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::to_string(response.status_code) + \")\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\huggingface_connector.cpp": [
+        {
+          "file": "src\\ingestion\\huggingface_connector.cpp",
+          "line": 55,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\huggingface_connector.cpp",
+          "line": 55,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\huggingface_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\huggingface_connector.cpp",
+          "line": 166,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"HTTP \" + std::to_string(response.status_code) +",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\huggingface_connector.cpp",
+          "line": 606,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::to_string(response.status_code));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\ingestion_manager.cpp": [
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 656,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "obj_connector->setRetryConfig(retry_config_);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 657,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!obj_connector->initialize(config)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 366,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool CheckpointStore::write(const IngestionCheckpoint& cp) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 367,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 377,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 382,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool CheckpointStore::read(const std::string& source_id,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 384,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 397,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { out.processed_count = std::stoull(val); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 399,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { out.byte_offset = std::stoull(val); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 405,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 411,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 414,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 420,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 447,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 486,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 501,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 520,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 605,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 639,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 761,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 783,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 790,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (cs->read(source_id, cp)) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 818,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 827,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "cs->write(cp);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 844,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 891,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 945,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1017,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1027,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1051,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1060,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1069,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1079,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1096,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1119,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1130,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1139,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1160,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1244,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return cs->read(source_id, out);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1254,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1285,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1290,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1296,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1302,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1307,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1312,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1330,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1346,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1383,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1429,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1434,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1439,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1445,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1662,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1693,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1701,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1710,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1716,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1724,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 1730,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 2167,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<SourceStatus> IngestionAdminApi::listSources() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 2168,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<SourceStatus> result;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 2170,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SourceStatus s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 2180,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_manager.cpp",
+          "line": 2325,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "<< \"\\\"status\\\":\\\"\" << status << \"\\\",\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\ingestion_sinks.cpp": [
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 187,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return it != records_.end() ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 415,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!db_->put(node_key_prefix_ + node.id, storage_node.serialize())) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 525,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return it != last_written_records_.end() ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 582,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it == records_.end()) ? nullptr : &it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 83,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [key, value] : record.metadata) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 84,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "fields[\"metadata.\" + key] = value;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 187,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return it != records_.end() ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 349,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cj[\"metadata\"]       = c.metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 525,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return it != last_written_records_.end() ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 582,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it == records_.end()) ? nullptr : &it->second;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 95,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "Result<void> IGraphWriter::write(const BaseEntitySet& entity_set) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 106,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 131,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 162,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 172,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 180,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 185,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 240,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 253,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto r = graph->write(entity_set);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"DocumentStoreSinkAdapter: store must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 404,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GraphStoreSinkAdapter: db must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 407,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GraphStoreSinkAdapter: graph_index must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 412,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 426,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 429,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 433,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"': \" + status.message));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 440,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 458,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"VectorIndexSinkAdapter: vector_index must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 461,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"VectorIndexSinkAdapter: object_name must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 464,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"VectorIndexSinkAdapter: dimension must be > 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 474,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 501,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 509,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 511,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Error(errors::ErrorCode::ERR_INDEX_CREATION_FAILED, status.message));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 523,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_sinks.cpp",
+          "line": 537,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "Result<void> InMemoryTensorCoreBridge::write(const TensorCoreRecord& record,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ingestion\\oauth_token_manager.cpp": [
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 44,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->append(static_cast<char*>(ptr), sz * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 44,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->append(static_cast<char*>(ptr), sz * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 123,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 142,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 172,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw OAuthRefreshExpiredError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 176,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 188,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 213,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw OAuthRefreshExpiredError(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\oauth_token_manager.cpp",
+          "line": 217,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\ingestion\\object_storage_connector.cpp": [
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 521,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const std::string key = obj_meta->name();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 157,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 372,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 492,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto it = client.ListObjects(bucket_, gcs::MaxResults(1),",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 497,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 509,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "for (auto& obj_meta : client.ListObjects(bucket_,",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 516,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "obj_meta.status().message(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 537,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "reader.status().message(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 578,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto props = container_client.GetProperties();",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 580,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 616,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto blob_client = container_client.GetBlockBlobClient(key);",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\object_storage_connector.cpp",
+          "line": 618,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto dl = blob_client.Download(dl_opts);",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\web_crawler_connector.cpp": [
+        {
+          "file": "src\\ingestion\\web_crawler_connector.cpp",
+          "line": 369,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->append(ptr, size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\web_crawler_connector.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\web_crawler_connector.cpp",
+          "line": 398,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_depth_ = 3; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\web_crawler_connector.cpp",
+          "line": 400,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_pages_ = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\workflow_engine.cpp": [
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 193,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->steps_[plugin_name] = Impl::Entry{std::move(step), nullptr};",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 295,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->steps_[plugin_name] = Impl::Entry{std::move(step), handle};",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 303,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return it != impl_->steps_.end() ? it->second.step : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 327,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->second.dl_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 328,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "closeDynamicLibrary(it->second.dl_handle);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 193,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->steps_[plugin_name] = Impl::Entry{std::move(step), nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 303,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return it != impl_->steps_.end() ? it->second.step : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 85,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return ::dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 187,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 230,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (sf.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 235,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 288,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 301,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 307,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 312,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 422,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obj[key] = val.as<bool>(); continue; } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 423,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obj[key] = val.as<int64_t>(); continue; } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 424,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obj[key] = val.as<double>(); continue; } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 547,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = step->execute(ctx, step_cfg);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 608,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 668,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->profiles_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 696,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 706,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 721,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<BaseEntitySet> WorkflowEngine::execute(ExtractionContext& ctx) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 737,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\workflow_engine.cpp",
+          "line": 744,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ingestion\\steps\\chunk_tt_decompose_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\chunk_tt_decompose_step.cpp",
+          "line": 161,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "rec.metadata[\"section_ref\"] = it_sec->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\steps\\chunk_tt_decompose_step.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\chunk_tt_decompose_step.cpp",
+          "line": 73,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\filesystem_ingester.cpp": [
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 752,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->setMetadataExtraction(enabled);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 133,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 233,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "FILE* pipe = _popen(cmd.c_str(), \"r\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "FILE* pipe = popen(cmd.c_str(), \"r\");  // NOLINT(cert-env33-c)",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 452,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\filesystem_ingester.cpp",
+          "line": 580,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\ingestion\\steps\\parse_text_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 101,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "return new ParseTextStep();",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 104,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete p;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: p = nullptr;"
+        },
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 41,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "*  - TXT / MD / HTML: direct file read (HTML tags stripped for MD/TXT)",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 65,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\steps\\parse_text_step.cpp",
+          "line": 78,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ingestion\\cdc_connector.cpp": [
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 190,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) { return 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 439,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { batch_size_ = 500; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 443,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_events_ = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 446,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { poll_timeout_ms_ = 1000; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\cdc_connector.cpp",
+          "line": 449,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_empty_polls_ = 3; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\database_connector.cpp": [
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { result.port = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 312,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { batch_size_ = 500; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 316,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_rows_ = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 319,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { timeout_s_ = 30; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 366,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (ok) SQLDisconnect(hdbc);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\database_connector.cpp",
+          "line": 557,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "SQLDisconnect(hdbc);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\deontic_extractor.cpp": [
+        {
+          "file": "src\\ingestion\\deontic_extractor.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\entity_assembler.cpp": [
+        {
+          "file": "src\\ingestion\\entity_assembler.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\ingestion_coordinator.cpp": [
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 92,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 93,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 98,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool InMemorySharedCheckpointStore::read(const std::string& source_id,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 100,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 110,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 130,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 233,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(busy_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 275,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(deques_[worker_idx].mtx);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(deques_[idx].mtx);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 293,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(deques_[victim].mtx, std::try_to_lock);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 327,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(results_mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 338,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(results_mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 358,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(results_mtx_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 413,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 427,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lease_renewal_thread_ = std::thread(&IngestionCoordinator::leaseRenewalLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 456,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 468,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 496,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 550,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 569,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nodes_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 608,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!checkpoint_store_->write(cp)) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 644,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_coordinator.cpp",
+          "line": 656,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\ingestion\\ingestion_quality_judge.cpp": [
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 32,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"IngestionQualityJudge: backend must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 404,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 563,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obs->onQualityEvaluated(doc_id, report); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 720,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\ingestion_quality_judge.cpp",
+          "line": 731,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\kafka_connector.cpp": [
+        {
+          "file": "src\\ingestion\\kafka_connector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u26a0\ufe0f  Needs Work                                              \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\kafka_connector.cpp",
+          "line": 112,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { poll_timeout_ms_ = 1000; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\kafka_connector.cpp",
+          "line": 115,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { max_messages_ = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\kafka_connector.cpp",
+          "line": 118,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { session_timeout_ms_ = 10000; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\kafka_connector.cpp",
+          "line": 235,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "checkpoint_store_->write(cp);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ingestion\\legal_domain.cpp": [
+        {
+          "file": "src\\ingestion\\legal_domain.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\llm_adapter.cpp": [
+        {
+          "file": "src\\ingestion\\llm_adapter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\llm_adapter.cpp",
+          "line": 163,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\s3_connector.cpp": [
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "out.write(body.data(), static_cast<std::streamsize>(body.size()));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 194,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 269,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 277,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 315,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (checkpoint_store_->read(config_.source_id, cp) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 383,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "checkpoint_store_->write(cp);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\s3_connector.cpp",
+          "line": 594,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\semantic_validator.cpp": [
+        {
+          "file": "src\\ingestion\\semantic_validator.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\steps\\base_entity_assembler_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\base_entity_assembler_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\steps\\chunk_embed_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\chunk_embed_step.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\chunk_embed_step.cpp",
+          "line": 60,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\steps\\chunk_text_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\chunk_text_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\chunk_text_step.cpp",
+          "line": 60,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\steps\\decompress_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\decompress_step.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\decompress_step.cpp",
+          "line": 84,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "while (::waitpid(pid, &status, 0) < 0) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\decompress_step.cpp",
+          "line": 134,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\steps\\decompress_step.cpp",
+          "line": 219,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"decompress: extraction tool exited with non-zero status for '\" + source + \"'\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\ingestion\\steps\\deontic_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\deontic_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\deontic_step.cpp",
+          "line": 72,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\steps\\format_parse_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\format_parse_step.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\format_parse_step.cpp",
+          "line": 92,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\steps\\format_parse_step.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\ingestion\\steps\\legal_metadata_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\legal_metadata_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\legal_metadata_step.cpp",
+          "line": 58,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\steps\\legal_reference_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\legal_reference_step.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\legal_reference_step.cpp",
+          "line": 56,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\ingestion\\steps\\llm_extract_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\llm_extract_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\llm_extract_step.cpp",
+          "line": 103,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\steps\\llm_extract_step.cpp",
+          "line": 216,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\steps\\ner_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\ner_step.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\ner_step.cpp",
+          "line": 126,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\ingestion\\steps\\tensor_core_bridge_step.cpp": [
+        {
+          "file": "src\\ingestion\\steps\\tensor_core_bridge_step.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ingestion\\steps\\tensor_core_bridge_step.cpp",
+          "line": 20,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "* `sink->write(record, tenant_id)` to persist the pre-computed TT-cores.",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ingestion\\steps\\tensor_core_bridge_step.cpp",
+          "line": 74,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ingestion\\steps\\tensor_core_bridge_step.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto res = sink_->write(record, effective_tenant);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

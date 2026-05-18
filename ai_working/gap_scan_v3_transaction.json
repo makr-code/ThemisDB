@@ -1,0 +1,2122 @@
+{
+  "transaction": {
+    "total": 231,
+    "severity_critical": 97,
+    "severity_high": 24,
+    "severity_medium": 110,
+    "by_category": {
+      "security": 6,
+      "memory": 8,
+      "reliability": 217
+    },
+    "by_file": {
+      "src\\transaction\\distributed_saga.cpp": [
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 363,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 363,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 122,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "DistributedSagaReport DistributedSagaCoordinator::execute(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 177,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(\"Internal error: step record not found: \" + name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 336,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus DistributedSagaCoordinator::executeWave(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 358,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<std::future<DistributedSagaStatus>> futures;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 369,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "[this, &step, rec]() -> DistributedSagaStatus {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 378,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus wave_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 381,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!st.ok && wave_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 393,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus DistributedSagaCoordinator::executeStep(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 409,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus last_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 441,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 451,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (last_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 459,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "step.name, attempt + 1, last_status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 465,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_ERROR(\"DSAGA: step '{}' permanently failed: {}\", step.name, last_status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 520,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus DistributedSagaCoordinator::compensateStep(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 533,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus last_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 559,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 566,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "step.name, attempt + 1, last_status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 628,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 693,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(local_def);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 700,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::optional<DistributedSagaReport> DistributedSagaCoordinator::getDistributedStatus(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 716,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return recovered;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 731,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\transaction\\distributed_transaction_manager.cpp": [
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 628,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 634,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 628,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 634,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 105,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(batch_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(batch_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 117,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { entry.result.set_value(false); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 152,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 162,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedTxnStatus",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 164,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 177,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 196,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 213,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 219,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedTxnStatus",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 221,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 256,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 269,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 302,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 315,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedTxnStatus DistributedTransactionManager::voteOnPrepare(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 341,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedTxnStatus DistributedTransactionManager::applyCommit(const TransactionId& txn_id) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 342,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 356,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedTxnStatus DistributedTransactionManager::applyAbort(const TransactionId& txn_id) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 430,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 444,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 485,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 517,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 539,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 555,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 567,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 645,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 718,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 733,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 832,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(pool_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 833,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "pool_cv_.wait(lock, [this] {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 851,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 901,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 906,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\transaction\\snapshot_manager.cpp": [
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 147,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (iterator->Seek(prefix); iterator->Valid(); iterator->Next()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 346,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (it->Seek(prefix); it->Valid(); it->Next()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 408,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (it->Seek(prefix); it->Valid(); it->Next()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 157,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "iterator->value().data(),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 207,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"Failed to delete snapshot: {}\", tag_name);",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: snapshot = nullptr;"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 74,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 116,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 134,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 198,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 224,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 332,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 399,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 431,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\transaction\\global_transaction_manager.cpp": [
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 130,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "rec.region_ops[rid]     = nlohmann::json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 60,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GlobalTransactionManager: truetime must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 82,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"participant must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 84,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 96,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 108,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"region_ids must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 116,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 399,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 460,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 467,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\transaction\\merge_engine.cpp": [
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 611,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "event.metadata[\"merge\"] = true;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 612,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "event.metadata[\"original_sequence\"] = change.sequence;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\transaction\\branch_manager.cpp": [
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 136,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 221,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 279,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 311,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 317,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 383,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recordMergeStatus(source_branch, target_branch);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 408,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recordMergeStatus(source_branch, target_branch);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 431,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recordMergeStatus(source_branch, target_branch);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 528,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recordMergeStatus(source_branch, target_branch);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 554,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 728,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void BranchManager::recordMergeStatus(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 739,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 778,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\transaction\\crash_recovery_manager.cpp": [
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 146,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 168,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 263,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return {};",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 326,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 425,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 480,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return result;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\transaction\\deadlock_predictor.cpp": [
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 18,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "\u2022 7fc70aef23  2026-03-14  fix(transaction): correct eviction logic in recordDeadlock() \u2551",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 129,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\transaction\\lock_manager.cpp": [
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\transaction\\saga.cpp": [
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 69,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 108,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "history.push_back(status + \" \" + step.operation_name);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 160,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 289,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 290,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"SAGA: Vector compensation failed for '{}': {}\", pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\transaction\\saga_orchestrator.cpp": [
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 71,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 128,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"saga template not found: \" + template_name);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([promise, forward = std::move(forward)]() mutable {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 265,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 280,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 296,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SAGAExecutionStatus& status_rec) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 302,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "compensateStep(*step_it->second, status_rec);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 307,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SAGAExecutionStatus& status_rec) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 325,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 355,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 374,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SAGAExecutionStatus status_rec;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 387,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : status_rec.step_states) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 391,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++status_rec.completed_steps;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 394,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++status_rec.failed_steps;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 397,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++status_rec.skipped_steps;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 402,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++status_rec.pending_steps;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 524,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& kv : status_rec.step_states) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 536,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recomputeStatusCounters();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 541,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "compensateAll(saga_exec, step_map, executed, status_rec);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 542,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "recomputeStatusCounters();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 551,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(status_mutex_);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 565,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(status_mutex_);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 573,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::optional<SAGAExecutionStatus>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 574,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SAGAOrchestrator::getStatus(const std::string& saga_id) const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 575,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::lock_guard<std::mutex> lk(status_mutex_);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\transaction\\transaction_auditor.cpp": [
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 194,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionAuditor::Status TransactionAuditor::exportToKafka(const std::string& topic)",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 208,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionAuditor::Status TransactionAuditor::exportToS3(const std::string& bucket,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\transaction\\transaction_batcher.cpp": [
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 52,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_thread_ = std::thread(&TransactionBatcher::flushLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 167,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::future<TransactionBatcher::Status>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 168,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionBatcher::submitAsync(std::function<Status()> commit_fn,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 173,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "p.set_value(Status::Error(\"commit_fn must not be null\"));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 179,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "p.set_value(Status::Error(\"batcher is shutting down\"));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 237,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_cv_.wait(lk, [this] {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 363,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\transaction\\transaction_manager.cpp": [
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 58,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 83,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 116,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(lock_tracking_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 149,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(lock_tracking_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "resolveDeadlock(cycle);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 325,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(lock_tracking_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "dp->recordDeadlock(cycle_keys);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 394,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 432,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 455,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 463,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::commitTransaction(TransactionId id) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 466,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 475,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 498,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Transaction {} commit failed: {}\", id, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 526,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 568,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 585,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 675,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 706,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 722,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 748,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 754,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 768,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 887,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to create MVCC transaction\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 995,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const ",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1040,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1083,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1111,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1136,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std:",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1166,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1167,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"SAGA: Vector remove compensation failed for '{}': {}\", pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1175,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, s",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1212,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1213,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"SAGA: Vector restore failed for '{}': {}\", old_entity.getPrimaryKey(), status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1228,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1266,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1267,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"SAGA: Vector restoration failed for '{}': {}\", old_entity.getPrimaryKey(), status.messa",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1328,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::optimisticPut(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1385,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::optimisticErase(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1442,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1486,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1528,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1560,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::commit() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1701,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::rollbackToSavePoint() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1714,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::popSavePoint() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1727,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::createSavepoint(std::string_view name) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1753,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(std::string_view nam",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1788,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "TransactionManager::Status TransactionManager::Transaction::releaseSavepoint(std::string_view name) ",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1852,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1875,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1947,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2057,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2092,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(ssi_config_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(ssi_config_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2130,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

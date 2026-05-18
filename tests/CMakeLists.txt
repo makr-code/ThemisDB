@@ -95,10 +95,11 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_stress\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
 
 # test_vulkan_glsl_compiler_fn.cpp requires setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp,
-# which is only compiled when THEMIS_ENABLE_VULKAN=ON. Gate the test accordingly.
-if(NOT THEMIS_ENABLE_VULKAN)
-    list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
-endif()
+# which is only compiled when THEMIS_ENABLE_VULKAN=ON. 
+# In modular builds, this file is excluded from themis_tests and compiled as a separate focused test
+# that properly links themis_base (which contains vulkan_backend_full.cpp).
+# In non-modular builds, exclude it from ALL_TEST_SOURCES and compile as a focused test too.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
@@ -2094,6 +2095,57 @@ set_tests_properties(SessionManagerTests PROPERTIES
     LABELS "auth;session;revocation;unit"
     TIMEOUT 60
 )
+
+# ============================================================================
+# Vulkan GLSL Compiler Function Tests
+# Tests setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp
+# Only compiled when THEMIS_ENABLE_VULKAN=ON
+# ============================================================================
+
+if(THEMIS_ENABLE_VULKAN AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_glsl_compiler_fn.cpp")
+    message(STATUS "Adding Vulkan GLSL Compiler Function focused tests")
+
+    add_executable(test_vulkan_glsl_compiler_fn_focused
+        test_vulkan_glsl_compiler_fn.cpp
+    )
+
+    target_include_directories(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        themis_base
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_VULKAN=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_vulkan_glsl_compiler_fn_focused)
+        add_dependencies(test_vulkan_glsl_compiler_fn_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME VulkanGlslCompilerFunctionTests
+        COMMAND test_vulkan_glsl_compiler_fn_focused)
+
+    set_tests_properties(VulkanGlslCompilerFunctionTests PROPERTIES
+        LABELS "acceleration;vulkan;glsl;compiler;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Vulkan GLSL Compiler: setVulkanGlslCompilerFn callback, shader compilation, error handling")
+else()
+    if(NOT THEMIS_ENABLE_VULKAN)
+        message(STATUS "Vulkan GLSL Compiler Function tests skipped (THEMIS_ENABLE_VULKAN=OFF)")
+    else()
+        message(STATUS "Vulkan GLSL Compiler Function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_glsl_compiler_fn.cpp")
+    endif()
+endif()
 
 # ============================================================================
 # DelegateEvaluatorFocusedTests

@@ -1,0 +1,3879 @@
+{
+  "analytics": {
+    "total": 424,
+    "severity_critical": 75,
+    "severity_high": 164,
+    "severity_medium": 185,
+    "by_category": {
+      "security": 27,
+      "memory": 65,
+      "reliability": 332
+    },
+    "by_file": {
+      "src\\analytics\\arrow_flight.cpp": [
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 220,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "producer = dit->second.producer;  // cheap shared_ptr copy",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 243,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (dit == sit->second.end() || !dit->second.put_handler) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 248,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handler = dit->second.put_handler;  // cheap shared_ptr copy",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 164,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "spdlog::debug(\"[ArrowFlight] registered dataset '{}' on '{}'\",",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 248,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "handler = dit->second.put_handler;  // cheap shared_ptr copy",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 586,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow::Status ListFlights(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 607,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow::Status GetFlightInfo(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 636,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow::Status DoGet(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 670,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow::Status ReadNext(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 687,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow::Status DoPut(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 726,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "loc_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flight_thread_ = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 740,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!serve_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 741,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::warn(\"[ArrowFlight] serve exited with status: {}\", serve_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 751,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 753,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 841,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 857,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "endpoint_, loc_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 864,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "endpoint_, client_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 875,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "endpoint_, listing_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 882,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "endpoint_, first_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 896,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "listing_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 922,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[ArrowFlight] GetFlightInfo failed: \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 923,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "info_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 927,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[ArrowFlight] no endpoints in FlightInfo\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 932,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[ArrowFlight] DoGet failed: \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 933,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "stream_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 940,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 942,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "batch_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 976,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "writer_result.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 986,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ab_result.status().ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 990,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 992,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"[ArrowFlight] write failed: \" + status.ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 997,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.ok() ? \"OK\" : status.ToString(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_flight.cpp",
+          "line": 1023,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::unique_ptr<ArrowFlightClient> ArrowFlightClient::connect(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\analytics\\cep_engine.cpp": [
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2051,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != streams_.end()) ? it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2051,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != streams_.end()) ? it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 177,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { num_val = std::stod(ns); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 276,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { lhs_num = std::stod(lhs); lhs_is_num = true; } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 299,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 359,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 390,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(subscribers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 392,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(event); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 484,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(subscribers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 490,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(subscribers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 826,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) { continue; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 850,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "timer_thread_ = std::thread([this] { timerLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 920,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 963,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1002,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1032,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1124,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1145,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { spdlog::warn(\"CEPEngine: window callback threw unknown exception\"); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1469,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, action, match, config] {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1610,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { val = std::stoull(val_str); } catch (...) { return 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1722,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { pc.within = std::chrono::milliseconds(timeToMs(m[3], unit)); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1746,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { wc.count = std::stoull(m[2]); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1774,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { wc.count = std::stoull(m[2]); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1781,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1790,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 1799,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2010,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "metrics_thread_ = std::thread([this] { metricsLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2164,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2221,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { alert_callback_(alert); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2296,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\cep_engine.cpp",
+          "line": 2342,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\columnar_execution.cpp": [
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 898,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "key_order.push_back(it->first);  // reference key already in the map",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 203,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "case ColumnType::Double: return double_data_[row];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 204,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "case ColumnType::String: return string_data_[row];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 205,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "case ColumnType::Bool:   return bool_data_[row];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 240,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendInt64(int64_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 242,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendDouble(double_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 244,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendString(string_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 246,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendBool(bool_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 263,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendInt64(int64_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 265,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendDouble(double_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 267,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendString(string_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 269,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "out->appendBool(bool_data_[row], is_null); break;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 452,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->int64Data();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 473,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->doubleData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 491,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->stringData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 504,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->boolData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 618,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "float64x2_t vmin1 = vdupq_n_f64(data[0]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 619,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "float64x2_t vmax0 = vdupq_n_f64(data[0]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 620,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "float64x2_t vmax1 = vdupq_n_f64(data[0]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 666,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "r.sum += data[i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 802,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ColumnBatch AggregateOperator::execute(const ColumnBatch& input) const {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 983,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ColumnBatch SortOperator::execute(const ColumnBatch& input) const {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1090,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "current = stage.filter->execute(current);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1094,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "current = stage.project->execute(current);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1098,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "current = stage.aggregate->execute(current);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1102,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "current = stage.sort->execute(current);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1119,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch& input,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1126,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ColumnBatch result = pipeline.execute(input);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1144,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "results.push_back(execute(batch, pipeline));",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1153,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(input, p);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1160,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(input, p);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1167,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(input, p);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\columnar_execution.cpp",
+          "line": 1174,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(input, p);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\analytics\\expert_system_engine.cpp": [
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 97,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return kb_->assertFact(subject, predicate, object);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 81,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 96,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 239,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { return 1.0; }  // Fallback: treat as confident",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 250,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { return std::stod(label); } catch (...) { return 1.0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 251,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 263,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 416,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 429,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 452,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 460,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 470,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\expert_system_engine.cpp",
+          "line": 475,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\forecasting.cpp": [
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1580,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto& y_ref = impl_->train_y;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1587,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "[a, &y_ref]() -> std::pair<double,double> {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 2124,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "sp.seasonal_buffer[static_cast<size_t>(i)] = readD(\"sarima_sb_\" + std::to_string(i));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 151,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"train_ratio must be in (0, 1)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1552,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"TimeSeries must have at least 2 points to fit\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1687,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ForecastModel::predictBatch: steps must be >= 1\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1834,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ForecastModel: call fit() before evaluate()\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\forecasting.cpp",
+          "line": 1844,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"ForecastModel: call fit() before decompose()\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\analytics\\incremental_view.cpp": [
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 149,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (--rit->second <= 0) distinct_ref_counts.erase(rit);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 537,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return (it != views_.end()) ? it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 537,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return (it != views_.end()) ? it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 432,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ViewQueryResult IncrementalView::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 566,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ViewQueryResult IncrementalViewManager::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\incremental_view.cpp",
+          "line": 578,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return it->second->query(filters, limit, offset);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\analytics\\ml_serving.cpp": [
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 271,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto session_ptr = impl_->getOrLoadSession(req.model_name);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 400,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->append(ptr, size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 271,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto session_ptr = impl_->getOrLoadSession(req.model_name);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 400,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->append(ptr, size * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 439,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "inputs_json[t.name] = json(t.data.begin(), t.data.end());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 37,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `MLServingStatus::UNAVAILABLE`: backend not compiled in or connection failed.",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 38,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `MLServingStatus::INFERENCE_ERROR`: session run failed (ONNX exception) or",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 40,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `MLServingStatus::INVALID_INPUT`: input tensor shape mismatch detected by",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 180,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> sessions_read_lock(sessions_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 198,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> load_lock(*load_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> sessions_read_lock(sessions_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> sessions_write_lock(sessions_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 713,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string mlServingStatusName(MLServingStatus status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\ml_serving.cpp",
+          "line": 714,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\analytics\\model_serving.cpp": [
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 183,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it == impl_->registry.end()) return nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 181,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 197,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 236,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 279,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 314,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 335,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { val = std::stod(p); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 358,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 374,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 392,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> hlock(ep->health_mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\model_serving.cpp",
+          "line": 402,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock lock(impl_->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\olap.cpp": [
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 662,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (std::holds_alternative<std::nullptr_t>(it->second)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 716,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (std::holds_alternative<std::nullptr_t>(it->second)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1184,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1192,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1201,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1210,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1462,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->last_refresh = std::chrono::system_clock::now();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1476,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->last_refresh  = std::chrono::system_clock::now();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1526,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "std::holds_alternative<std::nullptr_t>(it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1644,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return impl_->last_refresh;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1659,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto age = std::chrono::duration_cast<std::chrono::seconds>(now - impl_->last_refresh);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 586,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "row.values[query.dimensions[i].name] = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 775,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto it = data[j].find(measure.field);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1020,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (; i < n; ++i) total += data[i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1278,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& val : it->second.data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1526,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::holds_alternative<std::nullptr_t>(it->second);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 180,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(result_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 193,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void stopCleanupThread() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 195,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (cleanup_thread.joinable()) cleanup_thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 199,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "stopCleanupThread();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 204,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "impl_->startCleanupThread();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 216,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "impl_->startCleanupThread();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 284,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "OLAPResult OLAPEngine::execute(const OLAPQuery& query) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 795,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->stats_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 857,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->stats_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1461,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "impl_->cached_result = engine.execute(query);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1480,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "OLAPResult MaterializedView::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1860,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\olap.cpp",
+          "line": 1882,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\analytics\\process_mining.cpp": [
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 265,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 417,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 507,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2454,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [freq, data] : freq_sorted) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 49,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "inline ProcessMining::Status unsupported() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 59,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 66,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGraph(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 73,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromReferences(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 81,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 87,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcess(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 94,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcessFromCollection(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 102,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<ProcessMining::VariantInfo>> ProcessMining::analyzeVari",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 109,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining::clusterVariants(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 116,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::ConformanceResult> ProcessMining::checkConformance(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 123,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::AlignmentResult> ProcessMining::computeAlignment(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 130,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::EnhancedProcess> ProcessMining::enhanceWithPerforman",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 137,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<std::string>> ProcessMining::detectBottlenecks(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 144,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 150,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::string> ProcessMining::exportToPNML(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 156,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ProcessMining::Status ProcessMining::saveAsProcessDefinition(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 163,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<ProcessMining::SimilarFragment>> ProcessMining::findSim",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 171,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<ProcessMining::GeoProcessCluster>> ProcessMining::disco",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 178,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::ProcessEvolution> ProcessMining::analyzeEvolution(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 250,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 331,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 402,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGraph(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 455,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 487,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromReferences(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 567,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 602,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 663,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcess(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 680,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcessFromCollection(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 1656,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<ProcessMining::VariantInfo>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 1699,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::ConformanceResult>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 1854,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 1901,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ProcessMining::Status ProcessMining::saveAsProcessDefinition(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 1994,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::map<int, std::vector<int>>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2142,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::AlignmentResult>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2328,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::EnhancedProcess>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2356,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<std::string>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2388,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::string>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2422,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, std::vector<ProcessMining::SimilarFragment>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_mining.cpp",
+          "line": 2498,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessMining::Status, ProcessMining::ProcessEvolution>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\analytics\\analytics_export.cpp": [
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 99,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uint8_t* raw = bitmap->mutable_data();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 562,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto writer_result = arrow::ipc::MakeStreamWriter(buffer, arrow_batch->schema());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 658,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t* base      = ipc_buffer->data();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 919,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto writer_result = arrow::ipc::MakeFileWriter(buffer, arrow_batch->schema());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 51,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `ExportStatus::NOT_SUPPORTED`: requested format unavailable without Arrow;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 53,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `ExportStatus::IO_ERROR`: file open or write failure; spdlog::error logged.",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 54,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*   - `ExportStatus::CONVERSION_ERROR`: Arrow RecordBatch serialisation failed;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 55,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*     original Arrow status message captured in ExportResult::error_message.",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 484,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow_batch_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 494,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "outfile_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 504,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "writer_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 512,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!write_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 513,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to write Arrow IPC batch: {}\", write_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 520,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!close_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 521,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to close Arrow IPC writer: {}\", close_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 607,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow_batch_result.status().ToString();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 616,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "bos_result.status().ToString();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 625,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "writer_result.status().ToString();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 631,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!write_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 637,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!close_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 647,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "buf_result.status().ToString();",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 716,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow_batch_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 726,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "outfile_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 761,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!write_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 762,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to write Parquet file: {}\", write_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 790,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 841,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "arrow_batch_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 851,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "outfile_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 861,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "writer_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 869,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!write_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 870,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to write Feather batch: {}\", write_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 877,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!close_status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 878,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Failed to close Feather writer: {}\", close_status.ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 994,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\analytics_export.cpp",
+          "line": 1029,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Unknown export format\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\analytics\\anomaly_detection.cpp": [
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 576,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "means[f]   = computeMean(col_data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 577,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "stddevs[f] = computeStddev(col_data, means[f]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 578,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "medians[f] = computeMedian(col_data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 579,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "mads[f]    = computeMAD(col_data, medians[f]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 582,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "computeQuartiles(col_data, q1[f], q3[f]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 725,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "sub->train(data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 775,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->trainSingleMethod(data, fm);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 764,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (data.empty()) throw std::invalid_argument(\"train: data must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 768,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"train: no numeric features found in DataPoints\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 795,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"predict: detector not trained\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 826,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"explain: detector not trained\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 908,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"update: adaptive mode not enabled in config\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 970,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { v.push_back(std::stod(t)); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 996,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) { /* skip malformed line */ }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1045,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "retrain_future_.wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1105,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1123,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::future_status::ready) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1138,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "tmp.train(buf);           // off-lock (O(N\u00b7T)/O(N\u00b2))",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1142,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\anomaly_detection.cpp",
+          "line": 1156,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\analytics\\arrow_export.cpp": [
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 49,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "columns_[i].int64_buffer.push_back(",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 50,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 53,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "columns_[i].double_buffer.push_back(",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 54,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "is_null ? 0.0 : std::get<double>(row_data[i]));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\arrow_export.cpp",
+          "line": 33,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\analytics\\diff_engine.cpp": [
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 50,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"metadata\"] = metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 71,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "c.metadata = j[\"metadata\"];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 167,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 174,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 195,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "inflight_cv_.wait(lock);",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 285,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 308,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 347,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 358,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(fmt::format(\"Tag '{}' not found\", from_tag));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 363,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(fmt::format(\"Tag '{}' not found\", to_tag));",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\diff_engine.cpp",
+          "line": 384,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\jit_aggregation.cpp": [
+        {
+          "file": "src\\analytics\\jit_aggregation.cpp",
+          "line": 198,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->doubleData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\jit_aggregation.cpp",
+          "line": 214,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->doubleData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\jit_aggregation.cpp",
+          "line": 229,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto& data = col->doubleData();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\jit_aggregation.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\analytics\\llm_process_analyzer.cpp": [
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 187,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[\"trace\"] = trace;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 188,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[\"model\"] = request.ideal_model;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 189,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "data[\"context\"] = request.context.is_null() ? request.process_data : request.context;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 359,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << \"Prozessdaten:\\n\" << data[\"trace\"].dump(2) << \"\\n\\n\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 360,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << \"Erwartetes Modell:\\n\" << data[\"model\"].dump(2) << \"\\n\\n\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 370,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << \"Bisheriger Verlauf:\\n\" << data[\"trace\"].dump(2) << \"\\n\\n\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 371,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << \"Prozessmodell:\\n\" << data[\"model\"].dump(2) << \"\\n\\n\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 384,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ss << \"Medikationsdaten:\\n\" << data[\"trace\"].dump(2) << \"\\n\\n\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 530,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "response[\"predictions\"].is_array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 88,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 568,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "const auto& trace = request.process_trace.is_null()",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 572,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "const std::string model_hash = sha256hex(request.ideal_model.dump());",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 579,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pImpl->cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\llm_process_analyzer.cpp",
+          "line": 584,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pImpl->cache_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\nlp_text_analyzer.cpp": [
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 630,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "en[\"phenomena\"] = \"phenomenon\"; en[\"data\"]  = \"datum\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 73,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 450,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "bool has_subquery = containsSubquery(query_text);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 1286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 1381,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\nlp_text_analyzer.cpp",
+          "line": 1477,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { current.strength = std::stof(val); } catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\analytics\\streaming_join.cpp": [
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 526,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "int64_t probe_ts = probe_time_data[r];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 553,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (auto it = it_lo; it != build_buffer_.end() && it->timestamp_ms <= hi; ++it) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 114,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"StreamingJoin: column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 148,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!col) throw std::invalid_argument(\"StreamingJoin::project: column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 196,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"HashJoin: at least one join key is required\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 214,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!col) throw std::invalid_argument(\"HashJoin: build column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 229,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!c) throw std::invalid_argument(\"HashJoin: build column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 241,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!found) throw std::invalid_argument(\"HashJoin: join key column not found in build: \" + kn);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 273,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!c) throw std::invalid_argument(\"HashJoin: probe column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 287,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!found) throw std::invalid_argument(\"HashJoin: join key column not found in probe: \" + kn);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 378,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"IntervalJoin: time_column must be specified\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 399,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"IntervalJoin: time column not found: \" + cfg_.time_column);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 409,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!c) throw std::invalid_argument(\"IntervalJoin: build column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 449,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"IntervalJoin: probe time column not found: \" + cfg_.time_column);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 463,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!c) throw std::invalid_argument(\"IntervalJoin: probe column not found: \" + n);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 477,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!found) throw std::invalid_argument(\"IntervalJoin: join key not in probe: \" + kn);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\streaming_join.cpp",
+          "line": 484,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!found) throw std::invalid_argument(\"IntervalJoin: join key not in build: \" + kn);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\analytics\\automl.cpp": [
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1451,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AutoMLModel::exportONNX: model is not fitted\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1617,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ofs.is_open())",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1867,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AutoML: training data is empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1869,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AutoML: target field name must be specified\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1880,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AutoML: no numeric features found (excluding target)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\analytics\\automl.cpp",
+          "line": 1961,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"AutoML: no candidate models produced\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\analytics\\distributed_analytics.cpp": [
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 34,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "*     \u2192 fan-out via std::async to each healthy shard endpoint",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 337,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> main_lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 364,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (e.executor && e.cached_healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 368,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 371,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "e.cached_healthy->store(healthy, std::memory_order_release);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 389,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 394,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 402,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "e.cached_healthy->store(initial_healthy, std::memory_order_release);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 416,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 424,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 429,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 432,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (e.cached_healthy && e.cached_healthy->load(std::memory_order_relaxed)) ++n;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 441,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 457,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 652,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 655,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "!e.cached_healthy ||",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 656,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "!e.cached_healthy->load(std::memory_order_relaxed)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 677,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::warn(\"DistributedAnalyticsSharding: no healthy shards registered \"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 712,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 719,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto partial = entry.executor->execute(entry.shard_id, query);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 735,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\distributed_analytics.cpp",
+          "line": 820,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery& query) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\analytics\\knowledge_base.cpp": [
+        {
+          "file": "src\\analytics\\knowledge_base.cpp",
+          "line": 253,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) return -1;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\knowledge_base.cpp",
+          "line": 292,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { current.priority = 0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\knowledge_base.cpp",
+          "line": 301,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { current.ml_confidence_threshold = 0.0; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\analytics\\lora_pattern_classifier.cpp": [
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 35,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 40,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 45,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 125,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 292,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { return domains_.front().adapter_id; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 316,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 325,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 372,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\lora_pattern_classifier.cpp",
+          "line": 377,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\analytics\\process_pattern_matcher.cpp": [
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 275,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, ProcessTrace>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 303,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, std::vector<SimilarityResult>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 462,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, ProcessMining::ConformanceResult>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 525,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, bool>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 569,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, std::map<std::string, SimilarityResult>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 655,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, std::map<std::string, ProcessPattern>>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 761,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, ProcessPattern>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\process_pattern_matcher.cpp",
+          "line": 778,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::pair<ProcessPatternMatcher::Status, ProcessPatternMatcher::PatternStatistics>",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\analytics\\streaming_window.cpp": [
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u26a0\ufe0f  Needs Work                                              \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 336,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "idle_thread_ = std::thread([this] { idleTimeoutLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 467,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 483,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 530,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 557,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "idle_thread_ = std::thread([this] { idleTimeoutLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 712,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 728,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 775,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 800,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "expiry_thread_ = std::thread([this] { expiryLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 925,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(pending_result); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 948,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 999,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 1149,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\analytics\\streaming_window.cpp",
+          "line": 1165,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cb(r); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ]
+    }
+  }
+}

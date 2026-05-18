@@ -1,0 +1,1347 @@
+{
+  "api": {
+    "total": 146,
+    "severity_critical": 17,
+    "severity_high": 75,
+    "severity_medium": 54,
+    "by_category": {
+      "security": 9,
+      "memory": 52,
+      "reliability": 85
+    },
+    "by_file": {
+      "src\\api\\graphql.cpp": [
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 862,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto& obj = parent->asObject();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 892,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto& obj = parent->asObject();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 960,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return it != types_.end() ? &it->second : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1135,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "type_obj[\"name\"] = Value::string(type->name);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1136,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "type_obj[\"description\"] = Value::string(type->description);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 960,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return it != types_.end() ? &it->second : nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1422,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "docQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1423,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "docQuery.arguments[\"id\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1430,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "docsQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1431,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "docsQuery.arguments[\"limit\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1432,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "docsQuery.arguments[\"offset\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1443,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "aqlQuery.arguments[\"query\"]     = {\"String\", true,  false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1444,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "aqlQuery.arguments[\"variables\"] = {\"JSON\",   false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1470,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "vectorQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1471,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "vectorQuery.arguments[\"vector\"] = {\"Float\", true, true, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1472,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "vectorQuery.arguments[\"k\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1479,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graphQuery.arguments[\"startNode\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1480,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graphQuery.arguments[\"depth\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1481,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graphQuery.arguments[\"direction\"] = {\"String\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1489,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsRangeQuery.arguments[\"series\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1490,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsRangeQuery.arguments[\"from\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1491,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsRangeQuery.arguments[\"to\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1492,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsRangeQuery.arguments[\"limit\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1500,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsLatestQuery.arguments[\"series\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1501,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "tsLatestQuery.arguments[\"count\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1509,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "geoQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1510,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "geoQuery.arguments[\"center\"] = {\"GeoPointInput\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1511,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "geoQuery.arguments[\"radiusKm\"] = {\"Float\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1512,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "geoQuery.arguments[\"limit\"] = {\"Int\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1528,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1529,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createDoc.arguments[\"input\"] = {\"DocumentInput\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1536,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "updateDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1537,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "updateDoc.arguments[\"id\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1538,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "updateDoc.arguments[\"input\"] = {\"DocumentInput\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1545,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "deleteDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1546,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "deleteDoc.arguments[\"id\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1553,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createEdge.arguments[\"source\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1554,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createEdge.arguments[\"target\"] = {\"ID\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1555,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createEdge.arguments[\"type\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1556,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "createEdge.arguments[\"properties\"] = {\"JSON\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1564,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "insertTsPoint.arguments[\"series\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1565,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "insertTsPoint.arguments[\"timestamp\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1566,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "insertTsPoint.arguments[\"value\"] = {\"Float\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1567,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "insertTsPoint.arguments[\"tags\"] = {\"JSON\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1582,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "aqlMut.arguments[\"query\"]     = {\"String\", true,  false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1583,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "aqlMut.arguments[\"variables\"] = {\"JSON\",   false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1659,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "onChangeField.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1660,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "onChangeField.arguments[\"filter\"] = {\"ChangeFilter\", false, false, nullptr};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 733,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Executor::Result Executor::execute(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 773,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1438,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "aqlQuery.description = \"Execute a read-only AQL query (FOR/RETURN). \"",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\api\\graphql_ws_handler.cpp": [
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 261,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cdc_handle = changefeed_->subscribe(std::move(f),",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 65,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 75,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 176,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 294,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 307,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\api\\otlp_exporter.cpp": [
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 57,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->append(ptr, size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 57,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->append(ptr, size * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 173,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 174,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 497,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "json status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\api\\themisdb_grpc_service.cpp": [
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 589,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const auto hits = vector_index_->search(embedding, k, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 885,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return impl_ ? static_cast<void*>(impl_->get()) : nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 298,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "err->set_message(\"document not found or delete failed\");",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: failed = nullptr;"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 434,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "row->set_data(*result);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 440,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "row->set_data(*result);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 445,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "row->set_data(*result);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 589,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const auto hits = vector_index_->search(embedding, k, nullptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 141,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status CreateDocument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 182,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status GetDocument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 214,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status UpdateDocument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 264,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 279,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status DeleteDocument(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 308,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status BatchWrite(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 316,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::StatusCode::RESOURCE_EXHAUSTED,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 358,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status BatchRead(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 366,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::StatusCode::RESOURCE_EXHAUSTED,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 390,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status ExecuteAQL(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 395,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (req->query().empty()) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 413,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = aql_engine_->execute(req->query());",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 437,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 453,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status StreamAQL(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 458,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (req->query().empty()) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 469,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = aql_engine_->execute(req->query());",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 512,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status VectorSearch(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 551,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status FilteredVectorSearch(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 600,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status HybridSearch(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 692,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status FullTextSearch(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 707,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (req->query().empty() || req->collection().empty()) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 729,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "\" FILTER FULLTEXT(doc, 'text', '\" + aqlEscape(req->query()) + \"')\"",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 732,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = aql_engine_->execute(aql);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 771,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status HealthCheck(",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 859,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 868,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 879,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\api\\geo_index_hooks.cpp": [
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 496,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"Geo hook atomic delete JSON parse error for {}:{}: {}\", table, pk, e.what());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: JSON = nullptr;"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 499,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"Geo hook atomic delete error for {}:{}: {}\", table, pk, e.what());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: error = nullptr;"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 567,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "THEMIS_WARN(\"Geo hook delete error for {}:{}: {}\", table, pk, e.what());",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: error = nullptr;"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 66,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 88,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 169,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 171,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 192,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 193,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Spatial index insert failed for {}:{}: {}\", table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 214,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 215,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Spatial index insert failed for {}:{}: {}\", table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 232,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 233,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Spatial index insert failed for {}:{}: {}\", table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 247,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 248,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Spatial index insert failed for {}:{}: {}\", table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 270,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 272,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 378,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 380,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 486,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 488,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 558,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 560,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "table, pk, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\api\\federation_admin_handler.cpp": [
+        {
+          "file": "src\\api\\federation_admin_handler.cpp",
+          "line": 21,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"FederationAdminHandler: coordinator must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\api\\federation_admin_handler.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DP budget exhausted\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\api\\federation_admin_handler.cpp",
+          "line": 60,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",         \"success\"}};",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\api\\grpc_server.cpp": [
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 84,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 145,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 222,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 238,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 286,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GrpcApiServer: cannot open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 332,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\api\\tracing_middleware.cpp": [
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 81,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) const",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 99,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "} else if (http_status > 0) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 103,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (http_status > 0) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 104,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "span.attributes[\"http.status_code\"] = std::to_string(http_status);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\api\\ws_handler.cpp": [
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

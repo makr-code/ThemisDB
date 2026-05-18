@@ -1,0 +1,814 @@
+{
+  "process": {
+    "total": 85,
+    "severity_critical": 5,
+    "severity_high": 39,
+    "severity_medium": 41,
+    "by_category": {
+      "security": 16,
+      "memory": 23,
+      "reliability": 46
+    },
+    "by_file": {
+      "src\\process\\bpmn_serializer.cpp": [
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 451,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "shape_elem_ref = it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 36,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "* are parsed on import and stored in ProcessNodeInfo::metadata[\"layout\"].",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 627,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "node.metadata[\"layout\"] = std::move(layout);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 743,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "<< \" dataCategory=\\\"\" << escapeXml_(n.dsgvo_annotation->data_category) << \"\\\"\"",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 463,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { return std::stof(it->second); } catch (...) { return 0.f; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 499,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { ann.retention_days = std::stoi(rd); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 678,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\process\\cmmn_serializer.cpp": [
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 389,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "const std::string& target_ref = it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 333,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "node.metadata[\"cmmn_case_id\"] = result.case_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 422,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\process\\epk_aris_xml_importer.cpp": [
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 367,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "current_model.occ_to_def[it_id->second] = it_ref->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 398,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "current_obj_id = (it_id != tag.attrs.end()) ? it_id->second : \"\";",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 400,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "try { current_obj.type_num = std::stoi(it_num->second); }",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 75,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 372,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 401,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\ocel_exporter.cpp": [
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 281,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 239,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\process\\process_community_detector.cpp": [
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 406,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        }
+      ],
+      "src\\process\\process_graph_rag.cpp": [
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 905,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(emb_prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 948,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(inst_prefix, [&](std::string_view key, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 202,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 486,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 662,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 757,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 869,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 888,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 920,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 985,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1288,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sla_rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1307,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "const std::string& status)",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1309,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1310,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sla_rules_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1340,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { agg = json::object(); }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1381,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) { return true; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\process_linker.cpp": [
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 282,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 334,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 397,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 460,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 90,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "doc[\"metadata\"]          = metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\process\\process_model_manager.cpp": [
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 581,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 633,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 686,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 24,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 596,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 650,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 707,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 784,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 786,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Failed to register process '\" + record->id + \"': \" + status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\process\\fim_importer.cpp": [
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 366,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "jn[\"metadata\"] = n.metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 419,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "jn[\"metadata\"] = n.metadata;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        }
+      ],
+      "src\\process\\llm_process_descriptor.cpp": [
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 124,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "desc[\"nodes\"] = std::move(nodes_array);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 133,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "desc[\"edges\"] = std::move(edges_array);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\process\\object_centric_tracer.cpp": [
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 50,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "global_log[\"ocel:attribute-names\"] = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 66,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "omap[att.object_collection] = json::array({att.object_id});",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 100,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "result[\"nodes\"]       = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 101,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "result[\"arcs\"]        = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        }
+      ],
+      "src\\process\\process_agentic_rag.cpp": [
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 58,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"type\"] = \"llm_prompt\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 59,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 69,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"type\"] = \"subgraph\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 70,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 71,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"process_name\"] = ctx.process_name;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 83,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"type\"] = \"attachment\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 84,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 96,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"type\"] = \"similar_case\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 110,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"type\"] = \"missing_documents\";",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 111,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 9,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 143,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\dmn_evaluator.cpp": [
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 70,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\epk_serializer.cpp": [
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\process\\process_light_retriever.cpp": [
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 91,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\process_model_generator.cpp": [
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 200,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 210,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\process\\vcc_vpb_importer.cpp": [
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 485,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 699,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

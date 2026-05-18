@@ -1,0 +1,965 @@
+{
+  "base": {
+    "total": 104,
+    "severity_critical": 64,
+    "severity_high": 24,
+    "severity_medium": 16,
+    "by_category": {
+      "security": 22,
+      "memory": 1,
+      "reliability": 81
+    },
+    "by_file": {
+      "src\\base\\hot_reload_manager.cpp": [
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 101,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "slot_ptr = &it->second;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 293,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "loader_ptr->unloadModule(module_name);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 295,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto load_result = loader_ptr->loadModule(backup_path, module_name);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 101,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "slot_ptr = &it->second;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 91,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 110,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 143,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 187,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 319,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 357,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 380,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 392,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 408,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 413,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 418,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 423,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 432,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 437,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 450,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 458,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 467,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 474,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 488,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\base\\module_loader.cpp": [
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 601,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "unloadLibrary(it->second.handle);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1312,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1392,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "switch (status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1403,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "spdlog::error(\"Authenticode verification failed (code {}) for: {}\", status, modulePath);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1484,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1491,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "::waitpid(child, &status, 0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1549,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(magic), 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1560,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&elfClass), 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1581,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&name[0], nameDataLen);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1591,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(buildId.data()), nhdr.n_descsz);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1616,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1632,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1639,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1651,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1667,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1682,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1688,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1700,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "watchdogThread_ = std::thread([this]() { watchdogLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1860,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\base\\module_sandbox.cpp": [
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 357,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 358,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "CloseHandle(platform_->job_object);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 359,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "platform_->job_object = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 389,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 390,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "platform_->job_object = CreateJobObjectA(nullptr, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 391,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 396,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 402,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!SetInformationJobObject(platform_->job_object,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 458,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 460,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "platform_->job_object = CreateJobObjectA(nullptr, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 461,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (platform_->job_object)",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 462,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 464,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 470,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "SetInformationJobObject(platform_->job_object,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 736,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 738,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (QueryInformationJobObject(platform_->job_object,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 724,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::ifstream status(\"/proc/self/status\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 726,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "while (std::getline(status, line)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\base\\wasm_runtime_injector.cpp": [
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 87,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (best == nullptr || e.priority > best->priority) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 130,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (const auto* p : ptrs) names.push_back(p->name);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 58,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 76,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 117,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_runtime_injector.cpp",
+          "line": 136,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(reg.mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\base\\plugin_dependency_graph.cpp": [
+        {
+          "file": "src\\base\\plugin_dependency_graph.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\base\\remote_registry_client.cpp": [
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 79,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "future.wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 102,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 131,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 134,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "cv_.wait(lock, [&] {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 161,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 169,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 171,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 207,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 220,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) ||",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 470,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state.mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 483,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 528,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 644,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(final_error);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 662,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 700,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!out.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 796,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto self = weak_self.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 819,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto self = weak_self.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 831,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state.mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\remote_registry_client.cpp",
+          "line": 836,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\base\\wasm_plugin_sandbox.cpp": [
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.read(reinterpret_cast<char*>(bytes.data()), size)) return info;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 355,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 369,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.read(reinterpret_cast<char*>(bytes.data()), size)) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

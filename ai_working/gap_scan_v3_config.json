@@ -1,0 +1,774 @@
+{
+  "config": {
+    "total": 83,
+    "severity_critical": 35,
+    "severity_high": 35,
+    "severity_medium": 13,
+    "by_category": {
+      "security": 5,
+      "memory": 3,
+      "reliability": 75
+    },
+    "by_file": {
+      "src\\config\\config_file_watcher.cpp": [
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 345,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr += sizeof(struct inotify_event) + ev->len;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 660,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr += info->NextEntryOffset;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 137,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread_ = std::thread(&ConfigFileWatcher::watchLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 172,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "(void)write(pipe_write_fd_, &dummy, 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 177,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "(void)write(pipe_write_fd_, &dummy, 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 339,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ssize_t len = read(ifd, buf, kBufSize);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 390,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "int fd = ::open(path.c_str(), O_RDONLY | O_EVTONLY | O_CLOEXEC);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 392,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "spdlog::debug(\"ConfigFileWatcher: open('{}') failed: {}\", path, strerror(errno));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 508,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 581,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!issue_read()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 664,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!issue_read()) break;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\config\\config_schema_validator.cpp": [
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 282,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (node->is_object()) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 284,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it == node->end()) return nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 292,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (idx >= node->size()) return nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 59,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 65,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!ifs.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 294,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\config\\config_encrypted_store.cpp": [
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 57,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint32_t b0 = data[i];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 58,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint32_t b1 = have2 ? data[i + 1] : 0u;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 59,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint32_t b2 = have3 ? data[i + 2] : 0u;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 144,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ConfigEncryptedStore::set: config_key must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 151,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 154,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigKeyNotFoundException(config_key);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 161,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 168,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 174,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 179,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 194,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 199,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 208,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 248,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 257,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 292,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 301,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 313,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"generateKey: RAND_bytes failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 321,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"generateIV: RAND_bytes failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 337,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_CIPHER_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 346,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptInit_ex (cipher) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 349,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: set IV length failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 352,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptInit_ex (key/iv) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 361,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptUpdate failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 366,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptFinal_ex failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 371,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: get GCM tag failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 384,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: IV must be 12 bytes\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 387,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: tag must be 16 bytes\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 392,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_CIPHER_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 401,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptInit_ex (cipher) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 404,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: set IV length failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 407,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptInit_ex (key/iv) failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 415,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptUpdate failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 422,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: set GCM tag failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 428,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 451,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigEncryptionException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\config\\config_audit_log.cpp": [
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 41,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 58,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 66,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 71,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 76,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\config\\config_metrics_exporter.cpp": [
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_registry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 290,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(g_registry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\config\\config_path_resolver.cpp": [
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 71,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 104,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "reporter_thread_ = std::thread([this]() { reporterLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 128,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(cv_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(thread_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1292,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw ConfigNotFoundException(legacy_path, attempted_paths);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1505,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw InvalidPathException(path, \"path traversal not allowed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1510,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw InvalidPathException(path, \"null bytes not allowed in path\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1525,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw InvalidPathException(path, \"absolute path outside config directory\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1572,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw InvalidPathException(path, \"symlink escapes config root\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

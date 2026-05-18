@@ -1,0 +1,2113 @@
+{
+  "importers": {
+    "total": 226,
+    "severity_critical": 22,
+    "severity_high": 90,
+    "severity_medium": 114,
+    "by_category": {
+      "security": 68,
+      "memory": 13,
+      "reliability": 145
+    },
+    "by_file": {
+      "src\\importers\\crdt_importer.cpp": [
+        {
+          "file": "src\\importers\\crdt_importer.cpp",
+          "line": 120,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (rit == tit->second.end()) return nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\crdt_importer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\crdt_importer.cpp",
+          "line": 73,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t CRDTTableState::tickClock() {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\crdt_importer.cpp",
+          "line": 96,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "incoming.lamport_clock = tickClock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\importers\\flatfile_importer.cpp": [
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 348,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"flatfile-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 352,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 355,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 356,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 359,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 392,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 393,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 394,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 184,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 197,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "file.read(magic, 4);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 211,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "open_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 220,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "reader_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 227,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!schema_status.ok() || !schema) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 229,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "(schema_status.ok() ? \"null schema\"",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 230,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": ": schema_status.ToString()));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 312,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 315,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 318,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 364,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 371,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 384,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 502,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 872,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table}, {\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 956,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1096,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table}, {\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1128,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Cannot open Parquet file: \" + open_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1139,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Failed to open Parquet reader: \" + reader_result.status().ToString());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1148,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!read_status.ok() || !arrow_table) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1152,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "(read_status.ok() ? \"null table\" : read_status.ToString()));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\flatfile_importer.cpp",
+          "line": 1336,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table}, {\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\kafka_importer.cpp": [
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 275,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"kafka-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 278,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 280,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 281,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 284,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 318,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 319,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 320,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 245,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 248,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"source\", \"kafka\"}, {\"topic\", topic}, {\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 290,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 297,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 310,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 656,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 663,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\kafka_importer.cpp",
+          "line": 680,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\mongo_importer.cpp": [
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 237,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"mongo-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 240,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 242,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 243,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 246,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 278,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 279,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 280,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 857,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete plugin;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: plugin = nullptr;"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 198,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 201,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 204,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle, promise]() mutable {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 270,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 351,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 354,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 532,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 541,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"collection\", collection}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 557,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"collection\", collection}, {\"status\", \"failed\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 571,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"collection\", collection}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 648,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { return std::stoi(n.get<std::string>()); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mongo_importer.cpp",
+          "line": 657,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { return std::stod(n.get<std::string>()); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\mysql_importer.cpp": [
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 257,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"mysql-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 260,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 262,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 263,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 266,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 297,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 298,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 299,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1349,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete plugin;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: plugin = nullptr;"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 211,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 214,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 217,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 278,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle, promise]() mutable {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 289,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 807,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"skipped\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 826,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"failed\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 840,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1134,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { out.port = std::stoi(port_str); } catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\mysql_importer.cpp",
+          "line": 1295,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\oracle_importer.cpp": [
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 231,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"oracle-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 234,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 236,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 237,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 240,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 271,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 272,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 273,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 192,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 195,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 198,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 245,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 252,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle, promise]() mutable {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 263,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 755,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"failed\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\oracle_importer.cpp",
+          "line": 766,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\postgres_importer.cpp": [
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 369,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 372,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->source_path = source_path;  // v2.0: store for schema preview",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 373,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 375,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 376,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 380,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 413,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 414,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 415,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 782,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "THEMIS_DEBUG(\"Registered composite type: {} -> object\", tm[1].str());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2373,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "hash ^= static_cast<uint8_t>(data[i]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2469,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete plugin;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: plugin = nullptr;"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 328,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 331,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 334,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 386,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 394,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle, promise]() mutable {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 405,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1910,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"skipped\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 1994,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2001,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\postgres_importer.cpp",
+          "line": 2412,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\s3_importer.cpp": [
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 325,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"s3-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 329,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 332,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 333,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 336,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 370,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 371,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 372,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 687,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete plugin;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: plugin = nullptr;"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 289,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 292,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 295,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 342,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 349,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\s3_importer.cpp",
+          "line": 362,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\schema_inference.cpp": [
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 256,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "est.relationship_id = local_key + \" -> \" + ref;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\schema_inference.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\sqlite_importer.cpp": [
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 178,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->id = \"sqlite-import-\" + std::to_string(ms) + \"-\" +",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 182,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->started_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 185,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(true);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 186,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"pending\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 189,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->future = promise->get_future().share();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 222,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->running.store(false);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 223,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->setStage(\"completed\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 224,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "handle->finished_at_ms =",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 140,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 143,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"failed\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 146,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"status\", \"skipped\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 194,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto h = weak_handle.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::thread([this, source_path, options, progress_cb, handle,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 214,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 743,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"failed\"}}, 1.0);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\sqlite_importer.cpp",
+          "line": 758,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{{\"table\", table_name}, {\"status\", \"imported\"}},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\huggingface_ingestion_plugin.cpp": [
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 63,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"dataset_name\"] = dataset_name;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 107,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "j[\"dataset_id\"] = dataset_id;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 201,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "job.config[\"dataset_name\"] = dataset_name;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 516,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::string dataset_name = job.config.value(\"dataset_name\", plugin->config_.dataset_name);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 525,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "bool from_cache = plugin->loadFromCache(dataset_name, split, documents);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 533,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto result = plugin->fetchBatch(dataset_name, split, offset, batch_size);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 129,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ContentManager cannot be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 135,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to initialize CURL\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 173,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Plugin not registered with worker\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 520,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"dataset_name not specified\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 573,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\huggingface_ingestion_plugin.cpp",
+          "line": 574,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Failed to import document {}: {}\", i, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\mdm_engine.cpp": [
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 196,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "link.metadata[\"collection\"] = collection_name;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 197,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "link.metadata[\"match_method\"] = match.match_method;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 73,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",                  status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 188,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "? ResolutionStatus::RESOLVED",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 190,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "? ResolutionStatus::RESOLVED",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_engine.cpp",
+          "line": 191,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": ": ResolutionStatus::MANUAL_REVIEW);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\adaptive_import.cpp": [
+        {
+          "file": "src\\importers\\adaptive_import.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\audit_trail.cpp": [
+        {
+          "file": "src\\importers\\audit_trail.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\blockchain_integrity.cpp": [
+        {
+          "file": "src\\importers\\blockchain_integrity.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\canonical_resolver.cpp": [
+        {
+          "file": "src\\importers\\canonical_resolver.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\canonical_resolver.cpp",
+          "line": 130,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\column_importance.cpp": [
+        {
+          "file": "src\\importers\\column_importance.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\conflict_resolver.cpp": [
+        {
+          "file": "src\\importers\\conflict_resolver.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\data_quality.cpp": [
+        {
+          "file": "src\\importers\\data_quality.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\deterministic_matcher.cpp": [
+        {
+          "file": "src\\importers\\deterministic_matcher.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\entity_linker.cpp": [
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 50,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "static std::string resolutionStatusName(ResolutionStatus rs) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 65,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",            resolutionStatusName(status)},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\entity_linker.cpp",
+          "line": 171,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",    resolutionStatusName(link.status)}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\federated_learning.cpp": [
+        {
+          "file": "src\\importers\\federated_learning.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\federated_learning.cpp",
+          "line": 113,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\federated_learning.cpp",
+          "line": 150,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"epsilon_used must be non-negative\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\importers\\graphql_federation.cpp": [
+        {
+          "file": "src\\importers\\graphql_federation.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\gui_import_wizard.cpp": [
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 54,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 167,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ImportWizard: unknown session_id: \" + session_id);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 184,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ImportWizard: unknown session_id: \" + session_id);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 201,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ImportWizard::connect(const std::string& session_id,",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 380,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\importers\\gui_import_wizard.cpp",
+          "line": 385,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\importers\\mdm_audit_trail.cpp": [
+        {
+          "file": "src\\importers\\mdm_audit_trail.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\mdm_audit_trail.cpp",
+          "line": 104,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",            status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\mdm_metrics.cpp": [
+        {
+          "file": "src\\importers\\mdm_metrics.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\polyglot_mapper.cpp": [
+        {
+          "file": "src\\importers\\polyglot_mapper.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\postgres_cdc.cpp": [
+        {
+          "file": "src\\importers\\postgres_cdc.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\postgres_importer_mdm.cpp": [
+        {
+          "file": "src\\importers\\postgres_importer_mdm.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\schema_validator.cpp": [
+        {
+          "file": "src\\importers\\schema_validator.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\importers\\schema_validator.cpp",
+          "line": 62,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\importers\\semantic_matcher.cpp": [
+        {
+          "file": "src\\importers\\semantic_matcher.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\importers\\temporal_support.cpp": [
+        {
+          "file": "src\\importers\\temporal_support.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

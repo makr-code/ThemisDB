@@ -1,0 +1,285 @@
+{
+  "whisper": {
+    "total": 29,
+    "severity_critical": 6,
+    "severity_high": 17,
+    "severity_medium": 6,
+    "by_category": {
+      "memory": 3,
+      "reliability": 26
+    },
+    "by_file": {
+      "src\\whisper\\audio_chunk_reader.cpp": [
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 141,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 156,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 79,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: cannot open '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 83,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: file too small to be a WAV: '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 87,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "f.read(reinterpret_cast<char*>(data.data()), size);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 101,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: not a valid RIFF/WAV file\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 123,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 163,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 173,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk not found\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 196,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: path contains NUL byte\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 219,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 223,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool ok = (std::fread(buf, 1, 1, probe) == 1);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 226,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 238,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 246,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "const size_t n = std::fread(buf.data(), 1, buf.size(), fp);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 251,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 263,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 292,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\whisper\\whisper_plugin.cpp": [
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 288,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete p;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: p = nullptr;"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 42,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "s_stub_transcriber_factory_fn = std::move(fn);",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 66,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 173,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 205,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\whisper\\whisper_config.cpp": [
+        {
+          "file": "src\\whisper\\whisper_config.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\whisper\\whisper_plugin_registrar.cpp": [
+        {
+          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
+          "line": 38,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\whisper\\whisper_transcriber.cpp": [
+        {
+          "file": "src\\whisper\\whisper_transcriber.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1661 @@
+{
+  "aql": {
+    "total": 178,
+    "severity_critical": 28,
+    "severity_high": 113,
+    "severity_medium": 37,
+    "by_category": {
+      "security": 6,
+      "memory": 12,
+      "reliability": 160
+    },
+    "by_file": {
+      "src\\aql\\aql_agent.cpp": [
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 111,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "raw_response = handler_->executeInfer(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 230,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto extract_field = [&](const std::string& field_prefix) -> std::string {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 302,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "AgentResult ReActAgent::execute(const std::string& task, const json& context) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\aql_agent.cpp",
+          "line": 303,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return impl_->execute(task, context);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\aql\\llm_aql_handler.cpp": [
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 499,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->kv_prefix_transfer_mgr_ = std::move(mgr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 622,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->kv_prefix_transfer_mgr_ &&",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 631,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->kv_prefix_transfer_mgr_->transferIfBeneficial(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1133,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (impl_->sharding_manager_ != nullptr) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 611,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "request.metadata[\"domain_hint\"] = *domain;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 612,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "request.metadata[\"routing_decision\"] = routing_decision;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 163,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 173,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 227,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 623,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.system_prompt && !request.system_prompt->empty())",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 637,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 640,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.temperature = std::stof(options.at(\"temperature\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 643,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.top_p = std::stof(options.at(\"top_p\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 646,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.top_k = std::stoi(options.at(\"top_k\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 649,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.repetition_penalty = std::stof(options.at(\"repetition_penalty\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 735,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_OPTIONS,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 755,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INFERENCE_FAILED,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 793,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 869,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INFERENCE_FAILED,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 927,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 956,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1000,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1003,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.temperature = std::stof(options.at(\"temperature\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1006,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "request.top_p = std::stof(options.at(\"top_p\"));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1093,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_OPTIONS,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1114,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::RAG_FAILED,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1159,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1164,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1282,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1373,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1530,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1562,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1569,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1637,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1664,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1672,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1725,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1789,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1934,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1959,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 1966,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\llm_aql_handler.cpp",
+          "line": 2041,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\aql\\aql_ingestion_bridge.cpp": [
+        {
+          "file": "src\\aql\\aql_ingestion_bridge.cpp",
+          "line": 79,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "payload[\"_entities\"] = std::move(entity_array);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_ingestion_bridge.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_ingestion_bridge.cpp",
+          "line": 36,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\aql\\aql_lora_finetuner.cpp": [
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 103,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "s.metadata[\"category\"] = static_cast<int>(cat);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 520,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "dataset.metadata[\"created_at\"]    = isoTimestamp();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 694,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto dataset = impl_->dataset_builder.build(\"themisdb_aql\");",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 778,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->dataset_builder.addCustomSample(nl_input, aql_output, category);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 783,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "impl_->dataset_builder.loadFromJson(json_path);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 808,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return impl_->dataset_builder.build(\"themisdb_aql\");",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 813,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return impl_->dataset_builder.toJson();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 486,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 487,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"AQLDatasetBuilder: cannot open dataset file: \" + json_path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 570,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 580,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 590,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 600,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 610,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 620,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 630,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 691,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 697,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 782,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 791,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 798,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 807,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 812,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_lora_finetuner.cpp",
+          "line": 823,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\aql\\docs_assistant_functions.cpp": [
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 546,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "metrics[\"base_assistant\"] = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 593,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "g_docs_assistant_functions = new DocsAssistantFunctions();",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 101,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 175,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "answer = lora->query(query, user_id);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 219,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = assistant->query(query);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 233,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 412,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = assistant->query(query);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 452,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\docs_assistant_functions.cpp",
+          "line": 545,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\aql\\aql_autocomplete.cpp": [
+        {
+          "file": "src\\aql\\aql_autocomplete.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_confidence_scorer.cpp": [
+        {
+          "file": "src\\aql\\aql_confidence_scorer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_conversation_context.cpp": [
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 185,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 231,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> call_lock(call_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 277,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 284,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 286,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 298,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 303,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 305,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 328,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 329,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 340,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 345,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_conversation_context.cpp",
+          "line": 350,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\aql\\aql_fewshot_example_library.cpp": [
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 48,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLFewShotExample id must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 357,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"Update the status of order 12345 to shipped\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_fewshot_example_library.cpp",
+          "line": 358,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\"UPDATE \\\"12345\\\" WITH { status: \\\"shipped\\\" } IN orders RETURN NEW\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_migration_assistant.cpp": [
+        {
+          "file": "src\\aql\\aql_migration_assistant.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_model_router.cpp": [
+        {
+          "file": "src\\aql\\aql_model_router.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_optimizer_advisor.cpp": [
+        {
+          "file": "src\\aql\\aql_optimizer_advisor.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_optimizer_advisor.cpp",
+          "line": 51,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\aql\\aql_query_builder.cpp": [
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 130,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(\"AQLQueryBuilder: query requires at least one FOR clause\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 133,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(\"AQLQueryBuilder: query requires a RETURN clause or a DML clause\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 234,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forIn: variable must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 237,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forIn: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 245,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::filter: condition must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 253,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::sort: field must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 261,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::limit: count must be non-negative\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 264,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::limit: offset must be non-negative\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 273,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::ret: expression must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 284,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::let: variable must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 287,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::let: expression must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 298,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::collect: variable must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 301,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::collect: expression must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 327,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: vertex_var must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 330,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: edge_var must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 333,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: path_var must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 336,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: start must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 339,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: graph must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 342,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: min_depth must be non-negative\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 345,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::forTraverse: max_depth must be non-negative\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 348,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 368,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::insertInto: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 371,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::insertInto: doc_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 382,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::updateIn: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 385,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::updateIn: doc_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 396,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::removeIn: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 399,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::removeIn: doc_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 412,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::upsertIn: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 415,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::upsertIn: filter_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 418,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::upsertIn: insert_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 421,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::upsertIn: update_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 432,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::replaceIn: collection must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 435,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::replaceIn: doc_expr must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 450,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::window: window_spec must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 460,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "AQLQueryBuilder& AQLQueryBuilder::subquery(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 465,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::subquery: variable must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_builder.cpp",
+          "line": 469,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryBuilder::subquery: inner builder has no clauses\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\aql\\aql_query_diff_explainer.cpp": [
+        {
+          "file": "src\\aql\\aql_query_diff_explainer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_query_template_library.cpp": [
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 45,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"AQLQueryTemplateLibrary: template id must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 48,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 130,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\aql\\aql_query_template_library.cpp",
+          "line": 145,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\aql\\aql_query_validator.cpp": [
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_query_validator.cpp",
+          "line": 99,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\aql\\aql_rollback_suggester.cpp": [
+        {
+          "file": "src\\aql\\aql_rollback_suggester.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_schema_provider.cpp": [
+        {
+          "file": "src\\aql\\aql_schema_provider.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\aql_syntax_highlighter.cpp": [
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 302,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::string AQLSyntaxHighlighter::highlightBlock(const std::string& aql_code) const {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\aql_syntax_highlighter.cpp",
+          "line": 476,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "result.text += highlightBlock(code_content);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\aql\\classify_bridge.cpp": [
+        {
+          "file": "src\\aql\\classify_bridge.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\aql\\llm_aql_embedding_bridge.cpp": [
+        {
+          "file": "src\\aql\\llm_aql_embedding_bridge.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_aql_embedding_bridge.cpp",
+          "line": 32,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\aql\\llm_metrics_collector.cpp": [
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 32,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 74,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"operation\", \"model\", \"status\"}  // status: success/failure",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 145,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", success ? \"success\" : \"failure\"}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 201,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", success ? \"success\" : \"failure\"}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 241,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", success ? \"success\" : \"failure\"}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 270,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\aql\\llm_metrics_collector.cpp",
+          "line": 302,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "const std::string& status",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

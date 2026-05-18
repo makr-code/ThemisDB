@@ -4,24 +4,28 @@
 
 **ThemisDB Security Team**
 
-[![Security Score](https://img.shields.io/badge/security-A+-green)](https://github.com/makr-code/ThemisDB/security)
+[![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
+[![Known Issues](https://img.shields.io/badge/security_gaps-227_CRITICAL-red)](ai_working/MODULE_MATURITY_MATRIX.md)
 [![Gitleaks](https://img.shields.io/badge/Gitleaks-enabled-blue)](https://github.com/gitleaks/gitleaks)
 [![Responsible Disclosure](https://img.shields.io/badge/disclosure-responsible-orange)](https://github.com/makr-code/ThemisDB/security/policy)
+
+⚠️ **IMPORTANT:** ThemisDB is in active development. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for module-level security status.
 
 </div>
 
 ---
 
-## 📋 Supported Versions
+## 📋 Supported Versions & Security Status
 
-> [!IMPORTANT]
-> ThemisDB is actively maintained. Security updates are provided for supported versions only.
+> [!CAUTION]
+> ThemisDB **security module is not production-ready**. We have identified 669 security gaps (227 CRITICAL severity) including hardcoded secrets and missing input validation. **Do not use in production until security audit is complete.**
 
-| Version | Status | Security Updates | End of Life |
-|---------|:------:|:----------------:|:-----------:|
-| **1.x** | ✅ Active | ✅ Yes | TBD |
-| **0.9.x** | ✅ Maintenance | ✅ Yes | 2026-12-31 |
-| **< 0.9** | ❌ Unsupported | ❌ No | 2024-01-01 |
+| Version | Status | Security Module | Notes |
+|---------|:------:|:---------------:|-------|
+| **1.8.x** | 🟡 Beta | 🚨 NOT READY | Active hardening phase; security audit in progress |
+| **1.x** | 🔴 Alpha | 🚨 NOT READY | Security gaps identified, fixes underway |
+| **0.9.x** | ❌ Unsupported | ❌ Unsupported | Use only for testing/non-production |
+| **< 0.9** | ❌ Unsupported | ❌ Unsupported | End of life |
 
 ---
 

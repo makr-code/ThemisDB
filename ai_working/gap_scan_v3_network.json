@@ -1,0 +1,3933 @@
+{
+  "network": {
+    "total": 430,
+    "severity_critical": 161,
+    "severity_high": 192,
+    "severity_medium": 77,
+    "by_category": {
+      "security": 9,
+      "memory": 77,
+      "reliability": 344
+    },
+    "by_file": {
+      "src\\network\\qos_manager.cpp": [
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 925,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cs.has_token_bucket = (state->token_bucket != nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 925,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cs.has_token_bucket = (state->token_bucket != nullptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 103,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 119,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 142,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 177,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 210,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 219,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 224,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 229,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 246,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 292,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 330,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 355,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 363,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 377,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 406,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->token_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 419,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->token_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 464,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->leaky_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 477,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->leaky_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 499,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pq_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 510,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pq_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 566,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pq_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 589,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->congestion_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 605,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->congestion_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 619,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(state->congestion_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 730,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> cb_lock(callback_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 744,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 795,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lb_lock(state->leaky_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 814,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 850,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(priority_stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 857,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 893,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 898,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(priority_stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 924,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 932,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 947,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 968,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(callback_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 978,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenants_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 992,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenants_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 997,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tb_lock(ts->token_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1014,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenants_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1028,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1067,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tb_lock(ts->token_bucket_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1080,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenants_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\quic_server.cpp": [
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 367,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* tls = ngtcp2_conn_get_tls_native_handle(it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 85,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cid->datalen = NGTCP2_MIN_CIDLEN;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 432,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 437,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "callbacks.recv_crypto_data = [](ngtcp2_conn*            conn,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 442,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*                   /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 447,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*         user_data) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 463,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*          user_data) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 479,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*        user_data) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 706,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 707,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cid->datalen = NGTCP2_MIN_CIDLEN;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 708,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "RAND_bytes(cid->data, static_cast<int>(cid->datalen));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 712,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "callbacks.recv_crypto_data = [](ngtcp2_conn*            conn,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 717,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*                   /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 619,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "disconnect();",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 658,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 664,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void QUICClient::connect() {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 676,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[QUICClient] SSL_CTX_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 725,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[QUICClient] SSL_new failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 749,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 797,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"[QUICClient] openStream called when not connected\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\network\\quic_transport.cpp": [
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 298,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "void* tls = ngtcp2_conn_get_tls_native_handle(it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 56,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cid->datalen = NGTCP2_MIN_CIDLEN;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 360,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 365,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "callbacks.recv_crypto_data = [](ngtcp2_conn*            conn,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 370,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*                   /*user_data*/) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 375,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void*         user_data) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 383,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "callbacks.recv_datagram = [](ngtcp2_conn* /*conn*/, uint32_t /*flags*/,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 385,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "void* user_data) -> int {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 388,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "++transport->stats_.datagrams_received;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\wire_protocol_connection_pool.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 308,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!SSL_set_tlsext_host_name(ssl_stream->native_handle(), host.c_str())) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 664,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (auto& [socket_ptr, conn] : pool->all_connections) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 664,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (auto& [socket_ptr, conn] : pool->all_connections) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 733,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "socket.plain_socket()->receive(net::buffer(&dummy, 1), tcp::socket::message_peek, ec);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 105,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool SocketWrapper::is_open() const {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return plain_socket_->is_open();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 109,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return ssl_socket_->lowest_layer().is_open();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 183,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid target format. Expected 'host:port'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 227,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"mTLS requires CA certificate path (ssl_ca_cert_path)\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 233,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "timer.async_wait([&](const boost::system::error_code& error) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 273,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "net::async_connect(*plain_socket, endpoints,",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 285,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Connection timed out after \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 288,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Connection failed: \" + ec.message());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 300,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"SSL context not initialized\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 309,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to set SNI hostname\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 320,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "timer.async_wait([&](const boost::system::error_code& error) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 340,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"SSL handshake timed out after \" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 343,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"SSL handshake failed: \" + ec.message());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 364,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (conn->socket && conn->socket->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 413,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 423,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 457,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 472,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (conn->socket && conn->socket->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 509,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 524,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pools_lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 527,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 540,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (conn->socket && conn->socket->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 562,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 578,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 619,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 641,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 645,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (conn->socket && conn->socket->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 658,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 661,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 665,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (conn->socket && conn->socket->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 693,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pools_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 699,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> pool_lock(pool->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 717,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!socket.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 733,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "socket.plain_socket()->receive(net::buffer(&dummy, 1), tcp::socket::message_peek, ec);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 742,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return !ec && socket.is_open();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\wire_protocol_v2.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 736,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "session->set_disconnect_handler(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 786,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "{ impl_->set_data_handler(std::move(h)); }",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 788,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "{ impl_->set_headers_handler(std::move(h)); }",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 790,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "{ impl_->set_rst_stream_handler(std::move(h)); }",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 786,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "{ impl_->set_data_handler(std::move(h)); }",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 796,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return impl_->push_to_client(conn_id, associated_sid, headers, data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 191,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(socket_,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 273,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 274,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(socket_, net::buffer(*frame),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 360,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(socket_,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 384,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(socket_,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 463,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 464,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(socket_, net::buffer(*ack_bytes),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 613,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 614,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(socket_, net::buffer(*buf),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 659,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "acceptor_.open(ep.protocol());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 695,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 712,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 720,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 729,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "acceptor_.async_accept(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 738,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(sessions_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\io_uring_batcher.cpp": [
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 223,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] size_t iov_cnt, [[maybe_unused]] uint64_t user_data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 259,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "sq_.array[tail & *sq_.ring_mask] = tail & *sq_.ring_mask;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\network_audit_log.cpp": [
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 99,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t a=h[0], b=h[1], c=h[2], d=h[3],",
+          "description": "Array bounds violation: loop 64 > array 0",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 100,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "e=h[4], f=h[5], g=h[6], hh=h[7];",
+          "description": "Array bounds violation: loop 64 > array 4",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 113,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "h[0]+=a; h[1]+=b; h[2]+=c; h[3]+=d;",
+          "description": "Array bounds violation: loop 8 > array 0",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 114,
+          "type": "array_bounds",
+          "severity": "CRITICAL",
+          "snippet": "h[4]+=e; h[5]+=f; h[6]+=g; h[7]+=hh;",
+          "description": "Array bounds violation: loop 8 > array 4",
+          "remediation": "Fix loop condition or increase array size"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 140,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\network\\raft_load_balancer.cpp": [
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 145,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "backend->datacenter   = datacenter;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 49,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": ", healthy(o.healthy)",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "health_check_thread_ = std::thread([this]() { healthCheckLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "raft_thread_         = std::thread([this]() { raftLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 271,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!b->healthy) ++s.failed_backends;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 298,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::vector<RaftLoadBalancer::Backend*> RaftLoadBalancer::healthyBackends() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 311,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (b->healthy) result.push_back(b.get());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 331,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (auto* b : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 356,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (auto* b : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 435,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!b->healthy &&",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 445,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (b->healthy &&",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 464,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lk.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 482,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (auto* b : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 492,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (auto* b : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 506,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (auto* b : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\udp_fast_path.cpp": [
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 168,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "socket_->send_to(net::buffer(resp), sender, 0, send_ec);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 183,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t opcode = data[3];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 211,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "socket_->send_to(net::buffer(resp), sender, 0, send_ec);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 238,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const std::size_t sent = socket_->send_to(net::buffer(response), sender,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 392,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "UdpStatus          status,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 406,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(static_cast<uint8_t>(status));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\udp_server.cpp": [
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 194,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t opcode = data[3];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 200,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t flags = data[8];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 316,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "socket_->send_to(net::buffer(ack), dest, 0, ec);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 76,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "batch_thread_ = std::thread([this] { batchFlushLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 177,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "sendAck(sender, ntohl(seq_be), UdpServerStatus::RATE_LIMITED);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 217,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "sendAck(sender, seq_num, UdpServerStatus::DUPLICATE);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 236,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "sendAck(sender, seq_num, UdpServerStatus::OK);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 313,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "UdpServerStatus      status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 474,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "UdpServerStatus status) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 481,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ack.push_back(static_cast<uint8_t>(status));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\wire_protocol_helpers.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 60,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "value |= static_cast<uint64_t>(data_[pos_ + i]) << (i * 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 74,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "value |= static_cast<uint32_t>(data_[pos_ + i]) << (i * 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u26a0\ufe0f  Needs Work                                              \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 244,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (request.collection.empty()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\network\\wire_protocol_server.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 118,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "crc = kCrc32Table[(crc ^ data[i]) & 0xFF] ^ (crc >> 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 555,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 566,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 573,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 617,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_buffer_[0] == 'G' &&",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 618,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_buffer_[1] == 'E' &&",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 619,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_buffer_[2] == 'T' &&",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 620,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_buffer_[3] == ' ';",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 649,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 660,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 665,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 878,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uint8_t opcode = header_buffer_[5];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1019,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "net::dispatch(socket_.get_executor(), [this, self, data_copy = std::move(data_copy)]() {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1719,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "v[\"data\"]      = tr.vertex_data;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2138,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "bucket_data[bucket_start_ms].push_back(point.value);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2142,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (const auto& [bucket_start_ms, values] : bucket_data) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2402,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "response[\"active_task_ids\"] = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2610,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "event[\"data\"] = json::object();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2611,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "event[\"data\"][\"node_id\"] = node;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2617,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "response[\"history\"] = json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "acceptor_->open(endpoint.protocol());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 238,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (acceptor_ && acceptor_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "worker_pool_->wait();",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void WireProtocolServer::wait() {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 311,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 361,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 369,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 399,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "tcp::socket(*io_context_),",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 402,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "acceptor_->async_accept(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 415,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 436,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 451,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 461,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 512,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (socket_.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 515,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 524,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 532,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 544,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 606,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 640,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 698,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto mutable_buf = buf->prepare(4);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 704,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http_ws::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 745,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 775,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 798,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1001,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "timeout_timer_->async_wait([this, self](const boost::system::error_code& ec) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1020,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1039,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "net::async_write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1047,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1056,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1149,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->stats_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1175,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1176,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string key = request.value(\"key\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1194,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1230,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1231,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string key = request.value(\"key\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1282,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1283,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string key = request.value(\"key\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1322,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1328,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (!request.contains(\"keys\") || !request[\"keys\"].is_array()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1368,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1410,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1416,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (!request.contains(\"items\") || !request[\"items\"].is_array()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1525,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string isolation_str = request.value(\"isolation_level\", \"read_committed\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1565,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1577,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1609,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1668,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1669,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string start_vertex = request.value(\"start_vertex\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1695,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string direction_str = request.value(\"direction\", \"outbound\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1696,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int depth_min = request.value(\"depth_min\", 1);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1697,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int depth_max = request.value(\"depth_max\", 3);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1698,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int limit     = request.value(\"limit\", 100);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1699,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string edge_type = request.value(\"edge_type\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1752,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string query_str = request.value(\"query\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1806,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->cursors_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1846,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1853,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "const size_t batch_size = static_cast<size_t>(request.value(\"batch_size\", 100));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1855,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->cursors_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1913,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1920,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->cursors_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1970,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "size_t k = request.value(\"k\", static_cast<size_t>(10));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1982,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2022,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string collection = request.value(\"collection\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2066,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (request.collection.empty()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2102,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = server_->ts_store_->query(query_opts);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2108,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2199,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2243,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = server_->ts_store_->query(query_opts);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2249,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2338,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string process_key = request.value(\"process_definition_key\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2339,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "json variables = request.value(\"variables\", json::object());",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2340,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string business_key = request.value(\"business_key\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2350,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2351,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "sendError(500, \"Failed to start process: \" + status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2365,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (get_status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2476,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2484,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (get_status.ok && !instance.tokens.empty()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2529,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string instance_id = request.value(\"process_instance_id\", \"\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2530,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "bool include_variables = request.value(\"include_variables\", true);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2531,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "bool include_history = request.value(\"include_history\", false);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2541,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2542,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "sendError(404, \"Process instance not found: \" + status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\wire_protocol_server_ws.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 105,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "crc = kWsCrc32Table[(crc ^ data[i]) & 0xFF] ^ (crc >> 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 615,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t opcode = data[5];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 616,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uint16_t flags = (static_cast<uint16_t>(data[6]) << 8) | data[7];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 617,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uint32_t payload_size = (static_cast<uint32_t>(data[8])  << 24)",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 618,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "| (static_cast<uint32_t>(data[9])  << 16)",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 619,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "| (static_cast<uint32_t>(data[10]) <<  8)",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 620,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "|  static_cast<uint32_t>(data[11]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 675,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint8_t  opcode       = data[5];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 676,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "const uint16_t flags        = (static_cast<uint16_t>(data[6]) << 8) | data[7];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 678,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "(static_cast<uint32_t>(data[8])  << 24) |",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 679,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "(static_cast<uint32_t>(data[9])  << 16) |",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 680,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "(static_cast<uint32_t>(data[10]) << 8)  |",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 681,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static_cast<uint32_t>(data[11]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 716,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "(static_cast<uint32_t>(data[crc_offset + 2]) << 8)  |",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 717,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "static_cast<uint32_t>(data[crc_offset + 3]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 132,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 159,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ws_.async_accept(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ws_.async_read(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 218,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 232,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 274,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(resp.dump());",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 280,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"get_response\", \"Missing 'key' in payload\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 284,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"get_response\", \"Storage not available\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 300,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(resp.dump());",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 307,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"put_response\", \"Missing 'key' in payload\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 311,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"put_response\", \"Storage not available\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 320,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(resp.dump());",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 326,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"delete_response\", \"Missing 'key' in payload\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 330,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"delete_response\", \"Storage not available\"));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 339,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(resp.dump());",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 346,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"query_response\",",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 352,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"error\", \"Unknown message type: \" + type));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 357,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "send(makeError(req_id, \"error\", std::string(\"Invalid JSON: \") + e.what()));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 895,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WireProtocolWebSocketSession::send(const std::string& message) {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 896,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 906,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 924,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ws_.async_write(",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 934,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(write_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 972,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(server_->connections_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\wire_protocol_zero_copy.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 120,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "iov[0].iov_base = const_cast<uint8_t*>(header_.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return ::write(fd, header_.data(), HEADER_SIZE);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 137,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: open failed: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: file is empty: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 146,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: file too large (> 256 MiB): \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 151,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: allocation failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 156,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!in.read(static_cast<char*>(addr_), static_cast<std::streamsize>(size_))) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 160,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: read failed: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "fd_ = ::open(path.c_str(), O_RDONLY | O_CLOEXEC);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 165,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::system_error(errno, std::system_category(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 173,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 181,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 190,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::system_error(err, std::system_category(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 201,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 208,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"MemoryMappedPayload: allocation failed\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 216,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::system_error(errno, std::system_category(),",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\network\\adaptive_circuit_breaker.cpp": [
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 45,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 49,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 72,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 108,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 181,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 196,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 210,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\connection_compression.cpp": [
+        {
+          "file": "src\\network\\connection_compression.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\envoy_xds.cpp": [
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 193,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 203,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 232,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "poll_thread_ = std::thread([this] { pollLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 598,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 622,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "int*               out_status_code) const",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 634,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "stream.connect(results);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 648,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "http::read(stream, buf, res);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 650,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (out_status_code) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\geo_topology_router.cpp": [
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 81,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "const std::vector<sharding::ShardInfo>& healthy) const",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 88,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& shard : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 99,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "const std::vector<sharding::ShardInfo>& healthy) const",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 111,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "for (const auto& shard : healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 125,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "const std::vector<sharding::ShardInfo>& healthy) const",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 146,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (healthy.empty()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 149,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"[GeoTopologyRouter] no healthy shards available\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 221,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"[GeoTopologyRouter] no healthy shards in region '{}'\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 265,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "healthy.begin(), healthy.end(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 282,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "healthy.begin(), healthy.end(),",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\grpc_transport.cpp": [
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 89,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GrpcTransport: cannot open file: \" + path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 132,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\network\\kernel_bypass.cpp": [
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 201,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (size == 0) throw std::bad_alloc{};",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 210,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!p) throw std::bad_alloc{};",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 222,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!p) throw std::bad_alloc{};",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 319,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nonLinuxAllocFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 339,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(nonLinuxFreeFnMutex());",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 739,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int fd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 741,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "last_error_ = \"socket() failed: \" + std::string(std::strerror(errno));",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\network\\service_mesh.cpp": [
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 146,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "boost::asio::write(socket, net::buffer(resp), ec);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 157,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "boost::asio::write(socket, net::buffer(resp), ec);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 171,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "tcp::socket socket(*io_ctx_);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 172,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "acceptor_->accept(socket, ec);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 201,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "acceptor_->open(ep.protocol());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 245,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (acceptor_ && acceptor_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\network\\socket_timeout_manager.cpp": [
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 119,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (ioctlsocket(socket, FIONBIO, &mode) != 0) {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 256,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "socket_t client_socket = accept(server_socket, nullptr, nullptr);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 258,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"accept() failed: {} ({})\", strerror(errno), errno);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 283,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int bytes = recv(socket, static_cast<char*>(buffer), static_cast<int>(size), 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 291,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"recv() failed: {}\", error);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 297,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t bytes = recv(socket, buffer, size, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 304,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"recv() failed: {} ({})\", strerror(errno), errno);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 328,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "int bytes = send(socket, static_cast<const char*>(buffer), static_cast<int>(size), 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 336,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"send() failed: {}\", error);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 342,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t bytes = send(socket, buffer, size, MSG_NOSIGNAL);  // MSG_NOSIGNAL prevents SIGPIPE",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 349,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::error(\"send() failed: {} ({})\", strerror(errno), errno);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 371,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "closesocket(socket);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\network\\wire_protocol_batch.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\network\\wire_protocol_performance.cpp": [
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(latency_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(latency_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 232,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "PayloadBufferPool::Handle PayloadBufferPool::acquire() {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 236,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 267,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(pool_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

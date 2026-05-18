@@ -1,0 +1,232 @@
+{
+  "toolbox": {
+    "total": 23,
+    "severity_critical": 0,
+    "severity_high": 19,
+    "severity_medium": 4,
+    "by_category": {
+      "security": 4,
+      "memory": 5,
+      "reliability": 14
+    },
+    "by_file": {
+      "src\\toolbox\\content_toolbox_bridge.cpp": [
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 131,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr = impl_->toolbox_;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 134,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 209,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr2 = impl_->toolbox_;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 212,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 131,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr = impl_->toolbox_;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 134,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 209,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr2 = impl_->toolbox_;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 212,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 58,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: toolbox must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line": 61,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: content_manager must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\toolbox\\toolbox_builder.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 158,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 55,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowProfile: path must not be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 100,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowEngine: engine must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 110,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractor: extractor must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 120,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractorFactory: factory must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(\"ToolboxBuilder::build() called more than once\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 261,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\toolbox\\ingestion_toolbox.cpp": [
+        {
+          "file": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line": 11,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\toolbox\\toolbox_composite.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 65,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 81,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\toolbox\\toolbox_registry.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 10,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,2442 @@
+{
+  "cache": {
+    "total": 267,
+    "severity_critical": 122,
+    "severity_high": 89,
+    "severity_medium": 56,
+    "by_category": {
+      "security": 62,
+      "memory": 16,
+      "reliability": 189
+    },
+    "by_file": {
+      "src\\cache\\adaptive_query_cache.cpp": [
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 226,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "L1Entry* ptr = it->second.get();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 229,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ptr->expired_flag.load(std::memory_order_relaxed)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 231,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "} else if (isExpired(ptr->created_at_ms.load(std::memory_order_relaxed),",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 232,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr->ttl_seconds.load(std::memory_order_relaxed))) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 235,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ptr->expired_flag.compare_exchange_strong(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 243,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 244,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 248,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "int64_t ws = ptr->window_start_ms.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 251,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ptr->window_start_ms.compare_exchange_strong(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 253,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uint32_t wc = ptr->window_count.exchange(1, std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 255,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 258,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ptr->ttl_seconds.compare_exchange_strong(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 263,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 266,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 268,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 271,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ptr->ttl_seconds.compare_exchange_strong(",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 277,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 279,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 294,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 300,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cache_result.result            = ptr->result;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 302,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 303,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 304,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 305,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 382,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 545,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 578,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 890,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->put(\"pii_ref:\" + pii_uuid + \":\" + fingerprint, \"\");",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 978,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1084,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1089,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->scanPrefix(\"pii_ref:\", [&pii_ref_keys](std::string_view key, std::string_view) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1865,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->first.find(tenant_prefix) == 0) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1882,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (it->first.find(tenant_prefix) == 0) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1904,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2055,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2181,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2190,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto candidates = prefetcher_->getPrefetchCandidates(fingerprint, tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2196,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordCandidatesGenerated(candidates.size(), tenant_id);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2205,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "nlohmann::json j = prefetcher_->getStats();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2214,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->recordOverheadBytes(bytes);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2220,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->saveModel(l3_db_.get());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2226,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "prefetcher_->loadModel(l3_db_.get());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 243,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 244,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 263,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 266,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 277,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 279,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 300,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cache_result.result            = ptr->result;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 302,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 303,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 304,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 305,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1627,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "stats[\"l3\"][\"enabled\"] = (l3_db_ != nullptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1648,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "health[\"warnings\"] = nlohmann::json::array();",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 57,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid cache configuration: \" + validation_error);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 162,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> alive_lock(alive_guard_->mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 223,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 288,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 315,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 376,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 396,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 445,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 533,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 573,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 657,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 680,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> l2_lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 714,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> l3_lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 744,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> plock(pii_index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 751,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tlock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 771,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 791,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> tenant_lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 795,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> plock(pii_index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 822,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 841,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> plock(pii_index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 880,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 940,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 954,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 968,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 994,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1001,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1009,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!lock.owns_lock()) lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1041,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> rep_lock(replication_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1057,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1060,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1066,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1073,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> plock(pii_index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1083,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1169,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1274,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1289,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1294,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1314,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1517,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1570,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1605,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1618,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1645,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "nlohmann::json AdaptiveQueryCache::getHealthStatus() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1655,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1660,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",      tier_status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1673,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1678,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",      tier_status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1695,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\",      tier_status},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1757,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1766,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1787,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1813,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1863,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1867,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1880,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1897,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1924,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1928,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1936,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1965,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> rep_lock(replication_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1990,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> plock(pii_index_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2002,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2007,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2016,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2046,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2089,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2096,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2117,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(tenant_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2138,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2139,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "nlohmann::json status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2302,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2326,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2356,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2360,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2371,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2393,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replication_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2430,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2434,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2444,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2459,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2477,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2488,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2497,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2508,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2512,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\cache\\bounded_lru_cache.cpp": [
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 197,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "node->prev = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 224,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "node->prev = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 247,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "tail_->next = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 197,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "node->prev = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 224,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "node->prev = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 44,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> rlock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 56,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 98,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 148,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 266,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\cache\\distributed_cache_coordinator.cpp": [
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 436,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "for (struct addrinfo* p = res; p != nullptr; p = p->ai_next) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 436,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "for (struct addrinfo* p = res; p != nullptr; p = p->ai_next) {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 157,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 278,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "sub_thread_ = std::thread(&RedisCacheCoordinator::subscriberLoop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 437,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 447,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (::connect(fd, p->ai_addr, p->ai_addrlen) == 0) {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 469,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 481,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t n = ::recv(fd, &ch, 1, 0);",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 607,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 741,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (::recv(fd, crlf, 2, MSG_WAITALL) != 2) return false;",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\cache\\predictive_prefetcher.cpp": [
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 330,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db->scanPrefix(PREFETCH_MODEL_PREFIX,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 372,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "db->scanPrefix(PREFETCH_MODEL_PREFIX,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 117,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 241,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 258,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 265,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 287,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 325,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 370,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 391,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\cache\\redis_cache_coordinator.cpp": [
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 157,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (reply == nullptr || pub_ctx_->err) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 220,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (reply == nullptr || pub_ctx_->err) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 314,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (pub_ctx_ != nullptr && !pub_ctx_->err) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 349,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (r == nullptr || pub_ctx_->err ||",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 378,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (sub_ctx_ == nullptr || sub_ctx_->err) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 392,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (r == nullptr || sub_ctx_->err ||",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 406,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (r == nullptr || sub_ctx_->err) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 90,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "sub_thread_ = std::thread([this] { subscribeLoop(); });",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 187,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 247,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 448,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 529,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\cache\\semantic_cache.cpp": [
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 149,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "s = db_->Put(write_opts, cf_handle_, key, value);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 175,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "s = db_->Get(read_opts, cf_handle_, key, &value);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 233,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 253,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (cf_handle_) batch.Delete(cf_handle_, it->key());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 259,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (cf_handle_) batch.Delete(cf_handle_, it->key());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 287,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 299,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (cf_handle_) batch.Delete(cf_handle_, it->key());",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 147,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 163,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::optional<SemanticCache::CacheEntry> SemanticCache::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 173,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rocksdb::Status s;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\cache\\cache_hit_rate_slo_monitor.cpp": [
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 62,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 176,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 182,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 187,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 191,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "nlohmann::json CacheHitRateSloMonitor::getStatus() const {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 204,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "alerts.push_back({{\"id\", active_warning_alert_id_}, {\"status\", \"FIRING\"}});",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 207,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "alerts.push_back({{\"id\", active_critical_alert_id_}, {\"status\", \"FIRING\"}});",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 210,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "alerts.push_back({{\"id\", active_latency_warning_alert_id_}, {\"status\", \"FIRING\"}});",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 213,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "alerts.push_back({{\"id\", active_latency_critical_alert_id_}, {\"status\", \"FIRING\"}});",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 243,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 252,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\cache\\cache_replication.cpp": [
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 79,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 110,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 121,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 129,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "void CacheReplicationManager::probeUnhealthyReplicas() {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 130,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 149,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++unhealthy_count;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 152,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++unhealthy_count;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 156,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "stats_.replicas_unhealthy.store(unhealthy_count);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 220,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 239,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(replicas_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 246,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++unhealthy_count;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 247,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "continue;  // Skip until probed healthy again",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 257,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 282,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "++unhealthy_count;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 290,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "stats_.replicas_unhealthy.store(unhealthy_count);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\cache\\cache_replication_coordinator.cpp": [
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 176,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "fanout_thread_ = std::thread(&CacheReplicationCoordinator::fanoutWorker, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 316,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "queue_cv_.wait(lk, [this] {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 355,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\cache\\embedding_cache.cpp": [
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 112,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 125,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::shared_lock<std::shared_mutex> lock(impl_->entry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 131,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok && !results.empty()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 158,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> wlock(impl_->entry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 262,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 332,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 333,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Failed to add entry to vector index: {}\", status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 373,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 389,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_WARN(\"Failed to reinitialize vector index after clear: {}\", status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\cache\\grpc_remote_cache_peer.cpp": [
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 126,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "grpc::Status          status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 128,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto rpc = stub_->PrepareUnaryCall(&ctx, kInvalidateMethod, request_buf, &cq);",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 130,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "rpc->Finish(&response_buf, &status, reinterpret_cast<void*>(1));",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 137,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "healthy_.store(false, std::memory_order_relaxed);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 144,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(msg);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 147,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (status.ok()) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 148,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "healthy_.store(true, std::memory_order_relaxed);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 151,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "healthy_.store(false, std::memory_order_relaxed);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 154,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "\" failed: \" + status.error_message() +",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 157,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(msg);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\cache\\warmup.cpp": [
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 486,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ]
+    }
+  }
+}

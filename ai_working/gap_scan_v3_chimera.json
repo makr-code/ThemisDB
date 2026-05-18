@@ -1,0 +1,560 @@
+{
+  "chimera": {
+    "total": 60,
+    "severity_critical": 24,
+    "severity_high": 24,
+    "severity_medium": 12,
+    "by_category": {
+      "security": 1,
+      "reliability": 59
+    },
+    "by_file": {
+      "src\\chimera\\themisdb_adapter.cpp": [
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1718,
+          "type": "hardcoded_secret",
+          "severity": "CRITICAL",
+          "snippet": "const std::string token = \"@\" + kv.first;",
+          "description": "hardcoded_secret: Hardcoded secret \u2014 use environment variable",
+          "remediation": "Hardcoded secret \u2014 use environment variable"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 102,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> ThemisDBAdapter::connect(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 126,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> ThemisDBAdapter::disconnect() {",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 137,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<RelationalTable> ThemisDBAdapter::execute_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 213,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 242,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 260,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 291,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 309,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 337,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 340,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "status.message",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 372,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 434,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 453,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 471,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 498,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "GraphIndexManager::Status status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 509,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 511,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 545,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 666,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 668,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 675,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!status.ok) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 677,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 704,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 747,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<std::vector<GraphPath>> ThemisDBAdapter::execute_graph_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 778,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 796,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 821,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 859,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(store_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 894,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 923,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 949,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 978,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1017,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1062,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1101,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1143,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(txn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1370,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute_query(query, params);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1496,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto table_result = execute_query(query, params);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1523,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1542,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1631,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string ThemisDBPreparedStatement::get_query() const { return query_; }",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1662,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<RelationalTable> ThemisDBPreparedStatement::execute() {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1671,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto result = adapter_->execute_query(effective_query, pos_params);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1685,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute();",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "include\\chimera\\database_adapter.hpp": [
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 23,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 111,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "virtual std::string get_query() const = 0;",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 146,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "virtual Result<std::unique_ptr<IPreparedStatement>> prepare(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\database_adapter.hpp",
+          "line": 151,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "virtual Result<bool> unprepare(const std::string& statement_id) = 0;",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "include\\chimera\\themisdb_adapter.hpp": [
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 135,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "std::string get_query() const override;",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 143,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<RelationalTable> execute() override;",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 218,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> connect(",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 223,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> disconnect() override;",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 227,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<RelationalTable> execute_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 284,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<std::vector<GraphPath>> execute_graph_query(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 377,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<std::unique_ptr<IPreparedStatement>> prepare(",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 381,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "Result<bool> unprepare(const std::string& statement_id) override;",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 395,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "* Thread safety: call before the first `connect()` invocation.",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "stable_diffusion": {
+    "total": 15,
+    "severity_critical": 4,
+    "severity_high": 6,
+    "severity_medium": 5,
+    "by_category": {
+      "memory": 5,
+      "reliability": 10
+    },
+    "by_file": {
+      "src\\stable_diffusion\\sd_plugin.cpp": [
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 107,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto crc32_of = [&](const uint8_t* data, size_t len) -> uint32_t {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 110,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 115,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 118,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "s1 = (s1 + data[i]) % 65521u;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 401,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete p;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: p = nullptr;"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 62,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 291,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 300,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 313,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\stable_diffusion\\sd_config.cpp": [
+        {
+          "file": "src\\stable_diffusion\\sd_config.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\stable_diffusion\\sd_plugin_registrar.cpp": [
+        {
+          "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
+          "line": 37,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\stable_diffusion\\sd_prompt_sanitizer.cpp": [
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 52,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"SDPromptSanitizer: cannot open '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ]
+    }
+  }
+}

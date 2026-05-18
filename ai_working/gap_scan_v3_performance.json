@@ -1,0 +1,2408 @@
+{
+  "performance": {
+    "total": 259,
+    "severity_critical": 146,
+    "severity_high": 67,
+    "severity_medium": 46,
+    "by_category": {
+      "security": 18,
+      "memory": 30,
+      "reliability": 211
+    },
+    "by_file": {
+      "src\\performance\\adaptive_query_compiler.cpp": [
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 513,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "it->second.compiled->execute != nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 513,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "it->second.compiled->execute != nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 375,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "QueryResult execute(const ParsedQuery& query,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 378,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 386,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 388,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 411,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 413,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 430,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 450,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 453,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 465,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 482,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 493,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 503,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 509,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 519,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 531,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 838,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1057,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1126,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "QueryResult AdaptiveQueryCompiler::execute(const ParsedQuery& query,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1129,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return impl_->execute(query, schema, params);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1132,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "QueryResult AdaptiveQueryCompiler::execute(const CompiledQuery& compiled,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\adaptive_query_compiler.cpp",
+          "line": 1140,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return compiled.execute(params);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\performance\\intelligent_prefetcher.cpp": [
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 413,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "impl_->prefetch_predicted(addresses);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 421,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return impl_->adaptive_prefetch_distance();",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\intelligent_prefetcher.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\phase3\\bwtree.cpp": [
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 234,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (mapping_table_->compare_and_swap(pid, page, consolidated_ptr)) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 61,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "auto root = new LeafPage();",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 66,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete root;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: root = nullptr;"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 104,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "auto delta = new DeltaInsert(key, value);",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 113,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete delta;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: delta = nullptr;"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 135,
+          "type": "new_without_delete",
+          "severity": "CRITICAL",
+          "snippet": "auto delta = new DeltaDelete(key);",
+          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
+          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 145,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete delta;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: delta = nullptr;"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 387,
+          "type": "delete_no_nullptr",
+          "severity": "HIGH",
+          "snippet": "delete current;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: current = nullptr;"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\bwtree.cpp",
+          "line": 67,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to install root page\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\performance\\phase4\\io_uring_zero_copy.cpp": [
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 236,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr       = sq_ptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 258,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 261,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr      = sqe_ptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 263,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 277,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 278,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 281,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->cq_ptr       = cq_ptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 305,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ring_->cq_ptr)  ::munmap(ring_->cq_ptr,  ring_->cq_mmap_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 306,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ring_->sqe_ptr) ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 307,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ring_->sq_ptr)  ::munmap(ring_->sq_ptr,  ring_->sq_mmap_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 310,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 311,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 312,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->cq_ptr   = nullptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 504,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "return io_uring_enter(ring_->ring_fd, 1, 0, 0, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 236,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr       = sq_ptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 246,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_array        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.array);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 261,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr      = sqe_ptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 263,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 277,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 278,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 281,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "ring_->cq_ptr       = cq_ptr;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 378,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "sqe->addr        = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 430,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "sqe->addr      = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 504,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "return io_uring_enter(ring_->ring_fd, 1, 0, 0, nullptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 403,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,",
+          "description": "socket_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\performance\\advanced_cache_manager.cpp": [
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 158,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "[[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 229,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\advanced_cache_manager.cpp",
+          "line": 310,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\performance\\cicada.cpp": [
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 68,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "entry.record->set_data(entry.data);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 19,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 29,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void CicadaTransaction::record_read(CicadaRecord* record, uint64_t version_read) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 33,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void CicadaTransaction::record_write(CicadaRecord* record, std::string data) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cicada.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!entry.record->try_lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\ligra.cpp": [
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 153,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 74,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 97,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 245,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\ligra.cpp",
+          "line": 264,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\numa_memory_manager.cpp": [
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 125,
+          "type": "unchecked_malloc",
+          "severity": "HIGH",
+          "snippet": "ptr = std::malloc(size);",
+          "description": "Unchecked malloc \u2014 no null check before use",
+          "remediation": "Check: if (ptr != nullptr) before dereferencing"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 147,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buckets_[idx].entries[ptr] = {node, size};",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 22,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 71,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "FILE* f = fopen(path, \"r\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 121,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (posix_memalign(&ptr, 64, size) != 0) throw std::bad_alloc{};",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\numa_memory_manager.cpp",
+          "line": 126,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!ptr) throw std::bad_alloc{};",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\performance\\rabitq.cpp": [
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 286,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "centroids.push_back(subvec_data[weighted(rng)]);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 321,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "new_centroids[cluster][dim] += subvec_data[i][dim];",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 20,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\rabitq.cpp",
+          "line": 222,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\performance\\phase3\\diskann.cpp": [
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 322,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graph_file_->read(reinterpret_cast<char*>(node.vector.data()),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 331,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graph_file_->read(reinterpret_cast<char*>(node.neighbors.data()),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 347,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.vector.data()),",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!graph_file_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 63,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (graph_file_ && graph_file_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 125,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 175,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 247,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(reinterpret_cast<const char*>(&dimension_), sizeof(dimension_));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 251,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(reinterpret_cast<const char*>(&edges), sizeof(edges));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 255,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(reinterpret_cast<const char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 259,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(reinterpret_cast<const char*>(&vid), sizeof(vid));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 260,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ofs.write(reinterpret_cast<const char*>(&off), sizeof(off));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 271,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ifs.read(reinterpret_cast<char*>(&dim), sizeof(dim));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 278,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ifs.read(reinterpret_cast<char*>(&edges), sizeof(edges));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 282,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ifs.read(reinterpret_cast<char*>(&n), sizeof(n));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 289,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ifs.read(reinterpret_cast<char*>(&vid), sizeof(vid));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 290,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ifs.read(reinterpret_cast<char*>(&off), sizeof(off));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 308,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 312,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Vector ID not found in index\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 322,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->read(reinterpret_cast<char*>(node.vector.data()),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 327,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->read(reinterpret_cast<char*>(&neighbor_count), sizeof(uint32_t));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 331,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->read(reinterpret_cast<char*>(node.neighbors.data()),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 341,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 347,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.vector.data()),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 352,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->write(reinterpret_cast<const char*>(&neighbor_count), sizeof(uint32_t));",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 355,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.neighbors.data()),",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\diskann.cpp",
+          "line": 361,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Vector dimensions must match\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        }
+      ],
+      "src\\performance\\phase4\\pmem_storage.cpp": [
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 276,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_->data_offset   = data_offset;",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 277,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "header_->bump_offset   = data_offset; // start of free arena",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "FILE* mounts = fopen(\"/proc/mounts\", \"r\");",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 68,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "while (fscanf(mounts, \"%254s %254s %62s %510s %d %d\",",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 103,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"PMemPool: failed to map region at \" + config.path);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 206,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "fd_ = ::open(config.path.c_str(), flags, 0644);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 344,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (!s.is_healthy) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmem_storage.cpp",
+          "line": 371,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "void* PMemStorageLayout::write(const std::string& /*key*/,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\async_metrics_exporter.cpp": [
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 107,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(function_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 123,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "export_thread_ = std::thread([this]() {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 149,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 158,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 179,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 184,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 211,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(buffers_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\async_metrics_exporter.cpp",
+          "line": 227,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\chimera_exporter.cpp": [
+        {
+          "file": "src\\performance\\chimera_exporter.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\cycle_metrics.cpp": [
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 44,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (cpuinfo.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 60,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (freq_file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 82,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (cpuinfo.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 191,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\cycle_metrics.cpp",
+          "line": 207,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\performance\\dostoevsky.cpp": [
+        {
+          "file": "src\\performance\\dostoevsky.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\dostoevsky.cpp",
+          "line": 44,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\dostoevsky.cpp",
+          "line": 49,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\hardware_accelerator.cpp": [
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 633,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 716,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "ExecutionResult HardwareAccelerator::execute(const QueryOperator& op) {",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\hardware_accelerator.cpp",
+          "line": 717,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "return execute(op, config_.default_device_config);",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        }
+      ],
+      "src\\performance\\numa_topology.cpp": [
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 92,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { cpus.push_back(std::stoi(token)); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 98,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 106,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!f.is_open()) return {};",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 142,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 159,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (meminfo.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 168,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "try { kb = std::stoull(tok); } catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 378,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 385,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 401,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 409,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 414,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) return {};",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\numa_topology.cpp",
+          "line": 427,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) return -1;",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase2_feature_flags.cpp": [
+        {
+          "file": "src\\performance\\phase2_feature_flags.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase2_feature_flags.cpp",
+          "line": 30,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\prometheus_exporter.cpp": [
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\wisckey.cpp": [
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (log_file_ && log_file_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for writes",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 75,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "log_file_->write(value.data(), value.size());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 82,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::optional<std::string> ValueLog::read(const ValueAddress& addr) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 85,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(rw_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 89,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "log_file_->read(&value[0], addr.size);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 99,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for sync",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 104,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for compaction",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 114,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!temp_log.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 115,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to create temporary log file for compaction\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 130,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to read value during compaction\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 134,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "temp_log.write(value.data(), value.size());",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 138,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to write value during compaction\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 155,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to replace old log with compacted log\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 163,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!log_file_->is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 164,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to reopen log file after compaction\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\performance\\wisckey.cpp",
+          "line": 192,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "return value_log_->read(addr);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\workload_adaptive_optimizer.cpp": [
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 43,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,",
+          "description": "database_query without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\performance\\workload_adaptive_optimizer.cpp",
+          "line": 50,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lk.unlock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\workload_predictor.cpp": [
+        {
+          "file": "src\\performance\\workload_predictor.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\phase3\\adaptive_batch_tuner.cpp": [
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 55,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 85,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 167,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 203,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
+          "line": 216,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase3\\bao.cpp": [
+        {
+          "file": "src\\performance\\phase3\\bao.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\phase3\\feature_flags.cpp": [
+        {
+          "file": "src\\performance\\phase3\\feature_flags.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\feature_flags.cpp",
+          "line": 31,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase3\\gunrock.cpp": [
+        {
+          "file": "src\\performance\\phase3\\gunrock.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        }
+      ],
+      "src\\performance\\phase3\\memory_pressure.cpp": [
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 70,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "poll_thread_ = std::thread(&SystemMemoryPressureMonitor::poll_loop, this);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 90,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 97,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(snapshot_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 184,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "if (GlobalMemoryStatusEx(&ms)) {",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 228,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(snapshot_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\memory_pressure.cpp",
+          "line": 250,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase3\\per_query_cost_model.cpp": [
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 17,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 75,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 87,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 133,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
+          "line": 260,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase3\\splinterdb.cpp": [
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 39,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 45,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::unique_lock<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 48,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "cv_.wait(lock, [this]() { return !tasks_.empty() || shutdown_; });",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 61,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 67,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 120,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "thread.join();",
+          "description": "thread_join without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase3\\splinterdb.cpp",
+          "line": 166,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
+      "src\\performance\\phase4\\feature_flags.cpp": [
+        {
+          "file": "src\\performance\\phase4\\feature_flags.cpp",
+          "line": 16,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase4\\feature_flags.cpp",
+          "line": 31,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!file.is_open()) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        }
+      ],
+      "src\\performance\\phase4\\pmu_counters.cpp": [
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 21,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 42,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "static long perf_event_open(struct perf_event_attr* attr,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 76,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 87,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "long fd = perf_event_open(&attr,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 112,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t PmuCounter::read() const noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 115,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (::read(fd_, &value, sizeof(value)) != sizeof(value)) {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 140,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool ok = l1d_misses_.open(PERF_TYPE_HW_CACHE, l1d_cfg);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 143,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ok &= llc_misses_.open(PERF_TYPE_HARDWARE,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 147,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ok &= branch_mispredict_.open(PERF_TYPE_HARDWARE,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 168,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "m.l1d_read_misses       = l1d_misses_.read();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 169,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "m.llc_misses            = llc_misses_.read();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 170,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "m.branch_mispredictions = branch_mispredict_.read();",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 178,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool ok = probe.open(PERF_TYPE_HARDWARE,",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 264,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lib = ::dlopen(path, RTLD_LAZY | RTLD_LOCAL);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 360,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 378,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t PmuCounter::read() const noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 399,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "available_ = l1d_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 400,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "llc_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 401,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "branch_mispredict_.open(0, 0);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 490,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "::QueryThreadCycleTime(::GetCurrentThread(), &cycles);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 514,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 530,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t PmuCounter::read() const noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 544,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "available_ = l1d_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 545,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "llc_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 546,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "branch_mispredict_.open(0, 0);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 640,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 654,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t PmuCounter::read() const noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 668,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "available_ = l1d_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 669,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "llc_misses_.open(0, 0) &&",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 670,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "branch_mispredict_.open(0, 0);",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 760,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 771,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 781,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "uint64_t PmuCounter::read()  const noexcept {",
+          "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 790,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 811,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\performance\\phase4\\pmu_counters.cpp",
+          "line": 826,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ]
+    }
+  }
+}
