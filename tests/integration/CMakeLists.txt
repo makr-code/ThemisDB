@@ -219,6 +219,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/analytics_export_pipeline_test.c
     )
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/application_profile_pipeline_test.cpp")
+    add_integration_test(
+        application_profile_pipeline_test
+        pipeline/application_profile_pipeline_test.cpp
+    )
+    set_tests_properties(application_profile_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;e2e;application_profile"
+    )
+endif()
+
 # ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================

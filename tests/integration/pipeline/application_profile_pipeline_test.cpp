@@ -1,0 +1,252 @@
+#include "../test_data_generator.h"
+#include "../test_fixture.h"
+
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+namespace themis::test {
+
+namespace {
+
+struct AppProfileAskResult {
+    bool ok{false};
+    std::string answer;
+    std::string error;
+};
+
+class ApplicationProfilePipeline {
+public:
+    ApplicationProfilePipeline(std::shared_ptr<MockPipelineAuth> auth,
+                               std::shared_ptr<MockPipelineIndex> index,
+                               std::shared_ptr<InMemoryPipelineStorage> storage,
+                               std::shared_ptr<MockPipelineLlmBackend> llm,
+                               std::shared_ptr<PipelineAuditLog> audit)
+        : auth_(std::move(auth)),
+          index_(std::move(index)),
+          storage_(std::move(storage)),
+          llm_(std::move(llm)),
+          audit_(std::move(audit)) {}
+
+    [[nodiscard]] bool RegisterSession(const std::string& token,
+                                       const std::string& tenant_id,
+                                       const std::string& role) {
+        const auto auth_result = auth_->Authorize(token);
+        if (!auth_result.authorized || role != "app_user") {
+            audit_->Record({"app_profile", "session_rejected", tenant_id});
+            return false;
+        }
+
+        session_tenant_[token] = tenant_id;
+        audit_->Record({"app_profile", "session_started", tenant_id});
+        return true;
+    }
+
+    [[nodiscard]] bool IngestEvent(const std::string& token,
+                                   const std::string& tenant_id,
+                                   const std::string& event_id,
+                                   const std::string& payload,
+                                   const std::vector<std::string>& terms) {
+        if (!IsAuthorizedTenant(token, tenant_id)) {
+            return false;
+        }
+
+        const auto key = tenant_id + "::" + event_id;
+        storage_->Write(key, payload);
+        index_->IndexDocument(key, terms);
+        tenant_keys_[tenant_id].push_back(key);
+        cdc_events_.push_back("cdc:" + key);
+        audit_->Record({"app_profile", "event_ingested", key});
+        return true;
+    }
+
+    [[nodiscard]] AppProfileAskResult AskAssistant(const std::string& token,
+                                                   const std::string& tenant_id,
+                                                   const std::string& question,
+                                                   const std::string& term) {
+        if (!IsAuthorizedTenant(token, tenant_id)) {
+            return {false, "", "unauthorized_tenant"};
+        }
+
+        const auto all_hits = index_->Search(term);
+        std::string context = "no_context";
+        for (const auto& key : all_hits) {
+            if (key.rfind(tenant_id + "::", 0) != 0U) {
+                continue;
+            }
+            const auto payload = storage_->Read(key);
+            if (!payload.has_value()) {
+                continue;
+            }
+            context = *payload;
+            break;
+        }
+
+        const auto response = llm_->Infer(question, context);
+        if (!response.has_value()) {
+            audit_->Record({"app_profile", "assistant_fallback", tenant_id});
+            return {true, "fallback:local-summary:" + context, ""};
+        }
+
+        audit_->Record({"app_profile", "assistant_answered", tenant_id});
+        return {true, *response, ""};
+    }
+
+    [[nodiscard]] bool ExportTenantSnapshot(const std::string& tenant_id,
+                                            const std::filesystem::path& output_file) {
+        std::ofstream out(output_file);
+        if (!out.is_open()) {
+            return false;
+        }
+
+        const auto event_count = TenantEventCount(tenant_id);
+        out << "tenant=" << tenant_id << "\n";
+        out << "events=" << event_count << "\n";
+        out << "replica_marker=" << event_count << "\n";
+        replica_markers_.push_back(tenant_id + ":" + std::to_string(event_count));
+        audit_->Record({"app_profile", "snapshot_exported", tenant_id});
+        return true;
+    }
+
+    [[nodiscard]] size_t TenantEventCount(const std::string& tenant_id) const {
+        const auto it = tenant_keys_.find(tenant_id);
+        return it == tenant_keys_.end() ? 0U : it->second.size();
+    }
+
+    [[nodiscard]] size_t CdcCount() const {
+        return cdc_events_.size();
+    }
+
+    [[nodiscard]] size_t ReplicaMarkerCount() const {
+        return replica_markers_.size();
+    }
+
+private:
+    [[nodiscard]] bool IsAuthorizedTenant(const std::string& token,
+                                          const std::string& tenant_id) const {
+        const auto auth_result = auth_->Authorize(token);
+        if (!auth_result.authorized) {
+            return false;
+        }
+
+        const auto it = session_tenant_.find(token);
+        return it != session_tenant_.end() && it->second == tenant_id;
+    }
+
+    std::shared_ptr<MockPipelineAuth> auth_;
+    std::shared_ptr<MockPipelineIndex> index_;
+    std::shared_ptr<InMemoryPipelineStorage> storage_;
+    std::shared_ptr<MockPipelineLlmBackend> llm_;
+    std::shared_ptr<PipelineAuditLog> audit_;
+
+    std::unordered_map<std::string, std::string> session_tenant_;
+    std::unordered_map<std::string, std::vector<std::string>> tenant_keys_;
+    std::vector<std::string> cdc_events_;
+    std::vector<std::string> replica_markers_;
+};
+
+} // namespace
+
+class ApplicationProfilePipelineTest : public IntegrationTestFixture {
+protected:
+    void SetUp() override {
+        IntegrationTestFixture::SetUp();
+        auth_ = CreateMockAuth();
+        index_ = CreateMockIndex();
+        storage_ = CreateInMemoryStorage();
+        llm_ = CreateMockLlmBackend();
+        audit_ = CreateAuditLog();
+        data_gen_ = std::make_unique<TestDataGenerator>();
+        pipeline_ =
+            std::make_unique<ApplicationProfilePipeline>(auth_, index_, storage_, llm_, audit_);
+    }
+
+    std::shared_ptr<MockPipelineAuth> auth_;
+    std::shared_ptr<MockPipelineIndex> index_;
+    std::shared_ptr<InMemoryPipelineStorage> storage_;
+    std::shared_ptr<MockPipelineLlmBackend> llm_;
+    std::shared_ptr<PipelineAuditLog> audit_;
+    std::unique_ptr<TestDataGenerator> data_gen_;
+    std::unique_ptr<ApplicationProfilePipeline> pipeline_;
+};
+
+TEST_F(ApplicationProfilePipelineTest, APP01_EndUserJourneyIngestAskAndExport) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_a", "app_user"));
+    ASSERT_TRUE(
+        pipeline_->IngestEvent(token, "tenant_a", "event_1", "invoice pending", {"billing"}));
+
+    const auto ask_result =
+        pipeline_->AskAssistant(token, "tenant_a", "Welche Rechnung ist offen?", "billing");
+    ASSERT_TRUE(ask_result.ok);
+    EXPECT_NE(ask_result.answer.find("Welche Rechnung ist offen?"), std::string::npos);
+
+    const auto snapshot_file = GetTempDir() / "tenant_a.snapshot";
+    ASSERT_TRUE(pipeline_->ExportTenantSnapshot("tenant_a", snapshot_file));
+    EXPECT_TRUE(std::filesystem::exists(snapshot_file));
+    EXPECT_TRUE(audit_->Contains("app_profile", "event_ingested"));
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_answered"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP02_MultiTenantIsolationBlocksCrossTenantRead) {
+    const auto token_a = data_gen_->GeneratePipelineToken(true);
+    const auto token_b = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token_a);
+    auth_->AllowToken(token_b);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token_a, "tenant_a", "app_user"));
+    ASSERT_TRUE(pipeline_->RegisterSession(token_b, "tenant_b", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token_a, "tenant_a", "event_a", "private-a", {"shared"}));
+
+    const auto result_b = pipeline_->AskAssistant(token_b, "tenant_b", "show shared", "shared");
+
+    ASSERT_TRUE(result_b.ok);
+    EXPECT_NE(result_b.answer.find("no_context"), std::string::npos);
+    EXPECT_EQ(result_b.answer.find("private-a"), std::string::npos);
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP03_LlmFailureFallsBackToDeterministicSummary) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    llm_->SetInferenceFailure(true);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_fallback", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token,
+                                       "tenant_fallback",
+                                       "event_critical",
+                                       "incident-42",
+                                       {"ops"}));
+
+    const auto result =
+        pipeline_->AskAssistant(token, "tenant_fallback", "status incident", "ops");
+
+    ASSERT_TRUE(result.ok);
+    EXPECT_NE(result.answer.find("fallback:local-summary"), std::string::npos);
+    EXPECT_NE(result.answer.find("incident-42"), std::string::npos);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_fallback"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP04_BurstProfileKeepsCdcAndReplicaSnapshotConsistent) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_burst", "app_user"));
+
+    for (size_t i = 0; i < 24; ++i) {
+        const auto event_id = "event_" + std::to_string(i);
+        const auto payload = "payload_" + std::to_string(i);
+        ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_burst", event_id, payload, {"burst"}));
+    }
+
+    const auto snapshot_file = GetTempDir() / "tenant_burst.snapshot";
+    ASSERT_TRUE(pipeline_->ExportTenantSnapshot("tenant_burst", snapshot_file));
+
+    EXPECT_EQ(pipeline_->TenantEventCount("tenant_burst"), 24U);
+    EXPECT_EQ(pipeline_->CdcCount(), 24U);
+    EXPECT_EQ(pipeline_->ReplicaMarkerCount(), 1U);
+}
+
+} // namespace themis::test
