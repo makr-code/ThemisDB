@@ -300,10 +300,10 @@
       },
       "GEO-7": {
         "label": "GeoJSON Parse (100K MultiPolygon) <= 2 s",
-        "primary_benchmark": null,
-        "file": null,
-        "status": "not_measurable",
-        "note": "Kein dedizierter GeoJSON-Parse-Benchmark vorhanden. Ziel GEO-7 ist ohne dedizierten Bench nicht messbar. Ticket: bench_geojson_parse anlegen (Target: v1.8.3).",
+        "primary_benchmark": "BM_GeoJSONParse_MultiPolygon_100k",
+        "file": "bench_geojson_parse.cpp",
+        "status": "mapped",
+        "note": "Dedizierter Parse-Benchmark vorhanden. Misst Parse+Objektmaterialisierung fuer MultiPolygon-GeoJSON bis 100K Polygone.",
         "slo_met": null
       },
       "GEO-8": {
@@ -316,10 +316,12 @@
       },
       "GEO-9": {
         "label": "DBSCAN GPU Speedup (100K Punkte) > 100x vs. CPU",
-        "primary_benchmark": null,
-        "file": null,
-        "status": "not_measurable",
-        "note": "Erfordert GPU-Hardware (A10G/H100) und CPU-Referenz-Benchmark fuer DBSCAN. Beides nicht vorhanden. Ticket: bench_geo_dbscan_cpu + bench_geo_dbscan_gpu anlegen (Target: v1.9.0).",
+        "primary_benchmark": "BM_GeoDBSCAN_GPU",
+        "file": "bench_geo_dbscan.cpp",
+        "fallback_benchmark": "BM_GeoDBSCAN_CPU",
+        "fallback_file": "bench_geo_dbscan.cpp",
+        "status": "mapped",
+        "note": "Dedizierte CPU- und GPU-Referenzbenchmarks vorhanden. Endgueltige SLO-Bewertung fuer >100x Speedup bleibt hardware-gated (CUDA-Runner erforderlich).",
         "slo_met": null
       }
     },
@@ -368,17 +370,17 @@
       },
       "TDM-1": {
         "label": "TensorDeduplication Snapshot/Restore Integritaet",
-        "primary_benchmark": null,
-        "file": null,
-        "status": "not_measurable",
-        "note": "Derzeit als Integritaets-/Korrektheitsziel ueber GTest-Serie TensorDeduplicationManagerSnapshotTest (TDM-12..TDM-24) validiert; kein dedizierter Microbenchmark registriert."
+        "primary_benchmark": "BM_TDM_SnapshotRestoreRoundTrip",
+        "file": "bench_tensor_deduplication_manager.cpp",
+        "status": "mapped",
+        "note": "Dedizierter Benchmark vorhanden; misst Snapshot/Restore-Roundtrip ueber reale TensorDeduplicationManager-Pfade."
       },
       "TDM-2": {
         "label": "TensorDeduplication Journal-Replay/Kompaktion",
-        "primary_benchmark": null,
-        "file": null,
-        "status": "not_measurable",
-        "note": "Derzeit als Integritaets-/Korrektheitsziel ueber GTest-Serie TensorDeduplicationManagerSnapshotTest (TDM-18/TDM-19/TDM-22/TDM-23/TDM-24) validiert; kein dedizierter Throughput-Benchmark registriert."
+        "primary_benchmark": "BM_TDM_JournalReplayThroughput",
+        "file": "bench_tensor_deduplication_manager.cpp",
+        "status": "mapped",
+        "note": "Dedizierter Throughput-Benchmark vorhanden; misst Journal-Replay nach Snapshot inkl. Kompaktionspfad via Overwrite-Mutationen."
       }
     },
     "replication": {
@@ -1674,11 +1676,11 @@
   },
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
-    "total": 197,
-    "mapped": 168,
-    "proxy": 20,
-    "not_measurable": 9,
+    "total": 207,
+    "mapped": 201,
+    "proxy": 2,
+    "not_measurable": 4,
     "gap": 0,
-    "coverage_pct": 85.3
+    "coverage_pct": 97.1
   }
 }
