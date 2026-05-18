@@ -356,8 +356,23 @@ json PmVariantsFunction::execute(
 }
 
 // ============================================================================
-// Administrative model management  (YAML-backed, not yet wired)
+// Administrative model management
 // ============================================================================
+// STUB/SIMULATION NOTE (stub #283):
+// Purpose: Keep PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS registered as
+//          callable AQL functions while the YAML-backed model storage layer is
+//          not yet wired.
+// Activation: Always active. No YAML-backed model registry or
+//             FileSystemBridge is injected yet.
+// Production Delta:
+//   - PM_LOAD_ADMIN_MODEL always returns {"error": "not implemented"}.
+//   - PM_LIST_ADMIN_MODELS always returns an empty JSON array.
+//   - All administrative process models must be managed via external tooling;
+//     no in-database lifecycle for admin models is available.
+// Removal Plan: Wire a YAML-backed model registry (or call
+//   FimImporter::importFimCatalogue() through a shared context injection)
+//   and propagate results through FunctionContext (tracked in
+//   STUB_INVENTORY #283).
 
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& /*args*/,

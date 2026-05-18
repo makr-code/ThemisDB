@@ -2,12 +2,22 @@
  * @file ai_plugin_generator.cpp
  * @brief Minimal production implementation of AIPluginGenerator.
  *
+ * STUB/SIMULATION NOTE (stub #282):
+ * Purpose: Provide structurally-valid input validation for AI plugin generation
+ *          while the LLM endpoint HTTP call and security sandbox pipeline are
+ *          not yet wired (Phase 1 only).
+ * Activation: Always active — generatePlugin() always returns
+ *             ERR_PLUGIN_LOAD_FAILED with "LLM endpoint not yet wired".
+ * Production Delta: No plugin code is generated; the configured llm_endpoint
+ *                   is logged but never called. No GeneratedPlugin is returned.
+ * Removal Plan: Implement Phase 2 (Target v1.6.0): perform an HTTP POST to
+ *               config_.llm_endpoint, parse the JSON response, populate
+ *               GeneratedPlugin, and run the security sandbox pipeline.
+ *               (tracked in STUB_INVENTORY #282)
+ *
  * Phase 1 implementation:
  *   - validatePrompt()  validates the description and required_capabilities fields.
- *   - generatePlugin()  validates inputs, then attempts an HTTP POST to the
- *                       configured LLM endpoint and returns a structured error
- *                       when the endpoint is unavailable (no live LLM required
- *                       for offline / test environments).
+ *   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED.
  *
  * Phase 2 (Target v1.6.0): wire a real ILLMInferenceEngine for code generation.
  * See include/plugins/ai/ai_plugin_generator.h and src/plugins/ai/FUTURE_ENHANCEMENTS.md.
