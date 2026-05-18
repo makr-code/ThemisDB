@@ -268,7 +268,7 @@ private:
     // std::shared_ptr<Aws::S3::S3Client> s3_client_;
 };
 
-// STUB/SIMULATION NOTE:
+// STUB/SIMULATION NOTE (stub #312):
 // Purpose: Azure Blob Storage provider placeholder. Implements ICloudStorageProvider
 //          with no-op behaviour so the backup subsystem compiles without Azure SDK.
 // Activation: Active when THEMIS_ENABLE_AZURE is NOT defined. Build with
