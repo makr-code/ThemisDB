@@ -1,0 +1,12 @@
+Cross-module integration test implementation plan
+
+Scope:
+- Extend tests/integration fixtures with reusable pipeline mocks.
+- Add 6 pipeline integration test files under tests/integration/pipeline/.
+- Register tests with CTest label pipeline_integration.
+- Update integration guidelines and roadmap with concrete pipeline IDs.
+
+Acceptance:
+- New pipeline tests compile in normal test build composition.
+- Tests avoid external runtime dependencies (GPU/LLM/Kafka).
+- ctest label pipeline_integration resolves all new tests.

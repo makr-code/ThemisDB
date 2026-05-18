@@ -1,6 +1,6 @@
-> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Aktueller Build-Flow:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-> **Aktueller Test-Flow:** `cmake --preset linux-ninja-release && ctest --preset linux-ninja-release`
+> **Aktueller Test-Flow:** `cmake --preset linux-release && ctest --preset linux-release`
 
 # Integration Test Guidelines
 
@@ -24,6 +24,7 @@ Integration tests verify that multiple components work together correctly. Unlik
 
 ```
 tests/integration/
+├── pipeline/      # Cross-module end-to-end pipeline tests (offline mocks)
 ├── storage/        # Storage layer (RocksDB, backups, file I/O)
 ├── llm/           # LLM model loading, inference, caching
 ├── rpc/           # gRPC services, authentication, networking
@@ -36,12 +37,47 @@ tests/integration/
 
 - **File**: `{component}_{feature}_integration_test.cpp`
   - Example: `backup_recovery_integration_test.cpp`
-  
+
 - **Test Suite**: `{Component}{Feature}IntegrationTest`
   - Example: `BackupRecoveryIntegrationTest`
-  
+
 - **Test Case**: `{Action}{Scenario}`
   - Example: `FullBackupAndRestore`
+
+### Pipeline Test Naming and IDs
+
+- **Pipeline File**: `{pipeline_name}_pipeline_test.cpp`
+  - Examples:
+    - `query_execution_pipeline_test.cpp`
+    - `transaction_replication_pipeline_test.cpp`
+- **Pipeline Test Case IDs**:
+  - Query: `QP-01..QP-05`
+  - Ingestion: `IP-01..IP-04`
+  - RAG/AI: `RAG-01..RAG-04`
+  - Transaction/Replication: `TXR-01..TXR-04`
+  - Security: `SEC-01..SEC-06`
+  - Analytics/Export: `AEP-01..AEP-03`
+  - Application Profile E2E: `APP-01..APP-13`
+- **CTest Label**: `pipeline_integration`
+- **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
+
+### Shared Pipeline Test Helpers
+
+`IntegrationTestFixture` now provides reusable helpers for cross-module pipeline tests:
+
+- `CreateInMemoryStorage()`
+- `CreateMockIndex()`
+- `CreateMockAuth()`
+- `CreateMockLlmBackend()`
+- `CreateAuditLog()`
+
+`TestDataGenerator` now provides pipeline-oriented builders:
+
+- `GeneratePipelineToken()`
+- `GenerateAqlQuery()`
+- `GenerateTerms()`
+- `GenerateEmbedding()`
+- `GenerateCdcEvent()`
 
 ## Writing Integration Tests
 
@@ -349,9 +385,12 @@ TEST_F(MyIntegrationTest, ConcurrentWrites) {
 
 ```bash
 # Build with coverage preset
-cmake --preset linux-ninja-release
-cmake --build --preset linux-ninja-release
-ctest --preset linux-ninja-release -R integration
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release -R integration
+
+# Run only the cross-module pipeline suite
+ctest --preset linux-release -L pipeline_integration
 
 # Generate integration test coverage report
 ./scripts/integration_test_coverage.sh
