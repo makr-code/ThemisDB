@@ -30,7 +30,7 @@ public:
                            const std::string& key,
                            const std::string& plaintext) {
         const auto auth_result = auth_->Authorize(token);
-        if (!auth_result.authorized) {
+        if (!auth_result.authorized || IsRevoked(token)) {
             audit_->Record({"security", "auth_reject", "masked"});
             return {401, ""};
         }
@@ -48,7 +48,7 @@ public:
                           const std::string& role,
                           const std::string& key) const {
         const auto auth_result = auth_->Authorize(token);
-        if (!auth_result.authorized) {
+        if (!auth_result.authorized || IsRevoked(token)) {
             return {401, ""};
         }
         if (!allowed_roles_.count(role)) {
@@ -71,12 +71,25 @@ public:
         audit_->Record({"security", "key_rotation", "masked"});
     }
 
+    void RevokeToken(const std::string& token) {
+        revoked_tokens_.insert(token);
+        audit_->Record({"security", "token_revoked", "masked"});
+    }
+
+    [[nodiscard]] size_t KeyVersion() const {
+        return key_version_;
+    }
+
     [[nodiscard]] std::string RawEncrypted(const std::string& key) const {
         const auto it = encrypted_store_.find(key);
         return it == encrypted_store_.end() ? "" : it->second;
     }
 
 private:
+    [[nodiscard]] bool IsRevoked(const std::string& token) const {
+        return revoked_tokens_.count(token) > 0U;
+    }
+
     [[nodiscard]] std::string Encrypt(const std::string& plaintext) const {
         std::string reversed = plaintext;
         std::reverse(reversed.begin(), reversed.end());
@@ -96,6 +109,7 @@ private:
     std::shared_ptr<MockPipelineAuth> auth_;
     std::shared_ptr<PipelineAuditLog> audit_;
     std::unordered_set<std::string> allowed_roles_;
+    std::unordered_set<std::string> revoked_tokens_;
     std::unordered_map<std::string, std::string> encrypted_store_;
     size_t key_version_{1};
 };
@@ -162,6 +176,57 @@ TEST_F(SecurityPipelineTest, SEC03_UnknownTokenReturns401WithoutDataLeak) {
     EXPECT_EQ(read.status, 401);
     EXPECT_TRUE(write.body.empty());
     EXPECT_TRUE(read.body.empty());
+}
+
+TEST_F(SecurityPipelineTest, SEC04_RbacRejectionReturns403WithAuditAndNoDataLeak) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+
+    const auto write = pipeline_->Write(token, "guest", "record_x", "payload");
+    const auto read = pipeline_->Read(token, "guest", "record_x");
+
+    EXPECT_EQ(write.status, 403);
+    EXPECT_EQ(read.status, 403);
+    EXPECT_TRUE(write.body.empty());
+    EXPECT_TRUE(read.body.empty());
+    EXPECT_TRUE(audit_->Contains("security", "rbac_reject"));
+}
+
+TEST_F(SecurityPipelineTest, SEC05_MultipleKeyRotationsKeepAllRecordsReadableWithFinalKeyVersion) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+
+    ASSERT_EQ(pipeline_->Write(token, "admin", "rec_a", "value_a").status, 200);
+    pipeline_->RotateEncryptionKey();
+    ASSERT_EQ(pipeline_->Write(token, "admin", "rec_b", "value_b").status, 200);
+    pipeline_->RotateEncryptionKey();
+    ASSERT_EQ(pipeline_->Write(token, "admin", "rec_c", "value_c").status, 200);
+
+    EXPECT_EQ(pipeline_->KeyVersion(), 3U);
+    EXPECT_EQ(pipeline_->Read(token, "admin", "rec_a").body, "value_a");
+    EXPECT_EQ(pipeline_->Read(token, "admin", "rec_b").body, "value_b");
+    EXPECT_EQ(pipeline_->Read(token, "admin", "rec_c").body, "value_c");
+    EXPECT_NE(pipeline_->RawEncrypted("rec_a").find("k3:"), std::string::npos);
+    EXPECT_NE(pipeline_->RawEncrypted("rec_b").find("k3:"), std::string::npos);
+    EXPECT_NE(pipeline_->RawEncrypted("rec_c").find("k3:"), std::string::npos);
+}
+
+TEST_F(SecurityPipelineTest, SEC06_RevokedTokenIsRejectedAndAuditedWithoutDataLeak) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+
+    ASSERT_EQ(pipeline_->Write(token, "admin", "sensitive", "classified").status, 200);
+    pipeline_->RevokeToken(token);
+
+    const auto write_after = pipeline_->Write(token, "admin", "new_rec", "data");
+    const auto read_after = pipeline_->Read(token, "admin", "sensitive");
+
+    EXPECT_EQ(write_after.status, 401);
+    EXPECT_EQ(read_after.status, 401);
+    EXPECT_TRUE(write_after.body.empty());
+    EXPECT_TRUE(read_after.body.empty());
+    EXPECT_TRUE(audit_->Contains("security", "token_revoked"));
+    EXPECT_TRUE(audit_->Contains("security", "auth_reject"));
 }
 
 } // namespace themis::test

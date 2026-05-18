@@ -55,7 +55,7 @@ tests/integration/
   - Ingestion: `IP-01..IP-04`
   - RAG/AI: `RAG-01..RAG-04`
   - Transaction/Replication: `TXR-01..TXR-04`
-  - Security: `SEC-01..SEC-03`
+  - Security: `SEC-01..SEC-06`
   - Analytics/Export: `AEP-01..AEP-03`
   - Application Profile E2E: `APP-01..APP-13`
 - **CTest Label**: `pipeline_integration`

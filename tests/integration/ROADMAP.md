@@ -13,7 +13,7 @@
 ## Planned Features
 - [ ] Weitere produktionsnahe Backends (ohne externe Runtime-Abhängigkeiten) in Pipeline-Tests integrieren (Target: 2026-Q4)
 - [ ] Pipeline-spezifische Regression-Gates in Nightly-Läufen ausbauen (Target: 2026-Q4)
-- [ ] Security-Hardening-Szenarien für Schlüsselrotation und Audit-Pfade erweitern (Target: 2026-Q4)
+- [~] Security-Hardening-Szenarien für Schlüsselrotation und Audit-Pfade erweitern (Target: 2026-Q4)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
@@ -25,13 +25,13 @@
 - [x] `ingestion_pipeline_test.cpp` mit IP-01..IP-04 umgesetzt (Target: 2026-Q3)
 - [x] `rag_ai_pipeline_test.cpp` mit RAG-01..RAG-04 umgesetzt (Target: 2026-Q3)
 - [x] `transaction_replication_pipeline_test.cpp` mit TXR-01..TXR-04 umgesetzt (Target: 2026-Q3)
-- [x] `security_pipeline_test.cpp` mit SEC-01..SEC-03 umgesetzt (Target: 2026-Q3)
+- [x] `security_pipeline_test.cpp` mit SEC-01..SEC-06 umgesetzt (Target: 2026-Q3)
 - [x] `analytics_export_pipeline_test.cpp` mit AEP-01..AEP-03 umgesetzt (Target: 2026-Q3)
 - [x] `application_profile_pipeline_test.cpp` mit APP-01..APP-13 für produktionsnahes Nutzungsprofil umgesetzt (Target: 2026-Q3)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Auth/Syntax/Content/Inference/Failover-Fehlerpfade als eigene Pipeline-Tests ergänzt (Target: 2026-Q3)
-- [~] Weitere Edge-Cases für Timeouts, Retries und Circuit-Breaker in Planung (Target: 2026-Q4)
+- [x] Weitere Edge-Cases für Timeouts, Retries und Circuit-Breaker umgesetzt (APP-11..APP-13) (Target: 2026-Q4)
 
 ### Phase 4: Tests
 - [x] Neue Pipeline-Tests unter CTest-Label `pipeline_integration` registriert (Target: 2026-Q3)
