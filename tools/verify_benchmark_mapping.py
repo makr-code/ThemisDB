@@ -234,6 +234,7 @@ _EXCLUDED_PREFIXES = {
     "BM",   # system-level TPC/YCSB are tracked under system_level module
     "D",    # gap labels (D-1..D-7 in §35)
     "P",    # roadmap priority items (P-1..P-10)
+    "AC",   # acceptance criteria IDs in §5.9 (CI/documentation gates, no SLO target IDs)
     "RSA",  # §39 technology label (RSA-4096), not a module SLO target ID
     "AVX",  # §39 technology label (AVX-512), not a module SLO target ID
 }
@@ -271,6 +272,13 @@ def _collect_mapping_ids(data: dict) -> set[str]:
     return ids
 
 
+def _collect_mapping_entries(data: dict) -> dict[str, dict]:
+    entries: dict[str, dict] = {}
+    for targets in data["modules"].values():
+        entries.update(targets)
+    return entries
+
+
 def check_full_coverage(data: dict) -> bool:
     md_ids = _collect_md_target_ids()
     if not md_ids:
@@ -278,7 +286,8 @@ def check_full_coverage(data: dict) -> bool:
               "skipping coverage check")
         return True
 
-    mapped_ids = _collect_mapping_ids(data)
+    mapped_entries = _collect_mapping_entries(data)
+    mapped_ids = set(mapped_entries.keys())
     unmapped = md_ids - mapped_ids
 
     if unmapped:
@@ -292,8 +301,26 @@ def check_full_coverage(data: dict) -> bool:
     if extra:
         _warn(f"{len(extra)} mapping entries have no corresponding ID in "
               f"PERFORMANCE_EXPECTATIONS.md (may be planned/future):")
+        categorized_extras: dict[str, list[str]] = {}
         for tid in sorted(extra):
-            _warn(f"  extra: {tid}")
+            entry = mapped_entries.get(tid, {})
+            category = entry.get("category", "uncategorized")
+            if not isinstance(category, str) or not category.strip():
+                category = "uncategorized"
+            categorized_extras.setdefault(category, []).append(tid)
+
+        for category in sorted(categorized_extras):
+            ids = categorized_extras[category]
+            _warn(f"  category '{category}': {len(ids)}")
+            for tid in ids:
+                _warn(f"    extra: {tid}")
+
+        uncategorized_count = len(categorized_extras.get("uncategorized", []))
+        if uncategorized_count:
+            _warn("  category metadata gap: "
+                  f"{uncategorized_count} extra ID(s) are uncategorized")
+        else:
+            _ok("All extra mapping IDs carry category metadata")
 
     _ok(f"All {len(md_ids)} target IDs from PERFORMANCE_EXPECTATIONS.md "
         f"are present in the mapping")

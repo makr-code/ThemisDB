@@ -19,8 +19,21 @@
 
 // Benchmark: Transaction Throughput
 // Measures ACID transaction performance for different workload patterns
+//
+// TX-4 (2PC Latency, 5 Shards) — direct benchmark via TwoPhaseCommitFixture:
+//   Uses TwoPhaseCommitCoordinator + 5 in-process TwoPhaseCommitParticipant mocks.
+//   No WAL, null storage callbacks → measures pure protocol latency.
+//   SLO: ≤ 5 ms per cross-shard commit.
+//
+// TX-6 (Deadlock Detection Overhead) — direct benchmark via DeadlockDetectionFixture:
+//   Pre-trains DeadlockPredictor with 1 000 lock patterns (5 % deadlock rate),
+//   then measures predictDeadlockProbability() and recommendLockOrder() overhead
+//   per transaction decision. SLO: ≤ 1 % overhead delta vs. baseline.
 
 #include "transaction/transaction_manager.h"
+#include "transaction/deadlock_predictor.h"
+#include "sharding/two_phase_commit_coordinator.h"
+#include "sharding/two_phase_commit_participant.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -28,7 +41,11 @@
 #include "index/vector_index.h"
 #include <benchmark/benchmark.h>
 #include <filesystem>
+#include <map>
+#include <memory>
 #include <random>
+#include <set>
+#include <string>
 #include <thread>
 #include <sstream>
 #include <chrono>
@@ -684,6 +701,246 @@ static void BM_TransactionContention(benchmark::State& state) {
 }
 
 BENCHMARK(BM_TransactionContention)
+    ->Threads(1)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// TX-4: Two-Phase Commit Latency (5 Shards) — direct SLO benchmark
+//
+// Measures end-to-end 2PC commit latency across N in-process shard mocks.
+// Each participant uses null storage callbacks (accepts every PREPARE/COMMIT),
+// so the benchmark isolates protocol overhead — i.e. the Phase-1 fan-out and
+// Phase-2 broadcast cost — without storage I/O noise.
+//
+// SLO (TX-4): ≤ 5 ms per commit across 5 shards.
+// ============================================================================
+
+/// @brief Fixture for two-phase commit latency benchmarks (TX-4).
+///
+/// Creates one TwoPhaseCommitCoordinator and @p num_shards in-process
+/// TwoPhaseCommitParticipant instances. WAL is disabled so the benchmark
+/// measures pure protocol (PREPARE fan-out + COMMIT broadcast) latency.
+class TwoPhaseCommitFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        const auto num_shards = static_cast<int>(state.range(0));
+
+        // Build participants first (null callbacks → accept every operation).
+        for (int i = 0; i < num_shards; ++i) {
+            auto shard_id = "bench_shard_" + std::to_string(i);
+            participants_.emplace(
+                shard_id,
+                std::make_unique<themis::sharding::TwoPhaseCommitParticipant>(shard_id)
+            );
+        }
+
+        // Coordinator: WAL disabled to measure protocol latency only.
+        themis::sharding::TwoPhaseCommitCoordinator::Config cfg;
+        cfg.wal_directory   = "";    // disable durable logging
+        cfg.sync_wal_writes = false;
+        coordinator_ = std::make_unique<themis::sharding::TwoPhaseCommitCoordinator>(
+            "bench_coordinator", cfg
+        );
+        for (auto& [id, p] : participants_) {
+            coordinator_->registerParticipant(id, p.get());
+        }
+    }
+
+    void TearDown(const ::benchmark::State& /*state*/) override {
+        coordinator_.reset();
+        participants_.clear();
+    }
+
+private:
+    std::map<std::string,
+             std::unique_ptr<themis::sharding::TwoPhaseCommitParticipant>> participants_;
+    std::unique_ptr<themis::sharding::TwoPhaseCommitCoordinator>            coordinator_;
+
+protected:
+    /// Access from benchmark body
+    themis::sharding::TwoPhaseCommitCoordinator& coordinator() { return *coordinator_; }
+    const std::map<std::string,
+                   std::unique_ptr<themis::sharding::TwoPhaseCommitParticipant>>&
+    participants() const { return participants_; }
+};
+
+/// @brief Benchmark: end-to-end 2PC commit latency across N in-process shards.
+///
+/// Each iteration commits one transaction via the full two-phase protocol:
+/// PREPARE to all N shards, then COMMIT (or ABORT on failure). The operation
+/// payload is a single JSON string per shard — enough to exercise the
+/// protocol framing without adding storage overhead.
+///
+/// @param state  Benchmark state; range(0) = number of shards.
+/// @note  SLO TX-4: ≤ 5 ms per commit for 5 shards.
+BENCHMARK_DEFINE_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)(benchmark::State& state) {
+    const auto num_shards = static_cast<int>(state.range(0));
+    uint64_t   txn_seq    = 0;
+    uint64_t   aborts     = 0;
+
+    // Shared per-shard payload: a single write operation per shard per commit.
+    nlohmann::json shard_ops = nlohmann::json::array();
+    shard_ops.push_back("SET bench_key bench_value");
+
+    for (auto _ : state) {
+        std::map<std::string, nlohmann::json> ops_per_shard;
+        for (int i = 0; i < num_shards; ++i) {
+            ops_per_shard["bench_shard_" + std::to_string(i)] = shard_ops;
+        }
+
+        const auto outcome = coordinator().commit(
+            "bench_2pc_" + std::to_string(txn_seq++), ops_per_shard
+        );
+        if (!outcome.committed()) {
+            ++aborts;
+        }
+    }
+
+    state.counters["tps"]    = benchmark::Counter(
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
+    state.counters["aborts"] = benchmark::Counter(static_cast<double>(aborts));
+    state.counters["shards"] = static_cast<double>(num_shards);
+}
+
+// Arg(5) = TX-4 SLO target (5 shards, ≤ 5 ms); Arg(3) sanity baseline.
+BENCHMARK_REGISTER_F(TwoPhaseCommitFixture, TwoPhaseCommitLatency)
+    ->Arg(3)
+    ->Arg(5)
+    ->Unit(benchmark::kMillisecond);
+
+// ============================================================================
+// TX-6: Deadlock Detection Overhead — direct SLO benchmark
+//
+// Measures the per-transaction cost of calling DeadlockPredictor in both
+// prediction and lock-ordering modes, using a pre-trained predictor that
+// mirrors a realistic workload (5 % observed deadlock rate, 20 hot keys,
+// 3..5 locks per transaction).
+//
+// Two cases are provided:
+//   1. DeadlockDetectionOverhead_Predict   — predictDeadlockProbability()
+//   2. DeadlockDetectionOverhead_LockOrder — recommendLockOrder()
+//
+// SLO (TX-6): overhead of either call ≤ 1 % of a typical transaction's
+//             wall-clock cost (baseline ~0.1 ms).
+// ============================================================================
+
+/// @brief Fixture for deadlock-detection overhead benchmarks (TX-6).
+///
+/// Pre-trains DeadlockPredictor with 1 000 realistic lock patterns including
+/// a 5 % deadlock event rate before any benchmark iteration runs.
+class DeadlockDetectionFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& /*state*/) override {
+        predictor_ = std::make_unique<DeadlockPredictor>();
+
+        // Warm up with 1 000 transactions over a 20-key space (3..5 keys each).
+        constexpr int kWarmupCount = 1000;
+        constexpr int kKeySpace    = 20;
+        constexpr int kDeadlockEvery = 20; // ~5 % deadlock rate
+
+        std::mt19937 rng(42);
+        std::uniform_int_distribution<int> key_dist(0, kKeySpace - 1);
+        std::uniform_int_distribution<int> num_keys_dist(3, 5);
+        std::uniform_int_distribution<int> hold_us_dist(50, 950);
+
+        for (int i = 0; i < kWarmupCount; ++i) {
+            std::vector<std::string> keys;
+            const int nk = num_keys_dist(rng);
+            keys.reserve(static_cast<size_t>(nk));
+            for (int k = 0; k < nk; ++k) {
+                keys.push_back("lock_key_" + std::to_string(key_dist(rng)));
+            }
+            predictor_->recordTransaction(
+                static_cast<uint64_t>(i),
+                keys,
+                std::chrono::microseconds(hold_us_dist(rng))
+            );
+            if (i % kDeadlockEvery == 0) {
+                predictor_->recordDeadlock(keys);
+            }
+        }
+    }
+
+    void TearDown(const ::benchmark::State& /*state*/) override {
+        predictor_.reset();
+    }
+
+protected:
+    DeadlockPredictor& predictor() { return *predictor_; }
+
+private:
+    std::unique_ptr<DeadlockPredictor> predictor_;
+};
+
+/// @brief Benchmark: predictDeadlockProbability() call overhead (TX-6 direct).
+///
+/// Each iteration queries the pre-trained predictor for a 5-key lock set drawn
+/// from the hot 20-key space. The result is consumed via DoNotOptimize to
+/// prevent the call from being elided.
+///
+/// @note  SLO TX-6: this call should consume ≤ 1 % of a typical transaction's
+///        wall-clock budget (~0.1 ms base → ≤ 1 µs target).
+BENCHMARK_DEFINE_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_Predict)(
+    benchmark::State& state)
+{
+    constexpr int kKeySpace = 20;
+    std::mt19937  rng(99);
+    std::uniform_int_distribution<int> key_dist(0, kKeySpace - 1);
+    const std::set<DeadlockPredictor::TransactionId> active_txns = {1u, 2u, 3u};
+
+    for (auto _ : state) {
+        std::vector<std::string> proposed = {
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+        };
+        const double prob = predictor().predictDeadlockProbability(proposed, active_txns);
+        benchmark::DoNotOptimize(prob);
+    }
+
+    state.counters["calls_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
+    state.counters["trained_patterns"] = static_cast<double>(
+        predictor().recordedTransactionCount());
+}
+
+BENCHMARK_REGISTER_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_Predict)
+    ->Threads(1)
+    ->Unit(benchmark::kMicrosecond);
+
+/// @brief Benchmark: recommendLockOrder() call overhead (TX-6 direct).
+///
+/// Each iteration asks the pre-trained predictor to sort a 5-key candidate
+/// set into a safe acquisition order. This exercises the pair-conflict matrix
+/// traversal that dominates the predictor's steady-state cost.
+///
+/// @note  SLO TX-6: same overhead budget as DeadlockDetectionOverhead_Predict.
+BENCHMARK_DEFINE_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_LockOrder)(
+    benchmark::State& state)
+{
+    constexpr int kKeySpace = 20;
+    std::mt19937  rng(77);
+    std::uniform_int_distribution<int> key_dist(0, kKeySpace - 1);
+
+    for (auto _ : state) {
+        std::vector<std::string> candidates = {
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+            "lock_key_" + std::to_string(key_dist(rng)),
+        };
+        auto order = predictor().recommendLockOrder(candidates);
+        benchmark::DoNotOptimize(order);
+    }
+
+    state.counters["calls_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(DeadlockDetectionFixture, DeadlockDetectionOverhead_LockOrder)
     ->Threads(1)
     ->Unit(benchmark::kMicrosecond);
 

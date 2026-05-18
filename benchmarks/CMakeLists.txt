@@ -4526,11 +4526,15 @@ if(TARGET bench_ethics_ai_plugin)
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+    target_compile_definitions(bench_ethics_ai_plugin PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
     target_include_directories(bench_ethics_ai_plugin PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/ethics_ai
     )
+    themis_apply_benchmark_release_flags(bench_ethics_ai_plugin)
 
     if(TARGET yaml-cpp::yaml-cpp)
         target_link_libraries(bench_ethics_ai_plugin PRIVATE yaml-cpp::yaml-cpp)
@@ -4541,6 +4545,8 @@ endif()
 themis_add_standard_benchmark(bench_extended_context       bench_extended_context.cpp)
 themis_add_standard_benchmark(bench_flash_attention        bench_flash_attention.cpp)
 themis_add_standard_benchmark(bench_gnn_embeddings         bench_gnn_embeddings.cpp)
+themis_add_standard_benchmark(bench_geo_dbscan             bench_geo_dbscan.cpp)
+themis_add_standard_benchmark(bench_geojson_parse          bench_geojson_parse.cpp)
 themis_add_standard_benchmark(bench_gorilla_codec          bench_gorilla_codec.cpp)
 themis_add_standard_benchmark(bench_gossip_config          bench_gossip_config.cpp)
 themis_add_standard_benchmark(bench_gpu_erasure            bench_gpu_erasure.cpp)
@@ -4578,6 +4584,7 @@ themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_
 themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
 themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
 themis_add_standard_benchmark(bench_stream_protocol        bench_stream_protocol.cpp)
+themis_add_standard_benchmark(bench_tensor_deduplication_manager bench_tensor_deduplication_manager.cpp)
 themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)
 themis_add_standard_benchmark(bench_tpch                   bench_tpch.cpp)
 themis_add_standard_benchmark(bench_v1_3_0_features        bench_v1_3_0_features.cpp)

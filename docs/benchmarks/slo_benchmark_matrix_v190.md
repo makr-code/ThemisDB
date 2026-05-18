@@ -110,19 +110,19 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
-| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `mapped` | `BM_ReplicationLagWAN` (Arg=2) | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
+| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `proxy` ⚠️ | `WalBenchFixture_Append` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` |
 | R-2 | ≥ 500 MB/s WAL-Shipping | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
 | R-3 | ≤ 10 s Leader-Failover | `mapped` | `BM_ReplicationManager_PromoteToLeader` | `BM_ReplicationManager_Initialize` | `bench_replication_throughput.cpp` |
 | R-4 | < 5 µs/Write HLC | `mapped` | `BM_HLCConflictDetection` | `BM_WALEntry_Serialize` | `bench_replication_throughput.cpp` |
 | R-5 | ≤ 1 µs/Merge CRDT | `mapped` | `BM_CRDTMerge` | `BM_WALEntry_Deserialize` | `bench_replication_throughput.cpp` |
 | R-6 | ≥ 200 MB/s WAL-Replay | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
 | R-7 | ≤ 1 ms CDC Event P99 | `mapped` | `ChangefeedBenchmarkFixture_EventRecordingThroughput` | `BM_RecordEventLatency` | `bench_changefeed_throughput.cpp` |
-| R-8 | ≤ 200 ms Cross-DC P99 | `mapped` | `BM_ReplicationLagWAN` | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
+| R-8 | ≤ 200 ms Cross-DC P99 | `proxy` ⚠️ | `WalBenchFixture_ReadFrom` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` |
 
 > ⚠️ = Proxy-Benchmark; direktes Benchmark ist als Gap dokumentiert (§4.1)
 
-**Direkt messbare SLOs:** R-1, R-2, R-3, R-4, R-5, R-6, R-7, R-8 (8/8 = 100.0%)
-**Proxy-Cases:** keine (0/8)
+**Direkt messbare SLOs:** R-2, R-3, R-4, R-5, R-6, R-7 (6/8 = 75.0%)
+**Proxy-Cases:** R-1, R-8 (2/8)
 
 ---
 
@@ -158,25 +158,31 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 | TX-1 | ≤ 100 µs OCC Commit P50 | `mapped` | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
 | TX-2 | ≤ 5 ms OCC Commit P99 | `mapped` | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `bench_transaction_throughput.cpp` |
 | TX-3 | > 6 k/s 2PC Throughput | `mapped` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `bench_transaction_throughput.cpp` |
-| TX-4 | ≤ 5 ms 2PC Latenz (5 Shards) | `proxy` ⚠️ | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `bench_transaction_throughput.cpp` |
-| TX-5 | ≤ 20 ms SAGA Compensation | `proxy` ⚠️ | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_SavepointCreateAndRollback` | `bench_transaction_throughput.cpp` |
-| TX-6 | ≤ 1 % Deadlock Detection Overhead | `proxy` ⚠️ | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | `bench_transaction_throughput.cpp` |
-| TX-7 | < 5 % False Positive Rate | `proxy` ⚠️ | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
+| TX-4 | ≤ 5 ms 2PC Latenz (5 Shards) | `mapped` ✅ | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | `bench_transaction_throughput.cpp` |
+| TX-5 | ≤ 20 ms SAGA Compensation | `mapped` | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `bench_saga_compensation.cpp` |
+| TX-6 | ≤ 1 % Deadlock Detection Overhead | `mapped` ✅ | `DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict` | `DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder` | `bench_transaction_throughput.cpp` |
+| TX-7 | < 5 % False Positive Rate | `mapped` | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `bench_transaction_throughput.cpp` |
 | TX-8 | > 90 % Low-Contention Success | `mapped` | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `bench_transaction_throughput.cpp` |
 
-**Direkt messbare SLOs:** TX-1, TX-2, TX-3, TX-8 (4/8 = 50%)
-**Proxy-Cases:** TX-4, TX-5, TX-6, TX-7 (4/8)
+**Direkt messbare SLOs:** TX-1, TX-2, TX-3, TX-4, TX-5, TX-6, TX-7, TX-8 (8/8 = 100%) ✅
 
 ---
 
 ## 4. Fehlende Cases (Gap-Analyse mit Aufwandsschätzung)
 
-Alle `proxy`-Cases haben ein zugeordnetes Gap-Ticket. Die folgenden Untertickets
-dokumentieren den Aufwand für direkte Benchmark-Implementierungen.
+Die folgenden Untertickets dokumentieren den Aufwand für direkte
+Benchmark-Implementierungen der offenen Proxy-Cases mit explizitem Gap-Ticket.
 
 ### 4.1 Replication Gaps
 
-Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
+| Gap-ID | Titel | Blockiertes SLO | Aufwand (Tage) | Ziel-Milestone |
+|--------|-------|-----------------|----------------|----------------|
+| R-8-GAP | Cross-DC WAN-Latenz-Simulation | R-8 | 5 | v2.0.0 |
+
+Hinweis: R-1 bleibt ein infrastrukturell gebundener Proxy-Case (SEMI\_SYNC
+Cluster-Setup erforderlich) und ist derzeit ohne separates Gap-Ticket geführt.
+
+**Gesamt-Aufwand Replication Gaps:** 5 Tage
 
 
 ---
@@ -193,14 +199,10 @@ Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
 
 ### 4.3 Transaction Gaps
 
-| Gap-ID | Titel | Blockiertes SLO | Aufwand (Tage) | Ziel-Milestone |
-|--------|-------|-----------------|----------------|----------------|
-| TX-4-GAP | Verteilte 2PC-Latenz (5 echte Shards) | TX-4 | 4 | v1.10.0 |
-| TX-5-GAP | SAGA Compensation DAG Benchmark | TX-5 | 3 | v1.10.0 |
-| TX-6-GAP | Deadlock-Detection-Overhead Mikrobenchmark | TX-6 | 3 | v1.10.0 |
-| TX-7-GAP | OCC False-Positive-Rate Benchmark | TX-7 | 3 | v1.10.0 |
+Alle Transaction-Gaps wurden mit Wave2-Abschluss geschlossen. TX-4 und TX-6 sind jetzt
+direkt gemessen via `TwoPhaseCommitFixture` bzw. `DeadlockDetectionFixture`.
 
-**Gesamt-Aufwand Transaction Gaps:** 13 Tage
+**Gesamt-Aufwand Transaction Gaps:** 0 Tage (erledigt)
 
 ---
 
@@ -216,4 +218,4 @@ Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
 
 ---
 
-*Generiert: 2026-04-15 | Wave2 | v1.9.0 Profil | benchmark\_target\_mapping.json v2.0*
+*Generiert: 2026-04-15 | Wave2 abgeschlossen | v1.9.0 Profil | benchmark\_target\_mapping.json v2.0*

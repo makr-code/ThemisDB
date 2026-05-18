@@ -110,7 +110,7 @@ Release gate interpretation:
 | Root-Release-Gates (Snapshot 2026-05-15) | Ja | Ja | Query P99 / Global P99 / Throughput-Regression mit PASS/FAIL |
 | Replication Wave2 (R-1..R-8) | Ja | Ja | Direkte SLO-Metriken teils nur als Proxy bzw. N/A verifizierbar |
 | Sharding Wave2 (SH-1..SH-12) | Ja | Ja | SH-8 hardware-gated (`not_measurable`), mehrere Ziele als Proxy evaluiert |
-| Transaction Wave2 (TX-1..TX-8) | Ja | Ja | TX-6/TX-7 mangels direkter Artefaktmetrik als N/A markiert |
+| Transaction Wave2 (TX-1..TX-8) | Ja | Ja | TX-4/TX-6 mangels direkter Artefaktmetrik als N/A markiert |
 | ONNX-CLIP (OC-1..OC-5) | Ja | Ja | Vollständig numerisch belegt, alle Ziele mit Status bewertet |
 
 Einordnung:
@@ -999,7 +999,7 @@ synthetic sensor-stream workloads (average tuple size ~100 B).
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
 |---------|----------------|-----------------|-----------------|--------|
-| C-1 L1 Hit-Path |  5 M ops/s/Core (16-Thread) |  | 5,851 M ops/s (`BM_EmbeddingCache_Query_WithIndex/100000`, Proxy) |  |
+| C-1 L1 Hit-Path |  5 M ops/s/Core (16-Thread) |  | 155,8 M ops/s (`BM_EmbeddingCache_Query_Hit/384`, direkt) |  |
 | C-2 L2 Hit-Path |  500 k ops/s |  | n/v |  |
 | C-3 L3 Hit-Path P99 |  5 ms |  | n/v |  |
 | C-4 Warmup Throughput |  500 k Entries/s |  | 443 k Entries/s (`BM_WarmupFromLog/10000/4`) |  🟡 messbar, noch unter Ziel |
@@ -1300,8 +1300,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 #### 11. Replication-Modul
 
 > **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_replication_throughput.cpp` — PRODUCTION-READY.
-> **Wave2:** R-1..R-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: R-1, R-2, R-6, R-7, R-8. Proxy-Cases: R-3, R-4, R-5.
-> Gap-Tickets: R-3-GAP (3d), R-4-GAP (2d), R-5-GAP (3d). Gesamt-Aufwand: 8d.
+> **Wave2:** R-1..R-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: R-2, R-3, R-4, R-5, R-6, R-7. Proxy-Cases: R-1, R-8.
+> Gap-Tickets: R-8-GAP (5d). R-1 bleibt ein infrastrukturell gebundener Proxy-Case (SEMI_SYNC-Cluster-Setup).
 > v1.9.0-Profil: `benchmarks/baselines/distributed/bench_replication_v190_baseline.json`
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
@@ -1345,9 +1345,9 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 13. Transaction-Modul
 
-> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` — PRODUCTION-READY (696 Zeilen, Quality 100/100).
-> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: TX-1, TX-2, TX-3, TX-8. Proxy-Cases: TX-4, TX-5, TX-6, TX-7.
-> Gap-Tickets: TX-4-GAP (4d), TX-5-GAP (3d), TX-6-GAP (3d), TX-7-GAP (3d). Gesamt-Aufwand: 13d.
+> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` und `bench_saga_compensation.cpp` — PRODUCTION-READY.
+> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Alle 8 Faelle direkt messbar — kein Proxy mehr.
+> TX-4 und TX-6 wurden von Proxy auf `mapped` umgestellt (Wave2-Abschluss).
 > v1.9.0-Profil: `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
@@ -1355,10 +1355,10 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | TX-1 OCC Commit P50 | ≤ 100 µs | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `CommitLatency/1`: 37.39 us | PASS | `mapped` |
 | TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `CommitLatency/100`: 1.016 ms | PASS | `mapped` |
 | TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `WriteOnlyTransaction`: 6826.67 tps | PASS | `mapped` |
-| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `MixedTransaction`: 0.0988 ms | PASS (Proxy) | `proxy` ⚠️ TX-4-GAP |
-| TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_SavepointCreateAndRollback` | `AbortTransaction`: 84.54 us | PASS (Proxy) | `proxy` ⚠️ TX-5-GAP |
-| TX-6 Deadlock Detection Overhead | ≤ 1 % (von 5 % verbessert) | n/a | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | keine direkte Deadlock-Overhead-Metrik im Artefakt | N/A | `proxy` ⚠️ TX-6-GAP |
-| TX-7 False Positive Rate | < 5 % | n/a | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_OccOptimisticPut` | keine False-Positive-Rate-Metrik im Artefakt | N/A | `proxy` ⚠️ TX-7-GAP |
+| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TwoPhaseCommitFixture_TwoPhaseCommitLatency` (Arg=5) | `TransactionBenchmarkFixture_MixedTransaction` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
+| TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `DatabaseWriteCompensation`: direkte SAGA-Kompensation ueber reale Handler (Artefakt: `bench_saga_compensation_v190.json`) | PASS (direkt) | `mapped` |
+| TX-6 Deadlock Detection Overhead | ≤ 1 % overhead | n/a | `DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict` | `DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder` | ausstehend — erstes CI-Lauf erforderlich | pending | `mapped` ✅ (war `proxy`) |
+| TX-7 False Positive Rate | < 5 % | n/a | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `OccReadVersionAndUpdate` Threads(1): conflicts-Counter misst direkte OCC-False-Positives (kein echter Contentionpfad aktiv) | PASS (direkt) | `mapped` |
 | TX-8 Low-Contention Success Rate | > 90 % | n/a | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `OccOptimisticPut`: 25284.57 tps (ohne success_rate-Feld) | N/A | `mapped` |
 
 ---
@@ -1938,7 +1938,7 @@ Kanonische vollständige Tabellen je Dimension:
 |---|---|---|---|---|
 | Query | QueryEngineBench/SimpleEvaluation = 796,44 M/s | >= 750 M items/s | Gruen | KPI erreicht, aber unter Kernziel 900 M/s |
 | Index | VectorIndexBench/InsertPlaintext = 548,7 k/s | >= 280 k/s | Gruen | Sekundaerindex ebenfalls ueber Modulziel 180 k/s |
-| Cache | C-1 Proxy = 5,851 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 ueber Ziel, C-4 messbar aber noch unter Ziel |
+| Cache | C-1 direkt = 155,8 M ops/s; C-4 = 443 k Entries/s (10k/4 workers) | >= 5 M ops/s/Core; >= 500 k Entries/s | Gelb | C-1 deutlich ueber Ziel, C-4 messbar aber noch unter Ziel |
 | Storage | BM_SustainedWrite/16 = ~2,4 k ops/s | >= 100.000 ops/s (Sustained Write NVMe) | Rot | 1:1-nahe CRUD-Cases vorhanden, aber Sustained-Write klar unter Ziel |
 | Analytics | AN-3/AN-4 direkt gemessen (Parquet/CSV je ~125-128k items/s) | 1M-Export-Ziele 2,0 s / 0,5 s | Rot | Direkte Cases vorhanden, aber Laufzeit fuer beide Exportziele deutlich ueber Ziel |
 | Timeseries | TS-1 = 61,00 M pts/s; TS-6 = 1,906 M pts/s (1-min Aggregate) | > 500 k pts/s; TS-6 > 10 M pts/s | Gelb | TS-1 im Ziel, TS-6 direkt gemessen aber unter Ziel |
@@ -2160,16 +2160,16 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 |---|---|---|
 | Query-Engine | Gute Abdeckung | Dedizierte 1:1-Cases fuer Run-Plan 1-3 inkl. P99, Skalierung und historischem Querymix vorhanden |
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
-| Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
+| Cache | **C-1 direkt messbar** | C-1 jetzt direkt: `BM_EmbeddingCache_Query_Hit` (`bench_v1_3_0_features.cpp`, 155,8 M ops/s); C-4 messbar aber unter Ziel; C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
 | Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
 | Analytics | **Produktiv (4 neue Cases, v1.8.3)** | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert (`BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted`); weitere AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 direkt messbar; Export-Ziele AN-3/AN-4 weiter unter Ziel, AN-10 plattformblockiert |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | **Ziel-ID-Mapping vollstaendig (v1.8.2)** | GEO-1..GEO-9 vollstaendig kartiert (`benchmark_target_mapping.json`); v1.8.2-Referenzlauf mit Rohdaten (`artifacts/perf_local/bench_geo_v182_reference.json`); GEO-1..GEO-6 messbar und SLO erfuellt; GEO-7/GEO-8/GEO-9 explizit als nicht messbar dokumentiert |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
-| Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-1/R-2/R-6/R-7/R-8; Proxy-Cases: R-3/R-4/R-5; Gap-Tickets R-3-GAP..R-5-GAP mit Aufwand 8d |
+| Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-3/R-4/R-5/R-6/R-7; Proxy-Cases: R-1/R-8; Gap-Ticket R-8-GAP mit Aufwand 5d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
-| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-8; Proxy-Cases: TX-4..TX-7; Gap-Tickets TX-4-GAP..TX-7-GAP mit Aufwand 13d |
+| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-5/TX-7/TX-8; Proxy-Cases: TX-4/TX-6; Gap-Tickets TX-4-GAP/TX-6-GAP mit Aufwand 7d |
 | LLM | **Benchmark implementiert (2026-04-13)** — GPU-abhaengig | `bench_llm_inference_performance.cpp` ✅ vollstaendig implementiert (Batch-Inference/LoRA-Load/Multi-LoRA/Adapter-Switch); ~~nur Stub/Skip~~ — Pfade sind registriert; L-1..L-8 erfordern weiterhin GPU/Modell-Artefakte fuer numerische Werte |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |
@@ -2319,7 +2319,7 @@ Auswertung fuer die aktuell messbaren Erwartungen im Dokument:
 | Query | QueryEngineBench/SimpleEvaluation | 750.0 M items/s | 0.744 | 558.000 M items/s | 796.4 M items/s | 1.427 | ueber-soll |
 | Index | VectorIndexBench/InsertPlaintext | 280.0 k/s | 0.622 | 174.160 k/s | 548.7 k/s | 3.150 | ueber-soll |
 | Index | SecondaryIndexBench/IndexInsert | 180.0 k/s | 0.736 | 132.480 k/s | 254.9 k/s | 1.924 | ueber-soll |
-| Cache | C-1 Proxy (BM_EmbeddingCache_Query_WithIndex/100000) | 5.0 M ops/s | 0.744 | 3.720 M ops/s | 5.851 M ops/s | 1.573 | ueber-soll |
+| C-1 Cache direkt (BM_EmbeddingCache_Query_Hit/384) | 5.0 M ops/s | 0.744 | 3.720 M ops/s | 155.8 M ops/s | 1.573 | ueber-soll |
 
 Kurzfazit (nur Rohmodell, noch nicht release-tauglich):
 
@@ -3161,7 +3161,7 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 
 | Modul | Benchmark-Case | Ergebnis |
 |---|---|---|
-| Cache | `BM_EmbeddingCache_Query_WithIndex/100000` | 5.851 M/s |
+| Cache | `BM_EmbeddingCache_Query_Hit/384` | 155.8 M/s |
 | Storage | `BM_RCU_Read_MultiThread/threads:8` | 1.390 G/s |
 | Graph | `GraphTraversalBenchmarkFixture/BFSTraversal/1000/4` | 358.4k nodes/s |
 | Timeseries | `AdaptiveFlushFixture/SingleThreaded/min_time:2.000/threads:1` | 322.157k pts/s |

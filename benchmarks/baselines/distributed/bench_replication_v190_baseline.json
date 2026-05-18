@@ -32,34 +32,28 @@
     },
     "R-3": {
       "label": "Leader-Failover",
-      "primary_case": "BM_ReplicationManager_Initialize",
-      "fallback_case": "WalBenchFixture_Append",
+      "primary_case": "BM_ReplicationManager_PromoteToLeader",
+      "fallback_case": "BM_ReplicationManager_Initialize",
       "slo_target": "≤ 10 s",
-      "status": "proxy",
-      "gap_ref": "R-3-GAP",
-      "gap_effort_days": 3,
+      "status": "mapped",
       "measured_real_time_ms": null,
       "slo_met": null
     },
     "R-4": {
       "label": "HLC Conflict Detection",
-      "primary_case": "BM_WALEntry_Serialize",
-      "fallback_case": "BM_WALEntry_Deserialize",
+      "primary_case": "BM_HLCConflictDetection",
+      "fallback_case": "BM_WALEntry_Serialize",
       "slo_target": "< 5 µs/Write",
-      "status": "proxy",
-      "gap_ref": "R-4-GAP",
-      "gap_effort_days": 2,
+      "status": "mapped",
       "measured_real_time_ns": null,
       "slo_met": null
     },
     "R-5": {
       "label": "CRDT Merge",
-      "primary_case": "BM_WALEntry_Deserialize",
-      "fallback_case": "BM_WALEntry_Serialize",
+      "primary_case": "BM_CRDTMerge",
+      "fallback_case": "BM_WALEntry_Deserialize",
       "slo_target": "≤ 1 µs/Merge",
-      "status": "proxy",
-      "gap_ref": "R-5-GAP",
-      "gap_effort_days": 3,
+      "status": "mapped",
       "measured_real_time_ns": null,
       "slo_met": null
     },
@@ -96,30 +90,6 @@
     }
   },
   "missing_cases": [
-    {
-      "gap_id": "R-3-GAP",
-      "title": "Direkte Leader-Failover-Benchmark",
-      "description": "Benchmark für Raft-Leadership-Transfer inkl. Election-Timeout und Re-Synchronisierung. Benötigt zwei ReplicationManager-Instanzen und simulierten Leader-Crash.",
-      "effort_days": 3,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "R-3"
-    },
-    {
-      "gap_id": "R-4-GAP",
-      "title": "HLC Conflict-Detection Mikrobenchmark",
-      "description": "Direktes Benchmark für Hybrid Logical Clock Timestamp-Vergleich und Conflict-Detection-Pfad. Erfordert HLCTimestamp-Fixture mit kontrollierten Clock-Skews.",
-      "effort_days": 2,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "R-4"
-    },
-    {
-      "gap_id": "R-5-GAP",
-      "title": "CRDT Merge Mikrobenchmark",
-      "description": "Direktes Benchmark für G-Counter/OR-Set/LWW-Register CRDT-Merge-Operation. Erfordert CRDT-Datenstruktur-Fixture mit realistischen Delta-Größen.",
-      "effort_days": 3,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "R-5"
-    },
     {
       "gap_id": "R-8-GAP",
       "title": "Cross-DC WAN-Latenz-Simulation",

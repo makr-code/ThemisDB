@@ -8,6 +8,7 @@
 ## Benchmark-Bezug
 - Relevante Benchmark-Dateien:
   - `benchmarks/bench_transaction_throughput.cpp`
+  - `benchmarks/bench_saga_compensation.cpp`
 
 ## Spezifische Erwartungswerte
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
@@ -16,9 +17,9 @@
 | TX-2 | ≤ 5 ms | `TransactionBenchmarkFixture_CommitLatency` |
 | TX-3 | > 6 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` |
 | TX-4 | ≤ 5 ms | `TransactionBenchmarkFixture_MixedTransaction` |
-| TX-5 | ≤ 20 ms | `TransactionBenchmarkFixture_AbortTransaction` |
+| TX-5 | ≤ 20 ms | `SagaBenchmarkFixture_DatabaseWriteCompensation` |
 | TX-6 | ≤ 1 % overhead (vs. 5 % baseline) | `TransactionBenchmarkFixture_ReadOnlyTransaction` |
-| TX-7 | < 5 % | `TransactionBenchmarkFixture_AbortTransaction` |
+| TX-7 | < 5 % | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` |
 | TX-8 | > 90 % | `TransactionBenchmarkFixture_OccOptimisticPut` |
 
 ## Validierung

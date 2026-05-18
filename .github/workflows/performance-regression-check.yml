@@ -43,7 +43,7 @@ jobs:
             libboost-filesystem-dev \
             libboost-system-dev \
             libzstd-dev \
-            libtbb-dev
+            libtbb-dev \
             libcurl4-openssl-dev
 
       - name: Configure benchmark build
