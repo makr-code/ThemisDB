@@ -8,11 +8,11 @@
 
 This page is now language-neutral. Please choose your language:
 
-- 🇩🇪 Deutsch (primär): [de/Home.md](de/Home.md)
+- 🇩🇪 German (primary): [de/Home.md](de/Home.md)
 - 🇬🇧 English: [en/Home.md](en/Home.md)
 
 > [!NOTE]
-> German docs are authoritative; translations may lag.
+> German and English documentation are maintained in parallel; minor timing differences can occur.
 
 ---
 
