@@ -1310,6 +1310,7 @@
       },
       "AC-1": {
         "label": "CI-Job with THEMIS_ENABLE_VOICE_ASSISTANT=ON active",
+        "category": "acceptance_gate",
         "primary_benchmark": "",
         "file": "bench_voice_assistant.cpp",
         "status": "not_measurable",
@@ -1317,12 +1318,14 @@
       },
       "AC-2": {
         "label": "bench_voice_assistant built and >=1 test run documented",
+        "category": "acceptance_gate",
         "primary_benchmark": "BM_VoiceCommandProcessing_SmallAudio",
         "file": "bench_voice_assistant.cpp",
         "status": "mapped"
       },
       "AC-3": {
         "label": "Missing voice-dependency failure documented as SKIP",
+        "category": "acceptance_gate",
         "primary_benchmark": "",
         "file": "bench_voice_assistant.cpp",
         "status": "not_measurable",
@@ -1330,6 +1333,7 @@
       },
       "AC-4": {
         "label": "Voice CI report linked in PERFORMANCE_EXPECTATIONS.md",
+        "category": "acceptance_gate",
         "primary_benchmark": "",
         "file": "bench_voice_assistant.cpp",
         "status": "not_measurable",
