@@ -110,7 +110,7 @@ Release gate interpretation:
 | Root-Release-Gates (Snapshot 2026-05-15) | Ja | Ja | Query P99 / Global P99 / Throughput-Regression mit PASS/FAIL |
 | Replication Wave2 (R-1..R-8) | Ja | Ja | Direkte SLO-Metriken teils nur als Proxy bzw. N/A verifizierbar |
 | Sharding Wave2 (SH-1..SH-12) | Ja | Ja | SH-8 hardware-gated (`not_measurable`), mehrere Ziele als Proxy evaluiert |
-| Transaction Wave2 (TX-1..TX-8) | Ja | Ja | TX-6/TX-7 mangels direkter Artefaktmetrik als N/A markiert |
+| Transaction Wave2 (TX-1..TX-8) | Ja | Ja | TX-4/TX-6 mangels direkter Artefaktmetrik als N/A markiert |
 | ONNX-CLIP (OC-1..OC-5) | Ja | Ja | Vollständig numerisch belegt, alle Ziele mit Status bewertet |
 
 Einordnung:
@@ -1300,8 +1300,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 #### 11. Replication-Modul
 
 > **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_replication_throughput.cpp` — PRODUCTION-READY.
-> **Wave2:** R-1..R-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: R-1, R-2, R-6, R-7, R-8. Proxy-Cases: R-3, R-4, R-5.
-> Gap-Tickets: R-3-GAP (3d), R-4-GAP (2d), R-5-GAP (3d). Gesamt-Aufwand: 8d.
+> **Wave2:** R-1..R-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: R-2, R-3, R-4, R-5, R-6, R-7. Proxy-Cases: R-1, R-8.
+> Gap-Tickets: R-8-GAP (5d). R-1 bleibt ein infrastrukturell gebundener Proxy-Case (SEMI_SYNC-Cluster-Setup).
 > v1.9.0-Profil: `benchmarks/baselines/distributed/bench_replication_v190_baseline.json`
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
@@ -2167,7 +2167,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Geo | **Ziel-ID-Mapping vollstaendig (v1.8.2)** | GEO-1..GEO-9 vollstaendig kartiert (`benchmark_target_mapping.json`); v1.8.2-Referenzlauf mit Rohdaten (`artifacts/perf_local/bench_geo_v182_reference.json`); GEO-1..GEO-6 messbar und SLO erfuellt; GEO-7/GEO-8/GEO-9 explizit als nicht messbar dokumentiert |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
-| Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-1/R-2/R-6/R-7/R-8; Proxy-Cases: R-3/R-4/R-5; Gap-Tickets R-3-GAP..R-5-GAP mit Aufwand 8d |
+| Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-3/R-4/R-5/R-6/R-7; Proxy-Cases: R-1/R-8; Gap-Ticket R-8-GAP mit Aufwand 5d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
 | Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-5/TX-7/TX-8; Proxy-Cases: TX-4/TX-6; Gap-Tickets TX-4-GAP/TX-6-GAP mit Aufwand 7d |
 | LLM | **Benchmark implementiert (2026-04-13)** — GPU-abhaengig | `bench_llm_inference_performance.cpp` ✅ vollstaendig implementiert (Batch-Inference/LoRA-Load/Multi-LoRA/Adapter-Switch); ~~nur Stub/Skip~~ — Pfade sind registriert; L-1..L-8 erfordern weiterhin GPU/Modell-Artefakte fuer numerische Werte |

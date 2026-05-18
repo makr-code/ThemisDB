@@ -110,19 +110,19 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
-| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `mapped` | `BM_ReplicationLagWAN` (Arg=2) | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
+| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `proxy` ⚠️ | `WalBenchFixture_Append` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` |
 | R-2 | ≥ 500 MB/s WAL-Shipping | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
 | R-3 | ≤ 10 s Leader-Failover | `mapped` | `BM_ReplicationManager_PromoteToLeader` | `BM_ReplicationManager_Initialize` | `bench_replication_throughput.cpp` |
 | R-4 | < 5 µs/Write HLC | `mapped` | `BM_HLCConflictDetection` | `BM_WALEntry_Serialize` | `bench_replication_throughput.cpp` |
 | R-5 | ≤ 1 µs/Merge CRDT | `mapped` | `BM_CRDTMerge` | `BM_WALEntry_Deserialize` | `bench_replication_throughput.cpp` |
 | R-6 | ≥ 200 MB/s WAL-Replay | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
 | R-7 | ≤ 1 ms CDC Event P99 | `mapped` | `ChangefeedBenchmarkFixture_EventRecordingThroughput` | `BM_RecordEventLatency` | `bench_changefeed_throughput.cpp` |
-| R-8 | ≤ 200 ms Cross-DC P99 | `mapped` | `BM_ReplicationLagWAN` | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
+| R-8 | ≤ 200 ms Cross-DC P99 | `proxy` ⚠️ | `WalBenchFixture_ReadFrom` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` |
 
 > ⚠️ = Proxy-Benchmark; direktes Benchmark ist als Gap dokumentiert (§4.1)
 
-**Direkt messbare SLOs:** R-1, R-2, R-3, R-4, R-5, R-6, R-7, R-8 (8/8 = 100.0%)
-**Proxy-Cases:** keine (0/8)
+**Direkt messbare SLOs:** R-2, R-3, R-4, R-5, R-6, R-7 (6/8 = 75.0%)
+**Proxy-Cases:** R-1, R-8 (2/8)
 
 ---
 
@@ -171,12 +171,19 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 ## 4. Fehlende Cases (Gap-Analyse mit Aufwandsschätzung)
 
-Alle `proxy`-Cases haben ein zugeordnetes Gap-Ticket. Die folgenden Untertickets
-dokumentieren den Aufwand für direkte Benchmark-Implementierungen.
+Die folgenden Untertickets dokumentieren den Aufwand für direkte
+Benchmark-Implementierungen der offenen Proxy-Cases mit explizitem Gap-Ticket.
 
 ### 4.1 Replication Gaps
 
-Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
+| Gap-ID | Titel | Blockiertes SLO | Aufwand (Tage) | Ziel-Milestone |
+|--------|-------|-----------------|----------------|----------------|
+| R-8-GAP | Cross-DC WAN-Latenz-Simulation | R-8 | 5 | v2.0.0 |
+
+Hinweis: R-1 bleibt ein infrastrukturell gebundener Proxy-Case (SEMI\_SYNC
+Cluster-Setup erforderlich) und ist derzeit ohne separates Gap-Ticket geführt.
+
+**Gesamt-Aufwand Replication Gaps:** 5 Tage
 
 
 ---
