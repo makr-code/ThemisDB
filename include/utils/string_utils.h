@@ -20,11 +20,62 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <algorithm>
 #include <cctype>
 
 namespace themis {
 namespace utils {
+
+/**
+ * @brief Trim leading/trailing whitespace from a string.
+ * @param s Input string.
+ * @param ws Whitespace character set (default: " \t\r\n").
+ * @return Trimmed string (returns empty if input is all-whitespace).
+ */
+inline std::string trim(const std::string& s, std::string_view ws = " \t\r\n") {
+    const auto b = s.find_first_not_of(ws);
+    if (b == std::string::npos) return {};
+    const auto e = s.find_last_not_of(ws);
+    return s.substr(b, e - b + 1);
+}
+
+/**
+ * @brief Trim std::string_view in-place without allocation.
+ * @param sv Input string view.
+ * @param ws Whitespace character set (default: " \t\r\n").
+ * @return Trimmed view of original data (may be empty).
+ */
+inline std::string_view trim_view(std::string_view sv, std::string_view ws = " \t\r\n") {
+    const auto b = sv.find_first_not_of(ws);
+    if (b == std::string_view::npos) return {};
+    const auto e = sv.find_last_not_of(ws);
+    return sv.substr(b, e - b + 1);
+}
+
+/**
+ * @brief Left-trim (remove leading whitespace).
+ * @param s Input string.
+ * @param ws Whitespace character set (default: " \t\r\n").
+ * @return Left-trimmed string.
+ */
+inline std::string ltrim(const std::string& s, std::string_view ws = " \t\r\n") {
+    const auto b = s.find_first_not_of(ws);
+    if (b == std::string::npos) return {};
+    return s.substr(b);
+}
+
+/**
+ * @brief Right-trim (remove trailing whitespace).
+ * @param s Input string.
+ * @param ws Whitespace character set (default: " \t\r\n").
+ * @return Right-trimmed string.
+ */
+inline std::string rtrim(const std::string& s, std::string_view ws = " \t\r\n") {
+    const auto e = s.find_last_not_of(ws);
+    if (e == std::string::npos) return {};
+    return s.substr(0, e + 1);
+}
 
 /**
  * @brief Case-insensitive string comparison utilities

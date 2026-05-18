@@ -45,6 +45,7 @@
 
 #include "updates/dependency_resolver.h"
 
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <cstdio>
 #include <map>
@@ -73,12 +74,7 @@ static std::tuple<int, int, int> parseVersion(const std::string& v) {
 }
 
 /// Trim leading and trailing whitespace.
-static std::string trim(const std::string& s) {
-    const auto start = s.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return "";
-    const auto end = s.find_last_not_of(" \t\r\n");
-    return s.substr(start, end - start + 1);
-}
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 /// Split @p s on delimiter @p ch and trim each part.
 static std::vector<std::string> splitOn(const std::string& s, char ch) {
@@ -86,13 +82,13 @@ static std::vector<std::string> splitOn(const std::string& s, char ch) {
     std::string cur;
     for (char c : s) {
         if (c == ch) {
-            parts.push_back(trim(cur));
+            parts.push_back(themis::utils::trim(cur));
             cur.clear();
         } else {
             cur += c;
         }
     }
-    parts.push_back(trim(cur));
+    parts.push_back(themis::utils::trim(cur));
     return parts;
 }
 
