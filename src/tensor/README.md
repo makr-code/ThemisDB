@@ -66,7 +66,7 @@ Boundary analysis: `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
 | File | Description |
 |------|-------------|
 | `include/tensor/tensor_fingerprint_graph.h` | `TensorFingerprintGraph` — fast approximate adapter similarity |
-| `src/tensor/tensor_fingerprint_graph.cpp` | Fingerprint graph implementation (STUB #174: column-mean cosine approx) |
+| `src/tensor/tensor_fingerprint_graph.cpp` | Fingerprint graph implementation (STUB #276: column-mean cosine approx) |
 
 ### Phase 5 — Hierarchical Tucker Index (🟡 Experimental Q1 2028)
 
