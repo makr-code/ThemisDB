@@ -309,9 +309,10 @@
       "GEO-8": {
         "label": "GPU Contains (1M Punkte, A10G) <= 50 ms",
         "primary_benchmark": "BM_GeoGPU_BatchIntersects",
+        "fallback_benchmark": "BM_GeoCPUExact_BatchIntersects",
         "file": "bench_geo_cpu_gpu.cpp",
-        "status": "not_measurable",
-        "note": "Erfordert GPU-Hardware (A10G). Benchmark ist registriert, ueberspringt auf CPU-only-CI-Runnern (state.SkipWithError). Messung auf GPU-Runner erforderlich.",
+        "status": "mapped",
+        "note": "Direktbenchmark vorhanden. GPU-SLO-Messung auf GPU-Runnern; CPU-Fallback-Benchmark als Vergleichsbasis verfuegbar.",
         "slo_met": null
       },
       "GEO-9": {
@@ -386,14 +387,14 @@
     "replication": {
       "R-1": {
         "label": "Replikations-Lag P99 (SEMI_SYNC)",
-        "primary_benchmark": "WalBenchFixture_Append",
-        "primary_case": "WalBenchFixture_Append",
-        "fallback_case": "BM_ReplicationLag",
-        "file": "bench_replication_throughput.cpp",
-        "fallback_file": "bench_changefeed_throughput.cpp",
-        "status": "proxy",
+        "primary_benchmark": "BM_ReplicationLag",
+        "primary_case": "BM_ReplicationLag",
+        "fallback_case": "WalBenchFixture_Append",
+        "file": "bench_changefeed_throughput.cpp",
+        "fallback_file": "bench_replication_throughput.cpp",
+        "status": "mapped",
         "slo_target": "≤ 50 ms @ 10k Writes/s (LAN)",
-        "notes": "WAL append throughput is a latency proxy; direct semi-sync lag requires a running replica cluster."
+        "notes": "Direkte Lag-Messung via BM_ReplicationLag (P50/P95/P99-Latenz). WAL append bleibt struktureller Throughput-Fallback."
       },
       "R-2": {
         "label": "WAL-Shipping Throughput (Zstd L3)",
@@ -457,16 +458,13 @@
       },
       "R-8": {
         "label": "Cross-DC Lag ASYNC",
-        "primary_benchmark": "WalBenchFixture_ReadFrom",
-        "primary_case": "WalBenchFixture_ReadFrom",
+        "primary_benchmark": "BM_ReplicationLagWAN",
+        "primary_case": "BM_ReplicationLagWAN",
         "fallback_case": "BM_ReplicationLag",
-        "file": "bench_replication_throughput.cpp",
-        "fallback_file": "bench_changefeed_throughput.cpp",
-        "status": "proxy",
+        "file": "bench_changefeed_throughput.cpp",
+        "status": "mapped",
         "slo_target": "≤ 200 ms P99 (50 ms RTT WAN)",
-        "notes": "WAL read throughput is a proxy for cross-DC replication rate. Direct cross-DC lag requires a WAN simulation setup — see §R-8-GAP.",
-        "gap_ref": "R-8-GAP",
-        "gap_effort_days": 5
+        "notes": "Direkte Cross-DC-Lag-Messung via BM_ReplicationLagWAN mit simulierter WAN-RTT; BM_ReplicationLag bleibt LAN-Fallback."
       }
     },
     "sharding": {
@@ -1677,10 +1675,10 @@
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
     "total": 207,
-    "mapped": 201,
-    "proxy": 2,
-    "not_measurable": 4,
+    "mapped": 204,
+    "proxy": 0,
+    "not_measurable": 3,
     "gap": 0,
-    "coverage_pct": 97.1
+    "coverage_pct": 98.6
   }
 }
