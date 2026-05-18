@@ -41,9 +41,9 @@
 
 ---
 
-## Stub Inventory (272 entries — 269 resolved, 3 active)
+## Stub Inventory (275 entries — 269 resolved, 6 active)
 
-**Active stub IDs:** `275`, `276`, `277`
+**Active stub IDs:** `275`, `276`, `277`, `278`, `279`, `280`
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
@@ -319,5 +319,8 @@
 | 275 | `query/tensor_aware_query_optimizer.cpp` — string scanning vs AST rewrite | Detection based on presence of function names in `QueryPlanNode::description` field; no AST-level IR visitor | Always active | String scan may produce false positives for non-tensor functions with similar names; AST rewrite bypasses string scanning entirely | 🟢 Niedrig | `src/query/tensor_aware_query_optimizer.cpp` STUB/SIMULATION NOTE | Q1 2027 — replace description-scan with AQL IR visitor |
 | 276 | `tensor/tensor_fingerprint_graph.cpp` — cosine vs TT inner-product similarity | `findSimilar()` ranks adapters by cosine similarity on first-core column-mean fingerprint, not full TT inner-product (note: source references STUB #174, reassigned to #276) | Always — no compile-time flag required | For adapters with first-core energy < 60% Frobenius norm, ranking can deviate from exact result | 🟡 Mittel | `src/tensor/tensor_fingerprint_graph.cpp` STUB/SIMULATION NOTE (stub #174) | Q3 2027 — replace inner loop with `TTTrain::innerProduct()` + optional HNSW indexing |
 | 277 | `tensor/tensor_index_manager.cpp::ggmlCorePtrs()` — raw pointer deprecation | Returns raw `const float*` pointers with no mmap / mlock protection; pointers valid only while index is alive and no mutation occurs | Always (deprecated; prefer `mapCores()` for new code) | No lifetime guarantee beyond index object; unsafe for concurrent mutation or index replacement | 🟡 Mittel | `src/tensor/tensor_index_manager.cpp` STUB/SIMULATION NOTE | Remove after all callers migrate to `mapCores()` |
+| 278 | `query/functions/process_mining_functions.cpp::PmPredictEndFunction::execute()` — null prediction placeholder | `PM_PREDICT_END` keeps the public AQL function registered, but no predictive model/service is wired and `case_id` is ignored | Always active | Every call returns `{"predicted_end": null}`; process-mining ETA / SLA prediction is unavailable despite the exposed API | 🟠 Hoch | `include/query/functions/process_mining_functions.h`; `src/query/functions/process_mining_functions.cpp` STUB/SIMULATION NOTE | Wire process-end prediction backend and return a real forecast timestamp |
+| 279 | `transaction/distributed_transaction_manager.cpp::runPhase2Unlocked()` — remote phase-2 RPC missing | Callback-less participants are treated as remote nodes, but COMMIT / ABORT is skipped instead of being sent over RPC | `part.callback == nullptr` during phase 2 | Coordinator logs the final decision locally, but remote participants do not receive COMMIT / ABORT and can remain prepared/orphaned until manual recovery | 🔴 Kritisch | `src/sharding/ROADMAP.md` §RPC integration; `src/sharding/FUTURE_ENHANCEMENTS.md` §RPC integration hardening | Replace skip-path with shard RPC / mTLS decision fan-out for remote participants |
+| 280 | `server/rope_api_handler.cpp::requireAccess()` — authenticated allow-all fallback | ROPE endpoints call `requireAccess(permission, resource, path)`, but the handler never authorizes the requested scope against RBAC | Auth middleware enabled for ROPE endpoints | Any authenticated caller can use ROPE read/write endpoints regardless of missing `vector:*` / `data:*` permissions | 🟠 Hoch | `src/security/ROADMAP.md` §RBAC enforcement; `src/server/rope_api_handler.cpp` STUB/SIMULATION NOTE | Reuse VectorApiHandler scope checks and deny unauthorized ROPE operations with HTTP 403 |
 
-*Last updated: 2026-05-11 — 272 entries, 269 resolved, 3 active — #268..#272 resolved via runtime bridge APIs + tests; maintained by: Copilot, see `src/ROADMAP.md`*
+*Last updated: 2026-05-18 — 275 entries, 269 resolved, 6 active — #278..#280 added from src deep-dive; maintained by: Copilot, see `src/ROADMAP.md`*

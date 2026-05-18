@@ -487,8 +487,18 @@ json PmBottlenecksFunction::execute(
 }
 
 // ============================================================================
-// PM_PREDICT_END  (requires predictive model, not yet implemented)
+// PM_PREDICT_END
 // ============================================================================
+// STUB/SIMULATION NOTE (stub #278):
+// Purpose: Keep the public PM_PREDICT_END AQL symbol available while the
+//          process-end prediction model/service is still missing.
+// Activation: Always active. No prediction backend/provider is queried yet.
+// Production Delta: `case_id` is currently ignored and the function always
+//                   returns `{"predicted_end": null}`. No SLA/ETA forecast is
+//                   produced for running process instances.
+// Removal Plan: Wire a predictive backend from the analytics/process-mining
+//               stack and replace the null placeholder with a real timestamp
+//               forecast (tracked in STUB_INVENTORY #278).
 
 json PmPredictEndFunction::execute(
     const std::vector<json>& /*args*/,
@@ -528,5 +538,4 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
-
 
