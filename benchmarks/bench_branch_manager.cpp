@@ -28,6 +28,8 @@
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
+#include <chrono>
+#include <sstream>
 
 namespace themis {
 namespace transaction {
@@ -35,20 +37,24 @@ namespace transaction {
 class BranchManagerBenchmark : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        // Create unique test database path
-        test_db_path_ = "./data/themis_branch_manager_bench";
+        // Create unique thread-safe test database path
+        const auto unique_id = static_cast<unsigned long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        std::ostringstream suffix;
+        suffix << "themis_branch_manager_bench_t" << state.thread_index() << "_" << unique_id;
+        const auto db_dir = std::filesystem::absolute(
+            std::filesystem::path("data") / suffix.str());
+        test_db_path_ = db_dir.string();
         
         // Remove if exists
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);
         }
         
-        // Create directory
-        std::filesystem::create_directories(test_db_path_);
-        
-        // Initialize database
+        // Initialize database with absolute paths and WAL directory
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.wal_dir = (db_dir / "wal").string();
         db_ = std::make_unique<RocksDBWrapper>(config);
         if (!db_->open()) {
             throw std::runtime_error("failed to open benchmark RocksDB instance");

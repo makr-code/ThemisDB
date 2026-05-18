@@ -259,7 +259,7 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     
     // Launch Vulkan compute shader
     try {
-        vulkan::launch_embedding_lookup_shader(
+        ::themis::lora::vulkan::launch_embedding_lookup_shader(
             embeddings_data.data(),
             token_data.data(),
             weights_data.data(),

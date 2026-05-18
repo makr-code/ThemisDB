@@ -70,7 +70,7 @@ void populateTree(IntervalTreeIndex& tree, int n) {
         char buf[32];
         std::snprintf(buf, sizeof(buf), "key_%06d", i);
         IntervalEntry e;
-        e.entity_id = buf;
+        e.key       = buf;
         e.range     = {static_cast<Timestamp>(i * kStep),
                        static_cast<Timestamp>((i + 1) * kStep - 1)};
         e.payload   = {{"i", i}};
@@ -112,7 +112,7 @@ static void BM_ITEB01_SingleKeyErase(benchmark::State& state) {
         // Re-insert so the next iteration finds the key again.
         state.PauseTiming();
         IntervalEntry e;
-        e.entity_id = target;
+        e.key       = target;
         e.range     = {static_cast<Timestamp>((n / 2) * kStep),
                        static_cast<Timestamp>((n / 2 + 1) * kStep - 1)};
         e.payload   = {{"i", n / 2}};
@@ -191,7 +191,7 @@ static void BM_ITEB04_MixedReadErase(benchmark::State& state) {
             tree.erase(k);
             // Re-insert immediately so reads still find entries.
             IntervalEntry e;
-            e.entity_id = k;
+            e.key       = k;
             e.range     = {static_cast<Timestamp>(idx * kStep),
                            static_cast<Timestamp>((idx + 1) * kStep - 1)};
             e.payload   = {{"i", idx}};
@@ -233,7 +233,7 @@ static void BM_ITEB05_LargePayloadErase(benchmark::State& state) {
         IntervalTreeIndex tree("bench_large");
         for (int i = 0; i < kN; ++i) {
             IntervalEntry e;
-            e.entity_id = keyName(i);
+            e.key       = keyName(i);
             e.range     = {static_cast<Timestamp>(i * kStep),
                            static_cast<Timestamp>((i + 1) * kStep - 1)};
             e.payload   = blob;

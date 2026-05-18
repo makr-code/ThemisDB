@@ -4,9 +4,9 @@
 <!-- Primärdokumentation: ../../../src/network/ -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MISSING_IMPLEMENTATIONS.md -->
 
-**Stand:** 6. April 2026  
-**Version:** 1.1  
-**Kategorie:** Netzwerk / Transportunfrastruktur  
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** Netzwerk / Transportunfrastruktur
 **Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
@@ -209,6 +209,36 @@ quic.start();
 
 ---
 
+## Usage
+
+- Serverseitig typischer Entry-Point: `WireProtocolServer` aus `include/network/wire_protocol_server.h`
+- Für Client-Reuse: `WireProtocolConnectionPool` aus `include/network/wire_protocol_connection_pool.h`
+- Feature-Flags für optionale Transportschichten:
+  - `THEMIS_ENABLE_WEBSOCKET`
+  - `THEMIS_ENABLE_HTTP3`
+  - `THEMIS_ENABLE_GRPC`
+  - `THEMIS_ENABLE_SERVICE_MESH`
+
+## Troubleshooting
+
+- TLS-/mTLS-Startprobleme: Zertifikatpfade und Dateirechte prüfen; `validateTransportSecurity(...)` vor `start()` ausführen.
+- Viele abgewiesene Verbindungen: `max_connections`, `max_connections_per_ip`, `max_requests_per_second` und `max_requests_per_minute` verifizieren.
+- QUERY_AQL/GEO_QUERY liefern Fehlercode: aktuell erwartetes Verhalten; auf HTTP-REST-API ausweichen.
+
+Siehe auch: [docs/troubleshooting/network_troubleshooting.md](../../troubleshooting/network_troubleshooting.md)
+
+---
+
+## Installation
+
+Das Network-Modul wird als Teil von ThemisDB gebaut. Für Header-Nutzung:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+---
+
 ## Links zur Primärdokumentation
 
 - [Sourcecode-README](../../../src/network/README.md)
@@ -216,4 +246,6 @@ quic.start();
 - [Roadmap](../../../src/network/ROADMAP.md)
 - [Future Enhancements](../../../src/network/FUTURE_ENHANCEMENTS.md)
 - [Header-README](../../../include/network/README.md)
+- [Roadmap-Bewertung (docs/de)](../roadmap/network_roadmap.md)
+- [Primärquellen-Inventar](PRIMARY_SOURCES.md)
 - [Fehlende Implementierungen](MISSING_IMPLEMENTATIONS.md) ← Dieser Report

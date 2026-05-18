@@ -1,5 +1,5 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
-> **Test:** `cmake --build --preset linux-ninja-release --target test_process_aris_xml_focused`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release --target <target>`
+> **Test:** `ctest --preset linux-release --output-on-failure -R process`
 
 # ThemisDB Process Modeling Module
 
@@ -78,6 +78,26 @@ LLM conformance checking are planned for v1.1.0.
 
 This directory (`src/process/`) contains **implementation files only**. For API
 documentation, see [`../../include/process/`](../../include/process/).
+
+## Configuration Options
+
+### `ProcessRagConfig` (`include/process/process_graph_rag.h`)
+
+- Retrieval depth/shape: `max_subgraph_depth`, `max_similar_cases`
+- Context toggles: `include_attachments`, `include_history`, `include_missing_docs`, `include_compliance`
+- Ranking/prompt controls: `similarity_threshold`, `max_prompt_tokens`, `language`, `use_ppr`
+
+### `ProcessAgenticConfig` (`include/process/process_agentic_rag.h`)
+
+- Iteration controls: `max_iterations`, `max_total_documents`
+- Quality gates: `quality_threshold`, `faithfulness_threshold`
+- Embedded Graph-RAG defaults: `rag_config`
+
+### Optional `ProcessModelManager` integrations (`include/process/process_model_manager.h`)
+
+- `setEmbedder(...)`: automatic embedding generation during `save()`
+- `setInvertedIndex(...)`: BM25-backed text search for `search(...)`
+- `setVectorIndex(...)`: HNSW-backed nearest-neighbor for `findSimilar(...)`
 
 ## Implementation Files
 
@@ -203,6 +223,33 @@ FOR m IN _process_definitions
   FILTER CONTAINS(LOWER(m.name), "bauantrag")
   RETURN m
 ```
+
+## Runtime Behavior, Error Cases, and Limits
+
+- **Error signaling:** import/save/link operations report failure via result objects (`ProcessModelResult` or `{bool, message}` pairs).
+- **Parser safety limits:** BPMN and ARIS XML imports use bounded parser paths including size guards (10 MiB guard documented for tokenizer-based XML imports).
+- **Retrieval limits:** prompt assembly is constrained by `ProcessRagConfig::max_prompt_tokens`; subgraph scope is constrained by depth/PPR settings.
+- **Fallback paths:** semantic similarity uses embeddings when available; fallback heuristics keep retrieval functional when embeddings are missing.
+- **Storage lifecycle:** model deletes are archival (`ARCHIVED`) to preserve revision history and auditability.
+
+## Troubleshooting
+
+| Symptom | Likely cause | Recommended action |
+|---|---|---|
+| `importBpmn`/`importArisXml` fails immediately | malformed or oversized XML payload | validate XML and retry with standards-compliant, reduced payload |
+| `findSimilar`/`findSimilarCases` returns weak matches | embedding pipeline not configured or empty vectors | wire `setEmbedder(...)` and validate `proc:inst_emb:` population |
+| `retrieve()` misses relevant nodes | subgraph depth too low or restrictive thresholds | raise `max_subgraph_depth` / lower `similarity_threshold` / enable `use_ppr` |
+| compliance warnings seem unexpected | required-document mappings incomplete | verify `registerRequiredDocument(...)` coverage and attachment metadata |
+
+## Documentation Links
+
+- Public API headers: [`../../include/process/README.md`](../../include/process/README.md)
+- Architecture: [`./ARCHITECTURE.md`](./ARCHITECTURE.md)
+- Roadmap: [`./ROADMAP.md`](./ROADMAP.md)
+- Future enhancements: [`./FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- Security notes: [`./SECURITY.md`](./SECURITY.md)
+- Primary sources index (DE): [`../../docs/de/process/PRIMARY_SOURCES.md`](../../docs/de/process/PRIMARY_SOURCES.md)
+- Primary sources index (EN): [`../../docs/en/process/PRIMARY_SOURCES.md`](../../docs/en/process/PRIMARY_SOURCES.md)
 
 ## Wissenschaftliche Grundlagen
 

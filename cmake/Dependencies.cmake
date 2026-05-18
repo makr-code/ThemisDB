@@ -609,10 +609,18 @@ if(THEMIS_ENABLE_GPU)
 endif()
 
 if(THEMIS_ENABLE_CUDA)
-    find_package(CUDA REQUIRED)
-    find_package(CUDAToolkit REQUIRED)
-    message(STATUS "CUDA Toolkit found: ${CUDAToolkit_VERSION}")
-    add_compile_definitions(THEMIS_ENABLE_CUDA=1)
+    find_package(CUDA QUIET)
+    find_package(CUDAToolkit QUIET)
+    if(CUDA_FOUND AND CUDAToolkit_FOUND)
+        message(STATUS "CUDA Toolkit found: ${CUDAToolkit_VERSION}")
+        add_compile_definitions(THEMIS_ENABLE_CUDA=1)
+    else()
+        message(WARNING "THEMIS_ENABLE_CUDA=ON but CUDA toolkit components were not found. Disabling CUDA backend.")
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "CUDA disabled: toolkit not found" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_CUDA)
     
     # Optional: FAISS for GPU-accelerated vector search
     find_package(faiss QUIET)
@@ -642,9 +650,17 @@ endif()
 
 # HIP (AMD GPU acceleration) - optional alternative to CUDA
 if(THEMIS_ENABLE_HIP)
-    find_package(HIP REQUIRED)
-    message(STATUS "HIP found - enabling AMD GPU support")
-    add_compile_definitions(THEMIS_ENABLE_HIP=1)
+    find_package(HIP QUIET)
+    if(HIP_FOUND)
+        message(STATUS "HIP found - enabling AMD GPU support")
+        add_compile_definitions(THEMIS_ENABLE_HIP=1)
+    else()
+        message(WARNING "THEMIS_ENABLE_HIP=ON but HIP/ROCm was not found. Disabling HIP backend.")
+        set(THEMIS_ENABLE_HIP OFF CACHE BOOL "HIP disabled: toolkit not found" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_HIP)
     
     # Optional: RCCL for multi-GPU communication on AMD (v2.5+)
     if(THEMIS_ENABLE_RCCL)
@@ -660,6 +676,14 @@ if(THEMIS_ENABLE_HIP)
             set(THEMIS_ENABLE_RCCL OFF CACHE BOOL "RCCL not available" FORCE)
             set(RCCL_FOUND FALSE)
         endif()
+    endif()
+endif()
+
+if(THEMIS_ENABLE_VULKAN)
+    find_package(Vulkan QUIET)
+    if(NOT Vulkan_FOUND)
+        message(WARNING "THEMIS_ENABLE_VULKAN=ON but Vulkan SDK was not found. Disabling Vulkan backend.")
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: SDK not found" FORCE)
     endif()
 endif()
 
@@ -698,6 +722,31 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_BUILD_COMMON OFF CACHE BOOL "Build llama common utils" FORCE)
     set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Build llama server" FORCE)
     set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
+
+    # Keep llama.cpp backend options aligned with Themis GPU toggles.
+    # Both LLAMA_* and GGML_* are set for compatibility across llama.cpp revisions.
+    if(THEMIS_ENABLE_VULKAN)
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan backend in llama.cpp" FORCE)
+        set(GGML_VULKAN ON CACHE BOOL "Enable Vulkan backend in ggml" FORCE)
+
+        # ggml-vulkan requires glslc at configure time. In local vcpkg setups,
+        # the executable is provided by shaderc under installed/tools.
+        if(DEFINED VCPKG_HOST_TRIPLET)
+            set(_themis_glslc_candidate
+                "${PROJECT_SOURCE_DIR}/vcpkg_installed/${VCPKG_HOST_TRIPLET}/tools/shaderc/glslc${CMAKE_EXECUTABLE_SUFFIX}")
+            if(EXISTS "${_themis_glslc_candidate}")
+                set(Vulkan_GLSLC_EXECUTABLE "${_themis_glslc_candidate}" CACHE FILEPATH
+                    "Path to glslc executable for Vulkan shader compilation" FORCE)
+                message(STATUS "llama.cpp backend: using glslc from vcpkg shaderc (${Vulkan_GLSLC_EXECUTABLE})")
+            endif()
+            unset(_themis_glslc_candidate)
+        endif()
+
+        message(STATUS "llama.cpp backend: Vulkan ENABLED")
+    else()
+        set(LLAMA_VULKAN OFF CACHE BOOL "Enable Vulkan backend in llama.cpp" FORCE)
+        set(GGML_VULKAN OFF CACHE BOOL "Enable Vulkan backend in ggml" FORCE)
+    endif()
     
     # =========================================================================
     # MSVC C++20 char8_t COMPATIBILITY FIX (PR #LLAMA-CPP-MSVC)

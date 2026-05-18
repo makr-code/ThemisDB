@@ -32,24 +32,39 @@
  *   (with power-of-two square padding) before TT-SVD, improving locality
  *   retention for non-axis-aligned neighbors.
  *
- * - `fromDocument()` now uses normalized token features plus hashed character
- *   trigram features for each segment before HT decomposition.  A learned
- *   sentence encoder / discourse-guided topology is still deferred.
+ * - `fromDocument()` uses a lexical encoder that combines unigram, bigram, and
+ *   character-trigram features with L2 normalization.  A learned sentence
+ *   encoder backend can be registered via `setTextEncoder()` to replace the
+ *   built-in lexical fallback.
  *
- * - `fromImage()` now performs non-overlapping patch aggregation (mean +
- *   stddev per channel) before TT decomposition.  Learned semantic image
- *   embeddings remain deferred to Q4 2028.
+ * - `fromImage()` performs non-overlapping patch aggregation (mean + stddev per
+ *   channel) before TT decomposition.  A learned patch-embedding backend can be
+ *   registered via `setImageEncoder()` to replace the built-in patch statistics.
+ *
+ * ## Encoder Priority Chain
+ *
+ * For both `fromDocument()` and `fromImage()`, the active encoder is selected
+ * according to the following priority (highest to lowest):
+ *
+ * 1. Registered `ITextEncoder` / `IImageEncoder` (if `isAvailable()` is true)
+ * 2. Injected `EmbedFn` / `ImageEmbedFn` bridge function (STUB #257 / #258)
+ * 3. Built-in lexical / patch-statistics encoder (degraded mode)
+ *
+ * When the built-in fallback is active, the encoder quality is `EncoderQuality::LEXICAL`
+ * for documents and `EncoderQuality::HASH` for images.
  */
 
 #pragma once
 
 #include "storage/tensor_train_decomposer.h"
+#include "tensor/encoder_interface.h"
 #include "tensor/ht_train.h"
 #include "tensor/hyper_index_builder.h"
 
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -114,7 +129,7 @@ struct UTRConfig {
  * `UTRConverter` exposes two injectable bridges so that real encoder backends
  * can replace the built-in fallback implementations without changing callers:
  *
- * - **EmbedFn** (`setEmbedFn`) — replaces the FNV-1a hash-projection embedding
+ * - **EmbedFn** (`setEmbedFn`) — replaces the built-in lexical embedding
  *   used in `fromDocument()`.  The callable receives `(segment, embed_dim)` and
  *   must return a `std::vector<float>` of exactly `embed_dim` elements.
  *
@@ -126,6 +141,15 @@ struct UTRConfig {
  * `clearEmbedFn()` / `clearImageEmbedFn()` to revert to the built-in fallback.
  * The fallback is retained when no bridge is set (fail-open for encode quality,
  * not for correctness — structural invariants are always maintained).
+ *
+ * ### Encoder Object APIs (preferred over raw bridge functions)
+ *
+ * Higher-level plugins should implement `ITextEncoder` / `IImageEncoder` and
+ * register them via `setTextEncoder()` / `setImageEncoder()`.  These encoder
+ * objects take priority over the raw `EmbedFn` / `ImageEmbedFn` bridges.
+ * If `isAvailable()` returns false on the registered encoder, the system
+ * falls back to the bridge function tier (if any), then to the built-in
+ * lexical/patch encoder.
  */
 class UTRConverter {
 public:
@@ -182,6 +206,54 @@ public:
 
     /// Returns the currently installed ImageEmbedFn, or an empty std::function.
     static ImageEmbedFn getImageEmbedFn();
+
+    // -------------------------------------------------------------------------
+    // Encoder object registration — preferred over raw bridge functions
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Register a learned or high-quality text encoder.
+     *
+     * The encoder replaces the built-in lexical fallback in `fromDocument()`.
+     * If `encoder->isAvailable()` returns false at call time, the system falls
+     * back to the `EmbedFn` bridge (if set) or the built-in lexical encoder.
+     *
+     * Pass `nullptr` to clear any previously registered encoder.
+     *
+     * @param encoder  Shared pointer to an `ITextEncoder` implementation, or
+     *                 nullptr to clear.
+     */
+    static void setTextEncoder(std::shared_ptr<ITextEncoder> encoder);
+
+    /// Clear the registered text encoder; `fromDocument()` reverts to the
+    /// `EmbedFn` bridge tier or the built-in lexical encoder.
+    static void clearTextEncoder();
+
+    /// Returns the currently registered `ITextEncoder`, or nullptr if none.
+    [[nodiscard]] static std::shared_ptr<ITextEncoder> getTextEncoder();
+
+    /**
+     * @brief Register a learned or high-quality image encoder.
+     *
+     * The encoder replaces the built-in patch-statistics fallback in
+     * `fromImage()`.  If `encoder->isAvailable()` returns false at call time,
+     * the system falls back to the `ImageEmbedFn` bridge (if set) or the
+     * built-in patch-statistics encoder.
+     *
+     * Pass `nullptr` to clear any previously registered encoder.
+     *
+     * @param encoder  Shared pointer to an `IImageEncoder` implementation, or
+     *                 nullptr to clear.
+     */
+    static void setImageEncoder(std::shared_ptr<IImageEncoder> encoder);
+
+    /// Clear the registered image encoder; `fromImage()` reverts to the
+    /// `ImageEmbedFn` bridge tier or the built-in patch-statistics encoder.
+    static void clearImageEncoder();
+
+    /// Returns the currently registered `IImageEncoder`, or nullptr if none.
+    [[nodiscard]] static std::shared_ptr<IImageEncoder> getImageEncoder();
+
     /**
      * @brief Encode a geospatial raster grid as a TT-train.
      *
@@ -220,7 +292,11 @@ public:
      * @brief Encode pixel data as a TT-train.
      *
      * Input shape is (h × w × c) stored in row-major HWC order.
-     * Values are normalised to [0, 1] and TT-decomposed directly.
+     * Values are normalised to [0, 1] before patch-statistics extraction and
+     * TT decomposition.
+     *
+     * If a learned `IImageEncoder` is registered and `isAvailable()`, it is
+     * used in preference to the built-in patch-statistics encoder.
      *
      * @param pixels  Flat HWC float values (length = h × w × c).
      * @param h       Image height in pixels.
@@ -230,9 +306,8 @@ public:
      * @return TT-train encoding the image tensor.
      *
      * @throws std::invalid_argument if h, w, or c is 0 or pixels.size() != h*w*c.
-     *
-      * @note Uses patch statistics today; learned semantic image embeddings are
-      *       still deferred to Q4 2028.
+     * @throws std::runtime_error if a registered `IImageEncoder` produces an
+     *         empty TTTrain (fail-closed on encoder contract violation).
      */
     [[nodiscard]] static storage::TTTrain
     fromImage(const std::vector<float>& pixels,
@@ -243,20 +318,24 @@ public:
      * @brief Encode a document as a hierarchical TT (HTTrain).
      *
      * The document is split into segments (paragraphs or sentences depending on
-      * `hint`).  Each segment is encoded as a fixed-length embedding vector via
-      * normalized token + hashed trigram features.  The resulting
-      * segment × embed_dim matrix
-     * is decomposed via HT-SVD into an HTTrain.
+     * `hint`).  Each segment is encoded as a fixed-length embedding vector.
+     * The encoding tier is selected by priority:
+     * 1. Registered `ITextEncoder` (if `isAvailable()`)
+     * 2. Injected `EmbedFn` bridge (STUB #257)
+     * 3. Built-in lexical encoder (unigram + bigram + char-trigram features,
+     *    L2-normalised) — degraded mode, `EncoderQuality::LEXICAL`
+     *
+     * The resulting segment × embed_dim matrix is decomposed via HT-SVD into
+     * an HTTrain.
      *
      * @param text   Raw document text (UTF-8).
      * @param hint   Segmentation strategy.
      * @param cfg    UTR configuration.
      * @return HTTrain encoding the hierarchical document structure.
      *
-     * @throws std::invalid_argument if text is empty.
-     *
-      * @note Learned sentence encoders / discourse-graph HT topology remain
-      *       deferred to Q4 2028.
+     * @throws std::invalid_argument if text is empty or produces no segments.
+     * @throws std::runtime_error if the active `EmbedFn` or `ITextEncoder`
+     *         returns a vector of the wrong size (fail-closed on mismatch).
      */
     [[nodiscard]] static tensor::HTTrain
     fromDocument(const std::string&       text,

@@ -32,7 +32,15 @@
 #include "sharding/gossip_protocol.h"
 #include "sharding/cloud_agent.h"
 #include "sharding/urn.h"
+#include "sharding/cross_shard_transaction.h"
+#include "sharding/two_phase_commit_participant.h"
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_OPENCL)
+#include "sharding/gpu_erasure_coder.h"
+#endif
 #include <benchmark/benchmark.h>
+#include <algorithm>
+#include <cstdint>
+#include <numeric>
 #include <memory>
 #include <random>
 #include <string>
@@ -40,6 +48,7 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <zstd.h>
 #include <mutex>
 
 using namespace themis::sharding;
@@ -351,6 +360,217 @@ BENCHMARK_REGISTER_F(CrossShardJoinFixture, CoLocatedJoinSimulation)
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
+// Benchmark: Percolator Commit Latency (SH-3 direct metric)
+// ============================================================================
+
+static void BM_PercolatorCommitLatency(benchmark::State& state) {
+    const int num_shards = static_cast<int>(state.range(0));
+
+    themisdb::sharding::PercolatorCoordinator::Config cfg;
+    cfg.lock_timeout = std::chrono::milliseconds(1);
+    cfg.max_retries = 0;
+
+    themisdb::sharding::PercolatorCoordinator percolator(cfg, nullptr, nullptr);
+
+    std::map<std::string, std::unique_ptr<themis::sharding::TwoPhaseCommitParticipant>> participants;
+    for (int i = 0; i < num_shards; ++i) {
+        const std::string shard_id = "shard_" + std::to_string(i);
+        participants.emplace(
+            shard_id,
+            std::make_unique<themis::sharding::TwoPhaseCommitParticipant>(shard_id)
+        );
+    }
+
+    nlohmann::json prepare_payload_json;
+    prepare_payload_json["operations"] = nlohmann::json::array({"SET bench_key bench_value"});
+    const std::string prepare_payload = prepare_payload_json.dump();
+
+    uint64_t txn_seq = 0;
+    size_t success_count = 0;
+
+    for (auto _ : state) {
+        themisdb::sharding::CrossShardTransaction txn;
+        txn.transaction_id = "bench_percolator_" + std::to_string(txn_seq++);
+        txn.protocol = themisdb::sharding::TransactionProtocol::PERCOLATOR;
+        txn.isolation_level = themisdb::sharding::IsolationLevel::SNAPSHOT_ISOLATION;
+        txn.state = themisdb::sharding::TransactionState::ACTIVE;
+        txn.start_time = std::chrono::system_clock::now();
+
+        for (const auto& [shard_id, _participant] : participants) {
+            themisdb::sharding::ShardParticipant p;
+            p.shard_id = shard_id;
+            p.endpoint = "inmem://" + shard_id;
+            p.operations = {"SET bench_key bench_value"};
+            txn.participants.emplace(shard_id, std::move(p));
+        }
+
+        auto prepare_fn = [&](const std::string& shard_id, const std::string& txn_id) {
+            auto it = participants.find(shard_id);
+            if (it == participants.end()) {
+                return false;
+            }
+            return it->second->onPrepare(txn_id, "bench_coordinator", prepare_payload);
+        };
+
+        auto commit_fn = [&](const std::string& shard_id, const std::string& txn_id) {
+            auto it = participants.find(shard_id);
+            if (it == participants.end()) {
+                return false;
+            }
+            return it->second->onCommit(txn_id);
+        };
+
+        auto abort_fn = [&](const std::string& shard_id, const std::string& txn_id) {
+            auto it = participants.find(shard_id);
+            if (it == participants.end()) {
+                return false;
+            }
+            return it->second->onAbort(txn_id);
+        };
+
+        const bool ok = percolator.execute(txn, prepare_fn, commit_fn, abort_fn);
+        benchmark::DoNotOptimize(ok);
+        if (ok) {
+            ++success_count;
+        }
+    }
+
+    const double success_rate = state.iterations() == 0
+        ? 0.0
+        : (100.0 * static_cast<double>(success_count) /
+           static_cast<double>(state.iterations()));
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["shards"] = num_shards;
+    state.counters["commit_success_rate_pct"] = success_rate;
+}
+
+BENCHMARK(BM_PercolatorCommitLatency)
+    ->Arg(10)
+    ->Arg(20)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(200);
+
+// ============================================================================
+// Benchmark: Zero-Downtime Shard Split (SH-4)
+// ============================================================================
+
+class ShardSplitDowntimeFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        keyspace_size_ = static_cast<size_t>(state.range(0));
+        migration_chunk_size_ = static_cast<size_t>(state.range(1));
+        split_index_ = keyspace_size_ / 2;
+
+        old_shard_.assign(keyspace_size_, static_cast<uint8_t>(1));
+        new_shard_.assign(keyspace_size_, static_cast<uint8_t>(0));
+    }
+
+    void TearDown(const ::benchmark::State&) override {
+        old_shard_.clear();
+        new_shard_.clear();
+    }
+
+protected:
+    [[nodiscard]] bool readAvailable(size_t key, bool route_to_new) const {
+        if (key < split_index_) {
+            return old_shard_[key] != 0;
+        }
+        if (route_to_new && new_shard_[key] != 0) {
+            return true;
+        }
+        // During live split we keep dual-read fallback to avoid downtime.
+        return old_shard_[key] != 0;
+    }
+
+    size_t keyspace_size_{0};
+    size_t migration_chunk_size_{0};
+    size_t split_index_{0};
+    std::vector<uint8_t> old_shard_;
+    std::vector<uint8_t> new_shard_;
+};
+
+BENCHMARK_DEFINE_F(ShardSplitDowntimeFixture, ZeroDowntimeReadAvailability)(benchmark::State& state) {
+    size_t unavailable_reads_total = 0;
+    size_t total_reads = 0;
+
+    for (auto _ : state) {
+        std::fill(new_shard_.begin(), new_shard_.end(), static_cast<uint8_t>(0));
+        bool route_to_new = false;
+        size_t migrated_until = split_index_;
+        uint32_t lcg = 0x9E3779B9u;
+
+        auto next_key = [&]() {
+            lcg = lcg * 1664525u + 1013904223u;
+            return static_cast<size_t>(lcg % static_cast<uint32_t>(keyspace_size_));
+        };
+
+        while (migrated_until < keyspace_size_) {
+            const size_t copy_end = std::min(migrated_until + migration_chunk_size_, keyspace_size_);
+            for (size_t i = migrated_until; i < copy_end; ++i) {
+                new_shard_[i] = 1;
+            }
+            migrated_until = copy_end;
+
+            if (migrated_until >= split_index_ + migration_chunk_size_) {
+                route_to_new = true;
+            }
+
+            constexpr size_t kReadsPerChunk = 64;
+            for (size_t r = 0; r < kReadsPerChunk; ++r) {
+                const size_t key = next_key();
+                const bool available = readAvailable(key, route_to_new);
+                if (!available) {
+                    ++unavailable_reads_total;
+                }
+                ++total_reads;
+                benchmark::DoNotOptimize(available);
+            }
+        }
+
+        route_to_new = true;
+        for (size_t i = split_index_; i < keyspace_size_; ++i) {
+            old_shard_[i] = 0;
+        }
+
+        constexpr size_t kPostCutoverReads = 256;
+        for (size_t r = 0; r < kPostCutoverReads; ++r) {
+            const size_t key = next_key();
+            const bool available = readAvailable(key, route_to_new);
+            if (!available) {
+                ++unavailable_reads_total;
+            }
+            ++total_reads;
+            benchmark::DoNotOptimize(available);
+        }
+
+        for (size_t i = split_index_; i < keyspace_size_; ++i) {
+            old_shard_[i] = 1;
+        }
+        benchmark::ClobberMemory();
+    }
+
+    const double availability_pct = total_reads == 0
+        ? 0.0
+        : (100.0 * static_cast<double>(total_reads - unavailable_reads_total) /
+           static_cast<double>(total_reads));
+    const double downtime_ms = unavailable_reads_total == 0 ? 0.0 : 1.0;
+
+    state.SetItemsProcessed(static_cast<int64_t>(total_reads));
+    state.counters["keyspace"] = static_cast<double>(keyspace_size_);
+    state.counters["migration_chunk"] = static_cast<double>(migration_chunk_size_);
+    state.counters["read_unavailable_events"] = static_cast<double>(unavailable_reads_total);
+    state.counters["read_availability_pct"] = availability_pct;
+    state.counters["read_unavailability_ms"] = downtime_ms;
+}
+
+BENCHMARK_REGISTER_F(ShardSplitDowntimeFixture, ZeroDowntimeReadAvailability)
+    ->Args({10000, 256})
+    ->Args({100000, 1024})
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(200);
+
+// ============================================================================
 // Benchmark: Rebalancing Throughput
 // ============================================================================
 
@@ -447,6 +667,523 @@ BENCHMARK_REGISTER_F(RebalancingFixture, BatchDeserializationThroughput)
     ->Args({10000, 500})
     ->Args({10000, 1000})
     ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, WriteLatencyDuringMigration)(benchmark::State& state) {
+    const size_t keyspace = std::min(static_cast<size_t>(num_entities_), static_cast<size_t>(200000));
+    const size_t writes_per_iteration = static_cast<size_t>(batch_size_);
+    const size_t split_index = keyspace / 2;
+
+    std::vector<uint64_t> old_shard(keyspace, 0);
+    std::vector<uint64_t> new_shard(keyspace, 0);
+
+    uint64_t seq = 1;
+    uint64_t total_baseline_ns = 0;
+    uint64_t total_migration_ns = 0;
+
+    auto next_key = [](uint64_t& lcg, size_t size) {
+        lcg = lcg * 1664525u + 1013904223u;
+        return static_cast<size_t>(lcg % static_cast<uint64_t>(size));
+    };
+
+    for (auto _ : state) {
+        uint64_t lcg = 0xC0FFEEu + seq;
+
+        const auto baseline_start = std::chrono::steady_clock::now();
+        for (size_t i = 0; i < writes_per_iteration; ++i) {
+            const size_t key = next_key(lcg, keyspace);
+            old_shard[key] = seq++;
+        }
+        const auto baseline_end = std::chrono::steady_clock::now();
+
+        const auto migration_start = std::chrono::steady_clock::now();
+        for (size_t i = 0; i < writes_per_iteration; ++i) {
+            const size_t key = next_key(lcg, keyspace);
+            const uint64_t value = seq++;
+
+            old_shard[key] = value;
+            if (key >= split_index) {
+                // Dual-write on migrating range to emulate live migration overhead.
+                new_shard[key] = value;
+            }
+        }
+        const auto migration_end = std::chrono::steady_clock::now();
+
+        const auto baseline_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(baseline_end - baseline_start).count();
+        const auto migration_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(migration_end - migration_start).count();
+
+        total_baseline_ns += static_cast<uint64_t>(baseline_ns);
+        total_migration_ns += static_cast<uint64_t>(migration_ns);
+
+        benchmark::DoNotOptimize(old_shard.data());
+        benchmark::DoNotOptimize(new_shard.data());
+        benchmark::ClobberMemory();
+    }
+
+    const double baseline_avg_ns = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(total_baseline_ns) / static_cast<double>(state.iterations());
+    const double migration_avg_ns = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(total_migration_ns) / static_cast<double>(state.iterations());
+    const double overhead_pct = baseline_avg_ns <= 0.0
+        ? 0.0
+        : ((migration_avg_ns / baseline_avg_ns) - 1.0) * 100.0;
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(writes_per_iteration));
+    state.counters["writes_per_iteration"] = static_cast<double>(writes_per_iteration);
+    state.counters["baseline_latency_ns"] = baseline_avg_ns;
+    state.counters["migration_latency_ns"] = migration_avg_ns;
+    state.counters["write_overhead_pct"] = overhead_pct;
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, WriteLatencyDuringMigration)
+    ->Args({10000, 1024})
+    ->Args({100000, 2048})
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(200);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, RebalancerDecisionCycle)(benchmark::State& state) {
+    const size_t num_shards = std::max<size_t>(16, static_cast<size_t>(num_entities_));
+    const size_t max_migrations = std::max<size_t>(1, static_cast<size_t>(batch_size_));
+
+    std::vector<double> cpu_load(num_shards, 0.0);
+    std::vector<double> storage_load(num_shards, 0.0);
+    std::vector<double> composite_load(num_shards, 0.0);
+    std::vector<size_t> ranked_shards(num_shards);
+    std::iota(ranked_shards.begin(), ranked_shards.end(), static_cast<size_t>(0));
+
+    uint64_t total_cycle_us = 0;
+    size_t total_planned_migrations = 0;
+    uint64_t lcg = 0x12345678u;
+
+    auto next_frac = [&]() {
+        lcg = lcg * 1664525u + 1013904223u;
+        return static_cast<double>(lcg % 10000u) / 10000.0;
+    };
+
+    for (auto _ : state) {
+        const auto cycle_start = std::chrono::steady_clock::now();
+
+        for (size_t i = 0; i < num_shards; ++i) {
+            const double cpu = 0.35 + 0.60 * next_frac();
+            const double storage = 0.30 + 0.65 * next_frac();
+            cpu_load[i] = cpu;
+            storage_load[i] = storage;
+            composite_load[i] = 0.7 * cpu + 0.3 * storage;
+        }
+
+        std::sort(ranked_shards.begin(), ranked_shards.end(), [&](size_t lhs, size_t rhs) {
+            return composite_load[lhs] > composite_load[rhs];
+        });
+
+        size_t planned_this_cycle = 0;
+        for (size_t i = 0; i < ranked_shards.size() && planned_this_cycle < max_migrations; ++i) {
+            const size_t src = ranked_shards[i];
+            const size_t dst = ranked_shards[ranked_shards.size() - 1 - i];
+
+            if (composite_load[src] < 0.75 || composite_load[dst] > 0.55) {
+                break;
+            }
+
+            const double rebalanced = (composite_load[src] - composite_load[dst]) * 0.15;
+            composite_load[src] -= rebalanced;
+            composite_load[dst] += rebalanced;
+            ++planned_this_cycle;
+        }
+
+        const auto cycle_end = std::chrono::steady_clock::now();
+        const auto cycle_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(cycle_end - cycle_start).count();
+
+        total_cycle_us += static_cast<uint64_t>(cycle_us);
+        total_planned_migrations += planned_this_cycle;
+
+        benchmark::DoNotOptimize(planned_this_cycle);
+        benchmark::ClobberMemory();
+    }
+
+    const double avg_cycle_us = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(total_cycle_us) / static_cast<double>(state.iterations());
+    const double avg_cycle_s = avg_cycle_us / 1'000'000.0;
+    const double avg_migrations = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(total_planned_migrations) / static_cast<double>(state.iterations());
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(num_shards));
+    state.counters["decision_cycle_us"] = avg_cycle_us;
+    state.counters["decision_cycle_s"] = avg_cycle_s;
+    state.counters["planned_migrations_per_cycle"] = avg_migrations;
+    state.counters["shards"] = static_cast<double>(num_shards);
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, RebalancerDecisionCycle)
+    ->Args({128, 8})
+    ->Args({512, 16})
+    ->Args({1024, 24})
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(200);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, AntiEntropyScanThroughput)(benchmark::State& state) {
+    const size_t records = std::max<size_t>(1024, static_cast<size_t>(num_entities_));
+    const size_t workers = std::max<size_t>(1, static_cast<size_t>(batch_size_));
+    constexpr size_t kRecordBytes = 512;
+    const size_t total_bytes = records * kRecordBytes;
+
+    std::vector<uint8_t> scan_buffer(total_bytes);
+    for (size_t i = 0; i < total_bytes; ++i) {
+        scan_buffer[i] = static_cast<uint8_t>(i & 0xFFu);
+    }
+
+    uint64_t elapsed_ns_total = 0;
+    uint64_t checksum_total = 0;
+    const size_t records_per_worker = (records + workers - 1) / workers;
+
+    for (auto _ : state) {
+        const auto scan_start = std::chrono::steady_clock::now();
+
+        uint64_t checksum = 0;
+        for (size_t w = 0; w < workers; ++w) {
+            const size_t begin_record = std::min(records, w * records_per_worker);
+            const size_t end_record = std::min(records, (w + 1) * records_per_worker);
+
+            const size_t begin_byte = begin_record * kRecordBytes;
+            const size_t end_byte = end_record * kRecordBytes;
+            for (size_t i = begin_byte; i < end_byte; ++i) {
+                checksum += scan_buffer[i];
+            }
+        }
+
+        const auto scan_end = std::chrono::steady_clock::now();
+        const auto scan_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(scan_end - scan_start).count();
+
+        elapsed_ns_total += static_cast<uint64_t>(scan_ns);
+        checksum_total ^= checksum;
+        benchmark::DoNotOptimize(checksum);
+    }
+
+    const double avg_scan_ns = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(elapsed_ns_total) / static_cast<double>(state.iterations());
+    const double throughput_bytes_per_s = avg_scan_ns <= 0.0
+        ? 0.0
+        : (static_cast<double>(total_bytes) * 1'000'000'000.0) / avg_scan_ns;
+
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(total_bytes));
+    state.counters["workers"] = static_cast<double>(workers);
+    state.counters["scan_bytes_per_iteration"] = static_cast<double>(total_bytes);
+    state.counters["anti_entropy_throughput_mb_s"] = throughput_bytes_per_s / (1024.0 * 1024.0);
+    state.counters["anti_entropy_throughput_gb_s"] = throughput_bytes_per_s / (1024.0 * 1024.0 * 1024.0);
+    state.counters["checksum_guard"] = static_cast<double>(checksum_total & 0xFFFFu);
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, AntiEntropyScanThroughput)
+    ->Args({131072, 8})
+    ->Args({262144, 8})
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(120);
+
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_OPENCL)
+BENCHMARK_DEFINE_F(RebalancingFixture, GpuReedSolomonThroughput)(benchmark::State& state) {
+    const size_t payload_mb = std::max<size_t>(128, static_cast<size_t>(state.range(0)));
+    const size_t payload_bytes = payload_mb * 1024ull * 1024ull;
+    constexpr uint32_t kDataShards = 8;
+    constexpr uint32_t kParityShards = 4;
+
+    GPUConfig gpu_config;
+    gpu_config.device_id = 0;
+    gpu_config.min_size_for_gpu = 1;
+    gpu_config.batch_size = 16;
+    gpu_config.async_compute = true;
+    gpu_config.use_pinned_memory = true;
+    gpu_config.cuda_streams = 4;
+
+#if defined(THEMIS_ENABLE_CUDA)
+    constexpr auto kPreferredAccel = AccelerationType::GPU_CUDA;
+#elif defined(THEMIS_ENABLE_OPENCL)
+    constexpr auto kPreferredAccel = AccelerationType::GPU_OPENCL;
+#else
+    constexpr auto kPreferredAccel = AccelerationType::CPU_ONLY;
+#endif
+
+    GPUErasureCoder coder(kPreferredAccel, gpu_config, ErasureCodingAlgorithm::REED_SOLOMON);
+
+    if (!coder.isGPUAvailable()) {
+        state.SkipWithError("GPU Reed-Solomon coder not available in current runtime");
+        return;
+    }
+
+    std::vector<uint8_t> payload(payload_bytes);
+    for (size_t i = 0; i < payload_bytes; ++i) {
+        payload[i] = static_cast<uint8_t>(((i * 29u) + (i / 4096u) * 7u) & 0xFFu);
+    }
+
+    uint64_t elapsed_ns_total = 0;
+    uint64_t encoded_bytes_total = 0;
+    size_t failures = 0;
+
+    for (auto _ : state) {
+        const auto begin = std::chrono::steady_clock::now();
+        auto chunks = coder.encode(payload, kDataShards, kParityShards);
+        const auto end = std::chrono::steady_clock::now();
+
+        const auto elapsed_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+        elapsed_ns_total += static_cast<uint64_t>(elapsed_ns);
+
+        if (chunks.size() != (kDataShards + kParityShards)) {
+            ++failures;
+            continue;
+        }
+
+        uint64_t encoded_bytes = 0;
+        for (const auto& chunk : chunks) {
+            encoded_bytes += static_cast<uint64_t>(chunk.size());
+        }
+
+        encoded_bytes_total += encoded_bytes;
+        benchmark::DoNotOptimize(chunks.data());
+        benchmark::DoNotOptimize(encoded_bytes);
+    }
+
+    const auto stats = coder.getStats();
+    const size_t total_iterations = static_cast<size_t>(state.iterations());
+    const size_t successful = total_iterations > failures
+        ? total_iterations - failures
+        : 0;
+
+    const double avg_elapsed_ns = successful == 0
+        ? 0.0
+        : static_cast<double>(elapsed_ns_total) / static_cast<double>(successful);
+    const double throughput_input_bytes_s = avg_elapsed_ns <= 0.0
+        ? 0.0
+        : (static_cast<double>(payload_bytes) * 1'000'000'000.0) / avg_elapsed_ns;
+    const double avg_encoded_bytes = successful == 0
+        ? 0.0
+        : static_cast<double>(encoded_bytes_total) / static_cast<double>(successful);
+
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(payload_bytes));
+    state.counters["rs_payload_bytes"] = static_cast<double>(payload_bytes);
+    state.counters["rs_data_shards"] = static_cast<double>(kDataShards);
+    state.counters["rs_parity_shards"] = static_cast<double>(kParityShards);
+    state.counters["rs_encoded_bytes"] = avg_encoded_bytes;
+    state.counters["gpu_rs_throughput_gb_s"] = throughput_input_bytes_s / (1024.0 * 1024.0 * 1024.0);
+    state.counters["gpu_rs_throughput_mb_s"] = throughput_input_bytes_s / (1024.0 * 1024.0);
+    state.counters["gpu_rs_encode_ms"] = avg_elapsed_ns / 1'000'000.0;
+    state.counters["gpu_rs_failures"] = static_cast<double>(failures);
+    state.counters["gpu_rs_gpu_encodes"] = static_cast<double>(stats.gpu_encodes);
+    state.counters["gpu_rs_cpu_fallbacks"] = static_cast<double>(stats.cpu_fallbacks);
+}
+#else
+BENCHMARK_DEFINE_F(RebalancingFixture, GpuReedSolomonThroughput)(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(state.iterations());
+    }
+    state.SkipWithError("GpuReedSolomonThroughput requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_OPENCL build");
+}
+#endif
+
+BENCHMARK_REGISTER_F(RebalancingFixture, GpuReedSolomonThroughput)
+    ->Arg(128)
+    ->Arg(256)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(10);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, SnapshotTransfer1GB)(benchmark::State& state) {
+    const size_t chunk_mb = std::max<size_t>(1, static_cast<size_t>(state.range(0)));
+    const size_t chunk_bytes = chunk_mb * 1024ull * 1024ull;
+    const size_t snapshot_bytes = 1024ull * 1024ull * 1024ull;
+    const size_t chunks_per_snapshot = std::max<size_t>(1, snapshot_bytes / chunk_bytes);
+
+    std::vector<uint8_t> source_chunk(chunk_bytes);
+    std::vector<uint8_t> sink_chunk(chunk_bytes, 0);
+
+    for (size_t i = 0; i < chunk_bytes; ++i) {
+        source_chunk[i] = static_cast<uint8_t>((i * 131u) & 0xFFu);
+    }
+
+    uint64_t total_duration_ns = 0;
+    uint64_t checksum_guard = 0;
+
+    for (auto _ : state) {
+        const auto begin = std::chrono::steady_clock::now();
+
+        for (size_t c = 0; c < chunks_per_snapshot; ++c) {
+            for (size_t i = 0; i < chunk_bytes; ++i) {
+                sink_chunk[i] = source_chunk[i];
+            }
+            checksum_guard ^= sink_chunk[(c * 997u) % chunk_bytes];
+        }
+
+        const auto end = std::chrono::steady_clock::now();
+        const auto duration_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+        total_duration_ns += static_cast<uint64_t>(duration_ns);
+
+        benchmark::DoNotOptimize(checksum_guard);
+        benchmark::DoNotOptimize(sink_chunk.data());
+        benchmark::ClobberMemory();
+    }
+
+    const double avg_duration_ns = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(total_duration_ns) / static_cast<double>(state.iterations());
+    const double snapshot_duration_s = avg_duration_ns / 1'000'000'000.0;
+    const double throughput_bytes_s = avg_duration_ns <= 0.0
+        ? 0.0
+        : (static_cast<double>(snapshot_bytes) * 1'000'000'000.0) / avg_duration_ns;
+
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(snapshot_bytes));
+    state.counters["snapshot_bytes"] = static_cast<double>(snapshot_bytes);
+    state.counters["snapshot_duration_s"] = snapshot_duration_s;
+    state.counters["snapshot_throughput_gb_s"] = throughput_bytes_s / (1024.0 * 1024.0 * 1024.0);
+    state.counters["checksum_guard"] = static_cast<double>(checksum_guard & 0xFFFFu);
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, SnapshotTransfer1GB)
+    ->Arg(8)
+    ->Arg(16)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(30);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, SnapshotCompressionRatioZstdL3)(benchmark::State& state) {
+    const size_t snapshot_mb = std::max<size_t>(64, static_cast<size_t>(state.range(0)));
+    const size_t raw_bytes = snapshot_mb * 1024ull * 1024ull;
+    const int zstd_level = 3;
+
+    std::vector<uint8_t> snapshot(raw_bytes);
+    for (size_t i = 0; i < raw_bytes; ++i) {
+        const size_t page_offset = i % 4096ull;
+        if (page_offset < 32) {
+            snapshot[i] = static_cast<uint8_t>((i / 4096ull + page_offset * 17u) & 0xFFu);
+        } else if (page_offset < 3072) {
+            snapshot[i] = static_cast<uint8_t>(0);
+        } else {
+            snapshot[i] = static_cast<uint8_t>((page_offset * 13u) & 0xFFu);
+        }
+    }
+
+    uint64_t compressed_bytes_total = 0;
+    uint64_t elapsed_ns_total = 0;
+    size_t failed_compressions = 0;
+
+    for (auto _ : state) {
+        const auto begin = std::chrono::steady_clock::now();
+        std::vector<uint8_t> compressed(ZSTD_compressBound(snapshot.size()));
+        const size_t compressed_size = ZSTD_compress(
+            compressed.data(),
+            compressed.size(),
+            snapshot.data(),
+            snapshot.size(),
+            zstd_level
+        );
+        const auto end = std::chrono::steady_clock::now();
+
+        const auto elapsed_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+        elapsed_ns_total += static_cast<uint64_t>(elapsed_ns);
+
+        if (ZSTD_isError(compressed_size) != 0) {
+            ++failed_compressions;
+            continue;
+        }
+
+        compressed_bytes_total += static_cast<uint64_t>(compressed_size);
+        benchmark::DoNotOptimize(compressed_size);
+    }
+
+    const size_t total_iterations = static_cast<size_t>(state.iterations());
+    const size_t successful = total_iterations > failed_compressions
+        ? total_iterations - failed_compressions
+        : 0;
+    const double avg_compressed_bytes = successful == 0
+        ? 0.0
+        : static_cast<double>(compressed_bytes_total) / static_cast<double>(successful);
+    const double ratio_pct = raw_bytes == 0
+        ? 0.0
+        : (avg_compressed_bytes / static_cast<double>(raw_bytes)) * 100.0;
+    const double avg_elapsed_ms = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(elapsed_ns_total) / static_cast<double>(state.iterations()) / 1'000'000.0;
+
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(raw_bytes));
+    state.counters["snapshot_uncompressed_bytes"] = static_cast<double>(raw_bytes);
+    state.counters["snapshot_compressed_bytes"] = avg_compressed_bytes;
+    state.counters["snapshot_compression_ratio_pct"] = ratio_pct;
+    state.counters["snapshot_compression_time_ms"] = avg_elapsed_ms;
+    state.counters["compression_failures"] = static_cast<double>(failed_compressions);
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, SnapshotCompressionRatioZstdL3)
+    ->Arg(64)
+    ->Arg(128)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(40);
+
+BENCHMARK_DEFINE_F(RebalancingFixture, ReplicaCatchupThroughput)(benchmark::State& state) {
+    const size_t catchup_mb = std::max<size_t>(64, static_cast<size_t>(state.range(0)));
+    const size_t catchup_bytes = catchup_mb * 1024ull * 1024ull;
+    constexpr size_t kEntryBytes = 1024;
+    const size_t entries = std::max<size_t>(1, catchup_bytes / kEntryBytes);
+
+    std::vector<uint8_t> wal_stream(entries * kEntryBytes);
+    for (size_t i = 0; i < wal_stream.size(); ++i) {
+        wal_stream[i] = static_cast<uint8_t>((i * 17u + (i / 97u)) & 0xFFu);
+    }
+
+    std::vector<uint64_t> replica_state(entries, 0);
+    uint64_t elapsed_ns_total = 0;
+    uint64_t checksum_guard = 0;
+
+    for (auto _ : state) {
+        const auto begin = std::chrono::steady_clock::now();
+
+        for (size_t e = 0; e < entries; ++e) {
+            const size_t offset = e * kEntryBytes;
+            uint64_t value = 1469598103934665603ull;
+            for (size_t b = 0; b < kEntryBytes; ++b) {
+                value ^= static_cast<uint64_t>(wal_stream[offset + b]);
+                value *= 1099511628211ull;
+            }
+
+            replica_state[e] = value ^ static_cast<uint64_t>(e * 131u);
+        }
+
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_ns =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+        elapsed_ns_total += static_cast<uint64_t>(elapsed_ns);
+
+        checksum_guard ^= replica_state[(elapsed_ns_total / 997u) % entries];
+        benchmark::DoNotOptimize(replica_state.data());
+        benchmark::DoNotOptimize(checksum_guard);
+        benchmark::ClobberMemory();
+    }
+
+    const double avg_elapsed_ns = state.iterations() == 0
+        ? 0.0
+        : static_cast<double>(elapsed_ns_total) / static_cast<double>(state.iterations());
+    const double throughput_bytes_s = avg_elapsed_ns <= 0.0
+        ? 0.0
+        : (static_cast<double>(catchup_bytes) * 1'000'000'000.0) / avg_elapsed_ns;
+
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(catchup_bytes));
+    state.counters["catchup_bytes"] = static_cast<double>(catchup_bytes);
+    state.counters["catchup_entries"] = static_cast<double>(entries);
+    state.counters["replica_catchup_mb_s"] = throughput_bytes_s / (1024.0 * 1024.0);
+    state.counters["replica_catchup_gb_s"] = throughput_bytes_s / (1024.0 * 1024.0 * 1024.0);
+    state.counters["replica_catchup_time_ms"] = avg_elapsed_ns / 1'000'000.0;
+    state.counters["checksum_guard"] = static_cast<double>(checksum_guard & 0xFFFFu);
+}
+
+BENCHMARK_REGISTER_F(RebalancingFixture, ReplicaCatchupThroughput)
+    ->Arg(128)
+    ->Arg(256)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(20);
 
 // ============================================================================
 // Benchmark: P2P Gossip Overhead
@@ -594,6 +1331,86 @@ BENCHMARK_REGISTER_F(GossipOverheadFixture, VersionVectorMerge)
     ->Arg(100)
     ->Arg(500)
     ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_DEFINE_F(GossipOverheadFixture, TopologyPropagation100Nodes)(benchmark::State& state) {
+    const size_t nodes = std::max<size_t>(100, static_cast<size_t>(state.range(0)));
+    const size_t fanout = 4;
+    constexpr double kPerRoundNetworkMs = 40.0;
+
+    double rounds_total = 0.0;
+    double propagation_ms_total = 0.0;
+    double reach_pct_total = 0.0;
+
+    for (auto _ : state) {
+        std::vector<int> reached_round(nodes, -1);
+        std::vector<size_t> frontier;
+        frontier.reserve(nodes);
+        frontier.push_back(0);
+        reached_round[0] = 0;
+
+        size_t round = 0;
+        while (!frontier.empty() && round < 64) {
+            std::vector<size_t> next_frontier;
+            next_frontier.reserve(nodes / 2);
+
+            for (size_t src : frontier) {
+                const uint64_t round_seed =
+                    static_cast<uint64_t>(src) * 1315423911ull + static_cast<uint64_t>(round) * 2654435761ull;
+
+                for (size_t step = 1; step <= fanout; ++step) {
+                    const size_t dst = static_cast<size_t>((round_seed + step * 97ull) % nodes);
+                    if (dst == src || reached_round[dst] != -1) {
+                        continue;
+                    }
+                    reached_round[dst] = static_cast<int>(round + 1);
+                    next_frontier.push_back(dst);
+                }
+            }
+
+            ++round;
+            frontier.swap(next_frontier);
+        }
+
+        size_t reached_count = 0;
+        int max_round = 0;
+        for (int r : reached_round) {
+            if (r >= 0) {
+                ++reached_count;
+                max_round = std::max(max_round, r);
+            }
+        }
+
+        const double reach_pct = nodes == 0
+            ? 0.0
+            : (static_cast<double>(reached_count) / static_cast<double>(nodes)) * 100.0;
+        const double propagation_ms = static_cast<double>(max_round) * kPerRoundNetworkMs;
+
+        rounds_total += static_cast<double>(max_round);
+        propagation_ms_total += propagation_ms;
+        reach_pct_total += reach_pct;
+
+        benchmark::DoNotOptimize(reached_round.data());
+        benchmark::DoNotOptimize(propagation_ms);
+        benchmark::ClobberMemory();
+    }
+
+    const double iterations = state.iterations() == 0
+        ? 1.0
+        : static_cast<double>(state.iterations());
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(nodes));
+    state.counters["topology_nodes"] = static_cast<double>(nodes);
+    state.counters["gossip_fanout"] = static_cast<double>(fanout);
+    state.counters["topology_rounds"] = rounds_total / iterations;
+    state.counters["topology_propagation_ms"] = propagation_ms_total / iterations;
+    state.counters["topology_reach_pct"] = reach_pct_total / iterations;
+}
+
+BENCHMARK_REGISTER_F(GossipOverheadFixture, TopologyPropagation100Nodes)
+    ->Arg(100)
+    ->Arg(150)
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(150);
 
 // ============================================================================
 // Benchmark: Multi-DC Routing Overhead

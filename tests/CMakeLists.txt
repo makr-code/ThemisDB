@@ -7474,6 +7474,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_expert_system_engine.cpp")
         ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/expert_system_engine.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/model_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
     )
 
     target_include_directories(test_expert_system_focused PRIVATE
@@ -8562,6 +8563,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
     add_executable(test_knowledge_graph_reasoner_focused
         graph/test_knowledge_graph_reasoner.cpp
         ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/multi_lora_manager.cpp
     )
 
     target_include_directories(test_knowledge_graph_reasoner_focused PRIVATE
@@ -28077,6 +28079,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
 
     add_executable(test_tensor_fingerprint_graph_focused
         ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_deduplication_manager.cpp
     )
 
     target_include_directories(test_tensor_fingerprint_graph_focused PRIVATE

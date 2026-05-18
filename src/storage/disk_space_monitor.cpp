@@ -114,30 +114,75 @@ void DiskSpaceMonitor::stopMonitoring() {
 
 DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     auto info = queryDiskSpace();
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    SpaceLevel old_level = current_level_.load();
-    // Preserve the RocksDB size that was set via setRocksDBSize() — it is
-    // managed independently from OS disk-space queries.
-    info.rocksdb_size_bytes = current_info_.rocksdb_size_bytes;
-    current_info_ = info;
-    
-    updateSpaceLevel(info);
-    recordUsage(info);
-    
-    stats_.total_checks++;
-    stats_.last_check = std::chrono::system_clock::now();
-    
-    SpaceLevel new_level = current_level_.load();
-    if (old_level != new_level) {
-        handleSpaceLevelChange(old_level, new_level);
+    bool should_send_alert = false;
+    bool should_trigger_gc = false;
+    std::string alert_message;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        SpaceLevel old_level = current_level_.load();
+        // Preserve the RocksDB size that was set via setRocksDBSize() — it is
+        // managed independently from OS disk-space queries.
+        info.rocksdb_size_bytes = current_info_.rocksdb_size_bytes;
+        current_info_ = info;
+
+        updateSpaceLevel(info);
+        recordUsage(info);
+
+        stats_.total_checks++;
+        stats_.last_check = std::chrono::system_clock::now();
+
+        SpaceLevel new_level = current_level_.load();
+        if (old_level != new_level) {
+            spdlog::warn("Disk space level changed from {} to {}",
+                        static_cast<int>(old_level), static_cast<int>(new_level));
+
+            switch (new_level) {
+                case SpaceLevel::WARNING:
+                    stats_.warning_triggers++;
+                    break;
+                case SpaceLevel::CRITICAL:
+                    stats_.critical_triggers++;
+                    break;
+                case SpaceLevel::EMERGENCY:
+                    stats_.emergency_triggers++;
+                    break;
+                default:
+                    break;
+            }
+
+            if (config_.enable_alerts && shouldSendAlert()) {
+                std::ostringstream msg;
+                msg << "Disk space " << static_cast<int>(new_level) << ": "
+                    << disk_utils::formatBytes(info.free_bytes) << " free ("
+                    << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
+
+                should_send_alert = true;
+                alert_message = msg.str();
+            }
+
+            should_trigger_gc = config_.enable_auto_gc &&
+                (new_level == SpaceLevel::CRITICAL || new_level == SpaceLevel::EMERGENCY);
+        }
     }
-    
+
+    if (should_send_alert) {
+        sendAlert(info, alert_message);
+    }
+
+    if (should_trigger_gc) {
+        triggerGC();
+    }
+
     return info;
 }
 
 bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
+    // A zero-byte write does not consume disk capacity.
+    if (bytes_to_write == 0) {
+        return true;
+    }
+
     // Check if writes are globally blocked
     if (writes_blocked_.load()) {
         spdlog::warn("Write blocked: disk space critical");
@@ -151,11 +196,6 @@ bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
         return false;
     }
 
-    // A zero-byte write does not consume disk capacity.
-    if (bytes_to_write == 0) {
-        return true;
-    }
-    
     // Pre-flight check
     auto info = getSpaceInfo();
     

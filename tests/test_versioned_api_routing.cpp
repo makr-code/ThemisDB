@@ -54,6 +54,7 @@
 // Headers for EntityApiHandler (bulk NDJSON)
 #include "server/entity_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -587,6 +588,99 @@ TEST_F(QueryStreamSseAcTest, AC15_SseResponseContainsDoneEvent) {
     auto resp = handler_->handleQueryStreamSse(
         makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
     EXPECT_NE(resp.body().find("event: done"), std::string::npos);
+}
+
+TEST_F(QueryStreamSseAcTest, QueryReturnCount_UsesCountMode) {
+    ASSERT_TRUE(secondary_index_->createIndex("orders_count", "status").ok);
+
+    for (int i = 0; i < 5; ++i) {
+        const std::string pk = "ord" + std::to_string(i);
+        const std::string status = (i < 3) ? "open" : "closed";
+        auto ent = themis::BaseEntity::fromFields(pk, {{"status", status}});
+        ASSERT_TRUE(secondary_index_->put("orders_count", ent).ok);
+    }
+
+    http::request<http::string_body> req{http::verb::post, "/query", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{
+        {"table", "orders_count"},
+        {"predicates", json::array({{{"column", "status"}, {"value", "open"}}})},
+        {"return", "count"},
+        {"allow_full_scan", false},
+        {"optimize", false}
+    }.dump();
+    req.prepare_payload();
+
+    auto resp = handler_->handleQuery(req);
+    ASSERT_EQ(resp.result(), http::status::ok) << resp.body();
+
+    auto body = json::parse(resp.body());
+    ASSERT_TRUE(body.contains("count"));
+    EXPECT_EQ(body["count"].get<size_t>(), 3u);
+    EXPECT_FALSE(body.contains("keys"));
+    EXPECT_FALSE(body.contains("entities"));
+}
+
+TEST_F(QueryStreamSseAcTest, QueryReturnCount_OptimizeTrue_UsesOptimizedPlan) {
+    ASSERT_TRUE(secondary_index_->createIndex("orders_count_opt", "status").ok);
+
+    for (int i = 0; i < 6; ++i) {
+        const std::string pk = "ordopt" + std::to_string(i);
+        const std::string status = (i < 4) ? "open" : "closed";
+        auto ent = themis::BaseEntity::fromFields(pk, {{"status", status}});
+        ASSERT_TRUE(secondary_index_->put("orders_count_opt", ent).ok);
+    }
+
+    http::request<http::string_body> req{http::verb::post, "/query", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{
+        {"table", "orders_count_opt"},
+        {"predicates", json::array({{{"column", "status"}, {"value", "open"}}})},
+        {"return", "count"},
+        {"allow_full_scan", false},
+        {"optimize", true},
+        {"explain", true}
+    }.dump();
+    req.prepare_payload();
+
+    auto resp = handler_->handleQuery(req);
+    ASSERT_EQ(resp.result(), http::status::ok) << resp.body();
+
+    auto body = json::parse(resp.body());
+    ASSERT_TRUE(body.contains("count"));
+    EXPECT_EQ(body["count"].get<size_t>(), 4u);
+    ASSERT_TRUE(body.contains("plan"));
+    ASSERT_TRUE(body["plan"].contains("mode"));
+    EXPECT_EQ(body["plan"]["mode"].get<std::string>(), "index_optimized");
+}
+
+TEST_F(QueryStreamSseAcTest, QueryReturnCount_FullScanFallback_WorksWithoutIndex) {
+    for (int i = 0; i < 5; ++i) {
+        const std::string pk = "ordfs" + std::to_string(i);
+        const std::string status = (i < 2) ? "open" : "closed";
+        auto ent = themis::BaseEntity::fromFields(pk, {{"status", status}});
+        ASSERT_TRUE(secondary_index_->put("orders_fullscan", ent).ok);
+    }
+
+    http::request<http::string_body> req{http::verb::post, "/query", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{
+        {"table", "orders_fullscan"},
+        {"predicates", json::array({{{"column", "status"}, {"value", "open"}}})},
+        {"return", "count"},
+        {"allow_full_scan", true},
+        {"optimize", true}
+    }.dump();
+    req.prepare_payload();
+
+    auto resp = handler_->handleQuery(req);
+    ASSERT_EQ(resp.result(), http::status::ok) << resp.body();
+
+    auto body = json::parse(resp.body());
+    ASSERT_TRUE(body.contains("count"));
+    EXPECT_EQ(body["count"].get<size_t>(), 2u);
+    EXPECT_FALSE(body.contains("keys"));
+    EXPECT_FALSE(body.contains("entities"));
 }
 
 // ============================================================================

@@ -1,4 +1,5 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
+> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 <!-- Status: current | validated: 2026-04-07 | Primary: src/llama_cpp/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
@@ -28,6 +29,9 @@ management (`loadLoRA`/`unloadLoRA`/`listLoRAs`), capabilities reporting, perfor
 
 - `include/llm/llm_plugin_interface.h` — `ILLMPlugin`, `THEMIS_LLM_PLUGIN()`
 - `include/llama_cpp/llama_cpp_plugin.h` — `LlamaCppPlugin`
+- `include/llama_cpp/llama_cpp_registrar.h` — registration helpers and hot-reload callback type
+- `src/llama_cpp/llama_cpp_plugin.cpp` — plugin implementation and dynamic loading entry points
+- `src/llama_cpp/llama_cpp_registrar.cpp` — registrar factory/registration helpers
 
 ## Current Delivery Status
 
@@ -99,6 +103,28 @@ ctest -R LlamaCppPluginFocusedTests --output-on-failure
 | `nlohmann_json` | ✅ | config / stats |
 | `llama.cpp` | ❌ | linked via existing LlamaWrapper |
 
+## Runtime Configuration Surfaces
+
+`loadModel(model_path, config)` and registrar helpers consume JSON configuration:
+
+| Key | Type | Behavior |
+|---|---|---|
+| `model_path` | string | Non-empty path triggers `LlamaWrapper` initialization when LLM backend is compiled in |
+| `context_length` | number | Context window override (fallback key) |
+| `n_ctx` | number | Preferred context window key forwarded to wrapper config |
+| `n_gpu_layers` | number | GPU layer offload hint for llama.cpp |
+| `n_batch` | number | Batch-size hint forwarded to wrapper |
+| `n_threads` | number | CPU thread hint forwarded to wrapper |
+
+## Runtime Behavior, Failure Modes, and Limits
+
+- `loadModel()` always marks the plugin as loaded; with empty or invalid model path it falls back to stub-capable operation.
+- Real inference path is available only when `THEMIS_LLM_ENABLED` is compiled and `LlamaWrapper` loads successfully.
+- `generate()` fails closed with `success=false` / `"Model not loaded — call loadModel() before generate()"` when no backend is available (except test builds with `THEMIS_LLAMA_CPP_STUB_MODE`).
+- `embed()` returns a 384-dim zero-vector fallback if no backend is available and no injected embedding function is configured.
+- `generateBatch()` is currently sequential (ordered, but not parallelized).
+- `generateRAG()` assembles context with `RAGContextAssembler` and clamps `max_tokens` to available context budget.
+
 ## Dynamic Loading Entry Points
 
 | Symbol | Signature |
@@ -114,3 +140,21 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 
 The implementation files in this module are compiled into the ThemisDB library.
 See [`../../include/llama_cpp/README.md`](../../include/llama_cpp/README.md) for the public API.
+
+## Troubleshooting
+
+- **`generate()` returns "model not loaded"**: call `loadModel()` and provide a valid non-empty model path.
+- **Output stays in fallback mode**: verify the build enables `THEMIS_LLM_ENABLED` and that model loading succeeds.
+- **Embedding quality is always zero/flat**: ensure real backend embedding path is active (wrapper or injected `EmbedFn`).
+- **Registrar hot-reload does not activate model**: pass `config["model_path"]` when using `LlamaCppPluginRegistrar`.
+- **Short/trimmed RAG responses**: tune `n_ctx` / `context_length`, `request.max_tokens`, and `rag_context.response_budget_tokens`.
+
+## See Also
+
+- [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- [`ROADMAP.md`](ROADMAP.md)
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- [`SECURITY.md`](SECURITY.md)
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md)
+- [`../../docs/en/llama_cpp/index.md`](../../docs/en/llama_cpp/index.md)
+- [`../../docs/de/llama_cpp/index.md`](../../docs/de/llama_cpp/index.md)

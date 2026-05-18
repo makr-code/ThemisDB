@@ -1,166 +1,129 @@
-# Federated Learning Design
+# Federated Learning Design (ThemisDB Importer Module)
 
-**Module:** `include/importers/federated_learning.h` / `src/importers/federated_learning.cpp`
-**Version:** 3.0.0
-**Status:** ✅ Implemented
-
----
-
-## Overview
-
-The `FederatedImportCoordinator` enables ThemisDB to learn aggregate statistics from
-multiple distributed PostgreSQL instances **without transferring raw data**.  This is
-critical for privacy-sensitive environments (healthcare, finance, legal) where raw data
-cannot leave its origin system.
-
-The design is split into two complementary components:
-
-1. **`FederatedAggregator`** – aggregates schema contributions and numeric statistics
-   from multiple participants using FedAvg or coordinate-wise median.
-2. **`DifferentialPrivacyManager`** – adds calibrated Gaussian noise to outgoing
-   statistics so that individual records cannot be reverse-engineered from the published
-   aggregate (ε-δ differential privacy).
+**Scope:** `include/importers/federated_learning.h`, `src/importers/federated_learning.cpp`
+**Status:** Implemented (code and tests present)
+**Review type:** Repository-grounded technical verification
 
 ---
 
-## Scientific Foundations
+## Abstract
 
-| Paper | Venue | Relevance |
-|-------|-------|-----------|
-| McMahan et al. (2017) *Communication-Efficient Learning of Deep Networks from Decentralized Data* (FedAvg) | AISTATS | FedAvg aggregation algorithm |
-| Kairouz et al. (2021) *Federated Learning: Challenges, Methods, and Future Directions* | JMLR | FL taxonomy and best practices |
-| Dwork et al. (2006) *Calibrating Noise to Sensitivity in Private Data Analysis* | TCC | Differential privacy foundation |
-| McMahan et al. (2018) *Learning Differentially Private Recurrent Language Models* | ICLR | Gaussian mechanism for DP-SGD |
+This document reviews the current federated-learning design implemented in ThemisDB's importer stack. The verified implementation provides two core capabilities: (1) aggregation of participant-level numeric statistics plus schema fragments via `FederatedAggregator::aggregateUpdates()` and (2) privacy-aware publication support via `DifferentialPrivacyManager` with Gaussian-noise injection and budget accounting. The implementation is aligned with ThemisDB's multi-model and AQL-centered architecture, but this module itself remains an importer/federation utility rather than an end-to-end training orchestrator. Evaluation in this review is evidence-based (source and test verification), not a new benchmark campaign.
 
 ---
 
-## FedAvg Aggregation Algorithm
+## Introduction
 
-### Problem
-Each participant holds local statistics (e.g., row counts, null rates, distinct counts).
-We want a global aggregate without requiring participants to share raw records.
+### Problem statement
 
-### Method
+When importing from multiple distributed source systems, ThemisDB needs consolidated metadata/statistics without centralizing raw records. The design goal is therefore federated aggregation of participant summaries with explicit privacy controls.
 
-```
-global_stat[k] = (1/N) · Σᵢ local_stat_i[k]   for each numeric key k
-schema_union   = ∪ᵢ schema_contribution_i        (field-name union)
-```
+### Terminology (normalized)
 
-**Coordinate-wise median** (more robust to outliers):
-```
-global_stat[k] = median({ local_stat_i[k] })
-```
+- **AQL:** Advanced Query Language in ThemisDB query layer (`themis::query` context in `ARCHITECTURE.md`).
+- **Multi-model:** ThemisDB combines relational, graph, vector, and document capabilities in one architecture.
+- **Federated aggregation (this module):** Statistical reduction over participant updates (`FedAvg` or coordinate-wise `median`) plus schema union.
+- **Privacy budget:** Cumulative epsilon spending tracked by `DifferentialPrivacyManager`.
 
-### Implementation
+### Repository-grounded claim boundaries
 
-```cpp
-FederatedAggregator::ParticipantUpdate u;
-u.participant_id = "pg-node-1";
-u.statistics     = json{{"row_count", 500000.0}, {"null_rate", 0.02}};
-u.schema_contribution = json{{"col_name", "integer"}};
-
-auto global = agg.aggregateUpdates({u1, u2, u3}, "FedAvg");
-// global["row_count"] == mean(500000, 480000, 520000) == 500000
-```
+This review only claims behavior that is directly visible in source code, tests, or roadmap artifacts. It does not claim full-system empirical superiority, regulatory certification, or complete distributed-learning lifecycle coverage.
 
 ---
 
-## ε-δ Differential Privacy (Gaussian Mechanism)
+## Methodology / Approach
 
-### Problem
-Even aggregate statistics can leak information about individual records.  ε-δ differential
-privacy provides a mathematical guarantee that the probability of identifying any single
-record from the published statistics is bounded.
+### M1. Source-of-truth artifacts
 
-### Method
+- API contract: `include/importers/federated_learning.h`
+- Implementation: `src/importers/federated_learning.cpp`
+- Test evidence: `tests/test_postgres_importer_v2.cpp` (FederatedLearning test block)
+- Planning status: `src/importers/ROADMAP.md`
+- Terminology alignment: `ARCHITECTURE.md` and `src/distributed_knowledge/ARCHITECTURE.md`
 
-**Gaussian mechanism** with L2 sensitivity = 1:
+### M2. Verification criteria
 
-```
-σ = sensitivity · √(2 · ln(1.25 / δ)) / ε
+A statement is kept only if at least one criterion is satisfied:
 
-noisy_stat = true_stat + N(0, σ²)
-```
+1. Explicitly documented in public API comments or signatures.
+2. Executable behavior in implementation code.
+3. Covered by concrete test assertions.
+4. Traceable to project roadmap/architecture documentation.
 
-**Privacy guarantee:** For any pair of neighbouring datasets D, D' differing in exactly
-one record, and any output set S:
+### M3. Verified implementation facts
 
-```
-Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D') ∈ S] + δ
-```
-
-### Privacy Budget Tracking
-
-The total privacy budget is managed by `DifferentialPrivacyManager::spendBudget()`.
-Basic composition: spending ε₁ and ε₂ on two independent queries costs ε₁ + ε₂ total.
-ThemisDB enforces a "strong privacy" threshold of ε_total ≤ 1.0.
-
-```cpp
-DifferentialPrivacyManager dp;
-dp.spendBudget(0.3);          // query 1
-dp.spendBudget(0.2);          // query 2
-assert(dp.totalEpsilonSpent() == 0.5);
-assert(dp.verifyPrivacyBudget(0.5, 1e-5) == true);
-```
-
-### Parameter Guidelines
-
-| Use Case | ε | δ | Notes |
-|----------|---|---|-------|
-| Research / non-sensitive | 1.0 | 1e-5 | Weaker privacy; more accurate stats |
-| Healthcare (HIPAA) | 0.1 | 1e-6 | Recommended for PHI |
-| Financial (GDPR) | 0.5 | 1e-5 | Balance between utility and privacy |
+1. **Aggregation algorithms:** `aggregateUpdates()` supports `"FedAvg"` and `"median"`; unknown algorithms fall back to `"FedAvg"`.
+2. **Aggregated output contract:** Numeric fields are reduced; schema contributions are merged into `_schema`; participant count is emitted as `_participants`.
+3. **Gaussian mechanism:** `addDifferentialPrivacy()` computes
+   `sigma = sqrt(2 * ln(1.25 / delta)) / epsilon` with sensitivity fixed to 1.0, then adds normal noise to numeric JSON fields. In current code, the fixed sensitivity is an implementation simplification for normalized count/average-style statistics, not a universal bound for every possible statistic. The `1.25 / delta` term comes from the Gaussian tail-bound used to satisfy `(epsilon, delta)`-DP in the standard mechanism derivation (Ref. 4).
+4. **Input validation:** `addDifferentialPrivacy()` rejects invalid `(epsilon, delta)` via `std::invalid_argument`.
+5. **Budget policy:** `verifyPrivacyBudget(epsilon_total, delta)` accepts only `epsilon_total <= 1.0` and `0 < delta <= 1e-5`; `spendBudget()` accumulates epsilon and rejects negative epsilon increments (throws `std::invalid_argument`).
+6. **Test coverage exists:** The `FederatedLearning` tests validate empty aggregation, FedAvg averaging, noise application, invalid epsilon rejection, budget check, and budget accumulation.
 
 ---
 
-## Architecture
+## Evaluation / Experiments
 
-```
-Participant A           Participant B           Participant C
-  pg-node-1               pg-node-2               pg-node-3
-      │                       │                       │
-   Compute                 Compute                 Compute
-  local stats             local stats             local stats
-      │                       │                       │
-   Add DP noise            Add DP noise            Add DP noise
-      │                       │                       │
-      └───────────────────────┼───────────────────────┘
-                              │
-                  FederatedAggregator (coordinator)
-                              │
-                    Aggregate statistics
-                    Union schema contributions
-                              │
-                     Global model / schema
-                    (NO raw data ever leaves origin)
-```
+### E1. Code-level evaluation
 
----
+This review uses code inspection rather than runtime model-quality experiments.
 
-## Security Considerations
+- **Aggregation correctness (unit level):** `FedAvgAveragesNumericFields` checks mean aggregation and participant counter behavior.
+- **Privacy behavior (unit level):** `DifferentialPrivacyAddsNoise` verifies non-deterministic numeric perturbation over repeated runs.
+- **Safety guards (unit level):** Invalid epsilon and negative budget tests confirm defensive exceptions.
 
-- **No raw data is transmitted**: only `statistics` (numeric aggregates) and
-  `schema_contribution` (column name→type mappings) leave each participant.
-- **DP noise is additive**: each participant adds noise before sharing; even a
-  compromised coordinator cannot reconstruct individual records.
-- **Budget enforcement**: the coordinator maintains a cumulative ε budget; once
-  exhausted, further queries are rejected.
+### E2. Architecture consistency
+
+- The importer federated-learning utilities are consistent with broader ThemisDB concepts:
+  - multi-model system architecture (`ARCHITECTURE.md`)
+  - AQL terminology at query layer (`ARCHITECTURE.md`)
+  - distributed-knowledge documentation reusing `FederatedAggregator` and `DifferentialPrivacyManager` interfaces (`src/distributed_knowledge/ARCHITECTURE.md`)
+
+### E3. Evidence limitations
+
+- No fresh benchmark numbers are generated in this review.
+- No external claim is made about production deployment topology beyond repository artifacts.
+- Differential-privacy guarantees are mathematical/model assumptions; real privacy risk also depends on upstream query policy and operational controls.
 
 ---
 
-## Limitations
+## Limitations / Known Issues
 
-- FedAvg assumes i.i.d. data across participants; non-i.i.d. distributions degrade accuracy.
-- The Gaussian mechanism adds noise proportional to sensitivity; high-cardinality distinct
-  counts require larger noise, reducing utility.
-- Schema union may produce spurious fields if participants use different column naming conventions.
+1. **No robust aggregation beyond median/FedAvg:** Outlier resistance is limited to coordinate-wise median; no trimmed mean/Krum/Bulyan implementation in this module.
+2. **Schema union semantics are permissive:** Conflicting field names/types across participants are merged using first-contributor-wins semantics for duplicate keys, which may require downstream normalization.
+3. **Budget model is simple composition:** Current budget enforcement is a threshold check based on simple composition. Advanced accounting (for example RDP accounting as in Ref. 6) is not implemented here and would provide tighter privacy-loss bounds under composition. In practice, simple composition is more conservative and can force fewer rounds or stronger noise for the same privacy target.
+4. **Importer-level scope:** This component is not a full federated-training platform by itself; it is a reusable aggregation/privacy utility used by higher-level modules.
+
+---
+
+## Conclusion
+
+The current ThemisDB implementation provides a concrete and test-backed federated aggregation utility with differential-privacy mechanics in the importer domain. The strongest claims supported by repository evidence are: deterministic reduction behavior for participant statistics, explicit privacy-parameter validation, and enforced budget checks. The main practical constraints are simple budget composition and permissive schema union semantics, which should be considered when integrating this module into larger distributed-learning pipelines.
 
 ---
 
 ## References
 
-- McMahan, H. B. et al. (2017). Communication-Efficient Learning of Deep Networks from Decentralized Data. *AISTATS*.
-- Kairouz, P. et al. (2021). Federated Learning: Challenges, Methods, and Future Directions. *JMLR*, 22(1), 1–208.
-- Dwork, C. et al. (2006). Calibrating Noise to Sensitivity in Private Data Analysis. *TCC 2006*, LNCS 3876, pp. 265–284.
-- McMahan, H. B. et al. (2018). Learning Differentially Private Recurrent Language Models. *ICLR 2018*.
+### Scientific literature
+
+1. McMahan, H. B., et al. (2017). *Communication-Efficient Learning of Deep Networks from Decentralized Data* (AISTATS).
+   DOI: https://doi.org/10.5555/3305890.3306006
+2. Kairouz, P., et al. (2021). *Advances and Open Problems in Federated Learning* (Foundations and Trends in Machine Learning).
+   DOI: https://doi.org/10.1561/2200000083
+3. Dwork, C., McSherry, F., Nissim, K., Smith, A. (2006). *Calibrating Noise to Sensitivity in Private Data Analysis* (TCC).
+   DOI: https://doi.org/10.1007/11681878_14
+4. Dwork, C., Roth, A. (2014). *The Algorithmic Foundations of Differential Privacy*.
+   URL: https://www.cis.upenn.edu/~aaroth/privacybook.html
+5. McMahan, H. B., et al. (2018). *Learning Differentially Private Recurrent Language Models* (ICLR Workshop).
+   URL: https://arxiv.org/abs/1710.06963v2
+6. Mironov, I. (2017). *Rényi Differential Privacy* (IEEE CSF).
+   DOI: https://doi.org/10.1109/CSF.2017.11
+
+### ThemisDB repository artifacts (source-of-truth, local paths by design)
+
+7. `include/importers/federated_learning.h`
+8. `src/importers/federated_learning.cpp`
+9. `tests/test_postgres_importer_v2.cpp`
+10. `src/importers/ROADMAP.md`
+11. `ARCHITECTURE.md`
+12. `src/distributed_knowledge/ARCHITECTURE.md`

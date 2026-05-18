@@ -232,6 +232,10 @@ struct GEvalEvaluator::Impl {
             return heuristicProbsForDimension(dimension);
         }
 
+        if (llm->getAvailableModels().empty()) {
+            return heuristicProbsForDimension(dimension);
+        }
+
         try {
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest req;
             req.base_request.prompt = prompt;

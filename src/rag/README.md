@@ -2,6 +2,9 @@
 
 # ThemisDB RAG Module Implementation
 
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: src/rag/README.md · src/rag/ARCHITECTURE.md · src/rag/ROADMAP.md · src/rag/FUTURE_ENHANCEMENTS.md · include/rag/README.md · docs/troubleshooting/rag_troubleshooting.md -->
+
 ## Module Purpose
 
 Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining vector similarity search, LLM inference, and hybrid retrieval to answer queries from stored documents.
@@ -22,6 +25,19 @@ Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining v
 - `rag_ingestion_bridge.cpp` — connects `IngestionToolbox` to the RAG pipeline (`RAGIngestionBridge`, `IndexResult`; namespace `themis::rag`); `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`
 - `quality_control_pipeline.cpp` — multi-stage QC orchestration (`QualityControlPipeline`)
 - `prompt_injection_detector.cpp` — pattern-based injection detection and sanitisation (`PromptInjectionDetector`, `PromptInjectionSanitizer`)
+
+## Public API Entry Points (`include/rag/`)
+
+| Header | Primary Purpose |
+|---|---|
+| `rag/rag_judge.h` | Multi-dimensional quality evaluation and scoring modes (`FAST`, `BALANCED`, `THOROUGH`) |
+| `rag/hybrid_retriever.h` | Dense+sparse retrieval fusion with configurable Reciprocal Rank Fusion |
+| `rag/streaming_retriever.h` | Token-budget-aware incremental retrieval and context filling |
+| `rag/rag_ingestion_bridge.h` | Document indexing and retrieval-context enrichment bridge |
+| `rag/agentic_rag.h` | Iterative retrieval orchestration with optional relay safety-net benchmarking |
+| `rag/quality_control_pipeline.h` | Composable retrieval/generation quality gate pipeline |
+| `rag/prompt_injection_detector.h` | Prompt injection detection and sanitisation for retrieved/user context |
+| `rag/delegate_evaluator.h` | Document round-trip corruption benchmark (DELEGATE-52 / RS@k) |
 
 ## Current Delivery Status
 
@@ -110,14 +126,38 @@ Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system 
 | Balanced | ~500ms | Standard RAG pipeline |
 | Thorough | ~2s | Research, benchmarking |
 
+## Configuration Surface (Key Types)
+
+| Config Type | Used By | What It Controls |
+|---|---|---|
+| `RAGJudgeConfig` | `RAGJudge` | Evaluation mode, dimension weights, quality thresholds, cache/verification toggles |
+| `StreamingRetrieverConfig` | `StreamingRetriever` | `max_context_tokens`, retrieval depth, relevance ordering, MMR deduplication |
+| `AgenticRAGConfig` | `AgenticRAG` | Iteration guardrails (`max_iterations`) and optional relay guard benchmark config |
+| `PromptInjectionConfig` | `PromptInjectionDetector` | Detection heuristics and severity thresholds for suspicious prompt content |
+| `RAGContextAssemblerConfig` | `RAGContextAssembler` | Context assembly strategy, truncation behavior, response-token reservation |
+
+## Runtime Behavior, Failure Cases, and Limits
+
+- Retrieval is bounded by context/token budgets and configured `top_k`; over-budget chunks are skipped or truncated by assembler/retriever components.
+- Quality gates are mode-dependent: stricter thresholds can block low-faithfulness responses, while relaxed thresholds favor latency.
+- Prompt injection scans are heuristic; suspicious context should be sanitized or rejected before generation.
+- Agentic orchestration enforces finite loops via `max_iterations` and can emit relay benchmark artifacts when `relay_guard` is configured.
+- External inference/model availability (LLM/ONNX) is environment-dependent; integration paths must handle unavailable backends with explicit fallback/error signaling.
+
+## Troubleshooting
+
+For operational troubleshooting and concrete config examples, see:
+- [RAG Troubleshooting Guide](../../docs/troubleshooting/rag_troubleshooting.md)
+- [RAG Documentation Index (DE)](../../docs/de/llm/RAG_INDEX.md)
+
 ## Testing
 
 ```bash
-cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target test_rag_judge
-cmake --build --preset linux-ninja-release --target test_knowledge_gap_detector
-cmake --build --preset linux-ninja-release --target test_rag_streaming_retriever
-cmake --build --preset linux-ninja-release --target test_rag_pipeline_integration
-cmake --build --preset linux-ninja-release --target bench_rag_evaluation
+cmake --preset linux-release && cmake --build --preset linux-release --target test_rag_judge
+cmake --build --preset linux-release --target test_knowledge_gap_detector
+cmake --build --preset linux-release --target test_rag_streaming_retriever
+cmake --build --preset linux-release --target test_rag_pipeline_integration
+cmake --build --preset linux-release --target bench_rag_evaluation
 ```
 
 ## Wissenschaftliche Grundlagen
@@ -177,9 +217,12 @@ Die Implementierung basiert auf folgenden peer-reviewten Forschungsarbeiten:
 
 ## See Also
 
-- Headers: `../../include/rag/README.md`
-- Documentation: `../../docs/src/rag/`
-- Examples: `../../examples/rag/`
+- [Public Headers (`include/rag/README.md`)](../../include/rag/README.md)
+- [Architecture (`src/rag/ARCHITECTURE.md`)](ARCHITECTURE.md)
+- [Roadmap (`src/rag/ROADMAP.md`)](ROADMAP.md)
+- [Future Enhancements (`src/rag/FUTURE_ENHANCEMENTS.md`)](FUTURE_ENHANCEMENTS.md)
+- [Troubleshooting (`docs/troubleshooting/rag_troubleshooting.md`)](../../docs/troubleshooting/rag_troubleshooting.md)
+- [German RAG Index (`docs/de/llm/RAG_INDEX.md`)](../../docs/de/llm/RAG_INDEX.md)
 
 ---
 

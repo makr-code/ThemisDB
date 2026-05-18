@@ -16,6 +16,17 @@
 
 ---
 
+## Root Governance Role
+
+- This file is the canonical root backlog for **open enhancements** and **stub replacements**.
+- Terminology is aligned with `ROADMAP.md`: shipped/in-progress work is treated as a roadmap **feature**, while open backlog work remains an **enhancement** here.
+- `CHANGELOG.md` should reference roadmap milestones and enhancement items from this file when work is completed.
+- `VERSIONING.md` and `RELEASE_STRATEGY.md` provide the release-type and milestone/tag mapping that completed enhancement entries must follow.
+- `COPILOT_INSTRUCTIONS.md` defines mandatory AI/agent synchronization rules for these root governance documents.
+- `FEATURE_ENHANCEMENT.md` remains a generated maturity report and is not used as planning source-of-truth.
+
+---
+
 ## Table of Contents
 
 1. [Legend and Priority System](#legend-and-priority-system)
@@ -902,6 +913,7 @@ A stub replacement item is **Done** (`[x]`) when ALL of the following are true:
 | `src/<module>/FUTURE_ENHANCEMENTS.md` | Module-level detail, acceptance criteria, API sketches |
 | `src/<module>/AUDIT.md` | Per-module audit trail, open items, security findings |
 | `FUTURE_ENHANCEMENTS.md` (this file) | Root-level stub replacement matrix, wave prioritisation |
+| `FEATURE_ENHANCEMENT.md` | Generated code-maturity snapshot (reporting only, non-canonical for planning) |
 | GitHub Issues `#3825–#4092` | One issue per backlog item; label `stub-replacement` |
 
 **Issue template:**

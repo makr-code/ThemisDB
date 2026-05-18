@@ -277,7 +277,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
                     return false;
                 }
             }
-            out = "[array]";
+            out = "[array:" + std::to_string(arr_len) + "]";
             return true;
         }
         default:

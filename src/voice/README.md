@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Voice Module
 
@@ -876,7 +876,7 @@ Solution: Implement session persistence:
 
 - [Content Module](../content/README.md) - STT/TTS processors
 - [LLM Module](../llm/README.md) - Language model integration
-- [Voice API Handler](../api/voice_api_handler.cpp.md) - REST API endpoints
+- [Voice Assistant Guide](../../docs/en/features/voice_assistant_guide.md) - Feature guide and deployment reference
 - [Voice Header](../../include/voice/README.md) - Interface definitions
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
 

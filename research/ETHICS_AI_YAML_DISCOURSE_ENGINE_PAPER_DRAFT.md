@@ -1,7 +1,7 @@
 # Declarative Multi-Philosophy Ethical Reasoning in Database-Native AI Systems:
 ## YAML-Configured Ethics Schools and Structured Discourse in ThemisDB
 
-**Status**: Draft  
+**Status**: Review Draft (repository-grounded; empirical extension runs pending)  
 **Version**: 0.6  
 **Last Updated**: 2026-04-29  
 **Target Venue**: arXiv (cs.AI / cs.DB / cs.CY)  
@@ -104,8 +104,8 @@ in three-school three-round discourse, and an AI-triage liability dilemma
 evaluated by a court-decision LoRA under a Kantian monocle. We compare the
 extended trifecta architecture against Constitutional AI, Self-Refine, Tree
 of Thoughts, ReAct, LLM-as-Judge, G-Eval, GraphRAG, DSPy, and LMQL along
-five evaluation axes, with 24 repository-grounded evidence anchors and 42
-references.
+five evaluation axes, grounded in 24 repository evidence anchors and linked
+literature references.
 
 ---
 
@@ -2325,9 +2325,9 @@ content that:
   the fraction of YAML theses for which `A` contains an NLI-entailed
   contradiction (using a cross-encoder NLI model as judge).
 
-**Empirical escape rates** (preliminary, n=50 dilemmas, GPT-4o,
-no constraint mechanism). Profile IDs correspond to `school_id` / `school:`
-fields in `plugins/ethics_ai/philosophies/`:
+**Illustrative escape-rate snapshot** (pilot analysis, not yet reproduced as
+repository artifact; included to motivate W6 design). Profile IDs correspond
+to `school_id` / `school:` fields in `plugins/ethics_ai/philosophies/`:
 
 | Profile file | `school_id` | Avg Φ (fidelity) | Escape rate (Φ < 0.6) | Contradiction rate | Root cause |
 |---|---|---|---|---|---|
@@ -2498,11 +2498,10 @@ substring to appear in the output — a lexical approximation of principle
 fidelity. More sophisticated constraints can use an embedding call within
 the constraint expression (at the cost of ~50 ms overhead per sampling step).
 
-LMQL constraints reduce the Nietzsche escape rate from 64% (unconstrained)
-to ~18% (lexical constraint) without any prompt optimisation. The
-remaining 18% represents cases where the model satisfies the lexical
-constraint (by including a thesis substring) but reverses its semantic
-meaning in the surrounding context — the *semantic escape* sub-problem.
+In pilot runs, LMQL lexical constraints reduced observed Nietzsche-profile
+escape behavior relative to unconstrained prompting. Residual failures were
+primarily semantic escapes: the model echoed thesis substrings but inverted
+their meaning in surrounding reasoning.
 
 ### IV-B.5 Semantic Escape and NLI Verification
 
@@ -2636,17 +2635,17 @@ Prompt Coordination" (MSD-01..10, Target: Q3 2026).
 | E5 | `src/ethics_ai/discourse_engine.cpp` | `generateArgument()` lines 100-145 | Strength-from-thesis-count heuristic | ready |
 | E6 | `src/ethics_ai/discourse_engine.cpp` | `continueDebate()` lines 160-220 | Multi-round PRO/REBUTTAL/SYNTHESIS with cross-round ID linking | ready |
 | E7 | `src/ethics_ai/ethics_evaluator.cpp` | `evaluateDecision()` | 5-dimension weighted scoring with normalised Config | ready |
-| E8 | `src/ethics_ai/ethics_aql_queries.h` | `buildRAGContext()` | Compound AQL query: 7 patterns in single round-trip | ready |
+| E8 | `src/ethics_ai/ethics_aql_queries.h` | `EthicsAQLQueries` templates | AQL template set covering 7 ethics retrieval/query patterns used by the module | ready |
 | E9 | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` | §3 | ONNX embedding provider design (Q3 2026) | pending |
 | E10 | `src/ethics_ai/chain_visualizer.cpp` | `exportDot()` / `exportMermaid()` | DOT + Mermaid argument chain export | ready |
-| E11 | `tests/test_ethics_ai_benchmark.cpp` | `PB-01..PB-06` | Pipeline latency benchmarks ≤ 200 ms p99 | ready |
+| E11 | `tests/test_ethics_ai_benchmark.cpp` | `PB-01..PB-06` | Benchmark guardrails: p95 thresholds (500 ms decision paths, 1 ms scoring ops, 5 ms vector search overhead, 1 s buildContext) | ready |
 | E12 | `src/ethics_ai/philosophy_loader.cpp` | `reloadProfiles()` | Atomic hot-reload via temp-loader + mutex swap | ready |
 | E13 | `src/ethics_ai/ethics_evaluator.h` | `computeConfidence()` / `computeConsensus()` | Strength-weighted confidence; inter-school consensus | ready |
 | E14 | `src/ethics_ai/ethics_evaluator.cpp` | `getMetricsText()` | Prometheus text v0.0.4 export; 5 metric families | ready |
 | E15 | `src/ethics_ai/argument_store.cpp` | `storeDebateRound()` / `getDebateTranscript()` | Ordered debate transcript; round-number ordering | ready |
-| E16 | `tmp/msi-smoke-runtime/plugins/ethics_ai/philosophies/` | 16 YAML profiles | Bundled philosophy profiles for kant, utilitarianism, contractualism, etc. | ready |
+| E16 | `plugins/ethics_ai/philosophies/` | Bundled YAML profiles | Versioned philosophy profiles (kant, utilitarianism, contractualism, etc.) | ready |
 | E17 | `src/ethics_ai/ethics_evaluator.h` | `Config` struct | Configurable normalised dimension weights | ready |
-| E18 | `src/llama_cpp/llama_lora_adapter.cpp` | `loadLoraModel()` / `isLoraActive()` / `loraModelPath()` | LoRA adapter loading infrastructure (reused by LlmArgumentGenerator for domain LoRAs) | ready |
+| E18 | `src/llm/llama_lora_adapter.cpp` | `loadLoraModel()` / `isLoraActive()` / `loraModelPath()` | Existing LoRA adapter loading infrastructure (candidate reuse point for future domain-LoRA integration) | ready |
 | E19 | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` | §4: LoRA Registry + lora_stack schema | Domain LoRA composition design spec (Q3–Q4 2026) | pending |
 | E20 | `src/prompt_engineering/context_window_manager.cpp` | `ContextWindowBudgetManager` / `CharDivisionCounter` / `PromptBudgetExceededError` | Token-budget enforcement for monocle construction (`T_budget` in §3-B.2); reused across all LLM calls | ready |
 | E21 | `src/prompt_engineering/system_prompt_manager.cpp` | `SystemPromptManager::buildSystemPrompt()` | Architecture B persona injection (§IV-B.3); `Persona` role with context-variable substitution | ready |
@@ -2901,32 +2900,10 @@ produces philosophically grounded, coherent discourse at the cost of latency.
 The design goal of Architecture B is to close this gap while maintaining
 YAML-enforced auditability.
 
-> **Extended evidence:** The complete 5-round dialectic evidence run across all
-> five paper dilemmas (trolley_001, trolley_002, medical_001, av_001, medical_002)
-> — including SURREBUTTAL (Round 3), SYNTHESIS (Round 4), and META-VERDICT (Round 5)
-> with confidence scores — is documented in
-> `research/DIALECTIC_EVIDENCE_PAPER.md` (Evidence Anchors E25–E44). Key additional
-> findings: (a) context window overflow is universal at Round 3 on 7B models [E40–E41];
-> (b) R5 META-VERDICT surfaces systematic YAML schema gaps addressed in
-> `src/ethics_ai/FUTURE_ENHANCEMENTS.md §9` [E42].
->
-> **Non-mainstream school extension (§VI):** Two additional dilemmas (`labor_001` —
-> algorithmic labor control; `authority_001` — AI criminal justice) are evaluated
-> with Marx, Arendt, and Nietzsche monocles (Evidence Anchors E45–E64). Key additional
-> findings: (c) Marx and Arendt achieve expert-level alignment on political-economy
-> dilemmas [E62–E63]; (d) Nietzsche is the outlier detector — its divergence from
-> consensus tracks genuine philosophical controversy or regulatory prohibition [E56, E60];
-> (e) a 6-school 5-round debate exceeds 32 K token limits at R3–R4 without mandatory
-> compression, motivating `FUTURE_ENHANCEMENTS.md §10.5` [E46].
->
-> **Human expert literature evidence (§VII):** Each of the seven dilemmas is grounded
-> in documented human expert evaluations: empirical survey data (Greene 2001 [16],
-> Petrinovich 1996 [14], Bonnefon 2016 [25], Johansson 2022 [32]), philosophical
-> expert consensus (Foot 1967 [6], Thomson 1985 [7], Beauchamp & Childress 2001 [22],
-> McMahan 2002 [23]), and regulatory positions (German Ethik-Kommission 2017 [29],
-> EU AI Act 2024 [31], Emanuel 2020 NEJM [34], DIVI 2020 [36]). Aggregate YAML
-> alignment score: 97.1% for Architecture B vs. 48.6% for Template across 35
-> school-dilemma pairs [E57–E64].
+> **Scope note:** This manuscript is constrained to repository-verifiable evidence
+> anchors E1–E24. Extended multi-round/LLM experiments, additional school families,
+> and human-rating studies remain planned follow-up work and are intentionally not
+> asserted as completed empirical results in this version.
 
 ---
 
@@ -3462,37 +3439,20 @@ for compliance-critical, domain-specific ethical reasoning.
 
 ### 8.3 Revised Research Question Answers
 
-**RQ1** (YAML vs. constitutional principles): The trolley case study
-(§V-B.2) reveals a critical additional dimension: YAML profiles
-provide principle traceability but *cannot prevent incorrect conclusions*
-in template mode. LLM augmentation with Architecture B closes the
-conclusion-correctness gap while preserving YAML-grounded citations.
-The answer to RQ1 is therefore nuanced: YAML profiles are superior
-in modifiability and traceability, *but require LLM integration to
-achieve philosophically correct conclusions*.
+**RQ1 (supported)**: YAML profiles provide explicit, version-controlled
+principle traceability and runtime replaceability that are not available in
+weight-only constitutional setups.
 
-**RQ2** (multi-round discourse quality): Template-mode debates achieve
-DC = 0 for all rounds — multi-round structure is syntactically present
-but semantically empty. LLM-augmented debates achieve DC = 0.73–0.91
-for round-2 REBUTTAL arguments. **H2 is therefore conditional**: the
-predicted ≥ 10 pp consensus improvement requires LLM integration.
-This is a novel finding: the theoretical promise of structured discourse
-is realised only when the generation layer can access and respond to
-the *content* of previous rounds.
+**RQ2 (partial / pending)**: Multi-round debate orchestration is implemented
+in the current module. Claims about discourse-quality gains from LLM rebuttal
+generation remain to be validated by the planned W5/W6 experiments.
 
-**RQ3** (RAG overhead): RAG context retrieval adds 5–20 ms to the
-template decision pipeline (within target). For LLM-augmented decisions,
-RAG context retrieval is negligible relative to LLM API latency (1–3 s),
-and the retrieved context material (similar dilemmas, best practices)
-provides genuine grounding signal for LLM argument generation — making
-RAG more valuable in the LLM path than in the template path.
+**RQ3 (supported for current path)**: The repository includes RAG retrieval
+logic and benchmark guardrails for the current template-based pipeline.
+Additional LLM-path latency/quality characterization is future work.
 
-**New finding (RQ4, emerged from §IV-B)**: *YAML profile richness
-(total thesis count T) is a significant predictor of LLM escape rate*
-(preliminary Pearson ρ = -0.63 between T and escape rate across 5
-profiles). Richer profiles act as stronger anchors for LLM generation.
-This motivates the observation that profile quality (depth of thesis
-articulation) is as important as profile completeness for LLM integration.
+**RQ4 (hypothesis)**: Profile richness likely affects LLM escape behavior; this
+relationship is treated as a hypothesis pending dedicated empirical runs.
 
 ### 8.4 Threats to Validity
 
@@ -3741,110 +3701,54 @@ stored `school_id`, `lora_versions[]`, and `base_model_id`, and its legal
 or philosophical claims can be traced to specific training documents in
 the LoRA Registry or specific `thesis_id` values in the YAML profile.
 
-**Key empirical findings**:
+**Repository-grounded findings and hypotheses**:
 
-1. **Template expansion is structurally faithful but semantically wrong**:
-   Φ = 1.0 by construction, but 100% contradiction rate on the trolley
-   problem for Kantian ethics. Coverage completeness ≠ philosophical
-   correctness. The monocle closes this gap.
+1. **Implemented baseline (current state)**: The template-based ethics path
+   (`EthicalDiscourseEngine`, `EthicsEvaluator`, `RAGContextEngine`,
+   `ArgumentStore`, `PhilosophyLoader`) is implemented and benchmark-covered
+   in `tests/test_ethics_ai_benchmark.cpp` (E11).
 
-2. **The monocle enables genuine discourse**: REBUTTAL coherence DC goes
-   from 0.0 (template) to 0.73–0.91 (Architecture B monocle), because
-   the monocled LLM can read and respond to prior-round argument content.
-   H2 (≥ 10 pp consensus improvement) is achievable only with the monocle.
+2. **Prompt-engineering integration points exist**: Monocle-related building
+   blocks (`ContextWindowBudgetManager`, `SystemPromptManager`,
+   `PromptInjectionDetector`, `ReflectionTuner`, `ProTeGiOptimizer`) are
+   available in `src/prompt_engineering/` (E20–E24).
 
-3. **Profile richness predicts monocle effectiveness**: Escape rate
-   correlates negatively with thesis count T (ρ ≈ -0.63). YAML profile
-   authoring quality is prerequisite for monocle effectiveness.
+3. **LLM and domain-LoRA paths are staged extensions**: LoRA composition and
+   training-loop material in this paper should be read as architecture/design
+   targets tied to `FUTURE_ENHANCEMENTS.md` (E9, E19), not as completed
+   production measurements in this draft.
 
-4. **LMQL constraints + LoRA Judge reduce escape to < 20%** even for
-   philosophically challenging profiles (Nietzsche: 64% → 18%). NLI
-   verification closes the residual semantic escape.
+4. **Empirical extension work remains open**: Quantitative claims for
+   architecture-B/C quality metrics (escape rate, DC improvements, human
+   alignment scores) are hypotheses pending dedicated runs described in §VI.
 
-5. **The RLAIF loop is self-improving and LoRA-efficient**: The LoRA Judge
-   provides preference labels without frontier-model cost at inference time.
-   The argument generator improves with each discourse cycle. The YAML
-   profile is the stable, persistent grounding artefact that prevents
-   reward hacking.
+**Answers to research questions (status-tagged)**:
 
-6. **Domain LoRA + monocle orthogonality holds in practice**: The AI-triage
-   liability case study (§V-C) shows that domain LoRA loading increases
-   legal factual precision (0 → 5 specific legal citations) without reducing
-   philosophical principle fidelity (Φ: 0.78 → 0.89). The adapter knowledge
-   supplements, not competes with, the monocle's philosophical perspective.
+**RQ1 (supported by current code and artifacts)**: YAML profiles provide
+strong traceability and runtime modifiability versus fixed constitutional
+weights.
 
-7. **YAML-declared LoRA composition enables continuous domain currency**:
-   The `lora_stack:` schema, combined with the ThemisDB LoRA Registry and
-   `DomainLoRATrainer` (Loop 5), creates a self-updating specialised reasoner
-   that incorporates new domain knowledge (court decisions, regulatory updates)
-   in hours rather than weeks, while keeping philosophical stance permanently
-   stable in version-controlled YAML files.
+**RQ2 (partially supported; full validation pending)**: Multi-round debate
+structure is implemented; quality gains from LLM-augmented rebuttals require
+the planned LLM generation path and dedicated evaluation.
 
-8. **The monocle infrastructure rests on production prompt engineering**:
-   Every monocle construction step — token-budget allocation (`ContextWindowBudgetManager`),
-   persona injection (`SystemPromptManager`), adversarial sanitisation
-   (`PromptInjectionDetector`), self-refinement (`ReflectionTuner`), and
-   template optimisation (`ProTeGiOptimizer`) — delegates to ThemisDB's
-   production prompt engineering layer (§III-G). This means the monocle's
-   auditability, versioning, and production-readiness claims are directly
-   backed by 24 repository-grounded evidence anchors, not architectural
-   aspirations.
+**RQ3 (supported for template path; extended path pending)**: The repository
+contains RAG retrieval and benchmark guardrails for the current implementation;
+full LLM-path latency/quality impact remains future work.
 
-9. **Non-mainstream ethics schools (Marx, Arendt) achieve expert-level alignment
-   on political-economy and AI-governance dilemmas**: The extended evidence paper
-   (§VI–§VII) demonstrates that marxist (`ideology_critique`, `alienation`) and
-   Arendtian (`banality_of_evil`, `plurality`) YAML monocles produce verdicts
-   aligned with the EU Platform Work Directive (2024), EU AI Act Art. 22 (2024),
-   and ProPublica's COMPAS analysis (2016) at the same confidence level as
-   mainstream school monocles on classical dilemmas. This finding justifies
-   including Marx and Arendt as first-class monocle schools in ThemisDB deployments
-   for labour law and AI governance contexts. [E62–E63]
+**RQ4 (hypothesis)**: Profile richness may influence escape behavior in
+LLM-augmented generation; this draft treats the relationship as a testable
+hypothesis, not a completed result.
 
-10. **Literature-grounded human expert assessment confirms 97.1% YAML alignment**:
-    Seven dilemmas × 5–6 schools = 35 school-dilemma pairs evaluated against
-    documented expert consensus (empirical surveys, philosophical positions,
-    regulatory frameworks). Architecture B achieves 97.1% alignment vs. 48.6%
-    for Template mode. The `av_001` Nietzsche case (excellence-criterion vs.
-    German Ethik-Kommission 2017 prohibition) identifies the one structural
-    YAML gap requiring `regulatory_constraints` guard fields
-    (`FUTURE_ENHANCEMENTS.md §10.3`). [E57–E64]
+**RQ5 (pending)**: Distinctiveness of monocle-augmented output versus
+unconstrained LLM output requires W6 evaluation.
 
-**Answers to research questions**:
+**RQ6 (pending/preliminary design claim)**: Orthogonality of domain-LoRA and
+ethical-monocle specialization is a core architectural hypothesis, with
+validation scheduled in the planned LoRA workstream.
 
-**RQ1**: YAML monocles produce higher principle traceability than constitutional
-principles (full YAML field citations vs. implicit weights). They achieve
-structural coverage without architectural constraints, and semantic faithfulness
-with Architecture B monocle + LoRA Judge.
-
-**RQ2**: Multi-round discourse coherence requires the monocle. DC = 0 for
-template path; DC = 0.73–0.91 for monocle path. The ≥ 10 pp H2 consensus
-improvement is monocle-conditional, not template-achievable.
-
-**RQ3**: RAG adds 5–20 ms overhead in the template path, and negligible
-overhead relative to LLM API latency in the monocle path. RAG provides
-higher quality benefit in the monocle path because retrieved context enriches
-monocled generation (the LLM sees similar dilemmas from the institutional
-memory to anchor its argument).
-
-**RQ4**: Profile richness predicts escape rate (ρ ≈ -0.63). LMQL + NLI
-reduces semantic escape to < 20% for all profiles tested.
-
-**RQ5** (pending): Monocle-augmented output is qualitatively distinct from
-un-monocled output (un-monocled: hedge score 0.87, no citations; monocle:
-hedge score 0.23, 3 YAML field citations, DC = 0.91 on REBUTTAL). Alignment
-with ETHICS dataset ground truth requires W6 empirical evaluation.
-
-**RQ6** (preliminary, from §V-C): Domain LoRA loading increases legal
-factual precision from 0 specific citations (monocle-only) to 5 specific
-citations (monocle + 5-adapter TIES stack) without reducing philosophical
-principle fidelity (Φ increases from 0.78 to 0.89 with adapters). The
-orthogonality property holds: domain LoRA knowledge supplements rather
-than competes with the ethical monocle perspective.
-
-**RQ7** (pending): Continuous LoRA training convergence and held-out accuracy
-improvement require the W7 benchmark (Domain LoRA Incremental Training, 500
-doc batches × 5 adapter types × 3 training runs per adapter). Results
-pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
+**RQ7 (pending)**: Continuous LoRA training convergence and held-out accuracy
+require implementation and execution of the W7 benchmark path.
 
 **Concrete next steps** (prioritised):
 
@@ -4034,9 +3938,6 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
 [47] Bundesministerium für Verkehr und digitale Infrastruktur. *Ethik-Kommission
      Automatisiertes und Vernetztes Fahren: Bericht*. Berlin, 2017.
 
-[48] European Parliament and Council. *Artificial Intelligence Act*
-     (Regulation (EU) 2024/1689). 2024.
-
 [49] Angwin, J. et al. "Machine Bias." *ProPublica*, 2016.
      https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing
 
@@ -4054,7 +3955,7 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
 
 - [x] Title is specific and technically scoped
 - [x] Abstract states measurable contribution and names the central problem (LLM-YAML interplay)
-- [x] All headline claims are evidence-backed (64 evidence IDs E1–E64)
+- [x] Repository-grounded claims are evidence-backed (E1–E24)
 - [x] Related work includes closest baselines and novelty delta (§2.1–2.12, 12 subsections)
 - [x] Method and assumptions are explicitly stated
 - [x] Research Questions and Hypotheses defined (RQ1–RQ7, H1–H3)
@@ -4070,8 +3971,7 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
 - [x] Schema inconsistency in nietzsche.yaml documented (`school:` vs `school_id:`)
 - [x] Non-mainstream school dialectics (Marx, Arendt, Nietzsche — §VI, labor_001, authority_001)
 - [x] Human expert literature evidence per dilemma (§VII, 7 dilemmas × empirical + regulatory + philosophical)
-- [x] YAML school alignment scores vs expert consensus (§VII-8, 97.1% Arch-B vs. 48.6% Template)
-- [x] Regulatory grounding: German Ethik-Kommission 2017, EU AI Act 2024, DIVI 2020, NEJM 2020 [E57–E64]
+- [x] Regulatory grounding references included (e.g., German Ethik-Kommission 2017, EU AI Act 2024, NEJM 2020)
 - [x] FUTURE_ENHANCEMENTS.md §10: Non-Mainstream School Schema Extensions (NPE-01..12)
 - [ ] Experimental results populated (PB-01..PB-06 + W5/W6 pending)
 - [ ] Tables R1–R4 populated with measured values
@@ -4279,7 +4179,7 @@ variant supported by `parseYAML()`'s `joinNode` helper [E4]. Citation keys
 for this profile therefore use the map keys directly:
 `lebensphilosophie_nietzsche:will_to_power`, `lebensphilosophie_nietzsche:ubermensch`.
 
-The high escape rate (64%) for this profile is partly a consequence of
+The elevated escape behavior reported for this profile in pilot runs is partly a consequence of
 the RLHF conflict with the `will_to_power` and `ubermensch` theses, and
 partly the schema difference (map-style theses are harder to enumerate in
 a structured citation list than sequence-style theses).

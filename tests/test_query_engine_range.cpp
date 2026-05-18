@@ -62,6 +62,10 @@ TEST(QueryEngineRangeTest, RangeWithOrderByAscendingLimit) {
     EXPECT_EQ(keys[0], "u20");
     EXPECT_EQ(keys[1], "u25");
     EXPECT_EQ(keys[2], "u30");
+
+    auto countResult = engine.executeAndCount(q);
+    ASSERT_TRUE(countResult) << countResult.error().message();
+    EXPECT_EQ(*countResult, 3u);
     db.close();
 }
 

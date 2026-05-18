@@ -238,7 +238,73 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         std::string exec_mode;
         nlohmann::json plan_json;
 
-        if (ret == "keys") {
+        if (ret == "count") {
+            std::pair<themis::QueryEngine::Status, size_t> res;
+            if (allow_full_scan) {
+                exec_mode = "full_scan_fallback";
+                auto result = engine.executeAndKeysWithFallback(q, optimize);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), result->size()};
+                }
+            } else {
+                if (optimize) {
+                    themis::QueryOptimizer opt(*secondary_index_);
+                    auto plan = opt.chooseOrderForAndQuery(q);
+                    auto result = opt.executeOptimizedCount(engine, q, plan);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), *result};
+                    }
+                    exec_mode = "index_optimized";
+                    if (explain) {
+                        plan_json["mode"] = exec_mode;
+                        plan_json["order"] = nlohmann::json::array();
+                        for (const auto& p : plan.orderedPredicates) {
+                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
+                        }
+                        plan_json["estimates"] = nlohmann::json::array();
+                        for (const auto& d : plan.details) {
+                            plan_json["estimates"].push_back({
+                                {"column", d.pred.column}, {"value", d.pred.value},
+                                {"estimatedCount", d.estimatedCount}, {"capped", d.capped}
+                            });
+                        }
+                    }
+                } else {
+                    exec_mode = "index_parallel";
+                    auto result = engine.executeAndCount(q);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), *result};
+                    }
+                    if (explain) {
+                        plan_json = {
+                            {"mode", exec_mode},
+                            {"order", nlohmann::json::array()}
+                        };
+                        for (const auto& p : q.predicates) {
+                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
+                        }
+                    }
+                }
+            }
+            if (!res.first.ok) {
+                span.setStatus(false, res.first.message);
+                return makeErrorResponse(http::status::bad_request, res.first.message, req);
+            }
+
+            span.setAttribute("query.exec_mode", exec_mode);
+            span.setAttribute("query.result_count", static_cast<int64_t>(res.second));
+            span.setStatus(true);
+
+            json j = {{"table", table}, {"count", res.second}};
+            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            return makeResponse(http::status::ok, j.dump(), req);
+        } else if (ret == "keys") {
             std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";

@@ -863,6 +863,28 @@ FOR p IN CONSTRAINED_PATHS
    - Minimize custom predicates (they can't be optimized)
    - Prefer unique_nodes over custom cycle detection
 
+## Runtime Configuration Quick Reference
+
+| API Surface | Key Options | Runtime Impact |
+|-------------|-------------|----------------|
+| `GraphQueryOptimizer::QueryConstraints` | `max_depth`, `max_results`, `edge_type`, `graph_id`, `unique_vertices`, `unique_edges`, `forbidden_vertices`, `required_vertices` | Controls traversal depth/limit, pruning and result cardinality. |
+| `GraphQueryOptimizer` cache/learning knobs | `setPlanCachingEnabled`, `setPlanCacheMaxSize`, `setPlanCacheTTL`, `setAdaptiveLearningEnabled`, `setMaxQueriesPerSecond` | Controls plan reuse, cache eviction window and adaptive/throughput behavior. |
+| `PathConstraints` | `addMinLength`, `addMaxLength`, `addMaxWeight`, `addRequiredNode`, `addForbiddenNode`, `requireUniqueNodes`, `requireAcyclic` | Defines hard validity constraints for constrained path search and validation. |
+| `ParallelTraversal::Config` | `max_depth`, `max_results`, `num_threads`, `timeout_ms`, `fan_out_threshold`, `forbidden_vertices` | Controls multi-source traversal concurrency and timeout behavior. |
+| `GPUGraphTraversal::Config` | `gpu_device`, `min_vertices_for_gpu`, `max_depth`, `max_results`, `forbidden_vertices` | Controls GPU-vs-CPU path selection and traversal boundaries. |
+| `RefreshPolicy` (`scheduled_edge_refresh.h`) | `refresh_interval`, `relevance_threshold`, `add_threshold`, `max_removal_fraction`, `max_edges_to_add`, `max_edges_to_remove`, `ann_min_vertices` | Controls background edge-refresh cadence, safety gates and ANN acceleration. |
+| `GraphQueryRewriter::RewriteConfig` | `enabled_rules`, `aggressive_optimization`, `rewrite_time_limit_ms` | Controls rewrite strategy breadth and rewrite-time budget. |
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Mitigation |
+|---------|--------------|------------|
+| `ErrorCode::INVALID_STATE` from optimizer/path constraints | `GraphIndexManager` not attached or not initialized | Ensure manager lifetime exceeds optimizer/constraint object lifetime and set manager before execution. |
+| Traversal returns `NOT_FOUND` unexpectedly | Overly restrictive constraints (`forbidden_*`, `required_*`, low `max_depth`) | Relax constraints incrementally and inspect `describeConstraints()` output. |
+| Low plan-cache hit rate | Cache disabled, TTL too small, or constraints vary heavily per request | Enable cache, increase TTL/size, and normalize query templates where possible. |
+| GPU traversal always uses CPU fallback | Graph size below `min_vertices_for_gpu`, no supported GPU, or runtime built without CUDA path | Lower threshold for testing, verify GPU availability, and keep CPU fallback expectations in production runbooks. |
+| Refresh cycle aborts due to safety gate | `max_removal_fraction` / edge add-remove limits too strict for current graph churn | Re-tune `RefreshPolicy` thresholds and inspect `RefreshStats::aborted_safety_gate` / anomaly fields. |
+
 ## Dependencies
 
 ### Internal Dependencies
@@ -974,13 +996,20 @@ target_include_directories(themisdb_graph
 
 ## Related Documentation
 
+- [Public API Header Reference](../../include/graph/README.md) - Entry points and header-level contracts
+- [Graph Module Roadmap](ROADMAP.md) - Delivery phases, readiness checklist and tracked issues
+- [Graph Future Enhancements](FUTURE_ENHANCEMENTS.md) - Design constraints and planned extensions
+- [Graph Architecture Guide](ARCHITECTURE.md) - Runtime architecture, control flow and design rationale
+- [Graph Performance Expectations](PERFORMANCE_EXPECTATIONS.md) - Benchmark/SLO mapping and targets
+- [Graph Security Notes](SECURITY.md) - Security posture and module-specific controls
 - [Index Module - Graph Components](../../include/index/README.md) - GraphIndexManager, GraphAnalytics, PropertyGraph, TemporalGraph
 - [Query Module](../query/README.md) - AQL query engine and graph query integration
 - [Storage Module](../storage/README.md) - RocksDB storage for graph data
 - [Graph Advanced Features](ADVANCED_FEATURES_README.md) - PathConstraints detailed documentation
+- [German Graph Documentation Overview](../../docs/de/graph/README.md) - Einstieg, Betrieb und Querverweise (DE)
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Overall ThemisDB architecture
 
-*Last Updated: April 2026*
+*Last Updated: May 2026*
 *Module Version: v1.8.0*
 *Next Review: v1.9.0 Release*
 

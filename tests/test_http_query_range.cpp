@@ -236,3 +236,31 @@ TEST_F(HttpQueryRangeTest, CombineRangeAndOrderBy) {
     EXPECT_EQ(keys[0].get<std::string>(), "evt_2025-10-27T11_00_00");
     EXPECT_EQ(keys[1].get<std::string>(), "evt_2025-10-27T12_00_00");
 }
+
+TEST_F(HttpQueryRangeTest, ReturnCountMode) {
+    auto r1 = server_->post("/index/create", {{"table","orders"},{"column","status"},{"type","hash"}});
+    ASSERT_EQ(r1.result(), http::status::ok) << r1.body();
+
+    for (int i = 0; i < 5; ++i) {
+        const std::string pk = "ord" + std::to_string(i);
+        const std::string status = (i < 3) ? "open" : "closed";
+        json ent = {{"key", "orders:" + pk}, {"blob", json{{"status", status}}.dump()}};
+        auto r = server_->post("/entities", ent);
+        ASSERT_EQ(r.result(), http::status::created) << r.body();
+    }
+
+    json q = {
+        {"table", "orders"},
+        {"predicates", json::array({{{"column","status"},{"value","open"}}})},
+        {"return", "count"},
+        {"allow_full_scan", true}
+    };
+    auto r2 = server_->post("/query", q);
+    ASSERT_EQ(r2.result(), http::status::ok) << r2.body();
+
+    json resp = json::parse(r2.body());
+    ASSERT_TRUE(resp.contains("count"));
+    EXPECT_EQ(resp["count"].get<size_t>(), 3u);
+    EXPECT_FALSE(resp.contains("keys"));
+    EXPECT_FALSE(resp.contains("entities"));
+}

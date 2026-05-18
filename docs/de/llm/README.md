@@ -266,7 +266,7 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 - +25-40% Qualitätsverbesserung
 - Real-time Feedback-Loop
 
-**Siehe:** [LLM Integration Benefits Analysis](../enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md)
+**Siehe:** [Enterprise Feature Analysis](../enterprise/ENTERPRISE_FEATURE_ANALYSIS.md)
 
 ## Verwandte Dokumentation
 
@@ -360,7 +360,7 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 ### Weitere Ressourcen
 
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - LLM Response Caching
-- [Sharding Overview](../sharding/sharding_overview.md) - Horizontales Sharding in ThemisDB
-- [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
+- [Sharding Overview](../sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Horizontales Sharding in ThemisDB
+- [AQL Prompt Engineering](../prompt_engineering/README.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
-- [Roadmap](../roadmap/ROADMAP.md) - ThemisDB Roadmap (v1.5.0 LLM Integration)
+- [Roadmap](../roadmap/roadmap_overview.md) - ThemisDB Roadmap (v1.5.0 LLM Integration)

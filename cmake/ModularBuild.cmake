@@ -418,6 +418,9 @@ set(THEMIS_STORAGE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_memory_oversubscription.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/llm/lora_framework/vulkan_context.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/llm/lora_framework/vulkan_buffer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/llm/lora_framework/vulkan_pipeline.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/index/rotary_embeddings_cuda.cu>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/index/rotary_embeddings_hip.cpp>
     ../src/index/advanced_vector_index.cpp
@@ -995,7 +998,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/orphan_detector.cpp
 
     # GPU erasure coding (conditional)
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
+    ../src/sharding/gpu_erasure_coder.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
 
@@ -1243,6 +1246,7 @@ set(THEMIS_LLM_SOURCES
     # Phase 1–4: Missing RAG evaluators and orchestrators
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/agentic_rag.cpp
+    ../src/rag/delegate_evaluator.cpp
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/claim_extractor.cpp
     ../src/rag/coherence_evaluator.cpp
@@ -1327,6 +1331,7 @@ if(THEMIS_ENABLE_VULKAN)
         ../src/llm/lora_framework/vulkan_buffer.cpp
         ../src/llm/lora_framework/vulkan_context.cpp
         ../src/llm/lora_framework/vulkan_pipeline.cpp
+        ../src/llm/lora_framework/kernels/vulkan_kernels.cpp
     )
 endif()
 
@@ -1486,6 +1491,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/ingestion_quality_judge.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp
     ../src/ingestion/steps/tensor_core_bridge_step.cpp
@@ -1896,11 +1902,18 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_GPU AND TARGET faiss)
         list(APPEND _themis_storage_deps faiss)
     endif()
+    if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+        list(APPEND _themis_storage_deps Vulkan::Vulkan)
+    endif()
 
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
         DEPENDENCIES ${_themis_storage_deps}
     )
+
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(themis_storage PUBLIC THEMIS_ENABLE_VULKAN)
+    endif()
     
     set(_themis_security_deps
         themis_base
@@ -2162,6 +2175,16 @@ function(themis_build_modular)
         if(TARGET protobuf::libprotobuf)
             target_link_libraries(themis_sharding PUBLIC protobuf::libprotobuf)
         endif()
+
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(themis_sharding PUBLIC THEMIS_ENABLE_CUDA)
+        endif()
+        if(THEMIS_ENABLE_OPENCL)
+            target_compile_definitions(themis_sharding PUBLIC THEMIS_ENABLE_OPENCL)
+            if(TARGET OpenCL::OpenCL)
+                target_link_libraries(themis_sharding PUBLIC OpenCL::OpenCL)
+            endif()
+        endif()
     endif()
     
     if(THEMIS_MODULE_TIMESERIES)
@@ -2229,6 +2252,18 @@ function(themis_build_modular)
             target_link_libraries(themis_llm PUBLIC ${llama_LIBRARIES})
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
                 target_link_libraries(themis_llm_ext PUBLIC ${llama_LIBRARIES})
+            endif()
+        endif()
+        if(THEMIS_ENABLE_VULKAN)
+            target_compile_definitions(themis_llm PUBLIC THEMIS_ENABLE_VULKAN)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_compile_definitions(themis_llm_ext PUBLIC THEMIS_ENABLE_VULKAN)
+            endif()
+        endif()
+        if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+            target_link_libraries(themis_llm PUBLIC Vulkan::Vulkan)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC Vulkan::Vulkan)
             endif()
         endif()
     endif()

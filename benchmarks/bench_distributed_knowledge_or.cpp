@@ -182,7 +182,8 @@ static void BM_Erase_FederationCoordinator(benchmark::State& state) {
         }
         state.ResumeTiming();
 
-        benchmark::DoNotOptimize(coord.erase("subject-bench"));
+        coord.erase("subject-bench");
+        benchmark::ClobberMemory();
     }
     state.SetItemsProcessed(state.iterations());
 }
@@ -208,7 +209,8 @@ static void BM_ZeroTrust_LowRiskPath(benchmark::State& state) {
     size_t id = 0;
     for (auto _ : state) {
         FeedbackSummary fs = makeFeedback("zt-" + std::to_string(id++));
-        benchmark::DoNotOptimize(sync.handleInboundSummary(fs.toJson()));
+        sync.handleInboundSummary(fs.toJson());
+        benchmark::ClobberMemory();
     }
     state.SetItemsProcessed(state.iterations());
 }

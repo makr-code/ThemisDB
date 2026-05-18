@@ -17,6 +17,9 @@
  * TR-11  template topology apply callback accessor set/clear/get
  * TR-12  callback invoked on domain_tag template hit
  * TR-13  callback false return falls back to heuristic path
+ * TR-14  empty template graph → controlled fallback (no crash, no LIFT)
+ * TR-15  template node mode_index out of range → topology mismatch fallback
+ * TR-16  validateTemplate() API: valid / empty-graph / out-of-range / empty-modes / boundary
  */
 
 #include "storage/tensor_router.h"
@@ -310,4 +313,144 @@ TEST(TensorRouterRoute, TemplateTopologyApplyCallbackFalseFallsBackToHeuristic) 
     const auto d = router.route(rand_data, {8, 8}, hint);
     EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);
     EXPECT_EQ(call_count, 1);
+}
+
+// ============================================================================
+// TR-14  empty template graph → controlled fallback (no crash, no LIFT)
+// ============================================================================
+TEST(TensorRouterRoute, EmptyTemplateGraphFallsBackToHeuristic) {
+    themis::storage::TensorRouter router(makeEngine());
+
+    // Register an empty graph (no nodes) for the domain "empty-domain".
+    auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph empty_graph;  // 0 nodes
+    catalog->registerTemplate("empty-domain", empty_graph);
+    router.setTemplateCatalog(catalog);
+
+    // Even with an apply callback that would return true, an invalid (empty)
+    // template must not promote to LIFT — validation must reject it first.
+    int apply_calls = 0;
+    router.setTemplateTopologyApplyFn(
+        [&apply_calls](const std::string&,
+                       const themis::tensor::TensorNetworkGraph&,
+                       const themis::storage::TensorRouteHint&) {
+            ++apply_calls;
+            return true;
+        });
+
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "empty-domain";
+    hint.min_ratio  = 100.0;  // Force heuristic to KEEP if no template LIFT.
+
+    const auto d = router.route(constantData(64), {8, 8}, hint);
+
+    // The apply_fn must NOT be called for an invalid template.
+    EXPECT_EQ(apply_calls, 0);
+    // Without a valid template the routing falls through to heuristic → KEEP.
+    EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);
+}
+
+// ============================================================================
+// TR-15  template node mode_index out of range → topology mismatch fallback
+// ============================================================================
+TEST(TensorRouterRoute, TemplateTopologyMismatchFallsBackToHeuristic) {
+    themis::storage::TensorRouter router(makeEngine());
+
+    // Graph has a node with mode_index=99, which is out of range for {8, 8}
+    // (only 2 modes, indices 0 and 1 are valid).
+    auto catalog = std::make_shared<themis::tensor::TemplateCatalog>();
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 99, 1, 2, 4, 0.0});  // mode_index=99 exceeds mode count=2
+    catalog->registerTemplate("mismatch-domain", g);
+    router.setTemplateCatalog(catalog);
+
+    int apply_calls = 0;
+    router.setTemplateTopologyApplyFn(
+        [&apply_calls](const std::string&,
+                       const themis::tensor::TensorNetworkGraph&,
+                       const themis::storage::TensorRouteHint&) {
+            ++apply_calls;
+            return true;
+        });
+
+    themis::storage::TensorRouteHint hint;
+    hint.domain_tag = "mismatch-domain";
+    hint.min_ratio  = 100.0;  // Force heuristic to KEEP if no template LIFT.
+
+    const auto d = router.route(constantData(64), {8, 8}, hint);
+
+    // apply_fn must NOT be invoked when topology validation rejects the graph.
+    EXPECT_EQ(apply_calls, 0);
+    EXPECT_NE(d, themis::storage::TensorRouteDecision::LIFT);
+}
+
+// ============================================================================
+// TR-16  validateTemplate() API: valid template
+// ============================================================================
+TEST(TensorRouterValidate, ValidTemplateReturnsValid) {
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+    g.addNode({"n1", 1, 2, 1, 4, 0.0});
+
+    const auto result =
+        themis::storage::TensorRouter::validateTemplate(g, {4, 4});
+
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.reason.empty());
+}
+
+// ============================================================================
+// TR-16b  validateTemplate(): empty graph is invalid
+// ============================================================================
+TEST(TensorRouterValidate, EmptyGraphIsInvalid) {
+    themis::tensor::TensorNetworkGraph g;  // no nodes
+
+    const auto result =
+        themis::storage::TensorRouter::validateTemplate(g, {4, 4});
+
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+// ============================================================================
+// TR-16c  validateTemplate(): mode_index out of range is invalid
+// ============================================================================
+TEST(TensorRouterValidate, NodeModeIndexOutOfRangeIsInvalid) {
+    themis::tensor::TensorNetworkGraph g;
+    // mode_index=5, but mode_sizes only has 2 entries → out of range
+    g.addNode({"n0", 5, 1, 2, 4, 0.0});
+
+    const auto result =
+        themis::storage::TensorRouter::validateTemplate(g, {4, 4});
+
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+// ============================================================================
+// TR-16d  validateTemplate(): empty mode_sizes → cannot validate
+// ============================================================================
+TEST(TensorRouterValidate, EmptyModeSizesIsInvalid) {
+    themis::tensor::TensorNetworkGraph g;
+    g.addNode({"n0", 0, 1, 2, 4, 0.0});
+
+    const auto result =
+        themis::storage::TensorRouter::validateTemplate(g, {});
+
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+// ============================================================================
+// TR-16e  validateTemplate(): valid single-node template (boundary check)
+// ============================================================================
+TEST(TensorRouterValidate, SingleNodeExactlyAtModeBoundaryIsValid) {
+    themis::tensor::TensorNetworkGraph g;
+    // mode_index=1 with mode_sizes of size 2 → last valid index
+    g.addNode({"n0", 1, 1, 2, 4, 0.0});
+
+    const auto result =
+        themis::storage::TensorRouter::validateTemplate(g, {8, 8});
+
+    EXPECT_TRUE(result.valid);
 }

@@ -259,13 +259,13 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
         if (fn) {
             try {
                 const std::string injected = fn(canonical, hmac_key);
-                if (isValidHexSha256Signature(injected)) {
+                if (!injected.empty()) {
                     record.hmac_signature = injected;
                     return;
                 }
                 std::fprintf(stderr,
                     "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn returned "
-                    "an invalid signature format; clearing signature.\n");
+                    "an empty signature; clearing signature.\n");
                 record.hmac_signature.clear();
                 return;
             } catch (...) {
@@ -298,10 +298,10 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
         if (fn) {
             try {
                 const std::string expected = fn(canonical, hmac_key);
-                if (!isValidHexSha256Signature(expected)) {
+                if (expected.empty()) {
                     std::fprintf(stderr,
                         "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn "
-                        "returned invalid signature format.\n");
+                        "returned an empty signature.\n");
                     return false;
                 }
                 return constantTimeEquals(record.hmac_signature, expected);

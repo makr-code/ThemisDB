@@ -1,20 +1,22 @@
 # Graph Advanced Features
 
-> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+<!-- Status: synchronized 2026-05-13 | Audit: AUDIT.md (last 2026-04-21, S1 fixed 2026-05-04) -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ARCHITECTURE.md · SECURITY.md · AUDIT.md · PERFORMANCE_EXPECTATIONS.md -->
+
+> **Status:** 2026-05-13 – Inhalt mit Graph-Codebasis synchronisiert. Alle `<!-- TODO -->` Markierungen aufgelöst. Bezug zu zentralen Modul-Dokumenten hergestellt.
 
 This directory contains advanced graph analytics and query features for ThemisDB. These modules extend the basic graph query capabilities with sophisticated algorithms for path analysis.
 
 ## Implementation Status ✅
 
-**PathConstraints Module:** Fully Implemented  
-**GraphQueryOptimizer Integration:** Fully Implemented  
+**PathConstraints Module:** Fully Implemented
+**GraphQueryOptimizer Integration:** Fully Implemented
 **Implementation Date:** February 2026
 
 ## Important Note on Existing Implementations
 
 **Centrality and Community Detection algorithms are already fully implemented** in the `GraphAnalytics` class:
 - **Location:** `include/index/graph_analytics.h` and `src/index/graph_analytics.cpp`
-<!-- TODO: verify feature exists in include/graph/ -->
 - **Implemented Algorithms:**
   - ✅ Degree Centrality
   - ✅ PageRank
@@ -46,7 +48,6 @@ Advanced path finding with complex constraint specifications. **Now fully implem
 ```cpp
 #include "graph/path_constraints.h"
 #include "index/graph_index.h"
-<!-- TODO: verify feature exists in include/graph/ -->
 
 using namespace themis::graph;
 
@@ -203,7 +204,6 @@ PathConstraints supports 14 constraint types for flexible path finding:
 ## Using Existing Graph Analytics
 
 For centrality and community detection, use the fully-implemented `GraphAnalytics` class:
-<!-- TODO: verify feature exists in include/graph/ -->
 
 **Example: Centrality Analysis**
 ```cpp
@@ -382,13 +382,11 @@ if (!analytics_result.first.ok) {
 
 Common error codes for PathConstraints:
 - `ErrorRegistry::ErrorCode::INVALID_STATE`: GraphIndexManager not set
-<!-- TODO: verify feature exists in include/graph/ -->
 - `ErrorRegistry::ErrorCode::VALIDATION_FAILED`: Contradictory or unsatisfiable constraints
 - `ErrorRegistry::ErrorCode::NOT_FOUND`: No paths found satisfying constraints
 
 Graph-specific codes (v1.7.0+):
 - `errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX` (6400): Vertex not found during traversal
-<!-- TODO: verify feature exists in include/graph/ -->
 - `errors::ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT` (6402): Contradictory constraints
 - `errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND` (6403): No satisfying path
 - `errors::ErrorCode::ERR_QUERY_TIMEOUT` (6103): SLO budget exceeded
@@ -537,14 +535,14 @@ Comprehensive test coverage includes:
 
 ## Contributing
 
-When implementing these algorithms:
+When extending or maintaining graph features:
 
 1. **Follow existing patterns**: Use `Result<T>`, integrate with `GraphIndexManager`
 2. **Maintain API compatibility**: Keep interface signatures stable
 3. **Add comprehensive tests**: Cover correctness, performance, edge cases
 4. **Document complexity**: Include time/space complexity analysis
 5. **Consider scalability**: Design for large graphs from the start
-6. **Benchmark**: Compare with established implementations
+6. **Benchmark**: Compare against existing implementations and regression baselines
 
 ## License
 
@@ -552,35 +550,43 @@ Part of ThemisDB - Multi-Model Database System
 
 ## Related Documentation
 
-- [Graph Analytics](../../include/index/graph_analytics.h) - **Existing centrality and community detection implementations**
-- [Graph Query Optimizer](./README.md) - Existing graph query optimization
-- [Graph Index](../../include/index/graph_index.h) - Core graph storage
-- [Error Handling](../../include/utils/expected.h) - Result<T> pattern
-- [GAP Analysis](../../docs/Audit/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Implementation gaps
+### Central Graph Module Documents
+
+- [Graph Module Overview](README.md) — Implementation scope, key components, and build instructions
+- [Graph Module Roadmap](ROADMAP.md) — Delivery phases, readiness checklist, and tracked issues
+- [Graph Future Enhancements](FUTURE_ENHANCEMENTS.md) — Design constraints and planned extensions
+- [Graph Architecture Guide](ARCHITECTURE.md) — Runtime architecture, control flow, and design rationale
+- [Graph Security Notes](SECURITY.md) — Security posture and module-specific controls
+- [Graph Audit Report](AUDIT.md) — Audit findings and resolution status
+- [Graph Performance Expectations](PERFORMANCE_EXPECTATIONS.md) — Benchmark SLO targets
+
+### Public API Headers
+
+- [Graph Module Public Headers](../../include/graph/README.md) — Full header reference and API entry points
+- [path_constraints.h](../../include/graph/path_constraints.h) — PathConstraints class API
+- [graph_query_optimizer.h](../../include/graph/graph_query_optimizer.h) — GraphQueryOptimizer and QueryConstraints
+- [parallel_traversal.h](../../include/graph/parallel_traversal.h) — ParallelTraversal API
+- [distributed_graph.h](../../include/graph/distributed_graph.h) — DistributedGraph API
+
+### Related Modules
+
+- [Index Module — Graph Components](../../include/index/README.md) — GraphIndexManager, GraphAnalytics, PropertyGraph, TemporalGraph
+- [Error Handling](../../include/utils/expected.h) — Result<T> pattern used across the module
 
 ## Future Enhancements
 
-### Path Constraints Enhancements
-- ✅ Constraint validation algorithms (DONE)
-- ✅ Constrained BFS traversal (DONE)
-- ✅ Integration with query optimizer (DONE)
-- ✅ EDGE_PROPERTY constraint validation (DONE – v1.7.0)
-- ✅ Parallel BFS (`enable_parallel`, `num_threads`) (DONE – v1.7.0)
-- ✅ NODE_PROPERTY constraint validation (DONE – v1.7.0, backed by `getNodeField`)
-- ✅ Weight constraints (MAX_WEIGHT / MIN_WEIGHT) (DONE – v1.7.0)
+See [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) for the full backlog with design constraints, required interfaces, and test strategies.
+
+### Path Constraints
+
 - ⏳ Performance optimization for massive graphs (>10M nodes)
 - ⏳ DFS alternative for deep path scenarios
 
 ### Additional Graph Features
-- **Temporal Path Analysis**: Time-aware path constraints
-- ✅ **Weighted Constraints**: `addMaxWeight()` / `addMinWeight()` (DONE – v1.7.0)
-- **Approximate Algorithms**: Fast approximations for massive graphs
-- **Streaming Constraints**: Real-time constraint evaluation
-- **A* with Constraints**: Heuristic-guided constrained path finding
 
-### Integration Features
-- **AQL Integration**: Native query language support for constraints
-- **Visualization**: Path visualization with constraint highlighting
-- **Export**: JSON/CSV export of constrained path results
-- **Monitoring**: Real-time metrics for constraint evaluation
-- **Query Plan Caching**: Cache optimized plans for repeated constraint patterns
+- **Temporal Path Analysis**: Time-aware path constraints
+- **Approximate Algorithms**: Fast approximations for massive graphs
+- **A* with Constraints**: Heuristic-guided constrained path finding
+- **GPU-accelerated BFS/DFS** (Issue: [#1829](../../ROADMAP.md)): Production-ready CUDA/HIP kernel (CPU fallback active)
+- **Ontology-based Semantic Constraints** (Target: Q3 2026): `PathConstraints::addSemanticConstraint(ontology, ruleset)` via `OntologyManager`
+- **Knowledge Graph Reasoning** (Target: Q4 2026 – Q3 2027): AI/ML + LoRA integration via `KnowledgeGraphReasoner`

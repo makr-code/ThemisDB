@@ -27,6 +27,7 @@
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
+#include "test_helpers_llm.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 
@@ -369,6 +370,15 @@ TEST_F(RAGJudgeIntegrationTest, BasicEvaluation) {
     std::string answer = "The capital of France is Paris.";
     
     auto result = judge->evaluate(query, docs, answer);
+    const bool has_real_models = themis::test::hasRealModels();
+
+    if (result.explanation.empty()) {
+        if (has_real_models) {
+            FAIL() << "Lokale Modelle sind verfuegbar, aber RAGJudge lieferte keine Erklaerung. "
+                   << "Bitte LLM-Testkonfiguration/Plugin-Verdrahtung pruefen.";
+        }
+        GTEST_SKIP() << "No LLM model available for RAG judge integration in this environment.";
+    }
     
     EXPECT_GE(result.overall_score, 0.0);
     EXPECT_LE(result.overall_score, 1.0);

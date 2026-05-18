@@ -1,456 +1,794 @@
 > **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Audit: see §Review / Audit Trail at end of document -->
+
 # Vector Advanced Features
 
-This directory contains advanced vector search capabilities for ThemisDB. These modules extend the basic vector similarity search with sophisticated algorithms for radius-based search and multi-vector queries.
+> **Scope of this document:** Advanced vector-index features beyond the baseline
+> `VectorIndexManager` API.
+> For basic usage (`init`, `addVector`, `search`, `deleteVector`) refer to
+> [README.md](README.md) — the *src/index* implementation guide — and
+> [include/index/README.md](../../include/index/README.md) — the public-API
+> reference.
 
-## Status: GAP-006 Implementation (Production-Ready Beta)
+## Status
 
-**Current Version:** v1.5.0-beta  
-**Implementation Date:** February 2026  
-**Status:** ✅ **Fully Implemented and Production-Ready**
+| Dimension | Value |
+|---|---|
+| Module version | v1.8.0 |
+| Last validated | 2026-05-13 |
+| Overall status | ✅ Production-Ready |
+| Baseline doc | [README.md](README.md) |
+| Public-API doc | [include/index/README.md](../../include/index/README.md) |
 
-Both modules are fully implemented with comprehensive test coverage and benchmarks. They are ready for production use with the following capabilities:
+## Basic vs. Advanced: Feature Boundary
 
-- Complete interface implementation with all methods functional
-- Comprehensive error handling and validation
-- Integration with VectorIndexManager
-- Production-quality performance optimizations
-- Full test coverage with unit and integration tests
-- Performance benchmarks available
+| Feature | Where documented |
+|---|---|
+| `VectorIndexManager::init / addVector / search / deleteVector` | [README.md](README.md) |
+| HNSW parameters (`M`, `efConstruction`, `efSearch`) | [README.md](README.md) |
+| RocksDB persistence, `WriteBatch` atomicity | [README.md](README.md) |
+| Audit logging for vector operations | [README.md](README.md) |
+| **FAISS IVF+PQ (`AdvancedVectorIndex`)** | **This document** |
+| **GPU vector search (`GPUVectorIndex`, `MultiGPUVectorIndex`)** | **This document** |
+| **GPU memory oversubscription** | **This document** |
+| **Quantization (PQ, Binary, Residual, Learned)** | **This document** |
+| **Approximate radius search** | **This document** |
+| **Multi-vector / hybrid search** | **This document** |
+| **Matryoshka embedding truncation (MRL)** | **This document** |
+| **HNSW parameter auto-tuning** | **This document** |
+| **Distributed vector index** | **This document** |
 
-**Note:** All features are now fully implemented including the "LEARNED_FUSION" strategy for multi-vector search. All functionality is complete and operational.
+---
 
-## Modules Overview
+## 1. FAISS Advanced Vector Index (`AdvancedVectorIndex`)
 
-### 1. Approximate Radius Search (`approximate_radius_search.h/cpp`)
+**Header:** `include/index/advanced_vector_index.h`
+**Source:** `src/index/advanced_vector_index.cpp`
+**Status:** ✅ Production-Ready
+**Build flag:** `THEMIS_GPU_ENABLED` — required for real FAISS; without it a
+`StubCallbacks` bridge must be registered (see §1.5).
 
-**Status:** ✅ **Fully Implemented and Production-Ready**
+### 1.1 Description
 
-Efficient search for all vectors within a distance threshold.
+`AdvancedVectorIndex` wraps FAISS with IVF (Inverted File) + PQ (Product
+Quantization) for production-scale approximate nearest-neighbor search:
 
-**Implemented Features:**
-- ✅ Approximate radius-based search (faster than exact)
-- ✅ Multiple distance metrics (L2, Cosine, Dot Product)
-- ✅ Max results limiting
-- ✅ Quality guarantees (recall threshold)
-- ✅ Batch processing support
-- ✅ Dynamic radius adjustment
-- ✅ Comprehensive integration tests
-- ✅ Performance benchmarks
+- **10–100× memory reduction** vs. flat index
+- **2–10× faster search** on datasets larger than 1 M vectors
+- GPU acceleration via FAISS GPU index
+- ADC (Asymmetric Distance Computation) tables for ~40 % faster CPU search (v1.5.x)
+- Workload-optimized configuration factory
 
-**Usage:**
-```cpp
-#include "index/approximate_radius_search.h"
+### 1.2 Index Types
 
-using namespace themis::vector;
+| Type | Memory | Speed | Accuracy | Best For |
+|---|---|---|---|---|
+| `IVF_FLAT` | High | High | Exact | Medium datasets, recall-critical |
+| `IVF_PQ` | Low | Very High | Approximate | Large datasets, memory-constrained |
+| `HNSW_FLAT` | High | Highest | Exact | Best accuracy, unlimited memory |
+| `IVF_HNSW_PQ` | Medium | High | High | Best speed/accuracy trade-off |
 
-ApproximateRadiusSearch radius_search(vector_manager);
-
-ApproximateRadiusSearch::SearchConfig config;
-config.radius = 0.3f;              // Distance threshold
-config.metric = Metric::COSINE;
-config.max_results = 1000;
-config.min_recall = 0.95f;         // 95% recall guarantee
-
-// Perform radius search
-auto result = radius_search.search(query_vector, config);
-if (result) {
-    for (const auto& item : result.value().results) {
-        std::cout << item.id << ": " << item.distance << std::endl;
-    }
-}
-```
-
-**Use Cases:**
-- Finding all similar documents within a similarity threshold
-- Duplicate detection with distance threshold
-- Clustering pre-processing (find neighbors)
-- Anomaly detection (find items with few neighbors)
-- Local density estimation
-
-**vs. k-NN Search:**
-| Feature | k-NN | Radius Search |
-|---------|------|---------------|
-| Result count | Fixed (k) | Variable (within radius) |
-| Query parameter | k neighbors | distance threshold |
-| Use case | "Top-k similar" | "All within threshold" |
-| Performance | O(log n) with HNSW | Similar with optimization |
-
-### 2. Multi-Vector Search (`multi_vector_search.h/cpp`)
-
-**Status:** ✅ **Production-Ready (All 7 fusion strategies implemented)**
-
-Complex similarity queries involving multiple vectors.
-
-**Implemented Features:**
-- ✅ Multiple query vectors (ensemble search)
-- ✅ Multiple vector fields per item (multi-modal)
-- ✅ 7 fusion strategies: Linear, Rank-based, RRF, Max, Min, Avg, Learned
-- ✅ Hybrid search (vector + keyword)
-- ✅ Query expansion support
-- ✅ Weight optimization with grid search and NDCG
-- ✅ Batch processing
-- ✅ Comprehensive unit and integration tests
-
-**Fusion Strategies (All Implemented):**
-1. **Linear Combination**: `score = w1*s1 + w2*s2 + ...` ✅
-2. **Rank Fusion**: Borda count method ✅
-3. **Reciprocal Rank Fusion (RRF)**: `score = Σ 1/(k + rank_i)` ✅
-4. **Max/Min/Avg**: Simple aggregation ✅
-5. **Learned Fusion**: Uses optimized weights from `optimizeWeights()` method ✅
-
-**Usage:**
-```cpp
-#include "index/multi_vector_search.h"
-
-using namespace themis::vector;
-
-MultiVectorSearch multi_search(vector_manager);
-
-// Example 1: Multi-query search
-MultiVectorSearch::MultiQuery query;
-query.vectors = {query_vec1, query_vec2, query_vec3};
-query.weights = {0.5f, 0.3f, 0.2f};
-
-MultiVectorSearch::SearchConfig config;
-config.fusion = MultiVectorSearch::FusionStrategy::LINEAR_COMBINATION;
-config.top_k = 10;
-
-// Execute search
-auto result = multi_search.search(query, config);
-if (result) {
-    for (const auto& res : result.value().results) {
-        std::cout << "ID: " << res.id << ", Score: " << res.fused_score << std::endl;
-    }
-}
-
-// Example 2: Multi-field search
-auto result2 = multi_search.searchMultiField(
-    query_vector, 
-    {"title_embedding", "content_embedding"},
-    config
-);
-
-// Example 3: Hybrid search (vector + keywords)
-std::unordered_map<std::string, float> keyword_scores = {
-    {"doc1", 0.8f}, {"doc2", 0.6f}
-};
-auto result3 = multi_search.hybridSearch(
-    query_vector, keyword_scores, config);
-
-// Example 4: Learned fusion with optimized weights
-// Step 1: Prepare training data
-std::vector<MultiVectorSearch::MultiQuery> training_queries = {
-    /* your training queries */
-};
-std::vector<std::vector<std::string>> relevance_judgments = {
-    /* relevant doc IDs for each query */
-};
-
-// Step 2: Learn optimal weights using NDCG
-auto learned_weights = multi_search.optimizeWeights(training_queries, relevance_judgments);
-
-// Step 3: Use learned weights with LEARNED_FUSION strategy
-if (learned_weights) {
-    config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
-    config.weights = learned_weights.value();
-    auto result4 = multi_search.search(query, config);
-}
-```
-
-**Use Cases:**
-- Multi-modal search (text + image + audio)
-- Ensemble retrieval (multiple query formulations)
-- Hybrid search (semantic + keyword)
-- Multi-aspect similarity (title + content + metadata)
-- Cross-lingual search (multiple language embeddings)
-- Recommendation systems (multiple user preference vectors)
-
-## Integration with Existing Systems
-
-### Vector Index Manager Integration
-
-Both modules integrate with existing `VectorIndexManager`:
-
-```cpp
-#include "index/vector_index.h"
-#include "index/approximate_radius_search.h"
-#include "index/multi_vector_search.h"
-
-// Initialize vector manager
-VectorIndexManager vector_manager(db);
-vector_manager.init("documents", 768, VectorIndexManager::Metric::COSINE);
-
-// Create advanced search modules
-ApproximateRadiusSearch radius_search(vector_manager);
-MultiVectorSearch multi_search(vector_manager);
-```
-
-### Advanced Vector Index Integration
-
-Works with `advanced_vector_index.h` for optimized operations:
+### 1.3 Configuration Guide
 
 ```cpp
 #include "index/advanced_vector_index.h"
 
-// Advanced features can leverage GPU acceleration
-// and other optimizations from advanced vector index
+// --- Workload-optimized factory (recommended) ---
+// Dataset: 5 M documents, 768-dim embeddings, RAG workload
+auto config = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    5'000'000,                           // dataset size
+    768,                                 // dimension
+    AdvancedVectorIndex::WorkloadType::RAG
+);
+
+AdvancedVectorIndex adv_index(768, config);
+
+// --- Manual configuration ---
+AdvancedVectorIndex::Config cfg;
+cfg.index_type   = AdvancedVectorIndex::Config::Type::IVF_PQ;
+cfg.nlist        = 2048;    // IVF clusters — sqrt(N) is a good default
+cfg.nprobe       = 128;     // Clusters searched per query (speed vs. recall)
+cfg.use_pq       = true;
+cfg.pq_m         = 8;       // Sub-quantizers (dimension % pq_m == 0)
+cfg.pq_nbits     = 8;       // Bits per sub-quantizer (8 or 16)
+cfg.use_adc_tables = true;  // ~40 % faster search on CPU (v1.5.x ADC)
+cfg.use_gpu      = false;   // Set true to use GPU (requires FAISS GPU build)
+cfg.train_size   = 150'000; // Training vectors — minimum 30 × nlist
+
+AdvancedVectorIndex adv_index(768, cfg);
+// Verify construction succeeded (GPU/FAISS availability affects initialization)
+auto init_stats = adv_index.getStats();
+// init_stats.is_trained == false until train() is called;
+// init_stats.is_gpu reflects whether GPU was actually enabled.
 ```
 
-## Implementation Status and Roadmap
-
-### ✅ Completed (February 2026)
-
-#### Phase 1: Approximate Radius Search
-- ✅ Implemented HNSW-based radius search
-- ✅ Added distance threshold filtering
-- ✅ Optimized for common radius values
-- ✅ Added batch processing
-- ✅ Comprehensive testing (integration tests)
-- ✅ Performance benchmarks
-
-#### Phase 2: Multi-Vector Search - Basic
-- ✅ Implemented linear combination fusion
-- ✅ Added rank-based fusion (Borda count)
-- ✅ Implemented RRF (Reciprocal Rank Fusion)
-- ✅ Multi-query search support
-- ✅ Performance optimization
-- ✅ Max/Min/Avg fusion strategies
-
-#### Phase 3: Multi-Vector Search - Advanced
-- ✅ Multi-field search implementation
-- ✅ Hybrid search (vector + keyword)
-- ✅ Query expansion support
-- ✅ Weight learning/optimization (grid search with NDCG)
-- ✅ Batch processing
-- ✅ Learned fusion strategy implementation
-
-### 🚧 Future Enhancements
-
-#### Phase 4: Advanced Features (Planned)
-- ⏳ Deep learning-based fusion (neural network fusion models)
-- ⏳ GPU acceleration for multi-vector operations
-- ⏳ Distributed search for massive datasets
-- ⏳ Advanced caching strategies
-- ⏳ Real-time index updates
-- ⏳ A/B testing framework
-
-## Algorithm Complexity
-
-### Approximate Radius Search
-| Operation | Time Complexity | Space Complexity | Notes |
-|-----------|----------------|------------------|-------|
-| Search | O(log n + r) | O(r) | r = results in radius |
-| Batch Search | O(m × log n + R) | O(R) | m = queries, R = total results |
-| Estimate Count | O(log n × s) | O(1) | s = sample size |
-
-### Multi-Vector Search
-| Operation | Time Complexity | Space Complexity | Notes |
-|-----------|----------------|------------------|-------|
-| Linear Fusion | O(k × m × log n) | O(k × m) | k = top-k, m = vectors |
-| Rank Fusion | O(k × m × log n + k × log k) | O(k × m) | Includes sorting |
-| RRF | O(k × m × log n) | O(k × m) | Constant time fusion |
-| Hybrid Search | O(k × log n + h) | O(k + h) | h = keyword matches |
-
-## Performance Considerations
-
-### Radius Search Optimization
-1. **Index Structure**: HNSW with radius-aware navigation
-2. **Early Termination**: Stop when distance exceeds radius
-3. **Batch Processing**: Reuse computations across queries
-4. **Caching**: Cache frequent radius values
-5. **GPU Acceleration**: Parallel distance computations
-
-### Multi-Vector Fusion Optimization
-1. **Lazy Evaluation**: Only compute needed similarities
-2. **Score Caching**: Cache individual vector scores
-3. **Parallel Search**: Execute searches in parallel
-4. **Approximate Fusion**: Use sampling for large result sets
-5. **Index Sharing**: Reuse index structures across queries
-
-## Fusion Strategy Comparison
-
-| Strategy | Complexity | Quality | Tuning Needed | Best For |
-|----------|-----------|---------|---------------|----------|
-| Linear | O(m) | High | Yes (weights) | Known importance |
-| Max | O(m) | Medium | No | Any match acceptable |
-| Avg | O(m) | Medium | No | Equal importance |
-| Rank | O(m log m) | High | Optional | Unknown importance |
-| RRF | O(m) | High | Minimal (k param) | General purpose |
-
-## Error Handling
-
-All methods return `Result<T>` for consistent error handling:
+### 1.4 Lifecycle
 
 ```cpp
-auto result = multi_search.search(query, config);
-if (!result) {
-    std::cerr << "Error: " << result.error().message << std::endl;
-    return;
+// 1. Train on representative sample (required for IVF-based types)
+std::vector<float> training_data(150'000 * 768);
+// ... fill training_data from your corpus ...
+bool trained = adv_index.train(training_data.data(), 150'000);
+
+// 2. Add vectors with IDs
+std::vector<float>   vectors(10'000 * 768);
+std::vector<int64_t> ids(10'000);
+// ... fill vectors/ids ...
+adv_index.addWithIds(vectors.data(), ids.data(), 10'000);
+
+// 3. Search
+AdvancedVectorIndex::SearchResult result = adv_index.search(query.data(), /*k=*/10);
+for (size_t i = 0; i < result.ids.size(); ++i) {
+    std::cout << "ID " << result.ids[i]
+              << "  dist " << result.distances[i] << "\n";
 }
 
-const auto& search_result = result.value();
-std::cout << "Found " << search_result.results.size() << " results\n";
+// 4. Persist / restore
+adv_index.save("/data/indexes/adv_768.faiss");
+adv_index.load("/data/indexes/adv_768.faiss");
+
+// 5. Statistics
+auto stats = adv_index.getStats();
+std::cout << "Vectors: "      << stats.total_vectors       << "\n"
+          << "Memory (MB): "  << stats.memory_usage_bytes / 1'048'576 << "\n"
+          << "Compression: "  << stats.compression_ratio   << "×\n"
+          << "Trained: "      << stats.is_trained           << "\n";
 ```
 
-**Note:** The LEARNED_FUSION strategy requires pre-computed weights:
+### 1.5 StubCallbacks (non-FAISS environments)
+
+When FAISS is unavailable at compile time, the implementation uses
+**injectable `StubCallbacks`** so tests and CI can verify integration logic
+without a real FAISS library:
+
 ```cpp
-// LEARNED_FUSION requires weights to be provided
-config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
-config.weights = {0.6f, 0.4f};  // Must be provided via config or query
+// STUB/SIMULATION NOTE:
+// Purpose: allow unit tests and CI to exercise AdvancedVectorIndex APIs
+//          without a FAISS build.
+// Activation: StubCallbacks registered; no THEMIS_GPU_ENABLED define.
+// Production Delta: no real vector math — returns configured dummy results.
+// Removal Plan: replaced by real FAISS dispatch when build flag is present.
 
-// Without weights, returns:
-// ErrorRegistry::ErrorCode::INVALID_ARGUMENT
-// "LEARNED_FUSION requires pre-computed weights from optimizeWeights()"
+AdvancedVectorIndex::StubCallbacks stubs;
+stubs.train        = [](const float*, size_t) { return true; };
+stubs.add_with_ids = [](const float*, const int64_t*, size_t) { return true; };
+stubs.search       = [](const float*, size_t k) {
+    AdvancedVectorIndex::SearchResult r;
+    r.ids.resize(k, -1);
+    r.distances.resize(k, 0.0f);
+    return r;
+};
+stubs.stats = [] {
+    AdvancedVectorIndex::Stats s;
+    s.is_trained = true;
+    s.total_vectors = 42;
+    return s;
+};
+AdvancedVectorIndex::setStubCallbacks(std::move(stubs));
 ```
 
-All other methods return actual results or appropriate error codes for invalid inputs.
+> **Important:** Register stubs before construction. Pass a
+> default-constructed `StubCallbacks` to clear all hooks and restore
+> fail-closed behavior.
 
-## Testing
+### 1.6 Performance Targets
 
-### Test Coverage
+| Workload | Dataset | Dimension | Target Throughput | Target Recall@10 |
+|---|---|---|---|---|
+| RAG | 10 M docs | 768 | ≥ 2 000 QPS (CPU) | ≥ 0.90 |
+| Analytics batch | 50 M docs | 1 536 | ≥ 500 QPS (GPU) | ≥ 0.95 |
+| OLTP | 1 M docs | 384 | ≥ 10 000 QPS (CPU) | ≥ 0.92 |
 
-Both modules have comprehensive test coverage:
+---
 
-#### Approximate Radius Search Tests
-- **Location:** `tests/test_approximate_radius_search_integration.cpp`
-- **Coverage:**
-  - All distance metrics (L2, Cosine, Dot Product)
-  - Large dataset scalability (100+ vectors)
-  - Error handling and edge cases
-  - Batch processing
-  - Performance validation
-  - Integration with VectorIndexManager
+## 2. GPU Vector Index
 
-#### Multi-Vector Search Tests
-- **Location:** `tests/test_multi_vector_search.cpp`
-- **Coverage:**
-  - All fusion strategies (Linear, RRF, Rank, Max, Min, Avg)
-  - Multi-query search scenarios
-  - Query expansion
-  - Hybrid search
-  - Batch processing
-  - Weight optimization
-  - Error handling
+### 2.1 Single-GPU (`GPUVectorIndex`)
 
-### Benchmarks
+**Header:** `include/index/gpu_vector_index.h`
+**Source:** `src/index/gpu_vector_index.cpp`
+**Status:** ✅ Production-Ready
+**Build flags:** `THEMIS_ENABLE_CUDA` (CUDA backend) or `THEMIS_ENABLE_HIP` (ROCm/HIP backend) or `THEMIS_ENABLE_VULKAN` (Vulkan compute backend)
 
-Performance benchmarks are available:
+```cpp
+#include "index/gpu_vector_index.h"
 
-- **Location:** `benchmarks/bench_approximate_radius_search.cpp`
-- **Metrics:**
-  - Search latency across different radius values
-  - Throughput for batch operations
-  - Scalability with dataset size
-  - Memory usage patterns
+GPUVectorIndex::Config gpu_cfg;
+gpu_cfg.device_id         = 0;
+gpu_cfg.backend           = GPUVectorIndex::Backend::CUDA;  // or HIP / VULKAN
+gpu_cfg.allow_cpu_fallback = true;  // auto-fallback when GPU is unavailable
+
+GPUVectorIndex gpu_index(768, gpu_cfg);
+gpu_index.add(vectors.data(), count);
+
+// Batch search — maximises GPU throughput
+auto results = gpu_index.searchBatch(queries.data(), num_queries, /*k=*/10);
+```
+
+**CPU fallback behavior:** When the GPU runtime is unavailable or the
+requested backend is not compiled in, `GPUVectorIndex` automatically falls
+back to CPU HNSW and emits a `spdlog::warn` message.  No exception is thrown.
+
+### 2.2 Multi-GPU (`MultiGPUVectorIndex`)
+
+**Header:** `include/index/multi_gpu_vector_index.h`
+**Source:** `src/index/multi_gpu_vector_index.cpp`
+**Status:** ✅ Production-Ready
+
+```cpp
+#include "index/multi_gpu_vector_index.h"
+
+MultiGPUVectorIndex::Config cfg;
+cfg.device_ids       = {0, 1, 2, 3};  // Use all 4 GPUs
+cfg.replication_mode = MultiGPUVectorIndex::ReplicationMode::FULL;
+
+MultiGPUVectorIndex multi_gpu(768, cfg);
+multi_gpu.add(vectors.data(), count);
+
+// Parallel batch search across all GPUs
+auto results = multi_gpu.searchBatch(queries.data(), num_queries, /*k=*/10);
+
+// Statistics per GPU
+auto stats = multi_gpu.getStats();
+for (const auto& s : stats.per_device) {
+    std::cout << "GPU " << s.device_id
+              << "  utilisation " << s.utilisation_pct << " %\n";
+}
+```
+
+### 2.3 GPU Memory Oversubscription
+
+**Header:** `include/index/gpu_memory_oversubscription.h`
+**Source:** `src/index/gpu_memory_oversubscription.cpp`
+**Status:** ✅ Production-Ready (v1.7.0)
+**Tests:** `tests/index/test_gpu_memory_oversubscription.cpp` (26 tests)
+
+Enables vector indexes larger than available VRAM via LRU-eviction paging and
+prefetch strategies:
+
+```cpp
+#include "index/gpu_memory_oversubscription.h"
+
+GPUVectorIndex::Config cfg;
+cfg.enable_oversubscription = true;
+cfg.vram_budget_mb          = 8'192;  // 8 GB VRAM budget
+cfg.prefetch_strategy       = GPUMemoryOversubscriptionManager::PrefetchStrategy::LRU;
+
+GPUVectorIndex gpu_index(1536, cfg);
+
+// Monitor paging activity
+auto os_stats = gpu_index.getOversubscriptionStats();
+std::cout << "Page hits:   " << os_stats.page_hits   << "\n"
+          << "Page misses: " << os_stats.page_misses  << "\n"
+          << "Evictions:   " << os_stats.evictions    << "\n";
+```
+
+**Prefetch strategies:** `NONE`, `LRU`, `MRU`, `SEQUENTIAL`
+
+**Performance note:** Oversubscription adds per-query VRAM-page-fault overhead.
+Set `vram_budget_mb` to at least 80 % of the working-set size for best throughput.
+
+---
+
+## 3. Quantization
+
+All quantizers compress stored vectors to reduce memory footprint at the cost
+of a small recall drop.  They integrate with `VectorIndexManager` via
+`AdvancedIndexConfig`.
+
+### 3.1 Product Quantization with ADC (`ProductQuantizer`)
+
+**Header:** `include/index/product_quantizer.h`
+**Status:** ✅ Production-Ready
+
+```cpp
+#include "index/product_quantizer.h"
+
+ProductQuantizer::Config pq_cfg;
+pq_cfg.m      = 8;   // Sub-quantizers (dimension % m == 0)
+pq_cfg.nbits  = 8;   // Bits per sub-quantizer
+pq_cfg.use_adc_tables = true;  // Asymmetric Distance Computation (v1.5.x)
+
+ProductQuantizer pq(768, pq_cfg);
+pq.train(training_data.data(), 100'000);
+
+// Encode
+std::vector<uint8_t> codes(count * pq.getCodeSize());
+pq.encode(vectors.data(), codes.data(), count);
+
+// Search with ADC (no full decode — ~3× faster than decode path)
+auto results = pq.searchADC(query.data(), codes.data(), count, /*k=*/10);
+```
+
+**ADC optimization:** Asymmetric Distance Computation (ADC) computes
+distances directly from sub-quantizer lookup tables without decoding full
+vectors.  This delivers 3–5× speedup for PQ-compressed search on CPU.
+
+### 3.2 Binary Quantization (`BinaryQuantizer`)
+
+**Header:** `include/index/binary_quantizer.h`
+**Status:** ✅ Production-Ready
+
+256× compression ratio; XOR + popcount distance.  Best for recall@1 screening
+before full re-ranking with the original float vectors.
+
+```cpp
+#include "index/binary_quantizer.h"
+
+BinaryQuantizer bq(768);
+bq.train(training_data.data(), 100'000);
+
+std::vector<uint8_t> binary_codes(count * bq.getCodeSize());
+bq.encode(vectors.data(), binary_codes.data(), count);
+
+auto candidates = bq.search(query.data(), binary_codes.data(), count, /*k=*/100);
+// Re-rank candidates with original float vectors ...
+```
+
+### 3.3 Residual Quantization (`ResidualQuantizer`)
+
+**Header:** `include/index/residual_quantizer.h`
+**Status:** ✅ Production-Ready
+
+Multi-stage quantization that encodes the residual error of each stage,
+achieving higher accuracy than PQ at the same code length.
+
+### 3.4 Learned Quantizer (`LearnedQuantizer`)
+
+**Header:** `include/index/learned_quantizer.h`
+**Status:** ✅ Production-Ready
+
+Neural-network-based quantization trained end-to-end on the target
+distribution.
+
+> **Open optimization (FUTURE_ENHANCEMENTS.md):** `learned_quantizer.cpp`
+> line 353 contains a TODO for ADC-style distance computation directly from
+> codes/centroids, bypassing full decode.  When implemented this will deliver
+> 3–5× speedup matching the PQ ADC path.
+
+---
+
+## 4. Approximate Radius Search (`ApproximateRadiusSearch`)
+
+**Header:** `include/index/approximate_radius_search.h`
+**Source:** `src/index/approximate_radius_search.cpp`
+**Status:** ✅ Production-Ready
+**Tests:** `tests/test_approximate_radius_search_integration.cpp`
+
+Efficient search for **all vectors within a distance threshold**, as opposed
+to k-NN which returns a fixed count.
+
+### 4.1 Basic Usage
+
+```cpp
+#include "index/vector_index.h"
+#include "index/approximate_radius_search.h"
+
+using namespace themis::vector;
+
+// Initialize VectorIndexManager (basic setup — see README.md)
+VectorIndexManager vector_manager(db);
+vector_manager.init("documents", 768, VectorIndexManager::Metric::COSINE);
+
+// Create radius search module
+ApproximateRadiusSearch radius_search(vector_manager);
+
+ApproximateRadiusSearch::SearchConfig cfg;
+cfg.radius      = 0.3f;   // Cosine distance threshold
+cfg.metric      = Metric::COSINE;
+cfg.max_results = 1000;
+cfg.min_recall  = 0.95f;  // 95 % recall guarantee
+
+auto result = radius_search.search(query_vector, cfg);
+if (result) {
+    for (const auto& item : result.value().results) {
+        std::cout << item.id << ": " << item.distance << "\n";
+    }
+}
+```
+
+### 4.2 Batch Search
+
+```cpp
+std::vector<std::vector<float>> batch_queries = { q1, q2, q3 };
+auto batch_results = radius_search.searchBatch(batch_queries, cfg);
+```
+
+### 4.3 k-NN vs. Radius Search
+
+| Aspect | k-NN | Radius Search |
+|---|---|---|
+| Result count | Fixed (k) | Variable (all within radius) |
+| Query parameter | k neighbors | Distance threshold |
+| Use case | "Top-k similar" | "All within threshold" |
+| Performance | O(log n) HNSW | O(log n + r); r = result count |
+
+### 4.4 Use Cases
+
+- Finding all similar documents within a similarity threshold
+- Duplicate detection with distance threshold
+- Clustering pre-processing (neighborhood discovery)
+- Anomaly detection (items with very few neighbors)
+- Local density estimation
+
+### 4.5 Algorithm Complexity
+
+| Operation | Time | Space | Notes |
+|---|---|---|---|
+| Search | O(log n + r) | O(r) | r = results in radius |
+| Batch Search | O(m × (log n + r̄)) | O(m × r̄) | m = queries, r̄ = avg result count |
+| Estimate Count | O(log n × s) | O(1) | s = sample size |
+
+### 4.6 Performance Tips
+
+1. Tune `min_recall` — lower values accelerate search at cost of missed results
+2. Set `max_results` to bound memory when radius is broad
+3. Use batch mode to amortize index traversal overhead across queries
+4. For very large radii, consider `AdvancedVectorIndex` IVF+PQ instead
+
+---
+
+## 5. Multi-Vector / Hybrid Search (`MultiVectorSearch`)
+
+**Header:** `include/index/multi_vector_search.h`
+**Source:** `src/index/multi_vector_search.cpp`
+**Status:** ✅ Production-Ready (all 7 fusion strategies implemented)
+**Tests:** `tests/test_multi_vector_search.cpp`
+
+### 5.1 Fusion Strategies
+
+| Strategy | Formula | Tuning | Best For |
+|---|---|---|---|
+| `LINEAR_COMBINATION` | `score = Σ wᵢ·sᵢ` | Weights required | Known per-source importance |
+| `RANK_FUSION` (Borda) | `score = Σ (n − rank_i)` | None | Unknown importance |
+| `RRF` | `score = Σ 1/(k + rank_i)` | `k` param (default 60) | General purpose |
+| `MAX` | `score = max(sᵢ)` | None | Any-match queries |
+| `MIN` | `score = min(sᵢ)` | None | All-match queries |
+| `AVG` | `score = mean(sᵢ)` | None | Equal-importance sources |
+| `LEARNED_FUSION` | pre-optimized weights | Requires `optimizeWeights()` | Best recall with labelled data |
+
+### 5.2 Usage Examples
+
+```cpp
+#include "index/multi_vector_search.h"
+
+using namespace themis::vector;
+
+MultiVectorSearch multi_search(vector_manager);
+
+// Example 1: Multi-query ensemble (3 query formulations)
+MultiVectorSearch::MultiQuery query;
+query.vectors = {query_vec1, query_vec2, query_vec3};
+query.weights = {0.5f, 0.3f, 0.2f};  // used by LINEAR_COMBINATION
+
+MultiVectorSearch::SearchConfig cfg;
+cfg.fusion = MultiVectorSearch::FusionStrategy::RRF;  // robust default
+cfg.top_k  = 20;
+
+auto result = multi_search.search(query, cfg);
+if (result) {
+    for (const auto& res : result.value().results) {
+        std::cout << "ID: " << res.id << "  score: " << res.fused_score << "\n";
+    }
+}
+
+// Example 2: Multi-field (title + content embeddings)
+auto result2 = multi_search.searchMultiField(
+    query_vector,
+    {"title_embedding", "content_embedding"},
+    cfg
+);
+
+// Example 3: Hybrid search (semantic + keyword BM25)
+std::unordered_map<std::string, float> keyword_scores = {
+    {"doc1", 0.8f}, {"doc2", 0.6f}
+};
+auto result3 = multi_search.hybridSearch(query_vector, keyword_scores, cfg);
+
+// Example 4: Learned Fusion (requires labelled training data)
+std::vector<MultiVectorSearch::MultiQuery> training_queries = { /* ... */ };
+std::vector<std::vector<std::string>>      relevance_labels  = { /* ... */ };
+
+auto learned_weights = multi_search.optimizeWeights(training_queries, relevance_labels);
+if (learned_weights) {
+    cfg.fusion  = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+    cfg.weights = learned_weights.value();
+    auto result4 = multi_search.search(query, cfg);
+}
+```
+
+> **LEARNED_FUSION note:** This strategy requires pre-computed weights from
+> `optimizeWeights()`.  Calling `search()` without valid weights returns
+> `INVALID_ARGUMENT` / "LEARNED_FUSION requires pre-computed weights from
+> optimizeWeights()".
+
+### 5.3 Use Cases
+
+- Multi-modal search (text + image + audio)
+- Ensemble retrieval (multiple query formulations / languages)
+- Hybrid semantic + BM25 search
+- Multi-aspect similarity (title, abstract, metadata)
+- Recommendation systems (multiple user preference vectors)
+
+### 5.4 Algorithm Complexity
+
+| Operation | Time | Space | Notes |
+|---|---|---|---|
+| Linear / Max / Min / Avg | O(k × m × log n) | O(k × m) | k = top-k, m = vectors |
+| Rank Fusion (Borda) | O(k × m × log n + k log k) | O(k × m) | Extra sort step |
+| RRF | O(k × m × log n) | O(k × m) | Constant-time fusion |
+| Hybrid Search | O(k × log n + h) | O(k + h) | h = keyword candidates |
+
+### 5.5 Performance Tips
+
+1. `RRF` is the safest default for unknown source weights
+2. Tune `LINEAR_COMBINATION` weights with `optimizeWeights()` on labelled queries
+3. Enable parallel search (`cfg.parallel = true`) when latency matters
+4. Cache individual vector scores when re-running fusion experiments
+
+---
+
+## 6. Matryoshka Embedding Truncation (v1.8.0)
+
+**Header:** `include/index/matryoshka_truncation.h`
+**Source:** `src/index/matryoshka_truncation.cpp`
+**Status:** ✅ Production-Ready (v1.8.0)
+**Tests:** `tests/index/test_matryoshka_truncation.cpp` (25 tests, AC-1–AC-25)
+**CI:** `.github/workflows/matryoshka-truncation-ci.yml`
+
+### 6.1 Overview
+
+Matryoshka Representation Learning (MRL) trains embeddings so that every
+prefix sub-vector of length d < D is itself a useful d-dimensional
+representation (Kusupati et al., NeurIPS 2022).  A single full-dimensional
+embedding can be truncated to any standard granularity for multi-stage
+retrieval without retraining.
+
+```
+Full: [·····················768·····················]
+       ↳ 64 ↳ 128 ↳ 256 ↳ 512 ↳ 768  (any prefix is valid)
+```
+
+**Supported granularities (`kMRL_*` constants):**
+
+| Constant | Dimensions | Compatible Models |
+|---|---|---|
+| `kMRL_64` | 64 | text-embedding-3-small, Nomic Embed v1.5, BGE-M3 |
+| `kMRL_128` | 128 | same |
+| `kMRL_256` | 256 | text-embedding-3-small, text-embedding-3-large, Nomic Embed v1.5, BGE-M3 |
+| `kMRL_512` | 512 | same |
+| `kMRL_768` | 768 | text-embedding-3-small (full), Nomic Embed v1.5 (full), BGE-M3 (full) |
+| `kMRL_1024` | 1 024 | text-embedding-3-large |
+| `kMRL_1536` | 1 536 | text-embedding-3-large, text-embedding-ada-002 (full) |
+
+### 6.2 Usage
+
+```cpp
+#include "index/matryoshka_truncation.h"
+#include "index/ann_index.h"
+
+// Wrap any IAnnIndex backend with MRL truncation
+auto hnsw_backend = std::make_shared<HnswAnnIndex>(768, hnsw_cfg);
+
+MatryoshkaTruncatedIndex mrl_index(hnsw_backend, kMRL_256);
+// ^ Stores and searches with 256-dim truncated + normalised embeddings
+
+// Multi-stage retrieval
+MatryoshkaTruncatedIndex coarse_index(hnsw_backend, kMRL_64);
+MatryoshkaTruncatedIndex fine_index  (hnsw_backend, kMRL_768);
+
+// Stage 1: cheap coarse candidate selection
+auto candidates = coarse_index.search(query.data(), /*k=*/100);
+
+// Stage 2: re-rank top-100 with full-dim embeddings
+auto final_results = fine_index.rerank(candidates, query.data(), /*k=*/10);
+```
+
+### 6.3 Performance Characteristics
+
+- Truncation + L2 normalisation: O(trunc_dim) per vector — negligible overhead
+- No index-build overhead beyond the wrapped backend
+- 64-dim index vs. 768-dim: ~12× smaller, ~8× faster ANN search
+- Recommended pipeline: `kMRL_64` coarse filter → `kMRL_768` fine re-rank
+
+---
+
+## 7. HNSW Parameter Auto-Tuning
+
+### 7.1 `HnswParameterTuner`
+
+**Header:** `include/index/hnsw_parameter_tuner.h`
+**Status:** ✅ Production-Ready
+
+Selects optimal HNSW `M`, `efConstruction`, and `efSearch` parameters for a
+given workload class at runtime:
+
+```cpp
+#include "index/hnsw_parameter_tuner.h"
+
+HnswParameterTuner tuner;
+auto params = tuner.tune(
+    /*dataset_size=*/  2'000'000,
+    /*dimension=*/     768,
+    /*workload=*/      WorkloadClass::MIXED
+);
+
+VectorIndexManager vim(db);
+vim.init("docs", 768, VectorIndexManager::Metric::COSINE,
+         params.M, params.efConstruction, params.efSearch);
+```
+
+### 7.2 `HnswProductionDefaults`
+
+**Header:** `include/index/hnsw_production_defaults.h`
+**Status:** ✅ Production-Ready
+
+Pre-validated parameter sets for common dataset sizes:
+
+| Preset | Dataset Size | M | efConstruction | efSearch | Recall@10 |
+|---|---|---|---|---|---|
+| `SMALL` | < 100 K | 16 | 200 | 64 | ≥ 0.98 |
+| `MEDIUM` | 100 K – 5 M | 32 | 400 | 128 | ≥ 0.95 |
+| `LARGE` | > 5 M | 48 | 600 | 256 | ≥ 0.92 |
+
+### 7.3 `HnswLayerOptimizer`
+
+**Header:** `include/index/hnsw_layer_optimizer.h`
+**Status:** ✅ Production-Ready
+
+Optimises the HNSW layer structure post-build to improve query throughput
+without changing recall.
+
+---
+
+## 8. Distributed Vector Index
+
+**Header:** `include/index/distributed_vector_index.h`
+**Source:** `src/index/distributed_vector_index.cpp`
+**Status:** ✅ Production-Ready
+
+Partitions vector indexes across multiple shards for horizontal scale-out.
+
+```cpp
+#include "index/distributed_vector_index.h"
+
+DistributedVectorIndex::Config dist_cfg;
+dist_cfg.shard_count = 8;
+dist_cfg.replication_factor = 2;
+
+DistributedVectorIndex dist_index(768, dist_cfg);
+dist_index.addWithIds(vectors.data(), ids.data(), count);
+
+// Scatter-gather search across all shards
+auto results = dist_index.search(query.data(), /*k=*/10);
+```
+
+**Use cases:** datasets > 100 M vectors; multi-region deployments; tenant
+isolation via shard-level partitioning.
+
+---
+
+## 9. Error Handling
+
+All advanced-search methods use `Result<T>` / `themis::expected<T, Error>`:
+
+```cpp
+auto result = multi_search.search(query, cfg);
+if (!result) {
+    std::cerr << "Error: " << result.error().message << "\n";
+    return;
+}
+const auto& sr = result.value();
+std::cout << "Found " << sr.results.size() << " results\n";
+```
+
+**Common error codes:**
+
+| Code | Cause | Resolution |
+|---|---|---|
+| `INVALID_ARGUMENT` | LEARNED_FUSION without weights | Call `optimizeWeights()` first |
+| `INVALID_ARGUMENT` | Dimension mismatch | Check `init()` dimension vs. query |
+| `NOT_TRAINED` | IVF search before training | Call `train()` before `add()` |
+| `GPU_UNAVAILABLE` | GPU backend missing | Set `allow_cpu_fallback = true` |
+| `OUT_OF_MEMORY` | VRAM exhausted | Enable oversubscription or reduce budget |
+
+---
+
+## 10. Testing
+
+### Test Matrix
+
+| Module | Test File | Tests | Type |
+|---|---|---|---|
+| AdvancedVectorIndex | `tests/index/test_advanced_vector_index.cpp` | — | Unit + Integration |
+| GPUVectorIndex | `tests/index/test_gpu_vector_index.cpp` | — | Unit |
+| GPU Memory Oversubscription | `tests/index/test_gpu_memory_oversubscription.cpp` | 26 | Unit |
+| ApproximateRadiusSearch | `tests/test_approximate_radius_search_integration.cpp` | — | Integration |
+| MultiVectorSearch | `tests/test_multi_vector_search.cpp` | — | Unit + Integration |
+| MatryoshkaTruncation | `tests/index/test_matryoshka_truncation.cpp` | 25 | Unit |
 
 ### Running Tests
 
 ```bash
-# Run approximate radius search tests
+# Configure and build (Linux)
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release --parallel 4
+
+# Run all index tests
+ctest --preset linux-ninja-release -R "index" --output-on-failure
+
+# Run specific test suites
 ./build/tests/test_approximate_radius_search_integration
-
-# Run multi-vector search tests
 ./build/tests/test_multi_vector_search
-
-# Run benchmarks
-./build/benchmarks/bench_approximate_radius_search
+./build/tests/index/test_matryoshka_truncation
+./build/tests/index/test_gpu_memory_oversubscription
 ```
 
-## References
+### Benchmarks
+
+```bash
+# Radius search throughput / scalability
+./build/benchmarks/bench_approximate_radius_search
+
+# FAISS IVF+PQ throughput vs. flat HNSW
+./build/benchmarks/bench_advanced_vector_index
+```
+
+---
+
+## 11. References
 
 ### Academic Papers
-1. **HNSW**: Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search"
-2. **FAISS**: Johnson, J., et al. (2019). "Billion-scale similarity search with GPUs"
-3. **RRF**: Cormack, G. V., et al. (2009). "Reciprocal rank fusion outperforms condorcet and individual rank learning methods"
-4. **CombSUM/CombMNZ**: Fox, E. A., & Shaw, J. A. (1994). "Combination of multiple searches"
-5. **Multi-Modal**: Dosovitskiy, A., et al. (2020). "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale"
 
-### Similar Systems
-- **Milvus**: Multi-vector and hybrid search support
-- **Weaviate**: Hybrid search with BM25 + vector
-- **Pinecone**: Metadata filtering and hybrid search
-- **Qdrant**: Payload-based filtering and scoring
-- **FAISS**: Radius search with HNSW and IVF
+1. **HNSW**: Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs." *IEEE TPAMI*.
+2. **FAISS**: Johnson, J., Douze, M., & Jégou, H. (2019). "Billion-scale similarity search with GPUs." *IEEE Transactions on Big Data*.
+3. **RRF**: Cormack, G. V., Clarke, C. L. A., & Buettcher, S. (2009). "Reciprocal rank fusion outperforms condorcet and individual rank learning methods." *SIGIR*.
+4. **CombSUM / CombMNZ**: Fox, E. A., & Shaw, J. A. (1994). "Combination of multiple searches." *TREC*.
+5. **MRL**: Kusupati, A. et al. (2022). "Matryoshka Representation Learning." *NeurIPS*.
+6. **ADC**: Jégou, H., Douze, M., & Schmid, C. (2011). "Product quantization for nearest neighbor search." *IEEE TPAMI*.
 
-## Example Applications
+### Comparable Systems
 
-### Application 1: Multi-Modal Product Search
-```cpp
-// Search products by image + text description
-MultiVectorSearch::MultiQuery query;
-query.vectors = {image_embedding, text_embedding};
-query.weights = {0.7f, 0.3f};  // Prefer image similarity
-query.field_names = {"image_vec", "desc_vec"};
+| System | Relevant Feature |
+|---|---|
+| FAISS | IVF+PQ, GPU search, ADC |
+| Milvus | Multi-vector, distributed, GPU |
+| Weaviate | Hybrid BM25 + vector |
+| Qdrant | Payload filtering, scoring |
+| ScaNN | Anisotropic PQ, ADC |
 
-auto results = multi_search.search(query, config);
-```
+---
 
-### Application 2: Duplicate Detection
-```cpp
-// Find all potential duplicates within 0.1 distance
-ApproximateRadiusSearch::SearchConfig config;
-config.radius = 0.1f;
-config.metric = Metric::COSINE;
+## 12. Related Documentation
 
-auto results = radius_search.search(document_vector, config);
-// Check results for exact duplicates
-```
+| Document | Link |
+|---|---|
+| Index module — implementation guide | [src/index/README.md](README.md) |
+| Index module — public-API reference | [include/index/README.md](../../include/index/README.md) |
+| Index module roadmap | [src/index/ROADMAP.md](ROADMAP.md) |
+| Index module future enhancements | [src/index/FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) |
+| `VectorIndexManager` API | [include/index/vector_index.h](../../include/index/vector_index.h) |
+| `AdvancedVectorIndex` API | [include/index/advanced_vector_index.h](../../include/index/advanced_vector_index.h) |
+| `MatryoshkaTruncatedIndex` API | [include/index/matryoshka_truncation.h](../../include/index/matryoshka_truncation.h) |
+| `Result<T>` / `expected<T,E>` | [include/utils/expected.h](../../include/utils/expected.h) |
+| PathConstraints & Advanced Vectors (usage guide) | [docs/en/features/PATH_CONSTRAINTS_AND_ADVANCED_VECTORS.md](../../docs/en/features/PATH_CONSTRAINTS_AND_ADVANCED_VECTORS.md) |
+| Documentation review guidelines | [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](../../docs/DOCUMENTATION_REVIEW_GUIDELINES.md) |
+| Systematic review plan | [docs/SYSTEMATISCHER_REVIEWPLAN.md](../../docs/SYSTEMATISCHER_REVIEWPLAN.md) |
 
-### Application 3: Query Expansion
-```cpp
-// Generate multiple query formulations
-std::vector<std::vector<float>> variants = {
-    original_query,
-    reformulation1,
-    reformulation2
-};
+---
 
-auto results = multi_search.searchWithExpansion(variants, config);
-// Combines evidence from all formulations
-```
+## 13. Review / Audit Trail
 
-## Contributing
+<!-- Acceptance criteria from issue [Docs][Module] index - VECTOR_ADVANCED_FEATURES_README.md aktualisieren -->
 
-When implementing these algorithms:
-
-1. **Follow patterns**: Use `Result<T>`, integrate with `VectorIndexManager`
-2. **Benchmark**: Compare with baseline implementations
-3. **Document**: Include complexity analysis and references
-4. **Test**: Correctness, recall, precision, performance
-5. **Optimize**: Consider GPU acceleration from start
-
-## License
-
-Part of ThemisDB - Multi-Model Database System
-
-## Related Documentation
-
-- [Vector Index](./vector_index.h) - Core vector storage and search
-- [Advanced Vector Index](./advanced_vector_index.h) - GPU-accelerated operations
-- [Error Handling](../utils/expected.h) - Result<T> pattern
-- [GAP Analysis](../../docs/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Implementation gaps
-
-## Future Enhancements
-
-### Advanced Features
-- **Learned Metrics**: Train custom distance functions
-- **Dynamic Indexing**: Real-time index updates
-- **Approximate Algorithms**: Trade accuracy for speed
-- **Distributed Search**: Partition vectors across nodes
-- **Streaming Search**: Process vector streams
-
-### Optimization Features
-- **Query Cache**: Cache frequent queries
-- **Prefetching**: Predict and prefetch results
-- **Adaptive Fusion**: Learn weights from user feedback
-- **GPU Batching**: Optimize GPU memory usage
-- **Index Compression**: Reduce memory footprint
-
-### Integration Features
-- **AQL Integration**: Native query language support
-- **REST API**: HTTP endpoints for search
-- **gRPC API**: High-performance RPC interface
-- **Monitoring**: Real-time metrics and alerts
-- **A/B Testing**: Compare fusion strategies
+| Criterion | Status |
+|---|---|
+| Content consistent with index module source headers | ✅ Verified against `advanced_vector_index.h`, `gpu_vector_index.h`, `matryoshka_truncation.h`, `approximate_radius_search.h`, `multi_vector_search.h` (2026-05-13) |
+| Advanced/basic documentation clearly separated and cross-linked | ✅ Feature boundary table in §0; cross-links in §12 |
+| Examples and performance hints updated | ✅ Updated in §§1–8 |
+| Fachreview durchgeführt | ✅ Self-review against source-code audit (2026-05-13) |
+| Sourcecode-/Dokumentationsaudit durchgeführt | ✅ All API signatures verified against include/index/ headers |
+| Ergebnis verlinkt | ✅ Links in §12 point to canonical include/index/ paths |
+| Betroffene Dateien im Review festgehalten | `src/index/VECTOR_ADVANCED_FEATURES_README.md` (primary); cross-references in `README.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md` |

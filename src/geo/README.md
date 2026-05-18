@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release --target <target>`
 
 # Geospatial Module
 
@@ -76,10 +76,84 @@ Implements geospatial query processing and spatial indexing for ThemisDB, provid
 - **Fluent temporal-spatial query builder**: `ITemporalSpatialQueryBuilder` / `TemporalSpatialQueryBuilder` / `BuiltTemporalSpatialQuery`; `TimeWindowType` (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`); validates presence of both temporal and spatial constraints at `build()`
 - Tile server integration for map visualization
 
+## Public API & Entry Points
+
+- Public module headers: [`../../include/geo/README.md`](../../include/geo/README.md)
+- Primary API gateway: `include/geo/spatial_backend.h` (`ISpatialComputeBackend`, `GeoPrecisionMode`, `getBackendForPrecision()`)
+- Indexing API: `include/geo/geo_rtree.h`, `include/geo/rtree_cursor.h`
+- Geometry API: `include/geo/geo_json_geometry.h`
+- Raster API: `include/geo/raster.h`, `include/geo/raster_query_interface.h`
+- Temporal-spatial API: `include/geo/temporal_spatial_query.h`, `include/geo/temporal_spatial_query_builder.h`
+- Query extensions/filters: `include/geo/geo_ops_ext.h`, `include/geo/spatial_join_filter.h`
+
+## Configuration Options
+
+### Build-time flags
+
+- `THEMIS_GEO_BOOST_BACKEND` — enables Boost.Geometry exact backend path.
+- `THEMIS_GEO_CUDA` — enables CUDA geo kernel dispatch path.
+- `THEMIS_GEO_HIP` / `THEMIS_ENABLE_HIP` — enables HIP/ROCm geo backend.
+- `THEMIS_ENABLE_RASTER` — enables full raster query implementation.
+
+### Runtime parameters (see `ARCHITECTURE.md` §9)
+
+- `geo.backend` — CPU or GPU backend preference with safe CPU fallback.
+- `geo.precision_mode` — `"exact"` / `"approximate"` backend behavior.
+- `geo.rtree.max_node_size` — R-tree capacity tuning.
+- `geo.gpu.batch_size` — batch size for GPU geo execution.
+
+## Runtime Behavior, Error Cases, and Limits
+
+- GPU execution is fail-safe: backend errors and unavailable devices trigger CPU fallback via circuit-breaker path.
+- GeoJSON coordinates are validated (WGS-84 bounds, NaN/Inf checks); invalid inputs return structured errors.
+- Raster calls surface typed errors via `RasterStatus` (`NOT_SUPPORTED`, `INVALID_BBOX`, `TILE_TOO_LARGE`, `BACKEND_ERROR`).
+- Cursor iteration can become invalid after index mutation; `IRTreeCursor::next()` returns `CursorStatus::STALE`.
+- Known constraints:
+  - GPU `ST_BUFFER` / `ST_UNION` / `ST_DIFFERENCE` currently delegate to CPU implementations.
+  - GPU DBSCAN has a max dataset-size threshold (`GpuClusteringConfig::gpu_dbscan_max_n`, default 32768) before CPU fallback.
+  - Spherical WGS-84 ellipsoid geometry remains tracked as planned work.
+
+## Usage Snippets
+
+### Select precision mode backend
+
+```cpp
+#include "geo/spatial_backend.h"
+
+using namespace themis::geo;
+auto* exact_backend = getBackendForPrecision(GeoPrecisionMode::Exact);
+```
+
+### Open a range cursor on the R-tree index
+
+```cpp
+#include "geo/rtree_cursor.h"
+
+using namespace themis::geo;
+GeoRTreeIndex index;
+auto cursor = index.openRangeCursor(MBR{13.0, 52.0, 14.0, 53.0});
+```
+
+### Create a GeoJSON point and validate
+
+```cpp
+#include "geo/geo_json_geometry.h"
+
+using namespace themis::geo;
+GeoPoint point({13.4050, 52.5200}, CrsId::WGS84);
+auto validation = point.validate();
+```
+
+## Troubleshooting
+
+- Operational guide for common geo failures: [`../../docs/troubleshooting/geo_troubleshooting.md`](../../docs/troubleshooting/geo_troubleshooting.md)
+- GPU backend incident/runbook guidance: [`../../docs/de/features/gpu_runbooks.md`](../../docs/de/features/gpu_runbooks.md)
+- Security assumptions and controls: [`SECURITY.md`](SECURITY.md)
+
 ## Documentation
 
 For geospatial documentation, see:
-- [GPU Backend Runbook](../../docs/gpu_runbooks.md#6-gpu-geospatial-backend-issues) — device discovery, circuit-breaker fallback, metrics, audit log, on-call procedures
+- [GPU Backend Runbook](../../docs/de/features/gpu_runbooks.md) — device discovery, circuit-breaker fallback, metrics, audit log, on-call procedures
 - [GPU Roadmap](../../docs/gpu_roadmap.md) — production readiness status, completed geo backend work, remaining CUDA/ROCm items
 - [ROADMAP.md](ROADMAP.md) — module roadmap, completed phases, planned features
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — planned enhancements beyond the roadmap (spherical geometry, precision mode, scientific references)

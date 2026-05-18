@@ -27,6 +27,16 @@ The Replication module provides ThemisDB's high-availability and data durability
 | `replication_log.cpp` | WAL-based replication log management |
 | `snapshot_manager.cpp` | Snapshot creation and restoration for PITR |
 | `leader_election.cpp` | Raft leader election protocol implementation |
+| `replication_manager.cpp` | Core leader-follower orchestration, compression, quorum reads, geo and bidirectional replication |
+| `logical_replication.cpp` | Schema-aware logical slots, filters, DDL streaming, and transformation hooks |
+| `raft_v2.cpp` | Joint-consensus membership changes and Raft v2 state handling |
+| `observability.cpp` | Replication lag snapshots, topology summaries, and health scoring |
+| `conflict_resolution.cpp` | Three-way and field-level conflict resolvers for multi-writer topologies |
+| `event_stream.cpp` | Event stream subscriptions for replication event consumers |
+| `policy.cpp` | Policy validation and per-collection policy assignment |
+| `replication_slot.cpp` | Slot lifecycle and slot-manager persistence behavior |
+| `schema_cdc.cpp` | Schema-aware CDC bridge for schema-registry based pipelines |
+| `multi_tier_replication.cpp` | Tier-based replication strategy and automatic tier promotion/demotion |
 
 ## Scope
 
@@ -1061,6 +1071,30 @@ endif()
    - No automatic failover for relay nodes
    - Increases end-to-end replication latency
 
+## Troubleshooting
+
+1. **`initialize()` or `start()` returns false**
+   - Validate `ReplicationConfig::seed_nodes`, TLS file paths, and `wal_directory` permissions.
+   - Ensure `leader_lease_duration_ms < election_timeout_min_ms` when lease reads are enabled.
+
+2. **Frequent replication timeouts in `SEMI_SYNC`**
+   - Check `min_sync_replicas` against currently healthy voting members.
+   - Tune `replication_timeout_ms` and monitor lag via `getReplicationLagMs()` / `getStats()`.
+
+3. **Logical slots do not deliver expected changes**
+   - Re-check include/exclude filter combinations and `row_filter_expression`.
+   - Confirm `replicate_dml` / `replicate_ddl` flags and persisted slot state under `<wal_directory>/logical_slots`.
+
+4. **Growing conflict backlog in multi-master or bidirectional mode**
+   - Inspect strategy settings (`LAST_WRITE_WINS`, `FIRST_WRITE_WINS`, `VECTOR_CLOCK`, `CUSTOM`) per collection.
+   - Use manual conflict resolution paths for `CUSTOM` and monitor conflict counters in status exports.
+
+5. **Follower lag stays high**
+   - Enable WAL compression for constrained links and tune batching (`batch_size`, `batch_timeout_ms`).
+   - Consider cascading replication or multi-tier placement for WAN-heavy topologies.
+
+For operational runbooks, see [Replication HA Guide](../../docs/replication-ha-guide.md) and [Replication Troubleshooting](../../docs/troubleshooting/replication_troubleshooting.md).
+
 ## Status
 
 **Production Ready** (as of v1.5.0)
@@ -1088,8 +1122,13 @@ endif()
 - [Storage Module](../storage/README.md) - Storage engine integration
 - [Transaction Module](../transaction/README.md) - Transaction coordination
 - [Network Module](../network/README.md) - Network transport layer
-- [Deployment Guide](../../docs/deployment/replication.md) - Replication setup and best practices
-- [Operations Guide](../../docs/operations/failover.md) - Failover procedures and recovery
+- [Replication Headers](../../include/replication/README.md) - Public API and entry points
+- [Replication Architecture](./ARCHITECTURE.md) - Internal design and data flow
+- [Replication Security](./SECURITY.md) - Security and hardening notes
+- [Replication Roadmap](./ROADMAP.md) - Planned milestones and implementation phases
+- [Replication Future Enhancements](./FUTURE_ENHANCEMENTS.md) - Forward-looking scope and constraints
+- [Replication HA Guide](../../docs/replication-ha-guide.md) - Deployment setup and HA operations
+- [Replication Troubleshooting](../../docs/troubleshooting/replication_troubleshooting.md) - Failure patterns and diagnostics
 
 *Last Updated: April 2026*
 *Module Version: v1.5.0*

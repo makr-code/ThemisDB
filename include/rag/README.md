@@ -2,6 +2,9 @@
 
 # ThemisDB RAG (Retrieval-Augmented Generation) Module Headers
 
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: include/rag/README.md · src/rag/README.md · src/rag/ARCHITECTURE.md · src/rag/ROADMAP.md · src/rag/FUTURE_ENHANCEMENTS.md · docs/troubleshooting/rag_troubleshooting.md -->
+
 ## Module Purpose
 
 The RAG module provides ThemisDB's comprehensive Retrieval-Augmented Generation system for LLM-powered question answering, featuring intelligent retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking. This module integrates vector search, document retrieval, LLM generation, and multi-dimensional quality assessment to deliver accurate, reliable, and ethically sound AI-generated responses.
@@ -1108,6 +1111,42 @@ auto result = judge->evaluate(query, docs, answer);
 return result.passed_quality_threshold;
 ```
 
+## Public API Entry Points (Quick Navigation)
+
+Use these headers as the primary integration surface for host applications:
+
+- [`rag/rag_judge.h`](rag_judge.h) — judge creation/evaluation API (`RAGJudgeFactory`, `RAGJudgeConfig`, evaluation reports)
+- [`rag/hybrid_retriever.h`](hybrid_retriever.h) — vector + BM25 retrieval fusion (`HybridRetriever`, retrieval configuration)
+- [`rag/streaming_retriever.h`](streaming_retriever.h) — incremental retrieval with token-budget and MMR controls
+- [`rag/rag_ingestion_bridge.h`](rag_ingestion_bridge.h) — ingestion-to-retrieval bridge and context enrichment
+- [`rag/agentic_rag.h`](agentic_rag.h) — iterative retrieval loops with `AgenticRAGConfig` and optional relay guard output
+- [`rag/quality_control_pipeline.h`](quality_control_pipeline.h) — composable quality-control stages for retrieval/generation
+- [`rag/prompt_injection_detector.h`](prompt_injection_detector.h) — suspicious-pattern detection and sanitisation
+- [`rag/delegate_evaluator.h`](delegate_evaluator.h) — RS@k round-trip corruption benchmark helpers
+
+## Configuration Options (High-Impact)
+
+| Config Type | Header | Effect |
+|---|---|---|
+| `RAGJudgeConfig` | `rag_judge.h` | Quality dimensions, thresholds, evaluation mode, cache/verification behavior |
+| `StreamingRetrieverConfig` | `streaming_retriever.h` | Context/token budget, retrieval depth, relevance order, MMR deduplication |
+| `AgenticRAGConfig` | `agentic_rag.h` | Iterative loop bounds (`max_iterations`) and relay guard benchmark activation |
+| `PromptInjectionConfig` | `prompt_injection_detector.h` | Pattern matching behavior, severity handling, sanitisation thresholds |
+| `RAGContextAssemblerConfig` | `rag_context_assembler.h` | Context assembly/truncation strategy and response-token reservation |
+
+## Runtime Behavior, Errors, and Limits
+
+- Token and context budgets are hard guards; over-budget context is truncated or skipped by retriever/assembler logic.
+- Retrieval quality can degrade when external dependencies are unavailable (LLM or ONNX backends); APIs are designed to expose fallback/error states.
+- Prompt-injection detection is heuristic and may require threshold tuning per domain to balance recall vs. false positives.
+- Agentic workflows are bounded by iteration limits to prevent runaway loops; optional relay benchmarking captures corruption metrics without aborting core execution.
+- Continuous-learning features depend on sufficient feedback volume and may be intentionally no-op below configured thresholds.
+
+## Troubleshooting
+
+- [RAG Troubleshooting Guide](../../docs/troubleshooting/rag_troubleshooting.md) — operational symptoms, root causes, and concrete config fixes
+- [RAG Documentation Index (DE)](../../docs/de/llm/RAG_INDEX.md) — consolidated RAG docs map
+
 ## Dependencies
 
 - **LLM Module**: Inference engine for evaluation
@@ -1122,10 +1161,12 @@ return result.passed_quality_threshold;
 
 ## Further Reading
 
-- Implementation source code: `../../src/rag/`
-- Detailed design documents: `../../docs/src/rag/`
-- API examples: `../../examples/rag/`
-- German documentation: `../../docs/de/llm/RAG_*.md`
+- [Implementation Overview (`src/rag/README.md`)](../../src/rag/README.md)
+- [Architecture (`src/rag/ARCHITECTURE.md`)](../../src/rag/ARCHITECTURE.md)
+- [Roadmap (`src/rag/ROADMAP.md`)](../../src/rag/ROADMAP.md)
+- [Future Enhancements (`src/rag/FUTURE_ENHANCEMENTS.md`)](../../src/rag/FUTURE_ENHANCEMENTS.md)
+- [Troubleshooting (`docs/troubleshooting/rag_troubleshooting.md`)](../../docs/troubleshooting/rag_troubleshooting.md)
+- [German RAG Index (`docs/de/llm/RAG_INDEX.md`)](../../docs/de/llm/RAG_INDEX.md)
 
 ## Contributing
 

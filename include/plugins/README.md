@@ -1,7 +1,7 @@
 > **Build:** `cmake --preset release && cmake --build build/release`
 
 <!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md -->
+<!-- Links: include/plugins/README.md · src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 # ThemisDB Plugins Module Headers
 
@@ -639,8 +639,61 @@ Abstract interface for image-generation plugin backends (diffusion models, GANs)
 
 - `WasmHostAPI` bridges the host ABI but actual Wasmtime/WasmEdge instantiation (`wasm_plugin_loader.cpp`) contains placeholder TODO blocks pending Wasmtime linkage (Target: Q3 2027).
 - Native plugins run in-process; memory corruption in a native plugin propagates to the host until the WASM sandbox is complete.
-- Runtime capability escalation (post-load `getCapabilities()` returning a superset of the manifest-declared set) is not yet programmatically blocked (Target: Q4 2026).
+- Runtime capability escalation is checked via `PluginManager::checkCapabilityEscalation()`, but not continuously enforced on every hot-path call.
 - `PluginRegistry::clearRegistry()` is testing-only; calling it in production is unsupported.
+
+## Configuration Options (Public Header Surface)
+
+The primary runtime configuration structures exposed in `include/plugins/` are:
+
+| Header | Configuration Type | Key Options |
+|---|---|---|
+| `plugin_hot_plug_monitor.h` | `HotPlugConfig` | `enabled`, `auto_load`, `auto_reload`, `auto_unload`, `watch_interval_ms` |
+| `plugin_health_monitor.h` | `HealthMonitorConfig` | `check_interval`, `max_recovery_attempts`, `backoff_strategy`, `health_check_timeout`, `recovery_timeout`, `auto_disable_on_failure` |
+| `plugin_interface.h` | `PluginManifest` | `name`, `version`, `type`, `dependencies`, `capabilities`, `runtime`, `sha256`, `signature` |
+
+## Runtime Behavior and Failure Cases
+
+- Manifest/schema validation occurs before activation.
+- Signature/hash verification failures are fail-closed: the plugin is rejected.
+- Dependency cycles abort ordered loading in `PluginDependencyResolver`.
+- Hot-plug reload is verify-first to reduce TOCTOU risks.
+- Health monitor failures trigger recovery attempts and can disable repeatedly failing plugins.
+
+## Usage Snippets
+
+```cpp
+#include "plugins/plugin_registry.h"
+
+auto names = themis::plugins::PluginRegistry::listPlugins<themis::plugins::IThemisPlugin>();
+bool available = themis::plugins::PluginRegistry::hasPlugin<themis::plugins::IThemisPlugin>("example");
+```
+
+```cpp
+#include "plugins/plugin_api.h"
+
+auto plugin = themis::plugins::PluginAPI::get<themis::plugins::IThemisPlugin>("example");
+if (!plugin) {
+    // Fallback path
+}
+```
+
+## Troubleshooting
+
+| Symptom | Likely Reason | Recommended Check |
+|---|---|---|
+| `create()` returns `nullptr` | Factory not registered under requested type/name | Registration path and exact key used in `registerFactory` |
+| Hot-plug monitor not active | `HotPlugConfig.enabled` is false or monitor not started | Hot-plug configuration and startup sequence |
+| Health monitor never reports plugin | Plugin does not implement `ISelfHealingPlugin` or not registered | Plugin type and `registerPlugin` call path |
+| OCI pull/load fails | Invalid OCI reference, auth issue, or signature mismatch | Reference format, token/registry access, and signed manifest validity |
+
+## Related Documentation
+
+- [Implementation Overview (`src/plugins/README.md`)](../../src/plugins/README.md)
+- [Architecture (`src/plugins/ARCHITECTURE.md`)](../../src/plugins/ARCHITECTURE.md)
+- [Roadmap (`src/plugins/ROADMAP.md`)](../../src/plugins/ROADMAP.md)
+- [Future Enhancements (`src/plugins/FUTURE_ENHANCEMENTS.md`)](../../src/plugins/FUTURE_ENHANCEMENTS.md)
+- [Secondary Module Docs (`docs/de/plugins/README.md`)](../../docs/de/plugins/README.md)
 
 ## Current Delivery Status
 

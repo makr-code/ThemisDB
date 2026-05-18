@@ -210,9 +210,13 @@ private:
         std::vector<std::string> candidate_paths = {
             "../tests/test_config.yaml",
             "../../tests/test_config.yaml",
+            "../../../tests/test_config.yaml",
             "./tests/test_config.yaml",
             "./test_config.yaml"
         };
+
+        candidate_paths.push_back(
+            (std::filesystem::path(__FILE__).parent_path() / "test_config.yaml").string());
         
         for (const auto& path : candidate_paths) {
             if (std::filesystem::exists(path)) {

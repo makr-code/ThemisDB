@@ -3,6 +3,16 @@ INHERIT: mkdocs.yml
 plugins:
   - search:
       lang: de
+  - exclude:
+      glob:
+        - "gimini/**"
+        - "compendium/**"
+        - "en/**"
+        - "es/**"
+        - "fr/**"
+        - "ja/**"
+        - "reports/**"
+        - "features/**"
   - print-site:
       add_to_navigation: true
       print_page_title: 'Gesamte Dokumentation (Druckansicht)'
@@ -16,13 +26,3 @@ plugins:
       add_full_urls: false
       add_cover_page: true
       cover_page_template: "docs/print-cover.html"
-  - exclude:
-      glob:
-        - "gimini/**"
-        - "compendium/**"
-        - "en/**"
-        - "es/**"
-        - "fr/**"
-        - "ja/**"
-        - "reports/**"
-        - "features/**"

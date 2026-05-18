@@ -70,6 +70,10 @@ TEST(QueryEngineTest, AndQuery_UsesSecondaryIndexes) {
     ASSERT_TRUE(resultE);
     auto& ents = *resultE;
     ASSERT_EQ(ents.size(), 1u);
+
+    auto resultC = engine.executeAndCount(q);
+    ASSERT_TRUE(resultC);
+    EXPECT_EQ(*resultC, 1u);
     db.close();
 }
 
@@ -102,6 +106,10 @@ TEST(QueryEngineTest, OptimizedSequentialOrder) {
     ASSERT_TRUE(keys_result.has_value()) << keys_result.error().message();
     ASSERT_EQ(keys_result->size(), 1u);
     EXPECT_EQ((*keys_result)[0], "rare");
+
+    auto count_result = opt.executeOptimizedCount(engine, q, plan);
+    ASSERT_TRUE(count_result.has_value()) << count_result.error().message();
+    EXPECT_EQ(*count_result, 1u);
     db.close();
 }
 
@@ -119,6 +127,8 @@ TEST(QueryEngineTest, NoIndexReturnsError) {
     ConjunctiveQuery q{"users", {{"age","30"}}};
     auto resultK = engine.executeAndKeys(q);
     EXPECT_FALSE(resultK);
+    auto resultC = engine.executeAndCount(q);
+    EXPECT_FALSE(resultC);
     db.close();
 }
 
@@ -137,6 +147,10 @@ TEST(QueryEngineTest, NoMatchReturnsEmpty) {
     ASSERT_TRUE(resultK);
     auto& keys = *resultK;
     EXPECT_TRUE(keys.empty());
+
+    auto resultC = engine.executeAndCount(q);
+    ASSERT_TRUE(resultC);
+    EXPECT_EQ(*resultC, 0u);
     db.close();
 }
 

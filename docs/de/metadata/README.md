@@ -1,9 +1,9 @@
 # Metadata-Modul
 
-**Stand:** 6. April 2026
-**Version:** v1.5.x
+**Stand:** 13. Mai 2026
+**Version:** v1.6.0
 **Kategorie:** Schema & Metadaten
-<!-- status: current | validated: 2026-04-06 | commit: 3c9b336dc -->
+<!-- status: current | validated: 2026-05-13 | commit: HEAD -->
 
 ---
 
@@ -15,7 +15,7 @@ SQL-konforme INFORMATION_SCHEMA-Sichten, Schema-Versionierung und -Migration, Au
 Konsistenzprüfung, ER-Diagramm-Export sowie Integration mit externen Datenkatalogen
 (Apache Atlas, DataHub).
 
-**Reifegrad:** 🟢 Production-Ready — Alle Phase 1–3-Features sind ausgeliefert (v1.5.x).
+**Reifegrad:** 🟢 Production-Ready — Alle Phase 1–4-Features sind ausgeliefert (v1.6.0).
 
 ---
 
@@ -36,6 +36,12 @@ Konsistenzprüfung, ER-Diagramm-Export sowie Integration mit externen Datenkatal
 | DistributedMetadataCatalog | `include/metadata/distributed_catalog.h` | `src/metadata/distributed_catalog.cpp` | Verteilter Metadaten-Katalog über Shards |
 | IndexRecommender | `include/metadata/index_recommender.h` | `src/metadata/index_recommender.cpp` | Querybasierter Index-Nutzungs-Tracker und Empfehlungsmotor |
 | AQLSchemaBridge | `include/metadata/aql_schema_bridge.h` | _(Header-only)_ | AQL-Integration für Metadaten-Abfragen |
+| IMetadataSecurityProvider | `include/metadata/imetadata_security_provider.h` | _(Header-only)_ | Pluggable RBAC / Zugriffskontrolle für alle Metadata-Operationen |
+| IMetadataChangeListener | `include/metadata/imetadata_change_listener.h` | _(Header-only)_ | Observer-Interface für Schema-Änderungsereignisse |
+| IMetadataExportPolicy | `include/metadata/imetadata_export_policy.h` | _(Header-only)_ | Pluggable Export-Policy für externe Katalog-Integration |
+| IMetadataEncryptionProvider | `include/metadata/imetadata_encryption_provider.h` | _(Header-only)_ | Pluggable Feld-Level-Verschlüsselung für Metadata-Werte |
+| MetadataSnapshot | `include/metadata/metadata_snapshot.h` | _(Header-only)_ | Point-in-Time-Schema-Snapshots |
+| SchemaDiffEngine | `include/metadata/schema_diff.h` | _(Header-only)_ | Struktureller Diff-Motor für TableSchema-Vergleiche |
 
 ---
 
@@ -177,6 +183,9 @@ if (!r.success) spdlog::error("Atlas-Fehler: {}", r.error);
 | `tests/test_schema_manager_fuzz.cpp` | Fuzz-Tests für SchemaManager |
 | `tests/test_schema_validator.cpp` | Schema-Validierung |
 | `tests/test_schema_encryption.cpp` | Verschlüsselung von Schema-Metadaten |
+| `tests/test_metadata_security_provider.cpp` | RBAC-Interface (v1.6.0): grant/revoke/assertPermission |
+| `tests/test_metadata_change_listener.cpp` | Observer-Interface (v1.6.0): event recording, callbacks |
+| `tests/test_metadata_export_policy.cpp` | Export-Policy-Interface (v1.6.0): AlwaysExport, Never, Filtered |
 
 ---
 
@@ -185,7 +194,8 @@ if (!r.success) spdlog::error("Atlas-Fehler: {}", r.error);
 - Erster Tabellenscan benötigt < 30 s für bis zu 10 M Keys (voller RocksDB-Scan).
 - Statistiken sind stichprobenbasiert; Histogramm-Genauigkeit ±20 % bei gleichverteilten und schiefen Daten.
 - `validateMigration` prüft strukturelle Konsistenz; vollständige Forward/Backward-Compat-Policy-Enforcement ist für v1.9 / Q1 2027 geplant.
-- Leistungsbenchmarks (Cache-Hit-Rate, Scan-Latenz) und Security-Audit sind für v1.6.0 geplant.
+- Schema-Versionshistorie ist auf die letzten 1.000 Versionen pro Tabelle im Speicher begrenzt.
+- `FieldSetMetadataEncryptionProvider` (XOR-Cipher) ist ausschließlich für Tests geeignet; für Produktionsverschlüsselung ist eine eigene `IMetadataEncryptionProvider`-Implementierung (z. B. AES-256-GCM) erforderlich.
 
 ---
 
@@ -206,5 +216,34 @@ if (!r.success) spdlog::error("Atlas-Fehler: {}", r.error);
 - [Storage Module](../storage/README.md) — Unterlagernde RocksDB-Schicht
 - [Index Module](../../../src/index/README.md) — Index-Konstruktion und -Statistiken
 - [Query Module](../query/README.md) — Query-Planung und -Optimierung (nutzt Statistiken)
-- [CDC Module](../cdc/README.md) — Change Data Capture (nutzt Schema-Changefeeds)
 - [Security Module](../security/README.md) — Zugriffskontrolle für Metadaten
+
+---
+
+## Installation
+
+Das Metadata-Modul ist Bestandteil von ThemisDB. Die Header-Dateien befinden sich unter
+`include/metadata/`. Für die Build-Konfiguration:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+Vollständige Build-Anleitung: [`src/metadata/README.md`](../../../src/metadata/README.md)
+
+---
+
+## Usage
+
+Einstiegspunkt für die Metadata-API ist `SchemaManager`:
+
+```cpp
+#include "metadata/schema_manager.h"
+using namespace themis;
+
+SchemaManager schema_mgr(db, &idx_mgr);
+auto tables = schema_mgr.getAllTables();
+```
+
+Weitere Schnellstart-Beispiele: Abschnitt [Schnellstart-Beispiele](#schnellstart-beispiele) oben.<br>
+Vollständige API-Referenz: [`include/metadata/README.md`](../../../include/metadata/README.md)

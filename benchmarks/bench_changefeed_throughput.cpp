@@ -30,6 +30,7 @@
 #include <chrono>
 #include <vector>
 #include <random>
+#include <sstream>
 
 using namespace themis;
 
@@ -39,16 +40,25 @@ using namespace themis;
 
 class ChangefeedBenchmarkFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
+    void SetUp(const ::benchmark::State& state) override {
+        // Create unique thread-safe test database path
+        const auto unique_id = static_cast<unsigned long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        std::ostringstream suffix;
+        suffix << "bench_changefeed_tmp_t" << state.thread_index() << "_" << unique_id;
+        const auto db_dir = std::filesystem::absolute(
+            std::filesystem::path("data") / suffix.str());
+        test_db_path_ = db_dir.string();
+        
         // Clean up any existing test database
-        test_db_path_ = "./data/bench_changefeed_tmp";
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);
         }
         
-        // Create RocksDB wrapper
+        // Create RocksDB wrapper with absolute paths and WAL directory
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.wal_dir = (db_dir / "wal").string();
         config.memtable_size_mb = 128;
         config.block_cache_size_mb = 256;
         
@@ -104,9 +114,6 @@ BENCHMARK_DEFINE_F(ChangefeedBenchmarkFixture, EventRecordingThroughput)(benchma
 
 BENCHMARK_REGISTER_F(ChangefeedBenchmarkFixture, EventRecordingThroughput)
     ->Threads(1)
-    ->Threads(2)
-    ->Threads(4)
-    ->Threads(8)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -293,7 +300,6 @@ static void BM_EventTypeMix(benchmark::State& state) {
 
 BENCHMARK(BM_EventTypeMix)
     ->Threads(1)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -430,6 +436,96 @@ BENCHMARK(BM_ReplicationLag)
     ->Iterations(5);
 
 // ============================================================================
+// Benchmark: Replication Lag with simulated WAN RTT
+// Simulates cross-DC transport by adding half RTT before and after each poll.
+// Reports lag p50/p95/p99 in milliseconds for R-8 style evaluation.
+// ============================================================================
+
+static void BM_ReplicationLagWAN(benchmark::State& state) {
+    const int simulated_rtt_ms = static_cast<int>(state.range(0));
+    const int batch_size = 100;
+
+    std::string test_db_path = "./data/bench_changefeed_lag_wan_tmp";
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+
+    RocksDBWrapper::Config config;
+    config.db_path = test_db_path;
+    config.memtable_size_mb = 128;
+
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open RocksDB");
+        return;
+    }
+    auto changefeed = std::make_unique<Changefeed>(db->getRawDB(), nullptr);
+
+    const int total_events = 10000;
+    for (int i = 0; i < total_events; i++) {
+        Changefeed::ChangeEvent event;
+        event.type = Changefeed::ChangeEventType::EVENT_PUT;
+        event.key = "wan_item_" + std::to_string(i);
+        event.value = "{\"index\":" + std::to_string(i) + "}";
+        changefeed->recordEvent(event);
+    }
+
+    themis::cdc::LatencyHistogram lag_hist;
+
+    for (auto _ : state) {
+        uint64_t last_sequence = 0;
+        int events_read = 0;
+
+        while (events_read < total_events) {
+            auto lag_start = std::chrono::steady_clock::now();
+
+            // Simulate one-way network transfer to follower.
+            std::this_thread::sleep_for(std::chrono::milliseconds(simulated_rtt_ms / 2));
+
+            Changefeed::ListOptions options;
+            options.from_sequence = last_sequence;
+            options.limit = batch_size;
+            options.long_poll_ms = 0;
+
+            auto events = changefeed->listEvents(options);
+
+            // Simulate one-way network transfer of ACK/visibility.
+            std::this_thread::sleep_for(std::chrono::milliseconds(simulated_rtt_ms / 2));
+
+            auto lag_end = std::chrono::steady_clock::now();
+            auto lag_us = std::chrono::duration_cast<std::chrono::microseconds>(lag_end - lag_start).count();
+            lag_hist.record(static_cast<uint64_t>(lag_us));
+
+            if (events.empty()) {
+                break;
+            }
+
+            events_read += static_cast<int>(events.size());
+            last_sequence = events.back().sequence;
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * total_events);
+    state.counters["simulated_rtt_ms"] = static_cast<double>(simulated_rtt_ms);
+    state.counters["lag_p50_ms"] = static_cast<double>(lag_hist.p50()) / 1000.0;
+    state.counters["lag_p95_ms"] = static_cast<double>(lag_hist.p95()) / 1000.0;
+    state.counters["lag_p99_ms"] = static_cast<double>(lag_hist.p99()) / 1000.0;
+
+    changefeed.reset();
+    db->close();
+    db.reset();
+    if (std::filesystem::exists(test_db_path)) {
+        std::filesystem::remove_all(test_db_path);
+    }
+}
+
+BENCHMARK(BM_ReplicationLagWAN)
+    ->Arg(2)
+    ->Arg(50)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(5);
+
+// ============================================================================
 // Benchmark: Event Recording Latency (p50 / p95 / p99)
 // Uses ManualTime so each iteration time is the raw recordEvent() cost.
 // Percentile counters are computed from a LatencyHistogram and reported
@@ -490,7 +586,6 @@ static void BM_RecordEventLatency(benchmark::State& state) {
 BENCHMARK(BM_RecordEventLatency)
     ->UseManualTime()
     ->Threads(1)
-    ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================

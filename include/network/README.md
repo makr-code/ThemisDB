@@ -3,7 +3,7 @@
 # ThemisDB Network Module Headers
 
 <!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ../src/network/README.md · ../src/network/ARCHITECTURE.md -->
+<!-- Links: README.md · ../../src/network/README.md · ../../src/network/ARCHITECTURE.md · ../../src/network/ROADMAP.md · ../../src/network/FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
@@ -37,6 +37,17 @@ The Network headers define the public interfaces for ThemisDB's high-performance
 **Out of Scope:**
 - HTTP/REST API server (handled by api module headers)
 - Concrete TLS implementation (delegated to OpenSSL/Boost.Asio)
+
+## Public Entry Points
+
+The public API surface in `include/network/` is organized by responsibility:
+
+- **Core server lifecycle:** `wire_protocol_server.h`, `wire_protocol_connection_pool.h`
+- **Protocol framing/parsing:** `wire_protocol_helpers.h`, `wire_protocol_batch.h`, `wire_protocol_zero_copy.h`
+- **Transport variants:** `wire_protocol_websocket.h`, `udp_fast_path.h`, `udp_server.h`, `quic_transport.h`, `quic_server.h`, `grpc_transport.h`
+- **Resilience and policy:** `socket_timeout_manager.h`, `adaptive_circuit_breaker.h`, `qos_manager.h`
+- **Topology and platform integration:** `geo_topology_router.h`, `service_mesh.h`, `envoy_xds.h`, `kernel_bypass.h`, `io_uring_batcher.h`
+- **Observability and performance tooling:** `wire_protocol_performance.h`, `network_audit_log.h`, `adaptive_io_scaler.h`, `connection_compression.h`, `raft_load_balancer.h`
 
 ## Key Components
 
@@ -813,6 +824,17 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 ---
 
+## Troubleshooting
+
+- **TLS startup failure:** verify cert/key/CA paths, filesystem permissions, and `enable_tls`/`tls_require_client_cert` settings in `WireProtocolServer::Config`.
+- **Connection acquisition timeouts:** tune `connect_timeout`/`acquire_timeout` in `WireProtocolConnectionPool::Config` and verify pool warmup.
+- **Unexpected connection drops:** inspect keepalive and request timeout settings in `SocketTimeoutConfig`.
+- **High QoS throttling:** validate token bucket rates and tenant classes in `qos_manager.h` configuration.
+
+Operational runbook: [docs/troubleshooting/network_troubleshooting.md](../../docs/troubleshooting/network_troubleshooting.md)
+
+---
+
 ## Version History
 
 - **v1.0.0** - Initial wire protocol server interface
@@ -833,7 +855,12 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 - [OpenSSL Documentation](https://www.openssl.org/docs/)
 - [Protocol Buffers Wire Format](https://developers.google.com/protocol-buffers/docs/encoding)
 - [TCP Socket Programming Guide](https://beej.us/guide/bgnet/)
-- [Transport Security Best Practices](../../docs/security/network.md)
+- [Network Module Implementation Guide](../../src/network/README.md)
+- [Network Architecture](../../src/network/ARCHITECTURE.md)
+- [Network Security](../../src/network/SECURITY.md)
+- [Network Roadmap](../../src/network/ROADMAP.md)
+- [Network Future Enhancements](../../src/network/FUTURE_ENHANCEMENTS.md)
+- [Network Troubleshooting](../../docs/troubleshooting/network_troubleshooting.md)
 
 ## Installation
 

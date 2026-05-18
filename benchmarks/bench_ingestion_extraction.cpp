@@ -47,6 +47,7 @@
 #include "ingestion/ingestion_coordinator.h"
 #include "ingestion/ingestion_manager.h"
 
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <random>
@@ -55,12 +56,32 @@ using namespace themis::ingestion;
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
-static const char* kLlmModel =
+#define THEMIS_BENCH_STRINGIFY_INNER(x) #x
+#define THEMIS_BENCH_STRINGIFY(x) THEMIS_BENCH_STRINGIFY_INNER(x)
+
+static std::string resolveCompileTimeLlmModelPath() {
 #ifdef THEMIS_BENCH_LLM_MODEL_PATH
-    THEMIS_BENCH_LLM_MODEL_PATH;
+    std::string value = THEMIS_BENCH_STRINGIFY(THEMIS_BENCH_LLM_MODEL_PATH);
+    if (value.size() >= 2) {
+        const char first = value.front();
+        const char last = value.back();
+        if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
+            value = value.substr(1, value.size() - 2);
+        }
+    }
+    return value;
 #else
-    "";  // empty → regex fallback
+    return {};
 #endif
+}
+
+static std::string resolveLlmModelPath() {
+    const char* runtime = std::getenv("THEMIS_BENCH_LLM_MODEL_PATH");
+    if (runtime != nullptr && *runtime != '\0') {
+        return runtime;
+    }
+    return resolveCompileTimeLlmModelPath();
+}
 
 // Sample German legal sentences covering all deontic categories.
 static const std::vector<std::string> kLegalSentences = {
@@ -187,7 +208,7 @@ public:
     void SetUp(const benchmark::State& /*s*/) override {
         adapter = std::make_unique<LegalLlmAdapter>();
         LlmAdapterConfig cfg;
-        cfg.model_path = kLlmModel;  // empty → regex fallback
+        cfg.model_path = resolveLlmModelPath();  // empty → regex fallback
         adapter->setConfig(cfg);
     }
 

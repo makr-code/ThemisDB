@@ -312,6 +312,23 @@ For detailed implementation documentation, see:
 - **v1.8.0**: `LlmReranker` — Configurable re-ranking with LLM feedback loop (batched prompting,
   per-document 0–10 score parsing, configurable score blending, `toClickEvents()` bridge to
   `LearningToRank` for closed-loop LTR training from LLM relevance judgments)
+- **v1.9.0**: `MultiFieldBoostedSearch` — per-field BM25 boosting with configurable field weights
+  (title > body > tags preset), score normalisation and combination, `defaultFields()` helper
+- **v2.0.0**: `PersonalizedRanker` (per-user interaction history with time-decayed scoring and
+  result re-ranking), `NeuralSparseRetrieval` (SPLADE/BERT-based sparse retrieval with
+  in-memory inverted index and injected encoder backend), `CrossLingualSearch` (multilingual
+  embedding search with language-hint boosting and multi-embedding RRF fusion)
+- **v2.1.0**: `SearchHighlighter` — matched-term `<mark>` highlighting and best-passage snippet
+  extraction (sliding-window scorer, configurable tags and window size)
+- **v2.2.0**: `NegativeKeywordFilter` — NOT-operator support with `-term` / `NOT term` query
+  parsing and posting-list candidate removal
+- **v2.3.0**: `DistributedHybridSearch` — distributed hybrid search across multiple ThemisDB
+  shards with cross-shard RRF result merging and mTLS-secured inter-node communication
+- **v2.4.0**: `ConversationalSearch` (multi-turn context-aware query reformulation with
+  configurable context window and history eviction), `FederatedSearch` (tenant-isolated
+  parallel search with per-tenant weighting and cross-tenant RRF fusion),
+  `SearchResultStream` (cursor-based streaming pagination for large result sets via
+  `nextPage()` / `forEachResult()` callback)
 
 ## Examples
 

@@ -58,11 +58,49 @@ if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
 endif()
 
-# Enable CUDA if requested
+# Enable CUDA only when a CUDA compiler is actually available.
 if(THEMIS_ENABLE_CUDA)
-    enable_language(CUDA)
-    set(CMAKE_CUDA_STANDARD 17)
-    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    if(NOT DEFINED CMAKE_CUDA_COMPILER OR CMAKE_CUDA_COMPILER STREQUAL "")
+        set(_themis_cuda_nvcc_candidates)
+
+        if(DEFINED ENV{CUDACXX} AND EXISTS "$ENV{CUDACXX}")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDACXX}")
+        endif()
+        if(DEFINED ENV{CUDA_PATH} AND EXISTS "$ENV{CUDA_PATH}/bin/nvcc.exe")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_PATH}/bin/nvcc.exe")
+        endif()
+        if(DEFINED ENV{CUDA_HOME} AND EXISTS "$ENV{CUDA_HOME}/bin/nvcc.exe")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_HOME}/bin/nvcc.exe")
+        endif()
+
+        file(GLOB _themis_cuda_toolkits "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*")
+        list(SORT _themis_cuda_toolkits ORDER DESCENDING)
+        foreach(_cuda_root IN LISTS _themis_cuda_toolkits)
+            if(EXISTS "${_cuda_root}/bin/nvcc.exe")
+                list(APPEND _themis_cuda_nvcc_candidates "${_cuda_root}/bin/nvcc.exe")
+            endif()
+        endforeach()
+
+        list(LENGTH _themis_cuda_nvcc_candidates _themis_cuda_nvcc_count)
+        if(_themis_cuda_nvcc_count GREATER 0)
+            list(GET _themis_cuda_nvcc_candidates 0 _themis_cuda_nvcc)
+            set(CMAKE_CUDA_COMPILER "${_themis_cuda_nvcc}" CACHE FILEPATH "CUDA compiler" FORCE)
+            get_filename_component(_themis_cuda_bin "${_themis_cuda_nvcc}" DIRECTORY)
+            get_filename_component(_themis_cuda_root "${_themis_cuda_bin}" DIRECTORY)
+            set(CUDAToolkit_ROOT "${_themis_cuda_root}" CACHE PATH "CUDA toolkit root" FORCE)
+        endif()
+    endif()
+
+    include(CheckLanguage)
+    check_language(CUDA)
+    if(CMAKE_CUDA_COMPILER)
+        enable_language(CUDA)
+        set(CMAKE_CUDA_STANDARD 17)
+        set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    else()
+        message(WARNING "THEMIS_ENABLE_CUDA=ON requested, but no CUDA compiler (nvcc) was found. Disabling CUDA backend.")
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "CUDA disabled: nvcc not found" FORCE)
+    endif()
 endif()
 
 # Export compile commands for IDE support
@@ -474,12 +512,16 @@ endif()
 option(THEMIS_ENABLE_ZLUDA "Enable AMD ZLUDA (CUDA compatibility on AMD)" OFF)
 option(THEMIS_ENABLE_ROCM "Enable AMD ROCm acceleration" OFF)
 option(THEMIS_ENABLE_DIRECTX "Enable DirectX 12 Compute Shaders (Windows)" OFF)
-option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration" OFF)
+option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration" ON)
 option(THEMIS_ENABLE_OPENGL "Enable OpenGL Compute Shaders" OFF)
 option(THEMIS_ENABLE_METAL "Enable Apple Metal acceleration" OFF)
 option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI/SYCL acceleration" OFF)
 option(THEMIS_ENABLE_OPENCL "Enable OpenCL acceleration" OFF)
 option(THEMIS_ENABLE_WEBGPU "Enable WebGPU acceleration (experimental)" OFF)
+
+if(THEMIS_ENABLE_OPENCL)
+    find_package(OpenCL REQUIRED)
+endif()
 
 # Lokal aktivierbare Code-Qualit�t (clang-tidy) ohne CI-Kosten.
 option(ENABLE_LOCAL_CLANG_TIDY "Enable local clang-tidy analysis (off by default)" OFF)
@@ -504,6 +546,16 @@ option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
 option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
 option(THEMIS_ENABLE_SERVICE_MESH "Enable Istio/Envoy service mesh sidecar proxy mode (xDS v3 REST client)" OFF)
+
+set(THEMIS_SERVER_PROFILE "standard" CACHE STRING "Server activation profile: minimal, standard, enterprise")
+set_property(CACHE THEMIS_SERVER_PROFILE PROPERTY STRINGS minimal standard enterprise)
+string(TOLOWER "${THEMIS_SERVER_PROFILE}" _THEMIS_SERVER_PROFILE_NORMALIZED)
+if(NOT _THEMIS_SERVER_PROFILE_NORMALIZED MATCHES "^(minimal|standard|enterprise)$")
+    message(FATAL_ERROR "THEMIS_SERVER_PROFILE must be one of: minimal, standard, enterprise (got: ${THEMIS_SERVER_PROFILE})")
+endif()
+set(THEMIS_SERVER_PROFILE "${_THEMIS_SERVER_PROFILE_NORMALIZED}" CACHE STRING "Server activation profile: minimal, standard, enterprise" FORCE)
+add_compile_definitions(THEMIS_SERVER_PROFILE_DEFAULT="${THEMIS_SERVER_PROFILE}")
+message(STATUS "Server activation profile default: ${THEMIS_SERVER_PROFILE}")
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -1939,6 +1991,7 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/ingestion_quality_judge.cpp
     ../src/ingestion/llm_adapter.cpp
     # Ingestion v2.0 workflow engine + entity assembler + sinks
     ../src/ingestion/workflow_engine.cpp
@@ -2314,7 +2367,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/shard_rpc_server.cpp
     ../src/sharding/cloud_backup.cpp
     ../src/sharding/orphan_detector.cpp
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
+    ../src/sharding/gpu_erasure_coder.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
@@ -2829,6 +2882,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/training/adalora_tt_bridge.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
+    # Delegate evaluator and relay simulator used by AgenticRAG relay paths
+    ../src/rag/delegate_evaluator.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
     # Phase 5: Distributed evaluation and security
@@ -3352,6 +3407,11 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
             target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
             list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
+            if(EXISTS "${CMAKE_SOURCE_DIR}/src/acceleration/vulkan/shaders/CMakeLists.txt")
+                add_subdirectory(
+                    "${CMAKE_SOURCE_DIR}/src/acceleration/vulkan/shaders"
+                    "${CMAKE_BINARY_DIR}/vulkan_shaders")
+            endif()
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()
@@ -4389,6 +4449,8 @@ target_link_libraries(themis_demo_encryption
 add_executable(themis_server
     ../src/main_server.cpp
 )
+
+target_compile_definitions(themis_server PRIVATE THEMIS_SERVER_PROFILE_DEFAULT="${THEMIS_SERVER_PROFILE}")
 
 if(THEMIS_ENABLE_HTTP_SERVER)
     target_compile_definitions(themis_server PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)

@@ -34,6 +34,11 @@ Use these links for day-to-day product usage and operations:
 - Docs PR policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 
 ## Root cleanup rule
+## Dokumentations-Toolchain
+
+- Konsolidierter Build-/Preview-/Publish-Flow: [README-DOCUMENTATION.md](README-DOCUMENTATION.md)
+
+## Root-Aufraeumregel
 
 The `docs/` root should contain only:
 - entry points and navigation
@@ -41,3 +46,4 @@ The `docs/` root should contain only:
 - clearly named top-level hubs
 
 Working notes, temporary review files, and old implementation summaries should be moved to subfolders such as `archive/`, `implementation-history/`, or module-specific directories.
+Arbeitsnotizen, temporaere Review-Dateien und alte Implementierungszusammenfassungen gehoeren in Unterordner wie `archive/`, `implementation-history/` oder modulspezifische Bereiche.

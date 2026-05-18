@@ -116,8 +116,12 @@ struct FinalTranscript {
 
 /**
  * @brief Audio format description for incoming browser audio.
+ *
+ * Kept distinct from the storage-layer AudioFormat to avoid namespace-level
+ * collisions between streaming transport metadata and persisted audio
+ * inventory metadata.
  */
-struct AudioFormat {
+struct StreamAudioFormat {
     enum class Encoding { PCM16, OPUS, WEBM_OPUS };
     Encoding encoding      = Encoding::PCM16;
     uint32_t sample_rate   = 16000;  ///< Hz
@@ -161,7 +165,7 @@ public:
     struct Config {
         std::string session_id;               ///< Auth/user session ID
         std::string user_id;                  ///< Optional user ID for personalisation
-        AudioFormat audio_format;             ///< Expected incoming audio format
+        StreamAudioFormat audio_format;       ///< Expected incoming browser audio format
         std::string language = "en";          ///< BCP-47 language code
         bool        run_nlu  = true;          ///< Extract intent after each utterance
         bool        enable_tts = false;       ///< Synthesise and stream TTS back to browser

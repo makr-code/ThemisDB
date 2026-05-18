@@ -44,10 +44,17 @@
 
 #include <benchmark/benchmark.h>
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/gguf_loader.h"
 #include "llm/llm_plugin_interface.h"
 
+#include <algorithm>
 #include <atomic>
+#include <cctype>
+#include <cstdlib>
+#include <filesystem>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -56,12 +63,236 @@ using namespace themis::llm;
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
-static const char* kModelPath =
+#define THEMIS_BENCH_STRINGIFY_INNER(x) #x
+#define THEMIS_BENCH_STRINGIFY(x) THEMIS_BENCH_STRINGIFY_INNER(x)
+
+static std::string getEnvOrEmpty(const char* key) {
+    const char* value = std::getenv(key);
+    return (value != nullptr) ? std::string(value) : std::string();
+}
+
+static std::string resolveCompileTimeModelPath() {
 #ifdef THEMIS_BENCH_LLAMA_MODEL_PATH
-    THEMIS_BENCH_LLAMA_MODEL_PATH;
+    std::string value = THEMIS_BENCH_STRINGIFY(THEMIS_BENCH_LLAMA_MODEL_PATH);
+
+    // Normalize optional quoting so both quoted and unquoted macro forms work.
+    if (value.size() >= 2) {
+        const char first = value.front();
+        const char last = value.back();
+        if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
+            value = value.substr(1, value.size() - 2);
+        }
+    }
+    return value;
 #else
-    "";  // empty → stub mode
+    return {};
 #endif
+}
+
+static std::string resolveModelPath() {
+    const auto runtimePath = getEnvOrEmpty("THEMIS_BENCH_LLAMA_MODEL_PATH");
+    if (!runtimePath.empty()) {
+        return runtimePath;
+    }
+    return resolveCompileTimeModelPath();
+}
+
+static int resolveGpuLayers() {
+    const auto envValue = getEnvOrEmpty("THEMIS_BENCH_LLAMA_N_GPU_LAYERS");
+    if (envValue.empty()) {
+        return 32;
+    }
+    try {
+        return std::max(0, std::stoi(envValue));
+    } catch (...) {
+        return 32;
+    }
+}
+
+static bool fileExists(const std::string& path) {
+    if (path.empty()) {
+        return false;
+    }
+    std::error_code ec;
+    return std::filesystem::exists(path, ec) && std::filesystem::is_regular_file(path, ec);
+}
+
+static std::string toLowerCopy(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    return value;
+}
+
+static bool isGemmaArtifact(const std::string& modelPath, const themis::llm::GGUFMetadata& metadata) {
+    const std::string pathLc = toLowerCopy(modelPath);
+    const std::string archLc = toLowerCopy(metadata.architecture);
+    return pathLc.find("gemma") != std::string::npos || archLc.find("gemma") != std::string::npos;
+}
+
+static std::optional<size_t> parseArrayLength(const std::string& encodedValue) {
+    constexpr std::string_view kPrefix = "[array:";
+    constexpr std::string_view kSuffix = "]";
+
+    if (encodedValue.size() <= kPrefix.size() + kSuffix.size()) {
+        return std::nullopt;
+    }
+    if (encodedValue.compare(0, kPrefix.size(), kPrefix) != 0) {
+        return std::nullopt;
+    }
+    if (encodedValue.back() != ']') {
+        return std::nullopt;
+    }
+
+    const std::string numberPart = encodedValue.substr(
+        kPrefix.size(),
+        encodedValue.size() - kPrefix.size() - kSuffix.size());
+    if (numberPart.empty()) {
+        return std::nullopt;
+    }
+
+    try {
+        return static_cast<size_t>(std::stoull(numberPart));
+    } catch (...) {
+        return std::nullopt;
+    }
+}
+
+static std::optional<size_t> extractTokenCount(const themis::llm::GGUFMetadata& metadata) {
+    const auto findCount = [&](const char* key) -> std::optional<size_t> {
+        const auto it = metadata.config.find(key);
+        if (it == metadata.config.end()) {
+            return std::nullopt;
+        }
+        return parseArrayLength(it->second);
+    };
+
+    if (auto tokens = findCount("tokenizer.ggml.tokens")) {
+        return tokens;
+    }
+    if (auto tokens = findCount("tokenizer.tokens")) {
+        return tokens;
+    }
+    return std::nullopt;
+}
+
+static const themis::llm::TensorMetadata* findTensorByName(const themis::llm::GGUFMetadata& metadata,
+                                                           std::string_view tensorName) {
+    for (const auto& tensor : metadata.tensors) {
+        if (tensor.name == tensorName) {
+            return &tensor;
+        }
+    }
+    return nullptr;
+}
+
+static std::optional<std::string> runRealModelPreflight(const std::string& modelPath) {
+    const bool gemmaByPath = toLowerCopy(modelPath).find("gemma") != std::string::npos;
+    themis::llm::GGUFLoader loader;
+    if (!loader.parseFile(modelPath)) {
+        if (!gemmaByPath) {
+            // Non-Gemma models keep runtime loader fallback behavior.
+            return std::nullopt;
+        }
+
+        const std::string ggufError = loader.getLastError();
+        if (!ggufError.empty()) {
+            return "GGUF preflight failed: " + ggufError +
+                   " Action: use a llama.cpp-compatible GGUF artifact for this benchmark profile.";
+        }
+        return "GGUF preflight failed for model file. Action: verify the artifact and use a llama.cpp-compatible GGUF.";
+    }
+
+    const auto& metadata = loader.getMetadata();
+    if (!gemmaByPath && !isGemmaArtifact(modelPath, metadata)) {
+        return std::nullopt;
+    }
+
+    const auto* tokenEmbd = findTensorByName(metadata, "token_embd.weight");
+    if (tokenEmbd == nullptr) {
+        return "Gemma preflight failed: missing tensor token_embd.weight. Action: use a complete GGUF export for this model.";
+    }
+
+    if (tokenEmbd->shape.size() < 2) {
+        return "Gemma preflight failed: tensor token_embd.weight has invalid rank. Action: re-export GGUF with standard embedding tensor layout.";
+    }
+
+    const size_t tokenEmbdRows = static_cast<size_t>(tokenEmbd->shape[0]);
+    const size_t tokenEmbdCols = static_cast<size_t>(tokenEmbd->shape[1]);
+    const size_t tokenEmbdVocabDim = std::max(tokenEmbdRows, tokenEmbdCols);
+
+    const auto tokenCountOpt = extractTokenCount(metadata);
+    if (!tokenCountOpt.has_value()) {
+        return std::nullopt;
+    }
+
+    const size_t tokenCount = *tokenCountOpt;
+    if (tokenEmbdVocabDim != tokenCount) {
+        return "Gemma artifact compatibility check failed: tokenizer token count=" + std::to_string(tokenCount) +
+               " but token_embd.weight vocab dimension=" + std::to_string(tokenEmbdVocabDim) +
+               ". Action: use a matching GGUF conversion/runtime pair (or update llama.cpp to a revision that supports this Gemma export).";
+    }
+
+    return std::nullopt;
+}
+
+static void setLlamaGpuEvidenceCounters(
+    benchmark::State& state,
+    const std::string& modelPath,
+    int requestedGpuLayers,
+    bool warmupSucceeded,
+    const nlohmann::json& memoryStats) {
+
+    state.counters["llama_model_path_present"] = modelPath.empty() ? 0.0 : 1.0;
+    state.counters["llama_model_file_exists"] = fileExists(modelPath) ? 1.0 : 0.0;
+    state.counters["llama_requested_gpu_layers"] = static_cast<double>(requestedGpuLayers);
+    state.counters["llama_warmup_generate_success"] = warmupSucceeded ? 1.0 : 0.0;
+
+    const bool modelLoaded =
+        memoryStats.contains("model_loaded") && memoryStats["model_loaded"].is_boolean() &&
+        memoryStats["model_loaded"].get<bool>();
+    state.counters["llama_memory_model_loaded"] = modelLoaded ? 1.0 : 0.0;
+
+    const bool runtimeOffloadRequested =
+        memoryStats.contains("runtime_gpu_offload_requested") &&
+        memoryStats["runtime_gpu_offload_requested"].is_boolean() &&
+        memoryStats["runtime_gpu_offload_requested"].get<bool>();
+    const bool runtimeOffloadEffective =
+        memoryStats.contains("runtime_gpu_offload_effective") &&
+        memoryStats["runtime_gpu_offload_effective"].is_boolean() &&
+        memoryStats["runtime_gpu_offload_effective"].get<bool>();
+    const bool runtimeAssignedCpu =
+        memoryStats.contains("runtime_llama_assigned_cpu_tensors") &&
+        memoryStats["runtime_llama_assigned_cpu_tensors"].is_boolean() &&
+        memoryStats["runtime_llama_assigned_cpu_tensors"].get<bool>();
+    const bool runtimeAssignedNonCpu =
+        memoryStats.contains("runtime_llama_assigned_non_cpu_tensors") &&
+        memoryStats["runtime_llama_assigned_non_cpu_tensors"].is_boolean() &&
+        memoryStats["runtime_llama_assigned_non_cpu_tensors"].get<bool>();
+
+    state.counters["llama_runtime_gpu_offload_requested"] = runtimeOffloadRequested ? 1.0 : 0.0;
+    state.counters["llama_runtime_gpu_offload_effective"] = runtimeOffloadEffective ? 1.0 : 0.0;
+    state.counters["llama_runtime_assigned_cpu_tensors"] = runtimeAssignedCpu ? 1.0 : 0.0;
+    state.counters["llama_runtime_assigned_non_cpu_tensors"] = runtimeAssignedNonCpu ? 1.0 : 0.0;
+
+#ifdef THEMIS_ENABLE_VULKAN
+    state.counters["llama_build_has_vulkan"] = 1.0;
+#else
+    state.counters["llama_build_has_vulkan"] = 0.0;
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+    state.counters["llama_build_has_cuda"] = 1.0;
+#else
+    state.counters["llama_build_has_cuda"] = 0.0;
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+    state.counters["llama_build_has_hip"] = 1.0;
+#else
+    state.counters["llama_build_has_hip"] = 0.0;
+#endif
+}
 
 /// Build an InferenceRequest with a given prompt and max_tokens budget.
 static InferenceRequest makeRequest(const std::string& prompt,
@@ -82,13 +313,43 @@ class LlamaCppBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const benchmark::State& /*s*/) override {
         plugin = std::make_unique<LlamaCppPlugin>();
+        modelPath = resolveModelPath();
+        requestedGpuLayers = resolveGpuLayers();
+
+        if (modelPath.empty()) {
+            setupError = "THEMIS_BENCH_LLAMA_MODEL_PATH is required for real-model benchmark profile";
+            return;
+        }
+        if (!fileExists(modelPath)) {
+            setupError = "THEMIS_BENCH_LLAMA_MODEL_PATH does not point to an existing file: " + modelPath;
+            return;
+        }
+
+        if (const auto preflightError = runRealModelPreflight(modelPath); preflightError.has_value()) {
+            setupError = *preflightError;
+            return;
+        }
+
         nlohmann::json cfg;
-        cfg["model_path"] = kModelPath;
-        cfg["n_threads"]  = 4;
-        cfg["n_ctx"]      = 2048;
-        plugin->loadModel(kModelPath, cfg);
-        // Stub mode: loadModel returns false without a real model; that is
-        // acceptable — plugin is still usable for dispatch overhead measurement.
+        cfg["model_path"] = modelPath;
+        cfg["n_threads"] = 4;
+        cfg["n_ctx"] = 2048;
+        cfg["n_gpu_layers"] = requestedGpuLayers;
+
+        if (!plugin->loadModel(modelPath, cfg)) {
+            setupError = "loadModel() failed for model path: " + modelPath;
+            return;
+        }
+
+        auto warmup = plugin->generate(makeRequest("healthcheck", 8, 0.0f));
+        warmupSucceeded = warmup.success;
+        if (!warmupSucceeded) {
+            setupError = "warmup generate() failed, benchmark would measure stub/error path";
+            return;
+        }
+
+        memoryStats = plugin->getMemoryStats();
+        ready = true;
     }
 
     void TearDown(const benchmark::State& /*s*/) override {
@@ -96,12 +357,37 @@ public:
         plugin.reset();
     }
 
+    bool ensureReady(benchmark::State& state) {
+        if (ready) {
+            setLlamaGpuEvidenceCounters(
+                state,
+                modelPath,
+                requestedGpuLayers,
+                warmupSucceeded,
+                memoryStats);
+            return true;
+        }
+
+        state.SkipWithError(setupError.c_str());
+        return false;
+    }
+
     std::unique_ptr<LlamaCppPlugin> plugin;
+    std::string modelPath;
+    int requestedGpuLayers = 0;
+    bool warmupSucceeded = false;
+    bool ready = false;
+    std::string setupError;
+    nlohmann::json memoryStats;
 };
 
 // ─── 1. generate() single request latency ────────────────────────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, Generate_SingleRequest)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     auto req = makeRequest("Summarise the concept of data gravity in one sentence.",
                            /*max_tokens=*/32);
 
@@ -111,16 +397,44 @@ BENCHMARK_F(LlamaCppBenchFixture, Generate_SingleRequest)(benchmark::State& stat
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("generate() — stub or real model; max_tokens=32");
+    state.SetLabel("generate() real model; max_tokens=32");
 }
 
 // ─── 2. generate() prompt-size sweep ─────────────────────────────────────────
 
 static void BM_Generate_PromptSize(benchmark::State& state) {
     LlamaCppPlugin plugin;
+    const auto modelPath = resolveModelPath();
+    const int requestedGpuLayers = resolveGpuLayers();
+
+    if (modelPath.empty()) {
+        state.SkipWithError("THEMIS_BENCH_LLAMA_MODEL_PATH is required for real-model benchmark profile");
+        return;
+    }
+    if (!fileExists(modelPath)) {
+        state.SkipWithError(("THEMIS_BENCH_LLAMA_MODEL_PATH does not point to an existing file: " + modelPath).c_str());
+        return;
+    }
+
+    if (const auto preflightError = runRealModelPreflight(modelPath); preflightError.has_value()) {
+        state.SkipWithError(preflightError->c_str());
+        return;
+    }
+
     nlohmann::json cfg;
-    cfg["model_path"] = kModelPath;
-    plugin.loadModel(kModelPath, cfg);
+    cfg["model_path"] = modelPath;
+    cfg["n_gpu_layers"] = requestedGpuLayers;
+    if (!plugin.loadModel(modelPath, cfg)) {
+        state.SkipWithError("loadModel() failed for configured THEMIS_BENCH_LLAMA_MODEL_PATH");
+        return;
+    }
+
+    auto warmup = plugin.generate(makeRequest("healthcheck", 8, 0.0f));
+    if (!warmup.success) {
+        state.SkipWithError("warmup generate() failed, benchmark would measure stub/error path");
+        plugin.unloadModel();
+        return;
+    }
 
     const int prompt_tokens = static_cast<int>(state.range(0));
     // Approximate token count: 1 word ≈ 1.3 tokens
@@ -133,6 +447,12 @@ static void BM_Generate_PromptSize(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLlamaGpuEvidenceCounters(
+        state,
+        modelPath,
+        requestedGpuLayers,
+        true,
+        plugin.getMemoryStats());
     state.SetLabel("prompt ~" + std::to_string(prompt_tokens) + " tokens");
     plugin.unloadModel();
 }
@@ -141,6 +461,10 @@ BENCHMARK(BM_Generate_PromptSize)->Arg(16)->Arg(64)->Arg(256)->Arg(512);
 // ─── 3. generateBatch() throughput ───────────────────────────────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, GenerateBatch_Throughput)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     const int kBatchSize = static_cast<int>(state.range(0));
     std::vector<InferenceRequest> requests;
     requests.reserve(static_cast<size_t>(kBatchSize));
@@ -164,6 +488,10 @@ BENCHMARK_REGISTER_F(LlamaCppBenchFixture, GenerateBatch_Throughput)
 // ─── 4. embed() latency ──────────────────────────────────────────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, Embed_Latency)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     const std::string text = "ThemisDB is a hybrid database system for enterprise workloads.";
 
     for (auto _ : state) {
@@ -178,6 +506,10 @@ BENCHMARK_F(LlamaCppBenchFixture, Embed_Latency)(benchmark::State& state) {
 // ─── 5. generateStream() overhead ────────────────────────────────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, GenerateStream_Overhead)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     auto req = makeRequest("List three benefits of column stores.", /*max_tokens=*/32);
 
     for (auto _ : state) {
@@ -189,7 +521,7 @@ BENCHMARK_F(LlamaCppBenchFixture, GenerateStream_Overhead)(benchmark::State& sta
         benchmark::DoNotOptimize(token_count.load());
     }
 
-    state.SetLabel("generateStream(); stub emits ≥1 callback");
+    state.SetLabel("generateStream() real model callback path");
 }
 
 // ─── 6. Concurrent inference — mutex contention baseline ─────────────────────
@@ -198,9 +530,32 @@ static void BM_ConcurrentInference(benchmark::State& state) {
     const int kThreads = static_cast<int>(state.range(0));
 
     LlamaCppPlugin plugin;
+    const auto modelPath = resolveModelPath();
+    const int requestedGpuLayers = resolveGpuLayers();
+
+    if (modelPath.empty()) {
+        state.SkipWithError("THEMIS_BENCH_LLAMA_MODEL_PATH is required for real-model benchmark profile");
+        return;
+    }
+    if (!fileExists(modelPath)) {
+        state.SkipWithError(("THEMIS_BENCH_LLAMA_MODEL_PATH does not point to an existing file: " + modelPath).c_str());
+        return;
+    }
+
     nlohmann::json cfg;
-    cfg["model_path"] = kModelPath;
-    plugin.loadModel(kModelPath, cfg);
+    cfg["model_path"] = modelPath;
+    cfg["n_gpu_layers"] = requestedGpuLayers;
+    if (!plugin.loadModel(modelPath, cfg)) {
+        state.SkipWithError("loadModel() failed for configured THEMIS_BENCH_LLAMA_MODEL_PATH");
+        return;
+    }
+
+    auto warmup = plugin.generate(makeRequest("healthcheck", 8, 0.0f));
+    if (!warmup.success) {
+        state.SkipWithError("warmup generate() failed, benchmark would measure stub/error path");
+        plugin.unloadModel();
+        return;
+    }
 
     auto req = makeRequest("ping", /*max_tokens=*/4);
 
@@ -221,6 +576,12 @@ static void BM_ConcurrentInference(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * kThreads);
+    setLlamaGpuEvidenceCounters(
+        state,
+        modelPath,
+        requestedGpuLayers,
+        true,
+        plugin.getMemoryStats());
     state.SetLabel("concurrent inference threads=" + std::to_string(kThreads));
     plugin.unloadModel();
 }
@@ -232,6 +593,10 @@ BENCHMARK(BM_ConcurrentInference)
 // ─── 7. getPerformanceStats() / getMemoryStats() query cost ──────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, StatsQuery)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     for (auto _ : state) {
         auto perf = plugin->getPerformanceStats();
         auto mem  = plugin->getMemoryStats();
@@ -244,9 +609,79 @@ BENCHMARK_F(LlamaCppBenchFixture, StatsQuery)(benchmark::State& state) {
 // ─── 8. getCapabilities() overhead ───────────────────────────────────────────
 
 BENCHMARK_F(LlamaCppBenchFixture, GetCapabilities)(benchmark::State& state) {
+    if (!ensureReady(state)) {
+        return;
+    }
+
     for (auto _ : state) {
         auto caps = plugin->getCapabilities();
         benchmark::DoNotOptimize(caps.supports_streaming);
     }
     state.SetLabel("getCapabilities()");
 }
+
+// Explicit real-model + GPU evidence path for release audits.
+static void BM_LlamaCpp_RealModel_GPUEvidence(benchmark::State& state) {
+    LlamaCppPlugin plugin;
+    const auto modelPath = resolveModelPath();
+    const int requestedGpuLayers = resolveGpuLayers();
+
+    if (modelPath.empty()) {
+        state.SkipWithError("THEMIS_BENCH_LLAMA_MODEL_PATH is required for real-model benchmark profile");
+        return;
+    }
+    if (!fileExists(modelPath)) {
+        state.SkipWithError(("THEMIS_BENCH_LLAMA_MODEL_PATH does not point to an existing file: " + modelPath).c_str());
+        return;
+    }
+    if (const auto preflightError = runRealModelPreflight(modelPath); preflightError.has_value()) {
+        state.SkipWithError(preflightError->c_str());
+        return;
+    }
+
+    nlohmann::json cfg;
+    cfg["model_path"] = modelPath;
+    cfg["n_threads"] = 4;
+    cfg["n_ctx"] = 2048;
+    cfg["n_gpu_layers"] = requestedGpuLayers;
+    if (!plugin.loadModel(modelPath, cfg)) {
+        state.SkipWithError("loadModel() failed for configured THEMIS_BENCH_LLAMA_MODEL_PATH");
+        return;
+    }
+
+    auto warmup = plugin.generate(makeRequest("healthcheck", 8, 0.0f));
+    if (!warmup.success) {
+        state.SkipWithError("warmup generate() failed, benchmark would measure stub/error path");
+        plugin.unloadModel();
+        return;
+    }
+
+    const auto memoryStats = plugin.getMemoryStats();
+    const bool runtimeOffloadEffective =
+        memoryStats.contains("runtime_gpu_offload_effective") &&
+        memoryStats["runtime_gpu_offload_effective"].is_boolean() &&
+        memoryStats["runtime_gpu_offload_effective"].get<bool>();
+    if (requestedGpuLayers > 0 && !runtimeOffloadEffective) {
+        state.SkipWithError("GPU offload requested but no non-CPU tensor assignment detected at runtime");
+        plugin.unloadModel();
+        return;
+    }
+
+    auto req = makeRequest("Provide one short GPU offload status sentence.", 16, 0.0f);
+    for (auto _ : state) {
+        const auto resp = plugin.generate(req);
+        benchmark::DoNotOptimize(resp.text);
+    }
+
+    setLlamaGpuEvidenceCounters(
+        state,
+        modelPath,
+        requestedGpuLayers,
+        true,
+        memoryStats);
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("real-model mandatory profile + gpu evidence");
+
+    plugin.unloadModel();
+}
+BENCHMARK(BM_LlamaCpp_RealModel_GPUEvidence)->Unit(benchmark::kMillisecond);

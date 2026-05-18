@@ -55,6 +55,17 @@ The table below maps each source module to its responsible maintainer. All code 
 
 ---
 
+## Escalation and Decision Path
+
+To align responsibilities with project governance and contributor guidance:
+
+1. **Normal contribution flow:** follow [CONTRIBUTING.md](CONTRIBUTING.md) and route review to module maintainers via CODEOWNERS.
+2. **Cross-module disagreements or blocked decisions:** escalate to the Project Lead as defined in [GOVERNANCE.md](GOVERNANCE.md).
+3. **Behavior and conduct issues:** follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+4. **Security vulnerabilities or sensitive incidents:** use [SECURITY.md](SECURITY.md) and [SOP.md](SOP.md#sop-05--security-vulnerability-response).
+
+---
+
 ## Becoming a Maintainer
 
 ThemisDB is currently a single-maintainer project. If you are interested in taking on a co-maintainer role for a specific module:
@@ -74,5 +85,6 @@ ThemisDB is currently a single-maintainer project. If you are interested in taki
 ## Contact
 
 - **General questions:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Code of Conduct / community behavior reports:** Follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md#project-specific-reporting-channels)
 - **Security issues:** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new) — see [SECURITY.md](SECURITY.md)
 - **Bug reports:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)

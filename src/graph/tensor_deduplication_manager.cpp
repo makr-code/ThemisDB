@@ -1375,8 +1375,17 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
         const auto payload = serializeMutationJournal({entry});
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_persist_fn_) {
-            try { journal_entry_persist_fn_(*snapshot_key, record.tensor_id, payload); }
-            catch (...) {}
+            try {
+                if (!journal_entry_persist_fn_(*snapshot_key, record.tensor_id, payload)) {
+                    THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn returned false for tensor_id={}", record.tensor_id);
+                }
+            }
+            catch (const std::exception& ex) {
+                THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw exception: {}", ex.what());
+            }
+            catch (...) {
+                THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw unknown exception");
+            }
         }
         return;
     }
@@ -1455,21 +1464,35 @@ namespace themis {
 namespace graph {
 
 namespace {
-constexpr std::string_view kJournalEdgePrefix = "__tfgjournal__:";
+constexpr std::string_view kJournalEdgePrefix = "__tfgjournal__";
 constexpr std::string_view kJournalPayloadField = "__tfgjournal_payload_hex";
 constexpr std::string_view kJournalType = "__tfgjournal__";
 
+inline std::string toHex(std::string_view text) {
+    static constexpr char kHex[] = "0123456789abcdef";
+    std::string out;
+    out.resize(text.size() * 2U);
+    for (std::size_t i = 0; i < text.size(); ++i) {
+        const uint8_t byte = static_cast<uint8_t>(text[i]);
+        out[(i * 2U)] = kHex[(byte >> 4U) & 0x0FU];
+        out[(i * 2U) + 1U] = kHex[byte & 0x0FU];
+    }
+    return out;
+}
+
 // Virtual source node in the graph from which all journal edges originate.
-// Constructed as "__tfgj_anchor__:<snapshot_key>".
+// Must remain colon-free because GraphIndex legacy out-key parsing splits on
+// ':' and would otherwise reconstruct the wrong source node after topology
+// rebuild.
 inline std::string makeAnchorId(std::string_view snapshot_key) {
-    return std::string("__tfgj_anchor__:") + std::string(snapshot_key);
+    return std::string("__tfgj_anchor__") + "_" + toHex(snapshot_key);
 }
 
 // Graph edge primary key (also used as edgeId in GraphIndexManager).
 inline std::string makeEdgeId(std::string_view snapshot_key,
                                std::string_view tensor_id) {
-    return std::string(kJournalEdgePrefix) + std::string(snapshot_key) + ":" +
-           std::string(tensor_id);
+    return std::string(kJournalEdgePrefix) + "_" + toHex(snapshot_key) + "_" +
+           toHex(tensor_id);
 }
 
 inline std::string toHex(const std::vector<uint8_t>& data) {
@@ -1523,6 +1546,7 @@ void wireGraphIndexJournalHooks(TensorDeduplicationManager& tdm,
         // Represent the journal entry as a directed edge anchor → tensor_id
         // in GraphIndexManager (enables outAdjacency-based enumeration).
         BaseEntity edge(edge_id);
+        edge.setField("id",     themis::Value{std::string(edge_id)});
         edge.setField("_from",  themis::Value{std::string(anchor)});
         edge.setField("_to",    themis::Value{std::string(tensor_id)});
         edge.setField("_graph", themis::Value{std::string(effective_snap)});

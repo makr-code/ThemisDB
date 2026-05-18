@@ -1,0 +1,7 @@
+MATCH (c:Customer)-[:PLACED]->(o:Order)-[:CONTAINS]->(p:Product)
+WHERE c.country IN ['DE', 'AT']
+RETURN c.name, COUNT(o.order_id) AS order_count, 
+       SUM(o.total_amount) AS total_spent,
+       COLLECT(DISTINCT p.category) AS categories
+GROUP BY c.customer_id
+ORDER BY total_spent DESC;

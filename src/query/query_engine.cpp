@@ -1165,6 +1165,23 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	return Ok(std::move(out));
 }
 
+Result<size_t>
+QueryEngine::executeAndCount(const ConjunctiveQuery& q) const {
+	auto span = Tracer::startSpan("QueryEngine.executeAndCount");
+	span.setAttribute("query.table", q.table);
+
+	auto keysResult = executeAndKeys(q);
+	if (!keysResult) {
+		span.setStatus(false, keysResult.error().context());
+		return Err<size_t>(keysResult.error().code(), keysResult.error().context());
+	}
+
+	const size_t count = keysResult->size();
+	span.setAttribute("query.result_count", static_cast<int64_t>(count));
+	span.setStatus(true);
+	return Ok(count);
+}
+
 } // namespace themis
 
 // Out-of-line EvaluationContext CTE helpers

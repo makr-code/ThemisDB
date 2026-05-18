@@ -22,6 +22,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <vector>
 #include "test_config.h"
 
 namespace themis {
@@ -33,14 +34,47 @@ namespace test {
  * @note Wirft KEINE Exception - Test muss GTEST_SKIP() selbst aufrufen
  */
 inline std::optional<std::string> tryGetModelPath(const std::string& model_name = "") {
+    namespace fs = std::filesystem;
     auto& config = TestConfig::instance();
     if (!config.llm().enabled) return std::nullopt;
     
     std::string target = model_name.empty() ? config.llm().default_model : model_name;
     std::string path = config.llm().getModelPath(target);
-    
-    if (path.empty() || !std::filesystem::exists(path)) return std::nullopt;
-    return path;
+
+    if (!path.empty() && fs::exists(path)) {
+        return path;
+    }
+
+    // Fallback for local development: resolve models relative to repository.
+    std::string filename = target;
+    auto alias_it = config.llm().model_aliases.find(target);
+    if (alias_it != config.llm().model_aliases.end()) {
+        filename = alias_it->second;
+    }
+
+    const fs::path repo_models = fs::path(__FILE__).parent_path().parent_path() / "models";
+    if (fs::exists(repo_models) && fs::is_directory(repo_models)) {
+        if (!filename.empty()) {
+            const fs::path candidate = repo_models / filename;
+            if (fs::exists(candidate)) {
+                return candidate.string();
+            }
+        }
+
+        if (model_name.empty()) {
+            for (const auto& entry : fs::directory_iterator(repo_models)) {
+                if (!entry.is_regular_file()) {
+                    continue;
+                }
+                const auto ext = entry.path().extension().string();
+                if (ext == ".gguf" || ext == ".bin") {
+                    return entry.path().string();
+                }
+            }
+        }
+    }
+
+    return std::nullopt;
 }
 
 /**

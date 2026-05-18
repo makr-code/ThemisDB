@@ -1,0 +1,21 @@
+{"id": "node_res_001", "_key": "res_001", "type": "researcher", "name": "Dr. Alice Johnson", "affiliation": "MIT", "field": "Deep Learning"}
+{"id": "node_res_002", "_key": "res_002", "type": "researcher", "name": "Prof. Bob Chen", "affiliation": "Stanford", "field": "ML Engineering"}
+{"id": "node_res_003", "_key": "res_003", "type": "researcher", "name": "Dr. Carol Williams", "affiliation": "Berkeley", "field": "NLP"}
+{"id": "node_res_004", "_key": "res_004", "type": "researcher", "name": "Dr. David Martinez", "affiliation": "Oxford", "field": "Quantum Computing"}
+{"id": "node_res_005", "_key": "res_005", "type": "researcher", "name": "Prof. Emma Davis", "affiliation": "Cambridge", "field": "Quantum ML"}
+{"id": "node_res_006", "_key": "res_006", "type": "researcher", "name": "Dr. Frank Wilson", "affiliation": "CMU", "field": "Time Series"}
+{"id": "node_res_007", "_key": "res_007", "type": "researcher", "name": "Dr. Grace Lee", "affiliation": "Toronto", "field": "Graph Learning"}
+{"id": "node_res_008", "_key": "res_008", "type": "researcher", "name": "Prof. Henry Kim", "affiliation": "Seoul National", "field": "Distributed Systems"}
+{"id": "node_res_009", "_key": "res_009", "type": "researcher", "name": "Dr. Isabel Rodriguez", "affiliation": "ETH Zurich", "field": "Vector Databases"}
+{"id": "node_res_010", "_key": "res_010", "type": "researcher", "name": "Dr. Jack Anderson", "affiliation": "Bell Labs", "field": "Database Systems"}
+{"id": "node_paper_001", "_key": "paper_001", "type": "paper", "title": "Deep Learning Architectures for Computer Vision", "year": 2024}
+{"id": "node_paper_002", "_key": "paper_002", "type": "paper", "title": "Machine Learning Pipeline Optimization", "year": 2024}
+{"id": "node_paper_003", "_key": "paper_003", "type": "paper", "title": "Transformer Models and Natural Language Processing", "year": 2024}
+{"id": "node_paper_004", "_key": "paper_004", "type": "paper", "title": "Quantum Error Correction and NISQ Algorithms", "year": 2024}
+{"id": "node_paper_005", "_key": "paper_005", "type": "paper", "title": "Quantum Machine Learning: A Practical Perspective", "year": 2024}
+{"id": "node_paper_006", "_key": "paper_006", "type": "paper", "title": "Vector Databases for Semantic Search", "year": 2024}
+{"id": "node_paper_007", "_key": "paper_007", "type": "paper", "title": "Multi-Model Database Architecture", "year": 2024}
+{"id": "node_conf_001", "_key": "conf_001", "type": "conference", "name": "NeurIPS 2024", "location": "Vancouver"}
+{"id": "node_conf_002", "_key": "conf_002", "type": "conference", "name": "ICML 2024", "location": "Vienna"}
+{"id": "node_conf_003", "_key": "conf_003", "type": "conference", "name": "ICCV 2024", "location": "Milan"}
+{"id": "node_conf_004", "_key": "conf_004", "type": "conference", "name": "VLDB 2024", "location": "Singapore"}

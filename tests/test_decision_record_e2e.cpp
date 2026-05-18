@@ -78,11 +78,11 @@ static std::string firstYamlContent(const fs::path& dir) {
     return "";
 }
 
-/// Build a minimal EncryptedGradient for shard `id`.
-static EncryptedGradient makeGradient(const std::string& shard_id) {
+/// Build a minimal EncryptedGradient for shard `id` and federation `round`.
+static EncryptedGradient makeGradient(const std::string& shard_id, uint64_t round) {
     EncryptedGradient g;
     g.shard_id    = shard_id;
-    g.round       = 1;
+    g.round       = round;
     g.sample_count = 10;
     g.data        = {{"layer0", 0.01}, {"layer1", -0.02}};
     return g;
@@ -90,8 +90,9 @@ static EncryptedGradient makeGradient(const std::string& shard_id) {
 
 /// Submit `min_participants` gradients and call triggerAggregation().
 static void runOneRound(LoRAFederationCoordinator& coord, size_t n_shards = 2) {
+    const uint64_t round = coord.currentRound();
     for (size_t i = 0; i < n_shards; ++i) {
-        coord.submitGradient(makeGradient("shard_" + std::to_string(i)));
+        coord.submitGradient(makeGradient("shard_" + std::to_string(i), round));
     }
     coord.triggerAggregation();
 }

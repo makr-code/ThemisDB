@@ -26,6 +26,9 @@
 ///   - WALEntry::serialize()            – binary serialisation cost
 ///   - WALEntry::deserialize()          – binary deserialisation cost
 ///   - ReplicationManager::initialize() – start-up cost
+///   - ReplicationManager::promoteToLeader() – leader promotion/failover path
+///   - LastWriteWinsResolver::resolve() – HLC conflict detection/resolution
+///   - CRDTMergeResolver::resolve()     – CRDT merge performance
 ///
 /// Performance targets (src/replication/ROADMAP.md):
 ///   - WAL append:        > 50 000 entries/s
@@ -34,6 +37,7 @@
 
 #include <benchmark/benchmark.h>
 #include "replication/replication_manager.h"
+#include "replication/multi_master_replication.h"
 #include <filesystem>
 #include <string>
 #include <chrono>
@@ -60,6 +64,7 @@ static ReplicationConfig makeConfig(const std::string& wal_dir) {
     cfg.failure_detection_timeout_ms = 2000;
     cfg.min_sync_replicas            = 0;
     cfg.wal_sync_on_commit           = false;
+    cfg.enable_leader_lease          = false;
     return cfg;
 }
 
@@ -73,6 +78,21 @@ static WALEntry makeEntry(uint64_t seq, const std::string& op,
     e.collection      = collection;
     e.document_id     = "doc_" + std::to_string(seq);
     e.data            = R"({"field":"value","seq":)" + std::to_string(seq) + "}";
+    return e;
+}
+
+static MMWriteEntry makeMMEntry(uint64_t physical,
+                                uint32_t logical,
+                                const std::string& node_id,
+                                const std::string& write_id) {
+    MMWriteEntry e;
+    e.write_id = write_id;
+    e.origin_node = node_id;
+    e.collection = "bench_col";
+    e.document_id = "doc_hlc";
+    e.operation = "UPDATE";
+    e.data = R"({"field":"value"})";
+    e.hlc = HybridLogicalClock::Timestamp{physical, logical, node_id};
     return e;
 }
 
@@ -128,10 +148,13 @@ BENCHMARK_REGISTER_F(WalBenchFixture, Append)
 
 BENCHMARK_DEFINE_F(WalBenchFixture, ReadFrom)(benchmark::State& state) {
     const int n = static_cast<int>(state.range(0));
+    uint64_t logical_bytes = 0;
 
     // Pre-populate WAL
     for (int i = 0; i < n; ++i) {
-        wal_->append(makeEntry(static_cast<uint64_t>(i + 1), "INSERT", "c"));
+        auto entry = makeEntry(static_cast<uint64_t>(i + 1), "INSERT", "c");
+        logical_bytes += static_cast<uint64_t>(entry.serialize().size());
+        wal_->append(entry);
     }
 
     for (auto _ : state) {
@@ -140,6 +163,7 @@ BENCHMARK_DEFINE_F(WalBenchFixture, ReadFrom)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * n);
+    state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(logical_bytes));
     state.SetLabel("n=" + std::to_string(n));
 }
 
@@ -179,6 +203,71 @@ static void BM_WALEntry_Deserialize(benchmark::State& state) {
 BENCHMARK(BM_WALEntry_Deserialize)->Unit(benchmark::kNanosecond);
 
 // ============================================================================
+// HLC conflict detection / resolution micro-benchmark (R-4 direct metric)
+// ============================================================================
+
+static void BM_HLCConflictDetection(benchmark::State& state) {
+    const uint64_t skew_ms = static_cast<uint64_t>(state.range(0));
+    const uint64_t base_physical = 1'000'000;
+
+    LastWriteWinsResolver resolver;
+    std::vector<MMWriteEntry> writes;
+    writes.reserve(2);
+    writes.push_back(makeMMEntry(base_physical, 1, "node-a", "w-a"));
+    writes.push_back(makeMMEntry(base_physical + skew_ms, 2, "node-b", "w-b"));
+
+    for (auto _ : state) {
+        const auto winner = resolver.resolve("doc_hlc", writes);
+        benchmark::DoNotOptimize(winner);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("skew_ms=" + std::to_string(skew_ms));
+}
+
+BENCHMARK(BM_HLCConflictDetection)
+    ->Arg(0)
+    ->Arg(50)
+    ->Arg(200)
+    ->Unit(benchmark::kNanosecond);
+
+// ============================================================================
+// CRDT merge micro-benchmark (R-5 direct metric)
+// ============================================================================
+
+static void BM_CRDTMerge(benchmark::State& state) {
+    const int write_count = static_cast<int>(state.range(0));
+    const uint64_t base_physical = 2'000'000;
+
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::LWW_REGISTER);
+    std::vector<MMWriteEntry> writes;
+    writes.reserve(static_cast<std::size_t>(write_count));
+
+    for (int i = 0; i < write_count; ++i) {
+        auto entry = makeMMEntry(base_physical + static_cast<uint64_t>(i),
+                                 static_cast<uint32_t>(i % 4),
+                                 "node-" + std::to_string(i),
+                                 "w-" + std::to_string(i));
+        entry.data = "{\"value\":" + std::to_string(i) + "}";
+        writes.push_back(std::move(entry));
+    }
+
+    for (auto _ : state) {
+        const auto merged = resolver.resolve("doc_crdt", writes);
+        benchmark::DoNotOptimize(merged);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("writes=" + std::to_string(write_count));
+}
+
+BENCHMARK(BM_CRDTMerge)
+    ->Arg(2)
+    ->Arg(8)
+    ->Arg(32)
+    ->Unit(benchmark::kNanosecond);
+
+// ============================================================================
 // ReplicationManager::initialize cost
 // ============================================================================
 
@@ -206,5 +295,54 @@ static void BM_ReplicationManager_Initialize(benchmark::State& state) {
 BENCHMARK(BM_ReplicationManager_Initialize)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(50);
+
+// ============================================================================
+// ReplicationManager::promoteToLeader direct metric (R-3)
+// ============================================================================
+
+static void BM_ReplicationManager_PromoteToLeader(benchmark::State& state) {
+    const std::string wal_dir = "./data/bench_repl_mgr_failover_tmp";
+    std::size_t success_count = 0;
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        if (std::filesystem::exists(wal_dir)) {
+            std::filesystem::remove_all(wal_dir);
+        }
+        std::filesystem::create_directories(wal_dir);
+
+        ReplicationManager mgr(makeConfig(wal_dir));
+        bool init_ok = mgr.initialize();
+
+        state.ResumeTiming();
+
+        bool promote_ok = false;
+        if (init_ok) {
+            promote_ok = mgr.promoteToLeader();
+        }
+        benchmark::DoNotOptimize(promote_ok);
+        if (promote_ok) {
+            ++success_count;
+        }
+
+        state.PauseTiming();
+        mgr.shutdown();
+        state.ResumeTiming();
+    }
+
+    if (std::filesystem::exists(wal_dir)) {
+        std::filesystem::remove_all(wal_dir);
+    }
+
+    const double success_rate = state.iterations() == 0
+        ? 0.0
+        : (100.0 * static_cast<double>(success_count) /
+           static_cast<double>(state.iterations()));
+    state.counters["leader_promotion_success_rate_pct"] = success_rate;
+}
+
+BENCHMARK(BM_ReplicationManager_PromoteToLeader)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(30);
 
 BENCHMARK_MAIN();

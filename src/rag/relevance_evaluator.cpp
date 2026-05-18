@@ -176,6 +176,11 @@ Questions:)";
     } catch (const std::exception& e) {
         THEMIS_WARN("Reverse question generation failed: {}", e.what());
     }
+
+    if (questions.empty()) {
+        // Offline/no-model fallback: nutze die Antwort selbst als Rueckfrage-Anker.
+        questions.push_back(answer);
+    }
     
     THEMIS_DEBUG("Generated {} reverse questions", questions.size());
     return questions;

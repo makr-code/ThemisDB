@@ -82,7 +82,11 @@ std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
     for (const auto& e : ctx.entities) {
         if (n++ >= max) { oss << ", ..."; break; }
         if (n > 1) oss << ", ";
-        oss << e.label;
+        if (!e.text.empty()) {
+            oss << e.text;
+        } else {
+            oss << e.id;
+        }
     }
     return oss.str();
 }
@@ -93,7 +97,7 @@ std::string relationSummary(const ExtractionContext& ctx, size_t max = 20) {
     size_t n = 0;
     for (const auto& r : ctx.relations) {
         if (n++ >= max) { oss << "\n  ..."; break; }
-        oss << "\n  " << r.from_id << " →[" << r.type << "]→ " << r.to_id;
+        oss << "\n  " << r.from_id << " →[" << static_cast<int>(r.relation_type) << "]→ " << r.to_id;
     }
     return oss.str();
 }
@@ -188,7 +192,7 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
     const auto t0 = std::chrono::steady_clock::now();
 
     IngestionQualityReport report;
-    report.doc_id       = ctx.manifest.source_uri;
+    report.doc_id       = !ctx.manifest.file_id.empty() ? ctx.manifest.file_id : ctx.manifest.original_path;
     report.judge_backend = backend_->description();
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
@@ -632,9 +636,9 @@ ReIngestionController::RunResult ReIngestionController::process(
 
         // Execute workflow. On failure continue to evaluate what we got.
         if (!profile.empty()) {
-            engine_->run(ctx, profile);
+            (void)engine_->executeWithProfile(profile, ctx);
         } else {
-            engine_->run(ctx);
+            (void)engine_->execute(ctx);
         }
 
         // ---- Evaluate quality ----
@@ -677,7 +681,8 @@ ReIngestionController::RunResult ReIngestionController::process(
             report.relation_coherence_score < cfg.relation_coherence_threshold)
             reasons.emplace_back("relation_coherence");
 
-        notifyTriggered(manifest.source_uri, attempt + 1, reasons);
+        const std::string doc_id = !manifest.file_id.empty() ? manifest.file_id : manifest.original_path;
+        notifyTriggered(doc_id, attempt + 1, reasons);
 
         // Determine improvement for the upcoming pass notification.
         bool improved_over_prev = false;
@@ -685,7 +690,7 @@ ReIngestionController::RunResult ReIngestionController::process(
             improved_over_prev = isImprovement(
                 result.history[result.history.size() - 2], report);
         }
-        notifyComplete(manifest.source_uri, attempt, improved_over_prev);
+        notifyComplete(doc_id, attempt, improved_over_prev);
     }
 
     return result;

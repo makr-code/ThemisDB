@@ -10,7 +10,7 @@
 [![Docs](https://img.shields.io/badge/docs-online-blue)](https://makr-code.github.io/ThemisDB/)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [❓ FAQ](docs/FAQ.md) · [Release Notes](CHANGELOG.md) · [Roadmap](ROADMAP.md)
+[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
 
 </div>
 
@@ -37,13 +37,25 @@ ThemisDB has **comprehensive documentation for all 58 modules** with production-
 
 ---
 
-## Quick Start
+## Canonical Onboarding Path
+
+For a consistent onboarding flow, use these pages in order:
+
+1. [QUICKSTART.md](QUICKSTART.md) — install + first successful run
+2. [SETUP.md](SETUP.md) — complete local development environment
+3. [SUPPORT.md](SUPPORT.md) — support and escalation paths
+4. [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) — release lanes and version lifecycle
+5. [INDEX.md](INDEX.md) — full root navigation map
+
+---
+
+## Installation
 
 ### Docker (fastest)
 
 ```bash
-docker pull 
-docker run
+docker pull ghcr.io/makr-code/themisdb:latest
+docker run -d --name themisdb -p 8765:8765 -p 8766:8766 ghcr.io/makr-code/themisdb:latest
 ```
 
 Connect via the wire protocol on port `8766` or the REST/HTTP API on port `8765`.
@@ -83,6 +95,19 @@ ThemisDB is available in five editions, selected at CMake build time:
 Feature sets are nested: MINIMAL ⊂ COMMUNITY ⊂ ENTERPRISE ⊂ HYPERSCALER.
 
 See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for the full feature comparison and edition matrix.
+
+---
+
+## Usage
+
+After startup, verify health and run a first query:
+
+```bash
+curl http://localhost:8765/health
+curl -X POST http://localhost:8765/v2/query \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"SELECT 1 AS hello"}'
+```
 
 ---
 

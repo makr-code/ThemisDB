@@ -1,147 +1,101 @@
 # AI Safety Architecture — Developer Reference
 
-> **Für:** Backend-Entwickler, Security-Engineers
+> **Für:** Backend-Entwickler, Security Engineers, Reviewer
 >
-> Technische Kurzreferenz für die Implementierung des AI Safety Layers.
-> Vollständige Nutzerdokumentation: `docs/de/security/ai_safety/`
+> Diese Seite beschreibt den **aktuellen** AI-Safety-Stand im Security-Modul.
+> Vollständige Betriebs-/Nutzerdokumentation: `docs/de/security/ai_safety/`.
 
-## Motivation
+## 1) Zweck und Status
 
-KI-Agenten (MCP-Clients, AI Orchestrator, LLM-Pipeline) können an mehreren Stellen
-in ThemisDB Datenbankoperationen ausführen. Ohne geeignete Schutzmaßnahmen
-besteht das Risiko unbeabsichtigter oder böswilliger Datenzerstörung —
-analog zum Cursor-KI-Vorfall (April 2026).
+Der AI Safety Layer schützt KI-getriebene Datenbankoperationen (MCP/agentic Tool-Use)
+vor destruktiven oder unkontrollierten Aktionen durch mehrschichtige, deterministische
+Kontrollen.
 
-## Architekturentscheidungen
+- **Status:** produktiv integriert; Implementierungsfortschritt wird in
+  `src/security/ROADMAP.md` (Phase 5: AI Safety Layer) geführt.
+- **Nicht mehr gültig:** Die frühere Annahme „Planungs-/Stub-Stand Phase 1–4“ ist veraltet.
 
-### Warum deterministisch (kein LLM-Guard)?
+## 2) Aktuelles Bedrohungsmodell (AI-spezifisch)
 
-Der AI Safety Layer verwendet ausschließlich regelbasierte Klassifikation.
-Ein KI-basierter Guard wäre selbst ein LLM-Aufruf — mit Latenz, Nondeterminismus
-und potenziellem Prompt-Injection-Risiko. Regelbasiert: < 0.1ms, deterministisch,
-kein Netzwerkzugriff.
+| Bedrohung | Beispiel | Primäre Controls |
+|---|---|---|
+| Unbeabsichtigte Datenlöschung | `delete_entity`, `DROP INDEX`, unbeschränkte `REMOVE`-Queries | `AiOperationGuard`, Human-in-the-Loop Approval, Dry-Run Preview |
+| Prompt-/Tool-Missbrauch | Agent führt mutierende AQL im read-only Kontext aus | `AqlSafetyValidator`, Modus-Flags (`enforce_read_only`) |
+| Falsche Umgebungsannahme | Agent behandelt Produktion wie Dev/Test | Environment Restrictions aus `config/security.yaml` |
+| Fehlende Wiederherstellbarkeit | Destruktive Aktion ohne Rollback-Punkt | Pre-Operation Snapshot + Rollback-API |
+| Fehlende Forensik | Keine nachvollziehbare KI-Aktionsspur | AI Session Audit Trail Events |
 
-LoRA-Adapter als Drop-In-Ersatz für den IntentClassifier ist in Phase 4 geplant
-(IMPL-A2, Q4 2026) — aber nur für die Klassifikationsschicht, nicht für Guards.
+## 3) Control-Architektur (aktuell)
 
-### Warum synchroner Snapshot?
+1. **AQL Read-Only Enforcer**
+   `include/query/aql_safety_validator.h`, `src/query/aql_safety_validator.cpp`
+   Blockiert mutierende AQL-Operationen in read-only Tool-Kontexten.
 
-Async würde bedeuten, der Snapshot könnte nach Beginn der Operation fertiggestellt
-werden. RocksDB-Checkpoints (Hardlinks) sind O(1) und typischerweise < 500ms.
+2. **Destructive Operation Guard (DOG)**
+   `include/security/ai_operation_guard.h`, `src/security/ai_operation_guard.cpp`
+   Klassifiziert Operationen (`READ_ONLY`, `WRITE_SAFE`, `DESTRUCTIVE`, `CRITICAL`).
 
-## Zu implementierende Klassen
+3. **Human-in-the-Loop Gate (HILG)**
+   `src/server/mcp_server.cpp`, `src/server/http_server.cpp`
+   Approval/Denial-Flow für riskante Operationen inkl. Pending-Approval-Verwaltung.
 
-### Phase 1 (Q2 2026)
+4. **Environment Isolation Guard**
+   `config/security.yaml` (`environment`, `ai_agent_restrictions`)
+   Erzwingt Umgebungsgrenzen (z. B. produktionsspezifische Restriktionen).
 
-```
-src/security/intent_classifier.cpp
-  → IntentType::DATA_DESTRUCTION, IntentType::SCHEMA_MUTATION hinzufügen
-  → kDataDestructionFeatures[], kSchemaMutationFeatures[] hinzufügen
-  → classify() um zwei neue Kandidaten erweitern
-  → riskDelta() + intentName() anpassen
+5. **Pre-Operation Snapshot + Rollback**
+   `McpServer` + Storage Checkpoint/Restore-Hooks
+   Sicherung vor Ausführung destruktiver/critical Operationen mit Rollback-Pfad.
 
-src/query/aql_safety_validator.cpp  [NEU]
-include/query/aql_safety_validator.h  [NEU]
-  → AqlSafetyValidator::validate(aql_query) → ValidationResult
-  → Tokenbasierte Mutation-Detection (REMOVE, INSERT, UPDATE, REPLACE, UPSERT, DROP, TRUNCATE)
+6. **AI Session Audit Trail**
+   `src/utils/audit_logger.cpp` (AI-Eventtypen)
+   Manipulationssichere Nachvollziehbarkeit von Tool-Aufrufen, Approvals und Ausführung.
 
-src/server/mcp_server.cpp
-  → toolQuery(): AqlSafetyValidator aufrufen wenn enforce_read_only aktiv
-  → toolDeleteEntity(): dry_run-Flag auswerten
-  → toolDropIndex(): dry_run-Flag auswerten
-```
+## 4) Betriebsgrenzen / Operating Limits
 
-### Phase 2 (Q3 2026)
+- Der AI Safety Layer schützt **KI-initiierte Tool-Pfade** (MCP/Agentic-Workflows), nicht
+  beliebige externe Non-AI Admin- oder Direktzugriffe.
+- Schutzwirkung hängt von korrekter Modus-/Umgebungskonfiguration ab
+  (`config/ai_ml/llm/modes/default.yaml`, `config/security.yaml`).
+- Der Layer ergänzt, ersetzt aber nicht:
+  - Authentifizierung (`src/auth/**`)
+  - klassische Autorisierung/RBAC/RLS (`src/security/rbac.cpp`, `row_level_security.cpp`)
+  - Krypto-/Key-Management (Vault/HSM/PKI).
+- Performance-/Chaos-/Erweiterungsziele werden in `ROADMAP.md` und
+  `FUTURE_ENHANCEMENTS.md` weitergeführt; diese Datei beschreibt den Architekturvertrag.
 
-```
-include/security/ai_operation_guard.h  [NEU]
-src/security/ai_operation_guard.cpp  [NEU]
-  → OperationClass enum (READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL)
-  → AiOperationGuard::evaluate() → GuardDecision
-  → AiOperationGuard::buildRequiresApprovalResponse()
+## 5) Abgrenzung zu HSM-/Auth-/Policy-Dokumenten
 
-src/server/mcp_server.cpp
-  → pending_approvals_ map + mutex
-  → toolQuery/toolDeleteEntity/toolDropIndex: Guard aufrufen
-  → safety-Sektion aus Mode-Config laden
+| Thema | Führendes Dokument |
+|---|---|
+| Modulweite Sicherheitsarchitektur (Krypto, RBAC, HSM, PKI) | `src/security/ARCHITECTURE.md` |
+| Security Threat Model & Controls (gesamt) | `src/security/SECURITY.md` |
+| Security Audit-Findings / Remediation-Status | `src/security/AUDIT.md` |
+| AuthN/Auth-Flow (JWT/OIDC/MFA/Session) | `src/auth/ARCHITECTURE.md` |
+| Governance/Policy/Compliance-Layer | `src/governance/ARCHITECTURE.md` |
+| AI-Safety Betriebsdoku (Runbook, Validator, Snapshot, Audit Trail) | `docs/de/security/ai_safety/README.md` |
 
-src/server/http_server.cpp
-  → POST /v1/ai/approve/{id}
-  → POST /v1/ai/deny/{id}
-  → GET  /v1/ai/pending-approvals
-```
+## 6) Review- & Audit-Nachweis (Dokument-Update)
 
-### Phase 3 (Q3 2026)
+**Review-Referenzen (Pflichtquellen):**
+- `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
+- `docs/SYSTEMATISCHER_REVIEWPLAN.md`
+- `docs/de/development/SOURCE_CODE_AUDIT.md`
+- `docs/audit-framework/AUDIT_RUNBOOK.md`
 
-```
-src/server/mcp_server.cpp
-  → Pre-Op-Snapshot vor Execution
-  → environment-Config aus security.yaml lesen
+**Durchgeführte Checks für dieses Update (2026-05-13):**
+- ✅ Fachreview gegen Security-Kerndokumente (`SECURITY.md`, `ARCHITECTURE.md`, `AUDIT.md`, `ROADMAP.md`)
+- ✅ Sourcecode-/Dokumentationsaudit der AI-Safety-Pfade und Referenzdateien
+  (`include/security/ai_operation_guard.h`, `src/security/ai_operation_guard.cpp`,
+  `include/query/aql_safety_validator.h`, `src/query/aql_safety_validator.cpp`,
+  `src/security/intent_classifier.cpp`, `src/server/mcp_server.cpp`, `src/server/http_server.cpp`)
+- ✅ Ergebnis verlinkt über die oben genannten Kern-/Audit-Dokumente und
+  `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+- ✅ Betroffene Datei im Review festgehalten: `src/security/AI_SAFETY_ARCHITECTURE.md`
 
-src/server/http_server.cpp
-  → POST /v1/ai/rollback/{snapshot_id}
+## 7) Verwandte Dokumente
 
-config/security.yaml
-  → environment: + ai_agent_restrictions: Block hinzufügen
-
-config/ai_ml/llm/modes/default.yaml
-  → safety: Block in agentic/multi_agent Modes
-```
-
-### Phase 4 (Q4 2026)
-
-```
-src/utils/audit_logger.cpp
-  → Neue Event-Typen: AI_TOOL_CALL, AI_APPROVAL_REQUIRED, AI_OPERATION_EXECUTED, ...
-
-src/security/intent_classifier.cpp
-  → IMPL-A2: LoRA-Adapter als classify()-Implementierung
-
-tests/security/ai_safety/
-  → test_ai_operation_guard.cpp
-  → test_ai_environment_guard.cpp
-  → test_ai_snapshot.cpp
-  → test_ai_audit_trail.cpp
-  → test_intent_classifier_aql.cpp
-
-src/query/test_aql_safety_validator.cpp [in tests/query/]
-```
-
-## Test-Strategie
-
-```
-Unit-Tests:
-  - DOG-Klassifikation (alle Operationsklassen + AQL-Spezialfälle)
-  - HILG-Approval-Flow (happy path, expiry, replay prevention)
-  - AQL Validator (False-Positive-Prüfung auf echten Queries)
-  - IntentClassifier (neue AQL-Features)
-  - Environment Guard (production vs. staging vs. dev Matrix)
-
-Integration-Tests (Chaos):
-  - Simulierter destruktiver KI-Agent gegen alle Guards
-  - Snapshot + Rollback End-to-End
-  - Concurrent Approval (Race Condition)
-
-Performance-Tests:
-  - DOG-Overhead < 0.1ms (p99)
-  - AQL-Validator < 0.1ms bei 1KB-Query
-  - Snapshot-Erstellung p99 < 2s bei 100GB DB
-```
-
-## Abhängigkeiten
-
-```
-AiOperationGuard   → AqlSafetyValidator (für Query-Klassifikation)
-McpServer          → AiOperationGuard (Guard vor jeder Tool-Exec)
-McpServer          → RocksDBWrapper::createCheckpoint() (POS)
-McpServer          → AuditLogger (neue AI-Events)
-HttpServer         → McpServer::pendingApprovals (Approval-API)
-IntentClassifier   → unabhängig (bestehendes Interface, neue Features)
-```
-
-## Verwandte Dokumente
-
-- Vollständige Nutzerdoku: `docs/de/security/ai_safety/`
-- Security ROADMAP: `src/security/ROADMAP.md` (Phase 5: AI Safety Layer)
-- STUB_INVENTORY: `src/STUB_INVENTORY.md` (IntentClassifier STUB-Eintrag)
-- FUTURE_ENHANCEMENTS: `src/security/FUTURE_ENHANCEMENTS.md`
+- `src/security/README.md`
+- `src/security/ROADMAP.md`
+- `src/security/FUTURE_ENHANCEMENTS.md`
+- `docs/de/security/ai_safety/README.md`

@@ -1,6 +1,15 @@
 # Tensor Module — Architecture
 
-<!-- Status: current | validated: 2026-05-05 | updated: 2026-05-05 aligned with paper -->
+<!-- Status: current | validated: 2026-05-13 | updated: 2026-05-13 aligned with paper -->
+
+**Related docs:**
+- Implementation README: [`README.md`](README.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Security: [`SECURITY.md`](SECURITY.md)
+- Changelog: [`CHANGELOG.md`](CHANGELOG.md)
+- Performance expectations: [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md)
+- Audit: [`AUDIT.md`](AUDIT.md)
 
 > **Scientific Basis:** This architecture is aligned with
 > *"Advanced Architectural Paradigms for Multi-Model AI Databases: Integrating Tensor Graph

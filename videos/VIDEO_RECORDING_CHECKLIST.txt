@@ -1,0 +1,43 @@
+﻿KICKSTARTER VIDEO RECORDING CHECKLIST
+Single-Take Demo: 4-5 Minutes
+
+BEFORE RECORDING:
+- Close all windows (no notifications)
+- Enlarge terminal font (14-16pt)
+- Prepare demo commands
+- Test microphone
+- Open OBS Studio or screen recorder
+
+RECORDING FLOW (Timeline):
+[0:00-0:30] INTRO
+  Say: "Welcome to ThemisDB. I show you a live demo."
+
+[0:30-1:30] SCENE 1: SQL + Relational
+  Command: SELECT * FROM orders WHERE customer_id=1;
+  Show: Relational data with multiple tables
+
+[1:30-2:30] SCENE 2: Vector Search
+  Command: vector_search('renewable energy battery', top_k=5)
+  Show: Semantic search results with similarity scores
+
+[2:30-3:30] SCENE 3: Graph Queries
+  Command: MATCH (c:Customer)-[:PLACED]->(o:Order)...
+  Show: Relationships and network analysis
+
+[3:30-4:30] SCENE 4: LLM Inference (LOCAL!)
+  Command: llm_generate(prompt='Market copy for Solar Panel')
+  Say: Native LLM inference, no cloud calls!
+
+[4:30-5:00] SUMMARY
+  Say: "Multi-model queries in <100ms. One ACID database replaces 7 systems."
+
+TIPS:
+- Speak slowly and clearly
+- Explain while executing
+- One error is OK (authentic)
+- No editing allowed (must be single-take)
+
+OUTPUT:
+- Save as: themisdb-demo-video.mp4
+- Minimum: 720p HD, H.264 codec
+- Location: demo/videos/themisdb-demo-video.mp4

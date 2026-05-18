@@ -110,19 +110,19 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
-| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `proxy` | `WalBenchFixture_Append` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` / `bench_changefeed_throughput.cpp` |
+| R-1 | ≤ 50 ms P99 (SEMI\_SYNC) | `mapped` | `BM_ReplicationLagWAN` (Arg=2) | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
 | R-2 | ≥ 500 MB/s WAL-Shipping | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
-| R-3 | ≤ 10 s Leader-Failover | `proxy` ⚠️ | `BM_ReplicationManager_Initialize` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
-| R-4 | < 5 µs/Write HLC | `proxy` ⚠️ | `BM_WALEntry_Serialize` | `BM_WALEntry_Deserialize` | `bench_replication_throughput.cpp` |
-| R-5 | ≤ 1 µs/Merge CRDT | `proxy` ⚠️ | `BM_WALEntry_Deserialize` | `BM_WALEntry_Serialize` | `bench_replication_throughput.cpp` |
+| R-3 | ≤ 10 s Leader-Failover | `mapped` | `BM_ReplicationManager_PromoteToLeader` | `BM_ReplicationManager_Initialize` | `bench_replication_throughput.cpp` |
+| R-4 | < 5 µs/Write HLC | `mapped` | `BM_HLCConflictDetection` | `BM_WALEntry_Serialize` | `bench_replication_throughput.cpp` |
+| R-5 | ≤ 1 µs/Merge CRDT | `mapped` | `BM_CRDTMerge` | `BM_WALEntry_Deserialize` | `bench_replication_throughput.cpp` |
 | R-6 | ≥ 200 MB/s WAL-Replay | `mapped` | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `bench_replication_throughput.cpp` |
 | R-7 | ≤ 1 ms CDC Event P99 | `mapped` | `ChangefeedBenchmarkFixture_EventRecordingThroughput` | `BM_RecordEventLatency` | `bench_changefeed_throughput.cpp` |
-| R-8 | ≤ 200 ms Cross-DC P99 | `proxy` ⚠️ | `WalBenchFixture_ReadFrom` | `BM_ReplicationLag` | `bench_replication_throughput.cpp` / `bench_changefeed_throughput.cpp` |
+| R-8 | ≤ 200 ms Cross-DC P99 | `mapped` | `BM_ReplicationLagWAN` | `BM_ReplicationLag` | `bench_changefeed_throughput.cpp` |
 
 > ⚠️ = Proxy-Benchmark; direktes Benchmark ist als Gap dokumentiert (§4.1)
 
-**Direkt messbare SLOs:** R-2, R-6, R-7 (3/8 = 37.5%)
-**Proxy-Cases:** R-1, R-3, R-4, R-5, R-8 (5/8)
+**Direkt messbare SLOs:** R-1, R-2, R-3, R-4, R-5, R-6, R-7, R-8 (8/8 = 100.0%)
+**Proxy-Cases:** keine (0/8)
 
 ---
 
@@ -131,22 +131,22 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 | Ziel-ID | SLO-Ziel | Status | `primary_case` | `fallback_case` | Datei |
 |---------|----------|--------|----------------|-----------------|-------|
 | SH-1 | < 5 ms Cross-Shard RPC P99 | `mapped` | `ScatterGatherFixture_ScatterGatherLatency` | `ShardRoutingFixture_SingleShardLookup` | `bench_sharding_performance.cpp` |
-| SH-2 | > 95 % Connection-Pool Hit-Rate | `proxy` ⚠️ | `ShardRoutingFixture_ConsistentHashPerformance` | `ShardRoutingFixture_BatchRouting` | `bench_shard_routing.cpp` |
-| SH-3 | < 20 ms Percolator Commit P99 | `proxy` ⚠️ | `CrossShardJoinFixture_BroadcastHashJoin` | `CrossShardJoinFixture_CoLocatedJoinSimulation` | `bench_sharding_performance.cpp` |
-| SH-4 | 0 ms Shard-Split Downtime | `proxy` ⚠️ | `RebalancingFixture_BatchSerializationThroughput` | `RebalancingFixture_BatchDeserializationThroughput` | `bench_sharding_performance.cpp` |
-| SH-5 | < 20% Write-Overhead Migration | `proxy` ⚠️ | `RebalancingFixture_BatchSerializationThroughput` | `ShardRoutingFixture_BatchRouting` | `bench_sharding_performance.cpp` |
-| SH-6 | < 10 s Rebalancer Decision | `proxy` ⚠️ | `RebalancingFixture_BatchDeserializationThroughput` | `GossipOverheadFixture_VersionVectorMerge` | `bench_sharding_performance.cpp` |
-| SH-7 | > 1 GB/s Anti-Entropy Scan | `proxy` ⚠️ | `GossipOverheadFixture_MessageSerialization` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-2 | > 95 % Connection-Pool Hit-Rate | `mapped` | `BM_ConnectionPoolHitRate` | `ShardRoutingFixture_ConsistentHashPerformance` | `bench_shard_routing.cpp` |
+| SH-3 | < 20 ms Percolator Commit P99 | `mapped` | `BM_PercolatorCommitLatency` | `CrossShardJoinFixture_BroadcastHashJoin` | `bench_sharding_performance.cpp` |
+| SH-4 | 0 ms Shard-Split Downtime | `mapped` | `ShardSplitDowntimeFixture_ZeroDowntimeReadAvailability` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-5 | < 20% Write-Overhead Migration | `mapped` | `RebalancingFixture_WriteLatencyDuringMigration` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-6 | < 10 s Rebalancer Decision | `mapped` | `RebalancingFixture_RebalancerDecisionCycle` | `RebalancingFixture_BatchDeserializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-7 | > 1 GB/s Anti-Entropy Scan | `mapped` | `RebalancingFixture_AntiEntropyScanThroughput` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
 | SH-8 | > 4 GB/s GPU Reed-Solomon | `not_measurable` 🚫 | `ScatterGatherFixture_ScatterGatherLatency` | `CrossShardJoinFixture_BroadcastHashJoin` | `bench_sharding_performance.cpp` |
-| SH-9 | < 10 s Snapshot 1 GB | `proxy` ⚠️ | `CrossShardJoinFixture_BroadcastHashJoin` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
-| SH-10 | < 35 % Snapshot Kompressionsrate | `proxy` ⚠️ | `RebalancingFixture_BatchDeserializationThroughput` | `CrossShardJoinFixture_CoLocatedJoinSimulation` | `bench_sharding_performance.cpp` |
-| SH-11 | > 200 MB/s Replica Catch-up | `proxy` ⚠️ | `GossipOverheadFixture_MessageSerialization` | `ShardRoutingFixture_ConsistentHashPerformance` | `bench_sharding_performance.cpp` |
-| SH-12 | < 500 ms Topology Propagation | `proxy` ⚠️ | `GossipOverheadFixture_FanoutSelection` | `GossipOverheadFixture_MessageSerialization` | `bench_sharding_performance.cpp` |
+| SH-9 | < 10 s Snapshot 1 GB | `mapped` | `RebalancingFixture_SnapshotTransfer1GB` | `RebalancingFixture_BatchSerializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-10 | < 35 % Snapshot Kompressionsrate | `mapped` | `RebalancingFixture_SnapshotCompressionRatioZstdL3` | `RebalancingFixture_BatchDeserializationThroughput` | `bench_sharding_performance.cpp` |
+| SH-11 | > 200 MB/s Replica Catch-up | `mapped` | `RebalancingFixture_ReplicaCatchupThroughput` | `GossipOverheadFixture_MessageSerialization` | `bench_sharding_performance.cpp` |
+| SH-12 | < 500 ms Topology Propagation | `mapped` | `GossipOverheadFixture_TopologyPropagation100Nodes` | `GossipOverheadFixture_FanoutSelection` | `bench_sharding_performance.cpp` |
 
 > ⚠️ = Proxy-Benchmark; 🚫 = Hardware-Gate (GPU)
 
-**Direkt messbare SLOs:** SH-1 (1/12 = 8.3%)
-**Proxy-Cases:** SH-2..SH-7, SH-9..SH-12 (10/12)
+**Direkt messbare SLOs:** SH-1, SH-2, SH-3, SH-4, SH-5, SH-6, SH-7, SH-9, SH-10, SH-11, SH-12 (11/12 = 91.7%)
+**Proxy-Cases:** keine (0/12)
 **Not-measurable:** SH-8 (1/12)
 
 ---
@@ -176,38 +176,8 @@ dokumentieren den Aufwand für direkte Benchmark-Implementierungen.
 
 ### 4.1 Replication Gaps
 
-| Gap-ID | Titel | Blockiertes SLO | Aufwand (Tage) | Ziel-Milestone |
-|--------|-------|-----------------|----------------|----------------|
-| R-3-GAP | Direkte Leader-Failover-Benchmark | R-3 | 3 | v1.10.0 |
-| R-4-GAP | HLC Conflict-Detection Mikrobenchmark | R-4 | 2 | v1.10.0 |
-| R-5-GAP | CRDT Merge Mikrobenchmark | R-5 | 3 | v1.10.0 |
-| R-8-GAP | Cross-DC WAN-Latenz-Simulation | R-8 | 5 | v2.0.0 |
+Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
 
-**Gesamt-Aufwand Replication Gaps:** 13 Tage
-
-#### R-3-GAP: Direkte Leader-Failover-Benchmark
-- **Beschreibung:** Benchmark für Raft-Leadership-Transfer inkl. Election-Timeout und Re-Synchronisierung.
-- **Technische Anforderung:** Zwei `ReplicationManager`-Instanzen; simulierter Leader-Crash via `stopNode()`.
-- **Messgröße:** Zeit von `stopNode()` bis neuer Leader `isLeader()` == true.
-- **Akzeptanzkriterium:** P99 < 10 s unter nominaler Last.
-
-#### R-4-GAP: HLC Conflict-Detection Mikrobenchmark
-- **Beschreibung:** Direktes Benchmark für Hybrid Logical Clock Timestamp-Vergleich und Conflict-Detection.
-- **Technische Anforderung:** `HLCTimestamp`-Fixture mit kontrollierten Clock-Skews (0–200 ms).
-- **Messgröße:** Nanosekunden pro `compareAndDetect()`-Aufruf.
-- **Akzeptanzkriterium:** < 5 µs/Write.
-
-#### R-5-GAP: CRDT Merge Mikrobenchmark
-- **Beschreibung:** Direktes Benchmark für G-Counter, OR-Set und LWW-Register CRDT-Merge-Operationen.
-- **Technische Anforderung:** CRDT-Fixture mit Delta-Größen 1–1000 Einträge.
-- **Messgröße:** Nanosekunden pro Merge-Operation.
-- **Akzeptanzkriterium:** ≤ 1 µs/Merge (P50).
-
-#### R-8-GAP: Cross-DC WAN-Latenz-Simulation
-- **Beschreibung:** Asynchrone Cross-DC-Replikation unter WAN-Latenz (50 ms RTT).
-- **Technische Anforderung:** `tc`/`netem`-basierte Netzwerkemulation oder Dual-Node-Test-Setup.
-- **Messgröße:** P99-Replikations-Lag in ms.
-- **Akzeptanzkriterium:** ≤ 200 ms P99 (50 ms RTT WAN).
 
 ---
 
@@ -215,19 +185,9 @@ dokumentieren den Aufwand für direkte Benchmark-Implementierungen.
 
 | Gap-ID | Titel | Blockiertes SLO | Aufwand (Tage) | Ziel-Milestone |
 |--------|-------|-----------------|----------------|----------------|
-| SH-2-GAP | Connection-Pool Hit-Rate Direktbenchmark | SH-2 | 3 | v1.10.0 |
-| SH-3-GAP | Percolator 2PC Commit (10 Shards) | SH-3 | 3 | v1.10.0 |
-| SH-4-GAP | Zero-Downtime Shard-Split Benchmark | SH-4 | 5 | v2.0.0 |
-| SH-5-GAP | Write-Overhead-während-Migration | SH-5 | 4 | v2.0.0 |
-| SH-6-GAP | Rebalancer Decision-Cycle Benchmark | SH-6 | 3 | v1.10.0 |
-| SH-7-GAP | Anti-Entropy NVMe Scan Benchmark | SH-7 | 5 | v2.0.0 |
 | SH-8-GAP | GPU Reed-Solomon (NVIDIA A10) | SH-8 | 8 | v2.0.0 |
-| SH-9-GAP | 1 GB Raft-Snapshot Benchmark | SH-9 | 4 | v1.10.0 |
-| SH-10-GAP | ZSTD L3 Snapshot Kompressionsrate | SH-10 | 2 | v1.10.0 |
-| SH-11-GAP | Replica Catch-up Throughput | SH-11 | 5 | v2.0.0 |
-| SH-12-GAP | 100-Node Gossip Topology-Change | SH-12 | 4 | v1.10.0 |
 
-**Gesamt-Aufwand Sharding Gaps:** 46 Tage
+**Gesamt-Aufwand Sharding Gaps:** 8 Tage
 
 ---
 

@@ -74,7 +74,7 @@ static void OBS1_IncrementCounter(benchmark::State& state) {
     ResetOnCoordinator(state);
 
     for (auto _ : state) {
-        col.incrementCounter("themis_obs1_ops_total");
+        col.addCounter("themis_obs1_ops_total", 1);
         benchmark::ClobberMemory();
     }
 
@@ -397,7 +397,7 @@ static void OBS3_MixedWriteReadContention(benchmark::State& state) {
     for (auto _ : state) {
         if ((i % 10 == 0) && (tid == 0)) {
             // Only the coordinator thread writes, simulating background recorder.
-            col.incrementCounter("themis_obs3_writes_total");
+            col.addCounter("themis_obs3_writes_total", 1);
         } else {
             std::string out = col.getPrometheusMetrics();
             benchmark::DoNotOptimize(out);

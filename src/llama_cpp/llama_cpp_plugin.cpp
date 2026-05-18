@@ -446,12 +446,40 @@ llm::LLMCapabilities LlamaCppPlugin::getCapabilities() const {
 }
 
 json LlamaCppPlugin::getMemoryStats() const {
-    return {
+    json stats = {
         {"plugin",       "llama_cpp"},
         {"model_loaded", model_loaded_},
         {"model_id",     model_id_},
         {"lora_count",   loras_.size()}
     };
+
+#ifdef THEMIS_LLM_ENABLED
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (wrapper_) {
+        auto info = wrapper_->getModelInfo();
+        if (info.has_value()) {
+            stats["model_vram_required_mb"] = info->vram_required_mb;
+            stats["model_ram_required_mb"] = info->ram_required_mb;
+            if (info->metadata.contains("runtime_gpu_offload_requested")) {
+                stats["runtime_gpu_offload_requested"] = info->metadata["runtime_gpu_offload_requested"];
+            }
+            if (info->metadata.contains("runtime_gpu_offload_effective")) {
+                stats["runtime_gpu_offload_effective"] = info->metadata["runtime_gpu_offload_effective"];
+            }
+            if (info->metadata.contains("runtime_llama_assigned_cpu_tensors")) {
+                stats["runtime_llama_assigned_cpu_tensors"] = info->metadata["runtime_llama_assigned_cpu_tensors"];
+            }
+            if (info->metadata.contains("runtime_llama_assigned_non_cpu_tensors")) {
+                stats["runtime_llama_assigned_non_cpu_tensors"] = info->metadata["runtime_llama_assigned_non_cpu_tensors"];
+            }
+            if (info->metadata.contains("runtime_llama_backend_cpu_only_hint")) {
+                stats["runtime_llama_backend_cpu_only_hint"] = info->metadata["runtime_llama_backend_cpu_only_hint"];
+            }
+        }
+    }
+#endif
+
+    return stats;
 }
 
 json LlamaCppPlugin::getPerformanceStats() const {

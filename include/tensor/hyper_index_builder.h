@@ -54,6 +54,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -120,9 +121,51 @@ struct HyperIndexTensor {
 // ============================================================================
 
 struct HyperIndexConfig {
+    enum class NumericBucketStrategy : uint8_t {
+        QUANTILE = 0,      ///< Data-driven quantiles from observed row values
+        UNIFORM_RANGE = 1  ///< Uniform bins over [ColumnSchema::range_min, range_max]
+    };
+
+    enum class CategoryBucketStrategy : uint8_t {
+        FREQUENCY_ORDER = 0, ///< Sort by observed frequency (descending)
+        SCHEMA_ORDER    = 1  ///< Prefer ColumnSchema::categories declaration order
+    };
+
+    enum class MissingFkStatsFallback : uint8_t {
+        USE_DEFAULT_WEIGHT = 0, ///< Use fk_graph.default_join_strength
+        IGNORE_EDGE        = 1, ///< Skip FK edge when stats are missing
+        THROW              = 2  ///< Fail fast with runtime_error
+    };
+
+    struct ForeignKeyEdge {
+        std::size_t from_column = 0;                 ///< Source mode index
+        std::size_t to_column   = 0;                 ///< Target mode index
+        /**
+         * Optional [0,1] signal weight.
+         * - `std::nullopt` triggers `missing_stats_fallback` handling.
+         * - Self-loops (`from_column == to_column`) are ignored during resolution.
+         */
+        std::optional<double> join_strength = std::nullopt;
+    };
+
+    struct ForeignKeyGraphConfig {
+        std::vector<ForeignKeyEdge> edges;             ///< FK relationships
+        std::size_t max_hops            = 2;           ///< Min-clamped to 1 during traversal
+        double propagation_decay        = 0.8;         ///< Clamped to [0,1]; starts at hop 2
+        double signal_blend_weight      = 0.5;         ///< Clamped to [0,1] for base vs FK blend
+        double default_join_strength    = 0.5;         ///< Used only for USE_DEFAULT_WEIGHT
+        MissingFkStatsFallback missing_stats_fallback =
+            MissingFkStatsFallback::USE_DEFAULT_WEIGHT;
+    };
+
     std::size_t bucket_count  = 8;    ///< Buckets per column dimension
     double      eps           = 0.05; ///< TT reconstruction error tolerance
     std::size_t max_rank      = 16;   ///< Hard cap on TT-rank
+    NumericBucketStrategy numeric_bucket_strategy =
+        NumericBucketStrategy::QUANTILE;
+    CategoryBucketStrategy category_bucket_strategy =
+        CategoryBucketStrategy::FREQUENCY_ORDER;
+    ForeignKeyGraphConfig fk_graph;    ///< FK-aware join-signal propagation config
 };
 
 // ============================================================================
@@ -159,10 +202,15 @@ public:
      * @param rows       Data rows (parallel to schema).
      * @param cfg        Build configuration.
      *
-     * @throws std::invalid_argument if schema has < 2 columns or rows is empty.
+     * @throws std::invalid_argument if schema has < 2 columns, rows is empty,
+     *         or FK graph references invalid column indices.
+     * @throws std::runtime_error if FK graph is configured to fail when
+     *         join-strength statistics are missing.
      *
       * @note
-      * Default path uses uniform/category/bool bucketisation.
+      * Default path uses built-in numeric/category/bool bucketisation.
+      * If cfg.fk_graph.edges is non-empty, FK join-signal propagation is
+      * applied with cycle-protected graph traversal before counting.
       * For FK-aware/custom assignment, install `BucketAssignmentFn`.
       */
     [[nodiscard]] static HyperIndexTensor fromSchema(

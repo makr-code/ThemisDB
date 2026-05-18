@@ -200,8 +200,6 @@ For LLM documentation, see:
 - **Speculative decoding**: draft/target model pair must be on the same device; target model must have compatible vocabulary.
 - **Embedded LLM server**: process-internal; not accessible outside the ThemisDB process; no network listener.
 
-## Usage
-
 ## Scientific References
 
 1. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … Polosukhin, I. (2017). **Attention Is All You Need**. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 5998–6008. https://arxiv.org/abs/1706.03762
