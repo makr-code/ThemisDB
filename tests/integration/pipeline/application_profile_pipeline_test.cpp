@@ -83,6 +83,11 @@ public:
             return {false, "", "unauthorized_tenant"};
         }
 
+        if (assistant_circuit_open_) {
+            audit_->Record({"app_profile", "assistant_circuit_open", tenant_id});
+            return {true, "fallback:circuit-open", ""};
+        }
+
         const auto all_hits = index_->Search(term);
         std::string context = "no_context";
         for (const auto& key : all_hits) {
@@ -97,14 +102,32 @@ public:
             break;
         }
 
-        const auto response = llm_->Infer(question, context);
-        if (!response.has_value()) {
-            audit_->Record({"app_profile", "assistant_fallback", tenant_id});
-            return {true, "fallback:local-summary:" + context, ""};
+        for (size_t attempt = 0; attempt <= assistant_retry_budget_; ++attempt) {
+            const bool is_timeout = simulated_timeout_terms_.count(term) > 0U;
+            if (is_timeout) {
+                audit_->Record({"app_profile", "assistant_timeout", tenant_id});
+            } else {
+                const auto response = llm_->Infer(question, context);
+                if (response.has_value()) {
+                    consecutive_assistant_failures_ = 0U;
+                    audit_->Record({"app_profile", "assistant_answered", tenant_id});
+                    return {true, *response, ""};
+                }
+            }
+
+            if (attempt < assistant_retry_budget_) {
+                audit_->Record({"app_profile", "assistant_retry", tenant_id});
+            }
         }
 
-        audit_->Record({"app_profile", "assistant_answered", tenant_id});
-        return {true, *response, ""};
+        ++consecutive_assistant_failures_;
+        if (consecutive_assistant_failures_ >= circuit_breaker_threshold_) {
+            assistant_circuit_open_ = true;
+            audit_->Record({"app_profile", "assistant_circuit_opened", tenant_id});
+        }
+
+        audit_->Record({"app_profile", "assistant_fallback", tenant_id});
+        return {true, "fallback:local-summary:" + context, ""};
     }
 
     [[nodiscard]] bool ExportTenantSnapshot(const std::string& tenant_id,
@@ -136,6 +159,18 @@ public:
         return replica_markers_.size();
     }
 
+    void SetAssistantRetryBudget(size_t retries) {
+        assistant_retry_budget_ = retries;
+    }
+
+    void SetAssistantCircuitBreakerThreshold(size_t threshold) {
+        circuit_breaker_threshold_ = threshold == 0U ? 1U : threshold;
+    }
+
+    void AddTimeoutTerm(std::string term) {
+        simulated_timeout_terms_.insert(std::move(term));
+    }
+
 private:
     [[nodiscard]] bool IsAuthorizedTenant(const std::string& token,
                                           const std::string& tenant_id) const {
@@ -159,6 +194,11 @@ private:
     std::unordered_set<std::string> ingested_keys_;
     std::vector<std::string> cdc_events_;
     std::vector<std::string> replica_markers_;
+    std::unordered_set<std::string> simulated_timeout_terms_;
+    size_t assistant_retry_budget_{0U};
+    size_t circuit_breaker_threshold_{3U};
+    size_t consecutive_assistant_failures_{0U};
+    bool assistant_circuit_open_{false};
 };
 
 } // namespace
@@ -346,6 +386,60 @@ TEST_F(ApplicationProfilePipelineTest, APP10_TransientLlmFailureCanRecoverOnSubs
     EXPECT_EQ(second.answer.find("fallback:local-summary"), std::string::npos);
     EXPECT_TRUE(audit_->Contains("app_profile", "assistant_fallback"));
     EXPECT_TRUE(audit_->Contains("app_profile", "assistant_answered"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP11_TimeoutTriggersRetryThenFallbackSummary) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    pipeline_->SetAssistantRetryBudget(2U);
+    pipeline_->AddTimeoutTerm("slow_term");
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_timeout", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_timeout", "event_1", "context-timeout", {"slow_term"}));
+
+    const auto result = pipeline_->AskAssistant(token, "tenant_timeout", "status", "slow_term");
+    ASSERT_TRUE(result.ok);
+    EXPECT_NE(result.answer.find("fallback:local-summary"), std::string::npos);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_timeout"));
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_retry"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP12_LlmFailuresRespectRetryBudgetBeforeFallback) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    pipeline_->SetAssistantRetryBudget(2U);
+    llm_->SetInferenceFailure(true);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_retry", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_retry", "event_1", "context-retry", {"ops"}));
+
+    const auto result = pipeline_->AskAssistant(token, "tenant_retry", "status", "ops");
+    ASSERT_TRUE(result.ok);
+    EXPECT_NE(result.answer.find("fallback:local-summary"), std::string::npos);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_retry"));
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_fallback"));
+}
+
+TEST_F(ApplicationProfilePipelineTest, APP13_CircuitBreakerBlocksAssistantAfterConsecutiveFailures) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    pipeline_->SetAssistantCircuitBreakerThreshold(2U);
+    llm_->SetInferenceFailure(true);
+
+    ASSERT_TRUE(pipeline_->RegisterSession(token, "tenant_cb", "app_user"));
+    ASSERT_TRUE(pipeline_->IngestEvent(token, "tenant_cb", "event_1", "context-cb", {"ops"}));
+
+    const auto first = pipeline_->AskAssistant(token, "tenant_cb", "status", "ops");
+    const auto second = pipeline_->AskAssistant(token, "tenant_cb", "status", "ops");
+    ASSERT_TRUE(first.ok);
+    ASSERT_TRUE(second.ok);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_circuit_opened"));
+
+    llm_->SetInferenceFailure(false);
+    const auto blocked = pipeline_->AskAssistant(token, "tenant_cb", "status", "ops");
+    ASSERT_TRUE(blocked.ok);
+    EXPECT_NE(blocked.answer.find("fallback:circuit-open"), std::string::npos);
+    EXPECT_TRUE(audit_->Contains("app_profile", "assistant_circuit_open"));
 }
 
 } // namespace themis::test

@@ -57,7 +57,7 @@ tests/integration/
   - Transaction/Replication: `TXR-01..TXR-04`
   - Security: `SEC-01..SEC-03`
   - Analytics/Export: `AEP-01..AEP-03`
-  - Application Profile E2E: `APP-01..APP-10`
+  - Application Profile E2E: `APP-01..APP-13`
 - **CTest Label**: `pipeline_integration`
 - **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
 
