@@ -1473,37 +1473,58 @@
         "label": "Single Argument Generation P95",
         "primary_benchmark": "BM_DiscourseEngine_MakeDecisionSingleSchool",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 60 ms",
+        "gate_id": "ETHG-1",
+        "fallback_benchmark": "BM_DiscourseEngine_InitializeDebate",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       },
       "ETH-2": {
         "label": "Batch 5 Arguments (parallel, 5 Schulen)",
         "primary_benchmark": "BM_DiscourseEngine_MakeDecisionFiveSchools",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 140 ms",
+        "gate_id": "ETHG-2",
+        "fallback_benchmark": "BM_DiscourseEngine_MakeDecisionWithRAG",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       },
       "ETH-3": {
         "label": "Embedding Latenz (512-Token, CPU)",
         "primary_benchmark": "BM_RAGContextEngine_VectorSemanticSearch512",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 200 ms",
+        "fallback_benchmark": "BM_RAGContextEngine_FindSimilarDilemmas",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       },
       "ETH-4": {
         "label": "Batch 10 Queries",
         "primary_benchmark": "BM_RAGContextEngine_BuildContextBatch10",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "> 4500 ops/s",
+        "gate_id": "ETHG-3",
+        "fallback_benchmark": "BM_RAGContextEngine_BuildContext",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       },
       "ETH-5": {
         "label": "Multi-Round Debate/Runde",
         "primary_benchmark": "BM_DiscourseEngine_ContinueDebateRound",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 100 ms",
+        "fallback_benchmark": "BM_ArgumentStore_StoreDebateRound",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       },
       "ETH-6": {
         "label": "Metrics Overhead/Decision",
         "primary_benchmark": "BM_EthicsEvaluator_RecordDecision",
         "file": "bench_ethics_ai_plugin.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 50 µs",
+        "fallback_benchmark": "BM_EthicsEvaluator_GetMetricsText",
+        "baseline_file": "benchmarks/baselines/ethics_ai/bench_ethics_ai_v190_baseline.json"
       }
     },
     "system_level": {

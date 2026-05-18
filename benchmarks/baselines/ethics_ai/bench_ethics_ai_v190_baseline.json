@@ -1,0 +1,86 @@
+{
+  "version": "1.9.0",
+  "profile": "v1.9.0",
+  "branch": "main",
+  "commit": "pending-first-run",
+  "timestamp": "2026-05-18T00:00:00Z",
+  "description": "v1.9.0 SLO baseline for the Ethics AI module. Covers ETH-1..ETH-6: single-school decision (ETH-1), five-school batch decision (ETH-2), 512-token vector semantic search (ETH-3), batch-10 context build (ETH-4), multi-round debate continuation (ETH-5), and metrics recording overhead (ETH-6). All benchmarks in bench_ethics_ai_plugin.cpp.",
+  "slo_module": "ethics_ai",
+  "wave": "v1.9.0",
+  "run_command": "bench_ethics_ai_plugin --benchmark_out=bench_ethics_ai_v190.json --benchmark_out_format=json --benchmark_repetitions=5 --benchmark_report_aggregates_only=true",
+  "run_command_filter_eth1_eth2": "bench_ethics_ai_plugin --benchmark_filter=BM_DiscourseEngine_MakeDecision --benchmark_out=bench_ethics_ai_discourse_v190.json --benchmark_out_format=json --benchmark_repetitions=5 --benchmark_report_aggregates_only=true",
+  "run_command_filter_eth3_eth4": "bench_ethics_ai_plugin --benchmark_filter=BM_RAGContextEngine --benchmark_out=bench_ethics_ai_rag_v190.json --benchmark_out_format=json --benchmark_repetitions=5 --benchmark_report_aggregates_only=true",
+  "slo_coverage": {
+    "ETH-1": {
+      "label": "Single Argument Generation P95",
+      "primary_case": "BM_DiscourseEngine_MakeDecisionSingleSchool",
+      "fallback_case": "BM_DiscourseEngine_InitializeDebate",
+      "slo_target": "\u2264 60 ms",
+      "status": "mapped",
+      "gate_id": "ETHG-1",
+      "note": "Measures full makeDecision() pipeline for one philosophy school (Kantian) including argument generation, RAG context retrieval, and decision scoring. SLO ETHG-1: p95 \u2264 60 ms (excl. LLM backend).",
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "ETH-2": {
+      "label": "Batch 5 Arguments (parallel, 5 Schulen)",
+      "primary_case": "BM_DiscourseEngine_MakeDecisionFiveSchools",
+      "fallback_case": "BM_DiscourseEngine_MakeDecisionWithRAG",
+      "slo_target": "\u2264 140 ms",
+      "status": "mapped",
+      "gate_id": "ETHG-2",
+      "note": "Measures makeDecision() pipeline with five philosophy schools (Kant, utilitarianism, Rawls, contractualism, Socratic). SLO ETHG-2: p99 \u2264 140 ms.",
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "ETH-3": {
+      "label": "Embedding Latenz (512-Token, CPU)",
+      "primary_case": "BM_RAGContextEngine_VectorSemanticSearch512",
+      "fallback_case": "BM_RAGContextEngine_FindSimilarDilemmas",
+      "slo_target": "\u2264 200 ms",
+      "status": "mapped",
+      "note": "Measures vectorSemanticSearch() with a 512-token query on the in-memory argument store. Uses term-overlap cosine proxy (real embedding injection via setEmbeddingFn() is Q3 2026). SLO: p99 \u2264 200 ms on CPU.",
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "ETH-4": {
+      "label": "Batch 10 Queries",
+      "primary_case": "BM_RAGContextEngine_BuildContextBatch10",
+      "fallback_case": "BM_RAGContextEngine_BuildContext",
+      "slo_target": "> 4500 ops/s",
+      "status": "mapped",
+      "gate_id": "ETHG-3",
+      "note": "Measures buildContext() throughput for 10 parallel dilemma queries. SLO ETHG-3: mean throughput \u2265 4 500 ops/s.",
+      "measured_ops_per_sec": null,
+      "slo_met": null
+    },
+    "ETH-5": {
+      "label": "Multi-Round Debate/Runde",
+      "primary_case": "BM_DiscourseEngine_ContinueDebateRound",
+      "fallback_case": "BM_ArgumentStore_StoreDebateRound",
+      "slo_target": "\u2264 100 ms",
+      "status": "mapped",
+      "note": "Measures continueDebate() for one additional debate round including counter-argument generation and storeDebateRound(). Regression gate: throughput regression \u2264 10 %, p95 regression \u2264 15 % vs. this baseline.",
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "ETH-6": {
+      "label": "Metrics Overhead/Decision",
+      "primary_case": "BM_EthicsEvaluator_RecordDecision",
+      "fallback_case": "BM_EthicsEvaluator_GetMetricsText",
+      "slo_target": "\u2264 50 \u00b5s",
+      "status": "mapped",
+      "note": "Measures recordDecision() overhead per call (atomic counter increments + latency accumulation). SLO: \u2264 50 \u00b5s per call; lock-free std::atomic path.",
+      "measured_real_time_us": null,
+      "slo_met": null
+    }
+  },
+  "regression_policy": {
+    "throughput_regression_max_pct": 10,
+    "p95_regression_max_pct": 15,
+    "p99_regression_max_pct": 15,
+    "absolute_gate_max_regression_pct": 8,
+    "description": "ETHG-4: any primary benchmark (ETH-1..ETH-6) must not regress more than 8 % vs. this baseline file."
+  },
+  "missing_cases": []
+}
