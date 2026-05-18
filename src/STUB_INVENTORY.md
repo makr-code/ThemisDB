@@ -41,9 +41,9 @@
 
 ---
 
-## Stub Inventory (278 entries — 269 resolved, 9 active)
+## Stub Inventory (279 entries — 269 resolved, 10 active)
 
-**Active stub IDs:** `275`, `276`, `277`, `278`, `279`, `280`, `281`, `282`, `283`
+**Active stub IDs:** `275`, `276`, `277`, `278`, `279`, `280`, `281`, `282`, `283`, `284`
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
@@ -325,5 +325,6 @@
 | 281 | `themis/wire_protocol_server.cpp` — Protobuf wire protocol: AQL/cursor/geo/timeseries/graph all return 501/503 | Six `WireProtocolSession` handlers return HTTP 501 or 503 ("not yet integrated") because no QueryEngine / GeoIndexManager / TSStore / ProcessGraphManager is injected into `WireProtocolServer::Config` | Always active — JSON wire port 8766 and HTTP REST API have these features wired; Protobuf port does not | AQL queries, cursor pagination/close, geospatial, time-series, and graph-traversal requests from protobuf-capable clients always fail with 501/503; clients must use REST or JSON wire port | 🟠 Hoch | `src/themis/wire_protocol_server.cpp` STUB/SIMULATION NOTE (stub #281) | Inject engine references into WireProtocolServer::Config and wire each 501/503 handler; Target: v2.0.0 |
 | 282 | `ai/ai_plugin_generator.cpp::generatePlugin()` — LLM endpoint never called | `generatePlugin()` always returns `ERR_PLUGIN_LOAD_FAILED` with "LLM endpoint not yet wired" (Phase 1 placeholder) | Always active (Phase 2 not started) | No plugin code is generated; `config_.llm_endpoint` is logged but the HTTP POST is never made; all callers receive an error result | 🟠 Hoch | `src/ai/ai_plugin_generator.cpp` STUB/SIMULATION NOTE (stub #282) | Implement Phase 2: HTTP POST to llm_endpoint, parse GeneratedPlugin, run sandbox pipeline; Target: v1.6.0 |
 | 283 | `query/functions/process_mining_functions.cpp::PM_LOAD_ADMIN_MODEL + PM_LIST_ADMIN_MODELS` — YAML model registry not wired | `PM_LOAD_ADMIN_MODEL` returns `makeNotImplemented()`; `PM_LIST_ADMIN_MODELS` returns an empty array; described in source as "YAML-backed, not yet wired" | Always active — no YAML model registry or FileSystemBridge injected | Administrative process models cannot be loaded or enumerated via AQL; in-database model lifecycle unavailable | 🟠 Hoch | `src/query/functions/process_mining_functions.cpp` STUB/SIMULATION NOTE (stub #283) | Wire YAML-backed model registry through FunctionContext injection; Target: same as FimImporter integration (Q1 2027) |
+| 284 | `network/wire_protocol_server.cpp` — JSON wire fallbacks for graph/AQL/geo integration gaps | `GRAPH_TRAVERSE` and `QUERY_AQL` return `*_NOT_INTEGRATED` when `server_->query_engine_` is null; `GEO_QUERY` always returns `GEO_NOT_INTEGRATED` | Graph/AQL fallback when `query_engine_ == nullptr`; Geo fallback always active on this transport | Wire-protocol clients cannot use graph traversal/AQL without injected query engine and cannot use geospatial query at all; they must switch to HTTP REST endpoints | 🟠 Hoch | `src/network/wire_protocol_server.cpp` STUB/SIMULATION NOTE (stub #284) | Inject QueryEngine as mandatory dependency and wire GEO_QUERY dispatch to GeoIndex/QueryEngine; Target: v2.0.0 |
 
-*Last updated: 2026-05-18 — 278 entries, 269 resolved, 9 active — #281..#283 added from src deep-dive (session 2); maintained by: Copilot, see `src/ROADMAP.md`*
+*Last updated: 2026-05-18 — 279 entries, 269 resolved, 10 active — #284 added from src deep-dive (session 3); maintained by: Copilot, see `src/ROADMAP.md`*
