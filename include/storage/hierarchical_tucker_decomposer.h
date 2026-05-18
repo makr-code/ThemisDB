@@ -40,8 +40,8 @@
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
  * ## Stubs
- * - STUB #179: HOSVD initialization (not HOOI alternating optimization).
- * - STUB #180: Symmetric Jacobi EVD for truncated SVD
+ * - STUB #287: HOSVD initialization (not HOOI alternating optimization).
+ * - STUB #288: Symmetric Jacobi EVD for truncated SVD
  *   (O(r³ · iter) Jacobi sweeps for the small Gram matrix; r ≤ max_rank).
  */
 
@@ -101,7 +101,7 @@ public:
      *         shape[k] == 0.
      *
      * @note
-     * // STUB/SIMULATION NOTE (STUB #179):
+     * // STUB/SIMULATION NOTE (STUB #287):
      * // Purpose: HOSVD-based HT initialization so that IHierarchicalTuckerIndex can
      * //          be exercised before HOOI alternating optimization is available.
      * // Activation: Always — no compile-time flag required.
@@ -136,7 +136,7 @@ private:
      * for accuracy on dense float32 inputs.
      *
      * @note
-     * // STUB/SIMULATION NOTE (STUB #180):
+     * // STUB/SIMULATION NOTE (STUB #288):
      * // Purpose: Provide a self-contained truncated SVD without linking LAPACK.
      * // Activation: Always — no build flag required.
      * // Production Delta: O(r³ · iter) Jacobi sweeps vs. O(m·n·r) LAPACK dgesdd.
