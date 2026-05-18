@@ -635,15 +635,13 @@
       },
       "TX-5": {
         "label": "SAGA Compensation Time",
-        "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
-        "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
-        "fallback_case": "TransactionBenchmarkFixture_SavepointCreateAndRollback",
-        "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "primary_benchmark": "SagaBenchmarkFixture_DatabaseWriteCompensation",
+        "primary_case": "SagaBenchmarkFixture_DatabaseWriteCompensation",
+        "fallback_case": "SagaBenchmarkFixture_SimpleCompensation",
+        "file": "bench_saga_compensation.cpp",
+        "status": "mapped",
         "slo_target": "≤ 20 ms",
-        "notes": "AbortTransaction measures rollback path as proxy for SAGA compensation. A dedicated SAGA bench with compensation DAG is a gap — see §TX-5-GAP.",
-        "gap_ref": "TX-5-GAP",
-        "gap_effort_days": 3
+        "notes": "DatabaseWriteCompensation executes Saga::compensate() over real compensation handlers directly; SimpleCompensation remains a lightweight structural fallback."
       },
       "TX-6": {
         "label": "Deadlock Detection Overhead",

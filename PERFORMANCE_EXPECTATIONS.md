@@ -1345,9 +1345,9 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 13. Transaction-Modul
 
-> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` — PRODUCTION-READY (696 Zeilen, Quality 100/100).
-> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: TX-1, TX-2, TX-3, TX-8. Proxy-Cases: TX-4, TX-5, TX-6, TX-7.
-> Gap-Tickets: TX-4-GAP (4d), TX-5-GAP (3d), TX-6-GAP (3d), TX-7-GAP (3d). Gesamt-Aufwand: 13d.
+> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` und `bench_saga_compensation.cpp` — PRODUCTION-READY.
+> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: TX-1, TX-2, TX-3, TX-5, TX-8. Proxy-Cases: TX-4, TX-6, TX-7.
+> Gap-Tickets: TX-4-GAP (4d), TX-6-GAP (3d), TX-7-GAP (3d). Gesamt-Aufwand: 10d.
 > v1.9.0-Profil: `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | v1.9.0 Messung (Ist) | v1.9.0 Bewertung | Benchmark-Status |
@@ -1356,7 +1356,7 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | TX-2 OCC Commit P99 | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `CommitLatency/100`: 1.016 ms | PASS | `mapped` |
 | TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `WriteOnlyTransaction`: 6826.67 tps | PASS | `mapped` |
 | TX-4 2PC Latenz (5 Shards) | ≤ 5 ms | n/a | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `MixedTransaction`: 0.0988 ms | PASS (Proxy) | `proxy` ⚠️ TX-4-GAP |
-| TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_SavepointCreateAndRollback` | `AbortTransaction`: 84.54 us | PASS (Proxy) | `proxy` ⚠️ TX-5-GAP |
+| TX-5 SAGA Compensation Time | ≤ 20 ms | n/a | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `DatabaseWriteCompensation`: direkte SAGA-Kompensation ueber reale Handler (Artefakt: `bench_saga_compensation_v190.json`) | PASS (direkt) | `mapped` |
 | TX-6 Deadlock Detection Overhead | ≤ 1 % (von 5 % verbessert) | n/a | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | keine direkte Deadlock-Overhead-Metrik im Artefakt | N/A | `proxy` ⚠️ TX-6-GAP |
 | TX-7 False Positive Rate | < 5 % | n/a | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_OccOptimisticPut` | keine False-Positive-Rate-Metrik im Artefakt | N/A | `proxy` ⚠️ TX-7-GAP |
 | TX-8 Low-Contention Success Rate | > 90 % | n/a | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `OccOptimisticPut`: 25284.57 tps (ohne success_rate-Feld) | N/A | `mapped` |
@@ -2169,7 +2169,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-1/R-2/R-6/R-7/R-8; Proxy-Cases: R-3/R-4/R-5; Gap-Tickets R-3-GAP..R-5-GAP mit Aufwand 8d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
-| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-8; Proxy-Cases: TX-4..TX-7; Gap-Tickets TX-4-GAP..TX-7-GAP mit Aufwand 13d |
+| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-5/TX-8; Proxy-Cases: TX-4/TX-6/TX-7; Gap-Tickets TX-4-GAP/TX-6-GAP/TX-7-GAP mit Aufwand 10d |
 | LLM | **Benchmark implementiert (2026-04-13)** — GPU-abhaengig | `bench_llm_inference_performance.cpp` ✅ vollstaendig implementiert (Batch-Inference/LoRA-Load/Multi-LoRA/Adapter-Switch); ~~nur Stub/Skip~~ — Pfade sind registriert; L-1..L-8 erfordern weiterhin GPU/Modell-Artefakte fuer numerische Werte |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |

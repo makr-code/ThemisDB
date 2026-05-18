@@ -4,10 +4,11 @@
   "branch": "main",
   "commit": "pending-first-run",
   "timestamp": "2026-04-15T00:00:00Z",
-  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_transaction_throughput.",
+  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_transaction_throughput plus the dedicated SAGA compensation benchmark.",
   "slo_module": "transaction",
   "wave": "Wave2",
   "run_command": "bench_transaction_throughput --benchmark_out=bench_transaction_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
+  "run_command_saga": "bench_saga_compensation --benchmark_filter=SagaBenchmarkFixture/DatabaseWriteCompensation|SagaBenchmarkFixture/SimpleCompensation --benchmark_out=bench_saga_compensation_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
   "run_command_fallback": "bench_transaction_throughput --benchmark_filter=BM_TransactionContention --benchmark_out=bench_transaction_contention_v190.json --benchmark_out_format=json",
   "slo_coverage": {
     "TX-1": {
@@ -54,12 +55,10 @@
     },
     "TX-5": {
       "label": "SAGA Compensation Time",
-      "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
-      "fallback_case": "TransactionBenchmarkFixture_SavepointCreateAndRollback",
+      "primary_case": "SagaBenchmarkFixture_DatabaseWriteCompensation",
+      "fallback_case": "SagaBenchmarkFixture_SimpleCompensation",
       "slo_target": "≤ 20 ms",
-      "status": "proxy",
-      "gap_ref": "TX-5-GAP",
-      "gap_effort_days": 3,
+      "status": "mapped",
       "measured_real_time_us": null,
       "slo_met": null
     },
@@ -103,14 +102,6 @@
       "effort_days": 4,
       "target_milestone": "v1.10.0",
       "blocking_slo": "TX-4"
-    },
-    {
-      "gap_id": "TX-5-GAP",
-      "title": "SAGA Compensation DAG Benchmark",
-      "description": "Benchmark für SAGA-Orchestrator mit parallelisiertem Compensation-DAG. Erfordert SagaOrchestrator-Fixture mit konfigurierbarer Step-Anzahl und Failure-Injektion.",
-      "effort_days": 3,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "TX-5"
     },
     {
       "gap_id": "TX-6-GAP",
