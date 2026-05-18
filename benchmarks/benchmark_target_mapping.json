@@ -5,36 +5,42 @@
     "query": {
       "Q-SimpleWhere": {
         "label": "Simple AQL WHERE P99",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_SimpleWhere",
         "file": "bench_query.cpp",
         "status": "mapped"
       },
       "Q-ComplexWhere": {
         "label": "Complex WHERE P99",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_ComplexWhere",
         "file": "bench_query.cpp",
         "status": "mapped"
       },
       "Q-JoinUsersPosts": {
         "label": "JOIN (Users-Posts) P99",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_JoinUsersPosts",
         "file": "bench_query.cpp",
         "status": "mapped"
       },
       "Q-Pagination-Offset": {
         "label": "Pagination Offset P99",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_Pagination_Offset",
         "file": "bench_query.cpp",
         "status": "mapped"
       },
       "Q-Pagination-Cursor": {
         "label": "Pagination Cursor P99",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_Pagination_Cursor",
         "file": "bench_query.cpp",
         "status": "mapped"
       },
       "CQ-PERF-01": {
         "label": "Continuous Query Throughput (≥ 500 k tuples/s)",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_ContinuousQuery_Throughput",
         "primary_case": "BM_ContinuousQuery_Throughput",
         "fallback_case": "BM_ContinuousQuery_TupleLatency",
@@ -44,6 +50,7 @@
       },
       "CQ-PERF-02": {
         "label": "Continuous Query Empty-Window Tick Overhead (≤ 1 µs)",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_ContinuousQuery_WindowTick",
         "primary_case": "BM_ContinuousQuery_WindowTick",
         "fallback_case": "BM_ContinuousQuery_WindowTick_1k",
@@ -55,24 +62,28 @@
     "index": {
       "I-VectorInsert": {
         "label": "Vector Insert Plaintext",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_VectorSearch_efSearch",
         "file": "bench_vector_search.cpp",
         "status": "mapped"
       },
       "I-L2Distance": {
         "label": "L2Distance 1000×512",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_L2Distance_1000_512",
         "file": "bench_vector_search.cpp",
         "status": "mapped"
       },
       "I-CosineDistance": {
         "label": "CosineDistance 1000×512",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_CosineDistance_1000_512",
         "file": "bench_vector_search.cpp",
         "status": "mapped"
       },
       "I-TopK": {
         "label": "TopK 5000×50",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_TopK_5000_50",
         "file": "bench_vector_search.cpp",
         "status": "mapped"
@@ -329,18 +340,21 @@
     "graph": {
       "GR-SparseEdge": {
         "label": "Sparse Graph Edge Addition",
+        "category": "non_slo_extra",
         "primary_benchmark": "GraphTraversalBenchmarkFixture_SparseEdgeAddition",
         "file": "bench_graph_traversal.cpp",
         "status": "mapped"
       },
       "GR-DenseNeighbor": {
         "label": "Dense Graph Neighbor Query",
+        "category": "non_slo_extra",
         "primary_benchmark": "GraphTraversalBenchmarkFixture_DenseNeighborQuery",
         "file": "bench_graph_traversal.cpp",
         "status": "mapped"
       },
       "GR-BFS": {
         "label": "Graph BFS Traversal (Depth-3)",
+        "category": "non_slo_extra",
         "primary_benchmark": "GraphTraversalBenchmarkFixture_BFSTraversal",
         "file": "bench_graph_traversal.cpp",
         "status": "mapped"
@@ -1443,30 +1457,35 @@
     "themis": {
       "TH-1": {
         "label": "Module load (SHA-256 + dlopen) <= 50 ms (NVMe)",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_ModuleLoad_WithHashVerify",
         "file": "bench_themis_core.cpp",
         "status": "mapped"
       },
       "TH-2": {
         "label": "getBuildConfiguration() cold <= 1 ms, warm <= 10 us",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_GetBuildConfiguration_Cold",
         "file": "bench_themis_core.cpp",
         "status": "mapped"
       },
       "TH-3": {
         "label": "License validation (Ed25519) <= 5 ms (no HSM)",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_LicenseValidation_Ed25519",
         "file": "bench_themis_core.cpp",
         "status": "mapped"
       },
       "TH-4": {
         "label": "Wire-Server >= 10k concurrent sessions, p99 opcode dispatch <= 1 ms",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_WireServer_ConcurrentSessions_10k",
         "file": "bench_themis_core.cpp",
         "status": "mapped"
       },
       "TH-5": {
         "label": "edition_manager.isFeatureEnabled() <= 100 ns hot-path",
+        "category": "non_slo_extra",
         "primary_benchmark": "BM_EditionManager_IsFeatureEnabled_HotPath",
         "file": "bench_themis_core.cpp",
         "status": "mapped"
@@ -1578,6 +1597,7 @@
     "chimera": {
       "CHI-1": {
         "label": "Relational Sort Throughput",
+        "category": "non_slo_extra",
         "primary_benchmark": "relational_sort",
         "file": "external/chimera/run_ci_benchmarks.py",
         "workload_family": "relational",
@@ -1587,6 +1607,7 @@
       },
       "CHI-2": {
         "label": "Vector Dot-Product Throughput",
+        "category": "non_slo_extra",
         "primary_benchmark": "vector_dot_product",
         "file": "external/chimera/run_ci_benchmarks.py",
         "workload_family": "vector",
@@ -1596,6 +1617,7 @@
       },
       "CHI-3": {
         "label": "Document Lookup Throughput",
+        "category": "non_slo_extra",
         "primary_benchmark": "document_lookup",
         "file": "external/chimera/run_ci_benchmarks.py",
         "workload_family": "document",
@@ -1605,6 +1627,7 @@
       },
       "CHI-4": {
         "label": "Graph BFS Throughput",
+        "category": "non_slo_extra",
         "primary_benchmark": "graph_bfs",
         "file": "external/chimera/run_ci_benchmarks.py",
         "workload_family": "graph",
