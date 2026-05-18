@@ -19,7 +19,7 @@
  * - TAQO-01  Full AQL AST traversal (not just description-string scan)
  *            deferred to Phase 3 integration with AQL runner (Q1 2027).
  *
- * STUB/SIMULATION NOTE:
+ * STUB/SIMULATION NOTE (stub #275):
  * Purpose: Detection is based on presence of function names in the plan
  *          node `description` field, which is available from the existing
  *          `QueryPlanNode` serialization path.  A deeper AST-level rewrite

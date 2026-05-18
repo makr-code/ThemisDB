@@ -412,6 +412,20 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Production streaming path via SSE manager (only when enabled)
 #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
+            // STUB/SIMULATION NOTE (stub #305):
+            // Purpose: Keep changefeed SSE endpoints usable with a bounded, sync-style
+            //          response body while the fully asynchronous stream writer lifecycle
+            //          is not yet integrated into this handler.
+            // Activation: `THEMIS_ENABLE_SSE` + `keep_alive=true` + `sse_manager_ != nullptr`.
+            // Production Delta: Keep-alive mode still builds a finite buffered response
+            //                   instead of maintaining a true async push stream; and
+            //                   at-least-once tracking in this path is incomplete because
+            //                   only preformatted SSE lines are available.
+            // Removal Plan: Add async write-loop support for long-lived SSE connections
+            //               and extend SseConnectionManager to surface raw ChangeEvent
+            //               objects (or equivalent IDs) for delivery tracking.
+            //               See src/server/FUTURE_ENHANCEMENTS.md §Server-Sent Events (SSE) Improvements.
+            //               Target: v2.2.0.
             // Production mode: Register connection for streaming
             // Note: Current Beast setup limits us to batch-based streaming
             // Full keep-alive requires custom async write loop (see TODO in docs)

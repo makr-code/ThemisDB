@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     909                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
@@ -811,6 +811,17 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
+            // STUB/SIMULATION NOTE (stub #307):
+            // Purpose: Keep the RoPE stats endpoint contract stable before
+            //          VectorIndexManager/RotaryEmbedding expose runtime counters.
+            // Activation: Always when RoPE is enabled and stats are requested.
+            // Production Delta: Statistics fields are synthetic `N/A` placeholders;
+            //                   operators cannot observe real rotation volume/latency
+            //                   from this endpoint.
+            // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
+            //               surface it through VectorIndexManager to this handler.
+            //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
+            //               Target: v2.2.0.
             // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
             // Future enhancement: Add statistics tracking to RotaryEmbedding class
             // - Track rotation count, average time, relational vs positional rotations
@@ -872,11 +883,19 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
         return std::nullopt;  // null = access allowed
     }
     
-    // Note: Fine-grained permission checks (vector:read, vector:write, data:read, data:write)
-    // are not yet implemented. This matches the pattern used in VectorApiHandler.
-    // Current behavior: If authentication is enabled, all authenticated requests are allowed.
-    // Future enhancement: Integrate with ThemisDB RBAC system to check specific permissions.
-    // Example: if (!auth_->hasPermission(req, permission)) return makeErrorResponse(403, "Forbidden", req);
+    // STUB/SIMULATION NOTE (stub #280):
+    // Purpose: Keep ROPE endpoints reachable behind authentication while the
+    //          handler is still missing the same scope-based RBAC enforcement
+    //          already implemented in VectorApiHandler.
+    // Activation: Always active whenever auth middleware is enabled for ROPE.
+    // Production Delta: After authentication succeeds, all ROPE operations are
+    //                   allowed regardless of the requested `permission`
+    //                   (`vector:read`, `vector:write`, `data:read`,
+    //                   `data:write`). The handler therefore does not enforce
+    //                   per-operation authorization boundaries.
+    // Removal Plan: Reuse token extraction + auth_->authorize(token,
+    //               permission) from VectorApiHandler and fail with HTTP 403 on
+    //               denied scopes (tracked in STUB_INVENTORY #280).
     
     return std::nullopt;  // null = access allowed
 }
@@ -907,4 +926,3 @@ std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& p
 
 } // namespace server
 } // namespace themis
-

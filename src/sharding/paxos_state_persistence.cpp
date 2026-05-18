@@ -196,6 +196,17 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
+    // STUB/SIMULATION NOTE (stub #311):
+    // Purpose: Persist ACCEPT records without blocking current WAL schema usage
+    //          while richer ConsensusLogEntry payload mapping is still pending.
+    // Activation: Always in persistAccept().
+    // Production Delta: ACCEPT WAL records store only `operation=value` and omit
+    //                   structured command metadata (e.g., typed payload fields),
+    //                   limiting fidelity for downstream replay/inspection tooling.
+    // Removal Plan: Serialize full consensus command structure into ConsensusLogEntry
+    //               and recover it symmetrically during WAL replay.
+    //               See src/sharding/ROADMAP.md §Persistent Paxos acceptor state.
+    //               Target: Q1 2027.
     // Build a ConsensusLogEntry placeholder with the value as command
     ConsensusLogEntry entry;
     entry.operation = value;

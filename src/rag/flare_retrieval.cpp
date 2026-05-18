@@ -36,7 +36,7 @@
  *           inject an embedding backend via setEmbeddingQueryFn() and call
  *           buildQueryEmbedding() to obtain a float vector (STUB #260).
  *
- * STUB/SIMULATION NOTE (stub #260):
+ * Implementation note:
  * Purpose: buildQuery() concatenates token text with simple space joining.
  *          A fully integrated implementation would embed the partial output
  *          using the same text encoder as the TT-core index and pass a float
@@ -45,8 +45,7 @@
  * Production Delta: String query instead of embedding vector; retrieval
  *                   quality depends on exact-match or BM25 scoring in the
  *                   upper layer, not semantic TT-cosine similarity.
- * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend via
- *               setEmbeddingQueryFn() and use buildQueryEmbedding() exclusively.
+ * Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
  */
 
 #include "rag/flare_retrieval.h"
@@ -62,7 +61,7 @@ namespace themis {
 namespace rag {
 
 // ============================================================================
-// EmbeddingQueryFn injection bridge (STUB #260)
+// EmbeddingQueryFn injection bridge
 // ============================================================================
 
 static std::mutex& embeddingQueryFnMutex() { static std::mutex m; return m; }
@@ -185,14 +184,13 @@ bool FlareRetrieval::shouldRetrieve() const noexcept {
 std::string FlareRetrieval::buildQuery() const {
     if (window_.empty()) return {};
 
-    // STUB/SIMULATION NOTE (stub #260):
+    // Implementation note:
     // Purpose: join token text with spaces; uncertain tokens replaced by mask.
     //          Real implementation should call buildQueryEmbedding() which uses
     //          the injected EmbeddingQueryFn to produce a float vector query.
     // Activation: Always (string path is the canonical public API).
     // Production Delta: String-based query vs. semantic embedding vector.
-    // Removal Plan: Phase 3-C Q1 2027 — callers should migrate to
-    //               buildQueryEmbedding() once EmbeddingQueryFn is wired.
+    // Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
 
     std::ostringstream oss;
     bool first = true;

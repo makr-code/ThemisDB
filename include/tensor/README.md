@@ -455,7 +455,7 @@ column-mean fingerprints of the first TT-core (G₀). Phase 4 preparation.
 | `FingerprintEntry` | Per-adapter record: key, domain, base_model_id, tenant_id, fingerprint vector |
 | `SimilarityResult` | One similarity hit: key, domain, base_model_id, score ∈ [−1, 1] |
 
-**STUB #174:** Similarity is approximate (fingerprint cosine, not full TT inner-product).
+**STUB #276:** Similarity is approximate (fingerprint cosine, not full TT inner-product).
 For adapters where G₀ energy < 60% of total Frobenius norm, rankings may differ by up to 15%
 from the exact result. Full TT inner-product similarity deferred to Q3 2027.
 

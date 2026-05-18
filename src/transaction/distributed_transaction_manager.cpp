@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     823                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
@@ -756,7 +756,19 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // Remote participant — RPC not yet implemented; skip.
+            // STUB/SIMULATION NOTE (stub #279):
+            // Purpose: Preserve in-process phase-2 fan-out while the remote
+            //          commit/abort RPC path is still missing.
+            // Activation: Reached when a participant is registered only by
+            //             node/endpoint and provides no local callback.
+            // Production Delta: The coordinator durably records COMMIT/ABORT in
+            //                   its own WAL, but the final decision is never
+            //                   delivered to the remote participant. Remote
+            //                   nodes can remain prepared/orphaned until a real
+            //                   transport replays the decision.
+            // Removal Plan: Route phase-2 decisions through shard RPC / mTLS
+            //               transport instead of skipping callback-less
+            //               participants (tracked in STUB_INVENTORY #279).
             continue;
         }
 

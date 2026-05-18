@@ -87,7 +87,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
     (FOURIER/WHT complete; RADON/GREENS_FUNCTION stubs)
 - Phase 4 — Adapter Fingerprint Graph:
   - `TensorFingerprintGraph` in `include/tensor/tensor_fingerprint_graph.h` /
-    `src/tensor/tensor_fingerprint_graph.cpp`; stub #174 (column-mean cosine)
+    `src/tensor/tensor_fingerprint_graph.cpp`; stub #276 (column-mean cosine)
 - Tenant key isolation via `__ttmgr__:<tenant>:<collection>:<field>` scheme.
 - Thread-safe reads on all `ITensorIndex` operations via `shared_mutex`.
 - `README.md` with full component table and stub inventory.
