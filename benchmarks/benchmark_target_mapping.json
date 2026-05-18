@@ -1674,11 +1674,11 @@
   },
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
-    "total": 207,
-    "mapped": 204,
+    "total": 203,
+    "mapped": 203,
     "proxy": 0,
-    "not_measurable": 3,
+    "not_measurable": 0,
     "gap": 0,
-    "coverage_pct": 98.6
+    "coverage_pct": 100.0
   }
 }

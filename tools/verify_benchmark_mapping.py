@@ -234,6 +234,7 @@ _EXCLUDED_PREFIXES = {
     "BM",   # system-level TPC/YCSB are tracked under system_level module
     "D",    # gap labels (D-1..D-7 in §35)
     "P",    # roadmap priority items (P-1..P-10)
+    "AC",   # acceptance criteria IDs in §5.9 (CI/documentation gates, no SLO target IDs)
     "RSA",  # §39 technology label (RSA-4096), not a module SLO target ID
     "AVX",  # §39 technology label (AVX-512), not a module SLO target ID
 }
