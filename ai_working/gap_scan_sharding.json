@@ -1,0 +1,522 @@
+{
+  "module": "sharding",
+  "summary": {
+    "total": 51,
+    "critical": 19,
+    "high": 30,
+    "medium": 2,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\sharding\\adaptive_shard_router.cpp",
+      "line_num": 346,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\auto_rebalancer.cpp",
+      "line_num": 65,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 78,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 157,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 190,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE (S3StorageProvider::download):",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 209,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 228,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 242,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 248,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 271,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 310,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 328,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 347,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 361,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 378,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 416,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 433,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 466,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE (GCSStorageProvider::deleteObject):",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 478,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder behavior: return false to indicate SDK not integrated",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cloud_backup.cpp",
+      "line_num": 492,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\consistent_hash.cpp",
+      "line_num": 143,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\consistent_hash.cpp",
+      "line_num": 212,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\cross_shard_transaction.cpp",
+      "line_num": 972,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE (CST-6):",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\distributed_coordinator.cpp",
+      "line_num": 565,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\mtls_connection_pool.cpp",
+      "line_num": 231,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\predictive_detector.cpp",
+      "line_num": 41,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\predictive_detector.cpp",
+      "line_num": 309,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\raft_consensus_adapter.cpp",
+      "line_num": 202,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\raft_consensus_adapter.cpp",
+      "line_num": 234,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\replication_coordinator.cpp",
+      "line_num": 159,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\replication_coordinator.cpp",
+      "line_num": 166,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\secure_transport_client.cpp",
+      "line_num": 82,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Add LZ4 support in the future",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\sharding_manager_edition.cpp",
+      "line_num": 134,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\sharding_manager_edition.cpp",
+      "line_num": 142,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\sharding_manager_edition.cpp",
+      "line_num": 169,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\shard_resource_manager.cpp",
+      "line_num": 615,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\shard_rpc_client.cpp",
+      "line_num": 131,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\shard_rpc_client.cpp",
+      "line_num": 144,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "//   simulation path (sendRequestInProcess) is retained as a fallback for",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\shard_rpc_client.cpp",
+      "line_num": 804,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\sharding\\stream_protocol.cpp",
+      "line_num": 576,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\sharding\\raid_optimizations.h",
+      "line_num": 123,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (data_chunks.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\sharding\\slo_monitor.h",
+      "line_num": 131,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Config defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\sharding\\slo_monitor.h",
+      "line_num": 233,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Config defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 39,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock implementations used across multiple test suites",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 43,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockShardRouter",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 71,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockAdaptiveRebalancer",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 117,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockDistributedTxCoordinator",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 200,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockRaftSnapshotManager",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 255,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockConsistentHashRing",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 273,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (nodes_.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_sharding_interfaces.cpp",
+      "line_num": 299,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// MockCrossShardQueryRouter",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

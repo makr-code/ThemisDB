@@ -1,0 +1,372 @@
+{
+  "module": "content",
+  "summary": {
+    "total": 36,
+    "critical": 25,
+    "high": 10,
+    "medium": 1,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\content\\archive_processor.cpp",
+      "line_num": 979,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\content_manager.cpp",
+      "line_num": 98,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\content_manager.cpp",
+      "line_num": 201,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!hasAnyFilter) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\content_manager.cpp",
+      "line_num": 2723,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!sha256_ctx) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\content_manager.cpp",
+      "line_num": 2729,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!ok) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\content_manager_embedding.cpp",
+      "line_num": 60,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\embedding_pipeline.cpp",
+      "line_num": 84,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\embedding_pipeline.cpp",
+      "line_num": 97,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\embedding_pipeline.cpp",
+      "line_num": 104,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\embedding_pipeline.cpp",
+      "line_num": 117,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\embedding_pipeline.cpp",
+      "line_num": 128,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\image_processor.cpp",
+      "line_num": 543,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (blob.size() < 16) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\markdown_processor.cpp",
+      "line_num": 61,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (start == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\mime_detector.cpp",
+      "line_num": 457,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\office_processor.cpp",
+      "line_num": 752,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\pdf_processor.cpp",
+      "line_num": 398,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\pdf_processor.cpp",
+      "line_num": 428,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\stt_processor.cpp",
+      "line_num": 879,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\text_processor.cpp",
+      "line_num": 212,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\tts_processor.cpp",
+      "line_num": 155,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\tts_processor.cpp",
+      "line_num": 235,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder voices",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\tts_processor.cpp",
+      "line_num": 418,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\tts_processor.cpp",
+      "line_num": 496,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\tts_processor.cpp",
+      "line_num": 516,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\version_manager.cpp",
+      "line_num": 184,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\video_processor.cpp",
+      "line_num": 349,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode - always healthy",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\video_processor.cpp",
+      "line_num": 433,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\pipeline\\zstd_compression.cpp",
+      "line_num": 59,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\pipeline\\zstd_compression.cpp",
+      "line_num": 67,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // Compression failed",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\content\\pipeline\\zstd_compression.cpp",
+      "line_num": 93,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\content\\content_manager.h",
+      "line_num": 154,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Status OK() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\content\\content_plugin_interface.h",
+      "line_num": 349,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\content\\mock_clip_processor.h",
+      "line_num": 28,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock CLIP-like image processor for deterministic embeddings used in tests.",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_content_pipeline.cpp",
+      "line_num": 322,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder implementation always returns false",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_content_pipeline.cpp",
+      "line_num": 330,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder implementation always returns COMPLETED",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_http_content.cpp",
+      "line_num": 377,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Add test with mocked KeyProvider that returns higher version to verify re-encryption",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

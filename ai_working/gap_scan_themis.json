@@ -1,0 +1,262 @@
+{
+  "module": "themis",
+  "summary": {
+    "total": 25,
+    "critical": 23,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\themis\\build_info.cpp",
+      "line_num": 568,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB #95: Consult the runtime bridge when available so the server can",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\edition_manager.cpp",
+      "line_num": 174,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\license_info.cpp",
+      "line_num": 328,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!bmem) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\license_info.cpp",
+      "line_num": 330,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!b64) { BIO_free(bmem); return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\license_info.cpp",
+      "line_num": 338,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1108,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1708,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1720,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1732,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1741,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1758,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1769,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1779,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1794,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1802,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader.cpp",
+      "line_num": 1818,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader_linux.cpp",
+      "line_num": 192,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\module_loader_linux.cpp",
+      "line_num": 201,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\wire_protocol_server.cpp",
+      "line_num": 701,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\themis\\wire_protocol_server.cpp",
+      "line_num": 706,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\themis\\base\\module_sandbox.h",
+      "line_num": 262,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Config defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\themis\\base\\wasm_plugin_sandbox.h",
+      "line_num": 272,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Config defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_themisdb_grpc_service.cpp",
+      "line_num": 50,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_themisdb_grpc_service.cpp",
+      "line_num": 82,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "benchmarks\\bench_themis_core.cpp",
+      "line_num": 241,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

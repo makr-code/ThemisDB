@@ -1,0 +1,72 @@
+{
+  "module": "maintenance",
+  "summary": {
+    "total": 6,
+    "critical": 6,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+      "line_num": 149,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {}; // Already running \u2013 idempotent",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+      "line_num": 192,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+      "line_num": 489,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+      "line_num": 579,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\maintenance\\i_distributed_lock.h",
+      "line_num": 165,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == locks_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\maintenance\\i_distributed_lock.h",
+      "line_num": 166,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (now >= it->second.expires_at) return {};  // expired",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    }
+  ]
+}

@@ -1,0 +1,1078 @@
+{
+  "module": "rag",
+  "stats": {
+    "total": 90,
+    "unimplemented": 35,
+    "incomplete": 12,
+    "stub_documented": 4,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 39,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 35,
+    "severity_high": 12,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 43
+  },
+  "gaps_by_file": {
+    "src\\rag\\batch_evaluator.cpp": [
+      {
+        "file": "src\\rag\\batch_evaluator.cpp",
+        "line": 257,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\calibration_manager.cpp": [
+      {
+        "file": "src\\rag\\calibration_manager.cpp",
+        "line": 56,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\calibration_manager.cpp",
+        "line": 133,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (predictions.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\calibration_manager.cpp",
+        "line": 192,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\claim_extractor.cpp": [
+      {
+        "file": "src\\rag\\claim_extractor.cpp",
+        "line": 43,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\continuous_learning_client.cpp": [
+      {
+        "file": "src\\rag\\continuous_learning_client.cpp",
+        "line": 61,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "Impl(const Config& cfg) : config(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\continuous_learning_client.cpp",
+        "line": 257,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\continuous_learning_client.cpp",
+        "line": 319,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\continuous_learning_orchestrator.cpp": [
+      {
+        "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+        "line": 807,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (residual):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+        "line": 808,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Purpose: When no signal provider is injected, synthetic fallback values",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\delegate_evaluator.cpp": [
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 79,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 80,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 293,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "PlainTextEvaluator fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 294,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback.evaluate(original, recovered);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 338,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "PlainTextEvaluator fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 339,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback.evaluate(original, recovered);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\delegate_evaluator.cpp",
+        "line": 373,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\document_splitter.cpp": [
+      {
+        "file": "src\\rag\\document_splitter.cpp",
+        "line": 129,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (text.empty() || overlap_tokens == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\document_splitter.cpp",
+        "line": 360,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (text.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\evaluation_cache.cpp": [
+      {
+        "file": "src\\rag\\evaluation_cache.cpp",
+        "line": 123,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\evaluation_cache.cpp",
+        "line": 132,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\explainability_reason_builder.cpp": [
+      {
+        "file": "src\\rag\\explainability_reason_builder.cpp",
+        "line": 22,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Helper: look up a parameter with a fallback value",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\explainability_reason_builder.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "const std::string& fallback = \"N/A\")",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\explainability_reason_builder.cpp",
+        "line": 28,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return (it != rec.parameters.end()) ? it->second : fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\explainability_reason_builder.cpp",
+        "line": 167,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "static const TE& fallbackTemplate()",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\explainability_reason_builder.cpp",
+        "line": 197,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallbackTemplate();",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\flare_retrieval.cpp": [
+      {
+        "file": "src\\rag\\flare_retrieval.cpp",
+        "line": 187,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (window_.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\flare_retrieval.cpp",
+        "line": 189,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (stub #260):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\flare_retrieval.cpp",
+        "line": 224,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\flare_retrieval.cpp",
+        "line": 235,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\geval_evaluator.cpp": [
+      {
+        "file": "src\\rag\\geval_evaluator.cpp",
+        "line": 182,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* Used both as a fallback (no LLM engine) and when the engine response",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\geval_evaluator.cpp",
+        "line": 203,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* no LLM engine is available (pure heuristic fallback).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\geval_evaluator.cpp",
+        "line": 321,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Build evaluation prompt and query the LLM (or heuristic fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\hallucination_dashboard.cpp": [
+      {
+        "file": "src\\rag\\hallucination_dashboard.cpp",
+        "line": 53,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": HallucinationDashboard(HallucinationDashboardConfig{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\judge_config.cpp": [
+      {
+        "file": "src\\rag\\judge_config.cpp",
+        "line": 188,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\knowledge_gap_detector.cpp": [
+      {
+        "file": "src\\rag\\knowledge_gap_detector.cpp",
+        "line": 1055,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\knowledge_gap_detector.cpp",
+        "line": 1065,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Removal Plan: Retained as permanent fallback; callers inject a real ILLMPlugin",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\knowledge_gap_detector.cpp",
+        "line": 1368,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\knowledge_gap_detector.cpp",
+        "line": 1388,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\knowledge_graph_retriever.cpp": [
+      {
+        "file": "src\\rag\\knowledge_graph_retriever.cpp",
+        "line": 278,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == impl_->adj.end()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\knowledge_graph_retriever.cpp",
+        "line": 300,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": graph_(graph), config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\llm_integration.cpp": [
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LLM",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LLM",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 136,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LLM",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 136,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LLM",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 149,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_WARN(\"LLMIntegration fallback activated (plugin unavailable): {}\", e.what());",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_integration.cpp",
+        "line": 153,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_WARN(\"LLMIntegration fallback activated (THEMIS_ENABLE_LLM=OFF, no engine configured)\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\llm_judge_client.cpp": [
+      {
+        "file": "src\\rag\\llm_judge_client.cpp",
+        "line": 85,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\llm_judge_integration.cpp": [
+      {
+        "file": "src\\rag\\llm_judge_integration.cpp",
+        "line": 121,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_judge_integration.cpp",
+        "line": 174,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_judge_integration.cpp",
+        "line": 181,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return \"{}\";  // Return empty JSON object as safe fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\llm_judge_integration.cpp",
+        "line": 228,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\llm_meta_analyzer.cpp": [
+      {
+        "file": "src\\rag\\llm_meta_analyzer.cpp",
+        "line": 253,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Fall through to hardcoded fallback below",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\multi_hop_reasoner.cpp": [
+      {
+        "file": "src\\rag\\multi_hop_reasoner.cpp",
+        "line": 68,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (first == std::string::npos) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\multi_hop_reasoner.cpp",
+        "line": 178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (query.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\multi_hop_reasoner.cpp",
+        "line": 252,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (partial_answers.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\onnx_model_loader.cpp": [
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 70,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 75,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 132,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 139,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 144,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\onnx_model_loader.cpp",
+        "line": 217,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\quality_control_factory.cpp": [
+      {
+        "file": "src\\rag\\quality_control_factory.cpp",
+        "line": 141,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_INFO(\"NLI Verifier using heuristic fallback (no model path provided)\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\quality_control_factory.cpp",
+        "line": 166,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\rag_context_assembler.cpp": [
+      {
+        "file": "src\\rag\\rag_context_assembler.cpp",
+        "line": 48,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\rag_ingestion_bridge.cpp": [
+      {
+        "file": "src\\rag\\rag_ingestion_bridge.cpp",
+        "line": 165,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\rag_judge.cpp": [
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 284,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "const auto safe_dimension_eval = [&](const char* name, auto&& fn, double fallback) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 289,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 292,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 295,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 972,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 1114,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_WARN(\"NLI verification failed: {}, trying LLM fallback\", e.what());",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\rag_judge.cpp",
+        "line": 1220,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return 0.75; // Default fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\relevance_evaluator.cpp": [
+      {
+        "file": "src\\rag\\relevance_evaluator.cpp",
+        "line": 182,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Offline/no-model fallback: nutze die Antwort selbst als Rueckfrage-Anker.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\reranker.cpp": [
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 190,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ONNX",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 190,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ONNX",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 205,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!config.enable_score_cache) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 209,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 230,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ONNX",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 230,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ONNX",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\reranker.cpp",
+        "line": 248,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": CrossEncoderReranker(CrossEncoderConfig{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\rag\\response_parser.cpp": [
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Regex patterns for fallback parsing",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 61,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_DEBUG(\"JSON parsing failed, using regex fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 89,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_RAG_SIMDJSON",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 192,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_RAG_SIMDJSON",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 290,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\rag\\response_parser.cpp",
+        "line": 320,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Return first 200 chars as fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\rag\\test_knowledge_graph_retriever_reasoning.cpp": [
+      {
+        "file": "tests\\rag\\test_knowledge_graph_retriever_reasoning.cpp",
+        "line": 175,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// KGR-07  applyLoRAScore() heuristic fallback \u2014 score = 1/(1+premises)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\rag\\test_lora_enhanced_retriever.cpp": [
+      {
+        "file": "tests\\rag\\test_lora_enhanced_retriever.cpp",
+        "line": 106,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit ConstantScorer(double val) : val_(val) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\rag\\test_ontology_aware_retriever.cpp": [
+      {
+        "file": "tests\\rag\\test_ontology_aware_retriever.cpp",
+        "line": 130,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Graceful fallback: document is still returned (possibly with reduced score).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,591 @@
+{
+  "module": "transaction",
+  "stats": {
+    "total": 49,
+    "unimplemented": 41,
+    "incomplete": 7,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 1,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 41,
+    "severity_high": 7,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 1
+  },
+  "gaps_by_file": {
+    "src\\transaction\\branch_manager.cpp": [
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 140,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 145,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 209,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 606,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 615,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 675,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 712,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 715,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 739,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\branch_manager.cpp",
+        "line": 779,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\crash_recovery_manager.cpp": [
+      {
+        "file": "src\\transaction\\crash_recovery_manager.cpp",
+        "line": 126,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (line.empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\crash_recovery_manager.cpp",
+        "line": 147,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\crash_recovery_manager.cpp",
+        "line": 157,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": wal_path_(wal_path), sync_on_write_(sync_on_write) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\crash_recovery_manager.cpp",
+        "line": 263,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!f.is_open()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\deadlock_predictor.cpp": [
+      {
+        "file": "src\\transaction\\deadlock_predictor.cpp",
+        "line": 226,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\distributed_saga.cpp": [
+      {
+        "file": "src\\transaction\\distributed_saga.cpp",
+        "line": 581,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == reports_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\distributed_transaction_manager.cpp": [
+      {
+        "file": "src\\transaction\\distributed_transaction_manager.cpp",
+        "line": 117,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { entry.result.set_value(false); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\distributed_transaction_manager.cpp",
+        "line": 541,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == transactions_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\distributed_transaction_manager.cpp",
+        "line": 760,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "// Remote participant \u2014 RPC not yet implemented; skip.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\distributed_transaction_manager.cpp",
+        "line": 894,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\global_transaction_manager.cpp": [
+      {
+        "file": "src\\transaction\\global_transaction_manager.cpp",
+        "line": 462,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == transactions_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\merge_engine.cpp": [
+      {
+        "file": "src\\transaction\\merge_engine.cpp",
+        "line": 671,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\saga_orchestrator.cpp": [
+      {
+        "file": "src\\transaction\\saga_orchestrator.cpp",
+        "line": 218,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\saga_orchestrator.cpp",
+        "line": 578,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\snapshot_manager.cpp": [
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 79,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 85,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 107,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 122,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 264,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 273,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\snapshot_manager.cpp",
+        "line": 318,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\transaction_batcher.cpp": [
+      {
+        "file": "src\\transaction\\transaction_batcher.cpp",
+        "line": 112,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_batcher.cpp",
+        "line": 259,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// \u2500\u2500 Determine the idle-fallback window from config \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\transaction_manager.cpp": [
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 460,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1322,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!mvcc_txn_ || !mvcc_txn_->isActive()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1548,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (isolation_ != IsolationLevel::SERIALIZABLE) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1549,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!lock_manager_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1557,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1956,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1980,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!history_mgr_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1984,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!rec) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 1994,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (unix_ms < 0) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 2011,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!snapshot_mgr_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 2013,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ts_opt) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\transaction\\transaction_manager.cpp",
+        "line": 2022,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!history_mgr_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\transaction\\transaction_semantic_advisor.cpp": [
+      {
+        "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+        "line": 20,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": TransactionSemanticAdvisor(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "include\\transaction\\examples\\transaction_semantic_advisor_example.cpp": [
+      {
+        "file": "include\\transaction\\examples\\transaction_semantic_advisor_example.cpp",
+        "line": 14,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "// NOTE: TransactionSemanticAdvisor (IMPL-B5) is not yet implemented.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ]
+  }
+}

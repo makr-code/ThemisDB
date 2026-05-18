@@ -1,0 +1,783 @@
+{
+  "module": "cache",
+  "stats": {
+    "total": 67,
+    "unimplemented": 32,
+    "incomplete": 11,
+    "stub_documented": 4,
+    "stub_undocumented": 2,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 18,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 32,
+    "severity_high": 13,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 22
+  },
+  "gaps_by_file": {
+    "src\\cache\\adaptive_query_cache.cpp": [
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 216,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 442,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 463,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 581,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2188,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!prefetcher_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2413,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!entry.has_value()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2497,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\bounded_lru_cache.cpp": [
+      {
+        "file": "src\\cache\\bounded_lru_cache.cpp",
+        "line": 49,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\bounded_lru_cache.cpp",
+        "line": 66,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\bounded_lru_cache.cpp",
+        "line": 79,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\cache_replication.cpp": [
+      {
+        "file": "src\\cache\\cache_replication.cpp",
+        "line": 61,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\distributed_cache_coordinator.cpp": [
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 81,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #61 \u2014 RedisPublishBridgeFn static bridge (non-POSIX injection)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 95,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 218,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 233,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "void RedisCacheCoordinator::subscriberLoop() {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 235,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "void RedisCacheCoordinator::subscriberSession(SocketFd) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 243,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "void RedisCacheCoordinator::dispatchMessage(const std::string&, const std::string&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 245,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "std::string RedisCacheCoordinator::computeHmac(const std::string&) const { return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 247,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 607,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 828,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 835,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\distributed_cache_coordinator.cpp",
+        "line": 848,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\embedding_cache.cpp": [
+      {
+        "file": "src\\cache\\embedding_cache.cpp",
+        "line": 118,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\embedding_cache.cpp",
+        "line": 122,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// HNSW search (and brute-force fallback) in parallel.  VectorIndexManager",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\embedding_cache.cpp",
+        "line": 169,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\embedding_cache.cpp",
+        "line": 248,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\grpc_remote_cache_peer.cpp": [
+      {
+        "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+        "line": 28,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\predictive_prefetcher.cpp": [
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 40,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 74,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 74,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 161,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (fingerprint.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 167,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\predictive_prefetcher.cpp",
+        "line": 215,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (candidates.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\redis_cache_coordinator.cpp": [
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 60,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #42 \u2014 RedisPublishFn static bridge (non-hiredis injection)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 85,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 85,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 99,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 99,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 135,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 135,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 200,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 200,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 305,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 305,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_REDIS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 330,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "THEMIS_WARN(\"RedisCacheCoordinator: publish connect failed (null context) {}:{}\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 448,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 529,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 545,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 561,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "void RedisCacheCoordinator::subscribeLoop()   {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 640,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 647,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 660,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 729,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 740,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\semantic_cache.cpp": [
+      {
+        "file": "src\\cache\\semantic_cache.cpp",
+        "line": 49,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\semantic_cache.cpp",
+        "line": 187,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\semantic_cache.cpp",
+        "line": 195,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\semantic_cache.cpp",
+        "line": 201,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\cache\\warmup.cpp": [
+      {
+        "file": "src\\cache\\warmup.cpp",
+        "line": 56,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (encoded.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\warmup.cpp",
+        "line": 75,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (val == 0xFF) return {};  // Invalid character.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\warmup.cpp",
+        "line": 132,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\cache\\warmup.cpp",
+        "line": 135,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (second_colon == std::string::npos) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

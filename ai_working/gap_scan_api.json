@@ -1,0 +1,222 @@
+{
+  "module": "api",
+  "summary": {
+    "total": 21,
+    "critical": 14,
+    "high": 7,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 91,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 111,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 119,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 155,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 323,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 327,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 436,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\graphql_ws_handler.cpp",
+      "line_num": 497,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // No errors.",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\themisdb_grpc_service.cpp",
+      "line_num": 37,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// stubs generated from proto/themisdb.proto are available on the include path.",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\themisdb_grpc_service.cpp",
+      "line_num": 836,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\api\\ws_handler.cpp",
+      "line_num": 150,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\api\\graphql_aql_resolver.h",
+      "line_num": 395,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\api\\http_handler.h",
+      "line_num": 94,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_importer_plugin_api.cpp",
+      "line_num": 400,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "ProgressCallback = nullptr) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_importer_plugin_api.cpp",
+      "line_num": 468,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// StubImporter: validate IImporter contract through ImporterPluginBase",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_api_handler_feedback.cpp",
+      "line_num": 352,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder test to keep test suite happy",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_task_scheduler_api_handler.cpp",
+      "line_num": 911,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_task_scheduler_api_handler.cpp",
+      "line_num": 937,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_tsa_api.cpp",
+      "line_num": 123,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock ITSAClient for polymorphism / dependency-injection tests",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_tsa_api.cpp",
+      "line_num": 195,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "cfg.url            = \"https://stub.example.invalid/tsr\";",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_tsa_api.cpp",
+      "line_num": 209,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub backend (no OpenSSL TSA): returns success=true for any URL.",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

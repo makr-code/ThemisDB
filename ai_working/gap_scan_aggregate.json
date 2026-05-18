@@ -1,0 +1,436 @@
+{
+  "acceleration": {
+    "total": 235,
+    "critical": 209,
+    "high": 26,
+    "medium": 0,
+    "low": 0
+  },
+  "ai": {
+    "total": 13,
+    "critical": 7,
+    "high": 5,
+    "medium": 1,
+    "low": 0
+  },
+  "analytics": {
+    "total": 40,
+    "critical": 35,
+    "high": 5,
+    "medium": 0,
+    "low": 0
+  },
+  "api": {
+    "total": 21,
+    "critical": 14,
+    "high": 7,
+    "medium": 0,
+    "low": 0
+  },
+  "aql": {
+    "total": 40,
+    "critical": 31,
+    "high": 7,
+    "medium": 2,
+    "low": 0
+  },
+  "auth": {
+    "total": 42,
+    "critical": 35,
+    "high": 7,
+    "medium": 0,
+    "low": 0
+  },
+  "base": {
+    "total": 32,
+    "critical": 28,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "cache": {
+    "total": 35,
+    "critical": 23,
+    "high": 12,
+    "medium": 0,
+    "low": 0
+  },
+  "cdc": {
+    "total": 30,
+    "critical": 29,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "chaos": {
+    "total": 9,
+    "critical": 9,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "chimera": {
+    "total": 5,
+    "critical": 1,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "config": {
+    "total": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "content": {
+    "total": 36,
+    "critical": 25,
+    "high": 10,
+    "medium": 1,
+    "low": 0
+  },
+  "core": {
+    "total": 7,
+    "critical": 6,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "distributed_knowledge": {
+    "total": 3,
+    "critical": 0,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "document": {
+    "total": 2,
+    "critical": 2,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "ethics_ai": {
+    "total": 12,
+    "critical": 9,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "exporters": {
+    "total": 8,
+    "critical": 8,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "failover": {
+    "total": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "geo": {
+    "total": 21,
+    "critical": 16,
+    "high": 4,
+    "medium": 1,
+    "low": 0
+  },
+  "governance": {
+    "total": 10,
+    "critical": 5,
+    "high": 5,
+    "medium": 0,
+    "low": 0
+  },
+  "gpu": {
+    "total": 7,
+    "critical": 2,
+    "high": 5,
+    "medium": 0,
+    "low": 0
+  },
+  "graph": {
+    "total": 6,
+    "critical": 5,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "importers": {
+    "total": 6,
+    "critical": 5,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "index": {
+    "total": 94,
+    "critical": 89,
+    "high": 3,
+    "medium": 2,
+    "low": 0
+  },
+  "ingestion": {
+    "total": 178,
+    "critical": 153,
+    "high": 24,
+    "medium": 1,
+    "low": 0
+  },
+  "llama_cpp": {
+    "total": 10,
+    "critical": 4,
+    "high": 6,
+    "medium": 0,
+    "low": 0
+  },
+  "llm": {
+    "total": 151,
+    "critical": 91,
+    "high": 49,
+    "medium": 11,
+    "low": 0
+  },
+  "maintenance": {
+    "total": 6,
+    "critical": 6,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "metadata": {
+    "total": 6,
+    "critical": 6,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "network": {
+    "total": 50,
+    "critical": 48,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "observability": {
+    "total": 29,
+    "critical": 28,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "onnx_clip": {
+    "total": 7,
+    "critical": 5,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "performance": {
+    "total": 21,
+    "critical": 17,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "plugins": {
+    "total": 13,
+    "critical": 12,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "process": {
+    "total": 28,
+    "critical": 24,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "projects": {
+    "total": 2,
+    "critical": 2,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "prompt_engineering": {
+    "total": 31,
+    "critical": 28,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "query": {
+    "total": 48,
+    "critical": 32,
+    "high": 10,
+    "medium": 6,
+    "low": 0
+  },
+  "rag": {
+    "total": 47,
+    "critical": 30,
+    "high": 17,
+    "medium": 0,
+    "low": 0
+  },
+  "replication": {
+    "total": 22,
+    "critical": 18,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "rpc_grpc": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "scheduler": {
+    "total": 45,
+    "critical": 45,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "scraper": {
+    "total": 8,
+    "critical": 7,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "search": {
+    "total": 46,
+    "critical": 46,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "security": {
+    "total": 139,
+    "critical": 113,
+    "high": 26,
+    "medium": 0,
+    "low": 0
+  },
+  "server": {
+    "total": 37,
+    "critical": 28,
+    "high": 7,
+    "medium": 2,
+    "low": 0
+  },
+  "sharding": {
+    "total": 51,
+    "critical": 19,
+    "high": 30,
+    "medium": 2,
+    "low": 0
+  },
+  "stable_diffusion": {
+    "total": 5,
+    "critical": 2,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "storage": {
+    "total": 84,
+    "critical": 69,
+    "high": 15,
+    "medium": 0,
+    "low": 0
+  },
+  "temporal": {
+    "total": 25,
+    "critical": 25,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "tensor": {
+    "total": 50,
+    "critical": 17,
+    "high": 33,
+    "medium": 0,
+    "low": 0
+  },
+  "themis": {
+    "total": 25,
+    "critical": 23,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "timeseries": {
+    "total": 17,
+    "critical": 17,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "toolbox": {
+    "total": 4,
+    "critical": 4,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "training": {
+    "total": 19,
+    "critical": 15,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "transaction": {
+    "total": 16,
+    "critical": 14,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "updates": {
+    "total": 11,
+    "critical": 11,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "user_storage_encrypted": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "utils": {
+    "total": 34,
+    "critical": 30,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "voice": {
+    "total": 43,
+    "critical": 34,
+    "high": 9,
+    "medium": 0,
+    "low": 0
+  },
+  "whisper": {
+    "total": 7,
+    "critical": 4,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  }
+}

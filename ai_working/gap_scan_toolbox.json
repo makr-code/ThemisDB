@@ -1,0 +1,52 @@
+{
+  "module": "toolbox",
+  "summary": {
+    "total": 4,
+    "critical": 4,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\toolbox\\ingestion_toolbox.cpp",
+      "line_num": 151,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\toolbox\\ingestion_toolbox.cpp",
+      "line_num": 168,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\toolbox\\ingestion_toolbox.cpp",
+      "line_num": 191,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\toolbox\\toolbox_composite.cpp",
+      "line_num": 42,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}

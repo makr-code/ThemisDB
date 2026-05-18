@@ -1,0 +1,222 @@
+{
+  "module": "geo",
+  "summary": {
+    "total": 21,
+    "critical": 16,
+    "high": 4,
+    "medium": 1,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\geo\\cpu_backend.cpp",
+      "line_num": 42,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\cpu_backend.cpp",
+      "line_num": 738,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (start_a < 0) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\cpu_backend.cpp",
+      "line_num": 794,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (start_a < 0) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\device_detector.cpp",
+      "line_num": 42,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "/// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\geo_clustering.cpp",
+      "line_num": 149,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\geo_faiss_knn.cpp",
+      "line_num": 244,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!built || radius_m <= 0.0) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\gpu_backend_stub.cpp",
+      "line_num": 586,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
+      "line_num": 20,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 100,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 112,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 160,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (sum_w < 1e-15) return {};  // all contributing cells are no-data",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 171,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 196,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (c_min > c_max || r_min > r_max) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 230,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 233,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\raster.cpp",
+      "line_num": 236,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\spatial_join.cpp",
+      "line_num": 61,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\temporal_spatial_query.cpp",
+      "line_num": 144,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\temporal_spatial_query.cpp",
+      "line_num": 177,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\geo\\tile_server.cpp",
+      "line_num": 138,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (west > east || south > north) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "tests\\test_sparse_geo_index.cpp",
+      "line_num": 87,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Implementierung muss in put() Sparse-Index-Logik hinzuf\ufffdgen",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

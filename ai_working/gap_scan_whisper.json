@@ -1,0 +1,82 @@
+{
+  "module": "whisper",
+  "summary": {
+    "total": 7,
+    "critical": 4,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\whisper\\whisper_plugin.cpp",
+      "line_num": 50,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\whisper\\whisper_plugin.cpp",
+      "line_num": 169,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!initialized_.load(std::memory_order_acquire)) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\whisper\\whisper_plugin.cpp",
+      "line_num": 240,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (segments.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
+      "line_num": 28,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub mode: no model_path \u2192 plugin not initialized",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\whisper\\voice_activity_detector.h",
+      "line_num": 79,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pcm.empty() || sample_rate <= 0.0f) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\whisper\\whisper_transcriber.h",
+      "line_num": 113,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub transcriber \u2013 used when whisper.cpp is not linked",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "benchmarks\\bench_whisper_transcription.cpp",
+      "line_num": 76,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

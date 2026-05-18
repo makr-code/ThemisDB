@@ -1,0 +1,1838 @@
+{
+  "module": "content",
+  "stats": {
+    "total": 160,
+    "unimplemented": 57,
+    "incomplete": 34,
+    "stub_documented": 5,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 64,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 57,
+    "severity_high": 34,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 69
+  },
+  "gaps_by_file": {
+    "src\\content\\archive_processor.cpp": [
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 57,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAVE_LIBZIP",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 209,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAVE_LIBZIP",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 217,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 224,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 266,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 742,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { fs::create_directories(out_path); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 745,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { fs::create_directories(out_path.parent_path()); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\archive_processor.cpp",
+        "line": 980,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\async_ingestion_worker.cpp": [
+      {
+        "file": "src\\content\\async_ingestion_worker.cpp",
+        "line": 497,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\async_ingestion_worker.cpp",
+        "line": 950,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\audio_processor.cpp": [
+      {
+        "file": "src\\content\\audio_processor.cpp",
+        "line": 737,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\content_fs.cpp": [
+      {
+        "file": "src\\content\\content_fs.cpp",
+        "line": 129,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_fs.cpp",
+        "line": 212,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Unchunked: slice from full blob (fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_fs.cpp",
+        "line": 282,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\content_manager.cpp": [
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 99,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 124,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 149,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!cur->is_object() || !cur->contains(key)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 200,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 202,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!hasAnyFilter) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 218,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 249,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// allow string/numeric loose comparison fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 293,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "else if (cond[\"min\"].is_string()) { try { vmin = std::stod(cond[\"min\"].get<std::string>()); } catch ",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 297,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "else if (cond[\"max\"].is_string()) { try { vmax = std::stod(cond[\"max\"].get<std::string>()); } catch ",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 323,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 525,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!v) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 532,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 533,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 617,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 645,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 673,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 702,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 716,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 748,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 940,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { meta.extracted_metadata[\"__enc_meta\"] = json::object(); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 945,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1012,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!v) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1055,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "} catch (...) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1061,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!v) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1116,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1129,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1170,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!v) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1175,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "} catch (...) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1186,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1193,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1229,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1243,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1250,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1259,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1268,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1472,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1535,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1568,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == processors_.end()) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1598,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1629,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 1651,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 2606,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 2724,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!sha256_ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_manager.cpp",
+        "line": 2730,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ok) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\content_manager_embedding.cpp": [
+      {
+        "file": "src\\content\\content_manager_embedding.cpp",
+        "line": 61,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\content_type.cpp": [
+      {
+        "file": "src\\content\\content_type.cpp",
+        "line": 123,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_type.cpp",
+        "line": 145,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_type.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\content_type.cpp",
+        "line": 227,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr; // Unknown type",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\content_validator.cpp": [
+      {
+        "file": "src\\content\\content_validator.cpp",
+        "line": 102,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : config_(config), policy_(policy) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\deduplication_checker.cpp": [
+      {
+        "file": "src\\content\\deduplication_checker.cpp",
+        "line": 124,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!storage_ || phash_hex.size() < 16) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\deduplication_checker.cpp",
+        "line": 167,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (minhash.size() < kNumHashFunctions) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\deduplication_checker.cpp",
+        "line": 175,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!val->is_string()) return std::nullopt; // guard against corrupt cache entry",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\deduplication_checker.cpp",
+        "line": 179,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\embedding_pipeline.cpp": [
+      {
+        "file": "src\\content\\embedding_pipeline.cpp",
+        "line": 85,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\embedding_pipeline.cpp",
+        "line": 98,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\embedding_pipeline.cpp",
+        "line": 105,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\embedding_pipeline.cpp",
+        "line": 118,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\embedding_pipeline.cpp",
+        "line": 129,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\geo_processor.cpp": [
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 62,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 62,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 124,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 124,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 139,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 139,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 437,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 437,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 616,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 616,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 712,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\geo_processor.cpp",
+        "line": 712,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GDAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\image_processor.cpp": [
+      {
+        "file": "src\\content\\image_processor.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\image_processor.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\image_processor.cpp",
+        "line": 401,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\image_processor.cpp",
+        "line": 401,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\image_processor.cpp",
+        "line": 544,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (blob.size() < 16) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\markdown_processor.cpp": [
+      {
+        "file": "src\\content\\markdown_processor.cpp",
+        "line": 62,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (start == std::string::npos) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\mime_detector.cpp": [
+      {
+        "file": "src\\content\\mime_detector.cpp",
+        "line": 75,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return \"config/mime_types.yaml\";  // Default fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\mime_detector.cpp",
+        "line": 458,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\ocr_processor.cpp": [
+      {
+        "file": "src\\content\\ocr_processor.cpp",
+        "line": 53,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\ocr_processor.cpp",
+        "line": 53,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OCR",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\office_processor.cpp": [
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// POSIX subprocess support for LibreOffice headless fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 62,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OFFICE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 62,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OFFICE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 753,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 758,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 1049,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Windows: LibreOffice headless fallback via posix_spawn is not supported.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\office_processor.cpp",
+        "line": 1050,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.error_message = \"LibreOffice headless fallback is not supported on Windows\";",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\pdf_processor.cpp": [
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 51,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PDF",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 51,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PDF",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 392,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PDF",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 392,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PDF",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 399,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pdf_processor.cpp",
+        "line": 429,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\stt_processor.cpp": [
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 45,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 45,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 470,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 470,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 499,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 499,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 788,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 788,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WHISPER",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\stt_processor.cpp",
+        "line": 880,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\content\\text_processor.cpp": [
+      {
+        "file": "src\\content\\text_processor.cpp",
+        "line": 213,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\content\\tts_processor.cpp": [
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 156,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 160,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 160,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 279,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 279,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 303,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 303,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 375,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 375,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_PIPER_TTS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 419,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 497,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\tts_processor.cpp",
+        "line": 517,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\content\\version_manager.cpp": [
+      {
+        "file": "src\\content\\version_manager.cpp",
+        "line": 175,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\version_manager.cpp",
+        "line": 185,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\version_manager.cpp",
+        "line": 196,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\version_manager.cpp",
+        "line": 205,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\video_processor.cpp": [
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 48,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 115,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 133,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 346,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 369,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 411,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 429,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 434,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 439,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\video_processor.cpp",
+        "line": 459,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_FFMPEG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\adapters\\audio_extractor_adapter.cpp": [
+      {
+        "file": "src\\content\\adapters\\audio_extractor_adapter.cpp",
+        "line": 17,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_VOICE_ASSISTANT",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\adapters\\audio_extractor_adapter.cpp",
+        "line": 17,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_VOICE_ASSISTANT",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\adapters\\audio_extractor_adapter.cpp",
+        "line": 99,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\adapters\\format_extractor_factory.cpp": [
+      {
+        "file": "src\\content\\adapters\\format_extractor_factory.cpp",
+        "line": 51,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\adapters\\office_extractor_adapter.cpp": [
+      {
+        "file": "src\\content\\adapters\\office_extractor_adapter.cpp",
+        "line": 17,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OFFICE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\adapters\\office_extractor_adapter.cpp",
+        "line": 17,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OFFICE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\adapters\\office_extractor_adapter.cpp",
+        "line": 96,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\content\\pipeline\\zstd_compression.cpp": [
+      {
+        "file": "src\\content\\pipeline\\zstd_compression.cpp",
+        "line": 60,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pipeline\\zstd_compression.cpp",
+        "line": 68,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};  // Compression failed",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\content\\pipeline\\zstd_compression.cpp",
+        "line": 94,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

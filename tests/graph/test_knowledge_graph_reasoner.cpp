@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /**
  * @file test_knowledge_graph_reasoner.cpp
  * @brief Unit tests for KnowledgeGraphReasoner and InferenceStore — KGR-01..KGR-23
@@ -602,6 +603,16 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     ASSERT_TRUE(manager->getLoRAInfo("graph_adapter_v1").has_value());
 
     kgr.setMultiLoRAManager(manager);
+    kgr.setLoraScoreFn([&](std::string_view adapter_id, const InferenceEdge& edge) {
+        const auto info = manager->getLoRAInfo(std::string(adapter_id));
+        if (!info.has_value()) {
+            return 0.0;
+        }
+        const double scale = std::clamp(static_cast<double>(info->scale), 0.0, 1.0);
+        const double complexity_penalty =
+            1.0 / (1.0 + 0.25 * static_cast<double>(edge.premises.size()));
+        return scale * complexity_penalty;
+    });
     kgr.applyLoRAScore(chain, "");
 
     ASSERT_FALSE(chain.empty());

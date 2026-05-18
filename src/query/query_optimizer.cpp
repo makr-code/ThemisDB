@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=5 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -249,11 +250,12 @@ Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
+		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
 		std::string diagMsg = "Optimized key execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());
 		}
-		diagMsg += "; estimated_rows: " + std::to_string(plan.estimated_rows);
+		diagMsg += "; estimated_rows: " + std::to_string(estimated_rows);
 		return Err<std::vector<std::string>>(
 			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 			diagMsg
@@ -266,12 +268,14 @@ Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
+		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
+		const double plan_cost = static_cast<double>(estimated_rows);
 		std::string diagMsg = "Optimized entity execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicate_count: " + std::to_string(plan.orderedPredicates.size());
 		}
-		diagMsg += "; plan_cost: " + std::to_string(plan.estimated_cost);
-		diagMsg += "; estimated_rows: " + std::to_string(plan.estimated_rows);
+		diagMsg += "; plan_cost: " + std::to_string(plan_cost);
+		diagMsg += "; estimated_rows: " + std::to_string(estimated_rows);
 		return Err<std::vector<BaseEntity>>(
 			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 			diagMsg
@@ -284,11 +288,13 @@ Result<size_t>
 QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
+		const double cost_estimate =
+			static_cast<double>(plan.details.empty() ? 0u : plan.details.front().estimatedCount);
 		std::string diagMsg = "Optimized count execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());
 		}
-		diagMsg += "; cost_estimate: " + std::to_string(plan.estimated_cost);
+		diagMsg += "; cost_estimate: " + std::to_string(cost_estimate);
 		return Err<size_t>(
 			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 			diagMsg

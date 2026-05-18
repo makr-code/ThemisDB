@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=2 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║

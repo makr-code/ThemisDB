@@ -1,0 +1,847 @@
+{
+  "module": "prompt_engineering",
+  "stats": {
+    "total": 71,
+    "unimplemented": 47,
+    "incomplete": 13,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 11,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 47,
+    "severity_high": 13,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 11
+  },
+  "gaps_by_file": {
+    "src\\prompt_engineering\\adversarial_prompt_tester.cpp": [
+      {
+        "file": "src\\prompt_engineering\\adversarial_prompt_tester.cpp",
+        "line": 105,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": detector_fn_(&SimpleAdversarialTester::defaultDetect) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\chain_of_thought.cpp": [
+      {
+        "file": "src\\prompt_engineering\\chain_of_thought.cpp",
+        "line": 37,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\chain_of_thought.cpp",
+        "line": 90,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\context_window_manager.cpp": [
+      {
+        "file": "src\\prompt_engineering\\context_window_manager.cpp",
+        "line": 190,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (profile.typed_theses.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\context_window_manager.cpp",
+        "line": 226,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// The text we would inject: prefer description, fallback to name",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\feedback_collector.cpp": [
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 84,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 277,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 347,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 384,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 423,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 433,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 515,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 539,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 570,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 575,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 594,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {}; // All severities are identical \u2013 no outliers",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\feedback_collector.cpp",
+        "line": 804,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (entries.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\llm_reflection_adapter.cpp": [
+      {
+        "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
+        "line": 41,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ", builder_(strategy) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
+        "line": 45,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!llm_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
+        "line": 52,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!llm_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\meta_prompt_generator.cpp": [
+      {
+        "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
+        "line": 114,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Generate specific improvement suggestions (template-based fallback / additional hints)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_ab_experiment.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 48,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 332,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == experiments_.end()) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 459,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { cb(eid, winner, wid); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 479,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == experiments_.end()) { return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 489,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 504,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (eit == experiments_.end()) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 546,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// which side won by comparing means (conservative fallback).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
+        "line": 558,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == scores_.end()) { return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_compressor.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+        "line": 124,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Absolute fallback: first kMaxSummaryChars characters verbatim.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_compressor.cpp",
+        "line": 321,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "case CompressionStrategy::EMBEDDING_PRUNE:  // fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_evaluator.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
+        "line": 493,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return -1.0;  // Signal: no provider, caller should use Jaccard fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_injection_detector.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
+        "line": 51,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": PromptInjectionDetector(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_library_io.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+        "line": 290,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (json_str.empty()) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+        "line": 295,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+        "line": 301,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (yaml_str.empty()) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+        "line": 304,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!root.IsMap()) { return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_library_io.cpp",
+        "line": 323,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_manager.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_manager.cpp",
+        "line": 44,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": db_(db), cf_(cf) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_manager.cpp",
+        "line": 159,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_manager.cpp",
+        "line": 369,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_manager.cpp",
+        "line": 374,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_performance_tracker.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
+        "line": 141,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_regression_runner.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
+        "line": 96,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "evaluator_(eval_config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_template_compiler.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+        "line": 81,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {}; // unreachable",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+        "line": 105,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (start == std::string_view::npos) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\prompt_version_control.cpp": [
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 212,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 257,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 262,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 271,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 457,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 646,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 651,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\prompt_version_control.cpp",
+        "line": 667,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\rag_prompt_builder.cpp": [
+      {
+        "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
+        "line": 36,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
+        "line": 110,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\reflection_tuner.cpp": [
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 173,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": strategy_(strategy) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 187,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 343,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ", window_(window > 0 ? window : 1) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 415,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ", hallucination_guard_(config.divergence_threshold, config.divergence_window) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 522,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Heuristic fallback critique based on self-aware context.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\reflection_tuner.cpp",
+        "line": 579,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "provider_ ? provider_->name() : std::string(\"fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\self_improvement_orchestrator.cpp": [
+      {
+        "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+        "line": 130,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+        "line": 244,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Structural heuristic fallback when no evaluator is available",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+        "line": 441,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+        "line": 481,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+        "line": 638,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\prompt_engineering\\system_prompt_manager.cpp": [
+      {
+        "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
+        "line": 129,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
+        "line": 176,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
+        "line": 221,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
+        "line": 232,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,312 @@
+{
+  "module": "cdc",
+  "summary": {
+    "total": 30,
+    "critical": 29,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\cdc\\delivery_tracker.cpp",
+      "line_num": 157,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\cdc\\changefeed.h",
+      "line_num": 121,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static RetentionPolicy defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\cross_collection_stream.h",
+      "line_num": 115,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static StreamOptions defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\icdc_batch_commit_coordinator.h",
+      "line_num": 304,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == committed_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\icdc_event_schema.h",
+      "line_num": 265,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == schemas_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\icdc_event_schema.h",
+      "line_num": 270,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (lv == latest_version_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\icdc_replay_controller.h",
+      "line_num": 216,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (state_ != ReplaySessionState::Active) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\icdc_replay_controller.h",
+      "line_num": 221,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\cdc\\kafka_cdc_producer.h",
+      "line_num": 307,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "KafkaProducerStats getStats() const { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_cdc_schema_registry.cpp",
+      "line_num": 605,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 175,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 188,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 206,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 228,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 249,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 270,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 293,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 317,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 337,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 361,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 381,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 402,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 419,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 437,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 477,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 500,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 525,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 646,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_cdc.cpp",
+      "line_num": 662,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_websocket_cdc.cpp",
+      "line_num": 149,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder test when WebSocket is disabled",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

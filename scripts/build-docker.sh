@@ -59,7 +59,7 @@ if [ "$BUILD_BINARY" = "true" ]; then
 
     # Copy binary to release directory
     mkdir -p "$RELEASE_DIR"
-    BINARY_PATH="${REPO_ROOT}/build/linux-release/themis_server"
+    BINARY_PATH="${REPO_ROOT}/build-gcc-linux-release/themis_server"
     if [ -f "$BINARY_PATH" ]; then
         echo -e "${CYAN}Copying binary to $RELEASE_DIR...${NC}"
         cp "$BINARY_PATH" "${RELEASE_DIR}/themis_server"

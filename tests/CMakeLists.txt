@@ -93,6 +93,12 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_behavioral_anomaly_detector\\
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_framework\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_stress\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
+
+# test_vulkan_glsl_compiler_fn.cpp requires setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp,
+# which is only compiled when THEMIS_ENABLE_VULKAN=ON. Gate the test accordingly.
+if(NOT THEMIS_ENABLE_VULKAN)
+    list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
+endif()
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
@@ -8563,7 +8569,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
     add_executable(test_knowledge_graph_reasoner_focused
         graph/test_knowledge_graph_reasoner.cpp
         ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/multi_lora_manager.cpp
     )
 
     target_include_directories(test_knowledge_graph_reasoner_focused PRIVATE
@@ -8573,6 +8578,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
 
     target_link_libraries(test_knowledge_graph_reasoner_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         Threads::Threads
     )
 
@@ -18263,7 +18269,10 @@ endif()
 #  VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceMeetingSupport,
 #  VoiceAudioStorage, VoiceAccessibility, VoiceModelCache, VoiceBatchProcessor,
 #  VoiceBiometricAuthenticator, EmotionAnalyzer)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+# NOTE: In modular builds (THEMIS_BUILD_MODULAR=ON), voice sources are owned by themis_llm module.
+# These focused test targets are skipped to avoid linking voice files twice (once from themis_llm,
+# once from explicit sources), which causes LNK4006 duplicate symbol errors.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp" AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Production focused tests")
 
     add_executable(test_voice_production_focused
@@ -18390,7 +18399,7 @@ else()
 endif()
 
 # VoiceCoverage focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET test_voice_coverage_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET test_voice_coverage_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Coverage focused tests")
 
     add_executable(test_voice_coverage_focused
@@ -18653,7 +18662,7 @@ endif()
 
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp" AND NOT THEMIS_BUILD_MODULAR)
         message(STATUS "Adding Voice Assistant focused tests (requires THEMIS_ENABLE_LLM)")
 
         add_executable(test_voice_assistant_focused
@@ -18711,7 +18720,7 @@ endif()
 
 # VoiceBrowserStreaming focused tests - covers VoiceStreamingSession lifecycle,
 # frame processing, streaming stats, partial-result emission, and error handling.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Browser Streaming focused tests")
 
     add_executable(test_voice_browser_streaming_focused
@@ -18748,7 +18757,7 @@ else()
 endif()
 
 # VoiceSecurityFeatures focused tests - SSML sanitization, path traversal, origin allowlist
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp" AND NOT TARGET test_voice_security_features_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp" AND NOT TARGET test_voice_security_features_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Security Features focused tests")
 
     add_executable(test_voice_security_features_focused
@@ -18786,7 +18795,7 @@ else()
     message(STATUS "Voice Security Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT TARGET test_voice_browser_streaming_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT TARGET test_voice_browser_streaming_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Browser Streaming focused tests")
 
     add_executable(test_voice_browser_streaming_focused
@@ -18885,7 +18894,7 @@ endif()
 
 # VoiceTelephony focused tests - covers SipCallSession, WebRtcCallSession,
 # IVREngine, and TelephonyBridge coordinator.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET test_voice_telephony_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET test_voice_telephony_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Telephony focused tests")
 
     add_executable(test_voice_telephony_focused

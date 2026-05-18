@@ -1,0 +1,62 @@
+{
+  "module": "chimera",
+  "summary": {
+    "total": 5,
+    "critical": 1,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\chimera\\themisdb_adapter.cpp",
+      "line_num": 187,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\chimera\\themisdb_adapter.cpp",
+      "line_num": 353,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\chimera\\themisdb_adapter.cpp",
+      "line_num": 525,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\chimera\\themisdb_adapter.cpp",
+      "line_num": 683,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\chimera\\themisdb_adapter.cpp",
+      "line_num": 1756,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (positional_params_.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}

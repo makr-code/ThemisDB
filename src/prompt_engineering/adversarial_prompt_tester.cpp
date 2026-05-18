@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /**
  * @file adversarial_prompt_tester.cpp
  * @brief Implementation of SimpleAdversarialTester (Phase 6, v1.8.0).

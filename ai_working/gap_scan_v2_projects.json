@@ -1,0 +1,181 @@
+{
+  "module": "projects",
+  "stats": {
+    "total": 13,
+    "unimplemented": 10,
+    "incomplete": 3,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 0,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 10,
+    "severity_high": 3,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 0
+  },
+  "gaps_by_file": {
+    "src\\projects\\collaboration_manager.cpp": [
+      {
+        "file": "src\\projects\\collaboration_manager.cpp",
+        "line": 81,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\collaboration_manager.cpp",
+        "line": 127,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!storage_->get(key, val)) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\projects\\in_memory_project_audit_log.cpp": [
+      {
+        "file": "src\\projects\\in_memory_project_audit_log.cpp",
+        "line": 87,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\projects\\project_diff.cpp": [
+      {
+        "file": "src\\projects\\project_diff.cpp",
+        "line": 189,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": storage_(storage), diff_(storage) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\projects\\project_lifecycle.cpp": [
+      {
+        "file": "src\\projects\\project_lifecycle.cpp",
+        "line": 50,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_lifecycle.cpp",
+        "line": 243,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_lifecycle.cpp",
+        "line": 259,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\projects\\project_template.cpp": [
+      {
+        "file": "src\\projects\\project_template.cpp",
+        "line": 181,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (name.empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_template.cpp",
+        "line": 203,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\projects\\project_versioning.cpp": [
+      {
+        "file": "src\\projects\\project_versioning.cpp",
+        "line": 96,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_versioning.cpp",
+        "line": 193,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_versioning.cpp",
+        "line": 197,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\projects\\project_versioning.cpp",
+        "line": 216,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

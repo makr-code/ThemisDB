@@ -1,5 +1,7 @@
 // Copyright 2026 ThemisDB — Licensed under MIT License
 // IMPL-B6 / S-6: SchemaDeadWeightDetector implementation
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include "storage/schema_dead_weight_detector.h"
 

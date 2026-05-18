@@ -8,6 +8,8 @@
 // LER-06  Factory helpers produce retrievers with expected configurations
 // LER-07  setScorer() injects custom scorer; custom scores drive re-ranking
 // LER-08  setScorer(nullptr) → candidates returned unchanged (no crash)
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <gtest/gtest.h>
 

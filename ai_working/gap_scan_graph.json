@@ -1,0 +1,72 @@
+{
+  "module": "graph",
+  "summary": {
+    "total": 6,
+    "critical": 5,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\graph\\explain_plan.cpp",
+      "line_num": 48,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\explain_plan.cpp",
+      "line_num": 72,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\ontology_manager.cpp",
+      "line_num": 49,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos >= s.size() || s[pos] != '\"') return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\ontology_manager.cpp",
+      "line_num": 140,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (a == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\scheduled_edge_refresh.cpp",
+      "line_num": 651,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!embedding_fn_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "tests\\test_compute_graph_header.cpp",
+      "line_num": 94,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock factory",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

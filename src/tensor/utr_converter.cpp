@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
  * @file src/tensor/utr_converter.cpp
  * @brief UTRConverter implementation — Phase 7 multi-modal tensor representation.

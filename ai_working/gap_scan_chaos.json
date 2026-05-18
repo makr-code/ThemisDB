@@ -1,0 +1,102 @@
+{
+  "module": "chaos",
+  "summary": {
+    "total": 9,
+    "critical": 9,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 121,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 206,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 275,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 317,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 358,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 402,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 449,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 473,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_chaos_scheduler.cpp",
+      "line_num": 515,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "[](const nlohmann::json&) -> nlohmann::json { return {}; });",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

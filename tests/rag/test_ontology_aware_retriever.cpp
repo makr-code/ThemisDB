@@ -8,6 +8,8 @@
 // OAR-06  retrieve() with no ontology concept hits degrades gracefully
 // OAR-07  Entity expansion adds superclass concept IDs for known concepts
 // OAR-08  Edge-type filtering flag disables ontology checks when false
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <gtest/gtest.h>
 

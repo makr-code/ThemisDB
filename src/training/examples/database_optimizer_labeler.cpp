@@ -20,6 +20,8 @@
 // implemented. It serves as the acceptance-criteria specification for those
 // issues. The code is intentionally pseudocode-style where the API does not
 // yet exist, marked with /* PLANNED */ comments.
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <iostream>
 #include <vector>
