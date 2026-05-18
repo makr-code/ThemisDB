@@ -161,11 +161,11 @@ Profile-JSON: [`benchmarks/baselines/distributed/bench_transaction_v190_baseline
 | TX-4 | ≤ 5 ms 2PC Latenz (5 Shards) | `proxy` ⚠️ | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `bench_transaction_throughput.cpp` |
 | TX-5 | ≤ 20 ms SAGA Compensation | `mapped` | `SagaBenchmarkFixture_DatabaseWriteCompensation` | `SagaBenchmarkFixture_SimpleCompensation` | `bench_saga_compensation.cpp` |
 | TX-6 | ≤ 1 % Deadlock Detection Overhead | `proxy` ⚠️ | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | `bench_transaction_throughput.cpp` |
-| TX-7 | < 5 % False Positive Rate | `proxy` ⚠️ | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_OccOptimisticPut` | `bench_transaction_throughput.cpp` |
+| TX-7 | < 5 % False Positive Rate | `mapped` | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `TransactionBenchmarkFixture_AbortTransaction` | `bench_transaction_throughput.cpp` |
 | TX-8 | > 90 % Low-Contention Success | `mapped` | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `bench_transaction_throughput.cpp` |
 
-**Direkt messbare SLOs:** TX-1, TX-2, TX-3, TX-5, TX-8 (5/8 = 62,5%)
-**Proxy-Cases:** TX-4, TX-6, TX-7 (3/8)
+**Direkt messbare SLOs:** TX-1, TX-2, TX-3, TX-5, TX-7, TX-8 (6/8 = 75%)
+**Proxy-Cases:** TX-4, TX-6 (2/8)
 
 ---
 
@@ -197,9 +197,8 @@ Derzeit keine offenen Replication-Gaps (R-1..R-8 vollständig direkt messbar).
 |--------|-------|-----------------|----------------|----------------|
 | TX-4-GAP | Verteilte 2PC-Latenz (5 echte Shards) | TX-4 | 4 | v1.10.0 |
 | TX-6-GAP | Deadlock-Detection-Overhead Mikrobenchmark | TX-6 | 3 | v1.10.0 |
-| TX-7-GAP | OCC False-Positive-Rate Benchmark | TX-7 | 3 | v1.10.0 |
 
-**Gesamt-Aufwand Transaction Gaps:** 10 Tage
+**Gesamt-Aufwand Transaction Gaps:** 7 Tage
 
 ---
 

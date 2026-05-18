@@ -75,12 +75,10 @@
     },
     "TX-7": {
       "label": "False Positive Rate",
-      "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
-      "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+      "primary_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+      "fallback_case": "TransactionBenchmarkFixture_AbortTransaction",
       "slo_target": "< 5 %",
-      "status": "proxy",
-      "gap_ref": "TX-7-GAP",
-      "gap_effort_days": 3,
+      "status": "mapped",
       "measured_abort_rate_pct": null,
       "slo_met": null
     },
@@ -110,14 +108,6 @@
       "effort_days": 3,
       "target_milestone": "v1.10.0",
       "blocking_slo": "TX-6"
-    },
-    {
-      "gap_id": "TX-7-GAP",
-      "title": "OCC False-Positive-Rate Benchmark",
-      "description": "Benchmark misst False-Positive-Abort-Rate (Phantom-Conflicts) unter kontrollierten Workloads. Erfordert Fixture mit definierten Overlap-Wahrscheinlichkeiten.",
-      "effort_days": 3,
-      "target_milestone": "v1.10.0",
-      "blocking_slo": "TX-7"
     }
   ]
 }

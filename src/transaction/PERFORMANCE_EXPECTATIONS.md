@@ -19,7 +19,7 @@
 | TX-4 | ≤ 5 ms | `TransactionBenchmarkFixture_MixedTransaction` |
 | TX-5 | ≤ 20 ms | `SagaBenchmarkFixture_DatabaseWriteCompensation` |
 | TX-6 | ≤ 1 % overhead (vs. 5 % baseline) | `TransactionBenchmarkFixture_ReadOnlyTransaction` |
-| TX-7 | < 5 % | `TransactionBenchmarkFixture_AbortTransaction` |
+| TX-7 | < 5 % | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` |
 | TX-8 | > 90 % | `TransactionBenchmarkFixture_OccOptimisticPut` |
 
 ## Validierung

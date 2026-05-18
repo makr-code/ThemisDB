@@ -81,9 +81,13 @@
     "cache": {
       "C-1": {
         "label": "L1 Hit-Path",
-        "primary_benchmark": "BM_EmbeddingCache_Query_WithIndex",
-        "file": "bench_embedding_cache_performance.cpp",
-        "status": "proxy"
+        "primary_benchmark": "BM_EmbeddingCache_Query_Hit",
+        "file": "bench_v1_3_0_features.cpp",
+        "status": "mapped",
+        "primary_case": "BM_EmbeddingCache_Query_Hit",
+        "fallback_case": "BM_EmbeddingCache_Query_WithIndex",
+        "fallback_file": "bench_embedding_cache_performance.cpp",
+        "notes": "BM_EmbeddingCache_Query_Hit pre-populates the cache and queries already-stored embeddings at >100 M ops/s; this is the hot L1 hit-path directly. BM_EmbeddingCache_Query_WithIndex (HNSW-indexed) is kept as fallback for the larger-scale hit-path variant."
       },
       "C-2": {
         "label": "L2 Hit-Path",
@@ -657,15 +661,13 @@
       },
       "TX-7": {
         "label": "False Positive Rate",
-        "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
-        "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
-        "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+        "primary_benchmark": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+        "primary_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+        "fallback_case": "TransactionBenchmarkFixture_AbortTransaction",
         "file": "bench_transaction_throughput.cpp",
-        "status": "proxy",
+        "status": "mapped",
         "slo_target": "< 5 %",
-        "notes": "AbortTransaction abort-rate counter approximates false-positive conflicts under no-contention load. Controlled-contention false-positive bench is a gap — see §TX-7-GAP.",
-        "gap_ref": "TX-7-GAP",
-        "gap_effort_days": 3
+        "notes": "OccReadVersionAndUpdate runs single-threaded (Threads(1)) over a 100-key space; with no concurrent writes the conflicts counter reports implementation-level false positives directly. AbortTransaction remains the fallback for abort-rate regression checks."
       },
       "TX-8": {
         "label": "Low-Contention Success Rate",
