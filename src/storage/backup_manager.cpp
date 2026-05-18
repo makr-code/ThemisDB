@@ -1899,7 +1899,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
 
-        // STUB/SIMULATION NOTE:
+        // STUB/SIMULATION NOTE (stub #300):
         // Purpose: Provide a validated, non-silent restore path while per-column-family
         //          selective restore (via rocksdb::DB::IngestExternalFile) is not yet
         //          implemented.  Restores the full checkpoint so that all requested
@@ -1912,6 +1912,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         //               for each match, call db_wrapper_->getRawDB()->IngestExternalFile()
         //               with the SST files from checkpoint/ that belong to that CF.
         //               See src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
+        //               Target: Q4 2027.
         if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
             THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
                          checkpoint_dir.string());

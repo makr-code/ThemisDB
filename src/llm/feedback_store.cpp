@@ -534,6 +534,22 @@ void FeedbackStore::clear() {
 // ===== Validation Logic =====
 
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
+    // STUB/SIMULATION NOTE (stub #296):
+    // Purpose: Provide a minimal spam-detection keyword list so that the feedback
+    //          validation pipeline works out of the box without an external config
+    //          source.
+    // Activation: Always — no runtime config loader or database table is wired;
+    //             the static list is always returned.
+    // Production Delta: The keyword set is fixed at compile time.  New spam patterns
+    //                   require a binary rebuild and redeployment.  Regional or
+    //                   language-specific keywords cannot be added at runtime.
+    //                   Operators cannot tune spam detection without source changes.
+    // Removal Plan: Add a `setSpamKeywordsProvider(fn)` injection API that receives
+    //               keywords from `config/spam_keywords.txt` or the
+    //               `themisdb.spam_detection.keywords` table; fall back to the static
+    //               list when no provider is injected.
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackStore SpamKeywords.
+    //               Target: v2.0.0.
     // Configurable spam keywords list
     // TODO: In production, load these from a configuration file or database
     // for runtime updates without recompilation
@@ -644,6 +660,25 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
+                // STUB/SIMULATION NOTE (stub #297):
+                // Purpose: Allow the feedback plugin protocol to compile and route
+                //          MODIFY decisions without a concrete modification-apply
+                //          mechanism, so plugins that return MODIFY are not silently
+                //          discarded.
+                // Activation: Always — `FeedbackValidationResult.modified_comment` and
+                //              `.modified_metadata` are populated by the plugin but no
+                //              code reads them here yet.
+                // Production Delta: The plugin's suggested comment rewrite and metadata
+                //                   adjustments are silently ignored.  Feedback is stored
+                //                   verbatim and counted as APPROVED, potentially allowing
+                //                   policy-violating content that the plugin intended to
+                //                   sanitize.
+                // Removal Plan: Add `modified_comment` / `modified_metadata` fields to
+                //               `FeedbackValidationResult`; read them here and update
+                //               `data.comment` / `data.metadata` before returning
+                //               APPROVED.  Requires aligned plugin ABI changes.
+                //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackPlugin Modify.
+                //               Target: v2.0.0.
                 // TODO(feedback-plugin): Apply modifications if provided
                 // For now, accept modified feedback as approved
                 // Future: Apply modified_comment and modified_metadata from result

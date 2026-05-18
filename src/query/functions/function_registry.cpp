@@ -146,6 +146,18 @@ void registerBuiltinFunctions() {
         
         // Fulltext functions (search, phrase matching, fuzzy search, n-gram similarity)
         // Includes: FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE
+        // STUB/SIMULATION NOTE (stub #293):
+        // Purpose: Skeleton registration site keeps the intent and comment visible while
+        //          the fulltext module is not yet built as a linkable unit.
+        // Activation: Always — registerFulltextFunctions() is not declared/defined in any
+        //             compiled translation unit in the current build.
+        // Production Delta: AQL queries using FULLTEXT(), PHRASE(), FUZZY(), NGRAM_MATCH(),
+        //                   TOKENS(), SOUNDEX(), METAPHONE(), or DOUBLE_METAPHONE() will
+        //                   return an "unknown function" error at parse time.
+        // Removal Plan: Implement the fulltext function set in
+        //               src/query/functions/fulltext_functions.cpp and the matching header;
+        //               declare registerFulltextFunctions() and uncomment the call below.
+        //               See src/query/ROADMAP.md §Fulltext Functions.  Target: Q3 2027.
             // TODO: registerFulltextFunctions - optional fulltext module
             // registerFulltextFunctions(registry);
     } catch (const std::exception& ex) {
