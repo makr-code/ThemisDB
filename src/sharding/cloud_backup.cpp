@@ -223,6 +223,17 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #313):
+        // Purpose: Keep cloud-backup deletion API callable before S3 SDK delete wiring
+        //          is integrated in this provider path.
+        // Activation: S3 provider active without injected SDK-backed delete callback.
+        // Production Delta: Delete logs a placeholder action and returns false
+        //                   (unless mock mode is enabled), so remote backup objects
+        //                   are not actually removed from S3-compatible storage.
+        // Removal Plan: Integrate Aws::S3::DeleteObject (or injected delete bridge)
+        //               for production deletion behavior.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
@@ -239,11 +250,32 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #317):
+        // Purpose: Keep backup inventory API callable before S3 object listing
+        //          is integrated for this provider.
+        // Activation: S3 provider active without SDK-backed ListObjects wiring.
+        // Production Delta: Always returns an empty list, so remote backup sets
+        //                   cannot be enumerated from S3-compatible storage.
+        // Removal Plan: Integrate AWS SDK ListObjectsV2 (or injected listing
+        //               callback) and return object keys.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 list: s3://{}/{}", bucket_, prefix);
         return {};
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #314):
+        // Purpose: Preserve provider interface completeness before real S3 object
+        //          existence checks are wired.
+        // Activation: Always in current S3StorageProvider implementation.
+        // Production Delta: Method always returns false, even when the object exists,
+        //                   which can trigger unnecessary re-uploads and incorrect
+        //                   backup reconciliation decisions.
+        // Removal Plan: Implement HeadObject/metadata probe via AWS SDK or an
+        //               injected existence callback.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
         
         // Placeholder behavior: return false to indicate SDK not integrated
@@ -269,7 +301,7 @@ private:
     // std::shared_ptr<Aws::S3::S3Client> s3_client_;
 };
 
-// STUB/SIMULATION NOTE:
+// STUB/SIMULATION NOTE (stub #312):
 // Purpose: Azure Blob Storage provider placeholder. Implements ICloudStorageProvider
 //          with no-op behaviour so the backup subsystem compiles without Azure SDK.
 // Activation: Active when THEMIS_ENABLE_AZURE is NOT defined. Build with
@@ -293,6 +325,16 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        // STUB/SIMULATION NOTE (AzureStorageProvider::upload):
+        // Purpose: Keep Azure upload call-flow available in builds without linked
+        //          azure-storage-blobs-cpp client.
+        // Activation: Azure provider selected while no SDK-backed upload bridge exists.
+        // Production Delta: Upload path logs placeholder behavior and returns false
+        //                   in non-mock mode, so no artifact is written to Azure.
+        // Removal Plan: Integrate Azure Blob upload API
+        //               (or injected upload callback) and propagate real status.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -358,11 +400,31 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #320):
+        // Purpose: Preserve Azure provider list API compatibility before SDK-backed
+        //          blob listing is connected.
+        // Activation: Azure provider selected without list API integration.
+        // Production Delta: Always returns an empty list, so backup inventory and
+        //                   retention scans cannot enumerate remote Azure blobs.
+        // Removal Plan: Integrate Azure Blob listing API (or injected list callback)
+        //               and map listed blob names into provider output.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("Azure list: {}/{}/{}", account_name_, container_, prefix);
         return {};
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #321):
+        // Purpose: Keep provider interface complete for Azure blob existence probes
+        //          while SDK metadata/head checks are pending.
+        // Activation: Always in current AzureStorageProvider implementation.
+        // Production Delta: Always returns false, so existing blobs may be treated
+        //                   as missing and uploaded again unnecessarily.
+        // Removal Plan: Integrate Azure Blob exists/head API (or injected existence
+        //               callback) and return actual presence state.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("Azure exists check: {}/{}/{}", account_name_, container_, remote_path);
         return false;
     }
@@ -400,6 +462,16 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        // STUB/SIMULATION NOTE (stub #315):
+        // Purpose: Keep GCS upload call-flow available in builds without linked
+        //          google-cloud-cpp storage client.
+        // Activation: GCS provider selected while no SDK-backed upload bridge exists.
+        // Production Delta: Upload path logs placeholder behavior and returns false
+        //                   in non-mock mode, so no artifact is written to GCS.
+        // Removal Plan: Integrate google::cloud::storage::Client::UploadFile
+        //               (or injected upload callback) and propagate real status.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -427,6 +499,16 @@ public:
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
+        // STUB/SIMULATION NOTE (stub #316):
+        // Purpose: Keep restore-path integration testable without a linked GCS SDK.
+        // Activation: GCS provider selected while no SDK-backed download bridge exists.
+        // Production Delta: Download path logs placeholder behavior and returns false
+        //                   in non-mock mode, so restore flows cannot fetch remote
+        //                   backup artifacts from GCS.
+        // Removal Plan: Integrate google::cloud::storage::Client::DownloadToFile
+        //               (or injected download callback) with error propagation.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
@@ -489,11 +571,31 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        // STUB/SIMULATION NOTE (stub #318):
+        // Purpose: Preserve GCS provider contract before SDK-backed object listing
+        //          is connected.
+        // Activation: GCS provider selected without list API integration.
+        // Production Delta: Always returns an empty list, so backup enumeration
+        //                   and retention cleanup cannot discover remote objects.
+        // Removal Plan: Integrate google::cloud::storage::Client::ListObjects
+        //               (or injected listing callback) and map results to keys.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("GCS list: gs://{}/{}", bucket_, prefix);
         return {};
     }
     
     bool exists(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (stub #319):
+        // Purpose: Keep interface completeness for GCS existence checks while
+        //          Head/Get metadata integration is pending.
+        // Activation: Always in current GCSStorageProvider implementation.
+        // Production Delta: Always returns false, so already-uploaded backups can
+        //                   be treated as missing and re-uploaded unnecessarily.
+        // Removal Plan: Integrate object metadata probe via GCS SDK (or injected
+        //               existence callback) and return real presence state.
+        //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
+        //               Target: v2.3.0.
         THEMIS_INFO("GCS exists check: gs://{}/{}", bucket_, remote_path);
         return false;
     }

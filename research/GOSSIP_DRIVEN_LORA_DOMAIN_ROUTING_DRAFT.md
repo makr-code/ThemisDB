@@ -1,140 +1,161 @@
 # Gossip-Driven LoRA Domain Routing for Distributed Inference Fabrics
 
-**Status**: Draft  
-**Version**: 0.2  
-**Last Updated**: 2026-04-19  
-**Target Venue**: Middleware, ICDCS, SoCC
+**Projekt:** ThemisDB
+**Kategorie:** Research Documentation
+**Status:** Review-ready (überarbeitet)
+**Datum:** 2026-05-18
+**Version:** 1.0
 
 ---
 
-## I. Abstract
+## Abstract / Zusammenfassung
 
-Distributed inference clusters increasingly host domain-specialized LoRA adapters on different shards. Static hash-based routing ignores these specialization gradients and can degrade both answer quality and latency SLOs. This paper proposes a gossip-driven domain-routing model in which shards continuously publish adapter capability signals and routers select destinations using a joint quality-latency objective. The contribution is a reproducible systems design and evaluation plan, grounded in ThemisDB repository components for adaptive routing, capability announcements, and distributed request execution. We define measurable hypotheses, result-table schemas, and explicit claim boundaries to separate validated implementation anchors from pending large-scale empirical results.
+Dieses Dokument überprüft den Stand von gossip-getriebenem LoRA-Domain-Routing in ThemisDB anhand von repository-nahen Artefakten (Code, Tests, Benchmarks, Modul-Dokumentation). Kernbefund: ThemisDB enthält bereits die zentralen Bausteine für domain-basierte Routingentscheidungen ohne zentrale Registry-Abhängigkeit: (1) Capability-Ankündigungen über Gossip (`AdapterCapabilityAnnouncement`, `GossipAdapterPublisher`), (2) domain-spezifische Zielwahl über `AdaptiveShardRouter::routeByDomain()`, (3) Nutzung von Domain-Hints im AQL-LLM-Pfad (`LLMAQLHandler`), inklusive lokalem Fallback bei fehlendem Match oder zu geringem Accuracy-Delta.
 
-## II. Problem Statement
+Die vorhandene Evidenz erlaubt belastbare Aussagen zur Implementierungsfähigkeit und zu testbarer Funktionskorrektheit. Nicht belegt sind hingegen großskalige Konvergenzgarantien, produktionsnahe Multi-Fault-Kampagnen und allgemeingültige Parameterempfehlungen für TTL/Fanout/Schwellenwerte. Das Dokument trennt daher explizit zwischen belegten Claims und offenen Evaluationsfragen.
 
-Static sharding and topology-only routing assume homogeneous model quality across shards. In practice, shards accumulate different LoRA specializations and therefore exhibit domain-dependent quality and latency behavior.
+---
 
-A production-grade routing policy must satisfy four constraints: low control-plane overhead, rapid capability convergence, graceful degradation under stale information and failures, and transparent trade-offs between quality gains and tail-latency risk. We target these constraints without introducing centralized coordination dependencies.
+## Introduction / Einleitung
 
-## III. Research Questions and Hypotheses
+### Problemstellung
 
-RQ1: How quickly does adapter capability knowledge converge under gossip dissemination for cluster sizes from 4 to 64 shards?
+In verteilten Inferenz-Clustern sind LoRA-Adapter häufig domain-spezifisch auf einzelnen Shards konzentriert. Reines hash-/topologie-basiertes Routing berücksichtigt diese Spezialisierung nicht und kann zu Qualitätsverlusten oder unnötigen Weiterleitungen führen.
 
-RQ2: What quality and latency gains does domain-aware routing provide compared with hash-only routing under mixed-domain workloads?
+### Ziel des Reviews
 
-RQ3: How robust is the policy under stale announcements, partial failures, and shifting workload distributions?
+1. Technische Aussagen des Drafts gegen den aktuellen ThemisDB-Stand verifizieren.
+2. Terminologie an ThemisDB-Konventionen angleichen (AQL, Multi-Model, Konsistenzmodell, Komponenten-Namen).
+3. Review-fähige Struktur mit klaren Claim-Grenzen und belastbarer Quellenlage herstellen.
 
-RQ4: How sensitive are outcomes to TTL and score-threshold configurations?
+### Terminologie (vereinheitlicht)
 
-H1: Domain-aware gossip routing improves domain-hit rate and quality metrics versus hash-only routing while keeping routing overhead bounded.
+- **AQL** = *Advanced Query Language* (ThemisDB Query-Modul).
+- **Multi-Model** = relational + graph + vector + document + geospatial + time-series (`README.md`).
+- **Konsistenzmodell** = ACID mit MVCC/Snapshot-Isolation (`README.md`, `ARCHITECTURE.md`).
+- **Domain Routing** = Auswahl eines Ziel-Shards basierend auf domain-spezifischem `accuracy_delta` (mit Last-Tie-Break).
 
-H2: There exists a stable parameter region where capability staleness remains below tolerance and p99 latency remains within SLO budget despite partial failures.
+---
 
-## IV. Repository Evidence Registry
+## Methodik / Ansatz
 
-| Evidence ID | File | Scope | What It Supports |
-|-------------|------|-------|------------------|
-| E1 | include/sharding/adaptive_shard_router.h | Routing policy and scoring hooks | Domain-aware routing implementation anchor |
-| E2 | include/distributed_knowledge/adapter_capability_announcement.h | Capability message schema | Gossip-propagated adapter metadata |
-| E3 | include/sharding/remote_executor.h | Cross-shard invocation path | Distributed request dispatch feasibility |
-| E4 | tests/test_sharding_gossip.cpp | Gossip routing tests | Baseline correctness and behavior checks |
-| E5 | tests/test_gossip_custom_handler.cpp | Custom gossip handler tests | Extensibility and propagation handling |
-| E6 | research/GOSSIP_AWARE_LORA_ROUTING_DRAFT.md | Prior design context | Conceptual lineage and assumptions |
-| E7 | research/RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md | Integration architecture context | Compatibility with broader distributed inference design |
+### 1) Artefaktbasierter Faktencheck
 
-Rule: Every major claim in Sections II-VII maps to one or more evidence IDs.
+Primäre Evidenzquellen:
 
-## V. Experimental Methodology
+- Implementierung: `include/sharding/adaptive_shard_router.h`, `src/sharding/adaptive_shard_router.cpp`
+- Gossip-Payload + Publisher: `include/distributed_knowledge/adapter_capability_announcement.h`, `src/distributed_knowledge/adapter_capability_announcement.cpp`
+- AQL-Integration: `src/aql/llm_aql_handler.cpp`
+- Tests: `tests/test_adaptive_shard_router.cpp`, `tests/test_distributed_knowledge.cpp`, `tests/test_llm_aql_handler.cpp`, `tests/test_llm_raid_routing.cpp`, `tests/test_llm_raid_integration.cpp`
+- Benchmark-Anker: `benchmarks/bench_llm_raid_pipeline.cpp`
 
-### A. Setup
+### 2) Claim-Klassifizierung
 
-We evaluate 4-64 shard configurations with synthetic and replay-based mixed-domain traffic. Capability announcements are emitted at configurable intervals with explicit TTL, and router decisions are logged with per-request metadata.
+- **Bestätigt:** Direkt durch Code + Testpfad belegbar.
+- **Teilweise bestätigt:** Implementierungsanker vorhanden, aber ohne belastbare End-to-End-Messkampagne.
+- **Nicht bestätigt:** Behauptung ohne nachweisbare Artefakte oder Messung.
 
-### B. Workloads
+### 3) Redaktionsregeln
 
-W1: Stationary mixed-domain workload with balanced domain shares.  
-W2: Drift workload where dominant domain changes over time.  
-W3: Failure workload with stale announcements, shard unavailability, and intermittent partition-like delays.
+- Unbelegte Leistungs- oder Konvergenzversprechen entfernt oder als offen gekennzeichnet.
+- Terminologie auf ThemisDB-Dokumentation abgestimmt.
+- Pflichtstruktur für Review ergänzt.
 
-### C. Metrics
+---
 
-Primary metrics: domain-hit rate, quality delta per domain, p95/p99 end-to-end latency, routing overhead, and fallback rate.  
-Reliability metrics: stale-route incidence, misroute rate, failover success rate, and timeout rate.
+## Evaluation / Experimente
 
-## VI. Results Plan
+### A) Verifizierte Implementierungsbefunde (Problem → Ansatz → Evidenz)
 
-### A. Reporting Tables and Figure Plan
+| Problem | Ansatz in ThemisDB | Evidenz |
+|---|---|---|
+| Domain-spezifische Adapterfähigkeit muss clusterweit bekannt werden | Gossip-fähiges Announcement-Schema mit Domain-Typ und Qualitäts-/Latenz-Deltas | `include/distributed_knowledge/adapter_capability_announcement.h`, `src/distributed_knowledge/adapter_capability_announcement.cpp`, `tests/test_distributed_knowledge.cpp` |
+| Router muss bestgeeigneten Domain-Shard wählen | `routeByDomain()` wählt bestes `accuracy_delta`; Gleichstand via `pending_llm_requests` | `src/sharding/adaptive_shard_router.cpp`, `tests/test_adaptive_shard_router.cpp`, `tests/test_llm_raid_routing.cpp` |
+| Domain-Routing muss mit AQL-LLM-Aufrufen integrierbar sein | `LLMAQLHandler` verarbeitet Domain-Hints und nutzt adaptive Router-Entscheidung mit Fallback | `src/aql/llm_aql_handler.cpp`, `tests/test_llm_aql_handler.cpp` |
+| Routing-Overhead braucht Benchmark-Anker | Benchmarkfall für `routeByDomain()` vorhanden | `benchmarks/bench_llm_raid_pipeline.cpp` |
 
-Table G1. Routing quality and latency by workload.
+### B) Gegenprüfung zentraler Claims aus dem Draft
 
-| Policy | Workload | Domain-Hit Rate | Quality Delta | p95 (ms) | p99 (ms) | Routing Overhead (ms) |
-|--------|----------|-----------------|---------------|----------|----------|-----------------------|
-| Hash-only | W1/W2/W3 | pending | pending | pending | pending | pending |
-| Domain-aware gossip | W1/W2/W3 | pending | pending | pending | pending | pending |
+| Claim | Ergebnis | Begründung |
+|---|---|---|
+| „Gossip-basierte Capability-Verteilung ist im Code verankert“ | **Bestätigt** | Schema + Publisher + Callback-Pfad sind implementiert und getestet. |
+| „Domain-Routing ist im Anfragepfad nutzbar“ | **Bestätigt** | AQL-LLM-Handler nutzt Domain-Hint und Router-Auswahl mit klaren Fallback-Zweigen. |
+| „Es gibt produktionsreife Parameterempfehlungen für alle Workloads“ | **Nicht bestätigt** | Code-/Teststand belegt Mechanik, aber keine allgemeingültige Kalibrierung über große Last- und Fehlerkampagnen. |
+| „Großskalige Konvergenzbeweise (z. B. >32/64 Shards) liegen vor“ | **Nicht bestätigt** | In diesem Artefaktstand sind dafür keine belastbaren Ergebnisreihen dokumentiert. |
 
-Table G2. Robustness under stale and failure conditions.
+### C) Reproduzierbare Dokumentprüfung
 
-| Scenario | TTL | Threshold Set | Misroute Rate | Failover Success Rate | Timeout Rate | Notes |
-|----------|-----|---------------|---------------|-----------------------|--------------|-------|
-| Stale announcements | pending | pending | pending | pending | pending | pending |
-| Partial shard failure | pending | pending | pending | pending | pending | pending |
-| Partition-like delay | pending | pending | pending | pending | pending | pending |
+Für diese Datei wurden die vorhandenen Research-Checks ausgeführt:
 
-Figure G1. Convergence time versus cluster size and gossip fanout.
+```bash
+python3 scripts/docs-lint.py research/GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md
+python3 scripts/link-check.py --internal-only research/GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md
+```
 
-### B. Expected Negative Results
-
-We explicitly report regimes where aggressive thresholding improves quality but causes unacceptable p99 inflation, and regimes where short TTL improves freshness but increases control-plane churn.
-
-## VII. Claim Boundaries
+### D) Claim Boundaries
 
 **Supported claims:**
-- Router and capability announcement structures exist and are testable (E1-E5).
-- Integration with distributed inference architecture is conceptually aligned (E6-E7).
+
+- Gossip-Payloads für Adapter-Capabilities sind implementiert und serialisierbar.
+- Domain-basierte Shard-Auswahl über `accuracy_delta` ist implementiert und testbar.
+- AQL-LLM-Aufrufe können Domain-Hints in Routing-Entscheidungen überführen.
+- Ein Benchmark-Anker für Routing-Entscheidungskosten existiert.
 
 **Deferred claims:**
-- Large-scale convergence evidence for cluster sizes above 32 shards.
-- Production-like multi-fault campaign outcomes.
-- Final threshold recommendations for all workload classes.
 
-## VIII. Discussion
+- Allgemeingültige TTL-/Fanout-/Threshold-Empfehlungen über heterogene Produktionsumgebungen.
+- Robuste Aussagen zu p99-Verhalten unter langlaufenden Multi-Fault-Szenarien.
+- Skalierungsgrenzen für Konvergenz unter großen Clustergrößen.
 
-Practical implication: domain-aware routing should be treated as a dynamic control policy, not a one-time configuration.
+---
 
-Operational constraint: capability freshness and routing stability are coupled through TTL and threshold parameters.
+## Limitations / Known Issues
 
-### Threats to Validity
+1. **Keine vollständige, veröffentlichte Großskalierungs-Evaluation in diesem Dokument**
+   Der Stand ist repository-grounded, aber keine vollständige Publikation mit belastbarer Ergebnis-Tabelle aus reproduzierter 4-64-Shard-Messkampagne.
 
-Internal validity: synthetic workload composition may under-represent real tenant skew; we mitigate with replay traces and drift scenarios.
+2. **Benchmark-Anker ist kein Ersatz für Produktions-Fault-Campaigns**
+   Vorhandene Benchmarks belegen Messbarkeit einzelner Pfade, aber nicht automatisch reale Betriebsrobustheit unter kombinierter Last, Drift und Failures.
 
-Construct validity: domain-hit rate alone does not ensure semantic quality; we pair it with quality deltas and failure-case audits.
+3. **Routingqualität hängt von Upstream-Qualitätssignalen ab**
+   `routeByDomain()` nutzt bereitgestellte Deltas; die Güte der Entscheidung hängt von Korrektheit/Aktualität dieser Signale ab.
 
-External validity: cluster-network and hardware heterogeneity can affect convergence and tail latency; we therefore report environment metadata per run.
+4. **Dokument trennt bewusst zwischen Implementierungsfähigkeit und empirischer Generalisierung**
+   Diese Trennung reduziert Over-Claiming, lässt aber offene Forschungsfragen explizit bestehen.
 
-## IX. Next Milestones
+---
 
-- M1: Parameter study for TTL and threshold sets.
-- M2: Stale-information and failover experiment suite.
-- M3: Joint quality-versus-latency budget calibration.
-- M4: v0.3 with calibrated decision function and initial large-scale results.
+## Schlussfolgerung / Fazit
 
-## Appendix A. Claim-to-Evidence Traceability
+ThemisDB besitzt bereits die Kernmechanismen für gossip-getriebenes LoRA-Domain-Routing im aktuellen OSS-Stand: Capability-Announcements, domain-spezifische Shard-Selektion und AQL-Integration mit Fallback-Logik. Damit ist die Architekturhypothese technisch plausibel und testbar. Nicht abgeschlossen sind robuste, verallgemeinerbare Aussagen zu Konvergenz-, Robustheits- und Parameteroptima in großskaligen Produktionsszenarien. Für eine vollwertige Publikation ist als nächster Schritt eine reproduzierbare Benchmark- und Fault-Injection-Kampagne mit dokumentierter Umgebung und Ergebnisreihen notwendig.
 
-| Claim ID | Claim Summary | Evidence IDs |
-|----------|---------------|--------------|
-| C1 | ThemisDB exposes the required structures for capability-aware routing decisions. | E1, E2 |
-| C2 | Cross-shard routing execution and test anchors already exist in the repository. | E3, E4, E5 |
-| C3 | The routing approach is consistent with broader distributed inference architecture assumptions. | E6, E7 |
-| C4 | Production-level threshold recommendations are deferred pending full-scale benchmarks. | E4, E5 |
+---
 
-## Appendix B. Submission Readiness Checklist
+## References / Quellen
 
-- [x] Problem and contribution are technically scoped
-- [x] Research questions and hypotheses are explicit
-- [x] Repository evidence registry is present
-- [x] Results schema (tables/figure plan) is defined
-- [x] Threats to validity are documented
-- [x] Claim-to-evidence traceability is documented
-- [ ] Large-scale benchmark results inserted
-- [ ] Final artifact manifest and commit hash frozen
+### Interne ThemisDB-Artefakte
+
+1. ThemisDB Repository (Hauptartefakt): https://github.com/makr-code/ThemisDB
+2. Adaptive Router API: https://github.com/makr-code/ThemisDB/blob/main/include/sharding/adaptive_shard_router.h
+3. Adaptive Router Implementierung: https://github.com/makr-code/ThemisDB/blob/main/src/sharding/adaptive_shard_router.cpp
+4. Gossip Adapter Capability Schema: https://github.com/makr-code/ThemisDB/blob/main/include/distributed_knowledge/adapter_capability_announcement.h
+5. AQL LLM Handler Routingpfad: https://github.com/makr-code/ThemisDB/blob/main/src/aql/llm_aql_handler.cpp
+6. Benchmark-Anker für Domain Routing: https://github.com/makr-code/ThemisDB/blob/main/benchmarks/bench_llm_raid_pipeline.cpp
+
+### Externe Literatur (DOI/URL)
+
+1. Hu, E. J., et al. (2021). *LoRA: Low-Rank Adaptation of Large Language Models*. arXiv. URL: https://arxiv.org/abs/2106.09685
+2. McMahan, B., et al. (2017). *Communication-Efficient Learning of Deep Networks from Decentralized Data*. AISTATS (PMLR). URL: https://proceedings.mlr.press/v54/mcmahan17a.html
+3. Demers, A., et al. (1987). *Epidemic Algorithms for Replicated Database Maintenance*. DOI: https://doi.org/10.1145/41840.41841
+4. Kwon, W., et al. (2023). *Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM)*. DOI: https://doi.org/10.1145/3600006.3613165
+5. Leviathan, Y., et al. (2023). *Fast Inference from Transformers via Speculative Decoding*. arXiv. URL: https://arxiv.org/abs/2211.17192
+6. Chen, C., et al. (2023). *Accelerating Large Language Model Decoding with Speculative Sampling*. arXiv. URL: https://arxiv.org/abs/2302.01318
+
+---
+
+## Changelog
+
+| Datum | Version | Änderungen |
+|---|---|---|
+| 2026-05-18 | 1.0 | Vollständige Review-Überarbeitung: Pflichtstruktur ergänzt, Terminologie vereinheitlicht, unbelegte Claims entfernt/markiert, evidenzbasierte Evaluation + Referenzen konsolidiert |
+| 2026-04-19 | 0.2 | Vorheriger Draft-Stand |

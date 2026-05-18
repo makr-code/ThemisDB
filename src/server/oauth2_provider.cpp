@@ -552,6 +552,19 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
+        // STUB/SIMULATION NOTE (stub #306):
+        // Purpose: Preserve logout endpoint behavior without breaking callers while
+        //          RFC 7009 token revocation wiring is still incomplete in the
+        //          server-layer OAuth2 provider bridge.
+        // Activation: Always when refresh_token is provided to handleLogout().
+        // Production Delta: Refresh-token revocation is not sent to the upstream
+        //                   IdP revocation endpoint; this path only logs intent and
+        //                   returns success, leaving actual token invalidation to
+        //                   local/session-layer mechanisms.
+        // Removal Plan: Extend OIDCDiscoveryDocument with revocation_endpoint and
+        //               execute authenticated POST revocation calls from logout.
+        //               See src/server/FUTURE_ENHANCEMENTS.md §OAuth2/OIDC Native Support.
+        //               Target: v2.1.0.
         // RFC 7009 – attempt best-effort token revocation.
         // Many OIDC providers advertise a "revocation_endpoint" in discovery.
         // OIDCDiscoveryDocument does not yet carry that field, so we note the

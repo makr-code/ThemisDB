@@ -33,7 +33,7 @@
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
  *
- * ### STUB #174 — Full TT Inner-Product Similarity
+ * ### STUB #276 — Full TT Inner-Product Similarity
  *
  * The production `findSimilar()` should use the TT inner-product sweep
  * (Holtz 2012, O(d·r²)) for provably correct cosine similarity on the
@@ -41,7 +41,7 @@
  * adversarial adapters (high-rank, low first-core energy).
  *
  * @note
- * // STUB/SIMULATION NOTE (stub #174):
+ * // STUB/SIMULATION NOTE (stub #276):
  * // Purpose: Fast fingerprint similarity while full TT inner-product
  * //          sweep is pending.
  * // Activation: Always (no compile flag required).
@@ -170,7 +170,7 @@ public:
      * result list.
      *
      * @note
-     * // STUB/SIMULATION NOTE (stub #174):
+      * // STUB/SIMULATION NOTE (stub #276):
      * // Uses fingerprint cosine similarity, not full TT inner-product.
      *
      * @param query_key  Storage key of the query adapter (must be registered).

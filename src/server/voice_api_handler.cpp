@@ -662,6 +662,17 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
         auto session = voice_assistant_->getSession(session_id);
         (void)session; // ensure session exists (throws/logs if not found)
     }
+    // STUB/SIMULATION NOTE (stub #308):
+    // Purpose: Offer DELETE semantics at the HTTP layer before VoiceAssistant
+    //          provides a dedicated hard-delete API for session state.
+    // Activation: Always for DELETE /voice/session/{id}.
+    // Production Delta: Session records are only soft-cleared via updateSession
+    //                   with empty context; storage/lifecycle semantics differ from
+    //                   true deletion and stale metadata may remain addressable.
+    // Removal Plan: Introduce VoiceAssistant::deleteSession(session_id) and wire
+    //               this handler to use hard deletion with explicit not-found result.
+    //               See src/server/ROADMAP.md (voice endpoint coverage backlog).
+    //               Target: v2.1.0.
     // Remove session from internal map by overwriting with an empty/closed session
     // VoiceAssistant does not yet expose a dedicated deleteSession API; clearing
     // via updateSession with an empty context marks it as inactive.
@@ -1128,6 +1139,22 @@ bool VoiceApiHandler::validateBearerToken(
     // Extract token
     std::string token = auth.substr(7);
     
+    // STUB/SIMULATION NOTE (stub #302):
+    // Purpose: Keep authenticated voice endpoints operable in builds where the
+    //          shared JWT/OIDC validation stack is not yet threaded into
+    //          VoiceApiHandler.
+    // Activation: Always — this helper only checks that a `Bearer ` header is
+    //             present and that the token substring is non-empty.
+    // Production Delta: Any non-empty bearer token is accepted. Expiry,
+    //                   signature, issuer, audience, revocation, and tenant/user
+    //                   claims are not verified, so unauthorized callers can use
+    //                   voice session endpoints if they provide any token-like
+    //                   string.
+    // Removal Plan: Reuse the repository-wide JWT validator / auth middleware
+    //               (e.g. inject AuthManager or JwtValidator) and verify issuer,
+    //               audience, expiry, and signature before accepting the request.
+    //               See src/server/ROADMAP.md §Voice API Auth Integration.
+    //               Target: Q1 2027.
     // Validate token (placeholder - real implementation would verify JWT)
     return !token.empty();
 }

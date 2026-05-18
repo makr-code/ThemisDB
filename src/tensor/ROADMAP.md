@@ -221,7 +221,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - `include/tensor/tensor_fingerprint_graph.h` + `src/tensor/tensor_fingerprint_graph.cpp`
   - `FingerprintEntry { adapter_key, domain, base_model_id, tenant_id, fingerprint, first_core_norm }`
   - `addAdapter(key, TTTrain, domain, base_model_id, tenant_id)` — extracts column-mean fingerprint of G_0
-  - `findSimilar(adapter_key, k)` — top-k cosine similarity on fingerprints (stub #174; full TT inner-product Q3 2027)
+  - `findSimilar(adapter_key, k)` — top-k cosine similarity on fingerprints (stub #276; full TT inner-product Q3 2027)
   - `findSimilarByFingerprint(fingerprint, k, tenant_id)` — query by raw fingerprint with optional tenant filter
   - `removeAdapter()`, `entry()`, `adapterKeys()`, `stats()` accessors
   - Tests TFG-01..TFG-06 appended to `tests/test_tensor_phase3.cpp`
@@ -231,7 +231,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [~] `AdaLoRA ↔ TT Bridge` Phase 3 — `findSimilarAdapters()` via TensorFingerprintGraph (Target: Q3 2027)
   - **In progress 2026-05-06**: `AdapterRepository::setFingerprintGraph()` wires `store()`/`remove()` to
     register/deregister fingerprints automatically; `findSimilarAdapters(domain, model, k)` delegates to
-    `TensorFingerprintGraph::findSimilar()` (column-mean cosine; STUB #177 — inherits STUB #174).
+    `TensorFingerprintGraph::findSimilar()` (column-mean cosine; STUB #177 — inherits STUB #276).
   - Tests AR-07..AR-12 added to `tests/test_tensor_phase3.cpp`.
   - Remaining: replace column-mean fingerprint similarity with full TT inner-product sweep (O(d·r²))
     and HNSW index over fingerprints for sub-linear search (Q3 2027, Phase 4).
@@ -420,7 +420,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated) — resolved 2026-05-06
 - [~] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms) — 2026-05-06 (heap-copy path; mmap Q1 2027)
 - [x] GGUFMetadata — GGUF v3 provenance store (sign/verify stub #173; HMAC-SHA256 Q2 2027) — resolved 2026-05-06
-- [x] TensorFingerprintGraph — adapter similarity via G_0 fingerprint (full TT inner-product stub #174; Q3 2027) — resolved 2026-05-06
+- [x] TensorFingerprintGraph — adapter similarity via G_0 fingerprint (full TT inner-product stub #276; Q3 2027) — resolved 2026-05-06
 - [x] TensorRAGPipeline — unified FLARE+TARG coordinator (PIPE-01 stub; embed path Q1 2027) — resolved 2026-05-06
   - `include/rag/tensor_rag_pipeline.h` + `src/rag/tensor_rag_pipeline.cpp`
   - `step(token_text, log_prob, logits)` evaluates both gates per token; returns `RAGDecision`

@@ -140,6 +140,25 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
+                    // STUB/SIMULATION NOTE (stub #299):
+                    // Purpose: Allow model loading to proceed in deployments where the
+                    //          LLMModelStorage service is not yet running or not wired
+                    //          to this component, by falling back to a predictable local
+                    //          path convention.
+                    // Activation: Always — LLMModelStorage path resolution is not
+                    //             injected into ThemisHelpLoRA; the hardcoded path
+                    //             is always attempted first.
+                    // Production Delta: The path `"models/" + base_model_id + ".gguf"` is
+                    //                   relative to the server's working directory.  In
+                    //                   containerised deployments the working directory is
+                    //                   often `/`, making the path incorrect.  Models stored
+                    //                   under non-default paths (custom model repos, object
+                    //                   stores, versioned subdirs) are never found.
+                    // Removal Plan: Add a `ModelPathProviderFn` injection API to
+                    //               ThemisHelpLoRA::Config; implement the provider in
+                    //               LLMModelStorage::resolveGGUFPath(model_id); wire it at
+                    //               server startup.  See src/llm/FUTURE_ENHANCEMENTS.md
+                    //               §ThemisHelpLoRA ModelPath.  Target: Q2 2027.
                     // TODO: Get model path from LLMModelStorage
                     // For now, use a default path that can be configured
                     std::string model_path = "models/" + config.base_model_id + ".gguf";

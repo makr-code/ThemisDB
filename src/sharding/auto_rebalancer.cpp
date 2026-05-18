@@ -382,6 +382,17 @@ std::string AutoRebalancer::generateOperationId() const {
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
     // RSA-SHA256 signing using operator certificate
     
+    // STUB/SIMULATION NOTE (stub #310):
+    // Purpose: Allow adaptive-rebalancer orchestration to proceed in environments
+    //          where operator signing key provisioning is not finished.
+    // Activation: `config_.operator_key_path` empty or key loading/parsing fails.
+    // Production Delta: Operation IDs can be emitted with `UNSIGNED:*` fallback
+    //                   signatures, weakening authenticity guarantees for rebalancing
+    //                   intents when enforcement is not layered elsewhere.
+    // Removal Plan: Make key provisioning mandatory and fail closed when signing
+    //               cannot be performed.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md:335 (signed topology changes).
+    //               Target: Q4 2026.
     // Load private key from operator certificate
     if (config_.operator_key_path.empty()) {
         THEMIS_WARN("AutoRebalancer: No operator key configured, using placeholder signature");

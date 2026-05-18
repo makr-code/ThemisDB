@@ -256,7 +256,7 @@ public:
      * // Purpose: Expose adapter similarity search backed by fingerprint graph.
      * // Activation: Only when setFingerprintGraph() has been called.
      * // Production Delta: Uses column-mean fingerprint cosine (inherited from
-     * //   STUB #174), NOT the full TT inner-product sweep (O(d·r²)).  Rankings
+     * //   STUB #276), NOT the full TT inner-product sweep (O(d·r²)).  Rankings
      * //   may differ from the exact result for high-rank adapters where G_0
      * //   energy < 60% of the total Frobenius norm.
      * // Removal Plan: Q3 2027 — replace with full TTTrain::innerProduct()
@@ -318,4 +318,3 @@ private:
 
 } // namespace tensor
 } // namespace themis
-

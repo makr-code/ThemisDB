@@ -566,6 +566,20 @@ public:
             return model_ids;
         }
         
+        // STUB/SIMULATION NOTE (stub #303):
+        // Purpose: Preserve the `listModels()` API surface until RocksDB prefix
+        //          iteration is exposed through the repository's DB wrapper.
+        // Activation: Always when `config_.db` is set — the current RocksDB wrapper
+        //             lacks `listKeysWithPrefix()` / iterator access here.
+        // Production Delta: `keys` stays empty, so `listModels()` returns an empty
+        //                   vector even when models are stored under
+        //                   `config_.key_prefix`. UI model pickers, admin CLIs, and
+        //                   cleanup routines cannot enumerate persisted models.
+        // Removal Plan: Add prefix-iterator support to RocksDBWrapper (or inject a
+        //               `ListKeysWithPrefixFn` callback) and populate `keys` from the
+        //               actual keyspace before filtering.
+        //               See src/llm/FUTURE_ENHANCEMENTS.md §LLMModelStorage Enumeration.
+        //               Target: v2.0.0.
         // List all keys with collection prefix
         // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
         // This is a placeholder that would need DB iteration support

@@ -12,7 +12,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1143                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
@@ -798,6 +798,29 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "DELETE /api/v1/collection/" + sanitizeForMessage(req.collection()) +
         "/" + sanitizeForMessage(req.uuid()));
 }
+
+// STUB/SIMULATION NOTE (stub #281):
+// Purpose: Keep protobuf wire protocol handler stubs (AQL, cursor, geospatial,
+//          time-series, graph traversal) registerable while integration of the
+//          query/subsystem engines into the protobuf session is pending.
+// Activation: Always active for all message types listed below.
+// Production Delta: Clients connecting via the Protobuf/TCP wire port receive
+//          HTTP 501 for QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE, GEO_QUERY,
+//          TIMESERIES_QUERY, and GRAPH_TRAVERSE. Only JSON wire protocol port
+//          8766 (network/wire_protocol_server.cpp) and HTTP REST API have these
+//          features wired. See below for all affected handlers.
+// Removal Plan: Inject QueryEngine, TSStore, and ProcessGraphManager references
+//          into WireProtocolServer::Config and wire each handler to the
+//          corresponding engine method (tracked in STUB_INVENTORY #281).
+//          Target: v2.0.0.
+//
+// Affected handlers with 501/503 stubs:
+//   - handle_query_aql()          → AQL engine not injected into WireProtocolServer
+//   - handle_cursor_next()        → cursor pagination requires wired AQL engine
+//   - handle_cursor_close()       → cursor lifecycle requires wired AQL engine
+//   - handle_geo_query()          → GeoIndexManager not injected
+//   - handle_timeseries_query()   → TSStore reference not injected
+//   - handle_graph_traverse()     → ProcessGraphManager not injected
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.

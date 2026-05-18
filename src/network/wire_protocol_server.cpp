@@ -12,7 +12,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     2342                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c4ae3846c4  2026-03-15  feat(network): implement ProcessGraphVisitLog and getVisi... ║
@@ -1632,6 +1632,25 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
+// STUB/SIMULATION NOTE (stub #284):
+// Purpose: Keep graph/AQL/geospatial commands available on the JSON wire protocol
+//          even when their backend integrations are not injected into
+//          WireProtocolServer (query_engine_ missing) or not implemented
+//          on this transport (geo query endpoint).
+// Activation:
+//   - GRAPH_TRAVERSE and QUERY_AQL fallback branch when `server_->query_engine_ == nullptr`
+//   - GEO_QUERY always (current transport path returns GEO_NOT_INTEGRATED)
+// Production Delta:
+//   - GRAPH_TRAVERSE/QUERY_AQL return `{success:false, error_code:*_NOT_INTEGRATED}`
+//     and instruct callers to use HTTP REST endpoints.
+//   - GEO_QUERY always returns `GEO_NOT_INTEGRATED`; geospatial execution over
+//     this wire protocol transport is unavailable.
+// Removal Plan:
+//   - Inject QueryEngine as mandatory dependency in WireProtocolServer startup
+//     path and fail-closed on missing engine for graph/AQL-capable deployments.
+//   - Wire GEO_QUERY to GeoIndexManager/QueryEngine dispatch instead of
+//     hardcoded NOT_INTEGRATED response.
+//   - Track in STUB_INVENTORY #284 (target: v2.0.0).
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -2619,5 +2638,4 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
-
 

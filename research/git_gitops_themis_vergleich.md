@@ -1,878 +1,244 @@
-# Git, GitHub, GitOps im Vergleich zur Versionskontrolle von ThemisDB
+# Git, GitHub und GitOps im Vergleich zur Versionskontrolle von ThemisDB
 
-**Stand:** 6. April 2026  
-**Version:** v1.4.0  
-**Kategorie:** 🧩 Architecture
-
----
-
-## 📑 Inhaltsverzeichnis
-
-- [Übersicht](#übersicht)
-- [Git: Verteilte Versionskontrolle für Code](#git-verteilte-versionskontrolle-für-code)
-- [GitHub: Kollaborationsplattform](#github-kollaborationsplattform)
-- [GitOps: Deklarative Infrastruktur](#gitops-deklarative-infrastruktur)
-- [ThemisDB MVCC: Versionskontrolle für Daten](#themisdb-mvcc-versionskontrolle-für-daten)
-- [Konzeptvergleich](#konzeptvergleich)
-- [YAML-Übernahme von Git](#yaml-übernahme-von-git)
-- [Empfohlene Integrationen](#empfohlene-integrationen)
-- [Zukunftsperspektiven](#zukunftsperspektiven)
+**Stand:** 18. Mai 2026
+**Status:** Review Ready
+**Kategorie:** 🔍 Research Review
 
 ---
 
-## Übersicht
+## Abstract
 
-Dieses Dokument vergleicht die Versionskontroll- und Workflow-Konzepte von Git/GitHub/GitOps mit dem MVCC-System (Multi-Version Concurrency Control) von ThemisDB. Während Git für Code-Versionierung konzipiert ist, bietet ThemisDB MVCC für Datenbank-Transaktionen. Beide Systeme haben jedoch ähnliche Konzepte, die voneinander lernen können.
-
-> **💡 Hinweis:** ThemisDB nutzt bereits YAML an vielen Stellen! Siehe [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) für eine vollständige Analyse der aktuellen YAML-Konfigurationen (PII-Patterns, Retention Policies, Dokumenten-Metadaten, Kubernetes CRDs, etc.).
+Dieser Review vergleicht **Git**, **GitHub** und **GitOps** mit dem heute im Repository belegbaren Versions- und Änderungsmodell von **ThemisDB**. Das zentrale Ergebnis lautet: ThemisDB besitzt eine produktionsreife **MVCC-/Transaktionsschicht** für Datenversionierung, atomare Multi-Index-Commits und Konflikterkennung, ist aber **kein verteiltes Versionskontrollsystem für Daten** im Git-Sinne. GitHub-ähnliche Kollaborationsmechanismen (Pull Requests, Review-Gates, CI-Policies) existieren im Repository-Workflow des Projekts, nicht als generische Datenbankfunktion. GitOps-nahe Muster sind in ThemisDB bereits **teilweise** sichtbar — insbesondere durch breite YAML-Nutzung für Konfiguration, OpenAPI und Deployment-Artefakte —, eine YAML-basierte Schema-Steuerung des Datenbankkerns ist laut aktuellem Repository-Stand jedoch **weiterhin Konzept bzw. Plan**, nicht eingeführte Produktfunktion. Der Vergleich ist daher nur in Teilbereichen direkt tragfähig: **Snapshots, Historie, Rollback und deklarative Artefakte** sind sinnvoll vergleichbar; **Branches, Merges, Rebase, Data Pull Requests und vollautomatische Schema-Synchronisation** sind derzeit keine belegten Kernfeatures von ThemisDB.
 
 ---
 
-## Git: Verteilte Versionskontrolle für Code
+## 1. Einleitung
 
-### Kernkonzepte
+Git, GitHub und GitOps werden oft als Referenzmodelle für Nachvollziehbarkeit, deklarative Workflows und reproduzierbare Änderungen verwendet. Für ThemisDB ist diese Perspektive attraktiv, weil das System laut `README.md` als **Multi-Model-Datenbank** mit **ACID-Transaktionen**, **MVCC**, **AQL** und **verteilten Komponenten** positioniert ist. Gerade dadurch entsteht leicht die Versuchung, ThemisDB als „Git für Daten“ oder als bereits GitOps-fähiges Datensystem zu beschreiben.
 
-**1. Commit-basierte Historie**
-```bash
-# Git speichert eine vollständige Historie aller Änderungen
-git log --oneline
-a1b2c3d feat: Add vector search
-d4e5f6g fix: Query optimization
-```
+Für einen review-fähigen Artikel reicht eine solche Analogie aber nicht aus. Entscheidend ist, welche Aussagen sich gegen den aktuellen Repository-Stand tatsächlich belegen lassen:
 
-**Eigenschaften:**
-- ✅ Vollständige Historie jeder Datei
-- ✅ Branching und Merging
-- ✅ Verteilte Architektur (jeder Clone ist vollständig)
-- ✅ Content-addressable Storage (SHA-1/SHA-256 Hashes)
-- ⚠️  Nicht für binäre Daten optimiert
-- ⚠️  Keine gleichzeitigen Schreibzugriffe
+1. **Welche Git-ähnlichen Eigenschaften sind heute implementiert?**
+2. **Welche Eigenschaften existieren nur auf Ebene des Projekt-Workflows (GitHub/CI/CD)?**
+3. **Welche GitOps- oder Git-inspirierten Datenfunktionen sind bisher nur als Forschung, Konzept oder Implementierungsplan dokumentiert?**
 
-### Git Branching Model
-
-```
-main (Production)
-  |
-  ├── release/1.4.0 (Release Vorbereitung)
-  |    |
-develop (Integration)
-  |
-  ├── feature/vector-search (Neue Features)
-  ├── bugfix/query-fix (Bug Fixes)
-```
-
-**Merge-Strategien:**
-- **Fast-Forward**: Lineare Historie
-- **Merge Commit**: Branches zusammenführen
-- **Squash**: Mehrere Commits zu einem zusammenfassen
-- **Rebase**: Historie umschreiben
-
-### Git Objekt-Modell
-
-```
-Commit
-  ├── Tree (Verzeichnisstruktur)
-  │    ├── Blob (Dateiinhalt)
-  │    └── Blob (Dateiinhalt)
-  ├── Parent Commit(s)
-  └── Metadata (Author, Time, Message)
-```
+Dieser Artikel beantwortet diese Fragen anhand von Code, Tests, Benchmarks, Produktdokumentation und einschlägigen Research-Artefakten im Repository.
 
 ---
 
-## GitHub: Kollaborationsplattform
+## 2. Methodik / Ansatz
 
-### Workflow-Features
+Repository-Snapshot für diesen Review:
 
-**1. Pull Requests (PRs)**
-```yaml
-# .github/workflows/pr-check.yml
-name: PR Validation
-on:
-  pull_request:
-    branches: [develop, main]
+- Repository: `makr-code/ThemisDB`
+- Prüfsnapshot: Commit `ad28140846783869d11d13a9540bb0523d471f4d`
+- Review-Datum: 18.05.2026
 
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run tests
-        run: npm test
-```
+Der Faktencheck kombiniert vier Evidenzklassen:
 
-**GitHub Flow:**
-1. Branch erstellen
-2. Commits hinzufügen
-3. Pull Request öffnen
-4. Code Review
-5. CI/CD Checks
-6. Merge nach Approval
+1. **Produktionscode**
+   - `include/transaction/transaction_manager.h`
+   - `src/transaction/transaction_manager.cpp`
+   - `src/config/config_schema_validator.cpp`
+   - `src/config/config_path_resolver.cpp`
+   - `src/prompt_engineering/prompt_library_io.cpp`
+2. **Tests und Benchmarks**
+   - `tests/test_transaction_manager.cpp`
+   - `benchmarks/bench_mvcc.cpp`
+   - `benchmarks/bench_transaction_throughput.cpp`
+   - `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
+3. **Produkt- und Architektur-Dokumentation**
+   - `README.md`
+   - `docs/de/architecture/architecture_mvcc.md`
+   - `docs/de/features/features_transactions.md`
+   - `docs/de/aql/aql_query_engine.md`
+   - `docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md`
+   - `openapi/openapi.yaml`
+4. **Research-/Planungsdokumente für nicht implementierte Erweiterungen**
+   - `research/bestehende_yaml_nutzung.md`
+   - `research/schema/README.md`
+   - `research/IMPLEMENTATION_PLAN_GIT_FEATURES.md`
 
-**2. GitHub Actions (CI/CD)**
-- Automatisierte Workflows
-- Event-getrieben (Push, PR, Release)
-- YAML-basierte Konfiguration
-- Marketplace für wiederverwendbare Actions
+Bewertungskriterien:
 
-**3. Issues & Project Management**
-- Issue Tracking mit Labels
-- Milestones und Projects
-- Automatisierung via GitHub Actions
-
----
-
-## GitOps: Deklarative Infrastruktur
-
-### Kernprinzipien
-
-**1. Deklarative Konfiguration**
-```yaml
-# kubernetes/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: themisdb
-spec:
-  replicas: 3
-  template:
-    spec:
-      containers:
-      - name: themisdb
-        image: themisdb:v1.4.0
-        env:
-        - name: CONFIG_FILE
-          value: /config/themis.yaml
-```
-
-**2. Git als Single Source of Truth**
-- Infrastructure as Code (IaC)
-- Alle Änderungen via Git
-- Auditierbare Historie
-- Rollback über Git
-
-**3. Automatische Synchronisation**
-```
-Git Repository (Desired State)
-        ↓
-    GitOps Operator (ArgoCD, Flux)
-        ↓
-  Kubernetes Cluster (Actual State)
-```
-
-**GitOps Workflow:**
-1. Entwickler pusht YAML-Änderung zu Git
-2. GitOps Tool detektiert Änderung
-3. Automatisches Deployment
-4. Continuous Reconciliation
+- Aussagen über den **Ist-Zustand** werden nur dann als belastbar behandelt, wenn sie sich direkt auf Code, Tests, Benchmarks oder produktnahe Doku zurückführen lassen.
+- Aussagen über **GitOps-, Branching- oder Schema-as-Code-Erweiterungen** werden nur dann als implementiert beschrieben, wenn ein konkreter Codepfad oder eine produktive API belegbar ist.
+- Reine Konzept- oder Planungsdokumente werden explizit als **Zukunftsperspektive** und nicht als Produktstatus gewertet.
 
 ---
 
-## ThemisDB MVCC: Versionskontrolle für Daten
+## 3. Systemkontext und vereinheitlichte Terminologie
 
-### Kernkonzepte
+### 3.1 Git
 
-**1. Multi-Version Concurrency Control**
-```cpp
-// Transaktion startet mit Snapshot
-auto txn = db.begin();  // Snapshot Version = T1
+Git ist ein **verteiltes Versionskontrollsystem für Quellcode und Dateien**. Seine Kernobjekte sind Commits, Trees, Blobs, Branches und Tags. Branching, Merge-Historien und Rebase beziehen sich auf eine commit-basierte DAG-Struktur.
 
-// Lesen: Sieht nur Daten bis T1
-auto data = txn.get("users:alice");  
+### 3.2 GitHub
 
-// Schreiben: Neue Version erstellen
-txn.put("users:alice", new_data);    
+GitHub ist im hier relevanten Sinn **nicht Git selbst**, sondern die Kollaborations- und Automatisierungsebene darüber: Pull Requests, Reviews, Branch Protection, Actions/CI und Repository-Governance.
 
-// Commit: Atomare Persistierung
-txn.commit();  // Commit Version = T2
-```
+### 3.3 GitOps
 
-**Eigenschaften:**
-- ✅ Snapshot Isolation (konsistente Lesezugriffe)
-- ✅ Concurrent Reads ohne Locks
-- ✅ Write-Write Conflict Detection
-- ✅ Atomare Multi-Index Transaktionen
-- ✅ ACID-Garantien
-- ⚠️  Höherer Speicherverbrauch (Versionen)
-- ⚠️  Garbage Collection erforderlich
+GitOps bezeichnet ein Betriebsmodell, in dem **Git den deklarativen Soll-Zustand** für Infrastruktur oder Plattformartefakte hält und ein Operator diesen Zustand kontinuierlich mit einem Zielsystem abgleicht. GitOps setzt also typischerweise auf **deklarative Dateien**, **Pull-Request-Workflows** und **automatisierte Reconciliation**.
 
-### MVCC Architektur
+### 3.4 ThemisDB
 
-```
-TransactionManager
-  ├── begin() → Snapshot Version
-  ├── get()   → Version-aware Read
-  ├── put()   → Conflict Detection
-  └── commit() → Atomic Persist
+Für dieses Dokument ist ThemisDB präzise so zu fassen:
 
-RocksDB TransactionDB
-  ├── Pessimistic Locking
-  ├── Snapshot Management
-  └── WAL (Write-Ahead Log)
-```
+- **Multi-Model-Datenbank** laut `README.md`
+- **AQL (Advanced Query Language)** als zentrale deklarative Query-Sprache laut `docs/de/aql/aql_query_engine.md` und `openapi/openapi.yaml`
+- **MVCC-/Transaktionsschicht** mit Snapshot-Isolation, Konflikterkennung und atomaren Multi-Index-Commits laut `docs/de/architecture/architecture_mvcc.md`, `docs/de/features/features_transactions.md` und `include/transaction/transaction_manager.h`
+- **YAML-Nutzung** für Konfiguration, Validierung, Import/Export und Deployment-Artefakte laut `research/bestehende_yaml_nutzung.md`, `src/config/config_schema_validator.cpp`, `src/config/config_path_resolver.cpp` und `src/prompt_engineering/prompt_library_io.cpp`
 
-**Versioniertes Objekt-Modell:**
-```cpp
-Entity Version {
-  primary_key: "users:alice"
-  version_start: 42
-  version_end: 100  // oder UINT64_MAX wenn aktiv
-  data: {...}
-}
-```
+Wichtig für die Terminologie:
 
-### Index-Versionierung
-
-**Alle Indizes unterstützen MVCC:**
-- **Secondary Index**: Versionierte Einträge
-- **Graph Index**: Versionierte Kanten
-- **Vector Index**: Versionierte Embeddings
-- **Fulltext Index**: Versionierte Dokumente
-
-```cpp
-// Atomare Index-Updates
-auto txn = db.begin();
-txn.put("users:alice", data);           // Primary
-secIdx.put(table, entity, *txn);        // Secondary
-graphIdx.addEdge(edge, *txn);           // Graph
-vecIdx.addEntity(entity, *txn);         // Vector
-txn.commit();  // Alles oder nichts
-```
+- ThemisDB ist **kein Git-Ersatz** für Daten.
+- Die fachlich richtige Bezeichnung für das Daten-Konsistenzmodell im hier geprüften Kontext ist **MVCC mit Snapshot-Isolation / ReadCommitted, Write-Write-Konflikterkennung und atomaren Transaktionen**.
+- GitHub-Workflow-Regeln des Repositories sind **Projektprozess**, nicht automatisch Datenbank-Feature.
+- YAML-basierte Schema-Steuerung ist nach aktuellem Stand **nicht** als allgemeine Kernfunktion belegt.
 
 ---
 
-## Konzeptvergleich
+## 4. Vergleich: Wo die Analogie trägt — und wo nicht
 
-### Ähnlichkeiten
+### 4.1 Vergleichstabelle
 
-| Konzept | Git | ThemisDB MVCC |
-|---------|-----|---------------|
-| **Versionierung** | Commit-basiert | Transaction-basiert |
-| **Snapshot** | `git checkout <commit>` | Transaction Snapshot |
-| **Branching** | Git Branches | Parallele Transaktionen |
-| **Merge** | `git merge` | Transaction Commit |
-| **Konflikt** | Merge Conflict | Write-Write Conflict |
-| **Historie** | `git log` | Transaction Log / Changefeed |
-| **Rollback** | `git reset` | Transaction Rollback |
-| **Audit Trail** | Commit History | Audit Logging |
+| Aspekt | Git / GitHub / GitOps | ThemisDB (heutiger Stand) | Bewertung |
+|---|---|---|---|
+| **Atomarer Snapshot** | Commit erzeugt einen nachvollziehbaren Zustandswechsel | Transaktionen erzeugen konsistente Zustandswechsel; Snapshot-Isolation ist dokumentiert und implementiert | **Tragfähige Analogie** |
+| **Historie / Nachvollziehbarkeit** | Commit-Historie, Review-Historie, Auditierbarkeit | MVCC-Versionen, Transaktionsstatus und Bench-/Testartefakte belegen Versions- und Commit-Logik | **Tragfähig, aber nicht identisch** |
+| **Parallele Arbeit** | Branches + spätere Merges | Gleichzeitige Transaktionen mit Konflikterkennung; keine persistenten Daten-Branches als Kernfeature belegt | **Nur teilweise vergleichbar** |
+| **Konflikte** | Merge-Konflikte beim Zusammenführen divergenter Historien | Write-Write-Konflikte bzw. OCC-/SSI-Konflikte zur Commit-Zeit | **Begrifflich ähnlich, technisch anders** |
+| **Rollback** | Revert / Reset / Checkout historischer Zustände | Commit/Abort/Rollback innerhalb von Transaktionen vorhanden | **Tragfähig auf Operationsebene** |
+| **Pull Requests / Reviews** | GitHub-Kollaborationsmodell | Im Repository-Workflow vorhanden, aber keine generische „Data PR“-Funktion als Produktmerkmal belegt | **Nur Projektprozess** |
+| **Deklarativer Soll-Zustand** | GitOps: YAML/Manifest als Source of Truth | YAML ist breit vorhanden; allgemeines DB-Schema-as-Code laut `research/schema/README.md` weiterhin Konzept | **Teilweise vorhanden, nicht voll umgesetzt** |
+| **Automatische Reconciliation** | Operator gleicht Git-Zustand mit Laufzeitsystem ab | Für Deployment-/Infra-Artefakte plausibel; für ThemisDB-Core-Schema nicht als implementierte Standardfunktion belegt | **Nicht als Kernfeature belegt** |
+| **Branches / Merge-Engine / Rebase** | Kernfunktionen von Git | Für Datenbestand im geprüften Stand nicht als allgemeine Produktfunktion verifiziert | **Keine belastbare Gleichsetzung** |
 
-### Unterschiede
+### 4.2 Kernaussage des Vergleichs
 
-| Aspekt | Git | ThemisDB MVCC |
-|--------|-----|---------------|
-| **Ziel** | Code-Versionierung | Daten-Versionierung |
-| **Granularität** | Datei/Zeile | Entity/Index |
-| **Concurrent Writes** | Nicht unterstützt | Ja (mit Conflict Detection) |
-| **Speichermodell** | Content-addressable | LSM-Tree (RocksDB) |
-| **Merge-Strategie** | Manuell/Automatisch | Automatisch (Optimistic Locking) |
-| **Garbage Collection** | `git gc` | Background GC (RocksDB Compaction) |
-| **Verteilung** | Vollständig dezentral | Server-zentriert (mit Replication) |
-| **Performance** | O(1) Read | O(log n) Read (LSM-Tree) |
+Die beste Kurzform ist daher:
 
-### Konzeptmapping
-
-```
-Git Commit          ↔  ThemisDB Transaction
-Git Branch          ↔  Concurrent Transaction
-Git Merge           ↔  Transaction Commit
-Git Conflict        ↔  Write-Write Conflict
-Git SHA             ↔  Transaction Version Number
-Git Tree            ↔  Entity Snapshot
-Git Blob            ↔  Entity Data
-Git HEAD            ↔  Latest Version
-Git Tag             ↔  Named Snapshot
-Git Remote          ↔  Replication Target
-```
+> **ThemisDB besitzt heute Git-ähnliche Eigenschaften bei Versionierung, Atomarität und Nachvollziehbarkeit von Datenänderungen, aber keine Git-äquivalente Branch-/Merge-Plattform für Daten. GitHub- und GitOps-Konzepte sind vor allem als Projektworkflow bzw. als Inspirationsquelle für deklarative Erweiterungen relevant.**
 
 ---
 
-## YAML-Übernahme von Git
+## 5. Evaluation / Experimente
 
-### 1. Deklarative Konfiguration (wie GitOps)
+Da für diesen Review keine neuen Laufzeitexperimente durchgeführt wurden, besteht die Evaluation aus einer **Repository-basierten Evidenzprüfung**. Sie stützt sich auf vorhandene Tests, Benchmarks, Baselines und implementierte Schnittstellen.
 
-**Aktuell: Imperativ (API-Calls)**
-```bash
-# Manuelles Schema-Setup
-curl -X POST /index/create \
-  -d '{"table":"users","column":"email","type":"secondary"}'
-```
+### 5.1 Verifizierte Kernclaims
 
-**Vorschlag: Deklarativ (YAML)**
-```yaml
-# themis-schema.yaml
-version: "1.0"
-database: themisdb
+| Claim | Status | Evidenz |
+|---|---|---|
+| **ThemisDB besitzt produktionsreife MVCC-/Transaktionsmechanismen** | **Belegt** | `docs/de/architecture/architecture_mvcc.md` beschreibt Snapshot-Isolation, Konflikterkennung und atomare Index-Updates; `include/transaction/transaction_manager.h` und `src/transaction/transaction_manager.cpp` implementieren die API und das Laufzeitverhalten. |
+| **Transaktionen sind über mehrere Index-Arten atomar** | **Belegt** | `include/transaction/transaction_manager.h` exponiert Relational-, Graph- und Vector-Operationen; `tests/test_transaction_manager.cpp` prüft atomare Commits und Rollbacks über Primärdaten und Secondary Indexes. |
+| **AQL ist die richtige Bezeichnung für die deklarative Query-Sprache** | **Belegt** | `docs/de/aql/aql_query_engine.md` beschreibt AQL als Query-Layer; `openapi/openapi.yaml` dokumentiert `/query/aql` als API-Endpunkt. |
+| **YAML ist im Repository bereits breit verankert** | **Belegt** | `research/bestehende_yaml_nutzung.md`, `src/config/config_schema_validator.cpp`, `src/config/config_path_resolver.cpp` und `src/prompt_engineering/prompt_library_io.cpp` belegen produktive YAML-Codepfade. |
+| **ThemisDB nutzt bereits YAML als allgemeines Schema-as-Code für den DB-Kern** | **Nicht belegt** | `research/schema/README.md` markiert YAML-basierte Schema-Definition ausdrücklich als „Konzept“ und „Zukünftig“. |
+| **Git-inspirierte Erweiterungen wie Named Snapshots, Diff-API oder PITR sind vollständig eingeführte Kernfeatures** | **Nicht als aktueller Produktstatus belegbar** | `research/IMPLEMENTATION_PLAN_GIT_FEATURES.md` ist ein Implementierungsplan; die Datei selbst dokumentiert damit Zukunftsarbeit statt bereits ausgerollten Standardbetriebs. |
 
-tables:
-  users:
-    primary_key: user_id
-    indexes:
-      - column: email
-        type: secondary
-        unique: true
-      - column: location
-        type: geo
-        srid: 4326
-      - column: embedding
-        type: vector
-        dimensions: 384
-        algorithm: hnsw
-        
-    constraints:
-      - field: age
-        type: range
-        min: 0
-        max: 150
-      - field: email
-        type: regex
-        pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+### 5.2 Test- und Benchmarklage
 
-  posts:
-    primary_key: post_id
-    relationships:
-      - name: author
-        target: users
-        type: many_to_one
-        foreign_key: author_id
-```
+Die Repository-Artefakte stützen die obigen Claims zusätzlich:
 
-**Anwendung:**
-```bash
-# Schema aus YAML laden
-themis schema apply -f themis-schema.yaml
+1. **Transaktionstests**
+   - `tests/test_transaction_manager.cpp` prüft u. a. Begin/Commit/Rollback sowie atomare Multi-Entity-Commits.
+   - Die deutschsprachige MVCC-Architekturdoku nennt zusätzlich einen konsolidierten Teststatus für Transaktions- und MVCC-Tests.
 
-# Änderungen anzeigen
-themis schema diff -f themis-schema.yaml
+2. **MVCC-Benchmarks**
+   - `benchmarks/bench_mvcc.cpp` enthält Benchmarks für Single-Entity-Commit, Batch-Insert, Snapshot-Overhead und Rollback.
+   - Das ist ein belastbarer Hinweis darauf, dass MVCC im Repository nicht nur dokumentiert, sondern auch als Performance-Thema explizit gemessen wird.
 
-# Rollback
-themis schema rollback --to-version v1.2.0
-```
+3. **Transaktions-Baselines und Lückenbild**
+   - `benchmarks/bench_transaction_throughput.cpp` und `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json` zeigen, dass Transaktions-SLOs und Benchmark-Mapping gepflegt werden.
+   - Gleichzeitig weist die Baseline mehrere Fälle explizit als **proxy/gap** aus. Das ist wichtig: Nicht jede fortgeschrittene, Git-inspirierte oder verteilte Workflow-Idee ist bereits benchmark-seitig vollständig abgesichert.
 
-### 2. CI/CD Integration (wie GitHub Actions)
+### 5.3 Bewertung der GitOps-Frage
 
-**Vorschlag: ThemisDB Actions**
-```yaml
-# .themis/workflows/data-validation.yml
-name: Data Quality Check
-on:
-  entity_change:
-    tables: [users, orders]
-  
-triggers:
-  - type: pre_commit
-    condition: table == "users"
-    
-jobs:
-  validate_user:
-    runs_on: themisdb
-    steps:
-      - name: Check email format
-        aql: |
-          MATCH (u:users)
-          WHERE u.email NOT REGEX '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-          RETURN u.user_id, u.email
-        on_failure: rollback
-        
-      - name: Check age range
-        aql: |
-          MATCH (u:users)
-          WHERE u.age < 0 OR u.age > 150
-          RETURN u.user_id, u.age
-        on_failure: alert
-        
-      - name: Update materialized view
-        aql: |
-          CREATE OR REPLACE VIEW active_users AS
-          MATCH (u:users)
-          WHERE u.last_login > NOW() - INTERVAL '30 days'
-          RETURN u.*
-```
+Die GitOps-Frage fällt differenziert aus:
 
-### 3. Versionierte Schemas (wie Git Commits)
-
-**Vorschlag: Schema-Versionierung**
-```yaml
-# themis-migrations/001_initial_schema.yaml
-version: "001"
-description: "Initial schema for users and posts"
-author: "developer@example.com"
-timestamp: "2026-01-14T10:00:00Z"
-
-up:
-  - create_table:
-      name: users
-      columns:
-        - name: user_id
-          type: string
-          primary_key: true
-        - name: email
-          type: string
-        - name: created_at
-          type: timestamp
-
-down:
-  - drop_table:
-      name: users
-```
-
-```bash
-# Migration anwenden
-themis migrate up
-
-# Migration rückgängig machen
-themis migrate down
-
-# Status anzeigen
-themis migrate status
-```
-
-### 4. Branching-Strategie für Daten
-
-**Vorschlag: Data Branches**
-```yaml
-# .themis/branches.yaml
-branches:
-  main:
-    description: "Production data"
-    protected: true
-    auto_backup: true
-    retention: 90d
-    
-  staging:
-    description: "Staging environment"
-    clone_from: main
-    sync_interval: 1h
-    
-  feature/ml-training:
-    description: "ML model training data"
-    clone_from: main
-    snapshot_at: "2026-01-01T00:00:00Z"
-    read_only: true
-```
-
-**Workflow:**
-```bash
-# Branch erstellen
-themis branch create feature/ml-training --from main
-
-# Zu Branch wechseln
-themis branch checkout feature/ml-training
-
-# Änderungen committen
-themis commit -m "Add training samples"
-
-# Branch mergen
-themis branch merge feature/ml-training --to staging
-```
+- **Ja:** ThemisDB verwendet bereits deklarative YAML-Artefakte in mehreren realen Bereichen.
+- **Ja:** Das Repository selbst nutzt GitHub-/Branching-/CI-Regeln, die gut zu GitOps-Denkmustern passen.
+- **Nein:** Daraus folgt **nicht**, dass der Datenbankkern schon heute standardmäßig per GitOps-Schema-Datei gesteuert wird.
+- **Nein:** Die im alten Artikel gezeigten CLI- und Workflow-Beispiele (`themis schema apply`, Data Branches, Data Pull Requests) sind in dieser Form nicht als aktuell eingeführte Standardoberfläche belegbar.
 
 ---
 
-## Empfohlene Integrationen
+## 6. Limitations / Known Issues
 
-### 1. GitOps für ThemisDB-Deployment
-
-**Helm Chart + ArgoCD Integration**
-```yaml
-# values.yaml
-replicaCount: 3
-
-config:
-  schema:
-    source: git
-    repository: https://github.com/org/themis-schemas.git
-    path: schemas/production.yaml
-    sync_interval: 5m
-    
-  backup:
-    enabled: true
-    schedule: "0 2 * * *"
-    destination: s3://backups/themisdb
-    
-monitoring:
-  prometheus:
-    enabled: true
-  grafana:
-    enabled: true
-```
-
-**ArgoCD Application:**
-```yaml
-# argocd/themisdb-app.yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: themisdb
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/org/themis-infra.git
-    path: kubernetes/themisdb
-    targetRevision: main
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: themisdb
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-```
-
-### 2. GitHub Actions für Schema-Validierung
-
-```yaml
-# .github/workflows/schema-validation.yml
-name: ThemisDB Schema Validation
-
-on:
-  pull_request:
-    paths:
-      - 'schemas/**/*.yaml'
-
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Install ThemisDB CLI
-        run: |
-          curl -L https://github.com/makr-code/ThemisDB/releases/latest/download/themis-cli-linux -o themis
-          chmod +x themis
-      
-      - name: Validate Schema
-        run: |
-          ./themis schema validate schemas/production.yaml
-      
-      - name: Run Schema Tests
-        run: |
-          ./themis schema test schemas/production.yaml
-      
-      - name: Generate Schema Diff
-        if: github.event_name == 'pull_request'
-        run: |
-          ./themis schema diff \
-            --base origin/${{ github.base_ref }} \
-            --head ${{ github.sha }} \
-            --output schema-diff.md
-      
-      - name: Comment PR with Diff
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const diff = fs.readFileSync('schema-diff.md', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Schema Changes\n\n${diff}`
-            });
-```
-
-### 3. Change Data Capture (CDC) mit Git-Semantik
-
-```yaml
-# .themis/cdc.yaml
-cdc:
-  enabled: true
-  
-  streams:
-    - name: user-changes
-      tables: [users]
-      format: git-patch
-      destination: kafka://kafka:9092/user-changes
-      
-  format:
-    type: git-diff
-    include:
-      - operation: insert
-        format: |
-          + user_id: {{.user_id}}
-          + email: {{.email}}
-          + created_at: {{.created_at}}
-      
-      - operation: update
-        format: |
-          ~ user_id: {{.user_id}}
-          - email: {{.old.email}}
-          + email: {{.new.email}}
-      
-      - operation: delete
-        format: |
-          - user_id: {{.user_id}}
-          - email: {{.email}}
-```
-
-**Output-Beispiel:**
-```diff
-Commit: txn_0000000042
-Author: app-server-01
-Date: 2026-01-14 10:30:00 UTC
-
-Update user profile
-
-+ user_id: user_123
-- email: old@example.com
-+ email: new@example.com
-~ updated_at: 2026-01-14 10:30:00
-```
+1. **Repository-basierte Bewertung:** Dieser Review prüft Repository-Stand, Doku, Code, Tests und Benchmarks — nicht den vollständigen Betrieb aller Editionen oder Deployment-Topologien.
+2. **Analogie ist nicht Gleichheit:** Ein Git-Commit und ein DB-Commit sind beide atomare Zustandswechsel, aber ihre Datenmodelle, Historienstrukturen und Konfliktsemantiken sind verschieden.
+3. **GitHub ≠ Datenbankfunktion:** Branch Protection, Pull Requests und CI/CD sind klar als Projektworkflow des Repositories belegbar, nicht als native Data-Collaboration-Schicht von ThemisDB.
+4. **GitOps nur teilweise anschlussfähig:** YAML existiert breit, aber „YAML vorhanden“ ist nicht gleich „Core-Schema wird GitOps-gesteuert“. Gerade hier muss zwischen produktivem Ist-Zustand und Konzeptpapieren sauber getrennt werden.
+5. **Zukunftsfeatures bleiben Zukunftsfeatures:** Research- und Planungsdokumente zu Named Snapshots, Diff-API, PITR oder Schema-as-Code sind wertvoll, dürfen aber ohne zugehörigen Codepfad nicht als bereits ausgelieferte Kernfunktion beschrieben werden.
+6. **Benchmark-Abdeckung ist selektiv:** Die vorhandenen MVCC-/Transaction-Benchmarks belegen ernsthafte Performance-Arbeit, aber die Baseline-Dateien zeigen zugleich, dass einzelne Zielbilder noch als Proxy oder Gap geführt werden.
 
 ---
 
-## Zukunftsperspektiven
+## 7. Fazit
 
-### Roadmap: Git-inspirierte Features
+Die überarbeitete Bewertung ist bewusst nüchtern:
 
-**Phase 1: Schema Management (Q1 2026)**
-- [ ] YAML-basierte Schema-Definition
-- [ ] Schema-Versionierung und Migrations
-- [ ] Schema-Diffing und Validation
-- [ ] CLI-Tool für Schema-Management
+- **Git** ist das richtige Referenzmodell für commit-basierte, dateiorientierte Versionskontrolle.
+- **GitHub** ist das passende Referenzmodell für Review-, Branching- und CI/CD-Governance des ThemisDB-Repositories.
+- **GitOps** ist ein sinnvolles Denkmodell für deklarative Betriebsartefakte und mögliche zukünftige Schema-/Deployment-Workflows.
+- **ThemisDB** besitzt heute bereits eine starke, belegte Datenversions- und Transaktionsbasis mit MVCC, AQL und YAML-gestützten Konfigurationspfaden.
 
-**Phase 2: Workflow-Integration (Q2 2026)**
-- [ ] GitHub Actions Integration
-- [ ] GitOps-kompatibles Deployment
-- [ ] Automatische Schema-Synchronisation
-- [ ] CI/CD Pipelines für Datenbank-Änderungen
+Die fachlich saubere Schlussfolgerung lautet daher:
 
-**Phase 3: Data Branching (Q3 2026)**
-- [ ] Named Snapshots (wie Git Tags)
-- [ ] Branch-ähnliche Datenviews
-- [ ] Copy-on-Write Branches
-- [ ] Branch-Merging mit Conflict Resolution
+> **ThemisDB ist heute kein „Git für Daten“, aber eine multi-modale Datenbank mit belastbarer MVCC-/Transaktionsarchitektur, die mehrere Git- und GitOps-Ideen sinnvoll aufgreifen kann.**
 
-**Phase 4: Advanced Features (Q4 2026)**
-- [ ] Time-Travel Queries (wie `git checkout <commit>`)
-- [ ] Distributed Collaboration (wie Git Remotes)
-- [ ] Change Proposals (wie Pull Requests für Daten)
-- [ ] Auditierbare Daten-History (wie `git log`)
+Für Architektur-, Produkt- und Research-Kommunikation sollte man deshalb konsequent zwischen
 
-### Konzept-Prototypen
+1. **heute belegtem Produktverhalten**,
+2. **Repository-/GitHub-Prozessregeln** und
+3. **geplanten Git-/GitOps-inspirierten Erweiterungen**
 
-**1. Time-Travel Queries**
-```aql
--- Daten zu einem bestimmten Zeitpunkt
-AS OF TIMESTAMP '2026-01-01 00:00:00'
-MATCH (u:users)
-WHERE u.email = 'alice@example.com'
-RETURN u.*
-
--- Änderungen zwischen zwei Zeitpunkten (wie git diff)
-DIFF BETWEEN 
-  TIMESTAMP '2026-01-01 00:00:00' 
-  AND TIMESTAMP '2026-01-14 00:00:00'
-FOR TABLE users
-WHERE user_id = 'user_123'
-```
-
-**2. Data Pull Requests**
-```yaml
-# data-pr-001.yaml
-title: "Update customer segmentation"
-author: data-scientist@example.com
-reviewers:
-  - data-engineer@example.com
-  - product-manager@example.com
-
-changes:
-  - table: customers
-    operation: bulk_update
-    affected_rows: 15000
-    query: |
-      UPDATE customers
-      SET segment = 'premium'
-      WHERE lifetime_value > 10000
-      
-validation:
-  - check: referential_integrity
-  - check: data_quality_rules
-  - check: performance_impact
-  
-tests:
-  - query: |
-      SELECT COUNT(*) FROM customers WHERE segment = 'premium'
-    expected: 15000
-```
-
-**3. Distributed Themis (wie Git Remotes)**
-```bash
-# Remote hinzufügen
-themis remote add production themis://prod.example.com:18765
-
-# Änderungen pushen
-themis push production main
-
-# Änderungen pullen
-themis pull production main
-
-# Remote synchronisieren
-themis sync production --auto-merge
-```
+unterscheiden.
 
 ---
 
-## Best Practices
+## References / Quellen
 
-### 1. Schema as Code
-```
-git-repo/
-├── schemas/
-│   ├── production.yaml
-│   ├── staging.yaml
-│   └── development.yaml
-├── migrations/
-│   ├── 001_initial.yaml
-│   ├── 002_add_users.yaml
-│   └── 003_add_indexes.yaml
-└── .github/
-    └── workflows/
-        └── schema-validation.yml
-```
+### Externe Referenzen
 
-### 2. Environment-Parity
-```yaml
-# base-schema.yaml (shared)
-version: "1.0"
-tables:
-  users:
-    primary_key: user_id
+1. Git Documentation.
+   URL: https://git-scm.com/doc
+2. GitHub Docs: About workflows / GitHub Actions.
+   URL: https://docs.github.com/en/actions
+3. OpenGitOps: GitOps Principles.
+   URL: https://opengitops.dev/
+4. Argo CD Documentation.
+   URL: https://argo-cd.readthedocs.io/
+5. Flux Documentation.
+   URL: https://fluxcd.io/
 
----
-# production.yaml (overlay)
-extends: base-schema.yaml
-config:
-  replication_factor: 3
-  backup_enabled: true
+### Repository-Artefakte (commit-gepinnt)
 
----
-# development.yaml (overlay)
-extends: base-schema.yaml
-config:
-  replication_factor: 1
-  backup_enabled: false
-```
-
-### 3. GitOps Workflow
-```
-1. Developer ändert schemas/production.yaml
-2. Git Push → Pull Request
-3. GitHub Actions validiert Schema
-4. Code Review
-5. Merge → Main Branch
-6. ArgoCD detektiert Änderung
-7. Automatisches Schema-Update in ThemisDB
-8. Monitoring & Alerting
-```
-
----
-
-## Vergleichstabelle: Feature-Matrix
-
-| Feature | Git | GitHub | GitOps | ThemisDB MVCC | Empfohlen |
-|---------|-----|--------|--------|---------------|-----------|
-| **Versionierung** | ✅ | ✅ | ✅ | ✅ | - |
-| **YAML-Konfiguration** | ❌ | ✅ | ✅ | ❌ | ✅ Implementieren |
-| **Branching** | ✅ | ✅ | ❌ | 🟡 (Parallel Txn) | ✅ Data Branches |
-| **Merge/Conflict** | ✅ | ✅ | ❌ | ✅ | - |
-| **CI/CD Integration** | ❌ | ✅ | ✅ | ❌ | ✅ Implementieren |
-| **Pull Requests** | ❌ | ✅ | ❌ | ❌ | 🟡 Data PRs (Future) |
-| **Audit Trail** | ✅ | ✅ | ✅ | ✅ | - |
-| **Time-Travel** | ✅ | ❌ | ❌ | 🟡 (PITR) | ✅ Erweitern |
-| **Distributed** | ✅ | ✅ | ❌ | 🟡 (Replication) | 🟡 Multi-Master |
-| **Deklarativ** | ❌ | ❌ | ✅ | ❌ | ✅ Schema YAML |
-| **Automated Sync** | ❌ | ❌ | ✅ | ❌ | ✅ GitOps Mode |
-
-**Legende:**
-- ✅ Vollständig unterstützt
-- 🟡 Teilweise unterstützt
-- ❌ Nicht unterstützt
-
----
-
-## Zusammenfassung
-
-### Was ThemisDB von Git lernen kann
-
-1. **YAML-basierte Konfiguration** ✨
-   - Deklarative Schema-Definition
-   - Infrastructure as Code
-   - GitOps-kompatibel
-
-2. **Branching-Konzepte** ✨
-   - Named Snapshots (Tags)
-   - Data Branches für Staging
-   - Merge-Strategien
-
-3. **CI/CD Integration** ✨
-   - GitHub Actions für Schema-Validierung
-   - Automatisierte Tests
-   - Deployment-Pipelines
-
-4. **Audit & Compliance** ✨
-   - Vollständige Change-Historie
-   - Author-Tracking
-   - Signed Commits (für Compliance)
-
-### Was Git von ThemisDB lernen kann
-
-1. **Concurrent Operations**
-   - Multiple Writers gleichzeitig
-   - Optimistic Concurrency Control
-
-2. **ACID Transactions**
-   - Atomare Multi-Objekt-Updates
-   - Rollback-Garantien
-
-3. **High-Performance Queries**
-   - Index-basierte Suche
-   - Vector Search
-   - Graph Traversal
-
-### Empfohlene nächste Schritte
-
-1. **Sofort (Sprint 1-2)**
-   - ✅ Schema-YAML Format definieren
-   - ✅ CLI-Tool für Schema-Management
-   - ✅ Basic Schema-Validierung
-
-2. **Kurzfristig (Q1 2026)**
-   - 🎯 GitHub Actions Templates
-   - 🎯 GitOps-kompatibler Deployment-Mode
-   - 🎯 Schema-Migrations-System
-
-3. **Mittelfristig (Q2-Q3 2026)**
-   - 🎯 Data Branching (Named Snapshots)
-   - 🎯 Time-Travel Queries erweitern
-   - 🎯 Distributed Synchronisation
-
-4. **Langfristig (Q4 2026+)**
-   - 🎯 Data Pull Requests
-   - 🎯 Multi-Master Replication
-   - 🎯 Collaborative Data Editing
-
----
-
-## Ressourcen
-
-### Git/GitHub
-- [Git Documentation](https://git-scm.com/doc)
-- [GitHub Flow](https://guides.github.com/introduction/flow/)
-- [GitHub Actions](https://docs.github.com/en/actions)
-
-### GitOps
-- [GitOps Principles](https://opengitops.dev/)
-- [ArgoCD](https://argo-cd.readthedocs.io/)
-- [Flux](https://fluxcd.io/)
-
-### ThemisDB
-- [MVCC Architecture](../de/architecture/architecture_mvcc.md)
-- [Transaction Management](../de/features/features_transactions.md)
-- [Branching Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
-- [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) - **NEU: Analyse existierender YAML-Konfigurationen**
-
----
-
-**Autoren:** ThemisDB Architecture Team  
-**Reviewers:** DevOps Team, Database Team  
-**Status:** Draft → Review → Published
+6. ThemisDB README — Positionierung als Multi-Model-Datenbank mit ACID/MVCC/AQL/Distributed-Fokus.
+   URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/README.md
+7. MVCC-Architekturübersicht (DE).
+   URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/docs/de/architecture/architecture_mvcc.md
+8. TransactionManager Public API.
+   URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/include/transaction/transaction_manager.h
+9. TransactionManager Laufzeitimplementierung.
+   URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/src/transaction/transaction_manager.cpp
+10. Transaction-Tests.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/tests/test_transaction_manager.cpp
+11. MVCC-Benchmarks.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/benchmarks/bench_mvcc.cpp
+12. Transaction-Benchmark-Baseline (`bench_transaction_v190_baseline.json`).
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/benchmarks/baselines/distributed/bench_transaction_v190_baseline.json
+13. AQL Query Engine (DE).
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/docs/de/aql/aql_query_engine.md
+14. OpenAPI-Spezifikation mit `/query/aql`.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/openapi/openapi.yaml
+15. Git-Branching-Strategie des Repositories.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md
+16. Review zur bestehenden YAML-Nutzung.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/research/bestehende_yaml_nutzung.md
+17. YAML-Schema-Beispiele — explizit als Konzept markiert.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/research/schema/README.md
+18. Implementierungsplan für Git-ähnliche Features.
+    URL: https://github.com/makr-code/ThemisDB/blob/ad28140846783869d11d13a9540bb0523d471f4d/research/IMPLEMENTATION_PLAN_GIT_FEATURES.md

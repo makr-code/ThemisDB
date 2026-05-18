@@ -1682,6 +1682,16 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     if (gpu_available_) {
         CUDA_CHECK(cudaSetDevice(gpu_device_id));
         
+        // STUB/SIMULATION NOTE (stub #309):
+        // Purpose: Keep GPU health polling functional in CUDA builds before NVML
+        //          integration is wired for real temperature telemetry.
+        // Activation: THEMIS_ENABLE_CUDA with gpu_available_=true in updateGPUHealth().
+        // Production Delta: Temperature is hardcoded to 0.0°C; thermal throttling
+        //                   and overheating signals are invisible to health checks.
+        // Removal Plan: Integrate NVML temperature queries (per device) and propagate
+        //               real sensor values into gpu_temperatures_.
+        //               See src/llm/FUTURE_ENHANCEMENTS.md (GPU utilization/observability targets).
+        //               Target: v2.2.0.
         // Get temperature (if available through NVIDIA Management Library - NVML)
         // This is a placeholder - actual implementation would use NVML
         gpu_temperatures_[gpu_device_id] = 0.0f;

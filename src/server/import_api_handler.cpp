@@ -452,6 +452,19 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
+    // STUB/SIMULATION NOTE (stub #294):
+    // Purpose: Expose the schema-preview and schema-validate REST endpoints so that
+    //          clients can discover them, while the PostgreSQL wire protocol parser
+    //          required for source introspection is not linked into this build.
+    // Activation: `THEMIS_ENABLE_POSTGRES_WIRE` is not defined at compile time
+    //             (default build without the 'pg-wire' vcpkg feature).
+    // Production Delta: GET /import/{id}/schema and POST /import/validate-schema
+    //                   always return HTTP 501.  Callers cannot preview table structures
+    //                   or validate relationship overrides before starting an import.
+    // Removal Plan: Enable the 'pg-wire' vcpkg feature and set
+    //               `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` in CMake; the `#else` branch
+    //               contains the real implementation.
+    //               See src/server/ROADMAP.md §Import Schema Preview.  Target: Q1 2027.
     jsonError(res, 501,
               "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;
@@ -495,6 +508,9 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
+    // STUB/SIMULATION NOTE (stub #294 — validateSchema path, same gate):
+    // See handleGetSchema() above for full details.  Both schema-inspection endpoints
+    // share the THEMIS_ENABLE_POSTGRES_WIRE compile-time gate.
     jsonError(res, 501,
               "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;

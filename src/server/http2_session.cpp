@@ -463,6 +463,24 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
         });
     }
     
+    // STUB/SIMULATION NOTE (stub #298):
+    // Purpose: Keep the HTTP/2 response path functional while proper async buffer
+    //          lifetime management is deferred.  The raw-new pattern avoids
+    //          dangling references to a stack-allocated buffer across the async
+    //          read_callback invocations.
+    // Activation: Always — no shared_ptr or custom deleter is used for the
+    //             response buffer.
+    // Production Delta: Any exception thrown between `new ResponseBuffer` and
+    //                   the nghttp2_submit_response call leaks the buffer.  If
+    //                   `read_callback` is never called (e.g. stream reset), the
+    //                   buffer is also leaked.  Under high concurrency this
+    //                   accumulates into a measurable memory leak and prevents
+    //                   graceful server shutdown with in-flight HTTP/2 streams.
+    // Removal Plan: Replace with a shared_ptr<ResponseBuffer> captured in the
+    //               lambda; store it in a per-stream map keyed on stream_id and
+    //               erase on NGHTTP2_DATA_FLAG_EOF or stream-close callback.
+    //               See src/server/FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement.
+    //               Target: v2.1.0.
     // Store response body in class member to ensure lifetime during async operation
     // TODO: Use proper buffer management for production
     struct ResponseBuffer {

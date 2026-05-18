@@ -7,6 +7,7 @@
 
 ## Benchmark-Bezug
 - Relevante Benchmark-Dateien:
+  - `benchmarks/bench_v1_3_0_features.cpp`
   - `benchmarks/bench_embedding_cache_performance.cpp`
   - `benchmarks/bench_adaptive_query_cache.cpp`
   - `benchmarks/bench_api_endpoints.cpp`
@@ -14,7 +15,7 @@
 ## Spezifische Erwartungswerte
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| C-1 | Siehe Zielbeschreibung: L1 Hit-Path | `BM_EmbeddingCache_Query_WithIndex` |
+| C-1 | Siehe Zielbeschreibung: L1 Hit-Path | `BM_EmbeddingCache_Query_Hit` |
 | C-2 | Siehe Zielbeschreibung: L2 Hit-Path | `BM_EmbeddingCache_Store_WithIndex` |
 | C-3 | Siehe Zielbeschreibung: L3 Hit-Path P99 | `BM_EmbeddingCache_Query_NoIndex` |
 | C-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Cache_L1_Put` |

@@ -174,7 +174,7 @@ struct HTTrain {
      * Intended for compatibility with `ITensorIndex`; not efficient for large tensors.
      *
      * @note
-     * // STUB/SIMULATION NOTE (STUB #178):
+     * // STUB/SIMULATION NOTE (STUB #286):
      * // Purpose: TTTrain compatibility until ITensorIndex is extended for HTTrain.
      * // Activation: Always.
      * // Production Delta: O(∏ n_k) full reconstruction + TT redecomposition.

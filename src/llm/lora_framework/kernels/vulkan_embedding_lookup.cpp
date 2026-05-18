@@ -21,13 +21,24 @@ inline void validate_ptr(const void* ptr, const char* name) {
 
 } // namespace
 
-// STUB/SIMULATION NOTE:
-// Purpose: Provide a build-safe Vulkan-kernel API implementation in modular
-//          builds where full Vulkan compute kernels are not compiled.
-// Activation: Compiled when THEMIS_ENABLE_VULKAN is enabled in modular LLM build.
-// Production Delta: All operations run on CPU memory, no Vulkan dispatch occurs.
-// Removal Plan: Replace with full Vulkan kernel dispatch once
-//               vulkan_kernels.cpp is compile-safe and reintegrated.
+// STUB/SIMULATION NOTE (stub #285):
+// Purpose: Provide a build-safe CPU implementation of all Vulkan LoRA kernel APIs
+//          (matmul, element-wise ops, transpose, embedding lookup, LoRA
+//          fwd/bwd pass, fused forward/backward) for modular builds where
+//          `vulkan_kernels.cpp` is not compiled.
+// Activation: Compiled when `THEMIS_ENABLE_VULKAN` is set in the modular LLM
+//             build but `vulkan_kernels.cpp` is not yet reintegrated (pending
+//             compile-safety fixes).
+// Production Delta: All dispatch functions execute on CPU memory using plain
+//             C++ loops.  No Vulkan shader compilation, no device-memory
+//             allocation, no GPU parallelism.  LoRA training and inference
+//             on this path is O(batch×M×N×K) on the host CPU instead of
+//             running in parallel on Vulkan compute queues; throughput will
+//             be 10-100× lower than the GPU path on typical workloads.
+// Removal Plan: Replace with real Vulkan compute-shader dispatch once
+//               `vulkan_kernels.cpp` is compile-safe; guard with a runtime
+//               `is_vulkan_available()` check so the CPU path remains as
+//               fallback.  Track via STUB_INVENTORY #285 (target: v2.1.0).
 bool initialize_vulkan_lora(int /*device_id*/) {
     g_vulkan_sim_available = true;
     return true;

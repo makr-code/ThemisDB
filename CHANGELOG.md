@@ -52,6 +52,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
     `docs/audit-reports/cve-waivers.md`.
 
+### Testing
+
+- **Integration Pipeline Coverage Expansion** 🧪
+  - **Application Resilience Scenarios (APP-11..APP-13)** — `tests/integration/pipeline/application_profile_pipeline_test.cpp`
+    - APP-11: Timeout → retry/fallback behavior; validates assistant request retry logic under LLM timeout conditions
+    - APP-12: Retry-budget exhaustion behavior; verifies fallback activation when retry budget exhausted
+    - APP-13: Circuit-breaker open-state enforcement; ensures circuit breaker blocks requests after repeated assistant failures
+  - **Security Hardening Scenarios (SEC-04..SEC-06)** — `tests/integration/pipeline/security_pipeline_test.cpp`
+    - SEC-04: RBAC-denied request path (403 + audit/no info leakage); validates denied requests return 403 with audit trail and no sensitive data
+    - SEC-05: Multi-rotation consistency/readability checks; verifies secret rotation preserves read consistency across replicas
+    - SEC-06: Revoked-token rejection with audit verification; ensures revoked tokens are rejected and audit events recorded
+  - **Documentation Sync**
+    - Updated `tests/integration/INTEGRATION_TEST_GUIDELINES.md` with APP/SEC scenario ranges and design patterns
+    - Updated `tests/integration/ROADMAP.md` with new coverage milestones (APP-11..APP-13, SEC-04..SEC-06)
+  - CTest targets: `ApplicationProfilePipelineTest`, `SecurityPipelineTest`
+
 ### Documentation
 
 - **Root Governance Consolidation 📚 — 2026-05-13**
