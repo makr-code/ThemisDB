@@ -124,7 +124,8 @@
 - [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour
 - [x] MODULE_GAPS.md populated with gap scan v3 results (4,077 items, categorised by severity and file)
-- [x] AUDIT.md updated with 2026-05-19 findings: VideoProcessor healthCheck() fix, extractMetadata() STUB note
+- [x] AUDIT.md updated with 2026-05-19 findings: VideoProcessor healthCheck() fix, extractMetadata() STUB note, RAII fix CON-009
+- [x] CHANGELOG.md updated under [Unreleased] with CON-007, CON-008, CON-009 fixes
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)

@@ -902,17 +902,19 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // Mapping: Feldname auf ContentMeta Struktur
                     // Unterstützte Felder: extracted_metadata, user_metadata, tags
                     nlohmann::json* target = nullptr;
+                    // For the "tags" field we need a temporary JSON object.
+                    // Use a local variable (RAII) instead of raw new/delete.
+                    nlohmann::json tags_tmp;
                     if (f == "extracted_metadata") target = &meta.extracted_metadata;
                     else if (f == "user_metadata") target = &meta.user_metadata;
                     else if (f == "tags") {
-                        // tags als Array -> JSON konvertieren
-                        nlohmann::json arr = meta.tags;
-                        target = new nlohmann::json(arr); // temporär, am Ende cleanup
+                        // tags als Array -> JSON konvertieren (RAII — no heap allocation)
+                        tags_tmp = meta.tags;
+                        target = &tags_tmp;
                     }
                     if (!target) continue;
                     try {
                         if (target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty())) {
-                            if (f == "tags" && target) { delete target; }
                             continue; // nichts zu verschlüsseln
                         }
                         std::string plain = target->dump();
@@ -933,8 +935,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         }
                         // Wir lagern verschlüsselte Meta-Felder im allgemeinen Meta-JSON als Platzhalter unter reserved key
                         // Da ContentMeta::toJson() Felder fix zusammenstellt, hängen wir Zusatzfelder erst nachher an (siehe unten mjsonPatch)
-                        // Temporär speichern in map structure
-                        if (f == "tags" && target) { delete target; }
                         // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         if (!meta.extracted_metadata.contains("__enc_meta")) {
                             try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (...) {}
@@ -945,7 +945,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         } catch (...) {}
                     } catch (const std::exception& ex) {
                         THEMIS_WARN("vector metadata encryption field {} failed: {}", f, ex.what());
-                        if (f == "tags" && target) { delete target; }
                     }
                 }
             }

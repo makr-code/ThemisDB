@@ -87,9 +87,10 @@
 - **Zip/archive decompression bomb** — 100× ratio and 1000 entry limits enforced in `content_security.cpp`.
 - **LibreOffice environment poisoning** — minimal `HOME=tmpdir` environment; all inherited variables cleared.
 - **OCR input validation** — pre-processing to 300 DPI with Leptonica binarization before Tesseract.
-- **VideoProcessor::healthCheck() simulation-mode return** — was returning `initialized_` (always `true`) without FFmpeg; now returns `false`, consistent with `TTSProcessor`/`STTProcessor` pattern (2026-05-19).
+- **`VideoProcessor::healthCheck()` simulation-mode return** — was returning `initialized_` (always `true`) without FFmpeg; now returns `false`, consistent with `TTSProcessor`/`STTProcessor` pattern (2026-05-19).
 - **Undocumented simulation fallback in extractMetadata()** — `video_processor.cpp` `#else` branch lacked a STUB/SIMULATION NOTE and contained an unreachable MKV detection branch (same magic bytes as WebM); both corrected (2026-05-19).
 - **MODULE_GAPS.md unpopulated** — gap analysis document was a placeholder; populated with gap scan v3 results (4,077 items, categorized) and implementation roadmap (2026-05-19).
+- **RAII violation: raw `new`/`delete` for tags JSON in metadata encryption** — `content_manager.cpp` metadata-encryption loop allocated a temporary `nlohmann::json` on the heap and performed manual `delete` in every exit path, including the exception handler. Replaced with a local stack variable (`tags_tmp`); all three raw `delete` call sites eliminated (2026-05-19, CON-009).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.
