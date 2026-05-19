@@ -1540,7 +1540,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("beta")) beta = sc["beta"].get<double>();
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+    } catch (const std::exception&) {
+    }
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
@@ -1603,7 +1605,8 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {
+    }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
     if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
@@ -1666,7 +1669,9 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 }
                 return false; // Stop scanning
             }
-        } catch (...) {}
+        } catch (const nlohmann::json::exception&) {
+        } catch (const std::exception&) {
+        }
         return true; // Continue scanning
     });
     
@@ -1697,7 +1702,9 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
                     results.push_back(ContentMeta::fromJson(j));
                 }
-            } catch (...) {}
+            } catch (const nlohmann::json::exception&) {
+            } catch (const std::exception&) {
+            }
             return true;
         });
     } else {
@@ -1719,7 +1726,9 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const nlohmann::json::exception&) {
+            } catch (const std::exception&) {
+            }
             return true;
         });
     }
@@ -2674,7 +2683,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+    } catch (const std::exception&) {
+    }
 
     if (auto_fulltext_index && secondary_index_) {
         if (!secondary_index_->hasFulltextIndex("chunk", "text"))

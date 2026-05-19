@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: search/VFS/stream config catch-all hardening in `content_manager.cpp`**
+  - Replaced remaining catch-all handlers in search expansion scoring/whitelist paths,
+    virtual filesystem scan/list parsing paths, and stream ingest content-config parsing
+    with typed exception handling (`json::exception` / `std::exception`).
+  - Preserved existing tolerant behavior (skip malformed entries and continue scanning)
+    while removing broad unknown-exception suppression in these code paths.
+  - (`src/content/content_manager.cpp`)
 - **CONTENT next block: metadata/chunk retrieval exception hardening in `content_manager.cpp`**
   - Replaced catch-all handlers with typed exception handling in vector metadata
     encryption/decryption config parsing, content/chunk JSON decode paths, and
