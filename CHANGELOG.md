@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: typed exception hardening in video/geo/html/embedding processors**
+  - Replaced remaining `catch (...)` handlers with typed exceptions in:
+    `VideoProcessor` FFmpeg metadata/thumbnail/keyframe/scene cleanup paths,
+    `GeoProcessor` GDAL parse cleanup paths, `HtmlProcessor` numeric entity parsing,
+    and `EmbeddingPipeline` timeout `future.get()` error handling.
+  - Preserved existing tolerant behavior (cleanup + rethrow or fallback return)
+    while removing broad unknown-exception suppression in these paths.
+  - (`src/content/video_processor.cpp`, `src/content/geo_processor.cpp`,
+    `src/content/html_processor.cpp`, `src/content/embedding_pipeline.cpp`)
 - **CONTENT next block: `archive_processor.cpp` catch-all hardening**
   - Replaced remaining `catch (...)` handlers with typed exceptions in archive blob
     temp-file writes, TAR size parsing, and TAR directory creation paths.

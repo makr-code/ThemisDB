@@ -37,6 +37,7 @@
 #include <cmath>
 #include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
@@ -276,7 +277,10 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (...) {
+            } catch (const std::invalid_argument&) {
+                result += text[pos++];
+                continue;
+            } catch (const std::out_of_range&) {
                 result += text[pos++];
                 continue;
             }
@@ -643,4 +647,3 @@ std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config con
 
 } // namespace content
 } // namespace themis
-
