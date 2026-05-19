@@ -409,6 +409,10 @@ VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel leve
 }
 
 void VulkanContext::free_command_buffer(VkCommandBuffer command_buffer) {
+    if (device_ == VK_NULL_HANDLE || command_pool_ == VK_NULL_HANDLE ||
+        command_buffer == VK_NULL_HANDLE) {
+        return;
+    }
     vkFreeCommandBuffers(device_, command_pool_, 1, &command_buffer);
 }
 
@@ -430,15 +434,24 @@ VkFence VulkanContext::create_fence(bool signaled) {
 }
 
 void VulkanContext::destroy_fence(VkFence fence) {
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        return;
+    }
     vkDestroyFence(device_, fence, nullptr);
 }
 
 bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        return false;
+    }
     VkResult result = vkWaitForFences(device_, 1, &fence, VK_TRUE, timeout_ns);
     return result == VK_SUCCESS;
 }
 
 void VulkanContext::reset_fence(VkFence fence) {
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        throw std::runtime_error("Cannot reset invalid fence handle");
+    }
     VkResult result = vkResetFences(device_, 1, &fence);
     if (result != VK_SUCCESS) {
         throw std::runtime_error("Failed to reset fence");
