@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 15 — VideoProcessor / GeoProcessor reliability hardening
+
+- **`video_processor.cpp` (CON-035)**: Replaced 4 catch-all handlers in FFmpeg-backed `extractMetadataFFmpeg`, `generateThumbnailFFmpeg`, `extractKeyframesFFmpeg`, and `detectScenesFFmpeg` with typed exception handling:
+  - `std::filesystem::filesystem_error` for temp-file cleanup guards
+  - `std::exception` for all other std::exception-derived throws
+  - Cleanup-and-rethrow semantics preserved; best-effort swallow semantics preserved in non-rethrowing paths.
+- **`geo_processor.cpp` (CON-036)**: Replaced 3 catch-all handlers in GDAL-backed `parseShapefile`, `parseGeoPackage`, and `parseGeoTIFF` with `std::exception` catch + rethrow, preserving GDAL resource cleanup contract.
+
 ### Phase 14 — Archive/HTML/Embedding reliability hardening
 
 - **`archive_processor.cpp`, `html_processor.cpp`, `embedding_pipeline.cpp` (CON-034)**: Replaced remaining catch-all handlers in archive write/parse/extract, HTML numeric entity decode, and embedding timeout/get path with typed exception handling:

@@ -45,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `src/content/content_fs.cpp` (`put()`, `get()`, `getRange()`, `head()`, `remove()`):
     replaced catch-all handlers in metadata decode/cleanup branches with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
   - Preserved behavior: corruption errors for invalid metadata remain unchanged in read APIs, while cleanup/delete branches stay best-effort and idempotent.
+- **CONTENT video/geo processor path — typed exception hardening** 🔧
+  - `src/content/video_processor.cpp`: replaced 4 catch-all handlers in FFmpeg temp-file cleanup paths with `std::filesystem::filesystem_error` + `std::exception`; cleanup-and-rethrow and best-effort-swallow semantics preserved.
+  - `src/content/geo_processor.cpp`: replaced 3 catch-all handlers in GDAL shapefile/geopackage/GeoTIFF cleanup-and-rethrow paths with targeted `std::exception`.
 - **CONTENT archive/html/embedding path — typed exception hardening** 🔧
   - `src/content/archive_processor.cpp`, `src/content/html_processor.cpp`, `src/content/embedding_pipeline.cpp`:
     replaced catch-all handlers in archive write/parse/extract branches, HTML numeric entity decoding, and embedding future-get handling with typed exceptions (`std::invalid_argument`, `std::out_of_range`, `std::filesystem::filesystem_error`, targeted `std::exception`).
