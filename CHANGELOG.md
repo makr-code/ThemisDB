@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Reliability hardening block — server module batch 2 (9 API handler files, 70 catch-all handlers):**
+  - `src/server/query_api_handler.cpp`: all 25 `catch(...)` handlers replaced with typed `catch(const std::exception&)` across entity deserialization, JSON parse, graph BFS, encryption schema load, sort-cursor extraction, and aggregation number-parse paths.
+  - `src/server/monitoring_api_handler.cpp`: 5 redundant `catch(...)` blocks removed (unreachable after preceding `catch(const std::exception& e)`); 5 standalone `catch(...)` handlers replaced with typed handlers in RocksDB stats parse, build-info load, schema-manager capabilities, Prometheus metrics sections, and alert silencing JSON parse.
+  - `src/server/content_api_handler.cpp`: 7 redundant `catch(...)` blocks removed (all unreachable after preceding typed handlers) in hybrid/fusion/fulltext search and filter/edge-weight config get/put paths.
+  - `src/server/changefeed_api_handler.cpp`: 6 `catch(...)` handlers replaced around `std::stoi`/`std::stoull` query parameter parsing (`max_seconds`, `heartbeat_ms`, `retry_ms`, `max_events`, `ack_timeout_ms`, `Last-Event-ID`).
+  - `src/server/vector_api_handler.cpp`: 5 `catch(...)` handlers replaced — cursor `std::stoull` parse, encryption-schema field iteration, batch-item processing error count, prefix-scan remove-by-pk lambda.
+  - `src/server/mqtt_client_service.cpp`: 5 `catch(...)` handlers replaced — `onConnected`, `onMessage`, `onDisconnected` handler dispatch guards; TLS SSL context creation; CDC transport JSON publish.
+  - `src/server/spatial_api_handler.cpp`: 4 `catch(...)` handlers replaced — GeoJSON/WKT geometry parse fallbacks (×3) and GPU spatial stats collection.
+  - `src/server/lora_api_handler.cpp`: 4 `catch(...)` handlers replaced — `std::stoul` limit/offset query parameter parsing in two list endpoints.
+  - `src/server/entity_api_handler.cpp`: 4 `catch(...)` handlers replaced — entity JSON parse (with `e.what()` added to THEMIS_ERROR), enc-flag cast and group-name cast (with `e.what()` added to THEMIS_WARN), and decrypted-value JSON heuristic parse.
+  - Server module catch-all count reduced from **118 → 48** across **43 → 34** files.
 - **Reliability hardening block — HTTP server & query engine catch-all removal:**
   - `src/server/http_server.cpp`: replaced all 51 `catch(...)` handlers with typed `catch(const std::exception&)` handlers; removed 7 dead belt-and-suspenders catch-all tails that were unreachable after a preceding `catch(const std::exception& e)` block; removed 1 passthrough `catch(...) { throw; }` block.
   - `src/query/query_engine.cpp`: replaced all 39 `catch(...)` handlers with typed `catch(const std::exception&)` handlers across AQL evaluation, entity deserialization, composite-index prefilter, JSON parse, vector/geo/spatial scan paths; skip/continue semantics preserved.
