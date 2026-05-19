@@ -431,7 +431,7 @@ See: <Detail link>
 These themes affect multiple modules and should be tracked as **Epic-level GitHub Issues**:
 
 ### 🔧 Code Consolidation Epic
-**Status:** In Progress (2026-04-27) · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
 
 Tracks deduplication of scattered implementations across the codebase.
 See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
@@ -519,12 +519,12 @@ Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
 Affects: `analytics`, `acceleration`, `cache`, `config`, `graph`, `maintenance`, `observability`, `plugins`
 
 All modules still using exclusive mutexes on read paths (should upgrade to `std::shared_mutex`):
-- `analytics` items #41–45 (6 lock-under-callback / lock-under-inference issues)
+- [~] `analytics` items #41–45 (6 lock-under-callback / lock-under-inference issues) — **In Progress (2026-05-19):** `ExpertSystemEngine` upgraded to `std::shared_mutex`; lock-under-callback in `forwardChain()` fixed by snapshotting scorer state and releasing lock before external scorer call; tests ES-21..ES-22 added.
 - ~~`observability` MetricsCollector #191~~ ✅ Done (v1.8.0)
-- `plugins` PluginRegistry #193
-- `maintenance` schedules_mutex_ #185
-- `graph` DistributedGraphManager #174
-- `config` ConfigEncryptedStore #164
+- ~~`plugins` PluginRegistry #193~~ ✅ Done (already `std::shared_mutex`)
+- ~~`maintenance` schedules_mutex_ #185~~ ✅ Done (already `std::shared_mutex`)
+- ~~`graph` DistributedGraphManager #174~~ ✅ Done (already `std::shared_mutex`)
+- ~~`config` ConfigEncryptedStore #164~~ ✅ Done (already `std::shared_mutex`)
 
 **Suggested Epic Label:** `epic:thread-safety` · **Target:** v1.8.0
 

@@ -12,6 +12,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
   - Assets: `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.zip` und `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.msi`
 
+### Refactoring
+
+- **Code Consolidation Epic Phase 6 — Retry/Backoff Centralization ✅ COMPLETE** 🔧
+  - **Phase 2a Tier 1** — 3 hand-rolled exponential-backoff loops replaced with `themis::utils::ExponentialBackoff`:
+    - `src/exporters/huggingface_hub_client.cpp`: file-upload retry loop + shard-upload retry loop
+    - `src/updates/parallel_downloader.cpp`: download retry loop
+    - Delay sequences identical to previous impl (`retry_delay_ms × 2^attempt`); HTTP 429 Retry-After handling unchanged
+    - Regression tests `HubClientDelaySequenceMatchesOldImpl` + `ParallelDownloaderDelaySequenceMatchesOldImpl` in `tests/test_retry_policy.cpp`
+  - **Phase 2a Tier 2** — `src/sharding/wal_applier.cpp` linear backoff `100×(attempt+1) ms` → `ExponentialBackoff` (initial=100 ms, multiplier=2.0, jitter=0)
+    - `WALApplierConfig` gains `retry_initial_delay_ms = 100` for runtime tunability
+    - Regression test `WALApplierDelaySequenceIsExponential` in `tests/test_retry_policy.cpp`
+    - `src/ROADMAP.md` Code Consolidation Epic marked ✅ COMPLETE (all 6 phases done)
+
+- **Concurrency/Thread-Safety Epic — ExpertSystemEngine (items #41–45)** 🔀
+  - `include/analytics/expert_system_engine.h`: upgraded `std::mutex mutex_` → `std::shared_mutex mutex_`
+  - Read-only methods (`explain`, `factCount`, `ruleCount`, `queryGoal`) now use `std::shared_lock` — concurrent readers no longer block each other
+  - Write methods (`assertFact`, `retractFact`, `setMLScorer`, `setMLScorerFn`, `forwardChain`) use `std::unique_lock`
+  - **Lock-under-callback fix**: `forwardChain()` snapshots scorer state at start, releases `mutex_` before invoking `ml_scorer_->predict()` / `ml_scorer_fn_`, re-acquires after — eliminates re-entrancy deadlock when scorer callbacks call `assertFact`/`retractFact`
+  - Tests ES-21 (`ConcurrentReadersDoNotBlockEachOther`) and ES-22 (`ForwardChainScorerCallbackNoDeadlock`) added
+  - ROADMAP ticks off already-done items: PluginRegistry #193, schedules_mutex_ #185, DistributedGraphManager #174, ConfigEncryptedStore #164
+
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
   - `HAMMING` added to `ErasureCodingAlgorithm` enum; `ErasureCoder::create(HAMMING)` factory method returns a `HammingCoder` instance
@@ -20,6 +41,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - No Galois-Field arithmetic — purely XOR-based; O(k × r × shard_size) encode/decode
   - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) coverage verification, 1 MB round-trip, edge cases
   - `HammingCoderFocusedTests` CTest target registered
+
+- **Wave A ML Enhancements — Phase 2 Production-Ready Implementation** 🤖
+  - **A1: Speculative Decoding** (`src/llama_cpp/llama_cpp_plugin.cpp`):
+    - Real draft-logit pipeline via `llama_get_logits()` in `LlamaCppPlugin`
+    - `generateDraftTokens()` fast-returns on `k=0` (skip all allocation)
+    - Fallback path caps `vocab_size_hint` at 65 536 to bound memory usage
+    - Tests: `LlamaDraftTokensZeroKReturnsEmptyResult`, `LlamaDraftTokensCapsOversizedVocabHintInFallback`
+  - **A2: DPR Vectorizer** (`src/rag/dpr_vectorizer.cpp`):
+    - ONNX model loading with real tokenization and batch encoding
+    - Graceful fallback to deterministic embeddings when ONNX session creation fails
+    - `encodePassageBatch` early-returns on empty input to avoid misleading log entries
+    - Test: `DPR_11` (empty-batch guard)
+  - **A3: Fairness Detector** (`src/rag/fairness_detector.cpp`):
+    - PCA bias projection (Bolukbasi et al. method)
+    - Human eval framework; bias correlation ≥ 0.70 with human raters
+    - Additional tests for Fairness-Flagging and Bias-Penalty in RAGJudge
 
 ### Security
 

@@ -77,7 +77,7 @@ ExpertSystemEngine::ExpertSystemEngine(Config cfg)
 // ──────────────────────────────────────────────────────────────────────────────
 
 void ExpertSystemEngine::setKnowledgeBase(std::shared_ptr<KnowledgeBase> kb) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     kb_ = std::move(kb);
 }
 
@@ -92,12 +92,12 @@ KnowledgeBase& ExpertSystemEngine::knowledgeBase() {
 std::string ExpertSystemEngine::assertFact(const std::string& subject,
                                             const std::string& predicate,
                                             const std::string& object) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return kb_->assertFact(subject, predicate, object);
 }
 
 bool ExpertSystemEngine::retractFact(const std::string& fact_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return kb_->retractFact(fact_id);
 }
 
@@ -228,23 +228,29 @@ ExpertSystemEngine::matchAllConditions(const HornClause&       rule,
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// ML confidence
+// ML confidence (static, called WITHOUT holding mutex_)
 // ──────────────────────────────────────────────────────────────────────────────
 
-double ExpertSystemEngine::mlConfidence(const HornClause&        rule,
-                                         const std::vector<Fact>& matched) const {
-    if (ml_scorer_fn_) {
-        try { return ml_scorer_fn_(rule, matched); }
+/*static*/ double ExpertSystemEngine::mlConfidenceNoLock(
+    ModelServingEngine*       scorer,
+    const ScorerFn&           scorer_fn,
+    const std::string&        model_name,
+    const std::string&        model_ver,
+    const HornClause&         rule,
+    const std::vector<Fact>&  matched)
+{
+    if (scorer_fn) {
+        try { return scorer_fn(rule, matched); }
         catch (...) { return 1.0; }  // Fallback: treat as confident
     }
-    if (ml_scorer_ && rule.ml_confidence_threshold > 0.0) {
+    if (scorer && rule.ml_confidence_threshold > 0.0) {
         try {
             DataPoint dp;
             dp.id = rule.id;
             dp.set("condition_count",  static_cast<double>(rule.conditions.size()));
             dp.set("match_count",      static_cast<double>(matched.size()));
             dp.set("priority",         static_cast<double>(rule.priority));
-            std::string label = ml_scorer_->predict(ml_model_name_, ml_model_version_, dp);
+            std::string label = scorer->predict(model_name, model_ver, dp);
             // Interpret numeric label as confidence.
             try { return std::stod(label); } catch (...) { return 1.0; }
         } catch (...) {
@@ -259,7 +265,15 @@ double ExpertSystemEngine::mlConfidence(const HornClause&        rule,
 // ──────────────────────────────────────────────────────────────────────────────
 
 int ExpertSystemEngine::forwardChain(int max_cycles) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+
+    // Snapshot scorer state while holding the lock so the main loop can call
+    // the scorer outside the lock (lock-under-callback fix, items #41–45).
+    ModelServingEngine* const scorer_snap    = ml_scorer_;
+    const ScorerFn            scorer_fn_snap = ml_scorer_fn_;
+    const std::string         model_name_snap = ml_model_name_;
+    const std::string         model_ver_snap  = ml_model_version_;
+
     int total_fired = 0;
 
     for (int cycle = 0; cycle < max_cycles; ++cycle) {
@@ -286,8 +300,15 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
                 }
             }
 
-            // ML confidence gate.
-            const double conf = mlConfidence(rule, matched);
+            // ML confidence gate — release lock to avoid re-entrancy deadlock.
+            double conf = 1.0;
+            if (scorer_fn_snap || (scorer_snap && rule.ml_confidence_threshold > 0.0)) {
+                lock.unlock();
+                conf = mlConfidenceNoLock(scorer_snap, scorer_fn_snap,
+                                          model_name_snap, model_ver_snap,
+                                          rule, matched);
+                lock.lock();
+            }
             if (conf < rule.ml_confidence_threshold) continue;
 
             // Derive consequents.
@@ -412,7 +433,7 @@ bool ExpertSystemEngine::backwardChainDLS(const TriplePattern&    goal,
 }
 
 GoalResult ExpertSystemEngine::queryGoal(const TriplePattern& goal) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     GoalResult result;
     result.success = backwardChainDLS(goal, result.proof_trace, 0,
                                        cfg_.max_backward_chain_depth);
@@ -425,7 +446,7 @@ GoalResult ExpertSystemEngine::queryGoal(const TriplePattern& goal) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::string ExpertSystemEngine::explain(const std::string& fact_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     const auto it = decision_log_.find(fact_id);
     if (it == decision_log_.end()) return "[]";
 
@@ -448,7 +469,7 @@ std::string ExpertSystemEngine::explain(const std::string& fact_id) const {
 void ExpertSystemEngine::setMLScorer(ModelServingEngine* scorer,
                                       const std::string&  model_name,
                                       const std::string&  model_version) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     ml_scorer_         = scorer;
     ml_model_name_     = model_name;
     ml_model_version_  = model_version;
@@ -456,7 +477,7 @@ void ExpertSystemEngine::setMLScorer(ModelServingEngine* scorer,
 }
 
 void ExpertSystemEngine::setMLScorerFn(ScorerFn fn) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     ml_scorer_fn_ = std::move(fn);
     ml_scorer_    = nullptr;  // Clear ModelServingEngine pointer.
 }
@@ -466,12 +487,12 @@ void ExpertSystemEngine::setMLScorerFn(ScorerFn fn) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::size_t ExpertSystemEngine::factCount() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return kb_->factCount();
 }
 
 std::size_t ExpertSystemEngine::ruleCount() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return kb_->ruleCount();
 }
 
