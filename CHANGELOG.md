@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: import/config exception hardening in `content_manager.cpp`**
+  - `checkDuplicateByHash()` now uses typed exception handling for malformed
+    hash-index payloads and still returns `std::nullopt` for unreadable entries.
+  - `importContent()` now uses typed exception handling for content/encryption
+    config parsing and removes redundant catch-all wrappers around atomic metric
+    updates in the blob compression/skip accounting paths.
+  - Fulltext auto-index config parsing now relies on `std::exception` handling
+    only, removing the broad unknown-exception fallback while preserving default
+    opt-in behavior on parse failures.
+  - (`src/content/content_manager.cpp`)
 - **CONTENT next block: typed exception hardening in metadata/chunk whitelist filter path**
   - `buildChunkWhitelist()` now uses typed exception handling (`json::exception`,
     `std::exception`, `std::invalid_argument`, `std::out_of_range`) instead of

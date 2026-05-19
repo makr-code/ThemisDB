@@ -589,7 +589,9 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
         if (j.contains("ids") && j["ids"].is_array() && !j["ids"].empty()) {
             return j["ids"][0].get<std::string>();
         }
-    } catch (...) {}
+    } catch (const json::exception&) {
+    } catch (const std::exception&) {
+    }
     return std::nullopt;
 }
 
@@ -674,7 +676,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         for (const auto& mv : cj["skip_compressed_mimes"]) if (mv.is_string()) skip_mimes.push_back(mv.get<std::string>());
                     }
                 }
-            } catch (...) {}
+            } catch (const json::exception&) {
+            } catch (const std::exception&) {
+            }
 
             std::string matched_skip_prefix;
             auto should_compress = [&](const std::string& mime, size_t size) -> bool {
@@ -714,23 +718,21 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     THEMIS_INFO("Content blob {} compressed: {}B -> {}B (ratio: {:.2f}x)", 
                                meta.id, original_size, compressed_size, compression_ratio);
                     // Update metrics
-                    try {
-                        metrics_.compressed_bytes_total.fetch_add(static_cast<uint64_t>(compressed_size));
-                        metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
-                        // compression ratio tracking
-                        uint64_t ratio_milli = static_cast<uint64_t>(compression_ratio * 1000.0f);
-                        metrics_.comp_ratio_sum_milli.fetch_add(ratio_milli);
-                        metrics_.comp_ratio_count.fetch_add(1);
-                        // place into per-bucket (non-cumulative)
-                        if (compression_ratio <= 1.0f) metrics_.comp_ratio_le_1.fetch_add(1);
-                        else if (compression_ratio <= 1.5f) metrics_.comp_ratio_le_1_5.fetch_add(1);
-                        else if (compression_ratio <= 2.0f) metrics_.comp_ratio_le_2.fetch_add(1);
-                        else if (compression_ratio <= 3.0f) metrics_.comp_ratio_le_3.fetch_add(1);
-                        else if (compression_ratio <= 5.0f) metrics_.comp_ratio_le_5.fetch_add(1);
-                        else if (compression_ratio <= 10.0f) metrics_.comp_ratio_le_10.fetch_add(1);
-                        else if (compression_ratio <= 100.0f) metrics_.comp_ratio_le_100.fetch_add(1);
-                        else metrics_.comp_ratio_le_inf.fetch_add(1);
-                    } catch (...) {}
+                    metrics_.compressed_bytes_total.fetch_add(static_cast<uint64_t>(compressed_size));
+                    metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
+                    // compression ratio tracking
+                    uint64_t ratio_milli = static_cast<uint64_t>(compression_ratio * 1000.0f);
+                    metrics_.comp_ratio_sum_milli.fetch_add(ratio_milli);
+                    metrics_.comp_ratio_count.fetch_add(1);
+                    // place into per-bucket (non-cumulative)
+                    if (compression_ratio <= 1.0f) metrics_.comp_ratio_le_1.fetch_add(1);
+                    else if (compression_ratio <= 1.5f) metrics_.comp_ratio_le_1_5.fetch_add(1);
+                    else if (compression_ratio <= 2.0f) metrics_.comp_ratio_le_2.fetch_add(1);
+                    else if (compression_ratio <= 3.0f) metrics_.comp_ratio_le_3.fetch_add(1);
+                    else if (compression_ratio <= 5.0f) metrics_.comp_ratio_le_5.fetch_add(1);
+                    else if (compression_ratio <= 10.0f) metrics_.comp_ratio_le_10.fetch_add(1);
+                    else if (compression_ratio <= 100.0f) metrics_.comp_ratio_le_100.fetch_add(1);
+                    else metrics_.comp_ratio_le_inf.fetch_add(1);
                 } else {
                     // Fallback to raw (compression failed or increased size)
                     to_store.assign(bb.begin(), bb.end());
@@ -752,14 +754,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 meta.compressed = false;
                 meta.compression_type.clear();
                 // If compression was enabled but skipped due to MIME prefix, record skip metrics
-                try {
-                    if (compress && !matched_skip_prefix.empty()) {
-                        metrics_.compression_skipped_total.fetch_add(1);
-                        if (matched_skip_prefix == "image/" || matched_skip_prefix.rfind("image/",0)==0) metrics_.compression_skipped_image_total.fetch_add(1);
-                        else if (matched_skip_prefix == "video/" || matched_skip_prefix.rfind("video/",0)==0) metrics_.compression_skipped_video_total.fetch_add(1);
-                        else if (matched_skip_prefix == "application/zip" || matched_skip_prefix == "application/gzip") metrics_.compression_skipped_zip_total.fetch_add(1);
-                    }
-                } catch (...) {}
+                if (compress && !matched_skip_prefix.empty()) {
+                    metrics_.compression_skipped_total.fetch_add(1);
+                    if (matched_skip_prefix == "image/" || matched_skip_prefix.rfind("image/",0)==0) metrics_.compression_skipped_image_total.fetch_add(1);
+                    else if (matched_skip_prefix == "video/" || matched_skip_prefix.rfind("video/",0)==0) metrics_.compression_skipped_video_total.fetch_add(1);
+                    else if (matched_skip_prefix == "application/zip" || matched_skip_prefix == "application/gzip") metrics_.compression_skipped_zip_total.fetch_add(1);
+                }
             }
 
             // Optional encryption of blob based on config:content_encryption_schema and user_context
@@ -773,7 +773,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     encrypt_blob = ej.value("enabled", false);
                     encryption_key_id = ej.value("key_id", "content_blob");
                 }
-            } catch (...) {}
+            } catch (const json::exception&) {
+            } catch (const std::exception&) {
+            }
             if (encrypt_blob && field_encryption_) {
                 // Kontextuelle Ableitung via HKDF (salt = user_context) – nutzt aktuelle Key-Version.
                 // Falls user_context leer, verwende "anonymous" als Fallback
@@ -800,12 +802,10 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             }
             meta.size_bytes = static_cast<int64_t>(bb.size());
             // If compression was not applied but compression enabled, still record uncompressed bytes total
-            try {
-                if (compress) {
-                    // Only add uncompressed total if we didn't already add it for compressed path
-                    if (!meta.compressed) metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
-                }
-            } catch (...) {}
+            if (compress) {
+                // Only add uncompressed total if we didn't already add it for compressed path
+                if (!meta.compressed) metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
+            }
         }
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
@@ -839,9 +839,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             // Config parsing failed - continue with defaults (auto_fulltext_index = false)
             // This is acceptable as the feature is opt-in
             THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
-        } catch (...) {
-            // Unknown error during config parsing - continue with defaults
-            THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
         }
         
         // Ensure fulltext index exists if auto-indexing is enabled
