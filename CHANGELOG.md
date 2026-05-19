@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- **whisper module: data race on VAD removed** 🔐
+  - `WhisperPlugin::setVoiceActivityDetector()` and `applyVad()` now hold `vad_mutex_`
+    when reading or writing `vad_` / `vad_cfg_`, eliminating the CRITICAL data race that
+    could corrupt the VAD state when a caller replaced the detector concurrently with an
+    ongoing transcription. (`include/whisper/whisper_plugin.h`, `src/whisper/whisper_plugin.cpp`)
+
+### Fixed
+
+- **whisper: division-by-zero / out-of-bounds in `WavAudioChunkReader::parseWav()`** 🛡️
+  - Added `num_channels == 0` guard that throws `std::runtime_error` before the decode
+    loops, preventing UB from a zero-division and an unbounded `memcpy` offset.
+  - Added `num_channels > 64` upper-bound guard to reject implausible channel counts.
+  - (`src/whisper/audio_chunk_reader.cpp`)
+- **whisper: removed redundant manual `f.close()` in `WavAudioChunkReader::readFile()`**
+  - Relying on `std::ifstream` RAII destructor instead of the explicit close, consistent
+    with exception-safe resource management. (`src/whisper/audio_chunk_reader.cpp`)
+- **whisper: O(n²) string allocation in `FfmpegAudioChunkReader::shellEscape()` bounded**
+  - Pre-computed worst-case capacity and called `reserve()` before the per-character loop,
+    reducing allocation complexity from O(n²) to O(n). (`src/whisper/audio_chunk_reader.cpp`)
+
+### Testing
+
+- **whisper: regression tests for gap remediations** 🧪
+  - Group R (R1–R2): concurrent VAD set/transcribe thread-safety regression.
+  - Group S (S1–S3): `parseWav()` rejects zero channels, excessive channels (>64), accepts boundary (64).
+  - (`src/whisper/tests/test_whisper_plugin.cpp`)
+
 ### Released
 - **v1.9.0-alpha (2026-04-26) veröffentlicht**
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
