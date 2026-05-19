@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 10 — Import/config reliability hardening
+
+- **`content_manager.cpp` (CON-030)**: Replaced catch-all handlers in `checkDuplicateByHash()` and `importContent()` config/metrics path (lines ~563–842) with typed exception handling:
+  - `nlohmann::json::exception` for malformed JSON configuration/index payloads
+  - `std::exception` fallbacks for best-effort metrics/config handling
+- Preserved behavior: malformed optional config still falls back to defaults; metrics updates stay non-fatal.
+- Improved observability for fulltext config parsing by logging `std::exception::what()` in non-JSON failures.
+
 ### Phase 9 — Filter/Scan reliability hardening
 
 - **`content_manager.cpp` (CON-029)**: Replaced catch-all handlers in `buildChunkWhitelist()` filter/scan path (lines ~167–328) with typed exception handling:

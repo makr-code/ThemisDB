@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     (`nlohmann::json::exception`, `std::invalid_argument`, `std::out_of_range`, and targeted `std::exception` fallbacks).
   - Added explicit `<stdexcept>` include for conversion-exception handling.
   - Runtime behavior remains best-effort and backward compatible (malformed optional filter payloads are still ignored), while reducing reliability/static-analysis findings from catch-all usage.
+- **CONTENT import/config path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`checkDuplicateByHash()` and `importContent()`):
+    replaced catch-all handlers in duplicate-hash parsing plus content/encryption/fulltext config + metrics update paths with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
+  - Preserved fallback behavior: malformed optional configuration still degrades to defaults, and metrics collection remains best-effort/non-fatal.
+  - Improved fulltext-config parse diagnostics by logging `std::exception::what()` for non-JSON parse failures.
 
 ### Security
 
