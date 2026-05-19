@@ -8,6 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Stub remediation next block — RoPE and voice session hard-delete (#307/#308):**
+  - `include/index/vector_index.h` + `src/index/vector_index.cpp`:
+    - Added `RotaryEmbeddingStats` runtime counters (positional/relational/query rotations + average latency).
+    - Rotary counters now reset on config enable and update on rotation helper paths.
+  - `src/server/rope_api_handler.cpp`:
+    - `/api/v1/vector-index/{index}/rope/stats` now returns real runtime counters instead of placeholder `N/A` values.
+  - `include/voice/voice_assistant.h` + `src/voice/voice_assistant.cpp`:
+    - Added `VoiceAssistant::deleteSession(session_id)` hard-delete API with explicit missing-session result.
+  - `src/server/voice_api_handler.cpp`:
+    - DELETE session endpoint now uses hard-delete and returns HTTP 404 when the session does not exist.
+  - Tests extended:
+    - `tests/test_http_rope.cpp`: asserts real RoPE stats fields and non-zero positional rotation count after add.
+    - `tests/test_voice_assistant.cpp`: session delete lifecycle and missing-session behavior.
 - **Stub remediation next block — callback bridges for #304/#306/#309:**
   - `include/llm/lora_framework/lora_feedback_storage.h` + `src/llm/lora_framework/lora_feedback_storage.cpp`:
     - Added `CreateGraphLinkFn` / `RemoveGraphLinkFn` bridge hooks in `FeedbackStorageService::Config`.

@@ -799,12 +799,13 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
-            // Surface real rotation counters collected since the index was opened.
-            auto rope_stats = vector_index_->getRotaryStats();
+            const auto stats = vector_index_->getRotaryEmbeddingStats();
             response["statistics"] = {
-                {"total_rotated_entities", rope_stats.total_rotated_entities},
-                {"relational_rotations",   rope_stats.relational_rotations},
-                {"note", "Counters are process-lifetime totals; reset on server restart"}
+                {"total_rotated_entities", stats.total_rotations},
+                {"avg_rotation_time_us", stats.avg_rotation_time_us},
+                {"positional_rotations", stats.positional_rotations},
+                {"relational_rotations", stats.relational_rotations},
+                {"query_rotations", stats.query_rotations}
             };
         }
         

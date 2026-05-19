@@ -51,6 +51,7 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
+#include <chrono>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -2857,6 +2858,10 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 		// Create new rotary embedding instance
 		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
 		rotary_enabled_ = true;
+		rotary_positional_rotations_.store(0);
+		rotary_relational_rotations_.store(0);
+		rotary_query_rotations_.store(0);
+		rotary_total_rotation_time_us_.store(0);
 		
 		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
 		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
@@ -2880,6 +2885,20 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
+VectorIndexManager::RotaryEmbeddingStats VectorIndexManager::getRotaryEmbeddingStats() const {
+	RotaryEmbeddingStats stats;
+	stats.positional_rotations = rotary_positional_rotations_.load();
+	stats.relational_rotations = rotary_relational_rotations_.load();
+	stats.query_rotations = rotary_query_rotations_.load();
+	stats.total_rotations = stats.positional_rotations + stats.relational_rotations + stats.query_rotations;
+	const auto total_rotation_time_us = rotary_total_rotation_time_us_.load();
+	if (stats.total_rotations > 0) {
+		stats.avg_rotation_time_us =
+			static_cast<double>(total_rotation_time_us) / static_cast<double>(stats.total_rotations);
+	}
+	return stats;
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -2896,8 +2915,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply rotation
 		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2910,6 +2932,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_positional_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
 			rotary_entities_added_.fetch_add(1, std::memory_order_relaxed);
 		}
@@ -2936,8 +2960,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply relational rotation
 		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2949,6 +2976,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_relational_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
 			relational_rotations_.fetch_add(1, std::memory_order_relaxed);
 		}
@@ -2971,14 +3000,19 @@ VectorIndexManager::searchWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
 		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_query_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
 		}
 		
@@ -3019,4 +3053,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-

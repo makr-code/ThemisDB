@@ -394,6 +394,27 @@ public:
     /// Get current rotary embedding configuration
     /// Returns nullopt if rotary embeddings are not enabled
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+
+    /**
+     * @brief Runtime statistics for rotary embedding operations.
+     *
+     * The counters include successful positional, relational, and query-time
+     * rotations executed through VectorIndexManager helper APIs.
+     */
+    struct RotaryEmbeddingStats {
+        uint64_t positional_rotations = 0;
+        uint64_t relational_rotations = 0;
+        uint64_t query_rotations = 0;
+        uint64_t total_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
+    /**
+     * @brief Return current rotary embedding runtime counters.
+     *
+     * @return Snapshot of rotation counters and average rotation latency.
+     */
+    RotaryEmbeddingStats getRotaryEmbeddingStats() const;
     
     /// Add entity with automatic positional rotation
     /// The embedding is rotated based on the position parameter before storage
@@ -507,10 +528,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
-
-    /// Counters incremented by addEntityWithRotation / addEntityWithRelationalRotation.
-    mutable std::atomic<uint64_t> rotary_entities_added_{0};
-    mutable std::atomic<uint64_t> relational_rotations_{0};
+    std::atomic<uint64_t> rotary_positional_rotations_{0};
+    std::atomic<uint64_t> rotary_relational_rotations_{0};
+    std::atomic<uint64_t> rotary_query_rotations_{0};
+    std::atomic<uint64_t> rotary_total_rotation_time_us_{0};
     
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;
