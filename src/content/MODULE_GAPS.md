@@ -28,6 +28,18 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 16 — Server handler reliability hardening
+
+- **`server/monitoring_api_handler.cpp` (SRV-001)**: Replaced 10 catch-all handlers:
+  - JSON parse fallbacks in `handleStats` and `handlePrometheus` → `std::exception` catch
+  - Build-info best-effort continue block → `std::exception` catch
+  - Schema-caps best-effort continue block → `std::exception` catch
+  - Duration JSON parse best-effort in alert-silence handler → `std::exception` catch
+  - 5 redundant double-catch tails (after `catch(std::exception&)`) in Prometheus metric collectors → removed
+- **`server/content_api_handler.cpp` (SRV-002)**: Removed 7 redundant `catch(...)` double-tails after typed `std::exception` handlers in hybrid/fusion/fulltext search and config read/write handlers.
+- **`server/changefeed_api_handler.cpp` (SRV-003)**: Replaced 6 catch-all handlers in SSE query-param/header integer parse paths (`max_seconds`, `heartbeat_ms`, `retry_ms`, `max_events`, `ack_timeout_ms`, `Last-Event-ID`) with `std::exception` catches; best-effort-ignore semantics preserved.
+- **`server/vector_api_handler.cpp` (SRV-004)**: Replaced 5 catch-all handlers in cursor parse, enc-config schema iteration, enc-config outer guard, batch item processing, and prefix-scan key extraction paths with `std::exception` catches; fail-safe and error-count semantics preserved.
+
 ### Phase 15 — VideoProcessor / GeoProcessor reliability hardening
 
 - **`video_processor.cpp` (CON-035)**: Replaced 4 catch-all handlers in FFmpeg-backed `extractMetadataFFmpeg`, `generateThumbnailFFmpeg`, `extractKeyframesFFmpeg`, and `detectScenesFFmpeg` with typed exception handling:

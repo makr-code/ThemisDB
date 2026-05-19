@@ -45,6 +45,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `src/content/content_fs.cpp` (`put()`, `get()`, `getRange()`, `head()`, `remove()`):
     replaced catch-all handlers in metadata decode/cleanup branches with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
   - Preserved behavior: corruption errors for invalid metadata remain unchanged in read APIs, while cleanup/delete branches stay best-effort and idempotent.
+- **SERVER handler reliability hardening — typed exception hardening** 🔧
+  - `src/server/monitoring_api_handler.cpp`: replaced 10 catch-all handlers (JSON parse fallbacks, build-info/schema best-effort continues, 5 redundant double-catch tails in Prometheus metric collectors).
+  - `src/server/content_api_handler.cpp`: removed 7 redundant `catch(...)` double-tails after typed `std::exception` handlers in hybrid/fusion/fulltext search and config handlers.
+  - `src/server/changefeed_api_handler.cpp`: replaced 6 catch-all handlers in SSE query-param/header integer parse paths with `std::exception`.
+  - `src/server/vector_api_handler.cpp`: replaced 5 catch-all handlers in cursor parse, enc-config schema, batch items, and prefix-scan paths with `std::exception`.
 - **CONTENT video/geo processor path — typed exception hardening** 🔧
   - `src/content/video_processor.cpp`: replaced 4 catch-all handlers in FFmpeg temp-file cleanup paths with `std::filesystem::filesystem_error` + `std::exception`; cleanup-and-rethrow and best-effort-swallow semantics preserved.
   - `src/content/geo_processor.cpp`: replaced 3 catch-all handlers in GDAL shapefile/geopackage/GeoTIFF cleanup-and-rethrow paths with targeted `std::exception`.

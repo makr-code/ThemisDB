@@ -308,7 +308,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                         v = 60;
                     }
                     max_seconds = v;
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid max_seconds query param");
                 }
             }
@@ -324,7 +324,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     if (v < 100) v = 100; // minimum 100ms
                     if (v > 60000) v = 60000;
                     heartbeat_ms_override = v;
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid heartbeat_ms query param");
                 }
             }
@@ -344,7 +344,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                         v = 120000;
                     }
                     retry_ms = v;
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid retry_ms query param");
                 }
             }
@@ -364,7 +364,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                         v = 1000;
                     }
                     max_events_per_poll = static_cast<size_t>(v);
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid max_events query param");
                 }
             }
@@ -400,7 +400,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     if (v >= 0) {
                         ack_timeout_override = std::chrono::milliseconds(v);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid ack_timeout_ms query param");
                 }
             }
@@ -414,7 +414,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 try {
                     uint64_t last_id = std::stoull(std::string(h.value()));
                     if (from_seq == 0) from_seq = last_id;
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_DEBUG("changefeed: ignoring invalid Last-Event-ID header value");
                     break;
                 }
