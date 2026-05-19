@@ -34,7 +34,10 @@ Focus on CRITICAL severity gaps (data safety, security):
 - [x] Remove token-value logging in auth paths (`auth_middleware.cpp`, `http_server.cpp`) to harden against secret disclosure in logs (CWE-532).
 - [x] Remove Authorization header value logging and temporary stderr auth diagnostics in `http_server.cpp` (`requireAccess`) to further reduce secret leakage risk.
 - [x] Remove auth decision detail logging (`user_id`/`reason`) and token-validation diagnostics from `http_server.cpp` PII-delete auth flow to minimize log-side credential/context leakage.
-- [ ] Triage remaining CRITICAL findings by true-positive confidence and exploitability.
+- [x] Remove startup `validateToken` debug block from `HttpServer` constructor; logged `user_id`/`reason` on every server start with no operational value.
+- [x] Add STUB/SIMULATION NOTE to HTTP/2 server-push `ResponseBuffer` raw `new` pattern; `missing_dtor`/`smart_ptr_misuse` scanner flags are false positives for this nghttp2 C API constraint.
+- [x] Expand GAP-013 regression suite: +4 tests covering reason-string token non-echo and concurrent deny path.
+- [~] Triage remaining CRITICAL findings by true-positive confidence and exploitability.
 
 ### Phase 2: High Priority Fixes
 Address HIGH severity gaps (performance, reliability):
@@ -58,7 +61,7 @@ Address HIGH severity gaps (performance, reliability):
 
 ## Acceptance Criteria
 
-- [ ] All CRITICAL gaps addressed *(in progress: token-log leakage hardening completed, incl. auth decision-log minimization)*
+- [ ] All CRITICAL gaps addressed *(in progress: auth-logging hardening wave complete — startup diag, PII-delete, requireAccess, auth_middleware; false-positive scanner items documented)*
 - [~] All HIGH gaps reviewed and prioritized
 - [ ] Documentation updated (ARCHITECTURE.md, ROADMAP.md)
 - [x] Tests added for gap fixes

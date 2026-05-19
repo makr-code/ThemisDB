@@ -22,8 +22,14 @@ python tools/gap_audit_pipeline_v2.py
   - `src/server/http_server.cpp` (`HttpServer::handlePiiDeleteByUuid`)
 - Removed Authorization header value logging and temporary `[AUTH-DBG]` stderr diagnostics from `src/server/http_server.cpp` (`HttpServer::requireAccess`).
 - Removed detailed auth decision logging (`user_id` / `reason`) and token-validation diagnostics in `src/server/http_server.cpp` PII-delete authorization paths.
-- Security impact: avoids leaking bearer token fragments into logs (CWE-532 hardening).
-- Related test coverage: `tests/test_auth_middleware.cpp` (`AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`).
+- Removed startup `validateToken` debug block in `HttpServer` constructor that ran on every server start and logged `user_id`/`reason` without operational value (GAP-011/CWE-532 clean-up).
+- Added STUB/SIMULATION NOTE to HTTP/2 server-push `ResponseBuffer` raw `new` usage documenting the nghttp2 C API constraint and the planned migration to shared_ptr (see `FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement`).
+- Security impact: avoids leaking bearer token fragments and internal validation state into logs (CWE-532 hardening).
+- Related test coverage: `tests/test_auth_middleware.cpp`
+  - `AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`
+  - `AuthMiddlewareGap013Test.InsufficientScope_ReasonDoesNotEchoToken`
+  - `AuthMiddlewareGap013Test.ValidateToken_ReasonDoesNotEchoToken`
+  - `AuthMiddlewareGap013Test.ConcurrentDenyRequests_NoCrossContamination`
 
 ---
 

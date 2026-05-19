@@ -23,6 +23,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **SERVER Module P0 Auth-Logging Hardening (GAP-011/CWE-532)** 🔐
+  - Eliminated all credential/token fragments from server log output across five changes:
+    1. `AuthMiddleware::authorize` — removed masked token logging; now logs only the required scope.
+    2. `HttpServer::handlePiiDeleteByUuid` — removed token prefix/suffix fragments and
+       `user_id`/`reason` from PII-delete primary and fallback authorization log lines.
+    3. `HttpServer::requireAccess` — removed masked `Authorization` header value and
+       temporary `[AUTH-DBG]` stderr diagnostics from the auth/policy path.
+    4. `HttpServer::requireAccess` — removed residual `validateToken` diagnostic block
+       that logged `user_id` and `reason` on every request.
+    5. `HttpServer` startup — removed `validateToken` debug block that ran on each server
+       start, logging `user_id` and `reason` for the admin token with no operational value.
+  - Threat model: all changes reduce the log-side credential surface (CWE-532).
+  - Regression tests added in `tests/test_auth_middleware.cpp`
+    (`AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`,
+     `InsufficientScope_ReasonDoesNotEchoToken`,
+     `ValidateToken_ReasonDoesNotEchoToken`,
+     `ConcurrentDenyRequests_NoCrossContamination`).
+  - Gap tracking: `src/server/ROADMAP.md`, `src/server/MODULE_GAPS.md`,
+    `ai_working/clustered_issues/server_gaps.md`.
+
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
   - Activated runtime permission checks in `TaskScheduler` for:
     - `registerTask()` → requires `task:register`

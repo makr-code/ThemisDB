@@ -619,6 +619,17 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
     }
     
     // Create data provider for push response body
+    // STUB/SIMULATION NOTE (stub #298b):
+    // Purpose: Keep the HTTP/2 server-push path functional while proper async
+    //          buffer lifetime management is deferred.  The raw-new pattern
+    //          avoids dangling references to stack-allocated data across async
+    //          read_callback invocations.
+    // Activation: Always — no shared_ptr or custom deleter is used.
+    // Production Delta: If read_callback is never called (e.g. stream reset),
+    //                   the buffer leaks.  Under high concurrency this accumulates
+    //                   into a measurable memory leak.
+    // Removal Plan: Same as stub #298 — shared_ptr captured in lambda + per-stream
+    //               map; see FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement (v2.1.0).
     struct ResponseBuffer {
         std::string data;
         size_t offset = 0;

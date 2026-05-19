@@ -656,12 +656,9 @@ HttpServer::HttpServer(
         };
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: ADMIN token configured via env");
-        try {
-            auto v = auth_->validateToken(cfg.token);
-            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
-            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
-                       cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch(...) {}
+        // GAP-011/GAP-532: startup validateToken diagnostic removed — it logged
+        // user_id and reason which adds no operational value and pollutes audit
+        // logs with internal validation state on every server start.
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
