@@ -1502,19 +1502,9 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            size_t pos = 0;
-            int v = std::stoi(limit_str, &pos);
-            if (pos != limit_str.size() || v <= 0) {
-                return createErrorResponse(
-                    http::status::bad_request, "Bad Request",
-                    "limit must be a positive integer");
-            }
-            limit = static_cast<size_t>(v);
-        } catch (...) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request",
-                "limit must be a positive integer");
-        }
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (const std::exception&) {}
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1598,19 +1588,9 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            size_t pos = 0;
-            int v = std::stoi(limit_str, &pos);
-            if (pos != limit_str.size() || v <= 0) {
-                return createErrorResponse(
-                    http::status::bad_request, "Bad Request",
-                    "limit must be a positive integer");
-            }
-            limit = static_cast<size_t>(v);
-        } catch (...) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request",
-                "limit must be a positive integer");
-        }
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (const std::exception&) {}
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -1740,7 +1720,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 ) {
     try {
         return json::parse(req.body());
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Reliability hardening block — server module batch 3 (10 files, 24 catch-all handlers):**
+  - `src/server/voice_api_handler.cpp`: 3 `catch(...)` handlers replaced with typed `catch(const std::exception&)` handlers in TTS config parse and voice execution paths.
+  - `src/server/task_scheduler_api_handler.cpp`: 3 `catch(...)` handlers replaced in JSON fallback extraction and string-to-int64 parsing (`std::stoll`) helpers.
+  - `src/server/policy_engine.cpp`: 3 `catch(...)` handlers replaced in policy parse/evaluate and engine execution paths.
+  - `src/server/diff_api_handler.cpp`: 3 `catch(...)` handlers replaced in query parameter parsing and diff request handling.
+  - `src/server/schema_api_handler.cpp`: 2 `catch(...)` handlers replaced in schema pagination cursor parsing.
+  - `src/server/saga_api_handler.cpp`: 2 `catch(...)` handlers replaced in saga config parse and request parsing paths.
+  - `src/server/pii_api_handler.cpp`: 2 `catch(...)` handlers replaced in PII request parsing and processing.
+  - `src/server/mcp_server.cpp`: 2 `catch(...)` handlers replaced in MCP dispatch and callback execution guards.
+  - `src/server/llm_api_handler.cpp`: 2 `catch(...)` handlers replaced in LLM endpoint argument parsing guards.
+  - `src/server/export_api_handler.cpp`: 2 `catch(...)` handlers replaced in export parameter parsing paths.
+  - Server module catch-all count reduced from **48 → 24** across **34 → 24** files.
 - **Reliability hardening block — server module batch 2 (9 API handler files, 70 catch-all handlers):**
   - `src/server/query_api_handler.cpp`: all 25 `catch(...)` handlers replaced with typed `catch(const std::exception&)` across entity deserialization, JSON parse, graph BFS, encryption schema load, sort-cursor extraction, and aggregation number-parse paths.
   - `src/server/monitoring_api_handler.cpp`: 5 redundant `catch(...)` blocks removed (unreachable after preceding `catch(const std::exception& e)`); 5 standalone `catch(...)` handlers replaced with typed handlers in RocksDB stats parse, build-info load, schema-manager capabilities, Prometheus metrics sections, and alert silencing JSON parse.
