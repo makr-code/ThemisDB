@@ -49,6 +49,7 @@
 #include <filesystem>
 #include <string>
 #include <memory>
+#include <algorithm>
 
 namespace fs = std::filesystem;
 
@@ -174,6 +175,32 @@ TEST_F(PaxosPersistenceRecoveryTest, PSR03_AcceptSurvivesRestart) {
         EXPECT_EQ(state->accepted_value, accepted_value);
         p->close();
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PSR-11: persistAccept writes structured command payload into ACCEPT WAL entry
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(PaxosPersistenceRecoveryTest, PSR11_AcceptWalContainsStructuredPayload) {
+    const std::string accepted_value = R"({"operation":"PUT","data":{"key":"foo","val":"bar"}})";
+
+    auto p = makePersistence();
+    ASSERT_TRUE(p->open("node-1"));
+    ASSERT_TRUE(p->persistAccept(7, 3, accepted_value));
+    p->close();
+
+    const auto entries = wal_->readEntries(wal_->getOldestLSN());
+    auto accept_it = std::find_if(entries.begin(), entries.end(), [](const PaxosWALEntry& e) {
+        return e.type == PaxosWALEntryType::ACCEPT && e.slot == 7;
+    });
+    ASSERT_NE(accept_it, entries.end());
+    ASSERT_TRUE(accept_it->data.contains("value"));
+    ASSERT_TRUE(accept_it->data["value"].is_object());
+    ASSERT_TRUE(accept_it->data["value"].contains("data"));
+    ASSERT_TRUE(accept_it->data["value"]["data"].is_object());
+    EXPECT_EQ(accept_it->data["value"]["data"]["raw_command"].get<std::string>(), accepted_value);
+    ASSERT_TRUE(accept_it->data["value"]["data"].contains("parsed_command"));
+    EXPECT_EQ(accept_it->data["value"]["data"]["parsed_command"]["operation"].get<std::string>(), "PUT");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

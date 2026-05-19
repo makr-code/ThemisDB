@@ -135,7 +135,27 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
             case PaxosWALEntryType::ACCEPT:
             case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
-                s.accepted_value = entry.data.dump();
+                if (entry.data.contains("value")) {
+                    const auto& logged_value = entry.data["value"];
+                    if (logged_value.is_object() &&
+                        logged_value.contains("data") &&
+                        logged_value["data"].is_object() &&
+                        logged_value["data"].contains("raw_command") &&
+                        logged_value["data"]["raw_command"].is_string())
+                    {
+                        s.accepted_value = logged_value["data"]["raw_command"].get<std::string>();
+                    } else if (logged_value.is_object() &&
+                               logged_value.contains("operation") &&
+                               logged_value["operation"].is_string())
+                    {
+                        // Backward-compatible recovery path for old records.
+                        s.accepted_value = logged_value["operation"].get<std::string>();
+                    } else {
+                        s.accepted_value = logged_value.dump();
+                    }
+                } else {
+                    s.accepted_value = entry.data.dump();
+                }
                 break;
             case PaxosWALEntryType::COMMIT:
                 s.is_committed = true;
@@ -197,20 +217,19 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    // STUB/SIMULATION NOTE (stub #311):
-    // Purpose: Persist ACCEPT records without blocking current WAL schema usage
-    //          while richer ConsensusLogEntry payload mapping is still pending.
-    // Activation: Always in persistAccept().
-    // Production Delta: ACCEPT WAL records store only `operation=value` and omit
-    //                   structured command metadata (e.g., typed payload fields),
-    //                   limiting fidelity for downstream replay/inspection tooling.
-    // Removal Plan: Serialize full consensus command structure into ConsensusLogEntry
-    //               and recover it symmetrically during WAL replay.
-    //               See src/sharding/ROADMAP.md §Persistent Paxos acceptor state.
-    //               Target: Q1 2027.
-    // Build a ConsensusLogEntry placeholder with the value as command
     ConsensusLogEntry entry;
-    entry.operation = value;
+    entry.index = slot;
+    entry.term = ballot_round;
+    entry.operation = "PAXOS_ACCEPT_COMMAND";
+    entry.timestamp = std::chrono::system_clock::now();
+
+    json payload = json::object();
+    payload["raw_command"] = value;
+    json parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded()) {
+        payload["parsed_command"] = std::move(parsed);
+    }
+    entry.data = std::move(payload);
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
     if (config_.sync_on_write) wal_->flush();
