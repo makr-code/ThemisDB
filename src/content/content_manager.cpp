@@ -1025,7 +1025,10 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
                     }
                 }
-            } catch (const std::exception&) { meta_encrypt_enabled = false; }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("vector metadata encryption config parse failed: {}", e.what());
+                meta_encrypt_enabled = false;
+            }
             if (meta_encrypt_enabled) {
                 auto enc_section = j["_encrypted_meta"];
                 std::string ctx = user_context.empty() ? std::string("anonymous") : user_context;
@@ -1051,7 +1054,10 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
             }
         }
         return ContentMeta::fromJson(j);
-    } catch (const std::exception&) { return std::nullopt; }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("getContentMeta failed for {}: {}", id, e.what());
+        return std::nullopt;
+    }
 }
 std::optional<std::string> ContentManager::getContentBlob(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
@@ -1086,7 +1092,8 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                     THEMIS_INFO("Content blob {} uses outdated key version {} (latest: {}), triggering re-encryption", 
                                 id, blob.key_version, latest_version);
                 }
-            } catch (const std::exception&) {
+            } catch (const std::exception& e) {
+                THEMIS_WARN("blob key metadata lookup failed for {}: {}", id, e.what());
                 // If metadata check fails, skip re-encryption
             }
             
@@ -1149,7 +1156,10 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
         std::string s(lv->begin(), lv->end());
         json j = json::parse(s);
         if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
-    } catch (const std::exception&) { return out; }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("chunk list parse failed for {}: {}", id, e.what());
+        return out;
+    }
     for (const auto& cid : ids) {
         auto v = storage_->get(std::string("chunk:") + cid);
         if (!v) continue;
@@ -1157,7 +1167,10 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
             std::string s(v->begin(), v->end());
             json j = json::parse(s);
             out.push_back(ChunkMeta::fromJson(j));
-        } catch (const std::exception&) { continue; }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("chunk parse failed for {}: {}", cid, e.what());
+            continue;
+        }
     }
     std::sort(out.begin(), out.end(), [](const ChunkMeta& a, const ChunkMeta& b){ return a.seq_num < b.seq_num; });
     return out;
@@ -1171,7 +1184,10 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
         return ChunkMeta::fromJson(j);
-    } catch (const std::exception&) { return std::nullopt; }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("getChunk parse failed for {}: {}", id, e.what());
+        return std::nullopt;
+    }
 }
 
 // ===================== Content Assembly & Navigation =====================
@@ -1468,7 +1484,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("beta")) beta = sc["beta"].get<double>();
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
-    } catch (const std::exception&) {}
+    } catch (const std::exception& e) {
+        THEMIS_WARN("search scoring config parse failed: {}", e.what());
+    }
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
@@ -1531,7 +1549,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (const std::exception&) {}
+    } catch (const std::exception& e) {
+        THEMIS_WARN("search whitelist application failed: {}", e.what());
+    }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
     if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
@@ -1594,7 +1614,9 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 }
                 return false; // Stop scanning
             }
-        } catch (const std::exception&) {}
+        } catch (const std::exception& e) {
+            THEMIS_WARN("resolvePath entry parse failed: {}", e.what());
+        }
         return true; // Continue scanning
     });
     
@@ -1625,7 +1647,9 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
                     results.push_back(ContentMeta::fromJson(j));
                 }
-            } catch (const std::exception&) {}
+            } catch (const std::exception& e) {
+                THEMIS_WARN("listDirectory parent entry parse failed: {}", e.what());
+            }
             return true;
         });
     } else {
@@ -1647,7 +1671,9 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                         }
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (const std::exception& e) {
+                THEMIS_WARN("listDirectory entry parse failed: {}", e.what());
+            }
             return true;
         });
     }
@@ -2602,7 +2628,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 }
             }
         }
-    } catch (const std::exception&) {}
+    } catch (const std::exception& e) {
+        THEMIS_WARN("ingestStream content config parse failed: {}", e.what());
+    }
 
     if (auto_fulltext_index && secondary_index_) {
         if (!secondary_index_->hasFulltextIndex("chunk", "text"))
