@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: cloud backup provider callback bridges (`src/sharding/cloud_backup.cpp`)**
+  - Added callback injection APIs to replace placeholder/no-op paths in cloud providers:
+    - **S3:** `setS3DeleteFn`, `setS3ListFn`, `setS3ExistsFn`
+    - **Azure:** `setAzureUploadFn`, `setAzureDownloadFn`, `setAzureDeleteFn`, `setAzureListFn`, `setAzureExistsFn`
+    - **GCS:** `setGCSUploadFn`, `setGCSDownloadFn`, `setGCSListFn`, `setGCSExistsFn`
+  - Existing mock/placeholder behavior remains as fallback when no callback is configured.
+  - Added tests for real callback paths without mock mode:
+    - `DeleteBackupUsesS3DeleteCallbackWithoutMockMode`
+    - `CreateAndRestoreUseGCSCallbacksWithoutMockMode`
+    - `CreateAndRestoreAndDeleteUseAzureCallbacksWithoutMockMode`
+  - (`include/sharding/cloud_backup.h`, `src/sharding/cloud_backup.cpp`, `tests/test_cloud_backup.cpp`, `src/STUB_INVENTORY.md`)
+
 - **MEGA BLOCK: typed exception hardening — ALL remaining 896 `catch(...)` handlers in 317 files**
   - Bulk-replaced every remaining `catch (...)` with `catch (const std::exception&)` across all modules:
     `src/server/` (51+25+10+7+6+5+5=109), `src/index/` (31+20+19+11+10+9+5=105),
