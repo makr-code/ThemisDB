@@ -28,6 +28,13 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 12 — VFS/stream search reliability hardening
+
+- **`content_manager.cpp` (CON-032)**: Replaced remaining catch-all handlers in search/VFS/stream config path (lines ~1545–2694) with typed exception handling:
+  - `nlohmann::json::exception` for malformed optional scoring/config/content JSON payloads
+  - `std::exception` fallback for non-fatal best-effort branches (whitelist derivation and VFS directory scans)
+- Preserved runtime behavior: malformed optional scoring/config and malformed scanned records continue to be ignored while defaults and best-effort listing/search behavior remain unchanged.
+
 ### Phase 11 — Metadata/chunk retrieval reliability hardening
 
 - **`content_manager.cpp` (CON-031)**: Replaced catch-all handlers in vector metadata encryption/decryption and chunk/meta retrieval path (lines ~944–1240) with typed exception handling:

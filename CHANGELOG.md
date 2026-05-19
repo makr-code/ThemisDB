@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `src/content/content_manager.cpp` (`importContent()` vector metadata patch section, `getContentMeta()`, `getContentBlob()`, `getContentChunks()`, `getChunk()`):
     replaced catch-all handlers with typed handling (`nlohmann::json::exception`, targeted `std::exception`) in metadata decrypt/chunk-parse paths.
   - Preserved best-effort behavior: malformed metadata/chunk payloads still return `std::nullopt` / empty results and optional re-encryption checks remain non-fatal.
+- **CONTENT VFS/stream-search path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`searchWithExpansion()`, `resolvePath()`, `listDirectory()`, `ingestStream()` config-load):
+    replaced remaining catch-all handlers with typed handling (`nlohmann::json::exception`, targeted `std::exception`) for optional scoring/config parsing and scanned metadata records.
+  - Preserved backward-compatible behavior: malformed optional payloads are ignored and best-effort search/listing paths continue without request failure.
 
 ### Security
 

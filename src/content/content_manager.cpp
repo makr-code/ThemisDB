@@ -1549,7 +1549,11 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("beta")) beta = sc["beta"].get<double>();
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+        // Keep defaults when optional scoring payload is malformed.
+    } catch (const std::exception&) {
+        // Keep defaults on non-JSON scoring parse/access failures.
+    }
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
@@ -1612,7 +1616,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {
+        // Preserve best-effort behavior if whitelist derivation fails.
+    }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
     if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
@@ -1675,7 +1681,11 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 }
                 return false; // Stop scanning
             }
-        } catch (...) {}
+        } catch (const nlohmann::json::exception&) {
+            // Ignore malformed content metadata record and continue scanning.
+        } catch (const std::exception&) {
+            // Ignore non-fatal scan errors and continue.
+        }
         return true; // Continue scanning
     });
     
@@ -1706,7 +1716,11 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
                     results.push_back(ContentMeta::fromJson(j));
                 }
-            } catch (...) {}
+            } catch (const nlohmann::json::exception&) {
+                // Skip malformed records while listing directory contents.
+            } catch (const std::exception&) {
+                // Preserve best-effort listing semantics on parse/access failures.
+            }
             return true;
         });
     } else {
@@ -1728,7 +1742,11 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const nlohmann::json::exception&) {
+                // Skip malformed records while listing directory contents.
+            } catch (const std::exception&) {
+                // Preserve best-effort listing semantics on parse/access failures.
+            }
             return true;
         });
     }
@@ -2683,7 +2701,11 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+        // Keep defaults if optional content config is malformed.
+    } catch (const std::exception&) {
+        // Keep defaults if optional content config cannot be parsed.
+    }
 
     if (auto_fulltext_index && secondary_index_) {
         if (!secondary_index_->hasFulltextIndex("chunk", "text"))
