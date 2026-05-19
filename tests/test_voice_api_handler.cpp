@@ -70,6 +70,48 @@ TEST_F(VoiceApiHandlerPathValidationTest, ProfileDeleteRejectsInvalidId) {
     EXPECT_EQ(parseBody(response)["details"], "Invalid profile ID");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, GetVoicesRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/voices"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, StatsRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/stats"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, HealthReportsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/health"));
+
+    ASSERT_EQ(response.result(), http::status::ok);
+    const auto body = parseBody(response);
+    EXPECT_EQ(body["status"], "degraded");
+    EXPECT_EQ(body["voice_assistant"], "unavailable");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthListProfilesRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/auth/profiles"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthDeleteProfileRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::delete_, "/api/v1/voice/auth/profiles/profile-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsNonStringProfileId) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -100,6 +142,26 @@ TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsEmptyAudio) {
     EXPECT_EQ(parseBody(response)["details"], "audio must not be empty");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/verify",
+        json{{"profile_id", "profile-1"}, {"audio", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/verify",
+        json{{"profile_id", "profile-1"}, {"audio", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, AuthAuthenticateRejectsNonStringAudio) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -128,6 +190,26 @@ TEST_F(VoiceApiHandlerPathValidationTest, AuthAuthenticateRejectsEmptyAudio) {
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "audio must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthAuthenticateRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/authenticate",
+        json{{"user_id", "user-1"}, {"audio", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthAuthenticateRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/authenticate",
+        json{{"user_id", "user-1"}, {"audio", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, AuthIdentifyRejectsNonStringAudio) {
@@ -170,6 +252,26 @@ TEST_F(VoiceApiHandlerPathValidationTest, AuthIdentifyRejectsEmptyAudio) {
     EXPECT_EQ(parseBody(response)["details"], "audio must not be empty");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, AuthIdentifyRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/identify",
+        json{{"candidate_profiles", json::array({"profile-1"})}, {"audio", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthIdentifyRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/identify",
+        json{{"candidate_profiles", json::array({"profile-1"})}, {"audio", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, AuthEnrollRejectsNonBooleanRequireLiveness) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -204,6 +306,28 @@ TEST_F(VoiceApiHandlerPathValidationTest, AuthEnrollRejectsEmptyAudioSample) {
     EXPECT_EQ(parseBody(response)["details"], "Each element in audio_samples must not be empty");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, AuthEnrollRejectsInvalidBase64AudioSample) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/enroll",
+        json{{"user_id", "user-1"},
+             {"audio_samples", json::array({"!!!"})}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Each element in audio_samples must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, AuthEnrollRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/auth/enroll",
+        json{{"user_id", "user-1"},
+             {"audio_samples", json::array({"QUJD"})}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsNonStringAudioBase64) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -224,6 +348,16 @@ TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsEmptyAudioBase64) {
     EXPECT_EQ(parseBody(response)["details"], "audio_base64 must not be empty");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/transcribe",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsEmptyAudioUrl) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -242,6 +376,16 @@ TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsNonBooleanTimestamps)
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "timestamps must be a boolean");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, TranscribeRejectsEmptyLanguage) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/transcribe",
+        json{{"audio_base64", "QUJD"}, {"language", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "language must not be empty");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsNonStringText) {
@@ -274,6 +418,16 @@ TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsNonBooleanReturnBase6
     EXPECT_EQ(parseBody(response)["details"], "return_base64 must be a boolean");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsEmptyVoice) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/synthesize",
+        json{{"text", "hello"}, {"voice", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "voice must not be empty");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsUnsupportedFormat) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -282,6 +436,36 @@ TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsUnsupportedFormat) {
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "format must be one of: wav, mp3, ogg");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsSpeedOutOfRange) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/synthesize",
+        json{{"text", "hello"}, {"speed", 0.1}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "speed must be between 0.5 and 2.0");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsPitchOutOfRange) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/synthesize",
+        json{{"text", "hello"}, {"pitch", 2.5}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "pitch must be between 0.5 and 2.0");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SynthesizeRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/synthesize",
+        json{{"text", "hello"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, VoiceCommandRejectsInvalidSessionId) {
@@ -324,6 +508,36 @@ TEST_F(VoiceApiHandlerPathValidationTest, VoiceCommandRejectsEmptyAudioBase64) {
     EXPECT_EQ(parseBody(response)["details"], "audio_base64 must not be empty");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, VoiceCommandRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/command",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, VoiceCommandTextRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/command",
+        json{{"text", "hello"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, VoiceCommandAudioRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/command",
+        json{{"audio_base64", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, StreamCommandRejectsInvalidSessionId) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -342,6 +556,46 @@ TEST_F(VoiceApiHandlerPathValidationTest, StreamCommandRejectsEmptyAudioBase64) 
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "audio_base64 must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, StreamCommandRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/command/stream",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, StreamCommandRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/command/stream",
+        json{{"audio_base64", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, WakeWordDetectRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/wake-word/detect",
+        json{{"audio_base64", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, WakeWordDetectRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/wake-word/detect",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, CreateMacroRejectsNonStringTriggerPhrase) {
@@ -451,6 +705,26 @@ TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsNonStringAudioBase64)
     EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be a base64 string");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEmptyAudioBase64) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsInvalidCallId) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -459,6 +733,46 @@ TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsInvalidCallId) {
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "Invalid call_id");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEmptyCallId) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "QUJD"}, {"call_id", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "call_id must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEmptyCaller) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "QUJD"}, {"caller", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "caller must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEmptyCallee) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "QUJD"}, {"callee", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "callee must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEmptyCallType) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "QUJD"}, {"call_type", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "call_type must not be empty");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEndTimeBeforeStartTime) {
@@ -471,6 +785,16 @@ TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsEndTimeBeforeStartTim
     EXPECT_EQ(parseBody(response)["details"], "end_time must be greater than or equal to start_time");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, RecordCallRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/call/record",
+        json{{"audio_base64", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsNonArrayParticipants) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -479,6 +803,26 @@ TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsNonArrayPartici
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "participants must be an array");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEmptyAudioBase64) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsInvalidBase64Audio) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "!!!"}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "audio_base64 must be valid base64 audio data");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsInvalidMeetingId) {
@@ -491,6 +835,46 @@ TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsInvalidMeetingI
     EXPECT_EQ(parseBody(response)["details"], "Invalid meeting_id");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEmptyMeetingId) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "QUJD"}, {"meeting_id", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "meeting_id must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEmptyTitle) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "QUJD"}, {"title", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "title must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEmptyOrganizer) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "QUJD"}, {"organizer", ""}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "organizer must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEmptyParticipant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "QUJD"}, {"participants", json::array({""})}}));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Each participant must not be empty");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEndTimeBeforeStartTime) {
     const auto response = handler.handleRequest(makeJsonRequest(
         http::verb::post,
@@ -499,6 +883,16 @@ TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsEndTimeBeforeSt
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "end_time must be greater than or equal to start_time");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GenerateProtocolRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/meeting/protocol",
+        json{{"audio_base64", "QUJD"}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, SessionContextRejectsNonObjectContext) {
@@ -511,12 +905,90 @@ TEST_F(VoiceApiHandlerPathValidationTest, SessionContextRejectsNonObjectContext)
     EXPECT_EQ(parseBody(response)["details"], "context must be an object");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, GetSessionRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/sessions/session-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SessionContextRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/sessions/session-1/context",
+        json{{"context", json::object()}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, DeleteSessionRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::delete_, "/api/v1/voice/sessions/session-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, CreateMacroRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::post,
+        "/api/v1/voice/macros",
+        json{{"trigger_phrase", "hello"}, {"steps", json::array()}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, ListMacrosRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/macros"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GetMacroRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/macros/macro-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, UpdateMacroRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(makeJsonRequest(
+        http::verb::put,
+        "/api/v1/voice/macros/macro-1",
+        json{{"steps", json::array()}}));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, DeleteMacroRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::delete_, "/api/v1/voice/macros/macro-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsInvalidTier) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::get, "/api/v1/voice/recordings?tier=archive"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "tier must be one of: hot, warm, cold");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsEmptyTier) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings?tier="));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "tier must not be empty");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsInvalidLimit) {
@@ -527,6 +999,22 @@ TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsInvalidLimit) {
     EXPECT_EQ(parseBody(response)["details"], "limit must be a positive integer");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsEmptyLimit) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings?limit="));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "limit must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsInvalidLimit) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::get, "/api/v1/voice/recordings/search?q=hello&limit=abc"));
@@ -535,12 +1023,52 @@ TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsInvalidLimit) 
     EXPECT_EQ(parseBody(response)["details"], "limit must be a positive integer");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/search?q=hello"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsEmptyQuery) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/search?q="));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "query parameter 'q' must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsEmptyLimit) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/search?q=hello&limit="));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "limit must not be empty");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, GetRecordingRejectsInvalidFormat) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::get, "/api/v1/voice/recordings/record-1?format=xml"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "format must be one of: metadata, audio");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GetRecordingRejectsEmptyFormat) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/record-1?format="));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "format must not be empty");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, GetRecordingRejectsUnavailableVoiceAssistant) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/record-1"));
+
+    ASSERT_EQ(response.result(), http::status::service_unavailable);
+    EXPECT_EQ(parseBody(response)["details"], "Voice assistant is not available");
 }
 
 } // namespace

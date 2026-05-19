@@ -23,6 +23,7 @@ class Phase3Validator:
             'stages': {},
             'overall_status': 'NOT_STARTED'
         }
+        self.model = None  # Will be set during environment check
     
     def stage_1_check_environment(self) -> bool:
         """Stage 1: Verify Ollama installation and model availability"""
@@ -62,13 +63,17 @@ class Phase3Validator:
                 models = resp.json().get('models', [])
                 print(f"[OK] Ollama service running with {len(models)} models")
                 
-                # Check 3: Required model
+                # Check 3: Required model (prefer deepseek, fallback to codellama)
                 model_names = [m['name'] for m in models]
-                if 'deepseek-coder-v2:16b' in model_names:
+                preferred_models = ['deepseek-coder-v2:16b', 'codellama:latest']
+                available_coder = [m for m in model_names if any(p in m for p in preferred_models)]
+                
+                if available_coder:
                     checks['model_downloaded'] = True
-                    print("[OK] Model available: deepseek-coder-v2:16b")
+                    self.model = available_coder[0]
+                    print(f"[OK] Model available: {self.model}")
                 else:
-                    print(f"[!] Model not found. Available: {model_names}")
+                    print(f"[!] No coder model found. Available: {model_names}")
                     print("    Download: ollama pull deepseek-coder-v2:16b")
                 
                 checks['api_accessible'] = True
@@ -137,7 +142,7 @@ OUTPUT: Only C++ code, no explanations.
             response = requests.post(
                 'http://localhost:11434/api/generate',
                 json={
-                    'model': 'deepseek-coder-v2:16b',
+                    'model': self.model,
                     'prompt': prompt,
                     'stream': False,
                     'temperature': 0.2,  # Low creativity for deterministic code

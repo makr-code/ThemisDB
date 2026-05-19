@@ -455,6 +455,30 @@ config.audio_format = "ogg";
 
 ## API Reference
 
+### HTTP Voice API Contract For Developers
+
+The REST entry point for the module is implemented in `src/server/voice_api_handler.cpp`
+and declared in `include/server/voice_api_handler.h`. The handler now enforces a
+strict validation-first contract that module contributors should preserve when
+extending or refactoring endpoints.
+
+**Validation and availability rules:**
+- Invalid path identifiers for macros, sessions, recordings, and auth profiles are rejected with `400 Bad Request` before any VoiceAssistant access.
+- Malformed JSON payloads, wrong field types, explicit empty strings, out-of-range numeric options, and malformed non-empty base64 audio payloads are rejected with `400 Bad Request`.
+- Query-driven endpoints such as transcript search and recording listing reject missing or empty required query tokens and invalid filter values with `400 Bad Request`.
+- Endpoints that require a live `VoiceAssistant` instance return `503 Service Unavailable` with `Voice assistant is not available` only after request shape and field validation succeeded.
+- `GET /api/v1/voice/health` remains a `200 OK` endpoint even when no assistant is wired. In that degraded mode it reports `status = degraded` and `voice_assistant = unavailable` instead of pretending the subsystem is healthy.
+
+**Why this matters:**
+- Validation before availability keeps malformed client requests observable as client errors instead of being masked by deployment state.
+- A degraded health payload allows orchestration and smoke checks to distinguish `endpoint reachable` from `voice backend usable`.
+- The contract is regression-tested in `tests/test_voice_api_handler.cpp`; extend that suite whenever endpoint validation or availability behavior changes.
+
+**Current developer test focus:**
+- Null-assistant availability coverage for synthesis, commands, wake-word detection, sessions, macros, recordings, stats, and biometric auth.
+- Base64 validation coverage for transcription, command audio, stream audio, wake-word audio, call recordings, meeting recordings, and biometric auth samples.
+- Health endpoint coverage for degraded reporting when the handler is constructed with `nullptr`.
+
 ### VoiceAssistant Class
 
 #### Constructor
@@ -882,7 +906,7 @@ Solution: Implement session persistence:
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: May 2026*
 *Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*
 

@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Phase 3 Code Generation: AI-assisted implementation from Phase 2 task breakdown.
 Uses Ollama for local code generation + validation.
 """
 
+import sys
 import json
 import argparse
 import subprocess
 import time
 from pathlib import Path
 from typing import List, Dict
+
+# Force UTF-8 output on Windows
+if sys.platform.startswith('win'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 class Phase3CodeGen:
     """AI-assisted code generation from Phase 2 plans"""
@@ -155,9 +161,9 @@ Generate ONLY code. No explanations.
         """Execute Phase 3 code generation"""
         
         print(f"""
-╔════════════════════════════════════════════════════════════════════════════════╗
-║        PHASE 3 CODE GENERATION: {self.module.upper():30s}               ║
-╚════════════════════════════════════════════════════════════════════════════════╝
+================================================================================
+        PHASE 3 CODE GENERATION: {self.module.upper():30s}
+================================================================================
 """)
         
         # Check Ollama
@@ -229,9 +235,9 @@ Generate ONLY code. No explanations.
         # Print summary
         print(f"""
 
-╔════════════════════════════════════════════════════════════════════════════════╗
-║                       PHASE 3 GENERATION COMPLETE                            ║
-╚════════════════════════════════════════════════════════════════════════════════╝
+{"="*80}
+                       PHASE 3 GENERATION COMPLETE
+{"="*80}
 
 Module:          {self.module}
 Execution Time:  {execution_time:.1f} seconds
@@ -249,6 +255,7 @@ NEXT STEPS:
 
 STATUS: Ready for Phase 4 Testing
 """)
+
         
         return output
 
