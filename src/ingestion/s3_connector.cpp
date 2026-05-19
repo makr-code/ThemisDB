@@ -266,7 +266,7 @@ public:
             } else {
                 max_keys_per_list_ = static_cast<int>(raw);
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             max_keys_per_list_ = 1000;
         }
 
@@ -274,7 +274,7 @@ public:
             max_concurrent_downloads_ = static_cast<size_t>(
                 std::stoull(opt("max_concurrent_downloads", "4")));
             if (max_concurrent_downloads_ == 0) max_concurrent_downloads_ = 1;
-        } catch (...) {
+        } catch (const std::exception&) {
             max_concurrent_downloads_ = 4;
         }
 
@@ -591,7 +591,7 @@ private:
             req.SetMaxKeys(1);
             if (!prefix_.empty()) req.SetPrefix(prefix_);
             return s3->ListObjectsV2(req).IsSuccess();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

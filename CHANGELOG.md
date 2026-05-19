@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **INGESTION module — reliability hardening (rest block)** (`src/ingestion/**/*.cpp`, `src/ingestion/CHANGELOG.md`)
+  - Replaced all remaining `catch (...)` handlers in Ingestion module `.cpp` files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **44 → 0** across 14 files (`ingestion_manager`: 6→0, `cdc_connector`: 5→0, `workflow_engine`: 4→0).
+
 - **ANALYTICS module — reliability hardening (rest block)** (`src/analytics/**/*.cpp`, `src/analytics/CHANGELOG.md`)
   - Replaced all remaining `catch (...)` handlers in Analytics module `.cpp` files with typed `catch (const std::exception&)`.
   - Targeted delta in this block: **55 → 0** across 11 files (`cep_engine`: 20→0, `streaming_window`: 11→0, `anomaly_detection`: 5→0).
