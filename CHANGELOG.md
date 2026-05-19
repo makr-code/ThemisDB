@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: `archive_processor.cpp` catch-all hardening**
+  - Replaced remaining `catch (...)` handlers with typed exceptions in archive blob
+    temp-file writes, TAR size parsing, and TAR directory creation paths.
+  - Preserved previous tolerant behavior (`false`/fallback/default handling and
+    best-effort directory creation) while removing broad unknown-exception suppression.
+  - (`src/content/archive_processor.cpp`)
 - **CONTENT next block: `content_fs.cpp` catch-all hardening in metadata paths**
   - Replaced `catch (...)` with typed exception handling (`nlohmann::json::exception` / `std::exception`)
     in `ContentFS::{put,get,getRange,head,remove}` metadata decode/cleanup paths.
